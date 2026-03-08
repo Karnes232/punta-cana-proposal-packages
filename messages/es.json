@@ -6,5 +6,21 @@
     "stories": "Historias",
     "howItWorks": "Cómo funciona",
     "contact": "Contacto"
+  },
+  "Footer": {
+    "packages": "Paquetes",
+    "company": "Empresa",
+    "getInTouch": "Contactar",
+    "location": "Punta Cana, República Dominicana",
+    "howItWorks": "Cómo funciona",
+    "contactUs": "Contactar",
+    "faq": "FAQ",
+    "classicProposals": "Proposiciones Clásicas",
+    "modernProposals": "Proposiciones Modernas",
+    "diningProposals": "Proposiciones de Cena",
+    "stories": "Historias",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio",
+    "allRightsReserved": "Todos los derechos reservados"
   }
 }

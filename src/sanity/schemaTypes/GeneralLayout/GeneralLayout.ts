@@ -14,6 +14,12 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "companyDescription",
+      title: "Company Description",
+      type: "localizedText",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "companyLogo",
       title: "Company Logo",
       type: "image",
@@ -71,12 +77,6 @@ export default defineType({
           title: "Instagram URL",
           type: "url",
           initialValue: "https://instagram.com/",
-        },
-        {
-          name: "instagramTag",
-          title: "Instagram Tag",
-          type: "string",
-          initialValue: "@photoeditionpc",
         },
         {
           name: "xURL",
