@@ -1,0 +1,10 @@
+{
+  "Navbar": {
+    "classic": "Classic",
+    "modern": "Modern",
+    "dining": "Dining",
+    "stories": "Stories",
+    "howItWorks": "How It Works",
+    "contact": "Contact"
+  }
+}

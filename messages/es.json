@@ -1,0 +1,10 @@
+{
+  "Navbar": {
+    "classic": "Clásico",
+    "modern": "Moderno",
+    "dining": "Cena",
+    "stories": "Historias",
+    "howItWorks": "Cómo funciona",
+    "contact": "Contacto"
+  }
+}
