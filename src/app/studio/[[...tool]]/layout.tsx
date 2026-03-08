@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Fuerza del Pueblo - Sanity Studio",
-  description: "Fuerza del Pueblo - Sanity Studio",
+  title: "Punta Cana Proposal Packages - Sanity Studio",
+  description: "Punta Cana Proposal Packages - Sanity Studio",
 };
 
 export default function RootLayout({
