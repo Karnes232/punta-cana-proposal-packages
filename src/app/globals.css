@@ -11,32 +11,25 @@
   }
 }
 
-@theme {
+
+:root {
+  --background: #ffffff;
+  --foreground: #0b0b0c;
+  /* Font variables are set by next/font on <html> via layout.tsx — do not redefine here */
+}
+
+@theme inline {
   --color-black: #0b0b0c;
   --color-gold: #cfae70;
   --color-ivory: #f7f5f1;
   --color-white: #ffffff;
   --color-gray: #6e6e73;
-}
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-playfair: var(--font-playfair);
-  --font-inter: var(--font-inter);
-}
-
-@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-display: var(--font-playfair);
   --font-body: var(--font-inter);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-}
 
 body {
   background: var(--background);
