@@ -6,6 +6,9 @@ import {
   localizedText,
 } from "./Localized/localized";
 
+//HomePage
+import HomePageHero from "./HomePage/Hero";
+
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     //Localized
@@ -14,5 +17,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     localizedBlock,
     //GeneralLayout
     GeneralLayout,
+
+    //HomePage
+    HomePageHero,
   ],
 };
