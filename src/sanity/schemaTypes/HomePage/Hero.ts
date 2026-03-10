@@ -74,14 +74,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "eyebrow",
-      subtitle: "headingLine1",
-    },
-    prepare(selection) {
-      return {
-        title: selection.title,
-        subtitle: selection.subtitle,
-      };
+      title: "headingLine1.en",
+      subtitle: "headingLine2.en",
     },
   },
 });

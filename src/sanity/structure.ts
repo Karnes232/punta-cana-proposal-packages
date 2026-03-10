@@ -13,7 +13,13 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title("Site settings")
             .items([
-              S.documentTypeListItem("generalLayout").title("General layout"),
+              S.listItem()
+                .title("General layout")
+                .child(
+                  S.document()
+                    .schemaType("generalLayout")
+                    .title("General layout"),
+                ),
             ]),
         ),
 
@@ -34,20 +40,17 @@ export const structure: StructureResolver = (S) =>
               S.listItem()
                 .title("Brand statement")
                 .child(
-                  S.documentList()
-                    .title("Brand statement")
-                    .filter('_type == "HomePageBrandStatement"'),
+                  S.document()
+                    .schemaType("HomePageBrandStatement")
+                    .title("Brand statement"),
                 ),
               S.listItem()
                 .title("Package categories")
                 .child(
-                  S.documentList()
-                    .title("Package categories")
-                    .filter('_type == "HomePagePackageCategories"'),
+                  S.document()
+                    .schemaType("HomePagePackageCategories")
+                    .title("Package categories"),
                 ),
-              S.documentTypeListItem("HomePagePackageCategory").title(
-                "Package category",
-              ),
             ]),
         ),
     ]);

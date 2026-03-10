@@ -28,7 +28,7 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "quote",
+      title: "quote.en",
       subtitle: "signature",
     },
   },
