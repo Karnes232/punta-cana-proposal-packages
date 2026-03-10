@@ -11,7 +11,6 @@
   }
 }
 
-
 :root {
   --background: #ffffff;
   --foreground: #0b0b0c;
@@ -29,7 +28,6 @@
   --font-display: var(--font-playfair);
   --font-body: var(--font-inter);
 }
-
 
 body {
   background: var(--background);

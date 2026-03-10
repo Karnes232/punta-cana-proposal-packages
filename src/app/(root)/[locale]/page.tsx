@@ -10,7 +10,6 @@ export default async function Home({
   const { locale } = await params;
   const [hero] = await Promise.all([homePageHero()]);
 
-  console.log(hero);
   return (
     <main>
       <Hero
