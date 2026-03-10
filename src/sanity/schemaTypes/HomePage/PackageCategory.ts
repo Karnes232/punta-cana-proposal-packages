@@ -39,11 +39,17 @@ export default defineType({
         }),
       ],
     }),
+    defineField({
+      name: "ctaButtonLabel",
+      title: "CTA Button Label",
+      type: "localizedString",
+      validation: (Rule) => Rule.required(),
+    }),
   ],
   preview: {
     select: {
-      title: "title",
-      subtitle: "description",
+      title: "title.en",
+      subtitle: "title.es",
     },
   },
 });

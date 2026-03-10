@@ -1,14 +1,36 @@
 // Server Component
 
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
 export interface PackageCategoryCardProps {
-  title: string;
-  description: string;
+  title: {
+    en: string;
+    es: string;
+  };
+  description: {
+    en: string;
+    es: string;
+  };
   href: string;
-  imageSrc?: string;
-  imageAlt?: string;
+  image: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  };
+  ctaButtonLabel: {
+    en: string;
+    es: string;
+  };
+  locale?: string;
   index?: number; // for staggered reveal delay
 }
 
@@ -16,23 +38,25 @@ export default function PackageCategoryCard({
   title,
   description,
   href,
-  imageSrc,
-  imageAlt,
+  image,
+  ctaButtonLabel,
+  locale,
 }: PackageCategoryCardProps) {
+  const t = useTranslations("PackageCategoryCard");
   return (
     <Link
       href={href}
-      className="group relative flex flex-col overflow-hidden border border-gold/20 bg-white/[0.03] hover:border-gold/50 transition-all duration-500"
+      className="group relative flex h-full flex-col overflow-hidden border border-gold/20 bg-white/[0.03] hover:border-gold/50 transition-all duration-500"
       aria-label={`View ${title}`}
     >
       {/* Image container */}
       <div className="relative w-full overflow-hidden aspect-[4/3]">
-        {imageSrc ? (
+        {image ? (
           <Image
-            src={imageSrc}
-            alt={imageAlt ?? title}
+            src={image.asset.url}
+            alt={image.alt}
             fill
-            className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            className="opacity-50 object-cover object-center transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (
@@ -69,21 +93,21 @@ export default function PackageCategoryCard({
       </div>
 
       {/* Card body */}
-      <div className="flex flex-col gap-4 p-8">
+      <div className="flex flex-1 flex-col gap-4 p-8">
         {/* Title */}
         <h3 className="font-display italic font-normal text-white text-[clamp(20px,2vw,26px)] leading-tight tracking-[-0.01em] group-hover:text-gold transition-colors duration-300">
-          {title}
+          {title[locale as "en" | "es"]}
         </h3>
 
         {/* Description */}
         <p className="font-light text-white/50 text-[13.5px] leading-[1.8] group-hover:text-white/70 transition-colors duration-300">
-          {description}
+          {description[locale as "en" | "es"]}
         </p>
 
         {/* CTA row */}
-        <div className="flex items-center gap-2 mt-2">
+        <div className="flex items-center gap-2 mt-auto pt-2">
           <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
-            Explore
+            {ctaButtonLabel[locale as "en" | "es"]}
           </span>
           <svg
             width="14"

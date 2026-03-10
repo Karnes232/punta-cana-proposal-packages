@@ -16,40 +16,15 @@ interface PackageCategoriesProps {
   headingLine2?: string;
   // Pass categories from Sanity, or falls back to DEFAULT_CATEGORIES
   categories?: PackageCategoryCardProps[];
+  locale?: string;
 }
-
-const DEFAULT_CATEGORIES: PackageCategoryCardProps[] = [
-  {
-    title: "Classic Proposals",
-    description:
-      "Timeless setups crafted with roses, candles, and the warm glow of the Caribbean sunset. Elegant, intimate, and deeply romantic.",
-    href: "/classic-proposals",
-    imageSrc: "https://picsum.photos/200/300?random=1", // replace with Sanity image URL or static path
-    imageAlt: "Classic romantic proposal setup on a Punta Cana beach at sunset",
-  },
-  {
-    title: "Modern Proposals",
-    description:
-      "Contemporary arrangements with clean lines, unique florals, and unexpected details. For couples who love style with a personal touch.",
-    href: "/modern-proposals",
-    imageSrc: undefined,
-    imageAlt: "Modern proposal setup with stylish decor in Punta Cana",
-  },
-  {
-    title: "Dining Proposals",
-    description:
-      "A private table for two, an exquisite menu, and the perfect moment. Because the best proposals deserve the finest setting.",
-    href: "/dining-proposals",
-    imageSrc: undefined,
-    imageAlt: "Private dining proposal setup with candlelight in Punta Cana",
-  },
-];
 
 export default function PackageCategories({
   eyebrow,
   headingLine1,
   headingLine2,
-  categories = DEFAULT_CATEGORIES,
+  categories,
+  locale,
 }: PackageCategoriesProps) {
   return (
     <section
@@ -78,7 +53,7 @@ export default function PackageCategories({
         </div>
 
         {/* Cards grid */}
-        <PackageCategoriesGrid categories={categories} />
+        <PackageCategoriesGrid categories={categories ?? []} locale={locale} />
       </div>
     </section>
   );

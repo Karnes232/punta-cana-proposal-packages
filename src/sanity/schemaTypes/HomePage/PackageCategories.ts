@@ -35,8 +35,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "eyebrow",
-      subtitle: "headingLine1",
+      title: "eyebrow.en",
+      subtitle: "headingLine1.en",
     },
   },
 });
