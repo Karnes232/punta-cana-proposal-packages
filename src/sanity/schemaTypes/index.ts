@@ -9,6 +9,8 @@ import {
 //HomePage
 import HomePageHero from "./HomePage/Hero";
 import HomePageBrandStatement from "./HomePage/BrandStatement";
+import HomePagePackageCategories from "./HomePage/PackageCategories";
+import HomePagePackageCategory from "./HomePage/PackageCategory";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -22,5 +24,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     //HomePage
     HomePageHero,
     HomePageBrandStatement,
+    HomePagePackageCategories,
+    HomePagePackageCategory,
   ],
 };

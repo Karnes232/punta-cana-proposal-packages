@@ -2,6 +2,7 @@ import Hero from "@/components/HomePage/HeroComponents/Hero";
 import { homePageHero } from "@/sanity/queries/HomePage/Hero";
 import BrandStatement from "@/components/HomePage/BrandStatement/BrandStatement";
 import { homePageBrandStatement } from "@/sanity/queries/HomePage/BrandStatement";
+import PackageCategories from "@/components/HomePage/PackageCategories/PackageCategories";
 
 export default async function Home({
   params,
@@ -17,7 +18,7 @@ export default async function Home({
   return (
     <main>
       <Hero
-        image={hero.image}
+        image={hero?.image}
         eyebrow={hero.eyebrow[locale as "en" | "es"]}
         headingLine1={hero.headingLine1[locale as "en" | "es"]}
         headingLine2={hero.headingLine2[locale as "en" | "es"]}
@@ -33,6 +34,7 @@ export default async function Home({
         body={brandStatement.body[locale as "en" | "es"]}
         signature={brandStatement.signature}
       />
+      <PackageCategories />
     </main>
   );
 }
