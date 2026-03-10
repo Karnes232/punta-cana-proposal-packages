@@ -1,6 +1,7 @@
 import Hero from "@/components/HomePage/HeroComponents/Hero";
 import { homePageHero } from "@/sanity/queries/HomePage/Hero";
 import BrandStatement from "@/components/HomePage/BrandStatement/BrandStatement";
+import { homePageBrandStatement } from "@/sanity/queries/HomePage/BrandStatement";
 
 export default async function Home({
   params,
@@ -8,7 +9,10 @@ export default async function Home({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [hero] = await Promise.all([homePageHero()]);
+  const [hero, brandStatement] = await Promise.all([
+    homePageHero(),
+    homePageBrandStatement(),
+  ]);
 
   return (
     <main>
@@ -24,7 +28,11 @@ export default async function Home({
         secondaryLabel={hero.secondaryLabel[locale as "en" | "es"]}
         secondaryHref={hero.secondaryHref}
       />
-      <BrandStatement />
+      <BrandStatement
+        quote={brandStatement.quote[locale as "en" | "es"]}
+        body={brandStatement.body[locale as "en" | "es"]}
+        signature={brandStatement.signature}
+      />
     </main>
   );
 }
