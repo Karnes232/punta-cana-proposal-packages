@@ -1,6 +1,6 @@
 import Hero from "@/components/HomePage/HeroComponents/Hero";
 import { homePageHero } from "@/sanity/queries/HomePage/Hero";
-import Image from "next/image";
+import BrandStatement from "@/components/HomePage/BrandStatement/BrandStatement";
 
 export default async function Home({
   params,
@@ -24,6 +24,7 @@ export default async function Home({
         secondaryLabel={hero.secondaryLabel[locale as "en" | "es"]}
         secondaryHref={hero.secondaryHref}
       />
+      <BrandStatement />
     </main>
   );
 }
