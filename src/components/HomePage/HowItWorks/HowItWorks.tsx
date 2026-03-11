@@ -26,8 +26,6 @@ interface HowItWorksProps {
   steps?: HowItWorksStepProps[];
 }
 
-
-
 export default function HowItWorks({
   eyebrow,
   headingLine1,

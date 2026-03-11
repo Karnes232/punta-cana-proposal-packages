@@ -7,23 +7,20 @@ import { homePagePackageCategories } from "@/sanity/queries/HomePage/PackageCate
 import HowItWorks from "@/components/HomePage/HowItWorks/HowItWorks";
 import { homePageHowItWorks } from "@/sanity/queries/HomePage/HowItWorks";
 import { StepIconType } from "@/components/HomePage/HowItWorks/HowItWorksStep";
+import FeaturedStory from "@/components/HomePage/FeaturedStory/FeaturedStory";
 export default async function Home({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [
-    hero, 
-    brandStatement, 
-    packageCategories, 
-    howItWorks
-  ] = await Promise.all([
-    homePageHero(),
-    homePageBrandStatement(),
-    homePagePackageCategories(),
-    homePageHowItWorks(),
-  ]);
+  const [hero, brandStatement, packageCategories, howItWorks] =
+    await Promise.all([
+      homePageHero(),
+      homePageBrandStatement(),
+      homePagePackageCategories(),
+      homePageHowItWorks(),
+    ]);
 
   return (
     <main>
@@ -64,6 +61,7 @@ export default async function Home({
           description: step.description[locale as "en" | "es"],
         }))}
       />
+      <FeaturedStory />
     </main>
   );
 }
