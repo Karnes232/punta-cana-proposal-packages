@@ -5,16 +5,24 @@ import { homePageBrandStatement } from "@/sanity/queries/HomePage/BrandStatement
 import PackageCategories from "@/components/HomePage/PackageCategories/PackageCategories";
 import { homePagePackageCategories } from "@/sanity/queries/HomePage/PackageCategories";
 import HowItWorks from "@/components/HomePage/HowItWorks/HowItWorks";
+import { homePageHowItWorks } from "@/sanity/queries/HomePage/HowItWorks";
+import { StepIconType } from "@/components/HomePage/HowItWorks/HowItWorksStep";
 export default async function Home({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [hero, brandStatement, packageCategories] = await Promise.all([
+  const [
+    hero, 
+    brandStatement, 
+    packageCategories, 
+    howItWorks
+  ] = await Promise.all([
     homePageHero(),
     homePageBrandStatement(),
     homePagePackageCategories(),
+    homePageHowItWorks(),
   ]);
 
   return (
@@ -43,7 +51,19 @@ export default async function Home({
         categories={packageCategories.categories}
         locale={locale}
       />
-      <HowItWorks />
+      <HowItWorks
+        eyebrow={howItWorks.eyebrow[locale as "en" | "es"]}
+        headingLine1={howItWorks.headingLine1[locale as "en" | "es"]}
+        headingLine2={howItWorks.headingLine2[locale as "en" | "es"]}
+        ctaLabel={howItWorks.ctaLabel[locale as "en" | "es"]}
+        ctaHref={howItWorks.ctaHref}
+        steps={howItWorks.steps.map((step) => ({
+          step: step.step,
+          icon: step.icon as StepIconType,
+          title: step.title[locale as "en" | "es"],
+          description: step.description[locale as "en" | "es"],
+        }))}
+      />
     </main>
   );
 }

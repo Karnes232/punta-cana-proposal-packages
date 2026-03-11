@@ -35,10 +35,12 @@ export const structure: StructureResolver = (S) =>
             .items([
               S.listItem()
                 .title("Hero")
+                .icon(() => "👤")
                 .child(S.document().schemaType("HomePageHero").title("Hero")),
 
               S.listItem()
                 .title("Brand statement")
+                .icon(() => "💬")
                 .child(
                   S.document()
                     .schemaType("HomePageBrandStatement")
@@ -46,10 +48,19 @@ export const structure: StructureResolver = (S) =>
                 ),
               S.listItem()
                 .title("Package categories")
+                .icon(() => "📦")
                 .child(
                   S.document()
                     .schemaType("HomePagePackageCategories")
                     .title("Package categories"),
+                ),
+              S.listItem()
+                .title("How it works")
+                .icon(() => "💡")
+                .child(
+                  S.document()
+                    .schemaType("HomePageHowItWorks")
+                    .title("How it works"),
                 ),
             ]),
         ),

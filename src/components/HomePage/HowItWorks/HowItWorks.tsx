@@ -26,36 +26,7 @@ interface HowItWorksProps {
   steps?: HowItWorksStepProps[];
 }
 
-const DEFAULT_STEPS: HowItWorksStepProps[] = [
-  {
-    step: 1,
-    icon: "package",
-    title: "Choose a Package",
-    description:
-      "Browse our curated proposal experiences and select the one that feels right for your relationship.",
-  },
-  {
-    step: 2,
-    icon: "customize",
-    title: "Customize the Details",
-    description:
-      "Tell us your vision — flowers, music, timing, location. We tailor every element to your story.",
-  },
-  {
-    step: 3,
-    icon: "setup",
-    title: "We Set Everything Up",
-    description:
-      "Our team handles every detail on the day, so all you need to do is show up and be present.",
-  },
-  {
-    step: 4,
-    icon: "propose",
-    title: "You Propose",
-    description:
-      "The moment is yours. We stay in the background while you create a memory that lasts forever.",
-  },
-];
+
 
 export default function HowItWorks({
   eyebrow,
@@ -63,7 +34,7 @@ export default function HowItWorks({
   headingLine2,
   ctaLabel,
   ctaHref,
-  steps = DEFAULT_STEPS,
+  steps,
 }: HowItWorksProps) {
   return (
     <section
@@ -98,7 +69,7 @@ export default function HowItWorks({
         </div>
 
         {/* Steps */}
-        <HowItWorksSteps steps={steps} />
+        <HowItWorksSteps steps={steps || []} />
 
         {/* CTA */}
         <RevealOnScroll delay={0}>

@@ -11,6 +11,8 @@ import HomePageHero from "./HomePage/Hero";
 import HomePageBrandStatement from "./HomePage/BrandStatement";
 import HomePagePackageCategories from "./HomePage/PackageCategories";
 import HomePagePackageCategory from "./HomePage/PackageCategory";
+import HomePageHowItWorks from "./HomePage/HowItWorks";
+import HomePageHowItWorksStep from "./HomePage/HowItWorksStep";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -26,5 +28,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HomePageBrandStatement,
     HomePagePackageCategories,
     HomePagePackageCategory,
+    HomePageHowItWorks,
+    HomePageHowItWorksStep,
   ],
 };
