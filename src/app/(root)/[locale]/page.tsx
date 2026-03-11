@@ -4,7 +4,7 @@ import BrandStatement from "@/components/HomePage/BrandStatement/BrandStatement"
 import { homePageBrandStatement } from "@/sanity/queries/HomePage/BrandStatement";
 import PackageCategories from "@/components/HomePage/PackageCategories/PackageCategories";
 import { homePagePackageCategories } from "@/sanity/queries/HomePage/PackageCategories";
-
+import HowItWorks from "@/components/HomePage/HowItWorks/HowItWorks";
 export default async function Home({
   params,
 }: {
@@ -43,6 +43,7 @@ export default async function Home({
         categories={packageCategories.categories}
         locale={locale}
       />
+      <HowItWorks />
     </main>
   );
 }
