@@ -122,6 +122,15 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("StoriesPageHero")
                     .title("Stories Page Hero"),
                 ),
+              S.listItem()
+                .title("Proposal types")
+                .icon(() => "📚")
+                .child(
+                  S.document()
+                    .schemaType("ProposalType")
+                    .documentId("proposalType")
+                    .title("Proposal types"),
+                ),
             ]),
         ),
     ]);
