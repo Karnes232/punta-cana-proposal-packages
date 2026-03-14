@@ -12,6 +12,8 @@ import { homePageFeatureStorySection } from "@/sanity/queries/HomePage/FeaturedS
 import TrustIndicators from "@/components/HomePage/TrustIndicators/TrustIndicators";
 import { homePageTrustIndicators } from "@/sanity/queries/HomePage/TrustIndicators";
 import { TrustIconType } from "@/components/HomePage/TrustIndicators/TrustIndicatorIcon";
+import CTABanner from "@/components/HomePage/CTABanner/CTABanner";
+import { homePageCTABanner } from "@/sanity/queries/HomePage/CTABanner";
 export default async function Home({
   params,
 }: {
@@ -25,6 +27,7 @@ export default async function Home({
     howItWorks,
     featureStorySection,
     trustIndicators,
+    ctaBanner,
   ] = await Promise.all([
     homePageHero(),
     homePageBrandStatement(),
@@ -32,6 +35,7 @@ export default async function Home({
     homePageHowItWorks(),
     homePageFeatureStorySection(),
     homePageTrustIndicators(),
+    homePageCTABanner(),
   ]);
 
   return (
@@ -94,6 +98,16 @@ export default async function Home({
           label: item.label[locale as "en" | "es"],
           sublabel: item.sublabel[locale as "en" | "es"],
         }))}
+      />
+      <CTABanner
+        eyebrow={ctaBanner.eyebrow[locale as "en" | "es"]}
+        headingLine1={ctaBanner.headingLine1[locale as "en" | "es"]}
+        headingLine2={ctaBanner.headingLine2[locale as "en" | "es"]}
+        subheading={ctaBanner.subheading[locale as "en" | "es"]}
+        primaryLabel={ctaBanner.primaryLabel[locale as "en" | "es"]}
+        primaryHref={ctaBanner.primaryHref}
+        secondaryLabel={ctaBanner.secondaryLabel[locale as "en" | "es"]}
+        secondaryHref={ctaBanner.secondaryHref}
       />
     </main>
   );

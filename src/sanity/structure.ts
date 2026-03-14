@@ -86,6 +86,14 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("trustIndicators")
                     .title("Trust indicators"),
                 ),
+              S.listItem()
+                .title("CTABanner")
+                .icon(() => "📧")
+                .child(
+                  S.document()
+                    .schemaType("HomePageCTABanner")
+                    .title("CTABanner"),
+                ),
             ]),
         ),
     ]);

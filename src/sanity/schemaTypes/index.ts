@@ -16,6 +16,7 @@ import HomePageHowItWorksStep from "./HomePage/HowItWorksStep";
 import HomePageFeatureStory from "./HomePage/FeatureStory";
 import HomePageFeatureStorySection from "./HomePage/FeatureStorySection";
 import HomePageTrustIndicators from "./HomePage/TrustIndicators";
+import HomePageCTABanner from "./HomePage/CTABanner";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -36,5 +37,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HomePageFeatureStory,
     HomePageFeatureStorySection,
     HomePageTrustIndicators,
+    HomePageCTABanner,
   ],
 };
