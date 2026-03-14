@@ -44,11 +44,7 @@ export default function LanguageSwitcher() {
         }}
       />
 
-      <LangButton
-        label="EN"
-        active={isEN}
-        onClick={() => switchLocale("en")}
-      />
+      <LangButton label="EN" active={isEN} onClick={() => switchLocale("en")} />
       <LangButton
         label="ES"
         active={!isEN}

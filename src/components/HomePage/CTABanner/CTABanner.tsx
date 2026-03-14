@@ -44,20 +44,37 @@ export default function CTABanner({
       </div>
 
       {/* Top border */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" aria-hidden="true" />
+      <div
+        className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"
+        aria-hidden="true"
+      />
 
       {/* Bottom border */}
-      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" aria-hidden="true" />
+      <div
+        className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent"
+        aria-hidden="true"
+      />
 
       {/* Corner accents */}
-      <div className="absolute top-8 left-8 w-10 h-10 border-t border-l border-gold/20 pointer-events-none" aria-hidden="true" />
-      <div className="absolute top-8 right-8 w-10 h-10 border-t border-r border-gold/20 pointer-events-none" aria-hidden="true" />
-      <div className="absolute bottom-8 left-8 w-10 h-10 border-b border-l border-gold/20 pointer-events-none" aria-hidden="true" />
-      <div className="absolute bottom-8 right-8 w-10 h-10 border-b border-r border-gold/20 pointer-events-none" aria-hidden="true" />
+      <div
+        className="absolute top-8 left-8 w-10 h-10 border-t border-l border-gold/20 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute top-8 right-8 w-10 h-10 border-t border-r border-gold/20 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute bottom-8 left-8 w-10 h-10 border-b border-l border-gold/20 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute bottom-8 right-8 w-10 h-10 border-b border-r border-gold/20 pointer-events-none"
+        aria-hidden="true"
+      />
 
       {/* Content */}
       <div className="relative max-w-[860px] mx-auto px-6 lg:px-12 py-28 lg:py-36 flex flex-col items-center gap-10">
-
         <RevealOnScroll delay={0}>
           <CTABannerOrnament />
         </RevealOnScroll>
@@ -86,7 +103,6 @@ export default function CTABanner({
         <RevealOnScroll delay={620}>
           <CTABannerOrnament />
         </RevealOnScroll>
-
       </div>
     </section>
   );

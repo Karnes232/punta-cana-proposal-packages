@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation"; // your navigation.ts
 
 interface HeroCTAProps {
   primaryLabel?: string;

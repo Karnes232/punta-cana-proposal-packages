@@ -1,6 +1,6 @@
 // Server Component
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface FeaturedStoryCTAProps {
   storyHref?: string;

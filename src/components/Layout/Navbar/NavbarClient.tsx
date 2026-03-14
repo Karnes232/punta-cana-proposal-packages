@@ -56,7 +56,8 @@ export default function NavbarClient() {
       </div>
       <div className="flex items-center justify-end gap-4">
         <div className="hidden lg:flex items-center justify-end gap-4">
-        <LanguageSwitcher /></div>
+          <LanguageSwitcher />
+        </div>
         <NavbarCTA />
         <NavbarMobileToggle
           isOpen={menuOpen}

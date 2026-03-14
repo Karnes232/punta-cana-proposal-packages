@@ -1,6 +1,6 @@
 // Server Component
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface CTABannerActionsProps {
   primaryLabel?: string;
@@ -17,7 +17,6 @@ export default function CTABannerActions({
 }: CTABannerActionsProps) {
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-
       {/* Primary — gold fill */}
       <Link
         href={primaryHref}
@@ -33,9 +32,14 @@ export default function CTABannerActions({
       >
         {primaryLabel}
         <svg
-          width="14" height="14" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor"
-          strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className="transition-transform duration-300 group-hover:translate-x-1"
           aria-hidden="true"
         >
@@ -58,7 +62,6 @@ export default function CTABannerActions({
       >
         {secondaryLabel}
       </Link>
-
     </div>
   );
 }
