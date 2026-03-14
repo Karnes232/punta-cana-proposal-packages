@@ -6,6 +6,7 @@ import NavbarCTA from "./NavbarCTA";
 import NavbarMobileToggle from "./NavbarMobileToggle";
 import NavbarMobileMenu from "./NavbarMobileMenu";
 import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 export default function NavbarClient() {
   const t = useTranslations("Navbar");
@@ -54,6 +55,8 @@ export default function NavbarClient() {
         <NavbarLinks links={NAV_LINKS} />
       </div>
       <div className="flex items-center justify-end gap-4">
+        <div className="hidden lg:flex items-center justify-end gap-4">
+        <LanguageSwitcher /></div>
         <NavbarCTA />
         <NavbarMobileToggle
           isOpen={menuOpen}

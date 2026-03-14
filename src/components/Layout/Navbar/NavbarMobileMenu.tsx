@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 interface NavbarMobileMenuProps {
   isOpen: boolean;
@@ -41,9 +42,7 @@ export default function NavbarMobileMenu({
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between px-6 h-20 border-b border-gold/15">
-          <span className="text-[10px] font-light tracking-[0.2em] uppercase text-gold/60">
-            Menu
-          </span>
+        <LanguageSwitcher />   {/* 👈 replaces the "Menu" span */}
           <button
             onClick={onClose}
             aria-label="Close menu"
