@@ -21,7 +21,8 @@
     "stories": "Stories",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "allRightsReserved": "All rights reserved"
+    "allRightsReserved": "All rights reserved",
+    "builtBy": "Built by"
   },
   "FeaturedStoryCard": {
     "readTheirStory": "Read Their Story",

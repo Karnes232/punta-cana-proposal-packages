@@ -19,6 +19,21 @@ const config: Config = {
         display: ["var(--font-playfair)", "Georgia", "serif"],
         body: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
+      fontSize: {
+        // Fluid type scale — named tokens usable anywhere as text-fluid-*
+        // Safe to use in dynamic class lookups since they live in the config,
+        // not assembled at runtime from string interpolation.
+        "fluid-h1": ["clamp(32px,4vw,52px)", { lineHeight: "1.15" }],
+        "fluid-h2": ["clamp(26px,3vw,40px)", { lineHeight: "1.2" }],
+        "fluid-h3": ["clamp(22px,2.5vw,32px)", { lineHeight: "1.2" }],
+        "fluid-h4": ["clamp(18px,2vw,26px)", { lineHeight: "1.25" }],
+        "fluid-h5": ["clamp(16px,1.8vw,22px)", { lineHeight: "1.3" }],
+        "fluid-h6": ["clamp(14px,1.6vw,18px)", { lineHeight: "1.35" }],
+        "fluid-xl": ["clamp(18px,2vw,24px)", { lineHeight: "1.4" }],
+        "fluid-lg": ["clamp(16px,1.6vw,20px)", { lineHeight: "1.6" }],
+        "fluid-base": ["clamp(14px,1.4vw,16px)", { lineHeight: "1.9" }],
+        "fluid-sm": ["clamp(12px,1.2vw,14px)", { lineHeight: "1.7" }],
+      },
       maxWidth: {
         site: "1280px",
       },

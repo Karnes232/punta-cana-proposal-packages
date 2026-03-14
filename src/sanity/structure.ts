@@ -20,6 +20,13 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("generalLayout")
                     .title("General layout"),
                 ),
+              S.listItem()
+                .title("Legal documents")
+                .child(
+                  S.documentList()
+                    .title("Legal documents")
+                    .filter("_type == 'legalDocuments'"),
+                ),
             ]),
         ),
 

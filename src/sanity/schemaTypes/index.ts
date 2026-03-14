@@ -6,6 +6,9 @@ import {
   localizedText,
 } from "./Localized/localized";
 
+//LegalDocuments
+import { legalDocuments } from "./LegalDocuments/LegalDocuments";
+
 //HomePage
 import HomePageHero from "./HomePage/Hero";
 import HomePageBrandStatement from "./HomePage/BrandStatement";
@@ -26,7 +29,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     localizedBlock,
     //GeneralLayout
     GeneralLayout,
-
+    //LegalDocuments
+    legalDocuments,
     //HomePage
     HomePageHero,
     HomePageBrandStatement,

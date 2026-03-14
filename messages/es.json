@@ -21,7 +21,8 @@
     "stories": "Historias",
     "privacyPolicy": "Política de Privacidad",
     "termsOfService": "Términos de Servicio",
-    "allRightsReserved": "Todos los derechos reservados"
+    "allRightsReserved": "Todos los derechos reservados",
+    "builtBy": "Desarrollado por"
   },
   "FeaturedStoryCard": {
     "readTheirStory": "Leer su Historia",
