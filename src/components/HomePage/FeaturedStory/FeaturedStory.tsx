@@ -23,7 +23,6 @@ export default function FeaturedStory({
   stories = [],
   locale,
 }: FeaturedStoryProps) {
-  console.log(stories);
   // Pre-render each card on the server — passed as nodes into the client carousel
   const slides = stories.map((story, i) => (
     <FeaturedStoryCard

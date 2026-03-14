@@ -9,6 +9,9 @@ import { homePageHowItWorks } from "@/sanity/queries/HomePage/HowItWorks";
 import { StepIconType } from "@/components/HomePage/HowItWorks/HowItWorksStep";
 import FeaturedStory from "@/components/HomePage/FeaturedStory/FeaturedStory";
 import { homePageFeatureStorySection } from "@/sanity/queries/HomePage/FeaturedStorySection";
+import TrustIndicators from "@/components/HomePage/TrustIndicators/TrustIndicators";
+import { homePageTrustIndicators } from "@/sanity/queries/HomePage/TrustIndicators";
+import { TrustIconType } from "@/components/HomePage/TrustIndicators/TrustIndicatorIcon";
 export default async function Home({
   params,
 }: {
@@ -21,12 +24,14 @@ export default async function Home({
     packageCategories,
     howItWorks,
     featureStorySection,
+    trustIndicators,
   ] = await Promise.all([
     homePageHero(),
     homePageBrandStatement(),
     homePagePackageCategories(),
     homePageHowItWorks(),
     homePageFeatureStorySection(),
+    homePageTrustIndicators(),
   ]);
 
   return (
@@ -81,6 +86,14 @@ export default async function Home({
           imageAlt: story.image?.alt,
         }))}
         locale={locale}
+      />
+      <TrustIndicators
+        items={trustIndicators.items.map((item) => ({
+          icon: item.icon as TrustIconType,
+          value: item.value[locale as "en" | "es"],
+          label: item.label[locale as "en" | "es"],
+          sublabel: item.sublabel[locale as "en" | "es"],
+        }))}
       />
     </main>
   );

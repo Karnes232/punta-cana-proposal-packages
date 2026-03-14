@@ -78,6 +78,14 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("HomePageFeatureStorySection")
                     .title("Feature story section"),
                 ),
+              S.listItem()
+                .title("Trust indicators")
+                .icon(() => "💪")
+                .child(
+                  S.document()
+                    .schemaType("trustIndicators")
+                    .title("Trust indicators"),
+                ),
             ]),
         ),
     ]);
