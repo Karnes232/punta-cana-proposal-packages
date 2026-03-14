@@ -8,7 +8,7 @@ interface LoadMoreProps {
 
 export default function LoadMore({ label, onClick, isLoading = false }: LoadMoreProps) {
   return (
-    <div className="flex justify-center mt-16">
+    <div className="flex justify-center my-16">
       <button
         onClick={onClick}
         disabled={isLoading}

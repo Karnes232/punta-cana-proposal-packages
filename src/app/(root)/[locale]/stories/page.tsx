@@ -3,6 +3,7 @@ import StoriesFilteredSection from "@/components/StoriesPage/StoriesFilteredSect
 import { storiesPageHero } from "@/sanity/queries/StoriesPage.ts/Hero";
 import { getProposalTypes } from "@/sanity/queries/StoriesPage.ts/ProposalTypes";
 import { defaultStories } from "@/components/StoriesPage/StoriesGrid/types";
+import StoriesCTAStrip from "@/components/StoriesPage/StoriesCTAStrip/StoriesCTAStrip";
 
 export default async function Stories({
   params,
@@ -26,11 +27,13 @@ export default async function Stories({
         headingLine2={hero?.headingLine2?.[localeTyped]}
         subheading={hero?.subheading?.[localeTyped]}
       />
+      {/* Need to add to Sanity CMS */}
       <StoriesFilteredSection
         proposalTypes={safeProposalTypes}
         stories={defaultStories}
         locale={localeTyped}
       />
+      <StoriesCTAStrip locale={localeTyped} />
     </main>
   );
 }
