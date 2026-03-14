@@ -62,6 +62,22 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("HomePageHowItWorks")
                     .title("How it works"),
                 ),
+              S.listItem()
+                .title("Feature story")
+                .icon(() => "📷")
+                .child(
+                  S.documentList()
+                    .title("Feature stories")
+                    .filter("_type == 'HomePageFeatureStory'"),
+                ),
+              S.listItem()
+                .title("Feature story section")
+                .icon(() => "📷")
+                .child(
+                  S.document()
+                    .schemaType("HomePageFeatureStorySection")
+                    .title("Feature story section"),
+                ),
             ]),
         ),
     ]);

@@ -13,6 +13,8 @@ import HomePagePackageCategories from "./HomePage/PackageCategories";
 import HomePagePackageCategory from "./HomePage/PackageCategory";
 import HomePageHowItWorks from "./HomePage/HowItWorks";
 import HomePageHowItWorksStep from "./HomePage/HowItWorksStep";
+import HomePageFeatureStory from "./HomePage/FeatureStory";
+import HomePageFeatureStorySection from "./HomePage/FeatureStorySection";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -30,5 +32,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HomePagePackageCategory,
     HomePageHowItWorks,
     HomePageHowItWorksStep,
+    HomePageFeatureStory,
+    HomePageFeatureStorySection,
   ],
 };

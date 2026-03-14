@@ -12,9 +12,11 @@ interface FeaturedStoryCarouselProps {
   slides: React.ReactNode[];
 }
 
-export default function FeaturedStoryCarousel({ slides }: FeaturedStoryCarouselProps) {
+export default function FeaturedStoryCarousel({
+  slides,
+}: FeaturedStoryCarouselProps) {
   const [active, setActive] = useState(1);
-console.log(slides.length);
+
   if (slides.length === 0) return null;
 
   // Single story — no carousel needed
@@ -26,8 +28,12 @@ console.log(slides.length);
       <div>{slides[active]}</div>
 
       {/* Dot navigation */}
-      <div className="flex items-center justify-center gap-3" role="tablist" aria-label="Story navigation">
-      {slides.map((_, i) => (
+      <div
+        className="flex items-center justify-center gap-3"
+        role="tablist"
+        aria-label="Story navigation"
+      >
+        {slides.map((_, i) => (
           <button
             key={i}
             role="tab"
@@ -40,9 +46,10 @@ console.log(slides.length);
             <span
               className={`
                 block h-px transition-all duration-300
-                ${i === active
-                  ? "w-8 bg-gold"
-                  : "w-3 bg-white/25 group-hover:bg-white/50 group-hover:w-5"
+                ${
+                  i === active
+                    ? "w-8 bg-gold"
+                    : "w-3 bg-white/25 group-hover:bg-white/50 group-hover:w-5"
                 }
               `}
             />

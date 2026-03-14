@@ -6,6 +6,7 @@ import FeaturedStoryImage from "./FeaturedStoryImage";
 import FeaturedStoryMeta from "./FeaturedStoryMeta";
 import FeaturedStoryQuote from "./FeaturedStoryQuote";
 import FeaturedStoryCTA from "./FeaturedStoryCTA";
+import { useTranslations } from "next-intl";
 
 export interface FeaturedStoryCardProps {
   coupleName?: string;
@@ -21,6 +22,7 @@ export interface FeaturedStoryCardProps {
   allStoriesLabel?: string;
   /** Alternates image left/right for visual rhythm across multiple stories */
   imagePosition?: "left" | "right";
+  locale?: string;
 }
 
 export default function FeaturedStoryCard({
@@ -35,13 +37,14 @@ export default function FeaturedStoryCard({
   storyLabel,
   allStoriesHref,
   allStoriesLabel,
+  locale,
   imagePosition = "left",
 }: FeaturedStoryCardProps) {
+  const t = useTranslations("FeaturedStoryCard");
   const imageFirst = imagePosition === "left";
 
   return (
     <div className="group grid grid-cols-1 lg:grid-cols-2 border border-gold/15 overflow-hidden">
-
       {/* Image panel */}
       <div className={`${imageFirst ? "lg:order-1" : "lg:order-2"}`}>
         <FeaturedStoryImage
@@ -76,18 +79,18 @@ export default function FeaturedStoryCard({
           location={location}
           date={date}
           packageUsed={packageUsed}
+          locale={locale}
         />
 
         <FeaturedStoryQuote quote={quote} />
 
         <FeaturedStoryCTA
           storyHref={storyHref}
-          storyLabel={storyLabel}
+          storyLabel={t("readTheirStory")}
           allStoriesHref={allStoriesHref}
-          allStoriesLabel={allStoriesLabel}
+          allStoriesLabel={t("viewAllStories")}
         />
       </div>
-
     </div>
   );
 }

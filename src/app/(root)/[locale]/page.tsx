@@ -8,19 +8,26 @@ import HowItWorks from "@/components/HomePage/HowItWorks/HowItWorks";
 import { homePageHowItWorks } from "@/sanity/queries/HomePage/HowItWorks";
 import { StepIconType } from "@/components/HomePage/HowItWorks/HowItWorksStep";
 import FeaturedStory from "@/components/HomePage/FeaturedStory/FeaturedStory";
+import { homePageFeatureStorySection } from "@/sanity/queries/HomePage/FeaturedStorySection";
 export default async function Home({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [hero, brandStatement, packageCategories, howItWorks] =
-    await Promise.all([
-      homePageHero(),
-      homePageBrandStatement(),
-      homePagePackageCategories(),
-      homePageHowItWorks(),
-    ]);
+  const [
+    hero,
+    brandStatement,
+    packageCategories,
+    howItWorks,
+    featureStorySection,
+  ] = await Promise.all([
+    homePageHero(),
+    homePageBrandStatement(),
+    homePagePackageCategories(),
+    homePageHowItWorks(),
+    homePageFeatureStorySection(),
+  ]);
 
   return (
     <main>
@@ -61,7 +68,20 @@ export default async function Home({
           description: step.description[locale as "en" | "es"],
         }))}
       />
-      <FeaturedStory />
+      <FeaturedStory
+        eyebrow={featureStorySection.eyebrow[locale as "en" | "es"]}
+        heading={featureStorySection.heading[locale as "en" | "es"]}
+        stories={featureStorySection.stories.map((story) => ({
+          coupleName: story.coupleName,
+          location: story.location[locale as "en" | "es"],
+          date: story.date,
+          packageUsed: story.packageUsed[locale as "en" | "es"],
+          quote: story.quote[locale as "en" | "es"],
+          imageSrc: story.image?.asset?.url,
+          imageAlt: story.image?.alt,
+        }))}
+        locale={locale}
+      />
     </main>
   );
 }

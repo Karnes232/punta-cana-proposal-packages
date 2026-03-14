@@ -10,63 +10,27 @@ import FeaturedStoryHeading from "./FeaturedStoryHeading";
 import FeaturedStoryCard, { FeaturedStoryCardProps } from "./FeaturedStoryCard";
 import FeaturedStoryCarousel from "./FeaturedStoryCarousel";
 
-
 interface FeaturedStoryProps {
   eyebrow?: string;
   heading?: string;
   stories?: FeaturedStoryCardProps[];
+  locale?: string;
 }
-
-const DEFAULT_STORIES: FeaturedStoryCardProps[] = [
-    {
-      coupleName: "Sofia & Marco",
-      location: "Punta Cana",
-      date: "March 2025",
-      packageUsed: "Classic Sunset Proposal",
-      quote:
-        "Everything was absolutely perfect. We couldn't have imagined a more beautiful moment — the setup, the sunset, every single detail was beyond our expectations.",
-      imageSrc: undefined,
-      imageAlt: "Sofia and Marco's proposal on the beach at sunset",
-      storyHref: "/stories/sofia-and-marco",
-      imagePosition: "left",
-    },
-    {
-      coupleName: "Isabella & James",
-      location: "Punta Cana",
-      date: "January 2025",
-      packageUsed: "Modern Floral Proposal",
-      quote:
-        "From the moment we arrived I knew something special was waiting. The team thought of everything — I didn't have to worry about a single thing. It was pure magic.",
-      imageSrc: undefined,
-      imageAlt: "Isabella and James celebrating their engagement",
-      storyHref: "/stories/isabella-and-james",
-      imagePosition: "right",
-    },
-    {
-      coupleName: "Valentina & Carlos",
-      location: "Punta Cana",
-      date: "December 2024",
-      packageUsed: "Private Dining Proposal",
-      quote:
-        "The private dinner was exquisite. Every detail — the flowers, the music, the lighting — felt like it was made just for us. We will never forget that night.",
-      imageSrc: undefined,
-      imageAlt: "Valentina and Carlos at their private proposal dinner",
-      storyHref: "/stories/valentina-and-carlos",
-      imagePosition: "left",
-    },
-  ];
 
 export default function FeaturedStory({
   eyebrow,
   heading,
-  stories = DEFAULT_STORIES,
+  stories = [],
+  locale,
 }: FeaturedStoryProps) {
+  console.log(stories);
   // Pre-render each card on the server — passed as nodes into the client carousel
   const slides = stories.map((story, i) => (
     <FeaturedStoryCard
       key={i}
       {...story}
-      imagePosition={story.imagePosition ?? (i % 2 === 0 ? "left" : "right")}
+      imagePosition={i % 2 === 0 ? "left" : "right"}
+      locale={locale}
     />
   ));
 
@@ -82,11 +46,10 @@ export default function FeaturedStory({
       />
 
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-28 lg:py-36 flex flex-col gap-14">
-
         {/* Header */}
         <div className="flex flex-col items-center gap-5">
           <RevealOnScroll delay={0}>
-            <FeaturedStoryEyebrow text={eyebrow} /> 
+            <FeaturedStoryEyebrow text={eyebrow} />
           </RevealOnScroll>
 
           <RevealOnScroll delay={150}>
@@ -98,7 +61,6 @@ export default function FeaturedStory({
         <RevealOnScroll delay={300}>
           <FeaturedStoryCarousel slides={slides} />
         </RevealOnScroll>
-
       </div>
     </section>
   );

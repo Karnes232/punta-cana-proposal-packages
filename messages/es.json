@@ -22,5 +22,9 @@
     "privacyPolicy": "Política de Privacidad",
     "termsOfService": "Términos de Servicio",
     "allRightsReserved": "Todos los derechos reservados"
+  },
+  "FeaturedStoryCard": {
+    "readTheirStory": "Leer su Historia",
+    "viewAllStories": "Ver todas las Historias"
   }
 }
