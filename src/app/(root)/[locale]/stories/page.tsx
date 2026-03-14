@@ -1,9 +1,8 @@
-import FeaturedStory from "@/components/StoriesPage/FeaturedStory/FeaturedStory";
 import StoriesHero from "@/components/StoriesPage/HeroComponent/StoriesHero";
-import StoriesFilterBar from "@/components/StoriesPage/StoriesFilterBar/StoriesFilterBar";
+import StoriesFilteredSection from "@/components/StoriesPage/StoriesFilteredSection";
 import { storiesPageHero } from "@/sanity/queries/StoriesPage.ts/Hero";
 import { getProposalTypes } from "@/sanity/queries/StoriesPage.ts/ProposalTypes";
-
+import { defaultStories } from "@/components/StoriesPage/StoriesGrid/types";
 
 export default async function Stories({
   params,
@@ -11,21 +10,27 @@ export default async function Stories({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [hero, proposalTypes] = await Promise.all([storiesPageHero(), getProposalTypes()]);
-
- 
+  const [hero, proposalTypes] = await Promise.all([
+    storiesPageHero(),
+    getProposalTypes(),
+  ]);
+  const localeTyped = locale as "en" | "es";
+  const safeProposalTypes = proposalTypes ?? { type: [] };
 
   return (
     <main>
       <StoriesHero
         image={hero?.image}
-        eyebrow={hero?.eyebrow?.[locale as "en" | "es"]}
-        headingLine1={hero?.headingLine1?.[locale as "en" | "es"]}
-        headingLine2={hero?.headingLine2?.[locale as "en" | "es"]}
-        subheading={hero?.subheading?.[locale as "en" | "es"]}
+        eyebrow={hero?.eyebrow?.[localeTyped]}
+        headingLine1={hero?.headingLine1?.[localeTyped]}
+        headingLine2={hero?.headingLine2?.[localeTyped]}
+        subheading={hero?.subheading?.[localeTyped]}
       />
-      <StoriesFilterBar content={proposalTypes} locale={locale as "en" | "es"} />
-      <FeaturedStory locale={locale as "en" | "es"} />
+      <StoriesFilteredSection
+        proposalTypes={safeProposalTypes}
+        stories={defaultStories}
+        locale={localeTyped}
+      />
     </main>
   );
 }
