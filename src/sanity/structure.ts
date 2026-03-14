@@ -103,4 +103,25 @@ export const structure: StructureResolver = (S) =>
                 ),
             ]),
         ),
+
+      S.divider(),
+
+      // Stories page
+      S.listItem()
+        .title("Stories page")
+        .icon(() => "📚")
+        .child(
+          S.list()
+            .title("Stories page")
+            .items([
+              S.listItem()
+                .title("Hero")
+                .icon(() => "👤")
+                .child(
+                  S.document()
+                    .schemaType("StoriesPageHero")
+                    .title("Stories Page Hero"),
+                ),
+            ]),
+        ),
     ]);

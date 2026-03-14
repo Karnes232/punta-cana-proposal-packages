@@ -21,6 +21,9 @@ import HomePageFeatureStorySection from "./HomePage/FeatureStorySection";
 import HomePageTrustIndicators from "./HomePage/TrustIndicators";
 import HomePageCTABanner from "./HomePage/CTABanner";
 
+//StoriesPage
+import StoriesPageHero from "./StoriesPage/Hero";
+
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     //Localized
@@ -42,5 +45,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HomePageFeatureStorySection,
     HomePageTrustIndicators,
     HomePageCTABanner,
+
+    //StoriesPage
+    StoriesPageHero,
   ],
 };
