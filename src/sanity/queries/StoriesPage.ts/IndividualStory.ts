@@ -186,3 +186,60 @@ export const getMoreStories = async (
 export const getAllStorySlugs = async (): Promise<{ slug: string }[]> => {
   return client.fetch(allStorySlugsQuery);
 };
+
+
+export interface AllStoriesCard {
+  slug: {
+    current: string;
+  };
+  names: string;
+  date: string;
+  location: {
+    en: string;
+    es: string;
+  };
+  packageTag: {
+    en: string;
+    es: string;
+  };
+  proposalType: {
+    value: string;
+    label: {
+      en: string;
+      es: string;
+    };
+  };
+  quote: {
+    en: string;
+    es: string;
+  };
+  heroPhoto: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  };
+}
+
+export const allStoriesQuery = `
+  *[_type == "individualStory"] {
+    slug,
+    names,
+    date,
+    location { en, es },
+    packageTag { en, es },
+    proposalType-> { value, label { en, es } },
+    quote { en, es },
+    heroPhoto { ${imageFragment} }
+  }
+`;
+
+export const getAllStories = async (): Promise<AllStoriesCard[]> => {
+  return client.fetch(allStoriesQuery);
+};
