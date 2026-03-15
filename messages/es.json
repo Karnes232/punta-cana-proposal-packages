@@ -32,6 +32,8 @@
     "allStories": "Todas las Historias",
     "package": "Paquete",
     "date": "Fecha",
-    "location": "Lugar"
+    "location": "Lugar",
+    "proposed": "Propuesta",
+    "bookThisExperience": "Reserva Esta Experiencia"
   }
 }

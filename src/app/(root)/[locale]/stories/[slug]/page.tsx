@@ -1,4 +1,5 @@
 import StoryHero from "@/components/IndividualStoryPage/HeroComponent/StoryHero";
+import StoryBody from "@/components/IndividualStoryPage/StoryBody/StoryBody";
 import StoryMetaBar from "@/components/IndividualStoryPage/StoryMetaBar/StoryMetaBar";
 import { getIndividualStory } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
 
@@ -28,6 +29,17 @@ export default async function StoryPage({
           location: story?.location[localeTyped] ?? "",
         }}
         locale={localeTyped}
+      />
+      <StoryBody
+        data={{
+          names: story?.names ?? "",
+          date: story?.date ?? "",
+          location: story?.location[localeTyped] ?? "",
+          packageTag: story?.packageTag[localeTyped] ?? "",
+          quote: story?.quote[localeTyped] ?? "",
+          body: story?.body[localeTyped] ?? [],
+        }}
+
       />
     </main>
   );

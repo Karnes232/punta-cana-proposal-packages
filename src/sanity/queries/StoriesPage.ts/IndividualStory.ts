@@ -53,7 +53,7 @@ export interface IndividualStory {
   body: {
     en: any;
     es: any;
-  }[];
+  };
 }
 
 export const individualStoryQuery = `*[_type == "individualStory" && slug.current == $slug][0] {

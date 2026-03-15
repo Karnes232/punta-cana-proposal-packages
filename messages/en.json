@@ -32,6 +32,8 @@
     "allStories": "All Stories",
     "package": "Package",
     "date": "Date",
-    "location": "Location"
+    "location": "Location",
+    "proposed": "Proposed",
+    "bookThisExperience": "Book This Experience"
   }
 }
