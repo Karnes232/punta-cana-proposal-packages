@@ -1,7 +1,12 @@
 import StoryHero from "@/components/IndividualStoryPage/HeroComponent/StoryHero";
+import MoreStories from "@/components/IndividualStoryPage/MoreStories/MoreStories";
 import StoryBody from "@/components/IndividualStoryPage/StoryBody/StoryBody";
+import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
 import StoryMetaBar from "@/components/IndividualStoryPage/StoryMetaBar/StoryMetaBar";
-import { getIndividualStory } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
+import {
+  getIndividualStory,
+  getMoreStories,
+} from "@/sanity/queries/StoriesPage.ts/IndividualStory";
 
 export default async function StoryPage({
   params,
@@ -11,7 +16,16 @@ export default async function StoryPage({
   const { slug, locale } = await params;
   const localeTyped = locale as "en" | "es";
   const [story] = await Promise.all([getIndividualStory(slug)]);
-  console.log(story);
+  let moreStories = await getMoreStories(
+    story?.proposalType?.value ?? "",
+    story?.slug?.current ?? "",
+  );
+  moreStories = [
+    ...moreStories,
+    ...moreStories,
+    ...moreStories,
+    ...moreStories,
+  ];
   return (
     <main>
       <StoryHero
@@ -39,7 +53,28 @@ export default async function StoryPage({
           quote: story?.quote[localeTyped] ?? "",
           body: story?.body[localeTyped] ?? [],
         }}
-
+      />
+      <StoryGallery
+        photos={
+          story?.gallery.map((photo) => ({
+            asset: photo.asset,
+            alt: photo.alt,
+            caption: photo.caption[localeTyped] ?? "",
+          })) ?? []
+        }
+        locale={localeTyped}
+      />
+      <MoreStories
+        stories={moreStories.map((story) => ({
+          slug: story.slug.current,
+          names: story.names,
+          date: story.date,
+          location: story.location[localeTyped] ?? "",
+          packageTag: story.packageTag[localeTyped] ?? "",
+          quote: story.quote[localeTyped] ?? "",
+          heroPhoto: story.heroPhoto,
+        }))}
+        locale={localeTyped}
       />
     </main>
   );

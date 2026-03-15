@@ -23,15 +23,12 @@ function SidebarDetailRow({ label, value }: SidebarDetailRowProps) {
   );
 }
 
-export default function StorySidebar({
-  data,
-}: StorySidebarProps) {
+export default function StorySidebar({ data }: StorySidebarProps) {
   const t = useTranslations("IndividualStoryPage");
 
   return (
     <aside className="lg:sticky lg:top-8 self-start">
       <div className="bg-white border border-gold/20 p-7 flex flex-col gap-6">
-
         {/* Package tag */}
         <span className="text-[10px] font-body font-medium tracking-[0.18em] uppercase text-gold">
           {data.packageTag}
@@ -49,9 +46,15 @@ export default function StorySidebar({
 
         {/* Detail rows */}
         <div className="flex flex-col gap-4">
-          <SidebarDetailRow label={t("package") as string} value={data.packageTag} />
-          <SidebarDetailRow label={t('proposed') as string}    value={data.date}       />
-          <SidebarDetailRow label={t('location') as string} value={data.location}  />
+          <SidebarDetailRow
+            label={t("package") as string}
+            value={data.packageTag}
+          />
+          <SidebarDetailRow label={t("proposed") as string} value={data.date} />
+          <SidebarDetailRow
+            label={t("location") as string}
+            value={data.location}
+          />
         </div>
 
         {/* Gold rule */}

@@ -1,11 +1,27 @@
 import { client } from "@/sanity/lib/client";
 
+// ── Shared image fragment ─────────────────────────────────────────────────────
+
+const imageFragment = `
+  asset-> {
+    url,
+    metadata {
+      dimensions {
+        width,
+        height
+      }
+    }
+  },
+  alt
+`;
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
 export interface IndividualStory {
   slug: {
     current: string;
   };
   names: string;
-  publishedAt: string;
   proposalType: {
     value: string;
     label: {
@@ -45,6 +61,10 @@ export interface IndividualStory {
       };
     };
     alt: string;
+    caption: {
+      en: string;
+      es: string;
+    };
   }[];
   quote: {
     en: string;
@@ -56,63 +76,113 @@ export interface IndividualStory {
   };
 }
 
-export const individualStoryQuery = `*[_type == "individualStory" && slug.current == $slug][0] {
+export interface StoryCard {
+  slug: {
+    current: string;
+  };
+  names: string;
+  proposalType: {
+    value: string;
+    label: {
+      en: string;
+      es: string;
+    };
+  };
+  packageTag: {
+    en: string;
+    es: string;
+  };
+  date: string;
+  location: {
+    en: string;
+    es: string;
+  };
+  heroPhoto: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  };
+  quote: {
+    en: string;
+    es: string;
+  };
+}
+
+// ── Queries ───────────────────────────────────────────────────────────────────
+
+export const individualStoryQuery = `
+  *[_type == "individualStory" && slug.current == $slug][0] {
     slug,
     names,
-    publishedAt,
-    proposalType->{
-        value,
-        label {
-            en,
-            es
-        }
+    proposalType-> {
+      value,
+      label { en, es }
     },
-    packageTag {
-        en,
-        es
-    },
+    packageTag { en, es },
     date,
-    location {
-        en,
-        es
+    location { en, es },
+    heroPhoto { ${imageFragment} },
+    gallery[] {
+      ${imageFragment},
+      caption { en, es }
     },
-    heroPhoto {
-        asset-> {
-            url,
-            metadata {
-                dimensions {
-                    width,
-                    height
-                }
-            }
-        },
-        alt
+    quote { en, es },
+    body { en, es }
+  }
+`;
+
+/**
+ * Fetch all stories of the same proposal type, excluding the current story.
+ * Matches on proposalType.value (the slug-like string on your proposalType doc).
+ * Ordered newest first.
+ */
+export const moreStoriesQuery = `
+  *[
+    _type == "individualStory"
+    && proposalType->value == $proposalTypeValue
+    && slug.current != $currentSlug
+  ] | order(publishedAt desc) {
+    slug,
+    names,
+    proposalType-> {
+      value,
+      label { en, es }
     },
-    gallery {
-        asset-> {
-            url,
-            metadata {
-                dimensions {
-                    width,
-                    height
-                }
-            }
-        },
-        alt
-    },
-    quote {
-        en,
-        es
-    },
-    body {
-        en,
-        es
-    }
-}`;
+    packageTag { en, es },
+    date,
+    location { en, es },
+    heroPhoto { ${imageFragment} },
+    quote { en, es }
+  }
+`;
+
+/** All slugs — used in generateStaticParams */
+export const allStorySlugsQuery = `
+  *[_type == "individualStory"] { "slug": slug.current }
+`;
+
+// ── Fetchers ──────────────────────────────────────────────────────────────────
 
 export const getIndividualStory = async (
   slug: string,
 ): Promise<IndividualStory | null> => {
-  const story = await client.fetch(individualStoryQuery, { slug });
-  return story;
+  return client.fetch(individualStoryQuery, { slug });
+};
+
+export const getMoreStories = async (
+  proposalTypeValue: string,
+  currentSlug: string,
+): Promise<StoryCard[]> => {
+  return client.fetch(moreStoriesQuery, { proposalTypeValue, currentSlug });
+};
+
+export const getAllStorySlugs = async (): Promise<{ slug: string }[]> => {
+  return client.fetch(allStorySlugsQuery);
 };

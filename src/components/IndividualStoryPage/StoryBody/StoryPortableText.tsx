@@ -30,9 +30,7 @@ const components: PortableTextComponents = {
     strong: ({ children }) => (
       <strong className="font-medium text-black">{children}</strong>
     ),
-    em: ({ children }) => (
-      <em className="italic font-display">{children}</em>
-    ),
+    em: ({ children }) => <em className="italic font-display">{children}</em>,
     link: ({ value, children }) => (
       <a
         href={value?.href}
@@ -55,7 +53,10 @@ const components: PortableTextComponents = {
   listItem: {
     bullet: ({ children }) => (
       <li className="font-body font-light text-fluid-base text-black/75 leading-relaxed flex gap-3">
-        <span className="mt-2.5 block w-1 h-1 rounded-full bg-gold shrink-0" aria-hidden="true" />
+        <span
+          className="mt-2.5 block w-1 h-1 rounded-full bg-gold shrink-0"
+          aria-hidden="true"
+        />
         <span>{children}</span>
       </li>
     ),

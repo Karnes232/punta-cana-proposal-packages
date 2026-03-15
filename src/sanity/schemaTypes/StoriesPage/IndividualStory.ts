@@ -22,19 +22,13 @@ export default defineType({
       validation: (R) => R.required(),
     }),
 
-    defineField({
-      name: "publishedAt",
-      title: "Published At",
-      type: "date",
-      validation: (R) => R.required(),
-    }),
-
     // ── Proposal details ──────────────────────────────────────
     defineField({
       name: "proposalType",
       title: "Proposal Type",
       type: "reference",
-      to: [{ type: "ProposalType", options: { disableNew: true } }],
+      to: [{ type: "ProposalType" }],
+      options: { disableNew: true },
       validation: (R) => R.required(),
     }),
 
@@ -51,9 +45,6 @@ export default defineType({
       name: "date",
       title: "Proposal Date",
       type: "date",
-      options: {
-        dateFormat: "MMMM YYYY",
-      },
       validation: (R) => R.required(),
     }),
 

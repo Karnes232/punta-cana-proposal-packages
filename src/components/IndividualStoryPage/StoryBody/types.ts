@@ -14,7 +14,7 @@ export interface StorySidebarContent {
 
 export interface StoryBodyData {
   names: string;
-  date: string;           // pre-formatted string
+  date: string; // pre-formatted string
   location: string;
   packageTag: string;
   quote: string;

@@ -20,7 +20,7 @@ export default function StoriesFilterBar({
   onChange,
 }: StoriesFilterBarProps) {
   const [active, setActive] = useState("all");
-  console.log(content);
+
   // "All" is a UI concern — always present, never comes from Sanity
   const allTab = {
     value: "all",
