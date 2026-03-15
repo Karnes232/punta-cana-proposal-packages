@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { StoryHeroImage } from "./types";
+
 
 interface StoryHeroBackgroundProps {
   photo: {
