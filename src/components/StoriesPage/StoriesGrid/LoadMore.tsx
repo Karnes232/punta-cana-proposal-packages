@@ -6,7 +6,11 @@ interface LoadMoreProps {
   isLoading?: boolean;
 }
 
-export default function LoadMore({ label, onClick, isLoading = false }: LoadMoreProps) {
+export default function LoadMore({
+  label,
+  onClick,
+  isLoading = false,
+}: LoadMoreProps) {
   return (
     <div className="flex justify-center my-16">
       <button

@@ -4,14 +4,12 @@ import { useState } from "react";
 
 interface StoriesFilterBarProps {
   content: {
-    type: {
-      value: string;
-      label: {
-        en: string;
-        es: string;
-      };
-    }[];
-  };
+    value: string;
+    label: {
+      en: string;
+      es: string;
+    };
+  }[];
   locale: "en" | "es";
   onChange?: (value: string) => void;
 }
@@ -22,9 +20,12 @@ export default function StoriesFilterBar({
   onChange,
 }: StoriesFilterBarProps) {
   const [active, setActive] = useState("all");
-
+  console.log(content);
   // "All" is a UI concern — always present, never comes from Sanity
-  const allTab = { value: "all", label: locale === "es" ? "Todas" : "All Stories" };
+  const allTab = {
+    value: "all",
+    label: locale === "es" ? "Todas" : "All Stories",
+  };
 
   function handleSelect(value: string) {
     setActive(value);
@@ -64,7 +65,7 @@ export default function StoriesFilterBar({
         {renderTab(allTab.value, allTab.label)}
 
         {/* Package type tabs — from Sanity */}
-        {content.type.map((tab) => {
+        {content.map((tab) => {
           const label = tab.label[locale];
           return renderTab(tab.value, label);
         })}

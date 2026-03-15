@@ -18,8 +18,7 @@ export default function FeaturedStory({
   locale,
   content = defaultFeaturedStoryContent,
 }: FeaturedStoryProps) {
-  const eyebrow =
-    locale === "es" ? content.eyebrowEs : content.eyebrowEn;
+  const eyebrow = locale === "es" ? content.eyebrowEs : content.eyebrowEn;
 
   return (
     <article className="group grid grid-cols-1 md:grid-cols-2 border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden">
@@ -29,11 +28,7 @@ export default function FeaturedStory({
         eyebrow={eyebrow}
         location={story.location}
       />
-      <FeaturedStoryCopy
-        story={story}
-        content={content}
-        locale={locale}
-      />
+      <FeaturedStoryCopy story={story} content={content} locale={locale} />
     </article>
   );
 }

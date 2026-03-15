@@ -27,5 +27,11 @@
   "FeaturedStoryCard": {
     "readTheirStory": "Read Their Story",
     "viewAllStories": "View All Stories"
+  },
+  "IndividualStoryPage": {
+    "allStories": "All Stories",
+    "package": "Package",
+    "date": "Date",
+    "location": "Location"
   }
 }

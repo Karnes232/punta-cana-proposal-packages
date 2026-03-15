@@ -12,14 +12,12 @@ export default function FeaturedStoryCopy({
   content,
   locale,
 }: FeaturedStoryCopyProps) {
-  const ctaLabel =
-    locale === "es" ? content.ctaLabelEs : content.ctaLabelEn;
+  const ctaLabel = locale === "es" ? content.ctaLabelEs : content.ctaLabelEn;
   const proposedPrefix =
     locale === "es" ? content.proposedPrefixEs : content.proposedPrefixEn;
 
   return (
     <div className="flex flex-col justify-center gap-7 px-8 py-12 md:px-12 md:py-16 bg-white">
-
       {/* Package type tag */}
       <span className="text-[10.5px] font-body font-medium tracking-[0.18em] uppercase text-gold">
         {story.packageTag}

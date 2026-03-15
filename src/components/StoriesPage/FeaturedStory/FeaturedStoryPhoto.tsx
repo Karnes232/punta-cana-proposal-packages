@@ -39,7 +39,10 @@ export default function FeaturedStoryPhoto({
       {/* Location tag — bottom left */}
       <div className="absolute bottom-6 left-6 flex items-center gap-2">
         {/* Pin dot */}
-        <span className="block w-1 h-1 rounded-full bg-gold shrink-0" aria-hidden="true" />
+        <span
+          className="block w-1 h-1 rounded-full bg-gold shrink-0"
+          aria-hidden="true"
+        />
         <span className="text-[11px] font-body font-light tracking-[0.08em] text-white/70">
           {location}
         </span>

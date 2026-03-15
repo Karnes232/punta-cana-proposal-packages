@@ -24,6 +24,7 @@ import HomePageCTABanner from "./HomePage/CTABanner";
 //StoriesPage
 import StoriesPageHero from "./StoriesPage/Hero";
 import ProposalType from "./StoriesPage/ProposalType";
+import IndividualStory from "./StoriesPage/IndividualStory";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -50,5 +51,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     //StoriesPage
     StoriesPageHero,
     ProposalType,
+    IndividualStory,
   ],
 };

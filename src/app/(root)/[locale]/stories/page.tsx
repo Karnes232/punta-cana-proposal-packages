@@ -16,7 +16,6 @@ export default async function Stories({
     getProposalTypes(),
   ]);
   const localeTyped = locale as "en" | "es";
-  const safeProposalTypes = proposalTypes ?? { type: [] };
 
   return (
     <main>
@@ -29,7 +28,7 @@ export default async function Stories({
       />
       {/* Need to add to Sanity CMS */}
       <StoriesFilteredSection
-        proposalTypes={safeProposalTypes}
+        proposalTypes={proposalTypes}
         stories={defaultStories}
         locale={localeTyped}
       />

@@ -8,7 +8,7 @@ import type { StoryCardData } from "@/components/StoriesPage/StoriesGrid/types";
 import type { ProposalTypes } from "@/sanity/queries/StoriesPage.ts/ProposalTypes";
 
 interface StoriesFilteredSectionProps {
-  proposalTypes: ProposalTypes;
+  proposalTypes: ProposalTypes[];
   stories: StoryCardData[];
   locale: "en" | "es";
 }

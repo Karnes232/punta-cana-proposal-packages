@@ -1,4 +1,8 @@
-export default function StoriesHeroSubheading({ text = "Every couple who trusted us with their most important moment. Read their stories and begin imagining yours." }: { text?: string }) {
+export default function StoriesHeroSubheading({
+  text = "Every couple who trusted us with their most important moment. Read their stories and begin imagining yours.",
+}: {
+  text?: string;
+}) {
   return (
     <p
       className="

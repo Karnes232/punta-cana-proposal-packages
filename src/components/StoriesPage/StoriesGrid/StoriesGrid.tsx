@@ -30,7 +30,14 @@ interface StoriesGridProps {
  * [ wide        ]
  */
 type Variant = "tall" | "wide" | "standard";
-const variantPattern: Variant[] = ["tall", "wide", "wide", "wide", "wide", "tall"];
+const variantPattern: Variant[] = [
+  "tall",
+  "wide",
+  "wide",
+  "wide",
+  "wide",
+  "tall",
+];
 
 export default function StoriesGrid({
   stories = defaultStories,

@@ -124,12 +124,21 @@ export const structure: StructureResolver = (S) =>
                 ),
               S.listItem()
                 .title("Proposal types")
+                .icon(() => "💍")
+                .child(
+                  S.documentList()
+                    .title("Proposal types")
+                    .schemaType("ProposalType")
+                    .filter("_type == 'ProposalType'"),
+                ),
+              S.listItem()
+                .title("Individual stories")
                 .icon(() => "📚")
                 .child(
-                  S.document()
-                    .schemaType("ProposalType")
-                    .documentId("proposalType")
-                    .title("Proposal types"),
+                  S.documentList()
+                    .title("Individual stories")
+                    .filter("_type == 'individualStory'")
+                    .schemaType("individualStory"),
                 ),
             ]),
         ),

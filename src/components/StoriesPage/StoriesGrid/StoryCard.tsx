@@ -22,9 +22,10 @@ export default function StoryCard({
 }: StoryCardProps) {
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">
-
       {/* Photo */}
-      <div className={`relative ${photoHeights[variant]} bg-black overflow-hidden shrink-0`}>
+      <div
+        className={`relative ${photoHeights[variant]} bg-black overflow-hidden shrink-0`}
+      >
         <Image
           src={story.photo.asset.url}
           alt={story.photo.alt ?? `${story.names} proposal photo`}
@@ -39,7 +40,10 @@ export default function StoryCard({
         />
         {/* Location tag */}
         <div className="absolute bottom-4 left-4 flex items-center gap-1.5">
-          <span className="block w-1 h-1 rounded-full bg-gold shrink-0" aria-hidden="true" />
+          <span
+            className="block w-1 h-1 rounded-full bg-gold shrink-0"
+            aria-hidden="true"
+          />
           <span className="text-[10.5px] font-body font-light tracking-[0.06em] text-white/70">
             {story.location}
           </span>
