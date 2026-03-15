@@ -7,6 +7,7 @@ interface StoryCardProps {
   readMoreLabel: string;
   /** Controls photo aspect ratio in the asymmetric grid */
   variant: "tall" | "wide" | "standard";
+  locale: "en" | "es";
 }
 
 const photoHeights: Record<StoryCardProps["variant"], string> = {
@@ -19,7 +20,14 @@ export default function StoryCard({
   story,
   readMoreLabel,
   variant,
+  locale,
 }: StoryCardProps) {
+  const dateStr = new Date(story.date).toLocaleDateString(locale, {
+    month: "long",
+    year: "numeric",
+  });
+  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">
       {/* Photo */}
@@ -67,7 +75,7 @@ export default function StoryCard({
         {/* Divider + CTA */}
         <div className="flex items-center justify-between pt-4 mt-auto border-t border-gold/20">
           <span className="text-[10.5px] font-body font-light tracking-[0.06em] text-gray">
-            {story.date}
+            {capitalizedDate}
           </span>
           <Link
             href={`/stories/${story.slug}`}

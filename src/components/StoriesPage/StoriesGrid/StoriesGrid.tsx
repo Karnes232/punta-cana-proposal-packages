@@ -117,6 +117,7 @@ export default function StoriesGrid({
                 story={story}
                 readMoreLabel={readMoreLabel}
                 variant={variant}
+                locale={locale}
               />
             </div>
           );

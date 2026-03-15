@@ -8,7 +8,7 @@ import {
 } from "./types";
 
 interface FeaturedStoryProps {
-  story?: FeaturedStoryData;
+  story: any;
   locale: "en" | "es";
   content?: FeaturedStoryContent;
 }
@@ -23,10 +23,10 @@ export default function FeaturedStory({
   return (
     <article className="group grid grid-cols-1 md:grid-cols-2 border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden">
       <FeaturedStoryPhoto
-        photo={story.photo}
+        photo={story.heroPhoto}
         names={story.names}
         eyebrow={eyebrow}
-        location={story.location}
+        location={story.location[locale]}
       />
       <FeaturedStoryCopy story={story} content={content} locale={locale} />
     </article>

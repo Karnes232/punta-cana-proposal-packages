@@ -13,7 +13,7 @@ export interface FeaturedStoryImage {
 
 export interface FeaturedStoryData {
   /** Sanity document slug — used to build the /stories/[slug] link */
-  slug: string;
+  slug: { current: string };
 
   /** e.g. "Sofia & Alejandro" */
   names: string;
@@ -22,15 +22,15 @@ export interface FeaturedStoryData {
   date: string;
 
   /** e.g. "Playa Bávaro, Punta Cana" */
-  location: string;
+  location: Record<"en" | "es", string>;
 
   /** e.g. "Classic Beach Package" — from the package type reference */
-  packageTag: string;
+  packageTag: Record<"en" | "es", string>;
 
   /** Short pull quote — 1–2 sentences max */
-  quote: string;
+  quote: Record<"en" | "es", string>;
 
-  photo: FeaturedStoryImage;
+  heroPhoto: FeaturedStoryImage;
 }
 
 export interface FeaturedStoryContent {
@@ -59,14 +59,16 @@ export const defaultFeaturedStoryContent: FeaturedStoryContent = {
 };
 
 export const defaultFeaturedStory: FeaturedStoryData = {
-  slug: "sofia-and-alejandro",
+  slug: { current: "sofia-and-alejandro" },
   names: "Sofia & Alejandro",
   date: "December 2024",
-  location: "Playa Bávaro, Punta Cana",
-  packageTag: "Classic Beach Package",
-  quote:
-    "I had no idea what was coming. The moment I turned around and saw the roses, the photographer, and him on one knee — I completely fell apart. It was more perfect than anything I could have dreamed.",
-  photo: {
+  location: { en: "Playa Bávaro, Punta Cana", es: "Playa Bávaro, Punta Cana" },
+  packageTag: { en: "Classic Beach Package", es: "Classic Beach Package" },
+  quote: {
+    en: "I had no idea what was coming. The moment I turned around and saw the roses, the photographer, and him on one knee — I completely fell apart. It was more perfect than anything I could have dreamed.",
+    es: "I had no idea what was coming. The moment I turned around and saw the roses, the photographer, and him on one knee — I completely fell apart. It was more perfect than anything I could have dreamed.",
+  },
+  heroPhoto: {
     asset: {
       url: "https://picsum.photos/1200/800?random=1",
       metadata: {

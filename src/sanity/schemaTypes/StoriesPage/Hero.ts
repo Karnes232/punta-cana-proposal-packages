@@ -45,6 +45,14 @@ export default defineType({
         }),
       ],
     }),
+    defineField({
+      name: "featuredStory",
+      title: "Featured Story",
+      type: "reference",
+      to: [{ type: "individualStory" }],
+      options: { disableNew: true },
+      validation: (Rule) => Rule.required(),
+    }),
   ],
   preview: {
     select: {

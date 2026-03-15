@@ -19,7 +19,7 @@ export default async function Stories({
   ]);
   const localeTyped = locale as "en" | "es";
 
-  console.log(allStories);
+  console.log(hero.featuredStory);
   return (
     <main>
       <StoriesHero
@@ -31,6 +31,7 @@ export default async function Stories({
       />
       {/* Need to add to Sanity CMS */}
       <StoriesFilteredSection
+        featuredStory={hero.featuredStory}
         proposalTypes={proposalTypes}
         stories={allStories.map((story) => ({
           slug: story.slug.current,

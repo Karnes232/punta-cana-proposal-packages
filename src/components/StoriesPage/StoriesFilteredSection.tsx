@@ -6,14 +6,17 @@ import FeaturedStory from "@/components/StoriesPage/FeaturedStory/FeaturedStory"
 import StoriesGrid from "@/components/StoriesPage/StoriesGrid/StoriesGrid";
 import type { StoryCardData } from "@/components/StoriesPage/StoriesGrid/types";
 import type { ProposalTypes } from "@/sanity/queries/StoriesPage.ts/ProposalTypes";
+import { FeaturedStoryData } from "./FeaturedStory/types";
 
 interface StoriesFilteredSectionProps {
+  featuredStory: FeaturedStoryData;
   proposalTypes: ProposalTypes[];
   stories: StoryCardData[];
   locale: "en" | "es";
 }
 
 export default function StoriesFilteredSection({
+  featuredStory,
   proposalTypes,
   stories,
   locale,
@@ -27,7 +30,7 @@ export default function StoriesFilteredSection({
         locale={locale}
         onChange={setActiveFilter}
       />
-      <FeaturedStory locale={locale} />
+      <FeaturedStory locale={locale} story={featuredStory} />
       <StoriesGrid
         activeFilter={activeFilter}
         stories={stories}

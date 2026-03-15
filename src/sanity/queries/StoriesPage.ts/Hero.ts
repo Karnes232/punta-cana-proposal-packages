@@ -29,6 +29,37 @@ export interface StoriesPageHero {
     };
     alt?: string;
   };
+  featuredStory: {
+    slug: {
+      current: string;
+    };
+    names: string;
+    date: string;
+    location: {
+      en: string;
+      es: string;
+    };
+    packageTag: {
+      en: string;
+      es: string;
+    };
+    heroPhoto: {
+      asset: {
+        url: string;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+          };
+        };
+        alt: string;
+      };
+    };
+    quote: {
+      en: string;
+      es: string;
+    };
+  };
 }
 
 export const storiesPageHeroQuery = `*[_type == "StoriesPageHero"][0] {
@@ -59,7 +90,36 @@ export const storiesPageHeroQuery = `*[_type == "StoriesPageHero"][0] {
       }
     },
     alt
-  }
+  },
+  featuredStory -> {
+    slug,
+    names,
+    date,
+    location {
+      en,
+      es
+    },
+    packageTag {
+      en,
+      es
+    },
+    heroPhoto {
+      asset-> {
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          }
+        }
+      },
+      alt
+    },
+    quote {
+      en,
+      es
+    }
+  } 
 }`;
 
 export async function storiesPageHero(): Promise<StoriesPageHero> {

@@ -16,11 +16,17 @@ export default function FeaturedStoryCopy({
   const proposedPrefix =
     locale === "es" ? content.proposedPrefixEs : content.proposedPrefixEn;
 
+  const dateStr = new Date(story.date).toLocaleDateString(locale, {
+    month: "long",
+    year: "numeric",
+  });
+  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+
   return (
     <div className="flex flex-col justify-center gap-7 px-8 py-12 md:px-12 md:py-16 bg-white">
       {/* Package type tag */}
       <span className="text-[10.5px] font-body font-medium tracking-[0.18em] uppercase text-gold">
-        {story.packageTag}
+        {story.packageTag[locale]}
       </span>
 
       {/* Names + date */}
@@ -29,7 +35,7 @@ export default function FeaturedStoryCopy({
           {story.names}
         </h2>
         <p className="text-[12px] font-body font-light tracking-[0.06em] text-gray">
-          {proposedPrefix} · {story.date}
+          {proposedPrefix} · {capitalizedDate}
         </p>
       </div>
 
@@ -39,13 +45,13 @@ export default function FeaturedStoryCopy({
       {/* Pull quote */}
       <blockquote className="border-l border-gold/40 pl-5">
         <p className="font-display font-normal italic text-fluid-lg text-black/80 leading-relaxed">
-          "{story.quote}"
+          "{story.quote[locale]}"
         </p>
       </blockquote>
 
       {/* CTA */}
       <Link
-        href={`/stories/${story.slug}`}
+        href={`/stories/${story.slug.current}`}
         className="
           inline-flex items-center gap-3 self-start
           text-[11px] font-body font-medium tracking-[0.18em] uppercase

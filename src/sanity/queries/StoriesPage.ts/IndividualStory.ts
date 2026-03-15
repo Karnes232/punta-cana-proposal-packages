@@ -187,7 +187,6 @@ export const getAllStorySlugs = async (): Promise<{ slug: string }[]> => {
   return client.fetch(allStorySlugsQuery);
 };
 
-
 export interface AllStoriesCard {
   slug: {
     current: string;
