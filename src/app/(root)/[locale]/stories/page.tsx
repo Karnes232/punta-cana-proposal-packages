@@ -19,7 +19,6 @@ export default async function Stories({
   ]);
   const localeTyped = locale as "en" | "es";
 
-  console.log(hero.featuredStory);
   return (
     <main>
       <StoriesHero
