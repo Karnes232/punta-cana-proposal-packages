@@ -54,7 +54,7 @@ const BuiltBy = () => {
           />
           DR Web Studio
         </a>
-        — {t("developedBy")}.
+        <span className="hidden sm:inline"> —</span> {t("developedBy")}.
       </p>
       <Script
         type="application/ld+json"
