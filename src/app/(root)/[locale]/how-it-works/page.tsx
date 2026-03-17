@@ -12,6 +12,8 @@ export default async function HowItWorks({
   const { locale } = await params;
   return (
     <main>
+
+      {/* NEED TO ADD SANITY DATA */}
       <HowItWorksHero locale={locale as "en" | "es"} />
       <HowItWorksSteps locale={locale as "en" | "es"} />
       <HowItWorksReassurance locale={locale as "en" | "es"} />
