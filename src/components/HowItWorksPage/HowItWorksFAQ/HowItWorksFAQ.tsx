@@ -14,7 +14,7 @@ interface HowItWorksFAQProps {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default async function HowItWorksFAQ({ locale }: HowItWorksFAQProps) {
-  const items = placeholderFAQItems
+  const items = placeholderFAQItems;
   const t = faqUIContent[locale];
 
   return (
@@ -23,7 +23,6 @@ export default async function HowItWorksFAQ({ locale }: HowItWorksFAQProps) {
       aria-labelledby="faq-heading"
     >
       <div className="max-w-3xl mx-auto px-6 md:px-10">
-
         <RevealOnScroll>
           <HowItWorksFAQHeader
             eyebrow={t.eyebrow}
@@ -37,7 +36,6 @@ export default async function HowItWorksFAQ({ locale }: HowItWorksFAQProps) {
           {/* Accordion is a client component — receives pre-fetched items as props */}
           <HowItWorksFAQAccordion items={items} locale={locale} />
         </RevealOnScroll>
-
       </div>
     </section>
   );

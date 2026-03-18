@@ -36,7 +36,7 @@ export default function HowItWorksHero({ locale }: HowItWorksHeroProps) {
   return (
     <section
       className="
-        relative w-full bg-[#0B0B0C]
+        relative w-full bg-black
         pt-40 pb-28
         flex flex-col items-center justify-center gap-6 text-center overflow-hidden
       "

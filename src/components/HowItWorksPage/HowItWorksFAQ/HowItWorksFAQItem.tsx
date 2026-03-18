@@ -1,10 +1,10 @@
 "use client";
 
 interface HowItWorksFAQItemProps {
-  question:  string;
-  answer:    string;
-  isOpen:    boolean;
-  onToggle:  () => void;
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
 export default function HowItWorksFAQItem({

@@ -1,10 +1,10 @@
 import { Link } from "@/i18n/navigation";
 
 interface HowItWorksCTAButtonsProps {
-  primaryLabel:    string;
-  primaryHref:     string;
-  secondaryLabel:  string;
-  secondaryHref:   string;
+  primaryLabel: string;
+  primaryHref: string;
+  secondaryLabel: string;
+  secondaryHref: string;
 }
 
 export default function HowItWorksCTAButtons({
@@ -15,7 +15,6 @@ export default function HowItWorksCTAButtons({
 }: HowItWorksCTAButtonsProps) {
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2">
-
       {/* Primary — dark fill with gold border, inverts on hover */}
       <Link
         href={primaryHref}
@@ -62,7 +61,6 @@ export default function HowItWorksCTAButtons({
       >
         {secondaryLabel}
       </Link>
-
     </div>
   );
 }

@@ -1,10 +1,8 @@
-interface HowItWorksHeroEyebrowProps {
+interface FaqHeroEyebrowProps {
   label: string;
 }
 
-export default function HowItWorksHeroEyebrow({
-  label,
-}: HowItWorksHeroEyebrowProps) {
+export default function FaqHeroEyebrow({ label }: FaqHeroEyebrowProps) {
   return (
     <div
       className="flex items-center justify-center gap-3 animate-[fadeSlideUp_0.6s_ease_forwards] opacity-0 [animation-delay:200ms]"

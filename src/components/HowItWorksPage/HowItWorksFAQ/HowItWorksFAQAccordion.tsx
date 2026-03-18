@@ -9,7 +9,7 @@ import { faqUIContent } from "./types";
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksFAQAccordionProps {
-  items:  FAQItem[];
+  items: FAQItem[];
   locale: FAQLocale;
 }
 
@@ -21,7 +21,9 @@ export default function HowItWorksFAQAccordion({
 }: HowItWorksFAQAccordionProps) {
   const { categories } = faqUIContent[locale];
 
-  const [activeCategory, setActiveCategory] = useState<"all" | FAQCategory>("all");
+  const [activeCategory, setActiveCategory] = useState<"all" | FAQCategory>(
+    "all",
+  );
   const [openId, setOpenId] = useState<string | null>(items[0]?._id ?? null);
 
   // ── Filter ─────────────────────────────────────────────────────────────────
@@ -60,7 +62,9 @@ export default function HowItWorksFAQAccordion({
       >
         {filtered.length === 0 ? (
           <p className="px-6 py-8 text-center font-body font-light text-gray text-sm">
-            {locale === "es" ? "No hay preguntas en esta categoría." : "No questions in this category."}
+            {locale === "es"
+              ? "No hay preguntas en esta categoría."
+              : "No questions in this category."}
           </p>
         ) : (
           filtered.map((item) => (

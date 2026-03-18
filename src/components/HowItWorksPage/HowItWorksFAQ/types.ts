@@ -5,9 +5,9 @@ export type FAQCategory = "booking" | "packages" | "logistics" | "photography";
 export interface FAQItem {
   _id: string;
   question: { en: string; es: string };
-  answer:   { en: string; es: string };
+  answer: { en: string; es: string };
   category: FAQCategory;
-  order:    number;
+  order: number;
 }
 
 // ─── GROQ query ───────────────────────────────────────────────────────────────
@@ -26,28 +26,29 @@ export const faqQuery = /* groq */ `
 
 export const faqUIContent = {
   en: {
-    eyebrow:    "FAQ",
-    heading:    "Questions",
+    eyebrow: "FAQ",
+    heading: "Questions",
     headingAccent: "Answered",
     subheading: "Everything you might be wondering before you reach out.",
     categories: {
-      all:         "All",
-      booking:     "Booking",
-      packages:    "Packages",
-      logistics:   "Logistics",
+      all: "All",
+      booking: "Booking",
+      packages: "Packages",
+      logistics: "Logistics",
       photography: "Photography",
     },
   },
   es: {
-    eyebrow:    "Preguntas",
-    heading:    "Todo lo que",
+    eyebrow: "Preguntas",
+    heading: "Todo lo que",
     headingAccent: "Necesitas Saber",
-    subheading: "Respuestas a todo lo que podrías preguntarte antes de escribirnos.",
+    subheading:
+      "Respuestas a todo lo que podrías preguntarte antes de escribirnos.",
     categories: {
-      all:         "Todo",
-      booking:     "Reservas",
-      packages:    "Paquetes",
-      logistics:   "Logística",
+      all: "Todo",
+      booking: "Reservas",
+      packages: "Paquetes",
+      logistics: "Logística",
       photography: "Fotografía",
     },
   },

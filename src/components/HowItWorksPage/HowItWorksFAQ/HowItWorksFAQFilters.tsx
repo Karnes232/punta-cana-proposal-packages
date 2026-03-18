@@ -5,9 +5,9 @@ import type { FAQCategory } from "./types";
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksFAQFiltersProps {
-  categories:      Record<"all" | FAQCategory, string>;
-  active:          "all" | FAQCategory;
-  onChange:        (cat: "all" | FAQCategory) => void;
+  categories: Record<"all" | FAQCategory, string>;
+  active: "all" | FAQCategory;
+  onChange: (cat: "all" | FAQCategory) => void;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────

@@ -5,51 +5,123 @@ import type { Step } from "./types";
 const StepIcons: Record<string, React.FC<{ className?: string }>> = {
   "01": ({ className }) => (
     // Package / gift box
-    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
-      <rect x="8" y="16" width="24" height="18" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <rect
+        x="8"
+        y="16"
+        width="24"
+        height="18"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
       <path d="M8 22h24" stroke="currentColor" strokeWidth="1.4" />
       <path d="M20 16v18" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M20 16c0 0-4-8 0-8s4 8 0 8z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path
+        d="M20 16c0 0-4-8 0-8s4 8 0 8z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
       <path d="M20 16c0 0 4-8 0-8" stroke="currentColor" strokeWidth="1.4" />
     </svg>
   ),
   "02": ({ className }) => (
     // Message / chat bubble
-    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
       <path
         d="M8 10h24a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H14l-6 4V11a1 1 0 0 1 1-1z"
-        stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
       />
-      <path d="M14 17h12M14 21h8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path
+        d="M14 17h12M14 21h8"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
     </svg>
   ),
   "03": ({ className }) => (
     // Calendar / date lock
-    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
-      <rect x="7" y="11" width="26" height="22" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <rect
+        x="7"
+        y="11"
+        width="26"
+        height="22"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
       <path d="M7 18h26" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M14 7v6M26 7v6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path
+        d="M14 7v6M26 7v6"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
       <circle cx="20" cy="26" r="3.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M20 24v2l1.2 1.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+      <path
+        d="M20 24v2l1.2 1.2"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
     </svg>
   ),
   "04": ({ className }) => (
     // Star / magic wand — "we handle it"
-    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
       <path
         d="M20 8l2.8 8.6H32l-7.4 5.4 2.8 8.6L20 25.2l-7.4 5.4 2.8-8.6L8 16.6h9.2L20 8z"
-        stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
       />
     </svg>
   ),
   "05": ({ className }) => (
     // Ring / diamond
-    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
       <path
         d="M14 14l-6 8 12 10 12-10-6-8H14z"
-        stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
       />
-      <path d="M8 22h24M14 14l6 8 6-8" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path
+        d="M8 22h24M14 14l6 8 6-8"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
     </svg>
   ),
 };
@@ -153,9 +225,7 @@ export default function HowItWorksStepCard({
         `}
         aria-hidden="true"
       >
-        {Icon && (
-          <Icon className="w-8 h-8 md:w-10 md:h-10" />
-        )}
+        {Icon && <Icon className="w-8 h-8 md:w-10 md:h-10" />}
       </div>
     </div>
   );

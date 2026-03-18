@@ -57,7 +57,7 @@ const BuiltBy = () => {
         <span className="hidden sm:inline"> —</span> {t("developedBy")}.
       </p>
       <Script
-       id="dr-webstudio-builtby-schema"
+        id="dr-webstudio-builtby-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd),

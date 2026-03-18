@@ -10,7 +10,9 @@ interface HowItWorksReassuranceProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function HowItWorksReassurance({ locale }: HowItWorksReassuranceProps) {
+export default function HowItWorksReassurance({
+  locale,
+}: HowItWorksReassuranceProps) {
   const { items } = reassuranceContent[locale];
 
   return (
@@ -19,7 +21,10 @@ export default function HowItWorksReassurance({ locale }: HowItWorksReassuranceP
       aria-label={locale === "es" ? "Por qué elegirnos" : "Why choose us"}
     >
       {/* Top gold hairline */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gold/20" aria-hidden="true" />
+      <div
+        className="absolute top-0 left-0 right-0 h-px bg-gold/20"
+        aria-hidden="true"
+      />
 
       <div className="max-w-5xl mx-auto px-6 md:px-10">
         <RevealOnScroll>
@@ -37,7 +42,10 @@ export default function HowItWorksReassurance({ locale }: HowItWorksReassuranceP
       </div>
 
       {/* Bottom gold hairline */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gold/20" aria-hidden="true" />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-px bg-gold/20"
+        aria-hidden="true"
+      />
     </section>
   );
 }

@@ -21,7 +21,6 @@ export default function HowItWorksSteps({ locale }: HowItWorksStepsProps) {
       aria-labelledby="steps-heading"
     >
       <div className="max-w-3xl mx-auto px-6 md:px-10">
-
         {/* Section header */}
         <RevealOnScroll>
           <HowItWorksStepsSectionHeader
@@ -56,7 +55,6 @@ export default function HowItWorksSteps({ locale }: HowItWorksStepsProps) {
             );
           })}
         </div>
-
       </div>
     </section>
   );

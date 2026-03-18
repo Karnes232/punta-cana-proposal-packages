@@ -17,7 +17,7 @@ export default function HowItWorksCTA({ locale }: HowItWorksCTAProps) {
 
   return (
     <section
-      className="relative w-full bg-[#0B0B0C] py-28 md:py-36 overflow-hidden"
+      className="relative w-full bg-black py-28 md:py-36 overflow-hidden"
       aria-labelledby="cta-heading"
     >
       {/* Top ornament — vertical line + diamond dropping in from above */}
@@ -64,7 +64,6 @@ export default function HowItWorksCTA({ locale }: HowItWorksCTAProps) {
           />
         </RevealOnScroll>
       </div>
-
     </section>
   );
 }
