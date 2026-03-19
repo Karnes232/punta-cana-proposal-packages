@@ -1,36 +1,38 @@
-import FaqHeroEyebrow from "./FaqHeroEyebrow";
-import FaqHeroHeading from "./FaqHeroHeading";
-import FaqHeroDivider from "./FaqHeroDivider";
-import FaqHeroSubheading from "./FaqHeroSubheading";
+import ContactHeroEyebrow from "./ContactHeroEyebrow";
+import ContactHeroHeading from "./ContactHeroHeading";
+import ContactHeroDivider from "./ContactHeroDivider";
+import ContactHeroSubheading from "./ContactHeroSubheading";
 
 // ─── Bilingual content ────────────────────────────────────────────────────────
 
 const content = {
   en: {
-    eyebrow: "Frequently Asked Questions",
-    line1: "Answers to Every",
-    line2: "Detail & Doubt",
+    eyebrow: "Get in Touch",
+    line1: "Let's Plan",
+    line2: "Your Moment",
     subheading:
-      "Everything you need to know before you get down on one knee — from booking to the perfect moment.",
+      "Tell us about your vision and we'll take care of every detail — from the first message to the perfect proposal.",
   },
   es: {
-    eyebrow: "Preguntas Frecuentes",
-    line1: "Respuestas a Cada",
-    line2: "Duda y Detalle",
+    eyebrow: "Contáctanos",
+    line1: "Planifiquemos",
+    line2: "Tu Momento",
     subheading:
-      "Todo lo que necesitas saber antes de arrodillarte — desde la reserva hasta el momento perfecto.",
+      "Cuéntanos tu visión y nosotros nos encargamos de cada detalle — desde el primer mensaje hasta la propuesta perfecta.",
   },
 } as const;
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
-interface FaqHeroProps {
+interface ContactHeroProps {
   locale: "en" | "es";
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default async function FaqHero({ locale }: FaqHeroProps) {
+export default function ContactHero({ locale }: ContactHeroProps) {
+  const t = content[locale];
+
   return (
     <section
       className="
@@ -38,9 +40,9 @@ export default async function FaqHero({ locale }: FaqHeroProps) {
         pt-40 pb-28
         flex flex-col items-center justify-center gap-6 text-center overflow-hidden
       "
-      aria-labelledby="faq-heading"
+      aria-labelledby="contact-heading"
     >
-      {/* Subtle radial glow behind heading */}
+      {/* Subtle radial glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
@@ -50,21 +52,16 @@ export default async function FaqHero({ locale }: FaqHeroProps) {
         }}
       />
 
-      <FaqHeroEyebrow label={content[locale].eyebrow} />
-      <FaqHeroHeading
-        line1={content[locale].line1}
-        line2={content[locale].line2}
-      />
-      <FaqHeroDivider />
-      <FaqHeroSubheading text={content[locale].subheading} />
+      <ContactHeroEyebrow label={t.eyebrow} />
+      <ContactHeroHeading line1={t.line1} line2={t.line2} />
+      <ContactHeroDivider />
+      <ContactHeroSubheading text={t.subheading} />
 
       {/* Bottom fade into ivory content area */}
       {/* <div
         className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
         aria-hidden="true"
-        style={{
-          background: "linear-gradient(to bottom, transparent, #F7F5F1)",
-        }}
+        style={{ background: "linear-gradient(to bottom, transparent, #F7F5F1)" }}
       /> */}
     </section>
   );

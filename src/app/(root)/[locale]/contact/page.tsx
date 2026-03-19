@@ -1,3 +1,7 @@
+import ContactHero from "@/components/ContactPage/HeroComponent/ContactHero";
+import ContactBody from "@/components/ContactPage/MainContent/ContactBody";
+import ContactTrustBar from "@/components/ContactPage/TrustBar/ContactTrustBar";
+
 export default async function Contact({
   params,
 }: {
@@ -6,7 +10,9 @@ export default async function Contact({
   const { locale } = await params;
   return (
     <main>
-      <h1>Contact</h1>
+      <ContactHero locale={locale as "en" | "es"} />
+      <ContactBody locale={locale as "en" | "es"} />
+      <ContactTrustBar locale={locale as "en" | "es"} />
     </main>
   );
 }

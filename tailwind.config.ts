@@ -37,6 +37,9 @@ const config: Config = {
       maxWidth: {
         site: "1280px",
       },
+      gridTemplateColumns: {
+        contact: "3fr 2fr",
+      },
       keyframes: {
         fadeSlideUp: {
           "0%": { opacity: "0", transform: "translateY(20px)" },
