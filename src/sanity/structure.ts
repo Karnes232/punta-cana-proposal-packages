@@ -155,4 +155,35 @@ export const structure: StructureResolver = (S) =>
             .schemaType("ContactPageContent")
             .title("Contact page"),
         ),
+
+      S.divider(),
+
+      // How it works page
+      S.listItem()
+        .title("How it works page")
+        .icon(() => "💡")
+        .child(
+          S.list()
+            .title("How it works page")
+            .items([
+              S.listItem()
+                .title("Hero")
+                .icon(() => "👤")
+                .child(
+                  S.document()
+                    .documentId("howItWorksPageHero")
+                    .schemaType("HowItWorksPageHero")
+                    .title("Hero"),
+                ),
+              S.listItem()
+                .title("How it works steps")
+                .icon(() => "💡")
+                .child(
+                  S.document()
+                    .documentId("howItWorksPageHowItWorksSteps")
+                    .schemaType("HowItWorksPageHowItWorksSteps")
+                    .title("How it works steps"),
+                ),
+            ]),
+        ),
     ]);

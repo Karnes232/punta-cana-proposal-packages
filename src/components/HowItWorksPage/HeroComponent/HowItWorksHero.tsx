@@ -2,36 +2,42 @@ import HowItWorksHeroEyebrow from "./HowItWorksHeroEyebrow";
 import HowItWorksHeroHeading from "./HowItWorksHeroHeading";
 import HowItWorksHeroDivider from "./HowItWorksHeroDivider";
 import HowItWorksHeroSubheading from "./HowItWorksHeroSubheading";
-
-// ─── Content ──────────────────────────────────────────────────────────────────
-
-const content = {
-  en: {
-    eyebrow: "The Process",
-    line1: "How We Make",
-    line2: "It Happen",
-    subheading:
-      "From your first message to the moment she says yes — every detail is handled with care, so you can focus on what truly matters.",
-  },
-  es: {
-    eyebrow: "El Proceso",
-    line1: "Así Lo",
-    line2: "Hacemos Realidad",
-    subheading:
-      "Desde tu primer mensaje hasta el momento en que ella dice que sí — cada detalle está cuidado para que tú solo tengas que vivir el momento.",
-  },
-} as const;
+import HowItWorksHeroBackground from "./HowItWorksHeroBackground";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksHeroProps {
-  locale: "en" | "es";
+  heroImage?: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  };
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  subheading: string;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function HowItWorksHero({ locale }: HowItWorksHeroProps) {
-  const t = content[locale];
+export default function HowItWorksHero({
+  heroImage,
+  eyebrow,
+  headingLine1,
+  headingLine2,
+  subheading,
+}: HowItWorksHeroProps) {
+  const imageAltFallback =
+    [headingLine1, headingLine2].filter(Boolean).join(" ") ||
+    eyebrow ||
+    "How it works";
 
   return (
     <section
@@ -42,9 +48,16 @@ export default function HowItWorksHero({ locale }: HowItWorksHeroProps) {
       "
       aria-labelledby="how-it-works-heading"
     >
+      {heroImage ? (
+        <HowItWorksHeroBackground
+          photo={heroImage}
+          altFallback={imageAltFallback}
+        />
+      ) : null}
+
       {/* Subtle radial glow behind heading */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-1"
         aria-hidden="true"
         style={{
           background:
@@ -52,19 +65,12 @@ export default function HowItWorksHero({ locale }: HowItWorksHeroProps) {
         }}
       />
 
-      <HowItWorksHeroEyebrow label={t.eyebrow} />
-      <HowItWorksHeroHeading line1={t.line1} line2={t.line2} />
-      <HowItWorksHeroDivider />
-      <HowItWorksHeroSubheading text={t.subheading} />
-
-      {/* Bottom fade into next section (ivory bg) */}
-      {/* <div
-        className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
-        aria-hidden="true"
-        style={{
-          background: "linear-gradient(to bottom, transparent, #F7F5F1)",
-        }}
-      /> */}
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6">
+        <HowItWorksHeroEyebrow label={eyebrow} />
+        <HowItWorksHeroHeading line1={headingLine1} line2={headingLine2} />
+        <HowItWorksHeroDivider />
+        <HowItWorksHeroSubheading text={subheading} />
+      </div>
     </section>
   );
 }

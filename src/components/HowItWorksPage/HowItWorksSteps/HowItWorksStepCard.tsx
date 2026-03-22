@@ -167,7 +167,7 @@ export default function HowItWorksStepCard({
           font-display font-normal leading-none
           text-[clamp(80px,10vw,120px)]
           ${isEven ? "right-6 top-2" : "left-6 top-2"}
-          ${isLast ? "text-white/5" : "text-black/[0.04]"}
+          ${isLast ? "text-white/5" : "text-black/4"}
         `}
         aria-hidden="true"
       >

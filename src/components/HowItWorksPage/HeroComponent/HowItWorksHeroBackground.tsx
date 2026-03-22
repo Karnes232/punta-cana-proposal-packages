@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface ContactHeroBackgroundProps {
+interface HowItWorksHeroBackgroundProps {
   photo: {
     asset: {
       url: string;
@@ -16,10 +16,10 @@ interface ContactHeroBackgroundProps {
   altFallback: string;
 }
 
-export default function ContactHeroBackground({
+export default function HowItWorksHeroBackground({
   photo,
   altFallback,
-}: ContactHeroBackgroundProps) {
+}: HowItWorksHeroBackgroundProps) {
   return (
     <>
       <Image

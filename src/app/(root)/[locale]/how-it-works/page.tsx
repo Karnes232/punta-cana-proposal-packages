@@ -3,6 +3,8 @@ import HowItWorksCTA from "@/components/HowItWorksPage/HowItWorksCTA/HowItWorksC
 import HowItWorksFAQ from "@/components/HowItWorksPage/HowItWorksFAQ/HowItWorksFAQ";
 import HowItWorksReassurance from "@/components/HowItWorksPage/HowItWorksReassurance/HowItWorksReassurance";
 import HowItWorksSteps from "@/components/HowItWorksPage/HowItWorksSteps/HowItWorksSteps";
+import { howItWorksPageHero } from "@/sanity/queries/HowItWorksPage/Hero";
+import { howItWorksPageHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
 
 export default async function HowItWorks({
   params,
@@ -10,12 +12,33 @@ export default async function HowItWorks({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const [hero, steps] = await Promise.all([
+    howItWorksPageHero(),
+    howItWorksPageHowItWorksSteps(),
+  ]);
+  console.log(steps);
   return (
     <main>
       {/* NEED TO ADD SANITY DATA */}
-      <HowItWorksHero locale={locale as "en" | "es"} />
-      <HowItWorksSteps locale={locale as "en" | "es"} />
-      <HowItWorksReassurance locale={locale as "en" | "es"} />
+      <HowItWorksHero
+        heroImage={hero?.image}
+        eyebrow={hero?.eyebrow[locale as "en" | "es"]}
+        headingLine1={hero?.headingLine1[locale as "en" | "es"]}
+        headingLine2={hero?.headingLine2[locale as "en" | "es"]}
+        subheading={hero?.subheading[locale as "en" | "es"]}
+      />
+      <HowItWorksSteps
+        eyebrow={steps?.eyebrow[locale as "en" | "es"]}
+        heading={steps?.heading[locale as "en" | "es"]}
+        headingAccent={steps?.headingAccent[locale as "en" | "es"]}
+        subheading={steps?.subheading[locale as "en" | "es"]}
+        steps={steps?.steps}
+        locale={locale as "en" | "es"}
+      />
+      <HowItWorksReassurance
+        items={steps?.reassurance}
+        locale={locale as "en" | "es"}
+      />
       <HowItWorksFAQ locale={locale as "en" | "es"} />
       <HowItWorksCTA locale={locale as "en" | "es"} />
     </main>

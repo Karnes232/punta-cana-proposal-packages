@@ -17,7 +17,6 @@ export default async function Contact({
     contactInfo(),
   ]);
 
-
   return (
     <main>
       <ContactHero

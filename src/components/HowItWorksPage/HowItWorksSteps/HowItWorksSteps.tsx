@@ -2,19 +2,29 @@ import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksStepsSectionHeader from "./HowItWorksStepsSectionHeader";
 import HowItWorksStepCard from "./HowItWorksStepCard";
 import HowItWorksStepConnector from "./HowItWorksStepConnector";
-import { stepsContent } from "./types";
+import { HowItWorksStepsStep } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksStepsProps {
   locale: "en" | "es";
+  eyebrow: string;
+  heading: string;
+  headingAccent: string;
+  subheading: string;
+  steps: HowItWorksStepsStep[];
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function HowItWorksSteps({ locale }: HowItWorksStepsProps) {
-  const t = stepsContent[locale];
-
+export default function HowItWorksSteps({
+  eyebrow,
+  heading,
+  headingAccent,
+  subheading,
+  steps,
+  locale,
+}: HowItWorksStepsProps) {
   return (
     <section
       className="relative w-full bg-[#F7F5F1] py-24 md:py-32"
@@ -24,22 +34,27 @@ export default function HowItWorksSteps({ locale }: HowItWorksStepsProps) {
         {/* Section header */}
         <RevealOnScroll>
           <HowItWorksStepsSectionHeader
-            eyebrow={t.eyebrow}
-            heading={t.heading}
-            headingAccent={t.headingAccent}
-            subheading={t.subheading}
+            eyebrow={eyebrow}
+            heading={heading}
+            headingAccent={headingAccent}
+            subheading={subheading}
           />
         </RevealOnScroll>
 
         {/* Steps list */}
         <div className="flex flex-col">
-          {t.steps.map((step, index) => {
-            const isLast = index === t.steps.length - 1;
+          {steps.map((step, index) => {
+            const isLast = index === steps.length - 1;
             return (
-              <div key={step.number}>
+              <div key={step.label[locale]}>
                 <RevealOnScroll delay={index * 80}>
                   <HowItWorksStepCard
-                    step={step}
+                    step={{
+                      number: (index + 1).toString().padStart(2, "0"),
+                      label: step.label[locale],
+                      title: step.title[locale],
+                      description: step.description[locale],
+                    }}
                     index={index}
                     isLast={isLast}
                   />

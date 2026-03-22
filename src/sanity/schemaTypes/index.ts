@@ -29,6 +29,10 @@ import IndividualStory from "./StoriesPage/IndividualStory";
 //ContactPage
 import ContactPageContent from "./ContactPage/Content";
 
+//HowItWorksPage
+import HowItWorksPageHero from "./HowItWorksPage/Hero";
+import HowItWorksPageHowItWorksSteps from "./HowItWorksPage/HowItWorksSteps";
+
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     //Localized
@@ -58,5 +62,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
 
     //ContactPage
     ContactPageContent,
+
+    //HowItWorksPage
+    HowItWorksPageHero,
+    HowItWorksPageHowItWorksSteps,
   ],
 };
