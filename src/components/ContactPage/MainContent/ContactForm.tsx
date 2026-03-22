@@ -6,24 +6,29 @@ import ContactFormSuccess from "./ContactFormSuccess";
 import { inputClass, selectClass, textareaClass } from "./inputStyles";
 import {
   ContactFormState,
-  ContactLabels,
   EMPTY_FORM,
-  PACKAGE_OPTIONS,
+  // PACKAGE_OPTIONS,
   TIME_OPTIONS,
 } from "./types";
+import { useTranslations } from "next-intl";
+import { PackageOptions } from "@/sanity/queries/ContactPage/PackageOptions";
 
 // SVG chevron encoded for use as CSS background-image on <select>
 const CHEVRON_SVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23CFAE70' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`;
 
 interface ContactFormProps {
   locale: "en" | "es";
-  labels: ContactLabels;
+  packageOptions: PackageOptions["categories"];
 }
 
-export default function ContactForm({ locale, labels }: ContactFormProps) {
+export default function ContactForm({
+  locale,
+  packageOptions,
+}: ContactFormProps) {
   const [form, setForm] = useState<ContactFormState>(EMPTY_FORM);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const t = useTranslations("ContactPageForm");
 
   function handleChange(
     e: React.ChangeEvent<
@@ -47,9 +52,9 @@ export default function ContactForm({ locale, labels }: ContactFormProps) {
   if (submitted) {
     return (
       <ContactFormSuccess
-        heading={labels.successHeading}
-        body={labels.successBody}
-        cta={labels.successCta}
+        heading={t("successHeading")}
+        body={t("successBody")}
+        cta={t("successCta")}
       />
     );
   }
@@ -59,28 +64,28 @@ export default function ContactForm({ locale, labels }: ContactFormProps) {
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
       {/* Row 1 — Name + Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <ContactFormField label={labels.nameLabel} htmlFor="name">
+        <ContactFormField label={t("nameLabel")} htmlFor="name">
           <input
             id="name"
             name="name"
             type="text"
             required
             autoComplete="name"
-            placeholder={labels.namePlaceholder}
+            placeholder={t("namePlaceholder")}
             value={form.name}
             onChange={handleChange}
             className={inputClass}
           />
         </ContactFormField>
 
-        <ContactFormField label={labels.emailLabel} htmlFor="email">
+        <ContactFormField label={t("emailLabel")} htmlFor="email">
           <input
             id="email"
             name="email"
             type="email"
             required
             autoComplete="email"
-            placeholder={labels.emailPlaceholder}
+            placeholder={t("emailPlaceholder")}
             value={form.email}
             onChange={handleChange}
             className={inputClass}
@@ -89,7 +94,7 @@ export default function ContactForm({ locale, labels }: ContactFormProps) {
       </div>
 
       {/* Row 2 — Package */}
-      <ContactFormField label={labels.packageLabel} htmlFor="package">
+      <ContactFormField label={t("packageLabel")} htmlFor="package">
         <div className="relative">
           <select
             id="package"
@@ -100,20 +105,21 @@ export default function ContactForm({ locale, labels }: ContactFormProps) {
             style={{}}
           >
             <option value="" disabled>
-              {labels.packageDefault}
+              {t("packageDefault")}
             </option>
-            {PACKAGE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {locale === "es" ? opt.labelEs : opt.labelEn}
+            {packageOptions.map((opt) => (
+              <option key={opt.title[locale]} value={opt.title[locale]}>
+                {opt.title[locale]}
               </option>
             ))}
+            <option value="not-sure">{t("notSure")}</option>
           </select>
         </div>
       </ContactFormField>
 
       {/* Row 3 — Date + Preferred Time */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <ContactFormField label={labels.dateLabel} htmlFor="date">
+        <ContactFormField label={t("dateLabel")} htmlFor="date">
           <input
             id="date"
             name="date"
@@ -126,7 +132,7 @@ export default function ContactForm({ locale, labels }: ContactFormProps) {
           />
         </ContactFormField>
 
-        <ContactFormField label={labels.timeLabel} htmlFor="time">
+        <ContactFormField label={t("timeLabel")} htmlFor="time">
           <div className="relative">
             <select
               id="time"
@@ -137,7 +143,7 @@ export default function ContactForm({ locale, labels }: ContactFormProps) {
               style={{}}
             >
               <option value="" disabled>
-                {labels.timeDefault}
+                {t("timeDefault")}
               </option>
               {TIME_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -150,12 +156,12 @@ export default function ContactForm({ locale, labels }: ContactFormProps) {
       </div>
 
       {/* Row 4 — Message */}
-      <ContactFormField label={labels.messageLabel} htmlFor="message">
+      <ContactFormField label={t("messageLabel")} htmlFor="message">
         <textarea
           id="message"
           name="message"
           rows={5}
-          placeholder={labels.messagePlaceholder}
+          placeholder={t("messagePlaceholder")}
           value={form.message}
           onChange={handleChange}
           className={textareaClass}
@@ -193,11 +199,11 @@ export default function ContactForm({ locale, labels }: ContactFormProps) {
             >
               <path d="M12 2a10 10 0 0 1 10 10" />
             </svg>
-            {labels.submitting}
+            {t("submitting")}
           </>
         ) : (
           <>
-            {labels.submitLabel}
+            {t("submitLabel")}
             <svg
               width="13"
               height="13"

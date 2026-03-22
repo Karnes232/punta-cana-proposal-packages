@@ -2,14 +2,12 @@ interface ContactLocationCardProps {
   label: string;
   city: string;
   detail: string;
-  mapsLink: string;
 }
 
 export default function ContactLocationCard({
   label,
   city,
   detail,
-  mapsLink,
 }: ContactLocationCardProps) {
   return (
     <div className="border border-gold/25 bg-white px-5 py-5 flex flex-col gap-4">
@@ -50,10 +48,10 @@ export default function ContactLocationCard({
       </div>
 
       {/* Gold rule */}
-      <div className="h-px bg-gold/15" aria-hidden="true" />
+      {/* <div className="h-px bg-gold/15" aria-hidden="true" /> */}
 
       {/* Maps link */}
-      <a
+      {/* <a
         href="https://maps.google.com/?q=Punta+Cana+Dominican+Republic"
         target="_blank"
         rel="noopener noreferrer"
@@ -81,7 +79,7 @@ export default function ContactLocationCard({
           <line x1="7" y1="17" x2="17" y2="7" />
           <polyline points="7 7 17 7 17 17" />
         </svg>
-      </a>
+      </a> */}
     </div>
   );
 }

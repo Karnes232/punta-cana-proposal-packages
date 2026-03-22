@@ -142,4 +142,17 @@ export const structure: StructureResolver = (S) =>
                 ),
             ]),
         ),
+
+      S.divider(),
+
+      // Contact page (singleton: fixed _id so the pane opens directly)
+      S.listItem()
+        .title("Contact page")
+        .icon(() => "📞")
+        .child(
+          S.document()
+            .documentId("contactPageContent")
+            .schemaType("ContactPageContent")
+            .title("Contact page"),
+        ),
     ]);

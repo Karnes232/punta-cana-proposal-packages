@@ -36,5 +36,33 @@
     "location": "Lugar",
     "proposed": "Propuesta",
     "bookThisExperience": "Reserva Esta Experiencia"
+  },
+  "ContactPageForm": {
+    "namePlaceholder": "Tu nombre",
+    "nameLabel": "Nombre Completo",
+    "emailLabel": "Correo Electrónico",
+    "emailPlaceholder": "tu@correo.com",
+    "packageLabel": "Paquete de Preferencia",
+    "packageDefault": "Selecciona un paquete",
+    "notSure": "Aún no lo sé",
+    "dateLabel": "Fecha de la Propuesta",
+    "timeLabel": "Hora Preferida",
+    "timeDefault": "Selecciona una hora",
+    "messageLabel": "Tu Mensaje",
+    "messagePlaceholder": "Cuéntanos tu visión — el lugar, el estilo, cualquier detalle que importa...",
+    "submitLabel": "Enviar Mensaje",
+    "submitting": "Enviando...",
+    "successHeading": "Mensaje Recibido",
+    "successBody": "Gracias por contactarnos. Te responderemos en menos de 24 horas para comenzar a planificar tu momento perfecto.",
+    "successCta": "Volver al inicio",
+    "contactEyebrow": "¿Prefieres contactarnos directamente?",
+    "whatsappLabel": "WhatsApp",
+    "whatsappSub": "Chatea con nosotros al instante",
+    "emailContactLabel": "Correo",
+    "emailContactSub": "Respondemos en menos de 24 horas",
+    "locationLabel": "Nuestra Ubicación",
+    "locationCity": "Punta Cana, República Dominicana",
+    "locationDetail": "Operamos en múltiples ubicaciones premium en la zona de Punta Cana y Bávaro. El lugar exacto se confirma durante la consulta.",
+    "mapsLink": "Ver en Google Maps"
   }
 }

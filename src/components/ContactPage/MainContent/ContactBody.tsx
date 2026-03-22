@@ -1,19 +1,31 @@
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import ContactForm from "./ContactForm";
 import ContactSidebar from "./ContactSidebar";
-import { CONTACT_LABELS } from "./types";
+import { PackageOptions } from "@/sanity/queries/ContactPage/PackageOptions";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface ContactBodyProps {
+  formEyebrow: string;
+  formHeadingLine1: string;
+  formHeadingLine2: string;
   locale: "en" | "es";
+  packageOptions: PackageOptions["categories"];
+  email: string;
+  telephone: string;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ContactBody({ locale }: ContactBodyProps) {
-  const labels = CONTACT_LABELS[locale];
-
+export default function ContactBody({
+  formEyebrow,
+  formHeadingLine1,
+  formHeadingLine2,
+  locale,
+  packageOptions,
+  email,
+  telephone,
+}: ContactBodyProps) {
   return (
     <section className="bg-[#F7F5F1] py-20 px-6 md:px-12">
       <div className="max-w-6xl mx-auto">
@@ -30,17 +42,15 @@ export default function ContactBody({ locale }: ContactBodyProps) {
                     aria-hidden="true"
                   />
                   <p className="text-[10.5px] font-body font-light tracking-[0.28em] uppercase text-gold/80">
-                    {labels.formEyebrow}
+                    {formEyebrow}
                   </p>
                 </div>
 
                 {/* Heading */}
                 <h2 className="font-display font-normal text-[clamp(28px,3.5vw,44px)] leading-[1.1] tracking-tight">
-                  <span className="block text-black">
-                    {labels.formHeading.split(" ").slice(0, -2).join(" ")}
-                  </span>
+                  <span className="block text-black">{formHeadingLine1}</span>
                   <span className="block italic text-gold">
-                    {labels.formHeading.split(" ").slice(-2).join(" ")}
+                    {formHeadingLine2}
                   </span>
                 </h2>
 
@@ -54,12 +64,12 @@ export default function ContactBody({ locale }: ContactBodyProps) {
             </RevealOnScroll>
 
             {/* ContactForm is a client component — sits inside a server wrapper */}
-            <ContactForm locale={locale} labels={labels} />
+            <ContactForm locale={locale} packageOptions={packageOptions} />
           </div>
 
           {/* ── Right column — Sidebar ───────────────────────────── */}
           <RevealOnScroll delay={150}>
-            <ContactSidebar labels={labels} />
+            <ContactSidebar email={email} telephone={telephone} />
           </RevealOnScroll>
         </div>
       </div>

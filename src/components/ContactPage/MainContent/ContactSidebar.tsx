@@ -1,10 +1,25 @@
+import { useTranslations } from "next-intl";
 import ContactDirectCard from "./ContactDirectCard";
 import ContactLocationCard from "./ContactLocationCard";
-import { ContactLabels } from "./types";
 
 // ─── Brand contact details — update to real values ────────────────────────────
 const WHATSAPP_NUMBER = "+18091234567"; // TODO: replace
 const EMAIL_ADDRESS = "hello@puntacanaproposalpackages.com"; // TODO: replace
+
+/** NANP-style display (+1 and 10-digit); otherwise returns trimmed raw string. */
+function formatPhoneForDisplay(raw: string): string {
+  const digits = raw.replace(/\D/g, "");
+  if (digits.length === 11 && digits.startsWith("1")) {
+    const area = digits.slice(1, 4);
+    const mid = digits.slice(4, 7);
+    const line = digits.slice(7, 11);
+    return `+1 (${area}) ${mid}-${line}`;
+  }
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return raw.trim();
+}
 
 // WhatsApp icon
 function WhatsAppIcon() {
@@ -48,31 +63,37 @@ function EmailIcon() {
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface ContactSidebarProps {
-  labels: ContactLabels;
+  email: string;
+  telephone: string;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ContactSidebar({ labels }: ContactSidebarProps) {
+export default function ContactSidebar({
+  email,
+  telephone,
+}: ContactSidebarProps) {
+  const t = useTranslations("ContactPageForm");
   return (
     <aside className="flex flex-col gap-6 pt-1">
       {/* Eyebrow */}
       <p className="text-[10.5px] font-body font-medium tracking-[0.14em] uppercase text-black/40">
-        {labels.contactEyebrow}
+        {t("contactEyebrow")}
       </p>
 
       {/* Direct contact cards */}
       <div className="flex flex-col gap-3">
         <ContactDirectCard
-          label={WHATSAPP_NUMBER}
-          sub={labels.whatsappSub}
-          href={`https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, "")}`}
+          label={formatPhoneForDisplay(telephone)}
+          sub={t("whatsappSub")}
+          href={`https://wa.me/${telephone.replace(/\D/g, "")}`}
           icon={<WhatsAppIcon />}
+          labelClassName="tabular-nums"
         />
         <ContactDirectCard
-          label={EMAIL_ADDRESS}
-          sub={labels.emailContactSub}
-          href={`mailto:${EMAIL_ADDRESS}`}
+          label={email}
+          sub={t("emailContactSub")}
+          href={`mailto:${email}`}
           icon={<EmailIcon />}
         />
       </div>
@@ -89,10 +110,9 @@ export default function ContactSidebar({ labels }: ContactSidebarProps) {
 
       {/* Location card */}
       <ContactLocationCard
-        label={labels.locationLabel}
-        city={labels.locationCity}
-        detail={labels.locationDetail}
-        mapsLink={labels.mapsLink}
+        label={t("locationLabel")}
+        city={t("locationCity")}
+        detail={t("locationDetail")}
       />
     </aside>
   );

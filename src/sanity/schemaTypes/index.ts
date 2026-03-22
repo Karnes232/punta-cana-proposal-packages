@@ -26,6 +26,9 @@ import StoriesPageHero from "./StoriesPage/Hero";
 import ProposalType from "./StoriesPage/ProposalType";
 import IndividualStory from "./StoriesPage/IndividualStory";
 
+//ContactPage
+import ContactPageContent from "./ContactPage/Content";
+
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     //Localized
@@ -52,5 +55,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     StoriesPageHero,
     ProposalType,
     IndividualStory,
+
+    //ContactPage
+    ContactPageContent,
   ],
 };

@@ -3,36 +3,21 @@ import ContactHeroHeading from "./ContactHeroHeading";
 import ContactHeroDivider from "./ContactHeroDivider";
 import ContactHeroSubheading from "./ContactHeroSubheading";
 
-// ─── Bilingual content ────────────────────────────────────────────────────────
-
-const content = {
-  en: {
-    eyebrow: "Get in Touch",
-    line1: "Let's Plan",
-    line2: "Your Moment",
-    subheading:
-      "Tell us about your vision and we'll take care of every detail — from the first message to the perfect proposal.",
-  },
-  es: {
-    eyebrow: "Contáctanos",
-    line1: "Planifiquemos",
-    line2: "Tu Momento",
-    subheading:
-      "Cuéntanos tu visión y nosotros nos encargamos de cada detalle — desde el primer mensaje hasta la propuesta perfecta.",
-  },
-} as const;
-
-// ─── Props ────────────────────────────────────────────────────────────────────
-
 interface ContactHeroProps {
-  locale: "en" | "es";
+  heroEyebrow: string;
+  heroHeadingLine1: string;
+  heroHeadingLine2: string;
+  heroSubheading: string;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ContactHero({ locale }: ContactHeroProps) {
-  const t = content[locale];
-
+export default function ContactHero({
+  heroEyebrow,
+  heroHeadingLine1,
+  heroHeadingLine2,
+  heroSubheading,
+}: ContactHeroProps) {
   return (
     <section
       className="
@@ -52,10 +37,10 @@ export default function ContactHero({ locale }: ContactHeroProps) {
         }}
       />
 
-      <ContactHeroEyebrow label={t.eyebrow} />
-      <ContactHeroHeading line1={t.line1} line2={t.line2} />
+      <ContactHeroEyebrow label={heroEyebrow} />
+      <ContactHeroHeading line1={heroHeadingLine1} line2={heroHeadingLine2} />
       <ContactHeroDivider />
-      <ContactHeroSubheading text={t.subheading} />
+      <ContactHeroSubheading text={heroSubheading} />
 
       {/* Bottom fade into ivory content area */}
       {/* <div

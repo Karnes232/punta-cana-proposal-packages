@@ -5,6 +5,8 @@ interface ContactDirectCardProps {
   sub: string;
   href: string;
   icon: ReactNode;
+  /** Extra classes for the primary label line (e.g. tabular-nums for phone). */
+  labelClassName?: string;
 }
 
 export default function ContactDirectCard({
@@ -12,6 +14,7 @@ export default function ContactDirectCard({
   sub,
   href,
   icon,
+  labelClassName,
 }: ContactDirectCardProps) {
   return (
     <a
@@ -45,7 +48,14 @@ export default function ContactDirectCard({
         <span className="text-[11px] font-body font-medium tracking-[0.14em] uppercase text-black/50">
           {sub}
         </span>
-        <span className="font-body font-light text-[15px] text-black truncate transition-colors duration-300 group-hover:text-gold">
+        <span
+          className={[
+            "font-body font-light text-[15px] text-black truncate transition-colors duration-300 group-hover:text-gold",
+            labelClassName,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
           {label}
         </span>
       </div>

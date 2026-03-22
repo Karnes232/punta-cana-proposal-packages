@@ -36,5 +36,33 @@
     "location": "Location",
     "proposed": "Proposed",
     "bookThisExperience": "Book This Experience"
+  },
+  "ContactPageForm": {
+    "namePlaceholder": "Your name",
+    "nameLabel": "Full Name",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "your@email.com",
+    "packageLabel": "Preferred Package",
+    "packageDefault": "Select a package",
+    "notSure": "Not sure yet",
+    "dateLabel": "Proposal Date",
+    "timeLabel": "Preferred Time",
+    "timeDefault": "Select a time",
+    "messageLabel": "Your Message",
+    "messagePlaceholder": "Tell us about your vision — the setting, the style, any details that matter to you...",
+    "submitLabel": "Send Message",
+    "submitting": "Sending...",
+    "successHeading": "Message Received",
+    "successBody": "Thank you for reaching out. We'll be in touch within 24 hours to begin planning your perfect moment.",
+    "successCta": "Back to home",
+    "contactEyebrow": "Prefer to reach us directly?",
+    "whatsappLabel": "WhatsApp",
+    "whatsappSub": "Chat with us instantly",
+    "emailContactLabel": "Email",
+    "emailContactSub": "We reply within 24 hours",
+    "locationLabel": "Our Location",
+    "locationCity": "Punta Cana, Dominican Republic",
+    "locationDetail": "We operate across premium locations in the Punta Cana & Bávaro area. Your exact venue is confirmed during consultation.",
+    "mapsLink": "View on Google Maps"
   }
 }
