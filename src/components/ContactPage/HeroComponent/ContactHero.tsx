@@ -2,12 +2,25 @@ import ContactHeroEyebrow from "./ContactHeroEyebrow";
 import ContactHeroHeading from "./ContactHeroHeading";
 import ContactHeroDivider from "./ContactHeroDivider";
 import ContactHeroSubheading from "./ContactHeroSubheading";
+import ContactHeroBackground from "./ContactHeroBackground";
 
 interface ContactHeroProps {
   heroEyebrow: string;
   heroHeadingLine1: string;
   heroHeadingLine2: string;
   heroSubheading: string;
+  heroImage?: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  } | null;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -17,7 +30,13 @@ export default function ContactHero({
   heroHeadingLine1,
   heroHeadingLine2,
   heroSubheading,
+  heroImage,
 }: ContactHeroProps) {
+  const imageAltFallback =
+    [heroHeadingLine1, heroHeadingLine2].filter(Boolean).join(" ") ||
+    heroEyebrow ||
+    "Contact";
+
   return (
     <section
       className="
@@ -27,9 +46,16 @@ export default function ContactHero({
       "
       aria-labelledby="contact-heading"
     >
+      {heroImage ? (
+        <ContactHeroBackground
+          photo={heroImage}
+          altFallback={imageAltFallback}
+        />
+      ) : null}
+
       {/* Subtle radial glow */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-1"
         aria-hidden="true"
         style={{
           background:
@@ -37,17 +63,12 @@ export default function ContactHero({
         }}
       />
 
-      <ContactHeroEyebrow label={heroEyebrow} />
-      <ContactHeroHeading line1={heroHeadingLine1} line2={heroHeadingLine2} />
-      <ContactHeroDivider />
-      <ContactHeroSubheading text={heroSubheading} />
-
-      {/* Bottom fade into ivory content area */}
-      {/* <div
-        className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
-        aria-hidden="true"
-        style={{ background: "linear-gradient(to bottom, transparent, #F7F5F1)" }}
-      /> */}
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6">
+        <ContactHeroEyebrow label={heroEyebrow} />
+        <ContactHeroHeading line1={heroHeadingLine1} line2={heroHeadingLine2} />
+        <ContactHeroDivider />
+        <ContactHeroSubheading text={heroSubheading} />
+      </div>
     </section>
   );
 }

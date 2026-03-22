@@ -17,7 +17,7 @@ export default async function Contact({
     contactInfo(),
   ]);
 
-  console.log(contactInfoData);
+
   return (
     <main>
       <ContactHero
@@ -25,6 +25,7 @@ export default async function Contact({
         heroHeadingLine1={content.heroHeadingLine1[locale as "en" | "es"]}
         heroHeadingLine2={content.heroHeadingLine2[locale as "en" | "es"]}
         heroSubheading={content.heroSubheading[locale as "en" | "es"]}
+        heroImage={content.heroImage}
       />
       <ContactBody
         formEyebrow={content.formEyebrow[locale as "en" | "es"]}

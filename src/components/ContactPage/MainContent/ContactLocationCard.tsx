@@ -19,7 +19,7 @@ export default function ContactLocationCard({
       {/* Pin icon + city */}
       <div className="flex items-start gap-3">
         <div
-          className="flex-shrink-0 mt-0.5 w-8 h-8 flex items-center justify-center border border-gold/30 bg-gold/5"
+          className="shrink-0 mt-0.5 w-8 h-8 flex items-center justify-center border border-gold/30 bg-gold/5"
           aria-hidden="true"
         >
           <svg
