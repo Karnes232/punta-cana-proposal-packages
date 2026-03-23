@@ -93,7 +93,7 @@ export default function FaqCategoryFilter({
       </div>
 
       {/* Gold rule at very bottom */}
-      <div className="h-px bg-gradient-to-r from-transparent via-[#CFAE70]/30 to-transparent" />
+      <div className="h-px bg-linear-to-r from-transparent via-[#CFAE70]/30 to-transparent" />
     </div>
   );
 }

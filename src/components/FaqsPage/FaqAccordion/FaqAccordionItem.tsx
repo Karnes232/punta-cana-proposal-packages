@@ -61,7 +61,7 @@ export default function FaqAccordionItem({
         <span
           aria-hidden="true"
           className={[
-            "flex-shrink-0 flex items-center justify-center",
+            "shrink-0 flex items-center justify-center",
             "w-[30px] h-[30px] rounded-full border",
             "transition-all duration-300",
             isOpen
