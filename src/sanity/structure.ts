@@ -241,6 +241,22 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("FaqsPageFaqContactStrip")
                     .title("Faq contact strip"),
                 ),
+              S.listItem()
+                .title("Faqs categories")
+                .icon(() => "🗂️")
+                .child(
+                  S.documentList()
+                    .title("Faqs categories")
+                    .filter("_type == 'FaqsPageFaqsCategories'"),
+                ),
+              S.listItem()
+                .title("Faqs")
+                .icon(() => "❓")
+                .child(
+                  S.documentList()
+                    .title("Faqs")
+                    .filter("_type == 'FaqsPageFaqs'"),
+                ),
             ]),
         ),
     ]);

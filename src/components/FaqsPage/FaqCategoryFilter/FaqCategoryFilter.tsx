@@ -3,11 +3,13 @@
 import { useState } from "react";
 import FaqCategoryPill from "./FaqCategoryPill";
 import { FAQ_CATEGORIES } from "./types";
+import { FaqsCategories } from "@/sanity/queries/FaqsPage/Faqs";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface FaqCategoryFilterProps {
   locale: "en" | "es";
+  faqsCategories: FaqsCategories[];
   /** Called whenever the user selects a different category. */
   onCategoryChange: (category: string) => void;
 }
@@ -15,6 +17,7 @@ interface FaqCategoryFilterProps {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function FaqCategoryFilter({
+  faqsCategories,
   locale,
   onCategoryChange,
 }: FaqCategoryFilterProps) {
@@ -70,7 +73,14 @@ export default function FaqCategoryFilter({
             max-w-5xl mx-auto
           "
         >
-          {FAQ_CATEGORIES.map((cat) => (
+          <FaqCategoryPill
+            key="all"
+            value="all"
+            label={locale === "es" ? "Todas" : "All"}
+            isActive={active === "all"}
+            onClick={handleSelect}
+          />
+          {faqsCategories.map((cat: FaqsCategories) => (
             <FaqCategoryPill
               key={cat.value}
               value={cat.value}

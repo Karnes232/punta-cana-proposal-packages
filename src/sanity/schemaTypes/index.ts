@@ -39,6 +39,8 @@ import HowItWorksPageHowItWorksCTA from "./HowItWorksPage/HowItWorksCTA";
 //FaqsPage
 import FaqsPageHeroComponent from "./FaqsPage/HeroComponent";
 import FaqsPageFaqContactStrip from "./FaqsPage/FaqContactStrip";
+import FaqsPageFaqsCategories from "./FaqsPage/FaqsCategories";
+import FaqsPageFaqs from "./FaqsPage/Faqs";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -80,5 +82,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     //FaqsPage
     FaqsPageHeroComponent,
     FaqsPageFaqContactStrip,
+    FaqsPageFaqsCategories,
+    FaqsPageFaqs,
   ],
 };

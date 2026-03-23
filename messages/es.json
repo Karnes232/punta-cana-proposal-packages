@@ -64,5 +64,12 @@
     "locationCity": "Punta Cana, República Dominicana",
     "locationDetail": "Operamos en múltiples ubicaciones premium en la zona de Punta Cana y Bávaro. El lugar exacto se confirma durante la consulta.",
     "mapsLink": "Ver en Google Maps"
+  },
+  "FaqPage": {
+    "emptyLabel": "No hay preguntas en esta categoría todavía.",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "Página",
+    "of": "de"
   }
 }

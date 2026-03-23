@@ -64,5 +64,12 @@
     "locationCity": "Punta Cana, Dominican Republic",
     "locationDetail": "We operate across premium locations in the Punta Cana & Bávaro area. Your exact venue is confirmed during consultation.",
     "mapsLink": "View on Google Maps"
+  },
+  "FaqPage": {
+    "emptyLabel": "No questions in this category yet.",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
   }
 }

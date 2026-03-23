@@ -1,17 +1,14 @@
 import { FaqItem } from "./types";
 import FaqAccordionItem from "./FaqAccordionItem";
+import { Faqs } from "@/sanity/queries/FaqsPage/Faqs";
+import { useTranslations } from "next-intl";
 
 interface FaqAccordionListProps {
-  items: FaqItem[];
+  items: Faqs[];
   locale: "en" | "es";
   openId: string | null;
   onToggle: (id: string) => void;
 }
-
-const emptyLabel = {
-  en: "No questions in this category yet.",
-  es: "No hay preguntas en esta categoría todavía.",
-};
 
 export default function FaqAccordionList({
   items,
@@ -19,10 +16,11 @@ export default function FaqAccordionList({
   openId,
   onToggle,
 }: FaqAccordionListProps) {
+  const t = useTranslations("FaqPage");
   if (items.length === 0) {
     return (
       <p className="py-16 text-center font-body font-light text-[14px] text-gray/60 tracking-wide">
-        {emptyLabel[locale]}
+        {t("emptyLabel")}
       </p>
     );
   }
@@ -31,11 +29,11 @@ export default function FaqAccordionList({
     <div className="divide-y-0 border-t border-gold/15" role="list">
       {items.map((item) => (
         <FaqAccordionItem
-          key={item.id}
+          key={item._id}
           item={item}
           locale={locale}
-          isOpen={openId === item.id}
-          onToggle={() => onToggle(item.id)}
+          isOpen={openId === item._id}
+          onToggle={() => onToggle(item._id)}
         />
       ))}
     </div>
