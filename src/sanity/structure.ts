@@ -184,6 +184,23 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("HowItWorksPageHowItWorksSteps")
                     .title("How it works steps"),
                 ),
+              S.listItem()
+                .title("How it works FAQ categories")
+                .icon(() => "💡")
+                .child(
+                  S.documentList()
+                    .title("How it works FAQ categories")
+                    .filter("_type == 'HowItWorksPageHowItWorksFaqCategory'"),
+                ),
+              S.listItem()
+                .title("How it works FAQ")
+                .icon(() => "💡")
+                .child(
+                  S.document()
+                    .documentId("howItWorksPageHowItWorksFAQ")
+                    .schemaType("HowItWorksPageHowItWorksFAQ")
+                    .title("How it works FAQ"),
+                ),
             ]),
         ),
     ]);

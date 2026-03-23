@@ -1,38 +1,40 @@
 "use client";
 
-import type { FAQCategory } from "./types";
-
 // ─── Props ────────────────────────────────────────────────────────────────────
 
+export interface FAQFilterOption {
+  id: string;
+  label: string;
+}
+
 interface HowItWorksFAQFiltersProps {
-  categories: Record<"all" | FAQCategory, string>;
-  active: "all" | FAQCategory;
-  onChange: (cat: "all" | FAQCategory) => void;
+  options: FAQFilterOption[];
+  active: string;
+  onChange: (id: string) => void;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HowItWorksFAQFilters({
-  categories,
+  options,
   active,
   onChange,
 }: HowItWorksFAQFiltersProps) {
-  const keys = Object.keys(categories) as Array<"all" | FAQCategory>;
-
   return (
     <div
       className="flex flex-wrap justify-center gap-2 mb-10"
       role="tablist"
       aria-label="Filter FAQ by category"
     >
-      {keys.map((key) => {
-        const isActive = key === active;
+      {options.map(({ id, label }) => {
+        const isActive = id === active;
+
         return (
           <button
-            key={key}
+            key={id}
             role="tab"
             aria-selected={isActive}
-            onClick={() => onChange(key)}
+            onClick={() => onChange(id)}
             className={`
               px-4 py-1.5
               text-[11px] font-light tracking-[0.2em] uppercase
@@ -46,7 +48,7 @@ export default function HowItWorksFAQFilters({
               }
             `}
           >
-            {categories[key]}
+            {label}
           </button>
         );
       })}

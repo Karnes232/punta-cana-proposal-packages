@@ -3,14 +3,19 @@
 import { useState } from "react";
 import HowItWorksFAQFilters from "./HowItWorksFAQFilters";
 import HowItWorksFAQItem from "./HowItWorksFAQItem";
-import type { FAQItem, FAQCategory, FAQLocale } from "./types";
+import type { FAQItem, FAQLocale } from "./types";
 import { faqUIContent } from "./types";
+import {
+  HowItWorksFaqs,
+  HowItWorksFaqsCategories,
+} from "@/sanity/queries/HowItWorksPage/HowItWorksFaqs";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksFAQAccordionProps {
-  items: FAQItem[];
+  items: HowItWorksFaqs[];
   locale: FAQLocale;
+  faqsCategories: HowItWorksFaqsCategories[];
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -18,35 +23,40 @@ interface HowItWorksFAQAccordionProps {
 export default function HowItWorksFAQAccordion({
   items,
   locale,
+  faqsCategories,
 }: HowItWorksFAQAccordionProps) {
-  const { categories } = faqUIContent[locale];
-
-  const [activeCategory, setActiveCategory] = useState<"all" | FAQCategory>(
-    "all",
-  );
-  const [openId, setOpenId] = useState<string | null>(items[0]?._id ?? null);
+  const t = faqUIContent[locale];
+  const filterOptions = [
+    { id: "all", label: t.categories.all },
+    ...faqsCategories.map((c) => ({
+      id: c.name[locale],
+      label: c.name[locale],
+    })),
+  ];
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [openKey, setOpenKey] = useState<string | null>(items[0]?._key ?? null);
 
   // ── Filter ─────────────────────────────────────────────────────────────────
   const filtered =
     activeCategory === "all"
       ? items
-      : items.filter((item) => item.category === activeCategory);
+      : items.filter((item) => item.category?.name[locale] === activeCategory);
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  function handleCategoryChange(cat: "all" | FAQCategory) {
+  function handleCategoryChange(cat: string) {
     setActiveCategory(cat);
-    setOpenId(null); // collapse all on category switch
+    setOpenKey(null); // collapse all on category switch
   }
 
-  function handleToggle(id: string) {
-    setOpenId((prev) => (prev === id ? null : id));
+  function handleToggle(key: string) {
+    setOpenKey((prev) => (prev === key ? null : key));
   }
 
   return (
     <div>
       {/* Filter pills */}
       <HowItWorksFAQFilters
-        categories={categories}
+        options={filterOptions}
         active={activeCategory}
         onChange={handleCategoryChange}
       />
@@ -68,12 +78,12 @@ export default function HowItWorksFAQAccordion({
           </p>
         ) : (
           filtered.map((item) => (
-            <div key={item._id} className="relative">
+            <div key={item._key} className="relative">
               <HowItWorksFAQItem
                 question={item.question[locale]}
                 answer={item.answer[locale]}
-                isOpen={openId === item._id}
-                onToggle={() => handleToggle(item._id)}
+                isOpen={openKey === item._key}
+                onToggle={() => handleToggle(item._key)}
               />
             </div>
           ))

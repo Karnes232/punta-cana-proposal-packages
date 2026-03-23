@@ -32,6 +32,8 @@ import ContactPageContent from "./ContactPage/Content";
 //HowItWorksPage
 import HowItWorksPageHero from "./HowItWorksPage/Hero";
 import HowItWorksPageHowItWorksSteps from "./HowItWorksPage/HowItWorksSteps";
+import HowItWorksPageHowItWorksFAQ from "./HowItWorksPage/HowItWorksFAQ";
+import HowItWorksPageHowItWorksFaqCategory from "./HowItWorksPage/HowItWorksFaqCategory";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -66,5 +68,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     //HowItWorksPage
     HowItWorksPageHero,
     HowItWorksPageHowItWorksSteps,
+    HowItWorksPageHowItWorksFAQ,
+    HowItWorksPageHowItWorksFaqCategory,
   ],
 };

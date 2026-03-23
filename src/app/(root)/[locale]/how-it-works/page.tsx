@@ -4,6 +4,10 @@ import HowItWorksFAQ from "@/components/HowItWorksPage/HowItWorksFAQ/HowItWorksF
 import HowItWorksReassurance from "@/components/HowItWorksPage/HowItWorksReassurance/HowItWorksReassurance";
 import HowItWorksSteps from "@/components/HowItWorksPage/HowItWorksSteps/HowItWorksSteps";
 import { howItWorksPageHero } from "@/sanity/queries/HowItWorksPage/Hero";
+import {
+  howItWorksFaqsCategories,
+  howItWorksFaqsPage,
+} from "@/sanity/queries/HowItWorksPage/HowItWorksFaqs";
 import { howItWorksPageHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
 
 export default async function HowItWorks({
@@ -12,11 +16,13 @@ export default async function HowItWorks({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [hero, steps] = await Promise.all([
+  const [hero, steps, faqsCategories, faqsPage] = await Promise.all([
     howItWorksPageHero(),
     howItWorksPageHowItWorksSteps(),
+    howItWorksFaqsCategories(),
+    howItWorksFaqsPage(),
   ]);
-  console.log(steps);
+  console.log(faqsPage);
   return (
     <main>
       {/* NEED TO ADD SANITY DATA */}
@@ -39,7 +45,15 @@ export default async function HowItWorks({
         items={steps?.reassurance}
         locale={locale as "en" | "es"}
       />
-      <HowItWorksFAQ locale={locale as "en" | "es"} />
+      <HowItWorksFAQ
+        locale={locale as "en" | "es"}
+        faqsCategories={faqsCategories}
+        eyebrow={faqsPage?.eyebrow[locale as "en" | "es"]}
+        heading={faqsPage?.heading[locale as "en" | "es"]}
+        headingAccent={faqsPage?.headingAccent[locale as "en" | "es"]}
+        subheading={faqsPage?.subheading[locale as "en" | "es"]}
+        faqs={faqsPage?.faqs}
+      />
       <HowItWorksCTA locale={locale as "en" | "es"} />
     </main>
   );

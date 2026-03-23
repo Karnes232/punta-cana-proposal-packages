@@ -4,18 +4,35 @@ import HowItWorksFAQHeader from "./HowItWorksFAQHeader";
 import HowItWorksFAQAccordion from "./HowItWorksFAQAccordion";
 import { faqQuery, faqUIContent, placeholderFAQItems } from "./types";
 import type { FAQItem, FAQLocale } from "./types";
+import {
+  HowItWorksFaqs,
+  HowItWorksFaqsCategories,
+} from "@/sanity/queries/HowItWorksPage/HowItWorksFaqs";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksFAQProps {
-  locale: FAQLocale;
+  locale: "en" | "es";
+  faqsCategories: HowItWorksFaqsCategories[];
+  eyebrow: string;
+  heading: string;
+  headingAccent: string;
+  subheading: string;
+  faqs: HowItWorksFaqs[];
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default async function HowItWorksFAQ({ locale }: HowItWorksFAQProps) {
-  const items = placeholderFAQItems;
-  const t = faqUIContent[locale];
+export default async function HowItWorksFAQ({
+  locale,
+  faqsCategories,
+  eyebrow,
+  heading,
+  headingAccent,
+  subheading,
+  faqs,
+}: HowItWorksFAQProps) {
+  const items = faqs;
 
   return (
     <section
@@ -25,16 +42,20 @@ export default async function HowItWorksFAQ({ locale }: HowItWorksFAQProps) {
       <div className="max-w-3xl mx-auto px-6 md:px-10">
         <RevealOnScroll>
           <HowItWorksFAQHeader
-            eyebrow={t.eyebrow}
-            heading={t.heading}
-            headingAccent={t.headingAccent}
-            subheading={t.subheading}
+            eyebrow={eyebrow}
+            heading={heading}
+            headingAccent={headingAccent}
+            subheading={subheading}
           />
         </RevealOnScroll>
 
         <RevealOnScroll delay={100}>
           {/* Accordion is a client component — receives pre-fetched items as props */}
-          <HowItWorksFAQAccordion items={items} locale={locale} />
+          <HowItWorksFAQAccordion
+            items={items}
+            locale={locale}
+            faqsCategories={faqsCategories}
+          />
         </RevealOnScroll>
       </div>
     </section>
