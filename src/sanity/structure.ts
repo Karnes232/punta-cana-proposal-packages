@@ -177,7 +177,7 @@ export const structure: StructureResolver = (S) =>
                 ),
               S.listItem()
                 .title("How it works steps")
-                .icon(() => "💡")
+                .icon(() => "📋")
                 .child(
                   S.document()
                     .documentId("howItWorksPageHowItWorksSteps")
@@ -186,7 +186,7 @@ export const structure: StructureResolver = (S) =>
                 ),
               S.listItem()
                 .title("How it works FAQ categories")
-                .icon(() => "💡")
+                .icon(() => "🗂️")
                 .child(
                   S.documentList()
                     .title("How it works FAQ categories")
@@ -194,12 +194,21 @@ export const structure: StructureResolver = (S) =>
                 ),
               S.listItem()
                 .title("How it works FAQ")
-                .icon(() => "💡")
+                .icon(() => "❓")
                 .child(
                   S.document()
                     .documentId("howItWorksPageHowItWorksFAQ")
                     .schemaType("HowItWorksPageHowItWorksFAQ")
                     .title("How it works FAQ"),
+                ),
+              S.listItem()
+                .title("How it works CTA")
+                .icon(() => "📧")
+                .child(
+                  S.document()
+                    .documentId("howItWorksPageHowItWorksCTA")
+                    .schemaType("HowItWorksPageHowItWorksCTA")
+                    .title("How it works CTA"),
                 ),
             ]),
         ),

@@ -4,6 +4,7 @@ import HowItWorksFAQ from "@/components/HowItWorksPage/HowItWorksFAQ/HowItWorksF
 import HowItWorksReassurance from "@/components/HowItWorksPage/HowItWorksReassurance/HowItWorksReassurance";
 import HowItWorksSteps from "@/components/HowItWorksPage/HowItWorksSteps/HowItWorksSteps";
 import { howItWorksPageHero } from "@/sanity/queries/HowItWorksPage/Hero";
+import { howItWorksCTA } from "@/sanity/queries/HowItWorksPage/HowItWorksCTA";
 import {
   howItWorksFaqsCategories,
   howItWorksFaqsPage,
@@ -16,13 +17,14 @@ export default async function HowItWorks({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [hero, steps, faqsCategories, faqsPage] = await Promise.all([
+  const [hero, steps, faqsCategories, faqsPage, ctaPage] = await Promise.all([
     howItWorksPageHero(),
     howItWorksPageHowItWorksSteps(),
     howItWorksFaqsCategories(),
     howItWorksFaqsPage(),
+    howItWorksCTA(),
   ]);
-  console.log(faqsPage);
+
   return (
     <main>
       {/* NEED TO ADD SANITY DATA */}
@@ -54,7 +56,17 @@ export default async function HowItWorks({
         subheading={faqsPage?.subheading[locale as "en" | "es"]}
         faqs={faqsPage?.faqs}
       />
-      <HowItWorksCTA locale={locale as "en" | "es"} />
+      <HowItWorksCTA
+        eyebrow={ctaPage?.eyebrow[locale as "en" | "es"]}
+        scriptLine={ctaPage?.scriptLine[locale as "en" | "es"]}
+        heading={ctaPage?.heading[locale as "en" | "es"]}
+        headingAccent={ctaPage?.headingAccent[locale as "en" | "es"]}
+        subheading={ctaPage?.subheading[locale as "en" | "es"]}
+        primaryCTA={ctaPage?.primaryCTA[locale as "en" | "es"]}
+        primaryHref={ctaPage?.primaryCTAHref}
+        secondaryCTA={ctaPage?.secondaryCTA[locale as "en" | "es"]}
+        secondaryHref={ctaPage?.secondaryCTAHref}
+      />
     </main>
   );
 }

@@ -7,14 +7,30 @@ import { howItWorksCTAContent, HowItWorksCTALocale } from "./types";
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksCTAProps {
-  locale: HowItWorksCTALocale;
+  eyebrow: string;
+  scriptLine: string;
+  heading: string;
+  headingAccent: string;
+  subheading: string;
+  primaryCTA: string;
+  primaryHref: string;
+  secondaryCTA: string;
+  secondaryHref: string;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function HowItWorksCTA({ locale }: HowItWorksCTAProps) {
-  const t = howItWorksCTAContent[locale];
-
+export default function HowItWorksCTA({
+  eyebrow,
+  scriptLine,
+  heading,
+  headingAccent,
+  subheading,
+  primaryCTA,
+  primaryHref,
+  secondaryCTA,
+  secondaryHref,
+}: HowItWorksCTAProps) {
   return (
     <section
       className="relative w-full bg-black py-28 md:py-36 overflow-hidden"
@@ -47,20 +63,20 @@ export default function HowItWorksCTA({ locale }: HowItWorksCTAProps) {
       <div className="relative z-10 max-w-2xl mx-auto px-6 md:px-10 flex flex-col items-center gap-8">
         <RevealOnScroll>
           <HowItWorksCTACopy
-            eyebrow={t.eyebrow}
-            scriptLine={t.scriptLine}
-            heading={t.heading}
-            headingAccent={t.headingAccent}
-            subheading={t.subheading}
+            eyebrow={eyebrow}
+            scriptLine={scriptLine}
+            heading={heading}
+            headingAccent={headingAccent}
+            subheading={subheading}
           />
         </RevealOnScroll>
 
         <RevealOnScroll delay={120}>
           <HowItWorksCTAButtons
-            primaryLabel={t.primaryCTA}
-            primaryHref={t.primaryHref}
-            secondaryLabel={t.secondaryCTA}
-            secondaryHref={t.secondaryHref}
+            primaryLabel={primaryCTA}
+            primaryHref={primaryHref}
+            secondaryLabel={secondaryCTA}
+            secondaryHref={secondaryHref}
           />
         </RevealOnScroll>
       </div>
