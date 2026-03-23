@@ -31,6 +31,18 @@ export const structure: StructureResolver = (S) =>
         ),
 
       S.divider(),
+      // SEO page
+      S.listItem()
+        .title("SEO page")
+        .icon(() => "🌐")
+        .child(
+          S.documentList()
+            .title("SEO page")
+            .schemaType("PageSeo")
+            .filter("_type == 'PageSeo'"),
+        ),
+
+      S.divider(),
 
       // Home page
       S.listItem()

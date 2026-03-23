@@ -21,11 +21,11 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Punta Cana Proposal Packages",
-  description:
-    "Private, curated proposal experiences in the heart of Punta Cana.",
-};
+// export const metadata: Metadata = {
+//   title: "Punta Cana Proposal Packages",
+//   description:
+//     "Private, curated proposal experiences in the heart of Punta Cana.",
+// };
 
 export default async function RootLayout({
   children,
@@ -45,7 +45,7 @@ export default async function RootLayout({
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
           <Navbar logo={generalLayout?.companyLogo ?? null} />
-          <main>{children}</main>
+          {children}
           <Footer
             logo={generalLayout?.companyLogo ?? null}
             description={generalLayout?.companyDescription[locale]}

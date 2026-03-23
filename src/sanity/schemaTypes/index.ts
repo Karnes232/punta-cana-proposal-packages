@@ -41,6 +41,8 @@ import FaqsPageHeroComponent from "./FaqsPage/HeroComponent";
 import FaqsPageFaqContactStrip from "./FaqsPage/FaqContactStrip";
 import FaqsPageFaqsCategories from "./FaqsPage/FaqsCategories";
 import FaqsPageFaqs from "./FaqsPage/Faqs";
+import PageSeo from "./SEO/PageSeo";
+import Seo from "./SEO/seo";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -50,6 +52,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     localizedBlock,
     //GeneralLayout
     GeneralLayout,
+    PageSeo,
+    Seo,
     //LegalDocuments
     legalDocuments,
     //HomePage

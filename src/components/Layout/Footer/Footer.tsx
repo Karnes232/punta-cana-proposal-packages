@@ -55,8 +55,8 @@ export default function Footer({
   ];
 
   const FOOTER_LEGAL_LINKS: { label: string; href: string }[] = [
-    { label: t("privacyPolicy"), href: "/privacy" },
-    { label: t("termsOfService"), href: "/terms" },
+    { label: t("privacyPolicy"), href: "/privacy-policy" },
+    { label: t("termsOfService"), href: "/terms-of-service" },
   ];
 
   return (
