@@ -39,9 +39,9 @@ export default function FaqCategoryFilter({
         The masks are purely visual — no JS needed.
       */}
       <div className="relative">
-        {/* Left fade */}
+        {/* Left fade (scroll hint; hidden when pills wrap on xl) */}
         <div
-          className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 z-10"
+          className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 z-10 xl:hidden"
           aria-hidden="true"
           style={{
             background: "linear-gradient(to right, #F7F5F1, transparent)",
@@ -49,24 +49,24 @@ export default function FaqCategoryFilter({
         />
         {/* Right fade */}
         <div
-          className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 z-10"
+          className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 z-10 xl:hidden"
           aria-hidden="true"
           style={{
             background: "linear-gradient(to left, #F7F5F1, transparent)",
           }}
         />
 
-        {/* Scrollable pill row */}
+        {/* Pill row: horizontal scroll below xl; wraps on xl+ */}
         <div
           role="tablist"
           aria-label={
             locale === "es" ? "Filtrar por categoría" : "Filter by category"
           }
           className="
-            flex items-center gap-3
-            overflow-x-auto
+            flex flex-nowrap items-center gap-3
+            overflow-x-auto scrollbar-hide
+            xl:flex-wrap xl:overflow-x-visible xl:justify-center
             px-6 md:px-12 py-5
-            scrollbar-hide
             max-w-5xl mx-auto
           "
         >
