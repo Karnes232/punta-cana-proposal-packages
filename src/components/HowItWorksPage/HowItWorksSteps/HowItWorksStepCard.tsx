@@ -1,4 +1,3 @@
-import type { Step } from "./types";
 
 // ─── SVG icons (monoline, gold) ───────────────────────────────────────────────
 
@@ -129,7 +128,12 @@ const StepIcons: Record<string, React.FC<{ className?: string }>> = {
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksStepCardProps {
-  step: Step;
+  step: {
+    number: string;
+    label: string;
+    title: string;
+    description: string;
+  };
   /** Even index = icon on the right; odd index = icon on the left */
   index: number;
   /** Last step gets the gold accent treatment */
