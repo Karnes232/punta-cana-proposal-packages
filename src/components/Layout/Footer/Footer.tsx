@@ -52,6 +52,7 @@ export default function Footer({
     { label: t("howItWorks"), href: "/how-it-works" },
     { label: t("contactUs"), href: "/contact" },
     { label: t("faq"), href: "/faq" },
+    { label: t("blog"), href: "/blog" },
   ];
 
   const FOOTER_LEGAL_LINKS: { label: string; href: string }[] = [
