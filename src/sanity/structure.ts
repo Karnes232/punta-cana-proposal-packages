@@ -212,4 +212,35 @@ export const structure: StructureResolver = (S) =>
                 ),
             ]),
         ),
+
+      S.divider(),
+
+      // Faqs page
+      S.listItem()
+        .title("Faqs page")
+        .icon(() => "❓")
+        .child(
+          S.list()
+            .title("Faqs page")
+            .items([
+              S.listItem()
+                .title("Hero")
+                .icon(() => "👤")
+                .child(
+                  S.document()
+                    .documentId("faqsPageHeroComponent")
+                    .schemaType("FaqsPageHeroComponent")
+                    .title("Hero"),
+                ),
+              S.listItem()
+                .title("Faq contact strip")
+                .icon(() => "📧")
+                .child(
+                  S.document()
+                    .documentId("faqsPageFaqContactStrip")
+                    .schemaType("FaqsPageFaqContactStrip")
+                    .title("Faq contact strip"),
+                ),
+            ]),
+        ),
     ]);

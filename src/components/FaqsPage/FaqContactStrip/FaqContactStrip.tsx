@@ -5,36 +5,25 @@ import FaqContactStripDivider from "./FaqContactStripDivider";
 import FaqContactStripBody from "./FaqContactStripBody";
 import FaqContactStripCTA from "./FaqContactStripCTA";
 
-// ─── Bilingual content ────────────────────────────────────────────────────────
-
-const content = {
-  en: {
-    eyebrow: "We're Here to Help",
-    line1: "Still Have",
-    line2: "Questions?",
-    body: "Our team is happy to walk you through every detail. Reach out and we'll respond within 24 hours.",
-    cta: "Contact Us",
-  },
-  es: {
-    eyebrow: "Estamos Para Ayudarte",
-    line1: "¿Tienes Más",
-    line2: "Preguntas?",
-    body: "Nuestro equipo está disponible para orientarte en cada detalle. Escríbenos y te respondemos en menos de 24 horas.",
-    cta: "Contáctanos",
-  },
-} as const;
-
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface FaqContactStripProps {
-  locale: "en" | "es";
+  eyebrow: string;
+  line1: string;
+  line2: string;
+  body: string;
+  cta: string;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function FaqContactStrip({ locale }: FaqContactStripProps) {
-  const t = content[locale];
-
+export default function FaqContactStrip({
+  eyebrow,
+  line1,
+  line2,
+  body,
+  cta,
+}: FaqContactStripProps) {
   return (
     <section className="relative w-full bg-black overflow-hidden">
       {/* Top border rule — gold gradient, echoes the filter bar divider */}
@@ -71,11 +60,11 @@ export default function FaqContactStrip({ locale }: FaqContactStripProps) {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center gap-6 px-6 py-24 md:py-32 text-center max-w-[680px] mx-auto">
         <RevealOnScroll>
-          <FaqContactStripEyebrow label={t.eyebrow} />
+          <FaqContactStripEyebrow label={eyebrow} />
         </RevealOnScroll>
 
         <RevealOnScroll delay={100}>
-          <FaqContactStripHeading line1={t.line1} line2={t.line2} />
+          <FaqContactStripHeading line1={line1} line2={line2} />
         </RevealOnScroll>
 
         <RevealOnScroll delay={150}>
@@ -83,11 +72,11 @@ export default function FaqContactStrip({ locale }: FaqContactStripProps) {
         </RevealOnScroll>
 
         <RevealOnScroll delay={200}>
-          <FaqContactStripBody text={t.body} />
+          <FaqContactStripBody text={body} />
         </RevealOnScroll>
 
         <RevealOnScroll delay={280}>
-          <FaqContactStripCTA label={t.cta} />
+          <FaqContactStripCTA label={cta} />
         </RevealOnScroll>
       </div>
     </section>

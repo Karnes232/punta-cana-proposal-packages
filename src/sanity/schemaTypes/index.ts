@@ -36,6 +36,10 @@ import HowItWorksPageHowItWorksFAQ from "./HowItWorksPage/HowItWorksFAQ";
 import HowItWorksPageHowItWorksFaqCategory from "./HowItWorksPage/HowItWorksFaqCategory";
 import HowItWorksPageHowItWorksCTA from "./HowItWorksPage/HowItWorksCTA";
 
+//FaqsPage
+import FaqsPageHeroComponent from "./FaqsPage/HeroComponent";
+import FaqsPageFaqContactStrip from "./FaqsPage/FaqContactStrip";
+
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     //Localized
@@ -72,5 +76,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HowItWorksPageHowItWorksFAQ,
     HowItWorksPageHowItWorksFaqCategory,
     HowItWorksPageHowItWorksCTA,
+
+    //FaqsPage
+    FaqsPageHeroComponent,
+    FaqsPageFaqContactStrip,
   ],
 };

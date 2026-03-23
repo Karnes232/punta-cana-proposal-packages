@@ -1,4 +1,3 @@
-
 // ─── SVG icons (monoline, gold) ───────────────────────────────────────────────
 
 const StepIcons: Record<string, React.FC<{ className?: string }>> = {

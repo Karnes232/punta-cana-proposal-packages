@@ -2,6 +2,7 @@ import FaqHeroEyebrow from "./FaqHeroEyebrow";
 import FaqHeroHeading from "./FaqHeroHeading";
 import FaqHeroDivider from "./FaqHeroDivider";
 import FaqHeroSubheading from "./FaqHeroSubheading";
+import FaqHeroBackground from "./FaqHeroBackground";
 
 // ─── Bilingual content ────────────────────────────────────────────────────────
 
@@ -25,12 +26,36 @@ const content = {
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface FaqHeroProps {
-  locale: "en" | "es";
+  heroImage?: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  };
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  subheading: string;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default async function FaqHero({ locale }: FaqHeroProps) {
+export default async function FaqHero({
+  heroImage,
+  eyebrow,
+  headingLine1,
+  headingLine2,
+  subheading,
+}: FaqHeroProps) {
+  const imageAltFallback =
+    [headingLine1, headingLine2].filter(Boolean).join(" ") || eyebrow || "FAQ";
+
   return (
     <section
       className="
@@ -40,9 +65,13 @@ export default async function FaqHero({ locale }: FaqHeroProps) {
       "
       aria-labelledby="faq-heading"
     >
+      {heroImage ? (
+        <FaqHeroBackground photo={heroImage} altFallback={imageAltFallback} />
+      ) : null}
+
       {/* Subtle radial glow behind heading */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-1"
         aria-hidden="true"
         style={{
           background:
@@ -50,13 +79,12 @@ export default async function FaqHero({ locale }: FaqHeroProps) {
         }}
       />
 
-      <FaqHeroEyebrow label={content[locale].eyebrow} />
-      <FaqHeroHeading
-        line1={content[locale].line1}
-        line2={content[locale].line2}
-      />
-      <FaqHeroDivider />
-      <FaqHeroSubheading text={content[locale].subheading} />
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6">
+        <FaqHeroEyebrow label={eyebrow} />
+        <FaqHeroHeading line1={headingLine1} line2={headingLine2} />
+        <FaqHeroDivider />
+        <FaqHeroSubheading text={subheading} />
+      </div>
 
       {/* Bottom fade into ivory content area */}
       {/* <div
