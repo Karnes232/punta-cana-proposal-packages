@@ -1,3 +1,13 @@
+import BookingForm from "@/components/CategoryPage/BookingForm/BookingForm";
+import CategoryHero from "@/components/CategoryPage/CategoryHero/CategoryHero";
+import CategoryIntro from "@/components/CategoryPage/CategoryIntro/CategoryIntro";
+import { CustomizationProvider } from "@/components/CategoryPage/CustomizationSelector/CustomizationContext";
+import CustomizationSelector from "@/components/CategoryPage/CustomizationSelector/CustomizationSelector";
+import { DINING_PACKAGES } from "@/components/CategoryPage/PackageGrid/PackageData";
+import PackageGrid from "@/components/CategoryPage/PackageGrid/PackageGrid";
+import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStories";
+import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
+import WhatsIncluded from "@/components/CategoryPage/WhatsIncluded/WhatsIncluded";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import Script from "next/script";
@@ -11,6 +21,19 @@ export default async function DiningProposals({
   const [structuredData] = await Promise.all([
     getStructuredData("dining-proposals"),
   ]);
+  const labels =
+    locale === "es"
+      ? {
+          startingAt: "Desde",
+          bookNow: "Reservar",
+          selectPackage: "Selecciona un paquete arriba",
+        }
+      : {
+          startingAt: "Starting at",
+          bookNow: "Book Now",
+          selectPackage: "Select a package above",
+        };
+
   return (
     <main>
       {structuredData.seo.structuredData[locale as "en" | "es"] && (
@@ -24,7 +47,16 @@ export default async function DiningProposals({
           }}
         />
       )}
-      <h1>Dining Proposals</h1>
+      <CategoryHero category="dining" />
+      <CategoryIntro category="dining" locale={locale} />
+      <CustomizationProvider premiumUplift={600}>
+        <PackageGrid packages={DINING_PACKAGES} />
+        <CustomizationSelector category="dining" />
+        <WhatsIncluded category="dining" />
+        <BookingForm locale={locale} />
+        <StickyBookingBar labels={labels} />
+      </CustomizationProvider>
+      <RelatedStories category="dining" locale={locale} />
     </main>
   );
 }

@@ -1,6 +1,16 @@
+import CategoryHero from "@/components/CategoryPage/CategoryHero/CategoryHero";
+import CategoryIntro from "@/components/CategoryPage/CategoryIntro/CategoryIntro";
+import { CustomizationProvider } from "@/components/CategoryPage/CustomizationSelector/CustomizationContext";
+import WhatsIncluded from "@/components/CategoryPage/WhatsIncluded/WhatsIncluded";
+import CustomizationSelector from "@/components/CategoryPage/CustomizationSelector/CustomizationSelector";
+import { CLASSIC_PACKAGES } from "@/components/CategoryPage/PackageGrid/PackageData";
+import PackageGrid from "@/components/CategoryPage/PackageGrid/PackageGrid";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import Script from "next/script";
+import BookingForm from "@/components/CategoryPage/BookingForm/BookingForm";
+import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStories";
+import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
 
 export default async function ClassicProposals({
   params,
@@ -11,6 +21,20 @@ export default async function ClassicProposals({
   const [structuredData] = await Promise.all([
     getStructuredData("classic-proposals"),
   ]);
+
+  const labels =
+    locale === "es"
+      ? {
+          startingAt: "Desde",
+          bookNow: "Reservar",
+          selectPackage: "Selecciona un paquete arriba",
+        }
+      : {
+          startingAt: "Starting at",
+          bookNow: "Book Now",
+          selectPackage: "Select a package above",
+        };
+
   return (
     <main>
       {structuredData.seo.structuredData[locale as "en" | "es"] && (
@@ -24,7 +48,16 @@ export default async function ClassicProposals({
           }}
         />
       )}
-      <h1>Classic Proposals</h1>
+      <CategoryHero category="classic" />
+      <CategoryIntro category="classic" locale={locale} />
+      <CustomizationProvider premiumUplift={300}>
+        <PackageGrid packages={CLASSIC_PACKAGES} />
+        <CustomizationSelector category="classic" />
+        <WhatsIncluded category="classic" />
+        <BookingForm locale={locale} />
+        <StickyBookingBar labels={labels} />
+      </CustomizationProvider>
+      <RelatedStories category="classic" locale={locale} />
     </main>
   );
 }
