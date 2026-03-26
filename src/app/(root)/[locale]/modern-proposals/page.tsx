@@ -10,6 +10,7 @@ import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyB
 import WhatsIncluded from "@/components/CategoryPage/WhatsIncluded/WhatsIncluded";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
+import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 import Script from "next/script";
 
 export default async function ModernProposals({
@@ -18,9 +19,13 @@ export default async function ModernProposals({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData] = await Promise.all([
+  const [structuredData, proposalPackage] = await Promise.all([
     getStructuredData("modern-proposals"),
+    proposalPackagesQuery("modern-proposals"),
   ]);
+
+  console.log(proposalPackage);
+
   const labels =
     locale === "es"
       ? {
@@ -46,8 +51,19 @@ export default async function ModernProposals({
           }}
         />
       )}
-      <CategoryHero category="modern" />
-      <CategoryIntro category="modern" locale={locale} />
+      <CategoryHero
+        image={proposalPackage.heroImage}
+        eyebrow={proposalPackage.heroEyebrow[locale as "en" | "es"]}
+        headingLine1={proposalPackage.heroHeadingLine1[locale as "en" | "es"]}
+        headingLine2={proposalPackage.heroHeadingLine2[locale as "en" | "es"]}
+        subheading={proposalPackage.heroSubheading[locale as "en" | "es"]}
+      />
+      <CategoryIntro
+        eyebrow={proposalPackage.introEyebrow[locale as "en" | "es"]}
+        headingLine1={proposalPackage.introHeadingLine1[locale as "en" | "es"]}
+        headingLine2={proposalPackage.introHeadingLine2[locale as "en" | "es"]}
+        description={proposalPackage.introDescription[locale as "en" | "es"]}
+      />
       <CustomizationProvider premiumUplift={450}>
         <PackageGrid packages={MODERN_PACKAGES} />
         <CustomizationSelector category="modern" />

@@ -21,6 +21,9 @@ import HomePageFeatureStorySection from "./HomePage/FeatureStorySection";
 import HomePageTrustIndicators from "./HomePage/TrustIndicators";
 import HomePageCTABanner from "./HomePage/CTABanner";
 
+//ProposalPackages
+import ProposalPackages from "./ProposalPackages/ProposalPackages";
+
 //StoriesPage
 import StoriesPageHero from "./StoriesPage/Hero";
 import ProposalType from "./StoriesPage/ProposalType";
@@ -67,6 +70,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HomePageFeatureStorySection,
     HomePageTrustIndicators,
     HomePageCTABanner,
+
+    //ProposalPackages
+    ProposalPackages,
 
     //StoriesPage
     StoriesPageHero,

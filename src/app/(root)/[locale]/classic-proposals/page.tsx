@@ -11,6 +11,7 @@ import Script from "next/script";
 import BookingForm from "@/components/CategoryPage/BookingForm/BookingForm";
 import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStories";
 import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
+import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 
 export default async function ClassicProposals({
   params,
@@ -18,9 +19,12 @@ export default async function ClassicProposals({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData] = await Promise.all([
+  const [structuredData, proposalPackage] = await Promise.all([
     getStructuredData("classic-proposals"),
+    proposalPackagesQuery("classic-proposals"),
   ]);
+
+  console.log(proposalPackage);
 
   const labels =
     locale === "es"
@@ -48,8 +52,19 @@ export default async function ClassicProposals({
           }}
         />
       )}
-      <CategoryHero category="classic" />
-      <CategoryIntro category="classic" locale={locale} />
+      <CategoryHero
+        image={proposalPackage.heroImage}
+        eyebrow={proposalPackage.heroEyebrow[locale as "en" | "es"]}
+        headingLine1={proposalPackage.heroHeadingLine1[locale as "en" | "es"]}
+        headingLine2={proposalPackage.heroHeadingLine2[locale as "en" | "es"]}
+        subheading={proposalPackage.heroSubheading[locale as "en" | "es"]}
+      />
+      <CategoryIntro
+        eyebrow={proposalPackage.introEyebrow[locale as "en" | "es"]}
+        headingLine1={proposalPackage.introHeadingLine1[locale as "en" | "es"]}
+        headingLine2={proposalPackage.introHeadingLine2[locale as "en" | "es"]}
+        description={proposalPackage.introDescription[locale as "en" | "es"]}
+      />
       <CustomizationProvider premiumUplift={300}>
         <PackageGrid packages={CLASSIC_PACKAGES} />
         <CustomizationSelector category="classic" />

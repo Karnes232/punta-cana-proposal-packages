@@ -9,6 +9,7 @@ import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStor
 import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
 import WhatsIncluded from "@/components/CategoryPage/WhatsIncluded/WhatsIncluded";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
+import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import Script from "next/script";
 
@@ -18,9 +19,13 @@ export default async function DiningProposals({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData] = await Promise.all([
+  const [structuredData, proposalPackage] = await Promise.all([
     getStructuredData("dining-proposals"),
+    proposalPackagesQuery("dining-proposals"),
   ]);
+
+  console.log(proposalPackage);
+
   const labels =
     locale === "es"
       ? {
@@ -47,8 +52,19 @@ export default async function DiningProposals({
           }}
         />
       )}
-      <CategoryHero category="dining" />
-      <CategoryIntro category="dining" locale={locale} />
+      <CategoryHero
+        image={proposalPackage.heroImage}
+        eyebrow={proposalPackage.heroEyebrow[locale as "en" | "es"]}
+        headingLine1={proposalPackage.heroHeadingLine1[locale as "en" | "es"]}
+        headingLine2={proposalPackage.heroHeadingLine2[locale as "en" | "es"]}
+        subheading={proposalPackage.heroSubheading[locale as "en" | "es"]}
+      />
+      <CategoryIntro
+        eyebrow={proposalPackage.introEyebrow[locale as "en" | "es"]}
+        headingLine1={proposalPackage.introHeadingLine1[locale as "en" | "es"]}
+        headingLine2={proposalPackage.introHeadingLine2[locale as "en" | "es"]}
+        description={proposalPackage.introDescription[locale as "en" | "es"]}
+      />
       <CustomizationProvider premiumUplift={600}>
         <PackageGrid packages={DINING_PACKAGES} />
         <CustomizationSelector category="dining" />

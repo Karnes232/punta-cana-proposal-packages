@@ -7,77 +7,22 @@ import CategoryIntroDescription from "./CategoryIntroDescription";
 type CategorySlug = "classic" | "modern" | "dining";
 
 interface CategoryIntroProps {
-  category: CategorySlug;
-  locale?: string;
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  description: string;
 }
 
-const content: Record<
-  CategorySlug,
-  Record<
-    string,
-    { eyebrow: string; line1: string; line2: string; description: string }
-  >
-> = {
-  classic: {
-    en: {
-      eyebrow: "Timeless & Romantic",
-      line1: "The Romance",
-      line2: "You've Always Imagined",
-      description:
-        'Giant "Marry Me" letters, heart arches draped in roses, candlelit pathways to the shore — our classic setups bring the most romantic traditions to life against the Caribbean sunset.',
-    },
-    es: {
-      eyebrow: "Atemporal y Romántica",
-      line1: "El Romance",
-      line2: "Que Siempre Imaginaste",
-      description:
-        'Letras gigantes de "Marry Me", arcos de corazón cubiertos de rosas, caminos de velas hacia la orilla — nuestras propuestas clásicas traen a la vida las tradiciones más románticas bajo el atardecer caribeño.',
-    },
-  },
-  modern: {
-    en: {
-      eyebrow: "Bold & Contemporary",
-      line1: "A Proposal",
-      line2: "As Unique As Your Love",
-      description:
-        "Clean lines, unexpected florals, and creative details that break the mold. Our modern setups are designed for couples who want their proposal to feel as fresh and original as their story.",
-    },
-    es: {
-      eyebrow: "Audaz y Contemporánea",
-      line1: "Una Propuesta",
-      line2: "Tan Única Como Tu Amor",
-      description:
-        "Líneas limpias, florales inesperados y detalles creativos que rompen esquemas. Nuestras propuestas modernas están diseñadas para parejas que quieren que su momento sea tan original como su historia.",
-    },
-  },
-  dining: {
-    en: {
-      eyebrow: "Dinner & Romance",
-      line1: "Where Fine Dining",
-      line2: "Meets Forever",
-      description:
-        "A private table, a curated menu, and the Caribbean as your backdrop. Our dining proposals combine an exceptional culinary experience with a beautifully designed proposal moment — all in one unforgettable evening.",
-    },
-    es: {
-      eyebrow: "Cena y Romance",
-      line1: "Donde la Alta Cocina",
-      line2: "Se Encuentra con el Para Siempre",
-      description:
-        "Una mesa privada, un menú curado y el Caribe como escenario. Nuestras propuestas con cena combinan una experiencia culinaria excepcional con un momento de propuesta diseñado con esmero — todo en una velada inolvidable.",
-    },
-  },
-};
-
 export default function CategoryIntro({
-  category,
-  locale = "en",
+  eyebrow,
+  headingLine1,
+  headingLine2,
+  description,
 }: CategoryIntroProps) {
-  const t = content[category][locale] ?? content[category].en;
-
   return (
     <section
       className="relative bg-ivory overflow-hidden"
-      aria-label={t.line1 + " " + t.line2}
+      aria-label={headingLine1 + " " + headingLine2}
     >
       {/* Faint diagonal gold texture — matches BrandStatement */}
       <div
@@ -111,15 +56,15 @@ export default function CategoryIntro({
         </RevealOnScroll>
 
         <RevealOnScroll delay={100}>
-          <CategoryIntroEyebrow text={t.eyebrow} />
+          <CategoryIntroEyebrow text={eyebrow} />
         </RevealOnScroll>
 
         <RevealOnScroll delay={200}>
-          <CategoryIntroHeading line1={t.line1} line2={t.line2} />
+          <CategoryIntroHeading line1={headingLine1} line2={headingLine2} />
         </RevealOnScroll>
 
         <RevealOnScroll delay={300}>
-          <CategoryIntroDescription text={t.description} />
+          <CategoryIntroDescription text={description} />
         </RevealOnScroll>
 
         <RevealOnScroll delay={400}>

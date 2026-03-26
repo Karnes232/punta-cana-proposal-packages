@@ -60,7 +60,7 @@ export default function PackageCard({
       type="button"
       onClick={handleSelect}
       className={`
-        group relative flex flex-col overflow-hidden text-left
+        group relative flex h-full flex-col overflow-hidden text-left
         border transition-all duration-500 cursor-pointer w-full
         ${
           isSelected
@@ -81,7 +81,7 @@ export default function PackageCard({
           <h3
             className={`
               font-display italic font-normal leading-tight tracking-[-0.01em]
-              text-[clamp(20px,2vw,26px)] transition-colors duration-300
+              text-[clamp(20px,2vw,26px)] transition-colors duration-300 truncate
               ${isSelected ? "text-gold" : "text-white group-hover:text-gold"}
             `}
           >
@@ -98,11 +98,13 @@ export default function PackageCard({
         </div>
 
         {/* Description */}
-        {description && (
-          <p className="font-light text-white/50 text-[13.5px] leading-[1.8] group-hover:text-white/70 transition-colors duration-300">
-            {description}
-          </p>
-        )}
+        <div className="min-h-[72px]">
+          {description && (
+            <p className="font-light text-white/50 text-[13.5px] leading-[1.8] group-hover:text-white/70 transition-colors duration-300 line-clamp-3">
+              {description}
+            </p>
+          )}
+        </div>
 
         {/* Inclusions */}
         <PackageCardInclusions items={inclusions} />

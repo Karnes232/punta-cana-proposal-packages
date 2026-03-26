@@ -118,6 +118,19 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
+      // Proposal packages page
+      S.listItem()
+        .title("Proposal packages page")
+        .icon(() => "📦")
+        .child(
+          S.documentList()
+            .title("Proposal packages page")
+            .schemaType("ProposalPackages")
+            .filter("_type == 'ProposalPackages'"),
+        ),
+
+      S.divider(),
+
       // Stories page
       S.listItem()
         .title("Stories page")

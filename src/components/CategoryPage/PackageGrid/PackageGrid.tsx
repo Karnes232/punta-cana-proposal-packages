@@ -22,7 +22,7 @@ export default function PackageGrid({ packages }: PackageGridProps) {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {packages.map((pkg, i) => (
-            <RevealOnScroll key={pkg.slug} delay={i * 120}>
+            <RevealOnScroll key={pkg.slug} delay={i * 120} className="h-full">
               <PackageCard {...pkg} />
             </RevealOnScroll>
           ))}
