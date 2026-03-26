@@ -46,6 +46,33 @@ export interface ProposalPackages {
     en: string;
     es: string;
   };
+  packages: {
+    image: {
+      asset: {
+        url: string;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+          };
+        };
+      };
+      alt: string;
+    };
+    name: {
+      en: string;
+      es: string;
+    };
+    price: number;
+    description: {
+      en: string;
+      es: string;
+    };
+    inclusions: {
+      en: string;
+      es: string;
+    }[];
+  }[];
 }
 
 export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && page == $page][0] {
@@ -93,6 +120,33 @@ export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && pag
   introDescription {
     en,
     es
+  },
+  packages[] {
+    image {
+      asset-> {
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          }
+        }
+      },
+      alt
+    },
+    name {
+      en,
+      es
+    },
+    price,
+    description {
+      en,
+      es
+    },
+    inclusions[] {
+      en,
+      es
+    }
   }
 }`;
 

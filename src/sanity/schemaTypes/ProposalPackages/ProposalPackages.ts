@@ -19,6 +19,10 @@ export default defineType({
       name: "intro",
       title: "Intro",
     },
+    {
+      name: "packages",
+      title: "Packages",
+    },
   ],
   fields: [
     defineField({
@@ -107,6 +111,14 @@ export default defineType({
       title: "Intro Description",
       type: "localizedText",
       group: "intro",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "packages",
+      title: "Packages",
+      type: "array",
+      of: [{ type: "IndividualProposalPackage" }],
+      group: "packages",
       validation: (Rule) => Rule.required(),
     }),
   ],

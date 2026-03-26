@@ -3,7 +3,6 @@ import CategoryIntro from "@/components/CategoryPage/CategoryIntro/CategoryIntro
 import { CustomizationProvider } from "@/components/CategoryPage/CustomizationSelector/CustomizationContext";
 import WhatsIncluded from "@/components/CategoryPage/WhatsIncluded/WhatsIncluded";
 import CustomizationSelector from "@/components/CategoryPage/CustomizationSelector/CustomizationSelector";
-import { CLASSIC_PACKAGES } from "@/components/CategoryPage/PackageGrid/PackageData";
 import PackageGrid from "@/components/CategoryPage/PackageGrid/PackageGrid";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
@@ -66,7 +65,10 @@ export default async function ClassicProposals({
         description={proposalPackage.introDescription[locale as "en" | "es"]}
       />
       <CustomizationProvider premiumUplift={300}>
-        <PackageGrid packages={CLASSIC_PACKAGES} />
+        <PackageGrid
+          packages={proposalPackage.packages}
+          locale={locale as "en" | "es"}
+        />
         <CustomizationSelector category="classic" />
         <WhatsIncluded category="classic" />
         <BookingForm locale={locale} />
