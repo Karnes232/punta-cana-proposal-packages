@@ -1,3 +1,13 @@
+// Client Component (Context Provider)
+// Manages the proposal customization state for an entire category page.
+// Tracks which package the user selected, their tier choice (standard/premium),
+// and their aesthetic preferences (color palette, floral style, mood tone).
+// The computed `totalPrice` adds the premium uplift on top of the base package price.
+//
+// Usage: wrap PackageGrid, CustomizationSelector, WhatsIncluded, BookingForm,
+// and StickyBookingBar in a single <CustomizationProvider> so they all share state.
+// Access state anywhere inside with `useCustomization()`.
+
 "use client";
 
 import { createContext, useContext, useState, type ReactNode } from "react";

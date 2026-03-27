@@ -1,3 +1,15 @@
+// Server Component — Classic Proposals Page
+// Fetches proposal packages, shared section headers, and related couple stories
+// in parallel. The entire page (from PackageGrid through BookingForm) is wrapped
+// in <CustomizationProvider> so all those components share one piece of state:
+// which package the user selected, their tier, and their aesthetic preferences.
+//
+// `labels` is built server-side so locale-specific button text (e.g. "Book Now"
+// vs "Reservar") doesn't require a client component just for a string.
+//
+// Note: the `console.log(relatedStories)` on line 34 is temporary debug output
+// and can be removed once related stories are confirmed working.
+
 import CategoryHero from "@/components/CategoryPage/CategoryHero/CategoryHero";
 import CategoryIntro from "@/components/CategoryPage/CategoryIntro/CategoryIntro";
 import { CustomizationProvider } from "@/components/CategoryPage/CustomizationSelector/CustomizationContext";

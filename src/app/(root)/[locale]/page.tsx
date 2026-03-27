@@ -1,3 +1,10 @@
+// Server Component — Home Page
+// Fetches all homepage section data in parallel via Promise.all, then passes
+// each section's content to its component. Sanity stores all text as bilingual
+// objects `{ en: string; es: string }`, so every prop is accessed with
+// `[locale as "en" | "es"]` to pull the right language at render time.
+// Structured data (JSON-LD) and hreflang alternates are injected here for SEO.
+
 import Hero from "@/components/HomePage/HeroComponents/Hero";
 import { homePageHero } from "@/sanity/queries/HomePage/Hero";
 import BrandStatement from "@/components/HomePage/BrandStatement/BrandStatement";

@@ -1,3 +1,9 @@
+// Server Component
+// Renders the fixed header shell (logo + layout structure).
+// All client-side behavior — scroll detection, mobile menu, language switcher —
+// lives in NavbarClient so this file stays a server component and avoids
+// sending unnecessary JS to the browser.
+
 import NavbarLogo from "./NavbarLogo";
 import NavbarClient from "./NavbarClient";
 

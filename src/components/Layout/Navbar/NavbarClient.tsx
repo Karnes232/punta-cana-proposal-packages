@@ -1,3 +1,13 @@
+// Client Component
+// Handles all interactive navbar behavior:
+//   - Scroll detection: listens to window scroll and sets `scrolled` state.
+//     Rather than re-rendering the server-rendered <header>, it writes a
+//     `data-scrolled` attribute onto it via an inline <script> — this lets
+//     the CSS `data-[scrolled=true]:*` selectors in Navbar.tsx react instantly.
+//   - Mobile menu: tracks open/closed state and locks body scroll while open.
+//   - Language switcher and nav links are rendered here so they can read
+//     the current locale from next-intl's useTranslations/useLocale hooks.
+
 "use client";
 
 import { useState, useEffect } from "react";

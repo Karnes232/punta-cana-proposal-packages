@@ -1,3 +1,9 @@
+// Client Component
+// Wraps any content in a fade-up reveal animation triggered by IntersectionObserver.
+// The observer fires once (disconnects on first intersection) so the element stays
+// visible after it enters the viewport — it won't re-animate on scroll back up.
+// Use the `delay` prop to stagger multiple siblings.
+
 "use client";
 
 import { useRef, useEffect, useState } from "react";
