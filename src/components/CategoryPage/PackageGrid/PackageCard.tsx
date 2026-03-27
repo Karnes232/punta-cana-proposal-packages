@@ -3,6 +3,7 @@
 import { useCustomization } from "@/components/CategoryPage/CustomizationSelector/CustomizationContext";
 import PackageCardImage from "./PackageCardImage";
 import PackageCardInclusions from "./PackageCardInclusions";
+import { useLocale } from "next-intl";
 
 export interface PackageCardProps {
   /** Package name */
@@ -27,7 +28,17 @@ export interface PackageCardProps {
   /** Short description */
   description?: string;
   /** Key inclusions (4–6 items) */
-  inclusions?: string[];
+  inclusions?: {
+    icon: string;
+    title: {
+      en: string;
+      es: string;
+    };
+    description: {
+      en: string;
+      es: string;
+    };
+  }[];
   /** Optional badge (e.g. "Dinner Included") */
   badge?: string;
   /** CTA label */
@@ -75,7 +86,7 @@ export default function PackageCard({
 }: PackageCardProps) {
   const { state, setSelectedPackage } = useCustomization();
   const isSelected = state.selectedPackage?.slug === slug;
-
+  const locale = useLocale();
   const handleSelect = () => {
     setSelectedPackage({
       name,
@@ -84,6 +95,7 @@ export default function PackageCard({
       colorCustomizationOptions,
       floralCustomizationOptions,
       toneCustomizationOptions,
+      inclusions,
     });
   };
 
@@ -139,7 +151,11 @@ export default function PackageCard({
         </div>
 
         {/* Inclusions */}
-        <PackageCardInclusions items={inclusions} />
+        <PackageCardInclusions
+          items={inclusions.map(
+            (inclusion) => inclusion.title[locale as "en" | "es"],
+          )}
+        />
 
         {/* CTA row */}
         <div className="flex items-center gap-2 mt-auto pt-2">

@@ -1,7 +1,5 @@
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import CustomizationSelectorClient from "./CustomizationSelectorClient";
-import { OptionItem } from "./OptionGroup";
-import { CUSTOMIZATION_OPTIONS } from "./customizationData";
 import { useTranslations } from "next-intl";
 
 type CategorySlug = "classic" | "modern" | "dining";

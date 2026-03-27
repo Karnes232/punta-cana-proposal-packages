@@ -91,9 +91,7 @@ export default function PackageGrid({ packages, locale }: PackageGridProps) {
                 image={pkg.image}
                 price={pkg.price}
                 description={pkg.description[locale]}
-                inclusions={pkg.inclusions.map(
-                  (inclusion) => inclusion.title[locale as "en" | "es"],
-                )}
+                inclusions={pkg.inclusions}
               />
             </RevealOnScroll>
           ))}

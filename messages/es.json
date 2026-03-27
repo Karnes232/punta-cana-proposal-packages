@@ -105,6 +105,9 @@
       "summaryStandard": "Estándar",
       "summaryPremium": "Premium",
       "summaryNotSelected": "No seleccionado"
+    },
+    "WhatsIncluded": {
+      "noPackageSelected": "No hay paquete seleccionado"
     }
   }
 }

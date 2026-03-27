@@ -27,6 +27,17 @@ export interface SelectedPackage {
     };
     tier: string;
   }[];
+  inclusions: {
+    icon: string;
+    title: {
+      en: string;
+      es: string;
+    };
+    description: {
+      en: string;
+      es: string;
+    };
+  }[];
 }
 
 export interface CustomizationState {

@@ -1,16 +1,17 @@
+"use client";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import WhatsIncludedItem from "./WhatsIncludedItem";
-import { getInclusionsForCategory } from "./whatsIncludedData";
+// import { getInclusionsForCategory } from "./whatsIncludedData";
 import { WhatsIncludedItemProps } from "./WhatsIncludedItem";
+import { useCustomization } from "../CustomizationSelector/CustomizationContext";
+import { useTranslations } from "next-intl";
 
-type CategorySlug = "classic" | "modern" | "dining";
 
 interface WhatsIncludedProps {
   eyebrow: string;
   headingLine1: string;
   headingLine2: string;
   description: string;
-  category: CategorySlug;
   locale?: string;
   /** Override items from Sanity */
   items?: WhatsIncludedItemProps[];
@@ -21,12 +22,13 @@ export default function WhatsIncluded({
   headingLine1,
   headingLine2,
   description,
-  category,
-  locale = "en",
-  items,
-}: WhatsIncludedProps) {
-  const inclusions = items ?? getInclusionsForCategory(category, locale);
 
+  locale = "en",
+
+}: WhatsIncludedProps) {
+  const { state } = useCustomization();
+  const t = useTranslations("PackagePage.WhatsIncluded");
+  const inclusions = state.selectedPackage?.inclusions;
   return (
     <section
       className="relative bg-ivory overflow-hidden"
@@ -122,15 +124,26 @@ export default function WhatsIncluded({
 
         {/* Icon grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-12 gap-x-6">
-          {inclusions.map((item, i) => (
-            <RevealOnScroll key={item.icon + i} delay={400 + i * 80}>
-              <WhatsIncludedItem {...item} />
-            </RevealOnScroll>
-          ))}
+          {!inclusions && (
+            <div className="col-span-6 text-center text-gray">
+              <p className="text-[13px] font-light">{t("noPackageSelected")}</p>
+            </div>
+          )}
+          {inclusions?.map((item, i) => {
+          
+            return (
+              <RevealOnScroll
+                key={item.title[locale as "en" | "es"] + i}
+                delay={400 + i * 80}
+              >
+                <WhatsIncludedItem {...item} locale={locale as "en" | "es"} />
+              </RevealOnScroll>
+            );
+          })}
         </div>
 
         {/* Bottom ornament */}
-        <RevealOnScroll delay={400 + inclusions.length * 80}>
+        <RevealOnScroll delay={400 + (inclusions?.length ?? 0) * 80}>
           <div
             className="flex items-center justify-center gap-3 mt-16 lg:mt-20"
             aria-hidden="true"
