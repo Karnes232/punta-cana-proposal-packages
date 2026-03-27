@@ -26,8 +26,6 @@ export default async function ClassicProposals({
       getProposalPackageHeader(),
     ]);
 
-
-
   const labels =
     locale === "es"
       ? {

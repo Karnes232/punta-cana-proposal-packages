@@ -3,7 +3,7 @@ import CategoryHero from "@/components/CategoryPage/CategoryHero/CategoryHero";
 import CategoryIntro from "@/components/CategoryPage/CategoryIntro/CategoryIntro";
 import { CustomizationProvider } from "@/components/CategoryPage/CustomizationSelector/CustomizationContext";
 import CustomizationSelector from "@/components/CategoryPage/CustomizationSelector/CustomizationSelector";
-import { MODERN_PACKAGES } from "@/components/CategoryPage/PackageGrid/PackageData";
+
 import PackageGrid from "@/components/CategoryPage/PackageGrid/PackageGrid";
 import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStories";
 import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
