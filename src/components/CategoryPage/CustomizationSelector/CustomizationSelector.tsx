@@ -6,6 +6,10 @@ import { CUSTOMIZATION_OPTIONS } from "./customizationData";
 type CategorySlug = "classic" | "modern" | "dining";
 
 interface CustomizationSelectorProps {
+  eyeBrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  description: string;
   category: CategorySlug;
   locale?: string;
   /** Override options from Sanity */
@@ -17,10 +21,6 @@ interface CustomizationSelectorProps {
 const content: Record<
   string,
   {
-    eyebrow: string;
-    line1: string;
-    line2: string;
-    description: string;
     tierStandard: string;
     tierPremium: string;
     colorTitle: string;
@@ -29,11 +29,6 @@ const content: Record<
   }
 > = {
   en: {
-    eyebrow: "Make It Yours",
-    line1: "Personalize",
-    line2: "Your Experience",
-    description:
-      "Choose from our curated palettes, florals, and styling to make your proposal uniquely yours.",
     tierStandard: "Standard",
     tierPremium: "Premium",
     colorTitle: "Color Palette",
@@ -41,11 +36,6 @@ const content: Record<
     toneTitle: "Overall Tone",
   },
   es: {
-    eyebrow: "Hazlo Tuyo",
-    line1: "Personaliza",
-    line2: "Tu Experiencia",
-    description:
-      "Elige entre nuestras paletas, florales y estilos curados para hacer tu propuesta única.",
     tierStandard: "Estándar",
     tierPremium: "Premium",
     colorTitle: "Paleta de Color",
@@ -55,6 +45,10 @@ const content: Record<
 };
 
 export default function CustomizationSelector({
+  eyeBrow,
+  headingLine1,
+  headingLine2,
+  description,
   category,
   locale = "en",
   colors,
@@ -83,7 +77,7 @@ export default function CustomizationSelector({
             <div className="flex items-center justify-center gap-3">
               <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
               <p className="text-[10.5px] font-light tracking-[0.28em] uppercase text-gold/80">
-                {t.eyebrow}
+                {eyeBrow}
               </p>
               <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
             </div>
@@ -91,8 +85,8 @@ export default function CustomizationSelector({
 
           <RevealOnScroll delay={100}>
             <h2 className="font-display font-normal text-center leading-[1.1] tracking-tight text-[clamp(28px,3.5vw,48px)]">
-              <span className="block text-white">{t.line1}</span>
-              <span className="block italic text-gold">{t.line2}</span>
+              <span className="block text-white">{headingLine1}</span>
+              <span className="block italic text-gold">{headingLine2}</span>
             </h2>
           </RevealOnScroll>
 
@@ -109,7 +103,7 @@ export default function CustomizationSelector({
 
           <RevealOnScroll delay={250}>
             <p className="text-center font-light text-white/55 leading-[1.85] text-[clamp(14px,1.5vw,17px)] max-w-[520px] mx-auto">
-              {t.description}
+              {description}
             </p>
           </RevealOnScroll>
         </div>

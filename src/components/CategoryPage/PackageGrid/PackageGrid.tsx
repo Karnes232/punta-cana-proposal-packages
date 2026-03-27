@@ -34,7 +34,6 @@ interface PackageGridProps {
 }
 
 export default function PackageGrid({ packages, locale }: PackageGridProps) {
-  console.log(packages);
   return (
     <section className="relative bg-black overflow-hidden">
       {/* Subtle radial glow */}

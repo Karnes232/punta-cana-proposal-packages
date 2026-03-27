@@ -11,6 +11,7 @@ import BookingForm from "@/components/CategoryPage/BookingForm/BookingForm";
 import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStories";
 import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
 import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
+import { getProposalPackageHeader } from "@/sanity/queries/ProposalPackages/ProposalPackageHeaders";
 
 export default async function ClassicProposals({
   params,
@@ -18,10 +19,14 @@ export default async function ClassicProposals({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData, proposalPackage] = await Promise.all([
-    getStructuredData("classic-proposals"),
-    proposalPackagesQuery("classic-proposals"),
-  ]);
+  const [structuredData, proposalPackage, proposalPackageHeader] =
+    await Promise.all([
+      getStructuredData("classic-proposals"),
+      proposalPackagesQuery("classic-proposals"),
+      getProposalPackageHeader(),
+    ]);
+
+  console.log(proposalPackageHeader);
 
   const labels =
     locale === "es"
@@ -67,7 +72,29 @@ export default async function ClassicProposals({
           packages={proposalPackage.packages}
           locale={locale as "en" | "es"}
         />
-        <CustomizationSelector category="classic" />
+        <CustomizationSelector
+          eyeBrow={
+            proposalPackageHeader.CustomizationSelectorEyebrow[
+              locale as "en" | "es"
+            ]
+          }
+          headingLine1={
+            proposalPackageHeader.CustomizationSelectorHeadingLine1[
+              locale as "en" | "es"
+            ]
+          }
+          headingLine2={
+            proposalPackageHeader.CustomizationSelectorHeadingLine2[
+              locale as "en" | "es"
+            ]
+          }
+          description={
+            proposalPackageHeader.CustomizationSelectorDescription[
+              locale as "en" | "es"
+            ]
+          }
+          category="classic"
+        />
         <WhatsIncluded category="classic" />
         <BookingForm locale={locale} />
         <StickyBookingBar labels={labels} />

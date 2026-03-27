@@ -9,6 +9,7 @@ import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStor
 import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
 import WhatsIncluded from "@/components/CategoryPage/WhatsIncluded/WhatsIncluded";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
+import { getProposalPackageHeader } from "@/sanity/queries/ProposalPackages/ProposalPackageHeaders";
 import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import Script from "next/script";
@@ -19,12 +20,12 @@ export default async function DiningProposals({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData, proposalPackage] = await Promise.all([
-    getStructuredData("dining-proposals"),
-    proposalPackagesQuery("dining-proposals"),
-  ]);
-
-  console.log(proposalPackage);
+  const [structuredData, proposalPackage, proposalPackageHeader] =
+    await Promise.all([
+      getStructuredData("dining-proposals"),
+      proposalPackagesQuery("dining-proposals"),
+      getProposalPackageHeader(),
+    ]);
 
   const labels =
     locale === "es"
@@ -70,7 +71,29 @@ export default async function DiningProposals({
           packages={proposalPackage.packages}
           locale={locale as "en" | "es"}
         />
-        <CustomizationSelector category="dining" />
+        <CustomizationSelector
+          category="dining"
+          eyeBrow={
+            proposalPackageHeader.CustomizationSelectorEyebrow[
+              locale as "en" | "es"
+            ]
+          }
+          headingLine1={
+            proposalPackageHeader.CustomizationSelectorHeadingLine1[
+              locale as "en" | "es"
+            ]
+          }
+          headingLine2={
+            proposalPackageHeader.CustomizationSelectorHeadingLine2[
+              locale as "en" | "es"
+            ]
+          }
+          description={
+            proposalPackageHeader.CustomizationSelectorDescription[
+              locale as "en" | "es"
+            ]
+          }
+        />
         <WhatsIncluded category="dining" />
         <BookingForm locale={locale} />
         <StickyBookingBar labels={labels} />

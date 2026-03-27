@@ -12,6 +12,7 @@ import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 import Script from "next/script";
+import { getProposalPackageHeader } from "@/sanity/queries/ProposalPackages/ProposalPackageHeaders";
 
 export default async function ModernProposals({
   params,
@@ -19,12 +20,11 @@ export default async function ModernProposals({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData, proposalPackage] = await Promise.all([
+  const [structuredData, proposalPackage, proposalPackageHeader] = await Promise.all([
     getStructuredData("modern-proposals"),
     proposalPackagesQuery("modern-proposals"),
+    getProposalPackageHeader(),
   ]);
-
-  console.log(proposalPackage);
 
   const labels =
     locale === "es"
@@ -69,7 +69,26 @@ export default async function ModernProposals({
           packages={proposalPackage.packages}
           locale={locale as "en" | "es"}
         />
-        <CustomizationSelector category="modern" />
+        <CustomizationSelector eyeBrow={
+            proposalPackageHeader.CustomizationSelectorEyebrow[
+              locale as "en" | "es"
+            ]
+          }
+          headingLine1={
+            proposalPackageHeader.CustomizationSelectorHeadingLine1[
+              locale as "en" | "es"
+            ]
+          }
+          headingLine2={
+            proposalPackageHeader.CustomizationSelectorHeadingLine2[
+              locale as "en" | "es"
+            ]
+          }
+          description={
+            proposalPackageHeader.CustomizationSelectorDescription[
+              locale as "en" | "es"
+            ]
+          } category="modern" />
         <WhatsIncluded category="modern" />
         <BookingForm locale={locale} />
         <StickyBookingBar labels={labels} />

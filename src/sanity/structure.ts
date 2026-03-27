@@ -123,11 +123,34 @@ export const structure: StructureResolver = (S) =>
         .title("Proposal packages page")
         .icon(() => "📦")
         .child(
-          S.documentList()
+          S.list()
             .title("Proposal packages page")
-            .schemaType("ProposalPackages")
-            .filter("_type == 'ProposalPackages'"),
+            .items([
+              S.listItem()
+                .title("General layout")
+                .icon(() => "⚙️")
+                .child(
+                  S.document()
+                    .schemaType("ProposalPackageHeader")
+                    .title("Proposal package header"),
+                ),
+              S.listItem()
+                .title("Proposal packages page content")
+                .icon(() => "📄")
+                .child(
+                  S.documentList()
+                    .title("Proposal packages page")
+                    .schemaType("ProposalPackages")
+                    .filter("_type == 'ProposalPackages'"),
+                ),
+            ]),
         ),
+      // .child(
+      //   S.documentList()
+      //     .title("Proposal packages page")
+      //     .schemaType("ProposalPackages")
+      //     .filter("_type == 'ProposalPackages'"),
+      // ),
 
       S.divider(),
 
