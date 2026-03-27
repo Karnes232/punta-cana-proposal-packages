@@ -17,6 +17,38 @@ export interface ProposalPackageHeader {
     en: string;
     es: string;
   };
+  WhatsIncludedEyebrow: {
+    en: string;
+    es: string;
+  };
+  WhatsIncludedHeadingLine1: {
+    en: string;
+    es: string;
+  };
+  WhatsIncludedHeadingLine2: {
+    en: string;
+    es: string;
+  };
+  WhatsIncludedDescription: {
+    en: string;
+    es: string;
+  };
+  BookingFormEyebrow: {
+    en: string;
+    es: string;
+  };
+  BookingFormHeadingLine1: {
+    en: string;
+    es: string;
+  };
+  BookingFormHeadingLine2: {
+    en: string;
+    es: string;
+  };
+  BookingFormDescription: {
+    en: string;
+    es: string;
+  };
 }
 
 export const proposalPackageHeaderQuery = `*[_type == "ProposalPackageHeader"][0]{
@@ -35,7 +67,39 @@ export const proposalPackageHeaderQuery = `*[_type == "ProposalPackageHeader"][0
     CustomizationSelectorDescription {
       en,
       es
-    }
+    },
+    WhatsIncludedEyebrow {
+      en,
+      es
+    },
+    WhatsIncludedHeadingLine1 {
+      en,
+      es
+    },
+    WhatsIncludedHeadingLine2 {
+      en,
+      es
+    },
+    WhatsIncludedDescription {
+      en,
+      es
+    },
+    BookingFormEyebrow {
+      en,
+      es
+    },
+    BookingFormHeadingLine1 {
+      en,
+      es
+    },
+    BookingFormHeadingLine2 {
+      en,
+      es
+    },
+    BookingFormDescription {
+      en,
+      es
+    },      
   }`;
 
 export const getProposalPackageHeader =

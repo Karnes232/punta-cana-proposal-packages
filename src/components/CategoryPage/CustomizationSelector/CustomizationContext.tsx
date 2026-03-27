@@ -96,7 +96,7 @@ export function CustomizationProvider({
     ? state.selectedPackage.price +
       (state.tier === "premium" ? state.premiumUplift : 0)
     : null;
-console.log(state);
+
   return (
     <CustomizationContext.Provider
       value={{

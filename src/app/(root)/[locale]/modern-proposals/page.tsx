@@ -92,8 +92,41 @@ export default async function ModernProposals({
             ]
           }
         />
-        <WhatsIncluded category="modern" />
-        <BookingForm locale={locale} />
+        <WhatsIncluded
+          eyebrow={
+            proposalPackageHeader.WhatsIncludedEyebrow[locale as "en" | "es"]
+          }
+          headingLine1={
+            proposalPackageHeader.WhatsIncludedHeadingLine1[
+              locale as "en" | "es"
+            ]
+          }
+          headingLine2={
+            proposalPackageHeader.WhatsIncludedHeadingLine2[
+              locale as "en" | "es"
+            ]
+          }
+          description={
+            proposalPackageHeader.WhatsIncludedDescription[
+              locale as "en" | "es"
+            ]
+          }
+          category="modern"
+        />
+        <BookingForm
+          eyebrow={
+            proposalPackageHeader.BookingFormEyebrow[locale as "en" | "es"]
+          }
+          headingLine1={
+            proposalPackageHeader.BookingFormHeadingLine1[locale as "en" | "es"]
+          }
+          headingLine2={
+            proposalPackageHeader.BookingFormHeadingLine2[locale as "en" | "es"]
+          }
+          description={
+            proposalPackageHeader.BookingFormDescription[locale as "en" | "es"]
+          }
+        />
         <StickyBookingBar labels={labels} />
       </CustomizationProvider>
       <RelatedStories category="modern" locale={locale} />

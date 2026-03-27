@@ -68,7 +68,14 @@ export default function PackageCard({
   const isSelected = state.selectedPackage?.slug === slug;
 
   const handleSelect = () => {
-    setSelectedPackage({ name, slug, price, colorCustomizationOptions, floralCustomizationOptions, toneCustomizationOptions });
+    setSelectedPackage({
+      name,
+      slug,
+      price,
+      colorCustomizationOptions,
+      floralCustomizationOptions,
+      toneCustomizationOptions,
+    });
   };
 
   return (

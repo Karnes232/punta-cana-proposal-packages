@@ -82,6 +82,30 @@
       "toneTitle": "Overall Tone",
       "noPackageSelected": "Select a package above to see color options",
       "premiumUnlocked": "Premium options unlocked — elevated florals, richer palettes, and exclusive styling."
+    },
+    "BookingForm": {
+      "name": "Full Name",
+      "hotel": "Hotel / Resort",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "date": "Proposal Date",
+      "notes"   : "Anything else you'd like us to know?",
+      "notesPlaceholder": "Special requests, timing preferences, surprises…",
+      "submit": "Submit Booking Request",
+      "submitting": "Sending…",
+      "successTitle": "Thank You!",
+      "successMessage":
+      "We've received your request and will be in touch within 24 hours to start planning your perfect moment.",
+      "summaryPackage": "Package",
+      "summaryTier": "Tier",
+      "summaryColor": "Color",
+      "summaryFloral": "Floral",
+      "summaryTone": "Tone",
+      "summaryEstimated": "Estimated Total",
+      "summaryNoPackage": "No package selected",
+      "summaryStandard": "Standard",
+      "summaryPremium": "Premium",
+      "summaryNotSelected": "Not selected"
     }
   }
 }

@@ -6,11 +6,26 @@ export default defineType({
   title: "Individual Proposal Package",
   type: "document",
   icon: DocumentIcon,
+  groups: [
+    {
+      name: "package",
+      title: "Package",
+    },
+    {
+      name: "inclusions",
+      title: "Inclusions",
+    },
+    {
+      name: "customizationOptions",
+      title: "Customization Options",
+    },
+  ],
   fields: [
     defineField({
       name: "image",
       title: "Image",
       type: "image",
+      group: "package",
       options: {
         hotspot: true,
       },
@@ -27,18 +42,21 @@ export default defineType({
       name: "name",
       title: "Name",
       type: "localizedString",
+      group: "package",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "price",
       title: "Price",
       type: "number",
+      group: "package",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "localizedText",
+      group: "package",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -46,6 +64,7 @@ export default defineType({
       title: "Inclusions",
       type: "array",
       of: [{ type: "localizedString" }],
+      group: "inclusions",
       validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
@@ -53,6 +72,7 @@ export default defineType({
       title: "Color Customization Options",
       type: "array",
       of: [{ type: "CustomizationOptions" }],
+      group: "customizationOptions",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -60,6 +80,7 @@ export default defineType({
       title: "Floral Customization Options",
       type: "array",
       of: [{ type: "CustomizationOptions" }],
+      group: "customizationOptions",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -67,6 +88,7 @@ export default defineType({
       title: "Tone Customization Options",
       type: "array",
       of: [{ type: "CustomizationOptions" }],
+      group: "customizationOptions",
       validation: (Rule) => Rule.required(),
     }),
   ],

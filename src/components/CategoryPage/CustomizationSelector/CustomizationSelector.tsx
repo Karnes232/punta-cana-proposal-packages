@@ -20,7 +20,7 @@ export default function CustomizationSelector({
   description,
 }: CustomizationSelectorProps) {
   const t = useTranslations("PackagePage.CustomizationSelector");
- 
+
   return (
     <section className="relative bg-black overflow-hidden">
       {/* Subtle radial glow */}
@@ -74,7 +74,6 @@ export default function CustomizationSelector({
         {/* Interactive client component */}
         <RevealOnScroll delay={350}>
           <CustomizationSelectorClient
-
             labels={{
               tierStandard: t("tierStandard"),
               tierPremium: t("tierPremium"),

@@ -6,44 +6,31 @@ import { WhatsIncludedItemProps } from "./WhatsIncludedItem";
 type CategorySlug = "classic" | "modern" | "dining";
 
 interface WhatsIncludedProps {
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  description: string;
   category: CategorySlug;
   locale?: string;
   /** Override items from Sanity */
   items?: WhatsIncludedItemProps[];
 }
 
-const content: Record<
-  string,
-  { eyebrow: string; line1: string; line2: string; description: string }
-> = {
-  en: {
-    eyebrow: "Every Package Includes",
-    line1: "What's",
-    line2: "Included",
-    description:
-      "Every experience comes complete — no hidden fees, no surprises. Just a perfect moment, handled from start to finish.",
-  },
-  es: {
-    eyebrow: "Cada Paquete Incluye",
-    line1: "Qué",
-    line2: "Incluye",
-    description:
-      "Cada experiencia viene completa — sin costos ocultos, sin sorpresas. Solo un momento perfecto, atendido de principio a fin.",
-  },
-};
-
 export default function WhatsIncluded({
+  eyebrow,
+  headingLine1,
+  headingLine2,
+  description,
   category,
   locale = "en",
   items,
 }: WhatsIncludedProps) {
-  const t = content[locale] ?? content.en;
   const inclusions = items ?? getInclusionsForCategory(category, locale);
 
   return (
     <section
       className="relative bg-ivory overflow-hidden"
-      aria-label={t.line1 + " " + t.line2}
+      aria-label={headingLine1 + " " + headingLine2}
     >
       {/* Faint diagonal gold texture — matches BrandStatement */}
       <div
@@ -113,7 +100,7 @@ export default function WhatsIncluded({
             <div className="flex items-center justify-center gap-3">
               <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
               <p className="text-[10.5px] font-light tracking-[0.28em] uppercase text-gold/80">
-                {t.eyebrow}
+                {eyebrow}
               </p>
               <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
             </div>
@@ -121,14 +108,14 @@ export default function WhatsIncluded({
 
           <RevealOnScroll delay={200}>
             <h2 className="font-display font-normal text-center leading-[1.2] tracking-[-0.01em] text-[clamp(28px,3.5vw,48px)]">
-              <span className="block text-black">{t.line1}</span>
-              <span className="block italic text-gold">{t.line2}</span>
+              <span className="block text-black">{headingLine1}</span>
+              <span className="block italic text-gold">{headingLine2}</span>
             </h2>
           </RevealOnScroll>
 
           <RevealOnScroll delay={300}>
             <p className="text-center font-light text-gray leading-[1.85] text-[clamp(14px,1.5vw,17px)] max-w-[520px] mx-auto">
-              {t.description}
+              {description}
             </p>
           </RevealOnScroll>
         </div>

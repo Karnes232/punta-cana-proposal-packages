@@ -26,25 +26,40 @@ export default function CustomizationSelectorClient({
   const { state, setColor, setFloral, setTone } = useCustomization();
 
   // Build color OptionItems from the selected package's colorCustomizationOptions
-  const colorOptions: {id: string; label: any; tier: "standard" | "premium" | "both"}[] =
+  const colorOptions: {
+    id: string;
+    label: any;
+    tier: "standard" | "premium" | "both";
+  }[] =
     state.selectedPackage?.colorCustomizationOptions?.map((opt, i) => ({
       id: `color-${i}`,
-      label: opt.label[locale as "en" | "es" as keyof typeof opt.label] ?? '',
-      tier: opt.tier === "standard" || opt.tier === "premium" ? opt.tier : "both",
+      label: opt.label[locale as "en" | "es" as keyof typeof opt.label] ?? "",
+      tier:
+        opt.tier === "standard" || opt.tier === "premium" ? opt.tier : "both",
     })) ?? [];
 
-  const floralOptions: {id: string; label: any; tier: "standard" | "premium" | "both"}[] =
+  const floralOptions: {
+    id: string;
+    label: any;
+    tier: "standard" | "premium" | "both";
+  }[] =
     state.selectedPackage?.floralCustomizationOptions?.map((opt, i) => ({
       id: `floral-${i}`,
-      label: opt.label[locale as "en" | "es" as keyof typeof opt.label] ?? '',
-      tier: opt.tier === "standard" || opt.tier === "premium" ? opt.tier : "both",
+      label: opt.label[locale as "en" | "es" as keyof typeof opt.label] ?? "",
+      tier:
+        opt.tier === "standard" || opt.tier === "premium" ? opt.tier : "both",
     })) ?? [];
 
-  const toneOptions: {id: string; label: any; tier: "standard" | "premium" | "both"}[] =
+  const toneOptions: {
+    id: string;
+    label: any;
+    tier: "standard" | "premium" | "both";
+  }[] =
     state.selectedPackage?.toneCustomizationOptions?.map((opt, i) => ({
       id: `tone-${i}`,
-      label: opt.label[locale as "en" | "es" as keyof typeof opt.label] ?? '',
-      tier: opt.tier === "standard" || opt.tier === "premium" ? opt.tier : "both",
+      label: opt.label[locale as "en" | "es" as keyof typeof opt.label] ?? "",
+      tier:
+        opt.tier === "standard" || opt.tier === "premium" ? opt.tier : "both",
     })) ?? [];
 
   const hasPackage = !!state.selectedPackage;
