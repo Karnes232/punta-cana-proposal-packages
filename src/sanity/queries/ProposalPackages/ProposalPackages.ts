@@ -121,8 +121,8 @@ export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && pag
     en,
     es
   },
-  packages[] {
-    image {
+ packages[]->{
+  image {
       asset-> {
         url,
         metadata {
@@ -146,8 +146,30 @@ export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && pag
     inclusions[] {
       en,
       es
+    }, 
+    colorCustomizationOptions[] {
+      label {
+        en,
+        es
+      },
+      tier
+    },
+    floralCustomizationOptions[] {
+      label {
+        en,
+        es
+      },
+      tier
+    },
+    toneCustomizationOptions[] {
+      label {
+        en,
+        es
+      },
+      tier
     }
   }
+  
 }`;
 
 export const proposalPackagesQuery = async (

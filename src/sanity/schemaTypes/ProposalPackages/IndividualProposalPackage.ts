@@ -27,6 +27,7 @@ export default defineType({
       name: "name",
       title: "Name",
       type: "localizedString",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "price",
@@ -45,7 +46,28 @@ export default defineType({
       title: "Inclusions",
       type: "array",
       of: [{ type: "localizedString" }],
-      validation: (Rule) => Rule.required().min(1).max(6),
+      validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({
+      name: "colorCustomizationOptions",
+      title: "Color Customization Options",
+      type: "array",
+      of: [{ type: "CustomizationOptions" }],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "floralCustomizationOptions",
+      title: "Floral Customization Options",
+      type: "array",
+      of: [{ type: "CustomizationOptions" }],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "toneCustomizationOptions",
+      title: "Tone Customization Options",
+      type: "array",
+      of: [{ type: "CustomizationOptions" }],
+      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {

@@ -29,6 +29,18 @@ interface PackageGridProps {
       en: string;
       es: string;
     }[];
+    colorCustomizationOptions?: {
+      label: string;
+      tier: "standard" | "premium";
+    }[];
+    floralCustomizationOptions?: {
+      label: string;
+      tier: "standard" | "premium";
+    }[];
+    toneCustomizationOptions?: {
+      label: string;
+      tier: "standard" | "premium";
+    }[];
   }[];
   locale: "en" | "es";
 }
@@ -57,6 +69,9 @@ export default function PackageGrid({ packages, locale }: PackageGridProps) {
               <PackageCard
                 name={pkg.name[locale]}
                 slug={pkg.name[locale]}
+                colorCustomizationOptions={pkg.colorCustomizationOptions}
+                floralCustomizationOptions={pkg.floralCustomizationOptions}
+                toneCustomizationOptions={pkg.toneCustomizationOptions}
                 image={pkg.image}
                 price={pkg.price}
                 description={pkg.description[locale]}

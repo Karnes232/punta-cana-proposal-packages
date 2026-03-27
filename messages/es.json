@@ -72,5 +72,16 @@
     "next": "Siguiente",
     "page": "Página",
     "of": "de"
+  },
+  "PackagePage": {
+    "CustomizationSelector": {
+      "tierStandard": "Estándar",
+      "tierPremium": "Premium",
+      "colorTitle": "Paleta de Color",
+      "floralTitle": "Estilo Floral",
+      "toneTitle": "Tono General",
+      "noPackageSelected": "Selecciona un paquete arriba para ver las opciones de color",
+      "premiumUnlocked": "Opciones premium desbloqueadas — florales elevados, paletas más ricas y estilos exclusivos."
+    }
   }
 }

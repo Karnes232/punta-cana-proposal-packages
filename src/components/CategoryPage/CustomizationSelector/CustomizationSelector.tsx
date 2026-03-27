@@ -2,6 +2,7 @@ import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import CustomizationSelectorClient from "./CustomizationSelectorClient";
 import { OptionItem } from "./OptionGroup";
 import { CUSTOMIZATION_OPTIONS } from "./customizationData";
+import { useTranslations } from "next-intl";
 
 type CategorySlug = "classic" | "modern" | "dining";
 
@@ -10,54 +11,16 @@ interface CustomizationSelectorProps {
   headingLine1: string;
   headingLine2: string;
   description: string;
-  category: CategorySlug;
-  locale?: string;
-  /** Override options from Sanity */
-  colors?: OptionItem[];
-  florals?: OptionItem[];
-  tones?: OptionItem[];
 }
-
-const content: Record<
-  string,
-  {
-    tierStandard: string;
-    tierPremium: string;
-    colorTitle: string;
-    floralTitle: string;
-    toneTitle: string;
-  }
-> = {
-  en: {
-    tierStandard: "Standard",
-    tierPremium: "Premium",
-    colorTitle: "Color Palette",
-    floralTitle: "Floral Style",
-    toneTitle: "Overall Tone",
-  },
-  es: {
-    tierStandard: "Estándar",
-    tierPremium: "Premium",
-    colorTitle: "Paleta de Color",
-    floralTitle: "Estilo Floral",
-    toneTitle: "Tono General",
-  },
-};
 
 export default function CustomizationSelector({
   eyeBrow,
   headingLine1,
   headingLine2,
   description,
-  category,
-  locale = "en",
-  colors,
-  florals,
-  tones,
 }: CustomizationSelectorProps) {
-  const t = content[locale] ?? content.en;
-  const defaults = CUSTOMIZATION_OPTIONS[category];
-
+  const t = useTranslations("PackagePage.CustomizationSelector");
+ 
   return (
     <section className="relative bg-black overflow-hidden">
       {/* Subtle radial glow */}
@@ -111,15 +74,15 @@ export default function CustomizationSelector({
         {/* Interactive client component */}
         <RevealOnScroll delay={350}>
           <CustomizationSelectorClient
-            colors={colors ?? defaults.colors}
-            florals={florals ?? defaults.florals}
-            tones={tones ?? defaults.tones}
+
             labels={{
-              tierStandard: t.tierStandard,
-              tierPremium: t.tierPremium,
-              colorTitle: t.colorTitle,
-              floralTitle: t.floralTitle,
-              toneTitle: t.toneTitle,
+              tierStandard: t("tierStandard"),
+              tierPremium: t("tierPremium"),
+              colorTitle: t("colorTitle"),
+              floralTitle: t("floralTitle"),
+              toneTitle: t("toneTitle"),
+              noPackageSelected: t("noPackageSelected"),
+              premiumUnlocked: t("premiumUnlocked"),
             }}
           />
         </RevealOnScroll>

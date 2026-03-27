@@ -20,11 +20,12 @@ export default async function ModernProposals({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData, proposalPackage, proposalPackageHeader] = await Promise.all([
-    getStructuredData("modern-proposals"),
-    proposalPackagesQuery("modern-proposals"),
-    getProposalPackageHeader(),
-  ]);
+  const [structuredData, proposalPackage, proposalPackageHeader] =
+    await Promise.all([
+      getStructuredData("modern-proposals"),
+      proposalPackagesQuery("modern-proposals"),
+      getProposalPackageHeader(),
+    ]);
 
   const labels =
     locale === "es"
@@ -69,7 +70,8 @@ export default async function ModernProposals({
           packages={proposalPackage.packages}
           locale={locale as "en" | "es"}
         />
-        <CustomizationSelector eyeBrow={
+        <CustomizationSelector
+          eyeBrow={
             proposalPackageHeader.CustomizationSelectorEyebrow[
               locale as "en" | "es"
             ]
@@ -88,7 +90,9 @@ export default async function ModernProposals({
             proposalPackageHeader.CustomizationSelectorDescription[
               locale as "en" | "es"
             ]
-          } category="modern" />
+          }
+          category="modern"
+        />
         <WhatsIncluded category="modern" />
         <BookingForm locale={locale} />
         <StickyBookingBar labels={labels} />

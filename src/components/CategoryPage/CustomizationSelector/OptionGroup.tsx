@@ -35,7 +35,7 @@ export default function OptionGroup({
 }: OptionGroupProps) {
   // Filter options by tier
   const visibleOptions = options.filter(
-    (opt) => opt.tier === "both" || opt.tier === activeTier,
+    (opt) => opt.tier === "standard" || opt.tier === activeTier,
   );
 
   return (

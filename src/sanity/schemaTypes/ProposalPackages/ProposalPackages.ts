@@ -117,7 +117,13 @@ export default defineType({
       name: "packages",
       title: "Packages",
       type: "array",
-      of: [{ type: "IndividualProposalPackage" }],
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "IndividualProposalPackage" }],
+          options: { disableNew: true },
+        },
+      ],
       group: "packages",
       validation: (Rule) => Rule.required(),
     }),

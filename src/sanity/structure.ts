@@ -143,6 +143,15 @@ export const structure: StructureResolver = (S) =>
                     .schemaType("ProposalPackages")
                     .filter("_type == 'ProposalPackages'"),
                 ),
+              S.listItem()
+                .title("Individual proposal package")
+                .icon(() => "📦")
+                .child(
+                  S.documentList()
+                    .title("Individual proposal package")
+                    .schemaType("IndividualProposalPackage")
+                    .filter("_type == 'IndividualProposalPackage'"),
+                ),
             ]),
         ),
       // .child(

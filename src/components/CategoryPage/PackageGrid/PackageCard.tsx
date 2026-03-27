@@ -35,6 +35,19 @@ export interface PackageCardProps {
   selectedLabel?: string;
   /** Category slug — not used for routing anymore, kept for Sanity compat */
   categorySlug?: string;
+  /** Color customization options */
+  colorCustomizationOptions?: {
+    label: string;
+    tier: "standard" | "premium";
+  }[];
+  floralCustomizationOptions?: {
+    label: string;
+    tier: "standard" | "premium";
+  }[];
+  toneCustomizationOptions?: {
+    label: string;
+    tier: "standard" | "premium";
+  }[];
 }
 
 export default function PackageCard({
@@ -43,6 +56,9 @@ export default function PackageCard({
   image,
   price,
   description,
+  colorCustomizationOptions = [],
+  floralCustomizationOptions = [],
+  toneCustomizationOptions = [],
   inclusions = [],
   badge,
   selectLabel = "Select Package",
@@ -52,7 +68,7 @@ export default function PackageCard({
   const isSelected = state.selectedPackage?.slug === slug;
 
   const handleSelect = () => {
-    setSelectedPackage({ name, slug, price });
+    setSelectedPackage({ name, slug, price, colorCustomizationOptions, floralCustomizationOptions, toneCustomizationOptions });
   };
 
   return (

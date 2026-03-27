@@ -6,6 +6,18 @@ export interface SelectedPackage {
   name: string;
   slug: string;
   price: number;
+  colorCustomizationOptions?: {
+    label: string;
+    tier: "standard" | "premium";
+  }[];
+  floralCustomizationOptions?: {
+    label: string;
+    tier: "standard" | "premium";
+  }[];
+  toneCustomizationOptions?: {
+    label: string;
+    tier: "standard" | "premium";
+  }[];
 }
 
 export interface CustomizationState {
@@ -84,7 +96,7 @@ export function CustomizationProvider({
     ? state.selectedPackage.price +
       (state.tier === "premium" ? state.premiumUplift : 0)
     : null;
-
+console.log(state);
   return (
     <CustomizationContext.Provider
       value={{

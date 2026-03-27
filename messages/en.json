@@ -72,5 +72,16 @@
     "next": "Next",
     "page": "Page",
     "of": "of"
+  },
+  "PackagePage": {
+    "CustomizationSelector": {
+      "tierStandard": "Standard",
+      "tierPremium": "Premium",
+      "colorTitle": "Color Palette",
+      "floralTitle": "Floral Style",
+      "toneTitle": "Overall Tone",
+      "noPackageSelected": "Select a package above to see color options",
+      "premiumUnlocked": "Premium options unlocked — elevated florals, richer palettes, and exclusive styling."
+    }
   }
 }

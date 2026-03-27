@@ -72,7 +72,6 @@ export default async function DiningProposals({
           locale={locale as "en" | "es"}
         />
         <CustomizationSelector
-          category="dining"
           eyeBrow={
             proposalPackageHeader.CustomizationSelectorEyebrow[
               locale as "en" | "es"

@@ -25,6 +25,7 @@ import HomePageCTABanner from "./HomePage/CTABanner";
 import ProposalPackages from "./ProposalPackages/ProposalPackages";
 import IndividualProposalPackage from "./ProposalPackages/IndividualProposalPackage";
 import ProposalPackageHeaders from "./ProposalPackages/ProposalPackageHeaders";
+import CustomizationOptions from "./ProposalPackages/CustomizationOptions";
 
 //StoriesPage
 import StoriesPageHero from "./StoriesPage/Hero";
@@ -77,6 +78,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     ProposalPackages,
     IndividualProposalPackage,
     ProposalPackageHeaders,
+    CustomizationOptions,
 
     //StoriesPage
     StoriesPageHero,
