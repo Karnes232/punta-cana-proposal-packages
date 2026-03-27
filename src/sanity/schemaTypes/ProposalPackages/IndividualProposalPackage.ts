@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
@@ -63,7 +63,45 @@ export default defineType({
       name: "inclusions",
       title: "Inclusions",
       type: "array",
-      of: [{ type: "localizedString" }],
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "icon",
+              title: "Icon",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Utensils", value: "utensils" },
+                  { title: "Sparkles", value: "sparkles" },
+                  { title: "Camera", value: "camera" },
+                  { title: "Car", value: "car" },
+                  { title: "Wine", value: "wine" },
+                  { title: "Flower", value: "flower" },
+                  { title: "Clock", value: "clock" },
+                  { title: "Candle", value: "candle" },
+                  { title: "Music", value: "music" },
+                  { title: "Shield", value: "shield" },
+                ],
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "localizedString",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Description",
+              type: "localizedText",
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        }),
+      ],
       group: "inclusions",
       validation: (Rule) => Rule.required().min(1),
     }),

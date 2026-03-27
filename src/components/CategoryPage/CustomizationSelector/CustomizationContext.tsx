@@ -6,17 +6,26 @@ export interface SelectedPackage {
   name: string;
   slug: string;
   price: number;
-  colorCustomizationOptions?: {
-    label: string;
-    tier: "standard" | "premium";
+  colorCustomizationOptions: {
+    label: {
+      en: string;
+      es: string;
+    };
+    tier: string;
   }[];
-  floralCustomizationOptions?: {
-    label: string;
-    tier: "standard" | "premium";
+  floralCustomizationOptions: {
+    label: {
+      en: string;
+      es: string;
+    };
+    tier: string;
   }[];
-  toneCustomizationOptions?: {
-    label: string;
-    tier: "standard" | "premium";
+  toneCustomizationOptions: {
+    label: {
+      en: string;
+      es: string;
+    };
+    tier: string;
   }[];
 }
 

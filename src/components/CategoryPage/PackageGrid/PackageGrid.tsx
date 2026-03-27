@@ -26,20 +26,36 @@ interface PackageGridProps {
       es: string;
     };
     inclusions: {
-      en: string;
-      es: string;
+      icon: string;
+      title: {
+        en: string;
+        es: string;
+      };
+      description: {
+        en: string;
+        es: string;
+      };
     }[];
-    colorCustomizationOptions?: {
-      label: string;
-      tier: "standard" | "premium";
+    colorCustomizationOptions: {
+      label: {
+        en: string;
+        es: string;
+      };
+      tier: string;
     }[];
-    floralCustomizationOptions?: {
-      label: string;
-      tier: "standard" | "premium";
+    floralCustomizationOptions: {
+      label: {
+        en: string;
+        es: string;
+      };
+      tier: string;
     }[];
-    toneCustomizationOptions?: {
-      label: string;
-      tier: "standard" | "premium";
+    toneCustomizationOptions: {
+      label: {
+        en: string;
+        es: string;
+      };
+      tier: string;
     }[];
   }[];
   locale: "en" | "es";
@@ -76,7 +92,7 @@ export default function PackageGrid({ packages, locale }: PackageGridProps) {
                 price={pkg.price}
                 description={pkg.description[locale]}
                 inclusions={pkg.inclusions.map(
-                  (inclusion) => inclusion[locale],
+                  (inclusion) => inclusion.title[locale as "en" | "es"],
                 )}
               />
             </RevealOnScroll>

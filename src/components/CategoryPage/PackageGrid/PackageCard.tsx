@@ -36,17 +36,26 @@ export interface PackageCardProps {
   /** Category slug — not used for routing anymore, kept for Sanity compat */
   categorySlug?: string;
   /** Color customization options */
-  colorCustomizationOptions?: {
-    label: string;
-    tier: "standard" | "premium";
+  colorCustomizationOptions: {
+    label: {
+      en: string;
+      es: string;
+    };
+    tier: string;
   }[];
-  floralCustomizationOptions?: {
-    label: string;
-    tier: "standard" | "premium";
+  floralCustomizationOptions: {
+    label: {
+      en: string;
+      es: string;
+    };
+    tier: string;
   }[];
-  toneCustomizationOptions?: {
-    label: string;
-    tier: "standard" | "premium";
+  toneCustomizationOptions: {
+    label: {
+      en: string;
+      es: string;
+    };
+    tier: string;
   }[];
 }
 

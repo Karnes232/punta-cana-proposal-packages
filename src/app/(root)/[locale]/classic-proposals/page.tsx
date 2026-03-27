@@ -26,7 +26,7 @@ export default async function ClassicProposals({
       getProposalPackageHeader(),
     ]);
 
-  console.log(proposalPackageHeader);
+
 
   const labels =
     locale === "es"

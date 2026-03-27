@@ -39,7 +39,7 @@ export default async function DiningProposals({
           bookNow: "Book Now",
           selectPackage: "Select a package above",
         };
-
+  console.log(proposalPackage);
   return (
     <main>
       {structuredData.seo.structuredData[locale as "en" | "es"] && (

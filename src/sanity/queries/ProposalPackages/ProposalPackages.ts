@@ -69,8 +69,36 @@ export interface ProposalPackages {
       es: string;
     };
     inclusions: {
-      en: string;
-      es: string;
+      icon: string;
+      title: {
+        en: string;
+        es: string;
+      };
+      description: {
+        en: string;
+        es: string;
+      };
+    }[];
+    colorCustomizationOptions: {
+      label: {
+        en: string;
+        es: string;
+      };
+      tier: string;
+    }[];
+    floralCustomizationOptions: {
+      label: {
+        en: string;
+        es: string;
+      };
+      tier: string;
+    }[];
+    toneCustomizationOptions: {
+      label: {
+        en: string;
+        es: string;
+      };
+      tier: string;
     }[];
   }[];
 }
@@ -144,8 +172,15 @@ export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && pag
       es
     },
     inclusions[] {
-      en,
-      es
+      icon,
+      title {
+        en,
+        es
+      },
+      description {
+        en,
+        es
+      },
     }, 
     colorCustomizationOptions[] {
       label {

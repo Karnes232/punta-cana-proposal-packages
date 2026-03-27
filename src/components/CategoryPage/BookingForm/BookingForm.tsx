@@ -7,16 +7,13 @@ interface BookingFormProps {
   headingLine1: string;
   headingLine2: string;
   description: string;
-
 }
-
 
 export default function BookingForm({
   eyebrow,
   headingLine1,
   headingLine2,
   description,
-
 }: BookingFormProps) {
   const t = useTranslations("PackagePage.BookingForm");
 
@@ -80,7 +77,7 @@ export default function BookingForm({
             labels={{
               heading: eyebrow,
               subheading: description,
-              name:   t("name"),
+              name: t("name"),
               hotel: t("hotel"),
               phone: t("phone"),
               email: t("email"),
