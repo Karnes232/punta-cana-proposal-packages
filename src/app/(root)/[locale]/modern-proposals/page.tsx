@@ -91,7 +91,6 @@ export default async function ModernProposals({
               locale as "en" | "es"
             ]
           }
-          category="modern"
         />
         <WhatsIncluded category="modern" />
         <BookingForm locale={locale} />

@@ -93,7 +93,6 @@ export default async function ClassicProposals({
               locale as "en" | "es"
             ]
           }
-          category="classic"
         />
         <WhatsIncluded category="classic" />
         <BookingForm locale={locale} />
