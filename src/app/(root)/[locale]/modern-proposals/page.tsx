@@ -111,7 +111,7 @@ export default async function ModernProposals({
               locale as "en" | "es"
             ]
           }
-          category="modern"
+          locale={locale as "en" | "es"}
         />
         <BookingForm
           eyebrow={

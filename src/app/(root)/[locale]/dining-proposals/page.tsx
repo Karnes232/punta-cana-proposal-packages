@@ -39,7 +39,6 @@ export default async function DiningProposals({
           bookNow: "Book Now",
           selectPackage: "Select a package above",
         };
-  console.log(proposalPackage);
   return (
     <main>
       {structuredData.seo.structuredData[locale as "en" | "es"] && (
@@ -112,7 +111,7 @@ export default async function DiningProposals({
               locale as "en" | "es"
             ]
           }
-          category="dining"
+          locale={locale as "en" | "es"}
         />
         <BookingForm
           eyebrow={
