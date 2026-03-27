@@ -65,7 +65,10 @@ export default async function ModernProposals({
         description={proposalPackage.introDescription[locale as "en" | "es"]}
       />
       <CustomizationProvider premiumUplift={450}>
-        <PackageGrid packages={MODERN_PACKAGES} />
+        <PackageGrid
+          packages={proposalPackage.packages}
+          locale={locale as "en" | "es"}
+        />
         <CustomizationSelector category="modern" />
         <WhatsIncluded category="modern" />
         <BookingForm locale={locale} />

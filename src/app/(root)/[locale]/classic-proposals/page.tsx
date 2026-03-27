@@ -23,8 +23,6 @@ export default async function ClassicProposals({
     proposalPackagesQuery("classic-proposals"),
   ]);
 
-  console.log(proposalPackage);
-
   const labels =
     locale === "es"
       ? {

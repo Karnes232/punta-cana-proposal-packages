@@ -66,7 +66,10 @@ export default async function DiningProposals({
         description={proposalPackage.introDescription[locale as "en" | "es"]}
       />
       <CustomizationProvider premiumUplift={600}>
-        <PackageGrid packages={DINING_PACKAGES} />
+        <PackageGrid
+          packages={proposalPackage.packages}
+          locale={locale as "en" | "es"}
+        />
         <CustomizationSelector category="dining" />
         <WhatsIncluded category="dining" />
         <BookingForm locale={locale} />
