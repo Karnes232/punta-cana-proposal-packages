@@ -49,6 +49,30 @@ export interface ProposalPackageHeader {
     en: string;
     es: string;
   };
+  RelatedStoriesEyebrow: {
+    en: string;
+    es: string;
+  };
+  RelatedStoriesHeadingLine1: {
+    en: string;
+    es: string;
+  };
+  RelatedStoriesHeadingLine2: {
+    en: string;
+    es: string;
+  };
+  RelatedStoriesDescription: {
+    en: string;
+    es: string;
+  };
+  RelatedStoriesReadMore: {
+    en: string;
+    es: string;
+  };
+  RelatedStoriesViewAll: {
+    en: string;
+    es: string;
+  };
 }
 
 export const proposalPackageHeaderQuery = `*[_type == "ProposalPackageHeader"][0]{
@@ -100,6 +124,30 @@ export const proposalPackageHeaderQuery = `*[_type == "ProposalPackageHeader"][0
       en,
       es
     },      
+    RelatedStoriesEyebrow {
+      en,
+      es
+    },
+    RelatedStoriesHeadingLine1 {
+      en,
+      es
+    },
+    RelatedStoriesHeadingLine2 {
+      en,
+      es
+    },
+    RelatedStoriesDescription {
+      en,
+      es
+    },
+    RelatedStoriesReadMore {
+      en,
+      es
+    },
+    RelatedStoriesViewAll {
+      en,
+      es
+    },
   }`;
 
 export const getProposalPackageHeader =

@@ -2,9 +2,11 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 
 export interface RelatedStoryData {
-  slug: string;
+  slug?: {
+    current: string;
+  };
   names: string;
-  image: {
+  heroPhoto: {
     asset: {
       url: string;
       metadata: {
@@ -17,9 +19,15 @@ export interface RelatedStoryData {
     alt?: string;
   };
   date: string;
-  location: string;
+  location: {
+    en: string;
+    es: string;
+  };
   packageTag: string;
-  quote: string;
+  quote: {
+    en: string;
+    es: string;
+  };
   photo?: {
     asset: {
       url: string;
@@ -31,20 +39,22 @@ export interface RelatedStoryData {
 interface RelatedStoryCardProps {
   story: RelatedStoryData;
   readMoreLabel: string;
+  locale: "en" | "es";
 }
 
 export default function RelatedStoryCard({
   story,
   readMoreLabel,
+  locale,
 }: RelatedStoryCardProps) {
   return (
     <article className="group flex flex-col md:flex-row bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden">
       {/* Photo — left side on desktop, top on mobile */}
       <div className="relative w-full md:w-2/5 min-h-[200px] md:min-h-[280px] bg-black overflow-hidden shrink-0">
-        {story.image ? (
+        {story.heroPhoto ? (
           <Image
-            src={story.image.asset.url}
-            alt={story.image.alt ?? `${story.names} proposal photo`}
+            src={story.heroPhoto.asset.url}
+            alt={story.heroPhoto.alt ?? `${story.names} proposal photo`}
             fill
             className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
             sizes="(max-width: 768px) 100vw, 40vw"
@@ -81,7 +91,7 @@ export default function RelatedStoryCard({
             aria-hidden="true"
           />
           <span className="text-[10.5px] font-light tracking-[0.06em] text-white/70">
-            {story.location}
+            {story.location[locale as "en" | "es"]}
           </span>
         </div>
       </div>
@@ -97,16 +107,22 @@ export default function RelatedStoryCard({
         </h3>
 
         <p className="font-light italic text-[clamp(13px,1.3vw,15px)] text-gray leading-relaxed flex-1">
-          &ldquo;{story.quote}&rdquo;
+          &ldquo;{story.quote[locale as "en" | "es"]}&rdquo;
         </p>
 
         {/* Divider + CTA */}
         <div className="flex items-center justify-between pt-4 mt-auto border-t border-gold/20">
           <span className="text-[10.5px] font-light tracking-[0.06em] text-gray">
-            {story.date}
+            {new Date(story.date)
+              .toLocaleDateString(locale, { year: "numeric", month: "long" })
+              .charAt(0)
+              .toUpperCase() +
+              new Date(story.date)
+                .toLocaleDateString(locale, { year: "numeric", month: "long" })
+                .slice(1)}
           </span>
           <Link
-            href={`/stories/${story.slug}`}
+            href={`/stories/${story.slug?.current}`}
             className="
               inline-flex items-center gap-2
               text-[10.5px] font-medium tracking-[0.14em] uppercase text-black

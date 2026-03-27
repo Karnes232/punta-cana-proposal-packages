@@ -1,55 +1,31 @@
 import { Link } from "@/i18n/navigation";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import RelatedStoryCard, { RelatedStoryData } from "./RelatedStoryCard";
-import { RELATED_STORIES } from "./relatedStoriesData";
-
-type CategorySlug = "classic" | "modern" | "dining";
+import { relatedStories } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
 
 interface RelatedStoriesProps {
-  category: CategorySlug;
   locale?: string;
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  description: string;
+  readMore: string;
+  viewAll: string;
   /** Override stories from Sanity */
-  stories?: RelatedStoryData[];
+  stories?: relatedStories[];
 }
 
-const content: Record<
-  string,
-  {
-    eyebrow: string;
-    line1: string;
-    line2: string;
-    description: string;
-    readMore: string;
-    viewAll: string;
-  }
-> = {
-  en: {
-    eyebrow: "Real Proposals",
-    line1: "Their Stories,",
-    line2: "Your Inspiration",
-    description:
-      "Real couples, real moments, real emotions — see how others made their proposal unforgettable.",
-    readMore: "Read Story",
-    viewAll: "View All Stories",
-  },
-  es: {
-    eyebrow: "Propuestas Reales",
-    line1: "Sus Historias,",
-    line2: "Tu Inspiración",
-    description:
-      "Parejas reales, momentos reales, emociones reales — descubre cómo otros hicieron su propuesta inolvidable.",
-    readMore: "Leer Historia",
-    viewAll: "Ver Todas las Historias",
-  },
-};
-
 export default function RelatedStories({
-  category,
   locale = "en",
   stories,
+  eyebrow,
+  headingLine1,
+  headingLine2,
+  description,
+  readMore,
+  viewAll,
 }: RelatedStoriesProps) {
-  const t = content[locale] ?? content.en;
-  const storyList = stories ?? RELATED_STORIES[category] ?? [];
+  const storyList = stories ?? [];
 
   if (!storyList.length) return null;
 
@@ -123,7 +99,7 @@ export default function RelatedStories({
             <div className="flex items-center justify-center gap-3">
               <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
               <p className="text-[10.5px] font-light tracking-[0.28em] uppercase text-gold/80">
-                {t.eyebrow}
+                {eyebrow}
               </p>
               <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
             </div>
@@ -131,14 +107,14 @@ export default function RelatedStories({
 
           <RevealOnScroll delay={200}>
             <h2 className="font-display font-normal text-center leading-[1.2] tracking-[-0.01em] text-[clamp(28px,3.5vw,48px)]">
-              <span className="block text-black">{t.line1}</span>
-              <span className="block italic text-gold">{t.line2}</span>
+              <span className="block text-black">{headingLine1}</span>
+              <span className="block italic text-gold">{headingLine2}</span>
             </h2>
           </RevealOnScroll>
 
           <RevealOnScroll delay={300}>
             <p className="text-center font-light text-gray leading-[1.85] text-[clamp(14px,1.5vw,17px)] max-w-[520px] mx-auto">
-              {t.description}
+              {description}
             </p>
           </RevealOnScroll>
         </div>
@@ -146,8 +122,12 @@ export default function RelatedStories({
         {/* Story cards */}
         <div className="flex flex-col gap-6 lg:gap-8">
           {storyList.map((story, i) => (
-            <RevealOnScroll key={story.slug} delay={400 + i * 150}>
-              <RelatedStoryCard story={story} readMoreLabel={t.readMore} />
+            <RevealOnScroll key={story.slug?.current} delay={400 + i * 150}>
+              <RelatedStoryCard
+                story={story as unknown as RelatedStoryData}
+                readMoreLabel={readMore}
+                locale={locale as "en" | "es"}
+              />
             </RevealOnScroll>
           ))}
         </div>
@@ -167,7 +147,7 @@ export default function RelatedStories({
                 group
               "
             >
-              {t.viewAll}
+              {viewAll}
               <svg
                 width="14"
                 height="14"

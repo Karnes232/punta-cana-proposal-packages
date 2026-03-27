@@ -242,3 +242,56 @@ export const allStoriesQuery = `
 export const getAllStories = async (): Promise<AllStoriesCard[]> => {
   return client.fetch(allStoriesQuery);
 };
+
+export interface relatedStories {
+  slug?: {
+    current: string;
+  };
+  names: string;
+  date: string;
+  location: {
+    en: string;
+    es: string;
+  };
+  proposalType: {
+    value: string;
+    label: {
+      en: string;
+      es: string;
+    };
+  };
+  quote: {
+    en: string;
+    es: string;
+  };
+  heroPhoto: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  };
+}
+
+export const relatedStoriesQuery = `
+    *[_type == "individualStory" && proposalType->value == $proposalTypeValue] | order(publishedAt desc) [0...2] {
+      slug,
+      names,
+      date,
+      location { en, es },
+      proposalType-> { value, label { en, es } },
+      quote { en, es },
+      heroPhoto { ${imageFragment} }
+    }
+  `;
+
+export const getRelatedStories = async (
+  proposalTypeValue: string,
+): Promise<relatedStories[]> => {
+  return client.fetch(relatedStoriesQuery, { proposalTypeValue });
+};

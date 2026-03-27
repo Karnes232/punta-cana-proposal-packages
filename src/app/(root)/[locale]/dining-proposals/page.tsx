@@ -12,6 +12,7 @@ import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getProposalPackageHeader } from "@/sanity/queries/ProposalPackages/ProposalPackageHeaders";
 import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
+import { getRelatedStories } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
 import Script from "next/script";
 
 export default async function DiningProposals({
@@ -20,12 +21,17 @@ export default async function DiningProposals({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData, proposalPackage, proposalPackageHeader] =
-    await Promise.all([
-      getStructuredData("dining-proposals"),
-      proposalPackagesQuery("dining-proposals"),
-      getProposalPackageHeader(),
-    ]);
+  const [
+    structuredData,
+    proposalPackage,
+    proposalPackageHeader,
+    relatedStories,
+  ] = await Promise.all([
+    getStructuredData("dining-proposals"),
+    proposalPackagesQuery("dining-proposals"),
+    getProposalPackageHeader(),
+    getRelatedStories("dining"),
+  ]);
 
   const labels =
     locale === "es"
@@ -129,7 +135,36 @@ export default async function DiningProposals({
         />
         <StickyBookingBar labels={labels} />
       </CustomizationProvider>
-      <RelatedStories category="dining" locale={locale} />
+      {relatedStories.length > 0 && (
+        <RelatedStories
+          eyebrow={
+            proposalPackageHeader.RelatedStoriesEyebrow[locale as "en" | "es"]
+          }
+          headingLine1={
+            proposalPackageHeader.RelatedStoriesHeadingLine1[
+              locale as "en" | "es"
+            ]
+          }
+          headingLine2={
+            proposalPackageHeader.RelatedStoriesHeadingLine2[
+              locale as "en" | "es"
+            ]
+          }
+          description={
+            proposalPackageHeader.RelatedStoriesDescription[
+              locale as "en" | "es"
+            ]
+          }
+          readMore={
+            proposalPackageHeader.RelatedStoriesReadMore[locale as "en" | "es"]
+          }
+          viewAll={
+            proposalPackageHeader.RelatedStoriesViewAll[locale as "en" | "es"]
+          }
+          locale={locale}
+          stories={relatedStories}
+        />
+      )}
     </main>
   );
 }

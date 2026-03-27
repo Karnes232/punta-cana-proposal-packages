@@ -6,7 +6,6 @@ import { WhatsIncludedItemProps } from "./WhatsIncludedItem";
 import { useCustomization } from "../CustomizationSelector/CustomizationContext";
 import { useTranslations } from "next-intl";
 
-
 interface WhatsIncludedProps {
   eyebrow: string;
   headingLine1: string;
@@ -24,7 +23,6 @@ export default function WhatsIncluded({
   description,
 
   locale = "en",
-
 }: WhatsIncludedProps) {
   const { state } = useCustomization();
   const t = useTranslations("PackagePage.WhatsIncluded");
@@ -130,7 +128,6 @@ export default function WhatsIncluded({
             </div>
           )}
           {inclusions?.map((item, i) => {
-          
             return (
               <RevealOnScroll
                 key={item.title[locale as "en" | "es"] + i}
