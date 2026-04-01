@@ -43,7 +43,6 @@ export default async function ClassicProposals({
     getProposalPackageHeader(),
     getRelatedStories("classic"),
   ]);
-  console.log(relatedStories);
   const labels =
     locale === "es"
       ? {
@@ -83,7 +82,12 @@ export default async function ClassicProposals({
         headingLine2={proposalPackage.introHeadingLine2[locale as "en" | "es"]}
         description={proposalPackage.introDescription[locale as "en" | "es"]}
       />
-      <CustomizationProvider premiumUplift={300}>
+      <PackageGrid
+          packages={proposalPackage.packages}
+          locale={locale as "en" | "es"}
+          categorySlug="classic-proposals"
+        />
+      {/* <CustomizationProvider premiumUplift={300}>
         <PackageGrid
           packages={proposalPackage.packages}
           locale={locale as "en" | "es"}
@@ -146,7 +150,7 @@ export default async function ClassicProposals({
           }
         />
         <StickyBookingBar labels={labels} />
-      </CustomizationProvider>
+      </CustomizationProvider> */}
       {relatedStories.length > 0 && (
         <RelatedStories
           stories={relatedStories}

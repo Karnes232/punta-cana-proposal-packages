@@ -12,18 +12,27 @@ export default defineType({
       title: "Package",
     },
     {
+      name: "gallery",
+      title: "Gallery",
+    },
+    {
       name: "inclusions",
       title: "Inclusions",
     },
     {
-      name: "customizationOptions",
-      title: "Customization Options",
+      name: "variants",
+      title: "Variants",
+    },
+    {
+      name: "addons",
+      title: "Add-ons",
     },
   ],
   fields: [
+    // ── Package group ──
     defineField({
       name: "image",
-      title: "Image",
+      title: "Hero Image",
       type: "image",
       group: "package",
       options: {
@@ -46,8 +55,17 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "name.en" },
+      group: "package",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "price",
-      title: "Price",
+      title: "Base Price",
+      description: "Starting price before variants or add-ons",
       type: "number",
       group: "package",
       validation: (Rule) => Rule.required(),
@@ -59,6 +77,38 @@ export default defineType({
       group: "package",
       validation: (Rule) => Rule.required(),
     }),
+
+    // ── Gallery group ──
+    defineField({
+      name: "gallery",
+      title: "Photo Gallery",
+      description: "Images for the carousel. First image is used as the hero fallback.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: "alt",
+              title: "Alt Text",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "caption",
+              title: "Caption",
+              description: "e.g. 'Blush & Ivory variant' — shown below the image in the carousel",
+              type: "localizedString",
+            }),
+          ],
+        }),
+      ],
+      group: "gallery",
+      validation: (Rule) => Rule.min(1),
+    }),
+
+    // ── Inclusions group ──
     defineField({
       name: "inclusions",
       title: "Inclusions",
@@ -105,29 +155,133 @@ export default defineType({
       group: "inclusions",
       validation: (Rule) => Rule.required().min(1),
     }),
+
+    // ── Variants group ──
     defineField({
-      name: "colorCustomizationOptions",
-      title: "Color Customization Options",
+      name: "variants",
+      title: "Package Variants",
+      description:
+        "Different versions of this package the client can choose from (e.g. color themes, setup styles). Each has its own price.",
       type: "array",
-      of: [{ type: "CustomizationOptions" }],
-      group: "customizationOptions",
-      validation: (Rule) => Rule.required(),
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "name",
+              title: "Variant Name",
+              type: "localizedString",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Short Description",
+              type: "localizedText",
+            }),
+            defineField({
+              name: "price",
+              title: "Price",
+              description:
+                "Full price for this variant (not an uplift — the actual price)",
+              type: "number",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "image",
+              title: "Preview Image",
+              type: "image",
+              options: { hotspot: true },
+              fields: [
+                defineField({
+                  name: "alt",
+                  title: "Alt Text",
+                  type: "string",
+                }),
+              ],
+            }),
+          ],
+          preview: {
+            select: {
+              title: "name.en",
+              subtitle: "price",
+              media: "image",
+            },
+            prepare({ title, subtitle, media }) {
+              return {
+                title,
+                subtitle: subtitle ? `$${subtitle}` : undefined,
+                media,
+              };
+            },
+          },
+        }),
+      ],
+      group: "variants",
     }),
+
+    // ── Add-ons group ──
     defineField({
-      name: "floralCustomizationOptions",
-      title: "Floral Customization Options",
+      name: "addons",
+      title: "Available Add-ons",
+      description:
+        "Optional extras the client can add to their booking (e.g. violinist, extra hour, fireworks)",
       type: "array",
-      of: [{ type: "CustomizationOptions" }],
-      group: "customizationOptions",
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "toneCustomizationOptions",
-      title: "Tone Customization Options",
-      type: "array",
-      of: [{ type: "CustomizationOptions" }],
-      group: "customizationOptions",
-      validation: (Rule) => Rule.required(),
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "name",
+              title: "Add-on Name",
+              type: "localizedString",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Short Description",
+              type: "localizedText",
+            }),
+            defineField({
+              name: "price",
+              title: "Price",
+              type: "number",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "icon",
+              title: "Icon",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Music", value: "music" },
+                  { title: "Clock", value: "clock" },
+                  { title: "Sparkles", value: "sparkles" },
+                  { title: "Flower", value: "flower" },
+                  { title: "Camera", value: "camera" },
+                  { title: "Wine", value: "wine" },
+                  { title: "Candle", value: "candle" },
+                  { title: "Utensils", value: "utensils" },
+                  { title: "Shield", value: "shield" },
+                  { title: "Car", value: "car" },
+                ],
+              },
+            }),
+          ],
+          preview: {
+            select: {
+              title: "name.en",
+              subtitle: "price",
+            },
+            prepare({ title, subtitle }) {
+              return {
+                title,
+                subtitle: subtitle ? `+$${subtitle}` : undefined,
+              };
+            },
+          },
+        }),
+      ],
+      group: "addons",
     }),
   ],
   preview: {
@@ -135,6 +289,13 @@ export default defineType({
       title: "name.en",
       subtitle: "price",
       media: "image",
+    },
+    prepare({ title, subtitle, media }) {
+      return {
+        title,
+        subtitle: subtitle ? `Starting at $${subtitle}` : undefined,
+        media,
+      };
     },
   },
 });

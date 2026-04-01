@@ -71,7 +71,12 @@ export default async function DiningProposals({
         headingLine2={proposalPackage.introHeadingLine2[locale as "en" | "es"]}
         description={proposalPackage.introDescription[locale as "en" | "es"]}
       />
-      <CustomizationProvider premiumUplift={600}>
+      <PackageGrid
+          packages={proposalPackage.packages}
+          locale={locale as "en" | "es"}
+          categorySlug="dining-proposals"
+        />
+      {/* <CustomizationProvider premiumUplift={600}>
         <PackageGrid
           packages={proposalPackage.packages}
           locale={locale as "en" | "es"}
@@ -134,7 +139,7 @@ export default async function DiningProposals({
           }
         />
         <StickyBookingBar labels={labels} />
-      </CustomizationProvider>
+      </CustomizationProvider> */}
       {relatedStories.length > 0 && (
         <RelatedStories
           eyebrow={

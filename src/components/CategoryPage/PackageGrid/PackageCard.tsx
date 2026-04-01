@@ -4,12 +4,15 @@ import { useCustomization } from "@/components/CategoryPage/CustomizationSelecto
 import PackageCardImage from "./PackageCardImage";
 import PackageCardInclusions from "./PackageCardInclusions";
 import { useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export interface PackageCardProps {
   /** Package name */
   name: string;
   /** Unique slug */
   slug: string;
+  /** Category slug */
+  categorySlug: string;
   /** Sanity image */
   image?: {
     asset: {
@@ -45,74 +48,71 @@ export interface PackageCardProps {
   selectLabel?: string;
   selectedLabel?: string;
   /** Category slug — not used for routing anymore, kept for Sanity compat */
-  categorySlug?: string;
+
   /** Color customization options */
-  colorCustomizationOptions: {
-    label: {
-      en: string;
-      es: string;
-    };
-    tier: string;
-  }[];
-  floralCustomizationOptions: {
-    label: {
-      en: string;
-      es: string;
-    };
-    tier: string;
-  }[];
-  toneCustomizationOptions: {
-    label: {
-      en: string;
-      es: string;
-    };
-    tier: string;
-  }[];
+  // colorCustomizationOptions: {
+  //   label: {
+  //     en: string;
+  //     es: string;
+  //   };
+  //   tier: string;
+  // }[];
+  // floralCustomizationOptions: {
+  //   label: {
+  //     en: string;
+  //     es: string;
+  //   };
+  //   tier: string;
+  // }[];
+  // toneCustomizationOptions: {
+  //   label: {
+  //     en: string;
+  //     es: string;
+  //   };
+  //   tier: string;
+  // }[];
 }
 
 export default function PackageCard({
   name,
   slug,
+  categorySlug,
   image,
   price,
   description,
-  colorCustomizationOptions = [],
-  floralCustomizationOptions = [],
-  toneCustomizationOptions = [],
+      // colorCustomizationOptions = [],
+      // floralCustomizationOptions = [],
+      // toneCustomizationOptions = [],
   inclusions = [],
   badge,
   selectLabel = "Select Package",
   selectedLabel = "Selected",
 }: PackageCardProps) {
-  const { state, setSelectedPackage } = useCustomization();
-  const isSelected = state.selectedPackage?.slug === slug;
+  // const { state, setSelectedPackage } = useCustomization();
+  // const isSelected = state.selectedPackage?.slug === slug;
   const locale = useLocale();
-  const handleSelect = () => {
-    setSelectedPackage({
-      name,
-      slug,
-      price,
-      colorCustomizationOptions,
-      floralCustomizationOptions,
-      toneCustomizationOptions,
-      inclusions,
-    });
-  };
+  // const handleSelect = () => {
+  //   setSelectedPackage({
+  //     name,
+  //     slug,
+  //     price,
+  //     colorCustomizationOptions,
+  //     floralCustomizationOptions,
+  //     toneCustomizationOptions,
+  //     inclusions,
+  //   });
+  // };
 
   return (
-    <button
-      type="button"
-      onClick={handleSelect}
+    <Link
+      href={`/${categorySlug}/${slug}`}
+    //  onClick={handleSelect}
       className={`
         group relative flex h-full flex-col overflow-hidden text-left
         border transition-all duration-500 cursor-pointer w-full
-        ${
-          isSelected
-            ? "border-gold/70 bg-gold/[0.06] ring-1 ring-gold/30"
-            : "border-gold/20 bg-white/[0.03] hover:border-gold/50"
-        }
+        border-gold/20 bg-white/[0.03] hover:border-gold/50
       `}
-      aria-pressed={isSelected}
+   //   aria-pressed={isSelected}
       aria-label={`Select ${name}`}
     >
       {/* Image */}
@@ -126,7 +126,7 @@ export default function PackageCard({
             className={`
               font-display italic font-normal leading-tight tracking-[-0.01em]
               text-[clamp(20px,2vw,26px)] transition-colors duration-300 truncate
-              ${isSelected ? "text-gold" : "text-white group-hover:text-gold"}
+              text-white group-hover:text-gold
             `}
           >
             {name}
@@ -159,10 +159,10 @@ export default function PackageCard({
 
         {/* CTA row */}
         <div className="flex items-center gap-2 mt-auto pt-2">
-          {isSelected ? (
-            <>
+          {/* {isSelected ? ( */}
+            {/* <> */}
               {/* Checkmark */}
-              <svg
+              {/* <svg
                 width="14"
                 height="14"
                 viewBox="0 0 24 24"
@@ -179,8 +179,8 @@ export default function PackageCard({
               <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
                 {selectedLabel}
               </span>
-            </>
-          ) : (
+            </> */}
+          {/* ) : ( */}
             <>
               <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
                 {selectLabel}
@@ -201,7 +201,7 @@ export default function PackageCard({
                 <polyline points="12 5 19 12 12 19" />
               </svg>
             </>
-          )}
+          {/* )} */}
         </div>
       </div>
 
@@ -209,18 +209,18 @@ export default function PackageCard({
       <div
         className={`
           absolute top-0 right-0 w-8 h-8 border-t border-r transition-all duration-500
-          ${isSelected ? "border-gold/60" : "border-gold/0 group-hover:border-gold/40"}
+          border-gold/0 group-hover:border-gold/40
         `}
         aria-hidden="true"
       />
 
       {/* Selected indicator — bottom-left corner */}
-      {isSelected && (
+      {/* {isSelected && ( */}
         <div
           className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-gold/60"
           aria-hidden="true"
         />
-      )}
-    </button>
+      {/* )} */}
+    </Link>
   );
 }

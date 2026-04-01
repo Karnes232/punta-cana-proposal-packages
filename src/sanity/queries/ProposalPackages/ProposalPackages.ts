@@ -63,6 +63,10 @@ export interface ProposalPackages {
       en: string;
       es: string;
     };
+    slug: 
+    {
+      current: string;
+    };
     price: number;
     description: {
       en: string;
@@ -78,27 +82,6 @@ export interface ProposalPackages {
         en: string;
         es: string;
       };
-    }[];
-    colorCustomizationOptions: {
-      label: {
-        en: string;
-        es: string;
-      };
-      tier: string;
-    }[];
-    floralCustomizationOptions: {
-      label: {
-        en: string;
-        es: string;
-      };
-      tier: string;
-    }[];
-    toneCustomizationOptions: {
-      label: {
-        en: string;
-        es: string;
-      };
-      tier: string;
     }[];
   }[];
 }
@@ -166,6 +149,9 @@ export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && pag
       en,
       es
     },
+    slug {
+      current
+    },
     price,
     description {
       en,
@@ -182,27 +168,6 @@ export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && pag
         es
       },
     }, 
-    colorCustomizationOptions[] {
-      label {
-        en,
-        es
-      },
-      tier
-    },
-    floralCustomizationOptions[] {
-      label {
-        en,
-        es
-      },
-      tier
-    },
-    toneCustomizationOptions[] {
-      label {
-        en,
-        es
-      },
-      tier
-    }
   }
   
 }`;

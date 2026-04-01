@@ -83,7 +83,23 @@
       "noPackageSelected": "Select a package above to see color options",
       "premiumUnlocked": "Premium options unlocked — elevated florals, richer palettes, and exclusive styling."
     },
+    "PackageInclusions": {
+      "eyebrow": "What's Included",
+      "headingLine1": "Everything you need",
+      "headingLine2": "to make your event unforgettable"
+    },
+    "PackageHero": {
+      "breadcrumb": "Dining Proposals",
+      "startingAtLabel": "Starting at",
+      "diningProposals": "Dining Proposals",
+      "classicProposals": "Classic Proposals",
+      "modernProposals": "Modern Proposals"
+    },
     "BookingForm": {
+      "eyebrow": "Book Your Proposal",
+      "headingLine1": "Ready to",
+      "headingLine2": "Begin?",
+      "description": "Customize your package and fill out the form — we'll get back to you within 24 hours.",
       "name": "Full Name",
       "hotel": "Hotel / Resort",
       "phone": "Phone Number",

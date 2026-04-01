@@ -83,7 +83,23 @@
       "noPackageSelected": "Selecciona un paquete arriba para ver las opciones de color",
       "premiumUnlocked": "Opciones premium desbloqueadas — florales elevados, paletas más ricas y estilos exclusivos."
     },
+    "PackageInclusions": {
+      "eyebrow": "¿Qué incluye?",
+      "headingLine1": "Todo lo que necesitas",
+      "headingLine2": "para hacer tu evento inolvidable"
+    },
+    "PackageHero": {
+      "breadcrumb": "Proposiciones de Cena",
+      "startingAtLabel": "A partir de",
+      "diningProposals": "Proposiciones de Cena",
+      "classicProposals": "Proposiciones Clásicas",
+      "modernProposals": "Proposiciones Modernas"
+    },
     "BookingForm": {
+      "eyebrow": "Reserva Tu Propuesta",
+      "headingLine1": "¿Listo para",
+      "headingLine2": "Comenzar?",
+      "description": "Personaliza tu paquete y completa el formulario — te responderemos en menos de 24 horas.",
       "name": "Nombre Completo",
       "hotel": "Hotel / Resort",
       "phone": "Número de Teléfono",

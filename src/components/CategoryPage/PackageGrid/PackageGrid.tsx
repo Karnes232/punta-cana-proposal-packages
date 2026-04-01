@@ -20,6 +20,9 @@ interface PackageGridProps {
       en: string;
       es: string;
     };
+    slug: {
+      current: string;
+    };
     price: number;
     description: {
       en: string;
@@ -36,32 +39,12 @@ interface PackageGridProps {
         es: string;
       };
     }[];
-    colorCustomizationOptions: {
-      label: {
-        en: string;
-        es: string;
-      };
-      tier: string;
-    }[];
-    floralCustomizationOptions: {
-      label: {
-        en: string;
-        es: string;
-      };
-      tier: string;
-    }[];
-    toneCustomizationOptions: {
-      label: {
-        en: string;
-        es: string;
-      };
-      tier: string;
-    }[];
   }[];
   locale: "en" | "es";
+  categorySlug: string;
 }
 
-export default function PackageGrid({ packages, locale }: PackageGridProps) {
+export default function PackageGrid({ packages, locale, categorySlug }: PackageGridProps) {
   return (
     <section className="relative bg-black overflow-hidden">
       {/* Subtle radial glow */}
@@ -77,6 +60,7 @@ export default function PackageGrid({ packages, locale }: PackageGridProps) {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {packages.map((pkg, i) => (
+            console.log(pkg),
             <RevealOnScroll
               key={pkg.name.en}
               delay={i * 120}
@@ -84,10 +68,11 @@ export default function PackageGrid({ packages, locale }: PackageGridProps) {
             >
               <PackageCard
                 name={pkg.name[locale]}
-                slug={pkg.name[locale]}
-                colorCustomizationOptions={pkg.colorCustomizationOptions}
-                floralCustomizationOptions={pkg.floralCustomizationOptions}
-                toneCustomizationOptions={pkg.toneCustomizationOptions}
+                slug={pkg.slug.current}
+                categorySlug={categorySlug}
+                // colorCustomizationOptions={pkg.colorCustomizationOptions}
+                // floralCustomizationOptions={pkg.floralCustomizationOptions}
+                // toneCustomizationOptions={pkg.toneCustomizationOptions}
                 image={pkg.image}
                 price={pkg.price}
                 description={pkg.description[locale]}
