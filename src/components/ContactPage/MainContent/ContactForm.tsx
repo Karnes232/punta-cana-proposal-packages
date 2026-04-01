@@ -82,7 +82,7 @@ export default function ContactForm({
       formDataToSend.append("date", form.date);
       formDataToSend.append("time", form.time);
       formDataToSend.append("message", form.message);
-
+      console.log(formDataToSend);
       const response = await fetch("/__forms.html", {
         method: "POST",
         headers: {
@@ -90,6 +90,7 @@ export default function ContactForm({
         },
         body: new URLSearchParams(formDataToSend as any),
       });
+      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to submit form");
       }
