@@ -32,6 +32,11 @@ import StoriesPageHero from "./StoriesPage/Hero";
 import ProposalType from "./StoriesPage/ProposalType";
 import IndividualStory from "./StoriesPage/IndividualStory";
 
+//BlogPage
+import BlogPageHero from "./BlogPage/BlogPageHero";
+import BlogPost from "./BlogPage/BlogPost";
+import BlogCategory from "./BlogPage/BlogCategory";
+
 //ContactPage
 import ContactPageContent from "./ContactPage/Content";
 
@@ -84,6 +89,11 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     StoriesPageHero,
     ProposalType,
     IndividualStory,
+
+    //BlogPage
+    BlogPageHero,
+    BlogPost,
+    BlogCategory,
 
     //ContactPage
     ContactPageContent,

@@ -1,3 +1,9 @@
+import BlogCTAStrip from "@/components/BlogPage/BlogCTAStrip/BlogCTAStrip";
+import BlogFilterBar from "@/components/BlogPage/BlogFilterBar/BlogFilterBar";
+import BlogFilteredSection from "@/components/BlogPage/BlogFilteredSection/BlogFilteredSection";
+import BlogGrid from "@/components/BlogPage/BlogGrid/BlogGrid";
+import FeaturedPost from "@/components/BlogPage/FeaturedBlogPost/FeaturedPost";
+import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import Script from "next/script";
@@ -22,7 +28,12 @@ export default async function Blog({
           }}
         />
       )}
-      <h1>Blog</h1>
+      <BlogHero locale={locale as "en" | "es"} />
+      <BlogFilteredSection locale={locale as "en" | "es"} />
+      {/* <FeaturedPost locale={locale as "en" | "es"} />
+      <BlogFilterBar locale={locale as "en" | "es"} categories={[{ value: "destination-guides", label: { en: "Destination Guides", es: "Guías de Destino" } },{ value: "planning-tips", label: { en: "Planning Tips", es: "Consejos de Planificación" } }, { value: "proposal-tips", label: { en: "Proposal Tips", es: "Consejos de Propuesta" } }]} />
+      <BlogGrid locale={locale as "en" | "es"} /> */}
+      <BlogCTAStrip locale={locale as "en" | "es"} />
     </main>
   );
 }

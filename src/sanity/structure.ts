@@ -202,6 +202,42 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
+      // Blog page
+      S.listItem()
+        .title("Blog page")
+        .icon(() => "📚")
+        .child(
+          S.list()
+          .title("Blog page")
+          .items([
+            S.listItem()
+              .title("Hero")
+              .icon(() => "👤")
+              .child(S.document().schemaType("BlogPageHero").title("Blog Page Hero")),
+            S.listItem()
+              .title("Blog categories")
+              .icon(() => "🗂️")
+              .child(
+                S.documentList()
+                  .title("Blog categories")
+                  .schemaType("BlogCategory")
+                  .filter("_type == 'BlogCategory'")
+                  
+              ),
+              S.listItem()
+                .title("Blog posts")
+                .icon(() => "📚")
+                .child(
+                  S.documentList()
+                    .title("Blog posts")
+                    .filter("_type == 'blogPost'")
+                    .schemaType("blogPost"),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+
       // Contact page (singleton: fixed _id so the pane opens directly)
       S.listItem()
         .title("Contact page")
