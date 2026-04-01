@@ -76,7 +76,9 @@ export default function VariantSelector({
               <div className="flex min-h-0 flex-1 flex-col gap-1.5 p-4">
                 <span
                   className={`block min-h-9 text-[13px] font-medium leading-snug line-clamp-2 transition-colors duration-300 ${
-                    isSelected ? "text-gold" : "text-white group-hover/v:text-white/90"
+                    isSelected
+                      ? "text-gold"
+                      : "text-white group-hover/v:text-white/90"
                   }`}
                 >
                   {variant.name}

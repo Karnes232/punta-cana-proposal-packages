@@ -27,7 +27,6 @@ interface PackageHeroProps {
     href?: string;
   }[];
   /** "Starting at" label — locale-resolved */
-
 }
 
 export default function PackageHero({
@@ -35,7 +34,6 @@ export default function PackageHero({
   price,
   image,
   breadcrumbs,
-
 }: PackageHeroProps) {
   const t = useTranslations("PackagePage.PackageHero");
   return (

@@ -43,7 +43,7 @@ export default function PackageBookingForm({
   formLabels,
 }: PackageBookingFormProps) {
   const t = useTranslations("PackagePage.BookingForm");
- 
+
   return (
     <section id="booking" className="relative bg-black overflow-hidden">
       {/* Subtle radial glow */}
@@ -61,24 +61,20 @@ export default function PackageBookingForm({
         <div className="flex flex-col items-center gap-5 mb-14 lg:mb-16">
           <RevealOnScroll delay={0}>
             <div className="flex items-center justify-center gap-3">
-              <span
-                className="block w-8 h-px bg-gold/60"
-                aria-hidden="true"
-              />
+              <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
               <p className="text-[10.5px] font-light tracking-[0.28em] uppercase text-gold/80">
                 {t("eyebrow")}
               </p>
-              <span
-                className="block w-8 h-px bg-gold/60"
-                aria-hidden="true"
-              />
+              <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
             </div>
           </RevealOnScroll>
 
           <RevealOnScroll delay={100}>
             <h2 className="font-display font-normal text-center leading-[1.1] tracking-tight text-[clamp(28px,3.5vw,48px)]">
               <span className="block text-white">{t("headingLine1")}</span>
-              <span className="block italic text-gold">{t("headingLine2")}</span>
+              <span className="block italic text-gold">
+                {t("headingLine2")}
+              </span>
             </h2>
           </RevealOnScroll>
 

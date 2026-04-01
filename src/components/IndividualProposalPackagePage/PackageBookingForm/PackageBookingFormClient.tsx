@@ -39,8 +39,12 @@ export default function PackageBookingFormClient({
   addons,
   labels,
 }: PackageBookingFormClientProps) {
-  const [selectedVariantIndex, setSelectedVariantIndex] = useState<number | null>(null);
-  const [selectedAddonIndices, setSelectedAddonIndices] = useState<Set<number>>(new Set());
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState<
+    number | null
+  >(null);
+  const [selectedAddonIndices, setSelectedAddonIndices] = useState<Set<number>>(
+    new Set(),
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 

@@ -64,7 +64,18 @@
     "locationLabel": "Nuestra Ubicación",
     "locationCity": "Punta Cana, República Dominicana",
     "locationDetail": "Operamos en múltiples ubicaciones premium en la zona de Punta Cana y Bávaro. El lugar exacto se confirma durante la consulta.",
-    "mapsLink": "Ver en Google Maps"
+    "mapsLink": "Ver en Google Maps",
+    "validationNameRequired": "Por favor, escribe tu nombre.",
+    "validationNameMin": "Escribe al menos 2 caracteres.",
+    "validationEmailRequired": "Por favor, escribe tu correo electrónico.",
+    "validationEmailInvalid": "Introduce un correo electrónico válido.",
+    "validationPackageRequired": "Selecciona un paquete o «Aún no lo sé».",
+    "validationDateRequired": "Por favor, elige la fecha de la propuesta.",
+    "validationDateInvalid": "Introduce una fecha válida.",
+    "validationDatePast": "Elige hoy o una fecha futura.",
+    "validationTimeRequired": "Selecciona una hora preferida.",
+    "validationMessageRequired": "Cuéntanos un poco sobre tus planes.",
+    "validationMessageMin": "Escribe al menos 15 caracteres para poder ayudarte."
   },
   "FaqPage": {
     "emptyLabel": "No hay preguntas en esta categoría todavía.",

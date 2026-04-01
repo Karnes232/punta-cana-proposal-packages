@@ -3,7 +3,17 @@
 import { useState } from "react";
 import ContactFormField from "./ContactFormField";
 import ContactFormSuccess from "./ContactFormSuccess";
-import { inputClass, selectClass, textareaClass } from "./inputStyles";
+import {
+  CONTACT_FORM_FIELD_ORDER,
+  type ContactFormErrors,
+  validateContactForm,
+} from "./contactFormValidation";
+import {
+  fieldErrorClass,
+  inputClass,
+  selectClass,
+  textareaClass,
+} from "./inputStyles";
 import {
   ContactFormState,
   EMPTY_FORM,
@@ -26,6 +36,7 @@ export default function ContactForm({
   packageOptions,
 }: ContactFormProps) {
   const [form, setForm] = useState<ContactFormState>(EMPTY_FORM);
+  const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const t = useTranslations("ContactPageForm");
@@ -36,18 +47,58 @@ export default function ContactForm({
     >,
   ) {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const key = name as keyof ContactFormState;
+    setForm((prev) => ({ ...prev, [key]: value }));
+    setErrors((prev) => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const nextErrors = validateContactForm(form, t);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      const firstKey = CONTACT_FORM_FIELD_ORDER.find((k) => nextErrors[k]);
+      if (firstKey) {
+        queueMicrotask(() => document.getElementById(firstKey)?.focus());
+      }
+      return;
+    }
+
     setIsSubmitting(true);
     // TODO: replace with real API call (e.g. POST /api/contact)
     await new Promise((r) => setTimeout(r, 800));
-    setIsSubmitting(false);
-    setSubmitted(true);
-  }
 
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("form-name", "contact");
+      formDataToSend.append("name", form.name);
+      formDataToSend.append("email", form.email);
+      formDataToSend.append("package", form.package);
+      formDataToSend.append("date", form.date);
+      formDataToSend.append("time", form.time);
+      formDataToSend.append("message", form.message);
+
+      const response = await fetch("/__forms.html", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(formDataToSend as any),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+      setIsSubmitting(false);
+      setSubmitted(true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   // ── Success state ──────────────────────────────────────────────────────────
   if (submitted) {
     return (
@@ -59,12 +110,20 @@ export default function ContactForm({
     );
   }
 
+  function controlClass(key: keyof ContactFormState, base: string): string {
+    return [base, errors[key] ? fieldErrorClass : ""].filter(Boolean).join(" ");
+  }
+
   // ── Form ───────────────────────────────────────────────────────────────────
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
       {/* Row 1 — Name + Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <ContactFormField label={t("nameLabel")} htmlFor="name">
+        <ContactFormField
+          label={t("nameLabel")}
+          htmlFor="name"
+          error={errors.name}
+        >
           <input
             id="name"
             name="name"
@@ -74,11 +133,17 @@ export default function ContactForm({
             placeholder={t("namePlaceholder")}
             value={form.name}
             onChange={handleChange}
-            className={inputClass}
+            className={controlClass("name", inputClass)}
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? "name-error" : undefined}
           />
         </ContactFormField>
 
-        <ContactFormField label={t("emailLabel")} htmlFor="email">
+        <ContactFormField
+          label={t("emailLabel")}
+          htmlFor="email"
+          error={errors.email}
+        >
           <input
             id="email"
             name="email"
@@ -88,21 +153,29 @@ export default function ContactForm({
             placeholder={t("emailPlaceholder")}
             value={form.email}
             onChange={handleChange}
-            className={inputClass}
+            className={controlClass("email", inputClass)}
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? "email-error" : undefined}
           />
         </ContactFormField>
       </div>
 
       {/* Row 2 — Package */}
-      <ContactFormField label={t("packageLabel")} htmlFor="package">
+      <ContactFormField
+        label={t("packageLabel")}
+        htmlFor="package"
+        error={errors.package}
+      >
         <div className="relative">
           <select
             id="package"
             name="package"
+            required
             value={form.package}
             onChange={handleChange}
-            className={selectClass}
-            style={{}}
+            className={controlClass("package", selectClass)}
+            aria-invalid={!!errors.package}
+            aria-describedby={errors.package ? "package-error" : undefined}
           >
             <option value="" disabled>
               {t("packageDefault")}
@@ -119,28 +192,41 @@ export default function ContactForm({
 
       {/* Row 3 — Date + Preferred Time */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <ContactFormField label={t("dateLabel")} htmlFor="date">
+        <ContactFormField
+          label={t("dateLabel")}
+          htmlFor="date"
+          error={errors.date}
+        >
           <input
             id="date"
             name="date"
             type="date"
+            required
             value={form.date}
             onChange={handleChange}
-            className={inputClass}
+            className={controlClass("date", inputClass)}
+            aria-invalid={!!errors.date}
+            aria-describedby={errors.date ? "date-error" : undefined}
             // Style the date picker caret to match brand
             style={{ colorScheme: "light" }}
           />
         </ContactFormField>
 
-        <ContactFormField label={t("timeLabel")} htmlFor="time">
+        <ContactFormField
+          label={t("timeLabel")}
+          htmlFor="time"
+          error={errors.time}
+        >
           <div className="relative">
             <select
               id="time"
               name="time"
+              required
               value={form.time}
               onChange={handleChange}
-              className={selectClass}
-              style={{}}
+              className={controlClass("time", selectClass)}
+              aria-invalid={!!errors.time}
+              aria-describedby={errors.time ? "time-error" : undefined}
             >
               <option value="" disabled>
                 {t("timeDefault")}
@@ -156,15 +242,22 @@ export default function ContactForm({
       </div>
 
       {/* Row 4 — Message */}
-      <ContactFormField label={t("messageLabel")} htmlFor="message">
+      <ContactFormField
+        label={t("messageLabel")}
+        htmlFor="message"
+        error={errors.message}
+      >
         <textarea
           id="message"
           name="message"
           rows={5}
+          required
           placeholder={t("messagePlaceholder")}
           value={form.message}
           onChange={handleChange}
-          className={textareaClass}
+          className={controlClass("message", textareaClass)}
+          aria-invalid={!!errors.message}
+          aria-describedby={errors.message ? "message-error" : undefined}
         />
       </ContactFormField>
 

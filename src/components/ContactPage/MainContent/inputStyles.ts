@@ -11,6 +11,10 @@ export const inputClass = [
   "focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30",
 ].join(" ");
 
+/** Append when a field has a validation error */
+export const fieldErrorClass =
+  "border-red-700/70 focus:border-red-700 focus:ring-red-700/25";
+
 export const selectClass = [
   inputClass,
   // Native select needs appearance-none + custom chevron via bg-image

@@ -83,10 +83,10 @@ export default async function ClassicProposals({
         description={proposalPackage.introDescription[locale as "en" | "es"]}
       />
       <PackageGrid
-          packages={proposalPackage.packages}
-          locale={locale as "en" | "es"}
-          categorySlug="classic-proposals"
-        />
+        packages={proposalPackage.packages}
+        locale={locale as "en" | "es"}
+        categorySlug="classic-proposals"
+      />
       {/* <CustomizationProvider premiumUplift={300}>
         <PackageGrid
           packages={proposalPackage.packages}

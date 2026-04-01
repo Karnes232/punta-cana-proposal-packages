@@ -82,7 +82,8 @@ export default defineType({
     defineField({
       name: "gallery",
       title: "Photo Gallery",
-      description: "Images for the carousel. First image is used as the hero fallback.",
+      description:
+        "Images for the carousel. First image is used as the hero fallback.",
       type: "array",
       of: [
         defineArrayMember({
@@ -98,7 +99,8 @@ export default defineType({
             defineField({
               name: "caption",
               title: "Caption",
-              description: "e.g. 'Blush & Ivory variant' — shown below the image in the carousel",
+              description:
+                "e.g. 'Blush & Ivory variant' — shown below the image in the carousel",
               type: "localizedString",
             }),
           ],

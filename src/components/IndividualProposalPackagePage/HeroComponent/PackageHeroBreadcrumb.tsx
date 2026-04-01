@@ -27,9 +27,7 @@ export default function PackageHeroBreadcrumb({
                 </span>
               )}
 
-         
-                <span className="text-gold/70">{item.label}</span>
-       
+              <span className="text-gold/70">{item.label}</span>
             </li>
           );
         })}

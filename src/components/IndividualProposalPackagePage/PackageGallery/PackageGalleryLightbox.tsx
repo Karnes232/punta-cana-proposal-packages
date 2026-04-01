@@ -38,7 +38,7 @@ export default function PackageGalleryLightbox({
       if (e.key === "ArrowLeft") onPrev();
       if (e.key === "ArrowRight") onNext();
     },
-    [onClose, onPrev, onNext]
+    [onClose, onPrev, onNext],
   );
 
   useEffect(() => {
@@ -163,6 +163,6 @@ export default function PackageGalleryLightbox({
         </p>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

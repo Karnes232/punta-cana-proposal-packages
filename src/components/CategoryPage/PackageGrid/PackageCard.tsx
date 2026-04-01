@@ -80,9 +80,9 @@ export default function PackageCard({
   image,
   price,
   description,
-      // colorCustomizationOptions = [],
-      // floralCustomizationOptions = [],
-      // toneCustomizationOptions = [],
+  // colorCustomizationOptions = [],
+  // floralCustomizationOptions = [],
+  // toneCustomizationOptions = [],
   inclusions = [],
   badge,
   selectLabel = "Select Package",
@@ -106,13 +106,13 @@ export default function PackageCard({
   return (
     <Link
       href={`/${categorySlug}/${slug}`}
-    //  onClick={handleSelect}
+      //  onClick={handleSelect}
       className={`
         group relative flex h-full flex-col overflow-hidden text-left
         border transition-all duration-500 cursor-pointer w-full
         border-gold/20 bg-white/[0.03] hover:border-gold/50
       `}
-   //   aria-pressed={isSelected}
+      //   aria-pressed={isSelected}
       aria-label={`Select ${name}`}
     >
       {/* Image */}
@@ -160,9 +160,9 @@ export default function PackageCard({
         {/* CTA row */}
         <div className="flex items-center gap-2 mt-auto pt-2">
           {/* {isSelected ? ( */}
-            {/* <> */}
-              {/* Checkmark */}
-              {/* <svg
+          {/* <> */}
+          {/* Checkmark */}
+          {/* <svg
                 width="14"
                 height="14"
                 viewBox="0 0 24 24"
@@ -181,26 +181,26 @@ export default function PackageCard({
               </span>
             </> */}
           {/* ) : ( */}
-            <>
-              <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
-                {selectLabel}
-              </span>
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-gold transition-transform duration-300 group-hover:translate-x-1.5"
-                aria-hidden="true"
-              >
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </>
+          <>
+            <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
+              {selectLabel}
+            </span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-gold transition-transform duration-300 group-hover:translate-x-1.5"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </>
           {/* )} */}
         </div>
       </div>
@@ -216,10 +216,10 @@ export default function PackageCard({
 
       {/* Selected indicator — bottom-left corner */}
       {/* {isSelected && ( */}
-        <div
-          className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-gold/60"
-          aria-hidden="true"
-        />
+      <div
+        className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-gold/60"
+        aria-hidden="true"
+      />
       {/* )} */}
     </Link>
   );

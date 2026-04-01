@@ -42,7 +42,7 @@ export interface IndividualProposalPackage {
     };
   }[];
   inclusions: {
-    icon: string;   
+    icon: string;
     title: {
       en: string;
       es: string;
@@ -178,6 +178,8 @@ export const individualProposalPackageQueryString = `*[_type == "IndividualPropo
   },
 }`;
 
-export const individualProposalPackageQuery = async (slug: string): Promise<IndividualProposalPackage> => {
+export const individualProposalPackageQuery = async (
+  slug: string,
+): Promise<IndividualProposalPackage> => {
   return await client.fetch(individualProposalPackageQueryString, { slug });
 };

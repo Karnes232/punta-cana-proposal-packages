@@ -63,8 +63,7 @@ export interface ProposalPackages {
       en: string;
       es: string;
     };
-    slug: 
-    {
+    slug: {
       current: string;
     };
     price: number;

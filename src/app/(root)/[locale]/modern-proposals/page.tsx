@@ -71,11 +71,11 @@ export default async function ModernProposals({
         headingLine2={proposalPackage.introHeadingLine2[locale as "en" | "es"]}
         description={proposalPackage.introDescription[locale as "en" | "es"]}
       />
-       <PackageGrid
-          packages={proposalPackage.packages}
-          categorySlug="modern-proposals"
-          locale={locale as "en" | "es"}
-        />
+      <PackageGrid
+        packages={proposalPackage.packages}
+        categorySlug="modern-proposals"
+        locale={locale as "en" | "es"}
+      />
       {/* <CustomizationProvider premiumUplift={450}>
         <PackageGrid
           packages={proposalPackage.packages}

@@ -101,24 +101,20 @@ export default function PackageInclusions({
 
           <RevealOnScroll delay={100}>
             <div className="flex items-center justify-center gap-3">
-              <span
-                className="block w-8 h-px bg-gold/60"
-                aria-hidden="true"
-              />
+              <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
               <p className="text-[10.5px] font-light tracking-[0.28em] uppercase text-gold/80">
                 {t("eyebrow")}
               </p>
-              <span
-                className="block w-8 h-px bg-gold/60"
-                aria-hidden="true"
-              />
+              <span className="block w-8 h-px bg-gold/60" aria-hidden="true" />
             </div>
           </RevealOnScroll>
 
           <RevealOnScroll delay={200}>
             <h2 className="font-display font-normal text-center leading-[1.2] tracking-[-0.01em] text-[clamp(28px,3.5vw,48px)]">
               <span className="block text-black">{t("headingLine1")}</span>
-              <span className="block italic text-gold">{t("headingLine2")}</span>
+              <span className="block italic text-gold">
+                {t("headingLine2")}
+              </span>
             </h2>
           </RevealOnScroll>
         </div>
@@ -135,7 +131,11 @@ export default function PackageInclusions({
         >
           {inclusions.map((item, i) => (
             <RevealOnScroll key={item.icon + i} delay={300 + i * 80}>
-              <PackageInclusionItem icon={item.icon} title={item.title[locale as "en" | "es"]} description={item.description[locale as "en" | "es"]} />
+              <PackageInclusionItem
+                icon={item.icon}
+                title={item.title[locale as "en" | "es"]}
+                description={item.description[locale as "en" | "es"]}
+              />
             </RevealOnScroll>
           ))}
         </div>

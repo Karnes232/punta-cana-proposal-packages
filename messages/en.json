@@ -64,7 +64,18 @@
     "locationLabel": "Our Location",
     "locationCity": "Punta Cana, Dominican Republic",
     "locationDetail": "We operate across premium locations in the Punta Cana & Bávaro area. Your exact venue is confirmed during consultation.",
-    "mapsLink": "View on Google Maps"
+    "mapsLink": "View on Google Maps",
+    "validationNameRequired": "Please enter your name.",
+    "validationNameMin": "Please enter at least 2 characters.",
+    "validationEmailRequired": "Please enter your email address.",
+    "validationEmailInvalid": "Please enter a valid email address.",
+    "validationPackageRequired": "Please select a package or “Not sure yet”.",
+    "validationDateRequired": "Please choose your proposal date.",
+    "validationDateInvalid": "Please enter a valid date.",
+    "validationDatePast": "Please choose today or a future date.",
+    "validationTimeRequired": "Please select a preferred time.",
+    "validationMessageRequired": "Please tell us a bit about your plans.",
+    "validationMessageMin": "Please write at least 15 characters so we can help you."
   },
   "FaqPage": {
     "emptyLabel": "No questions in this category yet.",
