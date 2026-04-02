@@ -1,6 +1,6 @@
 import PostHero from "@/components/IndividualBlogPost/HeroComponent/PostHero";
 import PostBody from "@/components/IndividualBlogPost/PostBody/PostBody";
-import { defaultPostSidebarContent } from "@/components/IndividualBlogPost/PostBody/types";
+// import { defaultPostSidebarContent } from "@/components/IndividualBlogPost/PostBody/types";
 import PostMetaBar from "@/components/IndividualBlogPost/PostMetaBar/PostMetaBar";
 import { defaultPostMetaBarContent } from "@/components/IndividualBlogPost/PostMetaBar/types";
 
