@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 interface PackageBookingFormProps {
   /** Package name — already locale-resolved */
+  category: "classic" | "modern" | "dining";
   packageName: string;
   /** Base price (used when no variant is selected) */
   basePrice: number;
@@ -36,6 +37,7 @@ interface PackageBookingFormProps {
 }
 
 export default function PackageBookingForm({
+  category,
   packageName,
   basePrice,
   variants,
@@ -99,6 +101,7 @@ export default function PackageBookingForm({
         {/* Form */}
         <RevealOnScroll delay={350}>
           <PackageBookingFormClient
+            category={category}
             packageName={packageName}
             basePrice={basePrice}
             variants={variants}

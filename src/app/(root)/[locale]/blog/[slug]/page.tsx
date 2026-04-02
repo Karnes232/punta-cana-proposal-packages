@@ -29,8 +29,6 @@ export default async function BlogPostPage({
     notFound();
   }
 
-
-
   return (
     <main>
       {individualBlog.seo.structuredData[locale as "en" | "es"] && (

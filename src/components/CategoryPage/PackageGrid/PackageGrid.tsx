@@ -63,31 +63,26 @@ export default function PackageGrid({
 
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {packages.map(
-            (pkg, i) => (
-  
-              (
-                <RevealOnScroll
-                  key={pkg.name.en}
-                  delay={i * 120}
-                  className="h-full"
-                >
-                  <PackageCard
-                    name={pkg.name[locale]}
-                    slug={pkg.slug.current}
-                    categorySlug={categorySlug}
-                    // colorCustomizationOptions={pkg.colorCustomizationOptions}
-                    // floralCustomizationOptions={pkg.floralCustomizationOptions}
-                    // toneCustomizationOptions={pkg.toneCustomizationOptions}
-                    image={pkg.image}
-                    price={pkg.price}
-                    description={pkg.description[locale]}
-                    inclusions={pkg.inclusions}
-                  />
-                </RevealOnScroll>
-              )
-            ),
-          )}
+          {packages.map((pkg, i) => (
+            <RevealOnScroll
+              key={pkg.name.en}
+              delay={i * 120}
+              className="h-full"
+            >
+              <PackageCard
+                name={pkg.name[locale]}
+                slug={pkg.slug.current}
+                categorySlug={categorySlug}
+                // colorCustomizationOptions={pkg.colorCustomizationOptions}
+                // floralCustomizationOptions={pkg.floralCustomizationOptions}
+                // toneCustomizationOptions={pkg.toneCustomizationOptions}
+                image={pkg.image}
+                price={pkg.price}
+                description={pkg.description[locale]}
+                inclusions={pkg.inclusions}
+              />
+            </RevealOnScroll>
+          ))}
         </div>
       </div>
     </section>

@@ -6,6 +6,7 @@ import AddonToggle, { AddonData } from "./AddonToggle";
 import PackagePriceSummary from "./PackagePriceSummary";
 
 interface PackageBookingFormClientProps {
+  category: "classic" | "modern" | "dining";
   packageName: string;
   basePrice: number;
   variants: VariantData[];
@@ -33,6 +34,7 @@ interface PackageBookingFormClientProps {
 }
 
 export default function PackageBookingFormClient({
+  category,
   packageName,
   basePrice,
   variants,
@@ -74,6 +76,7 @@ export default function PackageBookingFormClient({
     const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
 
     const payload = {
+      category,
       packageName,
       variant: selectedVariant?.name ?? null,
       variantPrice,
@@ -89,11 +92,48 @@ export default function PackageBookingFormClient({
     };
 
     // TODO: POST to API route
-    console.log("Package booking submission:", payload);
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("form-name", "package-booking");
+      formDataToSend.append("category", category);
+      formDataToSend.append("packageName", packageName);
+      formDataToSend.append("variant", selectedVariant?.name ?? "");
+      formDataToSend.append("variantPrice", variantPrice.toString());
+      formDataToSend.append(
+        "addons",
+        selectedAddons.map((a) => a.name).join(","),
+      );
+      formDataToSend.append("addonsTotal", addonsTotal.toString());
+      formDataToSend.append(
+        "estimatedTotal",
+        (variantPrice + addonsTotal).toString(),
+      );
+      formDataToSend.append("name", formData.get("name") as string);
+      formDataToSend.append("hotel", formData.get("hotel") as string);
+      formDataToSend.append("phone", formData.get("phone") as string);
+      formDataToSend.append("email", formData.get("email") as string);
+      formDataToSend.append("date", formData.get("date") as string);
+      formDataToSend.append("notes", formData.get("notes") as string);
 
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setIsSubmitting(false);
-    setIsSuccess(true);
+      const response = await fetch("/__forms.html", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(formDataToSend as any),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      setIsSubmitting(false);
+      setIsSuccess(true);
+    } catch (error) {
+      console.error(error);
+      setIsSubmitting(false);
+      setIsSuccess(false);
+    }
   };
 
   // ── Success state ──

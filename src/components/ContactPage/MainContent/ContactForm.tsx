@@ -71,7 +71,6 @@ export default function ContactForm({
 
     setIsSubmitting(true);
     // TODO: replace with real API call (e.g. POST /api/contact)
-    await new Promise((r) => setTimeout(r, 800));
 
     try {
       const formDataToSend = new FormData();
@@ -90,7 +89,7 @@ export default function ContactForm({
         },
         body: new URLSearchParams(formDataToSend as any),
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to submit form");
       }

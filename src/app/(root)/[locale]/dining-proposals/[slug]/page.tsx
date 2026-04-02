@@ -42,6 +42,7 @@ export default async function DiningProposalsSlug({
         locale={locale as "en" | "es"}
       />
       <PackageBookingForm
+        category="dining"
         packageName={individualProposalPackage.name[locale as "en" | "es"]}
         basePrice={individualProposalPackage.price}
         variants={individualProposalPackage.variants.map((variant) => ({

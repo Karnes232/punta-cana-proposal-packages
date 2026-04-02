@@ -42,6 +42,7 @@ export default async function ModernProposalsSlug({
         locale={locale as "en" | "es"}
       />
       <PackageBookingForm
+        category="modern"
         packageName={individualProposalPackage.name[locale as "en" | "es"]}
         basePrice={individualProposalPackage.price}
         variants={individualProposalPackage.variants.map((variant) => ({
