@@ -6,12 +6,27 @@ export default defineType({
   title: "Blog Post",
   type: "document",
   icon: ComposeIcon,
+  groups: [
+    {
+      name: "basic",
+      title: "Basic",
+    },
+    {
+      name: "blogPost",
+      title: "Blog Post",
+    },
+    {
+      name: "seo",
+      title: "SEO",
+    },
+  ],
   fields: [
     // ── Identity ──────────────────────────────────────────────
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      group: "basic",
       options: { source: "title.en" },
       validation: (R) => R.required(),
     }),
@@ -20,6 +35,7 @@ export default defineType({
       name: "title",
       title: "Post Title",
       description: "Full post title in both languages.",
+      group: "basic",
       type: "localizedString",
       validation: (R) => R.required(),
     }),
@@ -28,6 +44,7 @@ export default defineType({
     defineField({
       name: "category",
       title: "Category",
+      group: "basic",
       type: "reference",
       to: [{ type: "BlogCategory" }],
       options: { disableNew: true },
@@ -39,6 +56,7 @@ export default defineType({
       title: "Category Tag Label",
       description:
         'Display label shown on cards — e.g. "Proposal Tips" / "Consejos de Propuesta"',
+      group: "basic",
       type: "localizedString",
       validation: (R) => R.required(),
     }),
@@ -46,6 +64,7 @@ export default defineType({
     defineField({
       name: "publishedAt",
       title: "Publish Date",
+      group: "basic",
       type: "date",
       validation: (R) => R.required(),
     }),
@@ -54,6 +73,7 @@ export default defineType({
       name: "readingTime",
       title: "Reading Time (minutes)",
       description: "Estimated reading time — e.g. 5",
+      group: "basic",
       type: "number",
       validation: (R) => R.required().min(1).max(60),
     }),
@@ -64,6 +84,7 @@ export default defineType({
       title: "Hero Photo",
       description: "Main photo — used in the hero and on blog cards.",
       type: "image",
+      group: "basic",
       options: { hotspot: true },
       fields: [
         defineField({
@@ -78,6 +99,7 @@ export default defineType({
     defineField({
       name: "gallery",
       title: "Photo Gallery",
+      group: "blogPost",
       description:
         "Additional photos shown in the gallery grid on the post page.",
       type: "array",
@@ -105,6 +127,7 @@ export default defineType({
     defineField({
       name: "excerpt",
       title: "Excerpt",
+      group: "basic",
       description:
         "Short 1–2 sentence summary shown on cards and at the top of the post page.",
       type: "localizedString",
@@ -116,6 +139,14 @@ export default defineType({
       title: "Post Body",
       description: "Full post — supports rich text in both languages.",
       type: "localizedBlock",
+      group: "blogPost",
+      validation: (R) => R.required(),
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo",
+      group: "seo",
       validation: (R) => R.required(),
     }),
   ],

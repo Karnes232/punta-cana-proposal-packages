@@ -60,6 +60,12 @@ export interface IndividualBlog {
     en: any;
     es: any;
   };
+  seo: {
+    structuredData: {
+      en: string;
+      es: string;
+    };
+  };
 }
 
 export const individualBlogQueryString = `*[_type == "blogPost" && slug.current == $slug][0] {
@@ -111,11 +117,97 @@ export const individualBlogQueryString = `*[_type == "blogPost" && slug.current 
     alt,
     caption { en, es }
   },
-  body { en, es }
+  body { en, es }, 
+  seo {
+structuredData {
+  en,
+  es
+}
+  }
 }`;
 
 export const individualBlogQuery = async (
   slug: string,
 ): Promise<IndividualBlog> => {
   return await client.fetch(individualBlogQueryString, { slug });
+};
+
+export interface IndividualBlogSEO {
+  _id: string;
+  seo: {
+    meta: {
+      en: {
+        title: string;
+        description: string;
+        keywords: string[];
+      };
+      es: {
+        title: string;
+        description: string;
+        keywords: string[];
+      };
+    };
+    openGraph: {
+      en: {
+        title: string;
+        description: string;
+      };
+      es: {
+        title: string;
+        description: string;
+      };
+      image: {
+        url: string;
+        alt: string;
+        width: number;
+        height: number;
+      };
+    };
+    noIndex: boolean;
+    noFollow: boolean;
+  };
+}
+
+export const individualBlogSEOQueryString = `*[_type == "blogPost" && slug.current == $slug][0] {
+  _id,
+  seo {
+        meta {
+    en {
+      title,
+      description,
+      keywords
+    },
+    es {
+      title,
+      description,
+      keywords
+    }
+  },
+  // Open Graph data
+  openGraph {
+    en {
+      title,
+      description
+    },
+    es {
+      title,
+      description
+    },
+    "image": {
+      "url": image.asset->url,
+      "alt": image.alt,
+      "width": image.asset->metadata.dimensions.width,
+      "height": image.asset->metadata.dimensions.height
+    }
+  },
+  // Other SEO settings
+  noIndex,
+  noFollow
+    }
+}`;
+
+export const individualBlogSEOQuery = async (
+  slug: string,
+): Promise<IndividualBlogSEO> => {
+  return await client.fetch(individualBlogSEOQueryString, { slug });
 };

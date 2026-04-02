@@ -3,7 +3,14 @@ import PostBody from "@/components/IndividualBlogPost/PostBody/PostBody";
 // import { defaultPostSidebarContent } from "@/components/IndividualBlogPost/PostBody/types";
 import PostMetaBar from "@/components/IndividualBlogPost/PostMetaBar/PostMetaBar";
 import { defaultPostMetaBarContent } from "@/components/IndividualBlogPost/PostMetaBar/types";
-import { individualBlogQuery } from "@/sanity/queries/BlogPage/IndividualBlog";
+import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
+import { generateHreflangAlternates } from "@/i18n/hreflang";
+import {
+  individualBlogQuery,
+  individualBlogSEOQuery,
+} from "@/sanity/queries/BlogPage/IndividualBlog";
+import { notFound } from "next/navigation";
+import Script from "next/script";
 
 export default async function BlogPostPage({
   params,
@@ -13,9 +20,23 @@ export default async function BlogPostPage({
   const { slug, locale } = await params;
 
   const [individualBlog] = await Promise.all([individualBlogQuery(slug)]);
-  console.log(individualBlog);
+  if (!individualBlog) {
+    notFound();
+  }
+
   return (
     <main>
+      {individualBlog.seo.structuredData[locale as "en" | "es"] && (
+        <Script
+          id="structured-data-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              individualBlog.seo.structuredData[locale as "en" | "es"],
+            ),
+          }}
+        />
+      )}
       <PostHero
         post={{
           title: individualBlog.title[locale as "en" | "es"],
@@ -52,6 +73,67 @@ export default async function BlogPostPage({
           body: individualBlog.body[locale as "en" | "es"],
         }}
       />
+      <StoryGallery
+        content={{
+          sectionLabelEn: "Blog Post Gallery",
+          sectionLabelEs: "Galería de la publicación del blog",
+          viewAllLabelEn: "View all {count} photos",
+          viewAllLabelEs: "Ver las {count} fotos",
+          closeLabelEn: "Close",
+          closeLabelEs: "Cerrar",
+          prevLabelEn: "Previous",
+          prevLabelEs: "Anterior",
+          nextLabelEn: "Next",
+          nextLabelEs: "Siguiente",
+        }}
+        photos={
+          individualBlog.gallery.map((photo) => ({
+            asset: photo.asset,
+            alt: photo.alt,
+            caption: photo.caption[locale as "en" | "es"] ?? "",
+          })) ?? []
+        }
+        locale={locale as "en" | "es"}
+      />
     </main>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: "en" | "es" }>;
+}) {
+  const { slug, locale } = await params;
+  const individualBlog = await individualBlogSEOQuery(slug);
+
+  let canonicalUrl;
+  if (locale === "en") {
+    canonicalUrl = `https://puntacanaproposalpackages.com/blog/${slug}`;
+  } else {
+    canonicalUrl = `https://puntacanaproposalpackages.com/es/blog/${slug}`;
+  }
+
+  return {
+    title: individualBlog.seo.meta[locale].title,
+    description: individualBlog.seo.meta[locale].description,
+    keywords: individualBlog.seo.meta[locale].keywords.join(", "),
+    url: canonicalUrl,
+    openGraph: {
+      title: individualBlog.seo.openGraph[locale].title,
+      description: individualBlog.seo.openGraph[locale].description,
+      images: individualBlog.seo.openGraph.image.url,
+      type: "website",
+      url: canonicalUrl,
+    },
+    robots: {
+      index: !individualBlog.seo.noIndex,
+      follow: !individualBlog.seo.noFollow,
+    },
+    ...(canonicalUrl && { canonical: canonicalUrl }),
+    alternates: {
+      canonical: canonicalUrl,
+      ...generateHreflangAlternates(locale, `/blog/${slug}`),
+    },
+  };
 }
