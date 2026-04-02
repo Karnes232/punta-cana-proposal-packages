@@ -3,10 +3,13 @@ import MoreStories from "@/components/IndividualStoryPage/MoreStories/MoreStorie
 import StoryBody from "@/components/IndividualStoryPage/StoryBody/StoryBody";
 import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
 import StoryMetaBar from "@/components/IndividualStoryPage/StoryMetaBar/StoryMetaBar";
+import { generateHreflangAlternates } from "@/i18n/hreflang";
 import {
   getIndividualStory,
   getMoreStories,
+  individualStorySEOQuery,
 } from "@/sanity/queries/StoriesPage/IndividualStory";
+import Script from "next/script";
 
 export default async function StoryPage({
   params,
@@ -23,6 +26,15 @@ export default async function StoryPage({
 
   return (
     <main>
+      {story?.seo?.structuredData[localeTyped] && (
+        <Script
+          id="structured-data-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(story?.seo?.structuredData[localeTyped]),
+          }}
+        />
+      )}
       <StoryHero
         heroImage={story?.heroPhoto || null}
         names={story?.names ?? ""}
@@ -73,4 +85,43 @@ export default async function StoryPage({
       />
     </main>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: "en" | "es" }>;
+}) {
+  const { slug, locale } = await params;
+  const individualStory = await individualStorySEOQuery(slug);
+
+  let canonicalUrl;
+  if (locale === "en") {
+    canonicalUrl = `https://puntacanaproposalpackages.com/stories/${slug}`;
+  } else {
+    canonicalUrl = `https://puntacanaproposalpackages.com/es/stories/${slug}`;
+  }
+
+  return {
+    title: individualStory.seo.meta[locale].title,
+    description: individualStory.seo.meta[locale].description,
+    keywords: individualStory.seo.meta[locale].keywords.join(", "),
+    url: canonicalUrl,
+    openGraph: {
+      title: individualStory.seo.openGraph[locale].title,
+      description: individualStory.seo.openGraph[locale].description,
+      images: individualStory.seo.openGraph.image.url,
+      type: "website",
+      url: canonicalUrl,
+    },
+    robots: {
+      index: !individualStory.seo.noIndex,
+      follow: !individualStory.seo.noFollow,
+    },
+    ...(canonicalUrl && { canonical: canonicalUrl }),
+    alternates: {
+      canonical: canonicalUrl,
+      ...generateHreflangAlternates(locale, `/stories/${slug}`),
+    },
+  };
 }

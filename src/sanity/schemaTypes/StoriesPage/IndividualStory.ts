@@ -4,12 +4,27 @@ export default defineType({
   name: "individualStory",
   title: "Individual Story",
   type: "document",
+  groups: [
+    {
+      name: "basic",
+      title: "Basic",
+    },
+    {
+      name: "story",
+      title: "Story",
+    },
+    {
+      name: "seo",
+      title: "SEO",
+    },
+  ],
   fields: [
     // ── Identity ──────────────────────────────────────────────
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      group: "basic",
       options: { source: "names" },
       validation: (R) => R.required(),
     }),
@@ -19,6 +34,7 @@ export default defineType({
       title: "Couple Names",
       description: 'e.g. "Sofia & Alejandro"',
       type: "string",
+      group: "basic",
       validation: (R) => R.required(),
     }),
 
@@ -26,6 +42,7 @@ export default defineType({
     defineField({
       name: "proposalType",
       title: "Proposal Type",
+      group: "basic",
       type: "reference",
       to: [{ type: "ProposalType" }],
       options: { disableNew: true },
@@ -37,6 +54,7 @@ export default defineType({
       title: "Package Tag Label",
       description:
         'Display label shown on cards — e.g. "Classic Beach Package"',
+      group: "basic",
       type: "localizedString",
       validation: (R) => R.required(),
     }),
@@ -44,6 +62,7 @@ export default defineType({
     defineField({
       name: "date",
       title: "Proposal Date",
+      group: "basic",
       type: "date",
       validation: (R) => R.required(),
     }),
@@ -52,6 +71,7 @@ export default defineType({
       name: "location",
       title: "Location",
       description: 'e.g. "Playa Bávaro, Punta Cana"',
+      group: "basic",
       type: "localizedString",
       validation: (R) => R.required(),
     }),
@@ -61,6 +81,7 @@ export default defineType({
       name: "heroPhoto",
       title: "Hero Photo",
       description: "Main photo — used in the hero and on story cards.",
+      group: "basic",
       type: "image",
       options: { hotspot: true },
       fields: [
@@ -78,6 +99,7 @@ export default defineType({
       title: "Photo Gallery",
       description:
         "Additional proposal photos shown in the gallery grid on the story page.",
+      group: "story",
       type: "array",
       of: [
         {
@@ -105,6 +127,7 @@ export default defineType({
       title: "Pull Quote",
       description:
         "Short 1–2 sentence quote shown on cards and at the top of the story page.",
+      group: "basic",
       type: "localizedString",
       validation: (R) => R.required(),
     }),
@@ -114,6 +137,14 @@ export default defineType({
       title: "Story Body",
       description: "Full story — supports rich text in both languages.",
       type: "localizedBlock",
+      group: "story",
+      validation: (R) => R.required(),
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo",
+      group: "seo",
       validation: (R) => R.required(),
     }),
   ],

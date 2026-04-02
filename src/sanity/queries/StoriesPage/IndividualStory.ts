@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { IndividualBlogSEO } from "../BlogPage/IndividualBlog";
 
 // ── Shared image fragment ─────────────────────────────────────────────────────
 
@@ -74,6 +75,12 @@ export interface IndividualStory {
     en: any;
     es: any;
   };
+  seo: {
+    structuredData: {
+      en: string;
+      es: string;
+    };
+  };
 }
 
 export interface StoryCard {
@@ -134,7 +141,13 @@ export const individualStoryQuery = `
       caption { en, es }
     },
     quote { en, es },
-    body { en, es }
+    body { en, es },
+    seo {
+structuredData {
+  en,
+  es
+}
+  }
   }
 `;
 
@@ -294,4 +307,48 @@ export const getRelatedStories = async (
   proposalTypeValue: string,
 ): Promise<relatedStories[]> => {
   return client.fetch(relatedStoriesQuery, { proposalTypeValue });
+};
+
+export const individualStorySEOQueryString = `*[_type == "individualStory" && slug.current == $slug][0] {
+  _id,
+  seo {
+        meta {
+    en {
+      title,
+      description,
+      keywords
+    },
+    es {
+      title,
+      description,
+      keywords
+    }
+  },
+  // Open Graph data
+  openGraph {
+    en {
+      title,
+      description
+    },
+    es {
+      title,
+      description
+    },
+    "image": {
+      "url": image.asset->url,
+      "alt": image.alt,
+      "width": image.asset->metadata.dimensions.width,
+      "height": image.asset->metadata.dimensions.height
+    }
+  },
+  // Other SEO settings
+  noIndex,
+  noFollow
+    }
+}`;
+
+export const individualStorySEOQuery = async (
+  slug: string,
+): Promise<IndividualBlogSEO> => {
+  return client.fetch(individualStorySEOQueryString, { slug });
 };
