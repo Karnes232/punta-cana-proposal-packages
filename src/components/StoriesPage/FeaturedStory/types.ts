@@ -32,29 +32,3 @@ export interface FeaturedStoryData {
 
   heroPhoto: FeaturedStoryImage;
 }
-
-// export interface FeaturedStoryContent {
-//   /** Eyebrow label above the card */
-//   eyebrowEn: string;
-//   eyebrowEs: string;
-
-//   /** CTA button label */
-//   ctaLabelEn: string;
-//   ctaLabelEs: string;
-
-//   /** "Proposed" date prefix — e.g. "Proposed · December 2024" */
-//   proposedPrefixEn: string;
-//   proposedPrefixEs: string;
-// }
-
-// export const defaultFeaturedStoryContent: FeaturedStoryContent = {
-//   eyebrowEn: "Featured Story",
-//   eyebrowEs: "Historia Destacada",
-
-//   ctaLabelEn: "Read Their Story",
-//   ctaLabelEs: "Leer Su Historia",
-
-//   proposedPrefixEn: "Proposed",
-//   proposedPrefixEs: "Propuesta",
-// };
-

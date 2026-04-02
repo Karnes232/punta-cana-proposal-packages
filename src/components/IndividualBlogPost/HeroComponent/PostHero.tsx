@@ -2,25 +2,21 @@ import PostHeroBackground from "./PostHeroBackground";
 import PostHeroBackLink from "./PostHeroBackLink";
 import PostHeroCopy from "./PostHeroCopy";
 import {
-  defaultPostHeroContent,
   type PostHeroData,
-  type PostHeroContent,
 } from "./types";
 
 interface PostHeroProps {
   post: PostHeroData;
   locale: "en" | "es";
-  content?: PostHeroContent;
 }
 
 export default function PostHero({
   post,
   locale,
-  content = defaultPostHeroContent,
 }: PostHeroProps) {
-  const backLabel = locale === "es" ? content.backLabelEs : content.backLabelEn;
+  const backLabel = locale === "es" ? "Todos los Artículos" : "All Posts";
   const readTimeSuffix =
-    locale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
+    locale === "es" ? "min de lectura" : "min read";
 
   return (
     <section className="relative w-full min-h-[70svh] md:min-h-[80svh] flex flex-col justify-between overflow-hidden bg-black">

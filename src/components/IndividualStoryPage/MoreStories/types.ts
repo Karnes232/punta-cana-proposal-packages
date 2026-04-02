@@ -14,28 +14,28 @@ export interface MoreStoriesStory {
   };
 }
 
-export interface MoreStoriesContent {
-  sectionLabelEn: string;
-  sectionLabelEs: string;
-  headingEn: string;
-  headingEs: string;
-  readMoreLabelEn: string;
-  readMoreLabelEs: string;
-  prevLabelEn: string;
-  prevLabelEs: string;
-  nextLabelEn: string;
-  nextLabelEs: string;
-}
+// export interface MoreStoriesContent {
+//   sectionLabelEn: string;
+//   sectionLabelEs: string;
+//   headingEn: string;
+//   headingEs: string;
+//   readMoreLabelEn: string;
+//   readMoreLabelEs: string;
+//   prevLabelEn: string;
+//   prevLabelEs: string;
+//   nextLabelEn: string;
+//   nextLabelEs: string;
+// }
 
-export const defaultMoreStoriesContent: MoreStoriesContent = {
-  sectionLabelEn: "More Stories",
-  sectionLabelEs: "Más Historias",
-  headingEn: "Same Package,",
-  headingEs: "Mismo Paquete,",
-  readMoreLabelEn: "Read Story",
-  readMoreLabelEs: "Leer Historia",
-  prevLabelEn: "Previous",
-  prevLabelEs: "Anterior",
-  nextLabelEn: "Next",
-  nextLabelEs: "Siguiente",
-};
+// export const defaultMoreStoriesContent: MoreStoriesContent = {
+//   sectionLabelEn: "More Stories",
+//   sectionLabelEs: "Más Historias",
+//   headingEn: "Same Package,",
+//   headingEs: "Mismo Paquete,",
+//   readMoreLabelEn: "Read Story",
+//   readMoreLabelEs: "Leer Historia",
+//   prevLabelEn: "Previous",
+//   prevLabelEs: "Anterior",
+//   nextLabelEn: "Next",
+//   nextLabelEs: "Siguiente",
+// };

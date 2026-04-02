@@ -2,17 +2,15 @@
 
 import { useRef, useState, useEffect } from "react";
 import MoreStoriesCard from "./MoreStoriesCard";
-import type { MoreStoriesStory, MoreStoriesContent } from "./types";
+import type { MoreStoriesStory } from "./types";
 
 interface MoreStoriesCarouselProps {
   stories: MoreStoriesStory[];
-  content: MoreStoriesContent;
   locale: "en" | "es";
 }
 
 export default function MoreStoriesCarousel({
   stories,
-  content,
   locale,
 }: MoreStoriesCarouselProps) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -20,9 +18,9 @@ export default function MoreStoriesCarousel({
   const [canNext, setCanNext] = useState(true);
 
   const readMoreLabel =
-    locale === "es" ? content.readMoreLabelEs : content.readMoreLabelEn;
-  const prevLabel = locale === "es" ? content.prevLabelEs : content.prevLabelEn;
-  const nextLabel = locale === "es" ? content.nextLabelEs : content.nextLabelEn;
+    locale === "es" ? "Leer Historia" : "Read Story";
+  const prevLabel = locale === "es" ? "Anterior" : "Previous";
+  const nextLabel = locale === "es" ? "Siguiente" : "Next";
 
   // How far to scroll per button press — one card width + gap
   const SCROLL_AMOUNT = 380;

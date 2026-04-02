@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import type { PostBodyData, PostSidebarContent } from "./types";
+import type { PostBodyData } from "./types";
 
 interface SidebarDetailRowProps {
   label: string;
@@ -21,24 +21,22 @@ function SidebarDetailRow({ label, value }: SidebarDetailRowProps) {
 
 interface PostSidebarProps {
   data: PostBodyData;
-  content: PostSidebarContent;
   locale: "en" | "es";
 }
 
 export default function PostSidebar({
   data,
-  content,
   locale,
 }: PostSidebarProps) {
   const categoryLabel =
-    locale === "es" ? content.categoryLabelEs : content.categoryLabelEn;
+    locale === "es" ? "Categoría" : "Category";
   const publishedLabel =
-    locale === "es" ? content.publishedLabelEs : content.publishedLabelEn;
+    locale === "es" ? "Publicado" : "Published";
   const readTimeLabel =
-    locale === "es" ? content.readTimeLabelEs : content.readTimeLabelEn;
+    locale === "es" ? "Tiempo de Lectura" : "Reading Time";
   const readTimeSuffix =
-    locale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
-  const ctaLabel = locale === "es" ? content.ctaLabelEs : content.ctaLabelEn;
+    locale === "es" ? "min de lectura" : "min read";
+  const ctaLabel = locale === "es" ? "Comienza a Planificar Tu Propuesta" : "Start Planning Your Proposal";
 
   const dateStr = new Date(data.publishedAt).toLocaleDateString(locale, {
     month: "long",
@@ -78,7 +76,7 @@ export default function PostSidebar({
 
         {/* CTA */}
         <Link
-          href={content.ctaHref}
+          href={"/contact"}
           className="
             inline-flex items-center justify-center gap-3
             bg-black text-gold

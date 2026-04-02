@@ -7,6 +7,7 @@ import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { blogCategories } from "@/sanity/queries/BlogPage/BlogCategories";
 import { blogPosts } from "@/sanity/queries/BlogPage/BlogPosts";
+import { blogPageCtaStrip } from "@/sanity/queries/BlogPage/CtaStripe";
 import { blogPageHero } from "@/sanity/queries/BlogPage/Hero";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import Script from "next/script";
@@ -17,12 +18,15 @@ export default async function Blog({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData, hero, categories, posts] = await Promise.all([
-    getStructuredData("blog"),
-    blogPageHero(),
-    blogCategories(),
-    blogPosts(),
-  ]);
+  const [structuredData, hero, categories, posts, ctaStrip] = await Promise.all(
+    [
+      getStructuredData("blog"),
+      blogPageHero(),
+      blogCategories(),
+      blogPosts(),
+      blogPageCtaStrip(),
+    ],
+  );
 
   return (
     <main>
@@ -52,7 +56,14 @@ export default async function Blog({
         locale={locale as "en" | "es"}
       />
 
-      <BlogCTAStrip locale={locale as "en" | "es"} />
+      <BlogCTAStrip
+        eyebrow={ctaStrip.eyebrow[locale as "en" | "es"]}
+        heading={ctaStrip.heading[locale as "en" | "es"]}
+        headingAccent={ctaStrip.headingAccent[locale as "en" | "es"]}
+        subheading={ctaStrip.subheading[locale as "en" | "es"]}
+        ctaLabel={ctaStrip.ctaLabel[locale as "en" | "es"]}
+        ctaHref={ctaStrip.ctaHref}
+      />
     </main>
   );
 }

@@ -2,7 +2,7 @@ import StoriesHero from "@/components/StoriesPage/HeroComponent/StoriesHero";
 import StoriesFilteredSection from "@/components/StoriesPage/StoriesFilteredSection";
 import { storiesPageHero } from "@/sanity/queries/StoriesPage/Hero";
 import { getProposalTypes } from "@/sanity/queries/StoriesPage/ProposalTypes";
-// 
+//
 import StoriesCTAStrip from "@/components/StoriesPage/StoriesCTAStrip/StoriesCTAStrip";
 import { getAllStories } from "@/sanity/queries/StoriesPage/IndividualStory";
 import { generateHreflangAlternates } from "@/i18n/hreflang";

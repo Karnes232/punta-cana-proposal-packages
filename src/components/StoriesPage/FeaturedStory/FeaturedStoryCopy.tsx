@@ -11,8 +11,7 @@ export default function FeaturedStoryCopy({
   locale,
 }: FeaturedStoryCopyProps) {
   const ctaLabel = locale === "es" ? "Leer Su Historia" : "Read Their Story";
-  const proposedPrefix =
-    locale === "es" ? "Propuesta" : "Proposed";
+  const proposedPrefix = locale === "es" ? "Propuesta" : "Proposed";
 
   const dateStr = new Date(story.date).toLocaleDateString(locale, {
     month: "long",

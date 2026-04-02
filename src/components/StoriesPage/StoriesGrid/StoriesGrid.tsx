@@ -47,10 +47,8 @@ export default function StoriesGrid({
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
 
-  const sectionLabel =
-    locale === "es" ? "Más Historias" : "More Stories";
-  const readMoreLabel =
-    locale === "es" ? "Leer Historia" : "Read Story";
+  const sectionLabel = locale === "es" ? "Más Historias" : "More Stories";
+  const readMoreLabel = locale === "es" ? "Leer Historia" : "Read Story";
   const loadMoreLabel =
     locale === "es" ? "Ver Más Historias" : "Load More Stories";
 

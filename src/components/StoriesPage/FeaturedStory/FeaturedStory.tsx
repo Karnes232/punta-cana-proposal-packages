@@ -1,19 +1,13 @@
 import FeaturedStoryPhoto from "./FeaturedStoryPhoto";
 import FeaturedStoryCopy from "./FeaturedStoryCopy";
-import {
-
-  type FeaturedStoryData,
-} from "./types";
+import { type FeaturedStoryData } from "./types";
 
 interface FeaturedStoryProps {
   story: FeaturedStoryData;
   locale: "en" | "es";
 }
 
-export default function FeaturedStory({
-  story,
-  locale,
-}: FeaturedStoryProps) {
+export default function FeaturedStory({ story, locale }: FeaturedStoryProps) {
   const eyebrow = locale === "es" ? "Historia Destacada" : "Featured Story";
 
   return (

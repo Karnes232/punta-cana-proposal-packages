@@ -22,4 +22,3 @@ export interface StoryCardData {
   packageType: string;
   photo: StoryCardImage;
 }
-

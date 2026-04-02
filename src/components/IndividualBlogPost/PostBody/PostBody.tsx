@@ -2,15 +2,12 @@ import PostPullQuote from "./PostPullQuote";
 import PostPortableText from "./PostPortableText";
 import PostSidebar from "./PostSidebar";
 import {
-  defaultPostSidebarContent,
   type PostBodyData,
-  type PostSidebarContent,
 } from "./types";
 
 interface PostBodyProps {
   data?: PostBodyData;
   locale: "en" | "es";
-  content?: PostSidebarContent;
 }
 
 export default function PostBody({
@@ -23,7 +20,6 @@ export default function PostBody({
     body: [{ _type: "block", children: [{ _type: "span", text: "Test" }] }],
   },
   locale = "en",
-  content = defaultPostSidebarContent,
 }: PostBodyProps) {
   return (
     <section className="bg-ivory">
@@ -36,7 +32,7 @@ export default function PostBody({
           </div>
 
           {/* ── Right: sticky sidebar ── */}
-          <PostSidebar data={data} content={content} locale={locale} />
+          <PostSidebar data={data} locale={locale} />
         </div>
       </div>
     </section>

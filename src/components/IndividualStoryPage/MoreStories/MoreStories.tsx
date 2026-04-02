@@ -1,26 +1,22 @@
 import MoreStoriesCarousel from "./MoreStoriesCarousel";
 import {
-  defaultMoreStoriesContent,
   type MoreStoriesStory,
-  type MoreStoriesContent,
 } from "./types";
 
 interface MoreStoriesProps {
   stories: MoreStoriesStory[];
   locale: "en" | "es";
-  content?: MoreStoriesContent;
 }
 
 export default function MoreStories({
   stories,
   locale,
-  content = defaultMoreStoriesContent,
 }: MoreStoriesProps) {
   if (!stories || stories.length === 0) return null;
 
   const sectionLabel =
-    locale === "es" ? content.sectionLabelEs : content.sectionLabelEn;
-  const heading = locale === "es" ? content.headingEs : content.headingEn;
+    locale === "es" ? "Más Historias" : "More Stories";
+  const heading = locale === "es" ? "Mismo Paquete," : "Same Package,";
 
   return (
     <section className="bg-ivory border-t border-gold/20">
@@ -38,13 +34,12 @@ export default function MoreStories({
             <span className="block flex-1 h-px bg-gold/20" aria-hidden="true" />
           </div>
           <h2 className="font-display font-normal text-fluid-h3 text-black leading-tight">
-            {heading} <em className="italic text-gold">Different Stories</em>
+            {heading} <em className="italic text-gold">{locale === "es" ? "Historias Diferentes" : "Different Stories"}</em>
           </h2>
         </div>
 
         <MoreStoriesCarousel
           stories={stories}
-          content={content}
           locale={locale}
         />
       </div>
