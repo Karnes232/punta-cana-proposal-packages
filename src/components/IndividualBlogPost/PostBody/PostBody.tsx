@@ -4,21 +4,15 @@ import PostSidebar from "./PostSidebar";
 import { type PostBodyData } from "./types";
 
 interface PostBodyProps {
-  data?: PostBodyData;
+  data: PostBodyData;
   locale: "en" | "es";
 }
 
 export default function PostBody({
-  data = {
-    title: "Test",
-    publishedAt: "2021-01-01",
-    categoryTag: "Test",
-    readingTime: 1,
-    excerpt: "Test",
-    body: [{ _type: "block", children: [{ _type: "span", text: "Test" }] }],
-  },
+  data,
   locale = "en",
 }: PostBodyProps) {
+  console.log(data);
   return (
     <section className="bg-ivory">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-16 md:py-24">
