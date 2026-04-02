@@ -1,4 +1,5 @@
 import PostHero from "@/components/IndividualBlogPost/HeroComponent/PostHero";
+import MoreBlogs from "@/components/IndividualBlogPost/MoreBlogs/MoreBlogs";
 import PostBody from "@/components/IndividualBlogPost/PostBody/PostBody";
 // import { defaultPostSidebarContent } from "@/components/IndividualBlogPost/PostBody/types";
 import PostMetaBar from "@/components/IndividualBlogPost/PostMetaBar/PostMetaBar";
@@ -6,6 +7,7 @@ import { defaultPostMetaBarContent } from "@/components/IndividualBlogPost/PostM
 import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import {
+  getMoreBlogs,
   individualBlogQuery,
   individualBlogSEOQuery,
 } from "@/sanity/queries/BlogPage/IndividualBlog";
@@ -19,10 +21,15 @@ export default async function BlogPostPage({
 }) {
   const { slug, locale } = await params;
 
-  const [individualBlog] = await Promise.all([individualBlogQuery(slug)]);
+  const [individualBlog, moreBlogs] = await Promise.all([
+    individualBlogQuery(slug),
+    getMoreBlogs(slug),
+  ]);
   if (!individualBlog) {
     notFound();
   }
+
+  console.log(moreBlogs);
 
   return (
     <main>
@@ -95,6 +102,20 @@ export default async function BlogPostPage({
         }
         locale={locale as "en" | "es"}
       />
+      {moreBlogs.length > 0 && (
+        <MoreBlogs
+          blogs={moreBlogs.map((blog) => ({
+            slug: blog.slug.current,
+            title: blog.title[locale as "en" | "es"],
+            categoryTag: blog.categoryTag[locale as "en" | "es"],
+            publishedAt: blog.publishedAt,
+            readingTime: blog.readingTime,
+            excerpt: blog.excerpt[locale as "en" | "es"],
+            heroPhoto: blog.heroPhoto,
+          }))}
+          locale={locale as "en" | "es"}
+        />
+      )}
     </main>
   );
 }

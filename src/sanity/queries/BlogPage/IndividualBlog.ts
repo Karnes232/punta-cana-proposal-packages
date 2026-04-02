@@ -211,3 +211,39 @@ export const individualBlogSEOQuery = async (
 ): Promise<IndividualBlogSEO> => {
   return await client.fetch(individualBlogSEOQueryString, { slug });
 };
+
+export const moreBlogsQueryString = `*[_type == "blogPost" && slug.current != $slug] | order(publishedAt desc) {
+  slug {
+    current
+  },
+  title {
+    en,
+    es
+  },
+   categoryTag {
+    en,
+    es
+  },
+  publishedAt,
+  readingTime,
+  excerpt {
+    en,
+    es
+  },
+  heroPhoto {
+    asset-> {
+      url,
+      metadata {
+        dimensions {
+          width,
+          height
+        }
+      }
+    },
+    alt
+  },
+}`;
+
+export const getMoreBlogs = async (slug: string): Promise<IndividualBlog[]> => {
+  return await client.fetch(moreBlogsQueryString, { slug });
+};

@@ -31,7 +31,7 @@ export default function BlogCard({
     year: "numeric",
   });
   const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
-  console.log(post);
+
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">
       {/* Photo */}

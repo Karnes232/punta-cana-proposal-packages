@@ -20,12 +20,7 @@ export default async function StoryPage({
     story?.proposalType?.value ?? "",
     story?.slug?.current ?? "",
   );
-  moreStories = [
-    ...moreStories,
-    ...moreStories,
-    ...moreStories,
-    ...moreStories,
-  ];
+
   return (
     <main>
       <StoryHero
