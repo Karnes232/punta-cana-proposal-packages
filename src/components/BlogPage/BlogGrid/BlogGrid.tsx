@@ -10,11 +10,12 @@ import {
   type BlogCardData,
   type BlogGridContent,
 } from "./types";
+import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
 const PAGE_SIZE = 6;
 
 interface BlogGridProps {
-  posts?: BlogCardData[];
+  posts: BlogPost[];
   content?: BlogGridContent;
   locale: "en" | "es";
   /** Active filter value passed down from the filter bar — "all" or a categoryType slug */
@@ -40,7 +41,7 @@ const variantPattern: Variant[] = [
 ];
 
 export default function BlogGrid({
-  posts = defaultBlogPosts,
+  posts,
   content = defaultBlogGridContent,
   locale,
   activeFilter = "all",
@@ -61,7 +62,7 @@ export default function BlogGrid({
   const filtered =
     activeFilter === "all"
       ? posts
-      : posts.filter((p) => p.categoryType === activeFilter);
+      : posts.filter((p) => p.category.value === activeFilter);
 
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
@@ -110,7 +111,7 @@ export default function BlogGrid({
 
           return (
             <div
-              key={post.slug}
+              key={post.slug.current}
               className={`
                 ${isFirstInPattern || isLastInPattern ? "md:col-span-1 md:row-span-2" : "md:col-span-1"}
               `}

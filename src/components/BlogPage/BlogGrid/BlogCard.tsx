@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import type { BlogCardData } from "./types";
+import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
 interface BlogCardProps {
-  post: BlogCardData;
+  post: BlogPost;
   readMoreLabel: string;
   readTimeSuffix: string;
   /** Controls photo aspect ratio in the asymmetric grid */
@@ -30,7 +31,7 @@ export default function BlogCard({
     year: "numeric",
   });
   const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
-
+console.log(post);
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">
       {/* Photo */}
@@ -38,8 +39,8 @@ export default function BlogCard({
         className={`relative ${photoHeights[variant]} bg-black overflow-hidden shrink-0`}
       >
         <Image
-          src={post.photo.asset.url}
-          alt={post.photo.alt ?? `${post.title} hero photo`}
+          src={post.heroPhoto.asset.url}
+          alt={post.heroPhoto.alt ?? `${post.title} hero photo`}
           fill
           className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -75,15 +76,15 @@ export default function BlogCard({
       {/* Body */}
       <div className="flex flex-col flex-1 px-6 py-7 gap-3">
         <span className="text-[10px] font-body font-medium tracking-[0.16em] uppercase text-gold">
-          {post.categoryTag}
+          {post.categoryTag[locale]}
         </span>
 
         <h3 className="font-display font-normal text-fluid-h5 text-black leading-tight">
-          {post.title}
+          {post.title[locale]}
         </h3>
 
         <p className="font-body font-light text-fluid-sm text-gray leading-relaxed flex-1">
-          {post.excerpt}
+          {post.excerpt[locale]}
         </p>
 
         {/* Divider + CTA */}
@@ -92,7 +93,7 @@ export default function BlogCard({
             {capitalizedDate}
           </span>
           <Link
-            href={`/blog/${post.slug}`}
+            href={`/blog/${post.slug.current}`}
             className="
               inline-flex items-center gap-2
               text-[10.5px] font-body font-medium tracking-[0.14em] uppercase text-black

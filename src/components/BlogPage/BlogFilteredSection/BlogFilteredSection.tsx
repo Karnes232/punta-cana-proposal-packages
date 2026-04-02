@@ -7,17 +7,18 @@ import BlogGrid from "@/components/BlogPage/BlogGrid/BlogGrid";
 // import type { FeaturedPostData } from "@/components/BlogPage/FeaturedBlogPost/types";
 import type { BlogCardData } from "@/components/BlogPage/BlogGrid/types";
 import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/Hero";
+import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
 interface BlogFilteredSectionProps {
   featuredPost: FeaturedPostType;
-  categories?: {
+  categories: {
     value: string;
     label: {
       en: string;
       es: string;
     };
   }[];
-  posts?: BlogCardData[];
+  posts: BlogPost[];
   locale: "en" | "es";
 }
 
@@ -40,20 +41,7 @@ export default function BlogFilteredSection({
 
       {/* Filter bar — black strip with category tabs */}
       <BlogFilterBar
-        categories={[
-          {
-            value: "destination-guides",
-            label: { en: "Destination Guides", es: "Guías de Destino" },
-          },
-          {
-            value: "planning-tips",
-            label: { en: "Planning Tips", es: "Consejos de Planificación" },
-          },
-          {
-            value: "proposal-tips",
-            label: { en: "Proposal Tips", es: "Consejos de Propuesta" },
-          },
-        ]}
+        categories={categories}
         locale={locale}
         onChange={setActiveFilter}
       />
