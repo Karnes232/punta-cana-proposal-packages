@@ -1,20 +1,18 @@
 import { Link } from "@/i18n/navigation";
-import type { FeaturedStoryData, FeaturedStoryContent } from "./types";
+import type { FeaturedStoryData } from "./types";
 
 interface FeaturedStoryCopyProps {
   story: FeaturedStoryData;
-  content: FeaturedStoryContent;
   locale: "en" | "es";
 }
 
 export default function FeaturedStoryCopy({
   story,
-  content,
   locale,
 }: FeaturedStoryCopyProps) {
-  const ctaLabel = locale === "es" ? content.ctaLabelEs : content.ctaLabelEn;
+  const ctaLabel = locale === "es" ? "Leer Su Historia" : "Read Their Story";
   const proposedPrefix =
-    locale === "es" ? content.proposedPrefixEs : content.proposedPrefixEn;
+    locale === "es" ? "Propuesta" : "Proposed";
 
   const dateStr = new Date(story.date).toLocaleDateString(locale, {
     month: "long",

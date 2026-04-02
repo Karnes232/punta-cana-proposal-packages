@@ -33,51 +33,28 @@ export interface FeaturedStoryData {
   heroPhoto: FeaturedStoryImage;
 }
 
-export interface FeaturedStoryContent {
-  /** Eyebrow label above the card */
-  eyebrowEn: string;
-  eyebrowEs: string;
+// export interface FeaturedStoryContent {
+//   /** Eyebrow label above the card */
+//   eyebrowEn: string;
+//   eyebrowEs: string;
 
-  /** CTA button label */
-  ctaLabelEn: string;
-  ctaLabelEs: string;
+//   /** CTA button label */
+//   ctaLabelEn: string;
+//   ctaLabelEs: string;
 
-  /** "Proposed" date prefix — e.g. "Proposed · December 2024" */
-  proposedPrefixEn: string;
-  proposedPrefixEs: string;
-}
+//   /** "Proposed" date prefix — e.g. "Proposed · December 2024" */
+//   proposedPrefixEn: string;
+//   proposedPrefixEs: string;
+// }
 
-export const defaultFeaturedStoryContent: FeaturedStoryContent = {
-  eyebrowEn: "Featured Story",
-  eyebrowEs: "Historia Destacada",
+// export const defaultFeaturedStoryContent: FeaturedStoryContent = {
+//   eyebrowEn: "Featured Story",
+//   eyebrowEs: "Historia Destacada",
 
-  ctaLabelEn: "Read Their Story",
-  ctaLabelEs: "Leer Su Historia",
+//   ctaLabelEn: "Read Their Story",
+//   ctaLabelEs: "Leer Su Historia",
 
-  proposedPrefixEn: "Proposed",
-  proposedPrefixEs: "Propuesta",
-};
+//   proposedPrefixEn: "Proposed",
+//   proposedPrefixEs: "Propuesta",
+// };
 
-export const defaultFeaturedStory: FeaturedStoryData = {
-  slug: { current: "sofia-and-alejandro" },
-  names: "Sofia & Alejandro",
-  date: "December 2024",
-  location: { en: "Playa Bávaro, Punta Cana", es: "Playa Bávaro, Punta Cana" },
-  packageTag: { en: "Classic Beach Package", es: "Classic Beach Package" },
-  quote: {
-    en: "I had no idea what was coming. The moment I turned around and saw the roses, the photographer, and him on one knee — I completely fell apart. It was more perfect than anything I could have dreamed.",
-    es: "I had no idea what was coming. The moment I turned around and saw the roses, the photographer, and him on one knee — I completely fell apart. It was more perfect than anything I could have dreamed.",
-  },
-  heroPhoto: {
-    asset: {
-      url: "https://picsum.photos/1200/800?random=1",
-      metadata: {
-        dimensions: {
-          width: 1200,
-          height: 800,
-        },
-      },
-    },
-    alt: "Sofia and Alejandro proposal on the beach in Punta Cana",
-  },
-};
