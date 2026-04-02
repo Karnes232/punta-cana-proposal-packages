@@ -12,13 +12,9 @@ interface FeaturedPostProps {
   locale: "en" | "es";
 }
 
-export default function FeaturedPost({
-  post,
-  locale,
-}: FeaturedPostProps) {
+export default function FeaturedPost({ post, locale }: FeaturedPostProps) {
   const eyebrow = locale === "es" ? "Artículo Destacado" : "Featured Post";
-  const readTimeSuffix =
-    locale === "es" ? "min de lectura" : "min read";
+  const readTimeSuffix = locale === "es" ? "min de lectura" : "min read";
 
   return (
     <article className="group grid grid-cols-1 md:grid-cols-2 border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden">

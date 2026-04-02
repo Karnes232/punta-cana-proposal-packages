@@ -15,7 +15,10 @@ export default async function Blog({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData, hero] = await Promise.all([getStructuredData("blog"), blogPageHero()]);
+  const [structuredData, hero] = await Promise.all([
+    getStructuredData("blog"),
+    blogPageHero(),
+  ]);
   console.log(hero);
   return (
     <main>
@@ -30,8 +33,18 @@ export default async function Blog({
           }}
         />
       )}
-      <BlogHero eyebrow={hero?.eyebrow[locale as "en" | "es"]} headingLine1={hero?.headingLine1[locale as "en" | "es"]} headingLine2={hero?.headingLine2[locale as "en" | "es"]} subheading={hero?.subheading[locale as "en" | "es"]} image={hero?.image} locale={locale as "en" | "es"} />
-      <BlogFilteredSection featuredPost={hero.featuredPost} locale={locale as "en" | "es"} />
+      <BlogHero
+        eyebrow={hero?.eyebrow[locale as "en" | "es"]}
+        headingLine1={hero?.headingLine1[locale as "en" | "es"]}
+        headingLine2={hero?.headingLine2[locale as "en" | "es"]}
+        subheading={hero?.subheading[locale as "en" | "es"]}
+        image={hero?.image}
+        locale={locale as "en" | "es"}
+      />
+      <BlogFilteredSection
+        featuredPost={hero.featuredPost}
+        locale={locale as "en" | "es"}
+      />
       {/* <FeaturedPost locale={locale as "en" | "es"} />
       <BlogFilterBar locale={locale as "en" | "es"} categories={[{ value: "destination-guides", label: { en: "Destination Guides", es: "Guías de Destino" } },{ value: "planning-tips", label: { en: "Planning Tips", es: "Consejos de Planificación" } }, { value: "proposal-tips", label: { en: "Proposal Tips", es: "Consejos de Propuesta" } }]} />
       <BlogGrid locale={locale as "en" | "es"} /> */}

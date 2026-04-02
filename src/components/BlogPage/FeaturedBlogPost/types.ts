@@ -10,54 +10,54 @@
 //     };
 //     alt?: string;
 //   }
-  
+
 //   export interface FeaturedPostData {
 //     /** Sanity document slug — used to build the /blog/[slug] link */
 //     slug: { current: string };
-  
+
 //     /** e.g. "The Ultimate Guide to Planning a Proposal in Punta Cana" */
 //     title: Record<"en" | "es", string>;
-  
+
 //     /** e.g. "2025-03-15" */
 //     publishedAt: string;
-  
+
 //     /** e.g. "Planning Tips" / "Consejos de Planificación" */
 //     categoryTag: Record<"en" | "es", string>;
-  
+
 //     /** Short 1–2 sentence excerpt shown on the card */
 //     excerpt: Record<"en" | "es", string>;
-  
+
 //     /** Estimated reading time in minutes */
 //     readingTime: number;
-  
+
 //     heroPhoto: FeaturedPostImage;
 //   }
-  
+
 //   export interface FeaturedPostContent {
 //     /** Eyebrow label above the card */
 //     eyebrowEn: string;
 //     eyebrowEs: string;
-  
+
 //     /** CTA button label */
 //     ctaLabelEn: string;
 //     ctaLabelEs: string;
-  
+
 //     /** Reading time suffix — e.g. "min read" */
 //     readTimeSuffixEn: string;
 //     readTimeSuffixEs: string;
 //   }
-  
+
 //   export const defaultFeaturedPostContent: FeaturedPostContent = {
 //     eyebrowEn: "Featured Post",
 //     eyebrowEs: "Artículo Destacado",
-  
+
 //     ctaLabelEn: "Read Article",
 //     ctaLabelEs: "Leer Artículo",
-  
+
 //     readTimeSuffixEn: "min read",
 //     readTimeSuffixEs: "min de lectura",
 //   };
-  
+
 //   export const defaultFeaturedPost: FeaturedPostData = {
 //     slug: { current: "the-ultimate-guide-to-planning-a-proposal-in-punta-cana" },
 //     title: {

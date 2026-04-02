@@ -1,7 +1,11 @@
 import PostHeroBackground from "./PostHeroBackground";
 import PostHeroBackLink from "./PostHeroBackLink";
 import PostHeroCopy from "./PostHeroCopy";
-import { defaultPostHeroContent, type PostHeroData, type PostHeroContent } from "./types";
+import {
+  defaultPostHeroContent,
+  type PostHeroData,
+  type PostHeroContent,
+} from "./types";
 
 interface PostHeroProps {
   post: PostHeroData;
@@ -14,8 +18,7 @@ export default function PostHero({
   locale,
   content = defaultPostHeroContent,
 }: PostHeroProps) {
-  const backLabel =
-    locale === "es" ? content.backLabelEs : content.backLabelEn;
+  const backLabel = locale === "es" ? content.backLabelEs : content.backLabelEn;
   const readTimeSuffix =
     locale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
 

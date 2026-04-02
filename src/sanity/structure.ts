@@ -208,22 +208,25 @@ export const structure: StructureResolver = (S) =>
         .icon(() => "📚")
         .child(
           S.list()
-          .title("Blog page")
-          .items([
-            S.listItem()
-              .title("Hero")
-              .icon(() => "👤")
-              .child(S.document().schemaType("BlogPageHero").title("Blog Page Hero")),
-            S.listItem()
-              .title("Blog categories")
-              .icon(() => "🗂️")
-              .child(
-                S.documentList()
-                  .title("Blog categories")
-                  .schemaType("BlogCategory")
-                  .filter("_type == 'BlogCategory'")
-                  
-              ),
+            .title("Blog page")
+            .items([
+              S.listItem()
+                .title("Hero")
+                .icon(() => "👤")
+                .child(
+                  S.document()
+                    .schemaType("BlogPageHero")
+                    .title("Blog Page Hero"),
+                ),
+              S.listItem()
+                .title("Blog categories")
+                .icon(() => "🗂️")
+                .child(
+                  S.documentList()
+                    .title("Blog categories")
+                    .schemaType("BlogCategory")
+                    .filter("_type == 'BlogCategory'"),
+                ),
               S.listItem()
                 .title("Blog posts")
                 .icon(() => "📚")

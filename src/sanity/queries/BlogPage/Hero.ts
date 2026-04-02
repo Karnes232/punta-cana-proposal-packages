@@ -61,7 +61,7 @@ export interface BlogPageHero {
     };
     alt?: string;
   };
-  featuredPost: FeaturedPost
+  featuredPost: FeaturedPost;
 }
 
 export const blogPageHeroQuery = `*[_type == "BlogPageHero"][0] {

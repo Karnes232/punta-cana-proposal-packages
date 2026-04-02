@@ -34,13 +34,26 @@ export default function BlogFilteredSection({
       {/* Featured post — sits between hero and filter bar */}
       <section className="bg-ivory">
         {/* <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-12 md:py-16"> */}
-          <FeaturedPost post={featuredPost} locale={locale} />
+        <FeaturedPost post={featuredPost} locale={locale} />
         {/* </div> */}
       </section>
 
       {/* Filter bar — black strip with category tabs */}
       <BlogFilterBar
-        categories={[{ value: "destination-guides", label: { en: "Destination Guides", es: "Guías de Destino" } },{ value: "planning-tips", label: { en: "Planning Tips", es: "Consejos de Planificación" } }, { value: "proposal-tips", label: { en: "Proposal Tips", es: "Consejos de Propuesta" } }]}
+        categories={[
+          {
+            value: "destination-guides",
+            label: { en: "Destination Guides", es: "Guías de Destino" },
+          },
+          {
+            value: "planning-tips",
+            label: { en: "Planning Tips", es: "Consejos de Planificación" },
+          },
+          {
+            value: "proposal-tips",
+            label: { en: "Proposal Tips", es: "Consejos de Propuesta" },
+          },
+        ]}
         locale={locale}
         onChange={setActiveFilter}
       />
@@ -48,11 +61,7 @@ export default function BlogFilteredSection({
       {/* Grid — ivory background, filtered by active tab */}
       <section className="bg-ivory">
         {/* <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-12 md:py-16"> */}
-          <BlogGrid
-            posts={posts}
-            locale={locale}
-            activeFilter={activeFilter}
-          />
+        <BlogGrid posts={posts} locale={locale} activeFilter={activeFilter} />
         {/* </div> */}
       </section>
     </>

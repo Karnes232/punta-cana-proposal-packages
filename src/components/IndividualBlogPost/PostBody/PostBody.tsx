@@ -14,7 +14,14 @@ interface PostBodyProps {
 }
 
 export default function PostBody({
-  data = { title: "Test", publishedAt: "2021-01-01", categoryTag: "Test", readingTime: 1, excerpt: "Test", body: [{ _type: "block", children: [{ _type: "span", text: "Test" }] }] },
+  data = {
+    title: "Test",
+    publishedAt: "2021-01-01",
+    categoryTag: "Test",
+    readingTime: 1,
+    excerpt: "Test",
+    body: [{ _type: "block", children: [{ _type: "span", text: "Test" }] }],
+  },
   locale = "en",
   content = defaultPostSidebarContent,
 }: PostBodyProps) {

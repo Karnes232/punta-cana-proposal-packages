@@ -38,8 +38,7 @@ export default function PostSidebar({
     locale === "es" ? content.readTimeLabelEs : content.readTimeLabelEn;
   const readTimeSuffix =
     locale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
-  const ctaLabel =
-    locale === "es" ? content.ctaLabelEs : content.ctaLabelEn;
+  const ctaLabel = locale === "es" ? content.ctaLabelEs : content.ctaLabelEn;
 
   const dateStr = new Date(data.publishedAt).toLocaleDateString(locale, {
     month: "long",

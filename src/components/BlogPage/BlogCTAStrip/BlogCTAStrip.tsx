@@ -1,8 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import {
-  defaultBlogCTAStripContent,
-  type BlogCTAStripContent,
-} from "./types";
+import { defaultBlogCTAStripContent, type BlogCTAStripContent } from "./types";
 
 interface BlogCTAStripProps {
   locale: "en" | "es";

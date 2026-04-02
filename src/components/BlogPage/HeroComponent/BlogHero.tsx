@@ -4,7 +4,6 @@ import BlogHeroDivider from "./BlogHeroDivider";
 import BlogHeroSubheading from "./BlogHeroSubheading";
 import StoriesHeroBackground from "@/components/StoriesPage/HeroComponent/StoriesHeroBackground";
 
-
 interface BlogHeroProps {
   locale: "en" | "es";
   /** Pass Sanity data to override defaults */
@@ -34,7 +33,6 @@ export default function BlogHero({
   subheading,
   image,
 }: BlogHeroProps) {
-
   return (
     <section className="relative w-full bg-[#0B0B0C] overflow-hidden">
       {/* Subtle radial gold bloom behind heading */}
