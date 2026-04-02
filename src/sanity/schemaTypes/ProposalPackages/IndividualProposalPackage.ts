@@ -27,6 +27,10 @@ export default defineType({
       name: "addons",
       title: "Add-ons",
     },
+    {
+      name: "seo",
+      title: "SEO",
+    },
   ],
   fields: [
     // ── Package group ──
@@ -285,6 +289,14 @@ export default defineType({
         }),
       ],
       group: "addons",
+    }),
+
+    // ── SEO group ──
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seo",
+      group: "seo",
     }),
   ],
   preview: {

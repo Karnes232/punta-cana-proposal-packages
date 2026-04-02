@@ -3,8 +3,13 @@ import PackageHero from "@/components/IndividualProposalPackagePage/HeroComponen
 import PackageBookingForm from "@/components/IndividualProposalPackagePage/PackageBookingForm/PackageBookingForm";
 import PackageGallery from "@/components/IndividualProposalPackagePage/PackageGallery/PackageGallery";
 import PackageInclusions from "@/components/IndividualProposalPackagePage/PackageInclusions/PackageInclusions";
-import { individualProposalPackageQuery } from "@/sanity/queries/ProposalPackages/IndividualProposalPackage";
+import { generateHreflangAlternates } from "@/i18n/hreflang";
+import {
+  individualProposalPackageQuery,
+  individualStorySEOQuery,
+} from "@/sanity/queries/ProposalPackages/IndividualProposalPackage";
 import { getTranslations } from "next-intl/server";
+import Script from "next/script";
 
 export default async function ModernProposalsSlug({
   params,
@@ -20,6 +25,21 @@ export default async function ModernProposalsSlug({
   const formLabels = await getTranslations("PackagePage.BookingForm");
   return (
     <main>
+      {individualProposalPackage?.seo?.structuredData[
+        locale as "en" | "es"
+      ] && (
+        <Script
+          id="structured-data-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              individualProposalPackage?.seo?.structuredData[
+                locale as "en" | "es"
+              ],
+            ),
+          }}
+        />
+      )}
       <PackageHero
         name={individualProposalPackage.name[locale as "en" | "es"]}
         price={individualProposalPackage.price}
@@ -80,4 +100,46 @@ export default async function ModernProposalsSlug({
       />
     </main>
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: "en" | "es" }>;
+}) {
+  const { slug, locale } = await params;
+  const individualProposalPackage = await individualStorySEOQuery(slug);
+  if (!individualProposalPackage) {
+    return {};
+  }
+
+  let canonicalUrl;
+  if (locale === "en") {
+    canonicalUrl = `https://puntacanaproposalpackages.com/modern-proposals/${slug}`;
+  } else {
+    canonicalUrl = `https://puntacanaproposalpackages.com/es/modern-proposals/${slug}`;
+  }
+
+  return {
+    title: individualProposalPackage.seo.meta[locale].title,
+    description: individualProposalPackage.seo.meta[locale].description,
+    keywords: individualProposalPackage.seo.meta[locale].keywords.join(", "),
+    url: canonicalUrl,
+    openGraph: {
+      title: individualProposalPackage.seo.openGraph[locale].title,
+      description: individualProposalPackage.seo.openGraph[locale].description,
+      images: individualProposalPackage.seo.openGraph.image.url,
+      type: "website",
+      url: canonicalUrl,
+    },
+    robots: {
+      index: !individualProposalPackage.seo.noIndex,
+      follow: !individualProposalPackage.seo.noFollow,
+    },
+    ...(canonicalUrl && { canonical: canonicalUrl }),
+    alternates: {
+      canonical: canonicalUrl,
+      ...generateHreflangAlternates(locale, `/modern-proposals/${slug}`),
+    },
+  };
 }

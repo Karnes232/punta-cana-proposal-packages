@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { IndividualBlogSEO } from "../BlogPage/IndividualBlog";
 
 export interface IndividualProposalPackage {
   image: {
@@ -87,6 +88,12 @@ export interface IndividualProposalPackage {
     price: number;
     icon: string;
   }[];
+  seo: {
+    structuredData: {
+      en: string;
+      es: string;
+    };
+  };
 }
 
 export const individualProposalPackageQueryString = `*[_type == "IndividualProposalPackage" && slug.current == $slug][0] {
@@ -176,10 +183,60 @@ export const individualProposalPackageQueryString = `*[_type == "IndividualPropo
     price,
     icon
   },
+  seo {
+    structuredData {
+      en,
+      es
+    }
+  },
 }`;
 
 export const individualProposalPackageQuery = async (
   slug: string,
 ): Promise<IndividualProposalPackage> => {
   return await client.fetch(individualProposalPackageQueryString, { slug });
+};
+
+export const individualProposalPackageSEOQueryString = `*[_type == "IndividualProposalPackage" && slug.current == $slug][0] {
+  _id,
+  seo {
+        meta {
+    en {
+      title,
+      description,
+      keywords
+    },
+    es {
+      title,
+      description,
+      keywords
+    }
+  },
+  // Open Graph data
+  openGraph {
+    en {
+      title,
+      description
+    },
+    es {
+      title,
+      description
+    },
+    "image": {
+      "url": image.asset->url,
+      "alt": image.alt,
+      "width": image.asset->metadata.dimensions.width,
+      "height": image.asset->metadata.dimensions.height
+    }
+  },
+  // Other SEO settings
+  noIndex,
+  noFollow
+    }
+}`;
+
+export const individualStorySEOQuery = async (
+  slug: string,
+): Promise<IndividualBlogSEO> => {
+  return client.fetch(individualProposalPackageSEOQueryString, { slug });
 };
