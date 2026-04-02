@@ -1,0 +1,37 @@
+import PostPullQuote from "./PostPullQuote";
+import PostPortableText from "./PostPortableText";
+import PostSidebar from "./PostSidebar";
+import {
+  defaultPostSidebarContent,
+  type PostBodyData,
+  type PostSidebarContent,
+} from "./types";
+
+interface PostBodyProps {
+  data?: PostBodyData;
+  locale: "en" | "es";
+  content?: PostSidebarContent;
+}
+
+export default function PostBody({
+  data = { title: "Test", publishedAt: "2021-01-01", categoryTag: "Test", readingTime: 1, excerpt: "Test", body: [{ _type: "block", children: [{ _type: "span", text: "Test" }] }] },
+  locale = "en",
+  content = defaultPostSidebarContent,
+}: PostBodyProps) {
+  return (
+    <section className="bg-ivory">
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-16 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12 xl:gap-20">
+          {/* ── Left: post content ── */}
+          <div className="min-w-0">
+            <PostPullQuote excerpt={data.excerpt} />
+            <PostPortableText body={data.body} />
+          </div>
+
+          {/* ── Right: sticky sidebar ── */}
+          <PostSidebar data={data} content={content} locale={locale} />
+        </div>
+      </div>
+    </section>
+  );
+}
