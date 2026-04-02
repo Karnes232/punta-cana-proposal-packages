@@ -17,8 +17,7 @@ export default function MoreStoriesCarousel({
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
 
-  const readMoreLabel =
-    locale === "es" ? "Leer Historia" : "Read Story";
+  const readMoreLabel = locale === "es" ? "Leer Historia" : "Read Story";
   const prevLabel = locale === "es" ? "Anterior" : "Previous";
   const nextLabel = locale === "es" ? "Siguiente" : "Next";
 

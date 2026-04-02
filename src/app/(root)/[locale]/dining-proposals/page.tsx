@@ -1,4 +1,3 @@
-
 import CategoryHero from "@/components/CategoryPage/CategoryHero/CategoryHero";
 import CategoryIntro from "@/components/CategoryPage/CategoryIntro/CategoryIntro";
 
@@ -29,7 +28,6 @@ export default async function DiningProposals({
     getProposalPackageHeader(),
     getRelatedStories("dining"),
   ]);
-
 
   return (
     <main>

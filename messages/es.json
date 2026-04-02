@@ -107,10 +107,9 @@
       "modernProposals": "Proposiciones Modernas"
     },
     "BookingForm": {
-      "eyebrow": "Reserva Tu Propuesta",
-      "headingLine1": "¿Listo para",
-      "headingLine2": "Comenzar?",
-      "description": "Personaliza tu paquete y completa el formulario — te responderemos en menos de 24 horas.",
+      "variantTitle": "Elige Tu Estilo",
+      "addonTitle": "Agrega Extras (Opcional)",
+      "detailsTitle": "Tus Datos",
       "name": "Nombre Completo",
       "hotel": "Hotel / Resort",
       "phone": "Número de Teléfono",
@@ -122,6 +121,16 @@
       "submitting": "Enviando…",
       "successTitle": "¡Gracias!",
       "successMessage": "Hemos recibido tu solicitud y nos pondremos en contacto en menos de 24 horas para comenzar a planificar tu momento perfecto.",
+      "summaryBasePrice": "Precio Base",
+      "summaryVariant": "Variante",
+      "summaryAddons": "Extras",
+      "summaryTotal": "Total Estimado",
+
+      "eyebrow": "Reserva Tu Propuesta",
+      "headingLine1": "¿Listo para",
+      "headingLine2": "Comenzar?",
+      "description": "Personaliza tu paquete y completa el formulario — te responderemos en menos de 24 horas.",
+
       "summaryPackage": "Paquete",
       "summaryTier": "Nivel",
       "summaryColor": "Color",

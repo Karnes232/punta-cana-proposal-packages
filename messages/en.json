@@ -107,10 +107,9 @@
       "modernProposals": "Modern Proposals"
     },
     "BookingForm": {
-      "eyebrow": "Book Your Proposal",
-      "headingLine1": "Ready to",
-      "headingLine2": "Begin?",
-      "description": "Customize your package and fill out the form — we'll get back to you within 24 hours.",
+      "variantTitle": "Choose Your Style",
+      "addonTitle": "Add Extras (Optional)",
+      "detailsTitle": "Your Details",
       "name": "Full Name",
       "hotel": "Hotel / Resort",
       "phone": "Phone Number",
@@ -122,6 +121,16 @@
       "submitting": "Sending…",
       "successTitle": "Thank You!",
       "successMessage": "We've received your request and will be in touch within 24 hours to start planning your perfect moment.",
+      "summaryBasePrice": "Base Price",
+      "summaryVariant": "Variant",
+      "summaryAddons": "Add-ons",
+      "summaryTotal": "Estimated Total",
+
+      "eyebrow": "Book Your Proposal",
+      "headingLine1": "Ready to",
+      "headingLine2": "Begin?",
+      "description": "Customize your package and fill out the form — we'll get back to you within 24 hours.",
+
       "summaryPackage": "Package",
       "summaryTier": "Tier",
       "summaryColor": "Color",

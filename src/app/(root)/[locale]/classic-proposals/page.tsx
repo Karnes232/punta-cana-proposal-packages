@@ -42,7 +42,6 @@ export default async function ClassicProposals({
     getRelatedStories("classic"),
   ]);
 
-
   return (
     <main>
       {structuredData.seo.structuredData[locale as "en" | "es"] && (

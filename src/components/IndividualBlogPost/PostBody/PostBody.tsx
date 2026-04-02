@@ -1,9 +1,7 @@
 import PostPullQuote from "./PostPullQuote";
 import PostPortableText from "./PostPortableText";
 import PostSidebar from "./PostSidebar";
-import {
-  type PostBodyData,
-} from "./types";
+import { type PostBodyData } from "./types";
 
 interface PostBodyProps {
   data?: PostBodyData;

@@ -17,7 +17,7 @@ export default async function DiningProposalsSlug({
     individualProposalPackageQuery(slug),
   ]);
   const t = await getTranslations("PackagePage.PackageHero");
-
+  const formLabels = await getTranslations("PackagePage.BookingForm");
   return (
     <main>
       <PackageHero
@@ -50,47 +50,31 @@ export default async function DiningProposalsSlug({
           price: variant.price,
           image: variant.image,
         }))}
-        addons={individualProposalPackage.addons.map((addon) => ({
+        addons={individualProposalPackage?.addons?.map((addon) => ({
           name: addon.name[locale as "en" | "es"],
           description: addon.description[locale as "en" | "es"],
           price: addon.price,
           icon: addon.icon,
         }))}
         formLabels={{
-          variantTitle:
-            locale === "es" ? "Elige Tu Estilo" : "Choose Your Style",
-          addonTitle:
-            locale === "es"
-              ? "Agrega Extras (Opcional)"
-              : "Add Extras (Optional)",
-          detailsTitle: locale === "es" ? "Tus Datos" : "Your Details",
-          name: locale === "es" ? "Nombre Completo" : "Full Name",
-          hotel: "Hotel / Resort",
-          phone: locale === "es" ? "Número de Teléfono" : "Phone Number",
-          email: locale === "es" ? "Correo Electrónico" : "Email Address",
-          date: locale === "es" ? "Fecha de la Propuesta" : "Proposal Date",
-          notes:
-            locale === "es"
-              ? "¿Algo más que quieras contarnos?"
-              : "Anything else you'd like us to know?",
-          notesPlaceholder:
-            locale === "es"
-              ? "Solicitudes especiales, preferencias de horario, sorpresas…"
-              : "Special requests, timing preferences, surprises…",
-          submit:
-            locale === "es"
-              ? "Enviar Solicitud de Reserva"
-              : "Submit Booking Request",
-          submitting: locale === "es" ? "Enviando…" : "Sending…",
-          successTitle: locale === "es" ? "¡Gracias!" : "Thank You!",
-          successMessage:
-            locale === "es"
-              ? "Hemos recibido tu solicitud y nos pondremos en contacto en menos de 24 horas."
-              : "We've received your request and will be in touch within 24 hours.",
-          summaryBasePrice: locale === "es" ? "Precio Base" : "Base Price",
-          summaryVariant: locale === "es" ? "Variante" : "Variant",
-          summaryAddons: locale === "es" ? "Extras" : "Add-ons",
-          summaryTotal: locale === "es" ? "Total Estimado" : "Estimated Total",
+          variantTitle: formLabels("variantTitle"),
+          addonTitle: formLabels("addonTitle"),
+          detailsTitle: formLabels("detailsTitle"),
+          name: formLabels("name"),
+          hotel: formLabels("hotel"),
+          phone: formLabels("phone"),
+          email: formLabels("email"),
+          date: formLabels("date"),
+          notes: formLabels("notes"),
+          notesPlaceholder: formLabels("notesPlaceholder"),
+          submit: formLabels("submit"),
+          submitting: formLabels("submitting"),
+          successTitle: formLabels("successTitle"),
+          successMessage: formLabels("successMessage"),
+          summaryBasePrice: formLabels("summaryBasePrice"),
+          summaryVariant: formLabels("summaryVariant"),
+          summaryAddons: formLabels("summaryAddons"),
+          summaryTotal: formLabels("summaryTotal"),
         }}
       />
     </main>

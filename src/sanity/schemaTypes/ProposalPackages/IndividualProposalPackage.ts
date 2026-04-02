@@ -162,6 +162,7 @@ export default defineType({
     defineField({
       name: "variants",
       title: "Package Variants",
+      validation: (Rule) => Rule.required().min(1),
       description:
         "Different versions of this package the client can choose from (e.g. color themes, setup styles). Each has its own price.",
       type: "array",

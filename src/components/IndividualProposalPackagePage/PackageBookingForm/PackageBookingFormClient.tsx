@@ -139,7 +139,7 @@ export default function PackageBookingFormClient({
       )}
 
       {/* Step 2 — Add-ons */}
-      {addons.length > 0 && (
+      {addons?.length > 0 && (
         <AddonToggle
           addons={addons}
           selectedIndices={selectedAddonIndices}

@@ -24,19 +24,15 @@ interface PostSidebarProps {
   locale: "en" | "es";
 }
 
-export default function PostSidebar({
-  data,
-  locale,
-}: PostSidebarProps) {
-  const categoryLabel =
-    locale === "es" ? "Categoría" : "Category";
-  const publishedLabel =
-    locale === "es" ? "Publicado" : "Published";
-  const readTimeLabel =
-    locale === "es" ? "Tiempo de Lectura" : "Reading Time";
-  const readTimeSuffix =
-    locale === "es" ? "min de lectura" : "min read";
-  const ctaLabel = locale === "es" ? "Comienza a Planificar Tu Propuesta" : "Start Planning Your Proposal";
+export default function PostSidebar({ data, locale }: PostSidebarProps) {
+  const categoryLabel = locale === "es" ? "Categoría" : "Category";
+  const publishedLabel = locale === "es" ? "Publicado" : "Published";
+  const readTimeLabel = locale === "es" ? "Tiempo de Lectura" : "Reading Time";
+  const readTimeSuffix = locale === "es" ? "min de lectura" : "min read";
+  const ctaLabel =
+    locale === "es"
+      ? "Comienza a Planificar Tu Propuesta"
+      : "Start Planning Your Proposal";
 
   const dateStr = new Date(data.publishedAt).toLocaleDateString(locale, {
     month: "long",
