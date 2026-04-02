@@ -13,7 +13,7 @@ import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 import Script from "next/script";
 import { getProposalPackageHeader } from "@/sanity/queries/ProposalPackages/ProposalPackageHeaders";
-import { getRelatedStories } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
+import { getRelatedStories } from "@/sanity/queries/StoriesPage/IndividualStory";
 
 export default async function ModernProposals({
   params,

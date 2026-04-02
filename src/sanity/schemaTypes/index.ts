@@ -31,11 +31,13 @@ import CustomizationOptions from "./ProposalPackages/CustomizationOptions";
 import StoriesPageHero from "./StoriesPage/Hero";
 import ProposalType from "./StoriesPage/ProposalType";
 import IndividualStory from "./StoriesPage/IndividualStory";
+import StoriesPageCtaStrip from "./StoriesPage/CtaStrip";
 
 //BlogPage
 import BlogPageHero from "./BlogPage/BlogPageHero";
 import BlogPost from "./BlogPage/BlogPost";
 import BlogCategory from "./BlogPage/BlogCategory";
+import BlogPageCtaStrip from "./BlogPage/CtaStrip";
 
 //ContactPage
 import ContactPageContent from "./ContactPage/Content";
@@ -89,11 +91,13 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     StoriesPageHero,
     ProposalType,
     IndividualStory,
+    StoriesPageCtaStrip,
 
     //BlogPage
     BlogPageHero,
     BlogPost,
     BlogCategory,
+    BlogPageCtaStrip,
 
     //ContactPage
     ContactPageContent,

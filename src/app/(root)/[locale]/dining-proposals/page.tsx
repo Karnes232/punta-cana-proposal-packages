@@ -12,7 +12,7 @@ import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getProposalPackageHeader } from "@/sanity/queries/ProposalPackages/ProposalPackageHeaders";
 import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
-import { getRelatedStories } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
+import { getRelatedStories } from "@/sanity/queries/StoriesPage/IndividualStory";
 import Script from "next/script";
 
 export default async function DiningProposals({

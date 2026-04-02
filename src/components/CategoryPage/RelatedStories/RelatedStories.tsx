@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import RelatedStoryCard, { RelatedStoryData } from "./RelatedStoryCard";
-import { relatedStories } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
+import { relatedStories } from "@/sanity/queries/StoriesPage/IndividualStory";
 
 interface RelatedStoriesProps {
   locale?: string;

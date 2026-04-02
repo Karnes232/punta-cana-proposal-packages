@@ -24,7 +24,7 @@ import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStor
 import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
 import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
 import { getProposalPackageHeader } from "@/sanity/queries/ProposalPackages/ProposalPackageHeaders";
-import { getRelatedStories } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
+import { getRelatedStories } from "@/sanity/queries/StoriesPage/IndividualStory";
 
 export default async function ClassicProposals({
   params,

@@ -180,6 +180,14 @@ export const structure: StructureResolver = (S) =>
                     .title("Stories Page Hero"),
                 ),
               S.listItem()
+                .title("CTA Strip")
+                .icon(() => "📧")
+                .child(
+                  S.document()
+                    .schemaType("StoriesPageCtaStrip")
+                    .title("Stories Page CTA Strip"),
+                ),
+              S.listItem()
                 .title("Proposal types")
                 .icon(() => "💍")
                 .child(
@@ -217,6 +225,14 @@ export const structure: StructureResolver = (S) =>
                   S.document()
                     .schemaType("BlogPageHero")
                     .title("Blog Page Hero"),
+                ),
+              S.listItem()
+                .title("CTA Strip")
+                .icon(() => "📧")
+                .child(
+                  S.document()
+                    .schemaType("BlogPageCtaStrip")
+                    .title("Blog Page CTA Strip"),
                 ),
               S.listItem()
                 .title("Blog categories")

@@ -1,13 +1,14 @@
 import StoriesHero from "@/components/StoriesPage/HeroComponent/StoriesHero";
 import StoriesFilteredSection from "@/components/StoriesPage/StoriesFilteredSection";
-import { storiesPageHero } from "@/sanity/queries/StoriesPage.ts/Hero";
-import { getProposalTypes } from "@/sanity/queries/StoriesPage.ts/ProposalTypes";
-import { defaultStories } from "@/components/StoriesPage/StoriesGrid/types";
+import { storiesPageHero } from "@/sanity/queries/StoriesPage/Hero";
+import { getProposalTypes } from "@/sanity/queries/StoriesPage/ProposalTypes";
+// 
 import StoriesCTAStrip from "@/components/StoriesPage/StoriesCTAStrip/StoriesCTAStrip";
-import { getAllStories } from "@/sanity/queries/StoriesPage.ts/IndividualStory";
+import { getAllStories } from "@/sanity/queries/StoriesPage/IndividualStory";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import Script from "next/script";
+import { storiesPageCtaStrip } from "@/sanity/queries/StoriesPage/CtaStripe";
 
 export default async function Stories({
   params,
@@ -15,12 +16,14 @@ export default async function Stories({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [hero, proposalTypes, allStories, structuredData] = await Promise.all([
-    storiesPageHero(),
-    getProposalTypes(),
-    getAllStories(),
-    getStructuredData("stories"),
-  ]);
+  const [hero, proposalTypes, allStories, structuredData, ctaStrip] =
+    await Promise.all([
+      storiesPageHero(),
+      getProposalTypes(),
+      getAllStories(),
+      getStructuredData("stories"),
+      storiesPageCtaStrip(),
+    ]);
   const localeTyped = locale as "en" | "es";
 
   return (
@@ -59,7 +62,14 @@ export default async function Stories({
         }))}
         locale={localeTyped}
       />
-      <StoriesCTAStrip locale={localeTyped} />
+      <StoriesCTAStrip
+        eyebrow={ctaStrip.eyebrow[localeTyped]}
+        heading={ctaStrip.heading[localeTyped]}
+        headingAccent={ctaStrip.headingAccent[localeTyped]}
+        subheading={ctaStrip.subheading[localeTyped]}
+        ctaLabel={ctaStrip.ctaLabel[localeTyped]}
+        ctaHref={ctaStrip.ctaHref}
+      />
     </main>
   );
 }

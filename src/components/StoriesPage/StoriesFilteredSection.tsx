@@ -5,7 +5,7 @@ import StoriesFilterBar from "@/components/StoriesPage/StoriesFilterBar/StoriesF
 import FeaturedStory from "@/components/StoriesPage/FeaturedStory/FeaturedStory";
 import StoriesGrid from "@/components/StoriesPage/StoriesGrid/StoriesGrid";
 import type { StoryCardData } from "@/components/StoriesPage/StoriesGrid/types";
-import type { ProposalTypes } from "@/sanity/queries/StoriesPage.ts/ProposalTypes";
+import type { ProposalTypes } from "@/sanity/queries/StoriesPage/ProposalTypes";
 import { FeaturedStoryData } from "./FeaturedStory/types";
 
 interface StoriesFilteredSectionProps {

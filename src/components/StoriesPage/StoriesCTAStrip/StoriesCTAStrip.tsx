@@ -1,26 +1,22 @@
 import { Link } from "@/i18n/navigation";
-import {
-  defaultStoriesCTAStripContent,
-  type StoriesCTAStripContent,
-} from "./types";
 
 interface StoriesCTAStripProps {
-  locale: "en" | "es";
-  content?: StoriesCTAStripContent;
+  eyebrow: string;
+  heading: string;
+  headingAccent: string;
+  subheading: string;
+  ctaLabel: string;
+  ctaHref: string;
 }
 
 export default function StoriesCTAStrip({
-  locale,
-  content = defaultStoriesCTAStripContent,
+  eyebrow,
+  heading,
+  headingAccent,
+  subheading,
+  ctaLabel,
+  ctaHref,
 }: StoriesCTAStripProps) {
-  const eyebrow = locale === "es" ? content.eyebrowEs : content.eyebrowEn;
-  const heading = locale === "es" ? content.headingEs : content.headingEn;
-  const accent =
-    locale === "es" ? content.headingAccentEs : content.headingAccentEn;
-  const subheading =
-    locale === "es" ? content.subheadingEs : content.subheadingEn;
-  const ctaLabel = locale === "es" ? content.ctaLabelEs : content.ctaLabelEn;
-
   return (
     <section className="relative w-full bg-black overflow-hidden">
       {/* Top fade from ivory into black */}
@@ -63,7 +59,7 @@ export default function StoriesCTAStrip({
         {/* Heading */}
         <h2 className="font-display font-normal text-[clamp(40px,5.5vw,72px)] leading-[1.08] tracking-tight">
           <span className="block text-white">{heading}</span>
-          <span className="block italic text-gold">{accent}</span>
+          <span className="block italic text-gold">{headingAccent}</span>
         </h2>
 
         {/* Divider — matches HeroDivider */}
@@ -83,7 +79,7 @@ export default function StoriesCTAStrip({
 
         {/* CTA */}
         <Link
-          href={content.ctaHref}
+          href={ctaHref}
           className="
             inline-flex items-center gap-3
             bg-gold text-black

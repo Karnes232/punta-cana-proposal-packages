@@ -23,7 +23,7 @@ export default async function Blog({
     blogCategories(),
     blogPosts(),
   ]);
- 
+
   return (
     <main>
       {structuredData?.seo?.structuredData[locale as "en" | "es"] && (
@@ -51,7 +51,7 @@ export default async function Blog({
         posts={posts}
         locale={locale as "en" | "es"}
       />
- 
+
       <BlogCTAStrip locale={locale as "en" | "es"} />
     </main>
   );

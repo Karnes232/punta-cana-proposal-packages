@@ -2,8 +2,8 @@ import { client } from "@/sanity/lib/client";
 
 export interface BlogPost {
   _id: string;
-    slug: {
-        current: string;
+  slug: {
+    current: string;
   };
   title: {
     en: string;
@@ -18,8 +18,8 @@ export interface BlogPost {
     value: string;
   };
   publishedAt: string;
-    categoryTag: {
-        en: string;
+  categoryTag: {
+    en: string;
     es: string;
   };
   excerpt: {

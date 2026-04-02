@@ -6,7 +6,7 @@ import StoryMetaBar from "@/components/IndividualStoryPage/StoryMetaBar/StoryMet
 import {
   getIndividualStory,
   getMoreStories,
-} from "@/sanity/queries/StoriesPage.ts/IndividualStory";
+} from "@/sanity/queries/StoriesPage/IndividualStory";
 
 export default async function StoryPage({
   params,

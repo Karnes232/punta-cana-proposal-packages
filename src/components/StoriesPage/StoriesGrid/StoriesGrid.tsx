@@ -5,17 +5,17 @@ import StoryCard from "./StoryCard";
 import StoriesGridDivider from "./StoriesGridDivider";
 import LoadMore from "./LoadMore";
 import {
-  defaultStories,
-  defaultStoriesGridContent,
+  // defaultStories,
+  // defaultStoriesGridContent,
   type StoryCardData,
-  type StoriesGridContent,
+  // type StoriesGridContent,
 } from "./types";
 
 const PAGE_SIZE = 6;
 
 interface StoriesGridProps {
-  stories?: StoryCardData[];
-  content?: StoriesGridContent;
+  stories: StoryCardData[];
+  // content?: StoriesGridContent;
   locale: "en" | "es";
   /** Active filter value passed down from the filter bar — "all" or a packageType slug */
   activeFilter?: string;
@@ -40,8 +40,7 @@ const variantPattern: Variant[] = [
 ];
 
 export default function StoriesGrid({
-  stories = defaultStories,
-  content = defaultStoriesGridContent,
+  stories,
   locale,
   activeFilter = "all",
 }: StoriesGridProps) {
@@ -49,19 +48,19 @@ export default function StoriesGrid({
   const [isLoading, setIsLoading] = useState(false);
 
   const sectionLabel =
-    locale === "es" ? content.sectionEyebrowEs : content.sectionEyebrowEn;
+    locale === "es" ? "Más Historias" : "More Stories";
   const readMoreLabel =
-    locale === "es" ? content.readMoreLabelEs : content.readMoreLabelEn;
+    locale === "es" ? "Leer Historia" : "Read Story";
   const loadMoreLabel =
-    locale === "es" ? content.loadMoreLabelEs : content.loadMoreLabelEn;
+    locale === "es" ? "Ver Más Historias" : "Load More Stories";
 
   // Client-side filter
   const filtered =
     activeFilter === "all"
       ? stories
-      : stories.filter((s) => s.packageType === activeFilter);
+      : stories?.filter((s) => s.packageType === activeFilter);
 
-  const visible = filtered.slice(0, visibleCount);
+  const visible = filtered?.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
 
   function handleLoadMore() {
@@ -73,7 +72,7 @@ export default function StoriesGrid({
     }, 600);
   }
 
-  if (filtered.length === 0) {
+  if (filtered?.length === 0) {
     return (
       <div className="py-24 text-center">
         <p className="font-body font-light text-gray text-fluid-base">
