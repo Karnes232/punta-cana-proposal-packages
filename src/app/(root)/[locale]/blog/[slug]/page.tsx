@@ -29,7 +29,7 @@ export default async function BlogPostPage({
     notFound();
   }
 
-  console.log(moreBlogs);
+
 
   return (
     <main>

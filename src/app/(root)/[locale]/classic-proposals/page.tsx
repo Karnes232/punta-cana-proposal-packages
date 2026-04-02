@@ -7,8 +7,6 @@
 // `labels` is built server-side so locale-specific button text (e.g. "Book Now"
 // vs "Reservar") doesn't require a client component just for a string.
 //
-// Note: the `console.log(relatedStories)` on line 34 is temporary debug output
-// and can be removed once related stories are confirmed working.
 
 import CategoryHero from "@/components/CategoryPage/CategoryHero/CategoryHero";
 import CategoryIntro from "@/components/CategoryPage/CategoryIntro/CategoryIntro";

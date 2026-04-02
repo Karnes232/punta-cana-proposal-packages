@@ -65,7 +65,7 @@ export default function PackageGrid({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {packages.map(
             (pkg, i) => (
-              console.log(pkg),
+  
               (
                 <RevealOnScroll
                   key={pkg.name.en}
