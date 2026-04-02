@@ -1,18 +1,16 @@
 import { Link } from "@/i18n/navigation";
-import type { FeaturedPostData, FeaturedPostContent } from "./types";
+import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/Hero";
 
 interface FeaturedPostCopyProps {
-  post: FeaturedPostData;
-  content: FeaturedPostContent;
+  post: FeaturedPostType;
   locale: "en" | "es";
 }
 
 export default function FeaturedPostCopy({
   post,
-  content,
   locale,
 }: FeaturedPostCopyProps) {
-  const ctaLabel = locale === "es" ? content.ctaLabelEs : content.ctaLabelEn;
+  const ctaLabel = locale === "es" ? "Leer Artículo" : "Read Article";
 
   const dateStr = new Date(post.publishedAt).toLocaleDateString(locale, {
     month: "long",

@@ -5,6 +5,7 @@ import BlogGrid from "@/components/BlogPage/BlogGrid/BlogGrid";
 import FeaturedPost from "@/components/BlogPage/FeaturedBlogPost/FeaturedPost";
 import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
+import { blogPageHero } from "@/sanity/queries/BlogPage/Hero";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import Script from "next/script";
 
@@ -14,7 +15,8 @@ export default async function Blog({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [structuredData] = await Promise.all([getStructuredData("blog")]);
+  const [structuredData, hero] = await Promise.all([getStructuredData("blog"), blogPageHero()]);
+  console.log(hero);
   return (
     <main>
       {structuredData?.seo?.structuredData[locale as "en" | "es"] && (
@@ -28,8 +30,8 @@ export default async function Blog({
           }}
         />
       )}
-      <BlogHero locale={locale as "en" | "es"} />
-      <BlogFilteredSection locale={locale as "en" | "es"} />
+      <BlogHero eyebrow={hero?.eyebrow[locale as "en" | "es"]} headingLine1={hero?.headingLine1[locale as "en" | "es"]} headingLine2={hero?.headingLine2[locale as "en" | "es"]} subheading={hero?.subheading[locale as "en" | "es"]} image={hero?.image} locale={locale as "en" | "es"} />
+      <BlogFilteredSection featuredPost={hero.featuredPost} locale={locale as "en" | "es"} />
       {/* <FeaturedPost locale={locale as "en" | "es"} />
       <BlogFilterBar locale={locale as "en" | "es"} categories={[{ value: "destination-guides", label: { en: "Destination Guides", es: "Guías de Destino" } },{ value: "planning-tips", label: { en: "Planning Tips", es: "Consejos de Planificación" } }, { value: "proposal-tips", label: { en: "Proposal Tips", es: "Consejos de Propuesta" } }]} />
       <BlogGrid locale={locale as "en" | "es"} /> */}

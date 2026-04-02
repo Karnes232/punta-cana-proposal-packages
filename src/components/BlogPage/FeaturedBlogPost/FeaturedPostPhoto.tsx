@@ -1,8 +1,19 @@
 import Image from "next/image";
-import type { FeaturedPostImage } from "./types";
+// import type { FeaturedPostImage } from "./types";
 
 interface FeaturedPostPhotoProps {
-  photo: FeaturedPostImage;
+  photo: {
+    asset: {
+      url: string;
+    };
+    metadata: {
+      dimensions: {
+        width: number;
+        height: number;
+      };
+    };
+    alt: string;
+  };
   title: string;
   eyebrow: string;
   readingTime: number;

@@ -4,11 +4,12 @@ import { useState } from "react";
 import FeaturedPost from "@/components/BlogPage/FeaturedBlogPost/FeaturedPost";
 import BlogFilterBar from "@/components/BlogPage/BlogFilterBar/BlogFilterBar";
 import BlogGrid from "@/components/BlogPage/BlogGrid/BlogGrid";
-import type { FeaturedPostData } from "@/components/BlogPage/FeaturedBlogPost/types";
+// import type { FeaturedPostData } from "@/components/BlogPage/FeaturedBlogPost/types";
 import type { BlogCardData } from "@/components/BlogPage/BlogGrid/types";
+import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/Hero";
 
 interface BlogFilteredSectionProps {
-  featuredPost?: FeaturedPostData;
+  featuredPost: FeaturedPostType;
   categories?: {
     value: string;
     label: {
