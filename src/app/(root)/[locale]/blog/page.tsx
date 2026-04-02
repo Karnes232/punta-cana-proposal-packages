@@ -1,8 +1,7 @@
 import BlogCTAStrip from "@/components/BlogPage/BlogCTAStrip/BlogCTAStrip";
-import BlogFilterBar from "@/components/BlogPage/BlogFilterBar/BlogFilterBar";
+
 import BlogFilteredSection from "@/components/BlogPage/BlogFilteredSection/BlogFilteredSection";
-import BlogGrid from "@/components/BlogPage/BlogGrid/BlogGrid";
-import FeaturedPost from "@/components/BlogPage/FeaturedBlogPost/FeaturedPost";
+
 import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { blogCategories } from "@/sanity/queries/BlogPage/BlogCategories";

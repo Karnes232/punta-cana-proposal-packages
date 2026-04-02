@@ -1,13 +1,10 @@
-import BookingForm from "@/components/CategoryPage/BookingForm/BookingForm";
+
 import CategoryHero from "@/components/CategoryPage/CategoryHero/CategoryHero";
 import CategoryIntro from "@/components/CategoryPage/CategoryIntro/CategoryIntro";
-import { CustomizationProvider } from "@/components/CategoryPage/CustomizationSelector/CustomizationContext";
-import CustomizationSelector from "@/components/CategoryPage/CustomizationSelector/CustomizationSelector";
 
 import PackageGrid from "@/components/CategoryPage/PackageGrid/PackageGrid";
 import RelatedStories from "@/components/CategoryPage/RelatedStories/RelatedStories";
-import StickyBookingBar from "@/components/CategoryPage/StickyBookingBar/StickyBookingBar";
-import WhatsIncluded from "@/components/CategoryPage/WhatsIncluded/WhatsIncluded";
+
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { getProposalPackageHeader } from "@/sanity/queries/ProposalPackages/ProposalPackageHeaders";
 import { proposalPackagesQuery } from "@/sanity/queries/ProposalPackages/ProposalPackages";
@@ -33,18 +30,7 @@ export default async function DiningProposals({
     getRelatedStories("dining"),
   ]);
 
-  const labels =
-    locale === "es"
-      ? {
-          startingAt: "Desde",
-          bookNow: "Reservar",
-          selectPackage: "Selecciona un paquete arriba",
-        }
-      : {
-          startingAt: "Starting at",
-          bookNow: "Book Now",
-          selectPackage: "Select a package above",
-        };
+
   return (
     <main>
       {structuredData.seo.structuredData[locale as "en" | "es"] && (
@@ -76,70 +62,7 @@ export default async function DiningProposals({
         locale={locale as "en" | "es"}
         categorySlug="dining-proposals"
       />
-      {/* <CustomizationProvider premiumUplift={600}>
-        <PackageGrid
-          packages={proposalPackage.packages}
-          locale={locale as "en" | "es"}
-        />
-        <CustomizationSelector
-          eyeBrow={
-            proposalPackageHeader.CustomizationSelectorEyebrow[
-              locale as "en" | "es"
-            ]
-          }
-          headingLine1={
-            proposalPackageHeader.CustomizationSelectorHeadingLine1[
-              locale as "en" | "es"
-            ]
-          }
-          headingLine2={
-            proposalPackageHeader.CustomizationSelectorHeadingLine2[
-              locale as "en" | "es"
-            ]
-          }
-          description={
-            proposalPackageHeader.CustomizationSelectorDescription[
-              locale as "en" | "es"
-            ]
-          }
-        />
-        <WhatsIncluded
-          eyebrow={
-            proposalPackageHeader.WhatsIncludedEyebrow[locale as "en" | "es"]
-          }
-          headingLine1={
-            proposalPackageHeader.WhatsIncludedHeadingLine1[
-              locale as "en" | "es"
-            ]
-          }
-          headingLine2={
-            proposalPackageHeader.WhatsIncludedHeadingLine2[
-              locale as "en" | "es"
-            ]
-          }
-          description={
-            proposalPackageHeader.WhatsIncludedDescription[
-              locale as "en" | "es"
-            ]
-          }
-          locale={locale as "en" | "es"}
-        />
-        <BookingForm
-          eyebrow={
-            proposalPackageHeader.BookingFormEyebrow[locale as "en" | "es"]
-          }
-          headingLine1={
-            proposalPackageHeader.BookingFormHeadingLine1[locale as "en" | "es"]
-          }
-          headingLine2={
-            proposalPackageHeader.BookingFormHeadingLine2[locale as "en" | "es"]
-          }
-          description={
-            proposalPackageHeader.BookingFormDescription[locale as "en" | "es"]
-          }
-        />
-        <StickyBookingBar labels={labels} />
-      </CustomizationProvider> */}
+
       {relatedStories.length > 0 && (
         <RelatedStories
           eyebrow={
