@@ -3,13 +3,17 @@ import BlogCTAStrip from "@/components/BlogPage/BlogCTAStrip/BlogCTAStrip";
 import BlogFilteredSection from "@/components/BlogPage/BlogFilteredSection/BlogFilteredSection";
 
 import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
-import { generateHreflangAlternates } from "@/i18n/hreflang";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildSeoMetadata,
+  fallbackSiteMetadata,
+} from "@/lib/seo/buildMetadata";
+import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { blogCategories } from "@/sanity/queries/BlogPage/BlogCategories";
 import { blogPosts } from "@/sanity/queries/BlogPage/BlogPosts";
 import { blogPageCtaStrip } from "@/sanity/queries/BlogPage/CtaStripe";
 import { blogPageHero } from "@/sanity/queries/BlogPage/Hero";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
-import Script from "next/script";
 
 export default async function Blog({
   params,
@@ -29,17 +33,10 @@ export default async function Blog({
 
   return (
     <main>
-      {structuredData?.seo?.structuredData[locale as "en" | "es"] && (
-        <Script
-          id="structured-data-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              structuredData.seo.structuredData[locale as "en" | "es"],
-            ),
-          }}
-        />
-      )}
+      <JsonLd
+        id="structured-data-schema"
+        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+      />
       <BlogHero
         eyebrow={hero?.eyebrow[locale as "en" | "es"]}
         headingLine1={hero?.headingLine1[locale as "en" | "es"]}
@@ -74,37 +71,23 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const pageSeo = await getPageSeo("blog");
+  const path = "/blog";
+  const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
-    return {};
+    return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 
-  let canonicalUrl;
-  if (locale === "en") {
-    canonicalUrl = "https://puntacanaproposalpackages.com/blog";
-  } else {
-    canonicalUrl = "https://puntacanaproposalpackages.com/es/blog";
-  }
-
-  return {
-    title: pageSeo.seo.meta[locale].title,
-    description: pageSeo.seo.meta[locale].description,
-    keywords: pageSeo.seo.meta[locale].keywords.join(", "),
-    url: canonicalUrl,
+  return buildSeoMetadata({
+    locale,
+    path,
+    canonicalUrl,
+    meta: pageSeo.seo.meta[locale],
     openGraph: {
       title: pageSeo.seo.openGraph[locale].title,
       description: pageSeo.seo.openGraph[locale].description,
-      images: pageSeo.seo.openGraph.image.url,
-      type: "website",
-      url: canonicalUrl,
+      image: pageSeo.seo.openGraph.image,
     },
-    robots: {
-      index: !pageSeo.seo.noIndex,
-      follow: !pageSeo.seo.noFollow,
-    },
-    ...(canonicalUrl && { canonical: canonicalUrl }),
-    alternates: {
-      canonical: canonicalUrl,
-      ...generateHreflangAlternates(locale, "/blog"),
-    },
-  };
+    noIndex: pageSeo.seo.noIndex,
+    noFollow: pageSeo.seo.noFollow,
+  });
 }

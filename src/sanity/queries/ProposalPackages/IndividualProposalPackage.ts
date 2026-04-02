@@ -237,6 +237,6 @@ export const individualProposalPackageSEOQueryString = `*[_type == "IndividualPr
 
 export const individualStorySEOQuery = async (
   slug: string,
-): Promise<IndividualBlogSEO> => {
+): Promise<IndividualBlogSEO | null> => {
   return client.fetch(individualProposalPackageSEOQueryString, { slug });
 };

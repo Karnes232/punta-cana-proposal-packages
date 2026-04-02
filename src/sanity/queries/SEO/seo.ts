@@ -1,5 +1,4 @@
 import { client } from "@/sanity/lib/client";
-import { urlFor } from "@/sanity/lib/image";
 
 interface PageSeo {
   pageName: string;
@@ -75,23 +74,7 @@ export const seoQuery = `*[_type == "PageSeo" && pageName == $pageName][0] {
 }`;
 
 export async function getPageSeo(pageName: string): Promise<PageSeo | null> {
-  const pageSeo = await client.fetch(seoQuery, { pageName });
-
-  if (!pageSeo) {
-    return null;
-  }
-
-  const imageUrl = pageSeo?.seo.openGraph?.image?.url
-    ? urlFor(pageSeo?.seo.openGraph.image.url).width(1200).height(630).url()
-    : undefined;
-
-  return {
-    ...pageSeo,
-    openGraph: {
-      ...pageSeo.seo.openGraph,
-      image: imageUrl,
-    },
-  };
+  return client.fetch(seoQuery, { pageName });
 }
 
 export const structuredDataQuery = `*[_type == "PageSeo" && pageName == $pageName][0] {

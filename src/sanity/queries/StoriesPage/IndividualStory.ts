@@ -349,6 +349,6 @@ export const individualStorySEOQueryString = `*[_type == "individualStory" && sl
 
 export const individualStorySEOQuery = async (
   slug: string,
-): Promise<IndividualBlogSEO> => {
+): Promise<IndividualBlogSEO | null> => {
   return client.fetch(individualStorySEOQueryString, { slug });
 };

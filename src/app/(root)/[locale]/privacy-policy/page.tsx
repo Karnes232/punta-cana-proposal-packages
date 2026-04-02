@@ -3,10 +3,14 @@
 // Ivory background, generous padding, max-width prose column.
 
 import BlockContent from "@/components/BlockContent/BlockContent";
-import { generateHreflangAlternates } from "@/i18n/hreflang";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildSeoMetadata,
+  fallbackSiteMetadata,
+} from "@/lib/seo/buildMetadata";
+import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
-import Script from "next/script";
 
 export default async function Privacy({
   params,
@@ -20,17 +24,10 @@ export default async function Privacy({
   ]);
   return (
     <div className="min-h-screen bg-ivory">
-      {structuredData?.seo?.structuredData[locale as "en" | "es"] && (
-        <Script
-          id="structured-data-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              structuredData.seo.structuredData[locale as "en" | "es"],
-            ),
-          }}
-        />
-      )}
+      <JsonLd
+        id="structured-data-schema"
+        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+      />
       {/* Page header */}
       <div className="relative bg-black border-b border-gold/15 overflow-hidden">
         {/* Subtle radial glow */}
@@ -91,37 +88,23 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const pageSeo = await getPageSeo("privacy-policy");
+  const path = "/privacy-policy";
+  const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
-    return {};
+    return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 
-  let canonicalUrl;
-  if (locale === "en") {
-    canonicalUrl = "https://puntacanaproposalpackages.com/privacy-policy";
-  } else {
-    canonicalUrl = "https://puntacanaproposalpackages.com/es/privacy-policy";
-  }
-
-  return {
-    title: pageSeo.seo.meta[locale].title,
-    description: pageSeo.seo.meta[locale].description,
-    keywords: pageSeo.seo.meta[locale].keywords.join(", "),
-    url: canonicalUrl,
+  return buildSeoMetadata({
+    locale,
+    path,
+    canonicalUrl,
+    meta: pageSeo.seo.meta[locale],
     openGraph: {
       title: pageSeo.seo.openGraph[locale].title,
       description: pageSeo.seo.openGraph[locale].description,
-      images: pageSeo.seo.openGraph.image.url,
-      type: "website",
-      url: canonicalUrl,
+      image: pageSeo.seo.openGraph.image,
     },
-    robots: {
-      index: !pageSeo.seo.noIndex,
-      follow: !pageSeo.seo.noFollow,
-    },
-    ...(canonicalUrl && { canonical: canonicalUrl }),
-    alternates: {
-      canonical: canonicalUrl,
-      ...generateHreflangAlternates(locale, "/privacy-policy"),
-    },
-  };
+    noIndex: pageSeo.seo.noIndex,
+    noFollow: pageSeo.seo.noFollow,
+  });
 }

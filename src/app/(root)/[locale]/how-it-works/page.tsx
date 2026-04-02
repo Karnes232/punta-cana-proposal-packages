@@ -3,7 +3,12 @@ import HowItWorksCTA from "@/components/HowItWorksPage/HowItWorksCTA/HowItWorksC
 import HowItWorksFAQ from "@/components/HowItWorksPage/HowItWorksFAQ/HowItWorksFAQ";
 import HowItWorksReassurance from "@/components/HowItWorksPage/HowItWorksReassurance/HowItWorksReassurance";
 import HowItWorksSteps from "@/components/HowItWorksPage/HowItWorksSteps/HowItWorksSteps";
-import { generateHreflangAlternates } from "@/i18n/hreflang";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildSeoMetadata,
+  fallbackSiteMetadata,
+} from "@/lib/seo/buildMetadata";
+import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { howItWorksPageHero } from "@/sanity/queries/HowItWorksPage/Hero";
 import { howItWorksCTA } from "@/sanity/queries/HowItWorksPage/HowItWorksCTA";
 import {
@@ -13,7 +18,6 @@ import {
 import { howItWorksPageHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
 import { getStructuredData } from "@/sanity/queries/SEO/seo";
-import Script from "next/script";
 
 export default async function HowItWorks({
   params,
@@ -33,17 +37,10 @@ export default async function HowItWorks({
 
   return (
     <main>
-      {structuredData?.seo?.structuredData[locale as "en" | "es"] && (
-        <Script
-          id="structured-data-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              structuredData.seo.structuredData[locale as "en" | "es"],
-            ),
-          }}
-        />
-      )}
+      <JsonLd
+        id="structured-data-schema"
+        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+      />
       <HowItWorksHero
         heroImage={hero?.image}
         eyebrow={hero?.eyebrow[locale as "en" | "es"]}
@@ -94,37 +91,23 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const pageSeo = await getPageSeo("how-it-works");
+  const path = "/how-it-works";
+  const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
-    return {};
+    return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 
-  let canonicalUrl;
-  if (locale === "en") {
-    canonicalUrl = "https://puntacanaproposalpackages.com/how-it-works";
-  } else {
-    canonicalUrl = "https://puntacanaproposalpackages.com/es/how-it-works";
-  }
-
-  return {
-    title: pageSeo.seo.meta[locale].title,
-    description: pageSeo.seo.meta[locale].description,
-    keywords: pageSeo.seo.meta[locale].keywords.join(", "),
-    url: canonicalUrl,
+  return buildSeoMetadata({
+    locale,
+    path,
+    canonicalUrl,
+    meta: pageSeo.seo.meta[locale],
     openGraph: {
       title: pageSeo.seo.openGraph[locale].title,
       description: pageSeo.seo.openGraph[locale].description,
-      images: pageSeo.seo.openGraph.image.url,
-      type: "website",
-      url: canonicalUrl,
+      image: pageSeo.seo.openGraph.image,
     },
-    robots: {
-      index: !pageSeo.seo.noIndex,
-      follow: !pageSeo.seo.noFollow,
-    },
-    ...(canonicalUrl && { canonical: canonicalUrl }),
-    alternates: {
-      canonical: canonicalUrl,
-      ...generateHreflangAlternates(locale, "/how-it-works"),
-    },
-  };
+    noIndex: pageSeo.seo.noIndex,
+    noFollow: pageSeo.seo.noFollow,
+  });
 }

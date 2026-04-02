@@ -208,7 +208,7 @@ export const individualBlogSEOQueryString = `*[_type == "blogPost" && slug.curre
 
 export const individualBlogSEOQuery = async (
   slug: string,
-): Promise<IndividualBlogSEO> => {
+): Promise<IndividualBlogSEO | null> => {
   return await client.fetch(individualBlogSEOQueryString, { slug });
 };
 

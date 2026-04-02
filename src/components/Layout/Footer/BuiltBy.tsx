@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import Script from "next/script";
 const BuiltBy = () => {
   const t = useTranslations("Footer");
   const locale = useLocale();
@@ -56,7 +55,7 @@ const BuiltBy = () => {
         </a>
         <span className="hidden sm:inline"> —</span> {t("developedBy")}.
       </p>
-      <Script
+      <script
         id="dr-webstudio-builtby-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{

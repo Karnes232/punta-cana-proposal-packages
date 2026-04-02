@@ -5,14 +5,18 @@ import PostBody from "@/components/IndividualBlogPost/PostBody/PostBody";
 import PostMetaBar from "@/components/IndividualBlogPost/PostMetaBar/PostMetaBar";
 import { defaultPostMetaBarContent } from "@/components/IndividualBlogPost/PostMetaBar/types";
 import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
-import { generateHreflangAlternates } from "@/i18n/hreflang";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildSeoMetadata,
+  fallbackMissingDocumentMetadata,
+} from "@/lib/seo/buildMetadata";
+import { siteCanonicalUrl } from "@/lib/seo/constants";
 import {
   getMoreBlogs,
   individualBlogQuery,
   individualBlogSEOQuery,
 } from "@/sanity/queries/BlogPage/IndividualBlog";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
 export default async function BlogPostPage({
   params,
@@ -31,17 +35,10 @@ export default async function BlogPostPage({
 
   return (
     <main>
-      {individualBlog.seo.structuredData[locale as "en" | "es"] && (
-        <Script
-          id="structured-data-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              individualBlog.seo.structuredData[locale as "en" | "es"],
-            ),
-          }}
-        />
-      )}
+      <JsonLd
+        id="structured-data-schema"
+        data={individualBlog.seo.structuredData[locale as "en" | "es"]}
+      />
       <PostHero
         post={{
           title: individualBlog.title[locale as "en" | "es"],
@@ -125,34 +122,23 @@ export async function generateMetadata({
 }) {
   const { slug, locale } = await params;
   const individualBlog = await individualBlogSEOQuery(slug);
-
-  let canonicalUrl;
-  if (locale === "en") {
-    canonicalUrl = `https://puntacanaproposalpackages.com/blog/${slug}`;
-  } else {
-    canonicalUrl = `https://puntacanaproposalpackages.com/es/blog/${slug}`;
+  const path = `/blog/${slug}`;
+  const canonicalUrl = siteCanonicalUrl(locale, path);
+  if (!individualBlog) {
+    return fallbackMissingDocumentMetadata(locale, path, canonicalUrl);
   }
 
-  return {
-    title: individualBlog.seo.meta[locale].title,
-    description: individualBlog.seo.meta[locale].description,
-    keywords: individualBlog.seo.meta[locale].keywords.join(", "),
-    url: canonicalUrl,
+  return buildSeoMetadata({
+    locale,
+    path,
+    canonicalUrl,
+    meta: individualBlog.seo.meta[locale],
     openGraph: {
       title: individualBlog.seo.openGraph[locale].title,
       description: individualBlog.seo.openGraph[locale].description,
-      images: individualBlog.seo.openGraph.image.url,
-      type: "website",
-      url: canonicalUrl,
+      image: individualBlog.seo.openGraph.image,
     },
-    robots: {
-      index: !individualBlog.seo.noIndex,
-      follow: !individualBlog.seo.noFollow,
-    },
-    ...(canonicalUrl && { canonical: canonicalUrl }),
-    alternates: {
-      canonical: canonicalUrl,
-      ...generateHreflangAlternates(locale, `/blog/${slug}`),
-    },
-  };
+    noIndex: individualBlog.seo.noIndex,
+    noFollow: individualBlog.seo.noFollow,
+  });
 }

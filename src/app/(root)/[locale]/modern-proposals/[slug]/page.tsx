@@ -3,13 +3,18 @@ import PackageHero from "@/components/IndividualProposalPackagePage/HeroComponen
 import PackageBookingForm from "@/components/IndividualProposalPackagePage/PackageBookingForm/PackageBookingForm";
 import PackageGallery from "@/components/IndividualProposalPackagePage/PackageGallery/PackageGallery";
 import PackageInclusions from "@/components/IndividualProposalPackagePage/PackageInclusions/PackageInclusions";
-import { generateHreflangAlternates } from "@/i18n/hreflang";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildSeoMetadata,
+  fallbackMissingDocumentMetadata,
+} from "@/lib/seo/buildMetadata";
+import { siteCanonicalUrl } from "@/lib/seo/constants";
 import {
   individualProposalPackageQuery,
   individualStorySEOQuery,
 } from "@/sanity/queries/ProposalPackages/IndividualProposalPackage";
 import { getTranslations } from "next-intl/server";
-import Script from "next/script";
+import { notFound } from "next/navigation";
 
 export default async function ModernProposalsSlug({
   params,
@@ -21,25 +26,19 @@ export default async function ModernProposalsSlug({
   const [individualProposalPackage] = await Promise.all([
     individualProposalPackageQuery(slug),
   ]);
+  if (!individualProposalPackage) {
+    notFound();
+  }
   const t = await getTranslations("PackagePage.PackageHero");
   const formLabels = await getTranslations("PackagePage.BookingForm");
   return (
     <main>
-      {individualProposalPackage?.seo?.structuredData[
-        locale as "en" | "es"
-      ] && (
-        <Script
-          id="structured-data-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              individualProposalPackage?.seo?.structuredData[
-                locale as "en" | "es"
-              ],
-            ),
-          }}
-        />
-      )}
+      <JsonLd
+        id="structured-data-schema"
+        data={
+          individualProposalPackage.seo?.structuredData?.[locale as "en" | "es"]
+        }
+      />
       <PackageHero
         name={individualProposalPackage.name[locale as "en" | "es"]}
         price={individualProposalPackage.price}
@@ -109,37 +108,23 @@ export async function generateMetadata({
 }) {
   const { slug, locale } = await params;
   const individualProposalPackage = await individualStorySEOQuery(slug);
+  const path = `/modern-proposals/${slug}`;
+  const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!individualProposalPackage) {
-    return {};
+    return fallbackMissingDocumentMetadata(locale, path, canonicalUrl);
   }
 
-  let canonicalUrl;
-  if (locale === "en") {
-    canonicalUrl = `https://puntacanaproposalpackages.com/modern-proposals/${slug}`;
-  } else {
-    canonicalUrl = `https://puntacanaproposalpackages.com/es/modern-proposals/${slug}`;
-  }
-
-  return {
-    title: individualProposalPackage.seo.meta[locale].title,
-    description: individualProposalPackage.seo.meta[locale].description,
-    keywords: individualProposalPackage.seo.meta[locale].keywords.join(", "),
-    url: canonicalUrl,
+  return buildSeoMetadata({
+    locale,
+    path,
+    canonicalUrl,
+    meta: individualProposalPackage.seo.meta[locale],
     openGraph: {
       title: individualProposalPackage.seo.openGraph[locale].title,
       description: individualProposalPackage.seo.openGraph[locale].description,
-      images: individualProposalPackage.seo.openGraph.image.url,
-      type: "website",
-      url: canonicalUrl,
+      image: individualProposalPackage.seo.openGraph.image,
     },
-    robots: {
-      index: !individualProposalPackage.seo.noIndex,
-      follow: !individualProposalPackage.seo.noFollow,
-    },
-    ...(canonicalUrl && { canonical: canonicalUrl }),
-    alternates: {
-      canonical: canonicalUrl,
-      ...generateHreflangAlternates(locale, `/modern-proposals/${slug}`),
-    },
-  };
+    noIndex: individualProposalPackage.seo.noIndex,
+    noFollow: individualProposalPackage.seo.noFollow,
+  });
 }

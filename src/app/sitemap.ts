@@ -1,0 +1,68 @@
+import type { MetadataRoute } from "next";
+
+import { SITE_URL } from "@/lib/seo/constants";
+import {
+  STATIC_SITEMAP_PATHS,
+  getSitemapDynamicPaths,
+} from "@/sanity/queries/SEO/sitemapUrls";
+
+export const revalidate = 3600;
+
+function normalizePath(path: string): string {
+  if (path === "" || path === "/") return "";
+  return path.startsWith("/") ? path : `/${path}`;
+}
+
+function absoluteEn(path: string): string {
+  const p = normalizePath(path);
+  if (p === "") return SITE_URL;
+  return `${SITE_URL}${p}`;
+}
+
+function absoluteEs(path: string): string {
+  const p = normalizePath(path);
+  if (p === "") return `${SITE_URL}/es`;
+  return `${SITE_URL}/es${p}`;
+}
+
+function changeFrequency(
+  path: string,
+): NonNullable<MetadataRoute.Sitemap[0]["changeFrequency"]> {
+  if (path.includes("/blog/") || path.includes("/stories/")) return "weekly";
+  return "monthly";
+}
+
+function priority(path: string): number {
+  const p = normalizePath(path);
+  if (p === "") return 1;
+  const depth = p.split("/").filter(Boolean).length;
+  return depth <= 1 ? 0.9 : 0.7;
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const dynamicPaths = await getSitemapDynamicPaths();
+  const pathSet = new Set<string>([
+    ...STATIC_SITEMAP_PATHS,
+    ...dynamicPaths,
+  ]);
+
+  const entries: MetadataRoute.Sitemap = [];
+  const urlSeen = new Set<string>();
+  const now = new Date();
+
+  for (const raw of pathSet) {
+    const path = normalizePath(raw);
+    for (const url of [absoluteEn(path), absoluteEs(path)]) {
+      if (urlSeen.has(url)) continue;
+      urlSeen.add(url);
+      entries.push({
+        url,
+        lastModified: now,
+        changeFrequency: changeFrequency(path),
+        priority: priority(path),
+      });
+    }
+  }
+
+  return entries;
+}

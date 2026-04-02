@@ -3,13 +3,18 @@ import MoreStories from "@/components/IndividualStoryPage/MoreStories/MoreStorie
 import StoryBody from "@/components/IndividualStoryPage/StoryBody/StoryBody";
 import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
 import StoryMetaBar from "@/components/IndividualStoryPage/StoryMetaBar/StoryMetaBar";
-import { generateHreflangAlternates } from "@/i18n/hreflang";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildSeoMetadata,
+  fallbackMissingDocumentMetadata,
+} from "@/lib/seo/buildMetadata";
+import { siteCanonicalUrl } from "@/lib/seo/constants";
 import {
   getIndividualStory,
   getMoreStories,
   individualStorySEOQuery,
 } from "@/sanity/queries/StoriesPage/IndividualStory";
-import Script from "next/script";
+import { notFound } from "next/navigation";
 
 export default async function StoryPage({
   params,
@@ -19,51 +24,49 @@ export default async function StoryPage({
   const { slug, locale } = await params;
   const localeTyped = locale as "en" | "es";
   const [story] = await Promise.all([getIndividualStory(slug)]);
-  let moreStories = await getMoreStories(
-    story?.proposalType?.value ?? "",
-    story?.slug?.current ?? "",
+  if (!story) {
+    notFound();
+  }
+  const moreStories = await getMoreStories(
+    story.proposalType?.value ?? "",
+    story.slug?.current ?? "",
   );
 
   return (
     <main>
-      {story?.seo?.structuredData[localeTyped] && (
-        <Script
-          id="structured-data-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(story?.seo?.structuredData[localeTyped]),
-          }}
-        />
-      )}
+      <JsonLd
+        id="structured-data-schema"
+        data={story.seo?.structuredData[localeTyped]}
+      />
       <StoryHero
-        heroImage={story?.heroPhoto || null}
-        names={story?.names ?? ""}
-        packageTag={story?.packageTag[localeTyped] ?? ""}
-        date={story?.date ?? ""}
-        location={story?.location[localeTyped] ?? ""}
+        heroImage={story.heroPhoto || null}
+        names={story.names ?? ""}
+        packageTag={story.packageTag[localeTyped] ?? ""}
+        date={story.date ?? ""}
+        location={story.location[localeTyped] ?? ""}
         locale={localeTyped}
       />
       <StoryMetaBar
         data={{
-          packageTag: story?.packageTag[localeTyped] ?? "",
-          date: story?.date ?? "",
-          location: story?.location[localeTyped] ?? "",
+          packageTag: story.packageTag[localeTyped] ?? "",
+          date: story.date ?? "",
+          location: story.location[localeTyped] ?? "",
         }}
         locale={localeTyped}
       />
       <StoryBody
         data={{
-          names: story?.names ?? "",
-          date: story?.date ?? "",
-          location: story?.location[localeTyped] ?? "",
-          packageTag: story?.packageTag[localeTyped] ?? "",
-          quote: story?.quote[localeTyped] ?? "",
-          body: story?.body[localeTyped] ?? [],
+          names: story.names ?? "",
+          date: story.date ?? "",
+          location: story.location[localeTyped] ?? "",
+          packageTag: story.packageTag[localeTyped] ?? "",
+          quote: story.quote[localeTyped] ?? "",
+          body: story.body[localeTyped] ?? [],
         }}
       />
       <StoryGallery
         photos={
-          story?.gallery.map((photo) => ({
+          story.gallery.map((photo) => ({
             asset: photo.asset,
             alt: photo.alt,
             caption: photo.caption[localeTyped] ?? "",
@@ -94,34 +97,23 @@ export async function generateMetadata({
 }) {
   const { slug, locale } = await params;
   const individualStory = await individualStorySEOQuery(slug);
-
-  let canonicalUrl;
-  if (locale === "en") {
-    canonicalUrl = `https://puntacanaproposalpackages.com/stories/${slug}`;
-  } else {
-    canonicalUrl = `https://puntacanaproposalpackages.com/es/stories/${slug}`;
+  const path = `/stories/${slug}`;
+  const canonicalUrl = siteCanonicalUrl(locale, path);
+  if (!individualStory) {
+    return fallbackMissingDocumentMetadata(locale, path, canonicalUrl);
   }
 
-  return {
-    title: individualStory.seo.meta[locale].title,
-    description: individualStory.seo.meta[locale].description,
-    keywords: individualStory.seo.meta[locale].keywords.join(", "),
-    url: canonicalUrl,
+  return buildSeoMetadata({
+    locale,
+    path,
+    canonicalUrl,
+    meta: individualStory.seo.meta[locale],
     openGraph: {
       title: individualStory.seo.openGraph[locale].title,
       description: individualStory.seo.openGraph[locale].description,
-      images: individualStory.seo.openGraph.image.url,
-      type: "website",
-      url: canonicalUrl,
+      image: individualStory.seo.openGraph.image,
     },
-    robots: {
-      index: !individualStory.seo.noIndex,
-      follow: !individualStory.seo.noFollow,
-    },
-    ...(canonicalUrl && { canonical: canonicalUrl }),
-    alternates: {
-      canonical: canonicalUrl,
-      ...generateHreflangAlternates(locale, `/stories/${slug}`),
-    },
-  };
+    noIndex: individualStory.seo.noIndex,
+    noFollow: individualStory.seo.noFollow,
+  });
 }

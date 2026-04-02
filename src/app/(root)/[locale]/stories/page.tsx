@@ -5,9 +5,13 @@ import { getProposalTypes } from "@/sanity/queries/StoriesPage/ProposalTypes";
 //
 import StoriesCTAStrip from "@/components/StoriesPage/StoriesCTAStrip/StoriesCTAStrip";
 import { getAllStories } from "@/sanity/queries/StoriesPage/IndividualStory";
-import { generateHreflangAlternates } from "@/i18n/hreflang";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildSeoMetadata,
+  fallbackSiteMetadata,
+} from "@/lib/seo/buildMetadata";
+import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
-import Script from "next/script";
 import { storiesPageCtaStrip } from "@/sanity/queries/StoriesPage/CtaStripe";
 
 export default async function Stories({
@@ -28,17 +32,10 @@ export default async function Stories({
 
   return (
     <main>
-      {structuredData?.seo?.structuredData[locale as "en" | "es"] && (
-        <Script
-          id="structured-data-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              structuredData.seo.structuredData[locale as "en" | "es"],
-            ),
-          }}
-        />
-      )}
+      <JsonLd
+        id="structured-data-schema"
+        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+      />
       <StoriesHero
         image={hero?.image}
         eyebrow={hero?.eyebrow?.[localeTyped]}
@@ -81,37 +78,23 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const pageSeo = await getPageSeo("stories");
+  const path = "/stories";
+  const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
-    return {};
+    return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 
-  let canonicalUrl;
-  if (locale === "en") {
-    canonicalUrl = "https://puntacanaproposalpackages.com/stories";
-  } else {
-    canonicalUrl = "https://puntacanaproposalpackages.com/es/stories";
-  }
-
-  return {
-    title: pageSeo.seo.meta[locale].title,
-    description: pageSeo.seo.meta[locale].description,
-    keywords: pageSeo.seo.meta[locale].keywords.join(", "),
-    url: canonicalUrl,
+  return buildSeoMetadata({
+    locale,
+    path,
+    canonicalUrl,
+    meta: pageSeo.seo.meta[locale],
     openGraph: {
       title: pageSeo.seo.openGraph[locale].title,
       description: pageSeo.seo.openGraph[locale].description,
-      images: pageSeo.seo.openGraph.image.url,
-      type: "website",
-      url: canonicalUrl,
+      image: pageSeo.seo.openGraph.image,
     },
-    robots: {
-      index: !pageSeo.seo.noIndex,
-      follow: !pageSeo.seo.noFollow,
-    },
-    ...(canonicalUrl && { canonical: canonicalUrl }),
-    alternates: {
-      canonical: canonicalUrl,
-      ...generateHreflangAlternates(locale, "/stories"),
-    },
-  };
+    noIndex: pageSeo.seo.noIndex,
+    noFollow: pageSeo.seo.noFollow,
+  });
 }

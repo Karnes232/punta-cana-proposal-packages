@@ -1,10 +1,12 @@
+import { SITE_URL } from "@/lib/seo/constants";
+
 /**
  * Utility function to generate hreflang URLs for a given path
  * Ensures reciprocal hreflang tags (both en and es versions)
  */
 export function generateHreflangUrls(
   path: string,
-  baseUrl: string = "https://puntacanaproposalpackages.com",
+  baseUrl: string = SITE_URL,
 ): { en: string; es: string } {
   // Remove leading slash if present
   const cleanPath = path.startsWith("/") ? path.slice(1) : path;
@@ -26,7 +28,7 @@ export function generateHreflangUrls(
 export function generateHreflangAlternates(
   currentLocale: "en" | "es",
   path: string,
-  baseUrl: string = "https://puntacanaproposalpackages.com",
+  baseUrl: string = SITE_URL,
 ) {
   const urls = generateHreflangUrls(path, baseUrl);
 
