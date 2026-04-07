@@ -8,7 +8,7 @@ const MoreBlogsCard = ({
 }: {
   blog: any;
   readMoreLabel: string;
-  locale: "en" | "es";
+  locale: string;
 }) => {
   const readTimeSuffix = locale === "es" ? "min de lectura" : "min read";
   return (

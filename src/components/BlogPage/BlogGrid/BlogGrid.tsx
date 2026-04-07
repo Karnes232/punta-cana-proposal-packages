@@ -17,7 +17,7 @@ const PAGE_SIZE = 6;
 interface BlogGridProps {
   posts: BlogPost[];
   content?: BlogGridContent;
-  locale: "en" | "es";
+  uiLocale: "en" | "es";
   /** Active filter value passed down from the filter bar — "all" or a categoryType slug */
   activeFilter?: string;
 }
@@ -43,20 +43,20 @@ const variantPattern: Variant[] = [
 export default function BlogGrid({
   posts,
   content = defaultBlogGridContent,
-  locale,
+  uiLocale,
   activeFilter = "all",
 }: BlogGridProps) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
 
   const sectionLabel =
-    locale === "es" ? content.sectionEyebrowEs : content.sectionEyebrowEn;
+    uiLocale === "es" ? content.sectionEyebrowEs : content.sectionEyebrowEn;
   const readMoreLabel =
-    locale === "es" ? content.readMoreLabelEs : content.readMoreLabelEn;
+    uiLocale === "es" ? content.readMoreLabelEs : content.readMoreLabelEn;
   const loadMoreLabel =
-    locale === "es" ? content.loadMoreLabelEs : content.loadMoreLabelEn;
+    uiLocale === "es" ? content.loadMoreLabelEs : content.loadMoreLabelEn;
   const readTimeSuffix =
-    locale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
+    uiLocale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
 
   // Client-side filter
   const filtered =
@@ -80,7 +80,7 @@ export default function BlogGrid({
     return (
       <div className="py-24 text-center">
         <p className="font-body font-light text-gray text-fluid-base">
-          {locale === "es"
+          {uiLocale === "es"
             ? "No hay artículos para esta categoría todavía."
             : "No posts for this category yet."}
         </p>
@@ -121,7 +121,7 @@ export default function BlogGrid({
                 readMoreLabel={readMoreLabel}
                 readTimeSuffix={readTimeSuffix}
                 variant={variant}
-                locale={locale}
+                uiLocale={uiLocale}
               />
             </div>
           );

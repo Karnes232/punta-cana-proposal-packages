@@ -5,7 +5,7 @@ import { type PostBodyData } from "./types";
 
 interface PostBodyProps {
   data: PostBodyData;
-  locale: "en" | "es";
+  locale: string;
 }
 
 export default function PostBody({ data, locale = "en" }: PostBodyProps) {

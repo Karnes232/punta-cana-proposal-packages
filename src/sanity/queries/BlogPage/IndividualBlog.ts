@@ -1,15 +1,37 @@
+import type { AppLocale } from "@/i18n/blogLocales";
 import { client } from "@/sanity/lib/client";
+
+export type HreflangSibling = { language: string; slug: string };
+
+export interface BlogPostSeoResolved {
+  meta: {
+    title: string;
+    description: string;
+    keywords: string[];
+  };
+  openGraph: {
+    title: string;
+    description: string;
+  };
+  image: {
+    url: string;
+    alt: string;
+    width: number;
+    height: number;
+  } | null;
+  structuredData?: string | null;
+  noIndex?: boolean;
+  noFollow?: boolean;
+}
 
 export interface IndividualBlog {
   _id: string;
+  language: AppLocale;
+  translationGroup: string;
   slug: {
     current: string;
   };
-  title: {
-    en: string;
-    es: string;
-  };
-
+  title: string;
   category: {
     _id: string;
     label: {
@@ -18,16 +40,10 @@ export interface IndividualBlog {
     };
     value: string;
   };
-  categoryTag: {
-    en: string;
-    es: string;
-  };
+  categoryTag: string;
   publishedAt: string;
   readingTime: number;
-  excerpt: {
-    en: string;
-    es: string;
-  };
+  excerpt: string;
   heroPhoto: {
     asset: {
       url: string;
@@ -51,47 +67,53 @@ export interface IndividualBlog {
       };
     };
     alt: string;
-    caption: {
-      en: string;
-      es: string;
-    };
+    caption: string;
   }[];
-  body: {
-    en: any;
-    es: any;
-  };
-  seo: {
-    structuredData: {
-      en: string;
-      es: string;
-    };
-  };
+  body: unknown[];
+  seo: BlogPostSeoResolved;
+  hreflangSiblings: HreflangSibling[];
 }
 
-export const individualBlogQueryString = `*[_type == "blogPost" && slug.current == $slug][0] {
+const seoProjection = `seo {
+  meta {
+    title,
+    description,
+    keywords
+  },
+  openGraph {
+    title,
+    description
+  },
+  "image": select(
+    defined(image.asset._ref) => {
+      "url": image.asset->url,
+      "alt": image.alt,
+      "width": image.asset->metadata.dimensions.width,
+      "height": image.asset->metadata.dimensions.height
+    }
+  ),
+  structuredData,
+  noIndex,
+  noFollow
+}`;
+
+export const individualBlogQueryString = `*[_type == "blogPost" && slug.current == $slug && language == $lang][0] {
   _id,
+  language,
+  translationGroup,
   slug {
     current
   },
-  title {
-    en,
-    es
-  },
+  title,
   category -> {
     _id,
     label { en, es },
     value
   },
-  categoryTag {
-    en,
-    es
-  },
+  categoryTag,
   publishedAt,
   readingTime,
-  excerpt {
-    en,
-    es
-  },
+  excerpt,
   heroPhoto {
     asset-> {
       url,
@@ -115,121 +137,58 @@ export const individualBlogQueryString = `*[_type == "blogPost" && slug.current 
       }
     },
     alt,
-    caption { en, es }
+    caption
   },
-  body { en, es }, 
-  seo {
-structuredData {
-  en,
-  es
-}
+  body,
+  ${seoProjection},
+  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup] {
+    language,
+    "slug": slug.current
   }
 }`;
 
 export const individualBlogQuery = async (
   slug: string,
-): Promise<IndividualBlog> => {
-  return await client.fetch(individualBlogQueryString, { slug });
+  lang: string,
+): Promise<IndividualBlog | null> => {
+  return await client.fetch(individualBlogQueryString, { slug, lang });
 };
 
-export interface IndividualBlogSEO {
-  _id: string;
-  seo: {
-    meta: {
-      en: {
-        title: string;
-        description: string;
-        keywords: string[];
-      };
-      es: {
-        title: string;
-        description: string;
-        keywords: string[];
-      };
-    };
-    openGraph: {
-      en: {
-        title: string;
-        description: string;
-      };
-      es: {
-        title: string;
-        description: string;
-      };
-      image: {
-        url: string;
-        alt: string;
-        width: number;
-        height: number;
-      };
-    };
-    noIndex: boolean;
-    noFollow: boolean;
-  };
+export interface IndividualBlogMetadata {
+  language: AppLocale;
+  slug: string;
+  translationGroup: string;
+  seo: BlogPostSeoResolved;
+  hreflangSiblings: HreflangSibling[];
 }
 
-export const individualBlogSEOQueryString = `*[_type == "blogPost" && slug.current == $slug][0] {
-  _id,
-  seo {
-        meta {
-    en {
-      title,
-      description,
-      keywords
-    },
-    es {
-      title,
-      description,
-      keywords
-    }
-  },
-  // Open Graph data
-  openGraph {
-    en {
-      title,
-      description
-    },
-    es {
-      title,
-      description
-    },
-    "image": {
-      "url": image.asset->url,
-      "alt": image.alt,
-      "width": image.asset->metadata.dimensions.width,
-      "height": image.asset->metadata.dimensions.height
-    }
-  },
-  // Other SEO settings
-  noIndex,
-  noFollow
-    }
+export const individualBlogMetadataQueryString = `*[_type == "blogPost" && slug.current == $slug && language == $lang][0] {
+  language,
+  "slug": slug.current,
+  translationGroup,
+  ${seoProjection},
+  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup] {
+    language,
+    "slug": slug.current
+  }
 }`;
 
-export const individualBlogSEOQuery = async (
+export const individualBlogMetadataQuery = async (
   slug: string,
-): Promise<IndividualBlogSEO | null> => {
-  return await client.fetch(individualBlogSEOQueryString, { slug });
+  lang: string,
+): Promise<IndividualBlogMetadata | null> => {
+  return await client.fetch(individualBlogMetadataQueryString, { slug, lang });
 };
 
-export const moreBlogsQueryString = `*[_type == "blogPost" && slug.current != $slug] | order(publishedAt desc) {
+export const moreBlogsQueryString = `*[_type == "blogPost" && slug.current != $slug && language == $lang] | order(publishedAt desc) {
   slug {
     current
   },
-  title {
-    en,
-    es
-  },
-   categoryTag {
-    en,
-    es
-  },
+  title,
+   categoryTag,
   publishedAt,
   readingTime,
-  excerpt {
-    en,
-    es
-  },
+  excerpt,
   heroPhoto {
     asset-> {
       url,
@@ -244,6 +203,19 @@ export const moreBlogsQueryString = `*[_type == "blogPost" && slug.current != $s
   },
 }`;
 
-export const getMoreBlogs = async (slug: string): Promise<IndividualBlog[]> => {
-  return await client.fetch(moreBlogsQueryString, { slug });
+export const getMoreBlogs = async (
+  slug: string,
+  lang: string,
+): Promise<
+  {
+    slug: { current: string };
+    title: string;
+    categoryTag: string;
+    publishedAt: string;
+    readingTime: number;
+    excerpt: string;
+    heroPhoto: IndividualBlog["heroPhoto"];
+  }[]
+> => {
+  return await client.fetch(moreBlogsQueryString, { slug, lang });
 };

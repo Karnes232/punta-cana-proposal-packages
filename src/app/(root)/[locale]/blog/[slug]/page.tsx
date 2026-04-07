@@ -1,22 +1,31 @@
+import type { PortableTextBlock } from "@portabletext/react";
 import PostHero from "@/components/IndividualBlogPost/HeroComponent/PostHero";
 import MoreBlogs from "@/components/IndividualBlogPost/MoreBlogs/MoreBlogs";
 import PostBody from "@/components/IndividualBlogPost/PostBody/PostBody";
-// import { defaultPostSidebarContent } from "@/components/IndividualBlogPost/PostBody/types";
 import PostMetaBar from "@/components/IndividualBlogPost/PostMetaBar/PostMetaBar";
-import { defaultPostMetaBarContent } from "@/components/IndividualBlogPost/PostMetaBar/types";
 import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
 import JsonLd from "@/components/seo/JsonLd";
+import { buildBlogHreflangMap } from "@/i18n/hreflang";
 import {
   buildSeoMetadata,
   fallbackMissingDocumentMetadata,
 } from "@/lib/seo/buildMetadata";
-import { siteCanonicalUrl } from "@/lib/seo/constants";
+import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
 import {
   getMoreBlogs,
+  individualBlogMetadataQuery,
   individualBlogQuery,
-  individualBlogSEOQuery,
 } from "@/sanity/queries/BlogPage/IndividualBlog";
 import { notFound } from "next/navigation";
+
+function parseJsonLd(raw: string | null | undefined): unknown {
+  if (raw == null || raw === "") return null;
+  try {
+    return JSON.parse(raw) as unknown;
+  } catch {
+    return null;
+  }
+}
 
 export default async function BlogPostPage({
   params,
@@ -25,11 +34,16 @@ export default async function BlogPostPage({
 }) {
   const { slug, locale } = await params;
 
-  const [individualBlog, moreBlogs] = await Promise.all([
-    individualBlogQuery(slug),
-    getMoreBlogs(slug),
-  ]);
+  const individualBlog = await individualBlogQuery(slug, locale);
+  const moreBlogs = individualBlog
+    ? await getMoreBlogs(slug, individualBlog.language)
+    : [];
+
   if (!individualBlog) {
+    notFound();
+  }
+
+  if (individualBlog.language !== locale) {
     notFound();
   }
 
@@ -37,13 +51,13 @@ export default async function BlogPostPage({
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={individualBlog.seo.structuredData[locale as "en" | "es"]}
+        data={parseJsonLd(individualBlog.seo.structuredData)}
       />
       <PostHero
         post={{
-          title: individualBlog.title[locale as "en" | "es"],
+          title: individualBlog.title,
           publishedAt: individualBlog.publishedAt,
-          categoryTag: individualBlog.categoryTag[locale as "en" | "es"],
+          categoryTag: individualBlog.categoryTag,
           readingTime: individualBlog.readingTime,
           photo: {
             asset: {
@@ -53,26 +67,26 @@ export default async function BlogPostPage({
             alt: individualBlog.heroPhoto.asset.alt,
           },
         }}
-        locale={locale as "en" | "es"}
+        locale={locale}
       />
 
       <PostMetaBar
         data={{
-          categoryTag: individualBlog.categoryTag[locale as "en" | "es"],
+          categoryTag: individualBlog.categoryTag,
           publishedAt: individualBlog.publishedAt,
           readingTime: individualBlog.readingTime,
         }}
-        locale={locale as "en" | "es"}
+        locale={locale}
       />
       <PostBody
-        locale={locale as "en" | "es"}
+        locale={locale}
         data={{
-          title: individualBlog.title[locale as "en" | "es"],
+          title: individualBlog.title,
           publishedAt: individualBlog.publishedAt,
-          categoryTag: individualBlog.categoryTag[locale as "en" | "es"],
+          categoryTag: individualBlog.categoryTag,
           readingTime: individualBlog.readingTime,
-          excerpt: individualBlog.excerpt[locale as "en" | "es"],
-          body: individualBlog.body[locale as "en" | "es"],
+          excerpt: individualBlog.excerpt,
+          body: individualBlog.body as PortableTextBlock[],
         }}
       />
       <StoryGallery
@@ -92,23 +106,23 @@ export default async function BlogPostPage({
           individualBlog.gallery.map((photo) => ({
             asset: photo.asset,
             alt: photo.alt,
-            caption: photo.caption[locale as "en" | "es"] ?? "",
+            caption: photo.caption ?? "",
           })) ?? []
         }
-        locale={locale as "en" | "es"}
+        locale={locale === "es" ? "es" : "en"}
       />
       {moreBlogs.length > 0 && (
         <MoreBlogs
           blogs={moreBlogs.map((blog) => ({
             slug: blog.slug.current,
-            title: blog.title[locale as "en" | "es"],
-            categoryTag: blog.categoryTag[locale as "en" | "es"],
+            title: blog.title,
+            categoryTag: blog.categoryTag,
             publishedAt: blog.publishedAt,
             readingTime: blog.readingTime,
-            excerpt: blog.excerpt[locale as "en" | "es"],
+            excerpt: blog.excerpt,
             heroPhoto: blog.heroPhoto,
           }))}
-          locale={locale as "en" | "es"}
+          locale={locale}
         />
       )}
     </main>
@@ -118,27 +132,39 @@ export default async function BlogPostPage({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string; locale: "en" | "es" }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await params;
-  const individualBlog = await individualBlogSEOQuery(slug);
-  const path = `/blog/${slug}`;
+  const path = blogPostPath(slug);
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!individualBlog) {
+  const row = await individualBlogMetadataQuery(slug, locale);
+  if (!row) {
     return fallbackMissingDocumentMetadata(locale, path, canonicalUrl);
   }
+  if (row.language !== locale) {
+    return fallbackMissingDocumentMetadata(locale, path, canonicalUrl);
+  }
+
+  const meta = row.seo.meta;
+  const og = row.seo.openGraph;
+  const hreflangLanguages = buildBlogHreflangMap(row.hreflangSiblings);
 
   return buildSeoMetadata({
     locale,
     path,
     canonicalUrl,
-    meta: individualBlog.seo.meta[locale],
-    openGraph: {
-      title: individualBlog.seo.openGraph[locale].title,
-      description: individualBlog.seo.openGraph[locale].description,
-      image: individualBlog.seo.openGraph.image,
+    meta: {
+      title: meta.title,
+      description: meta.description,
+      keywords: meta.keywords ?? [],
     },
-    noIndex: individualBlog.seo.noIndex,
-    noFollow: individualBlog.seo.noFollow,
+    openGraph: {
+      title: og.title,
+      description: og.description,
+      image: row.seo.image,
+    },
+    noIndex: row.seo.noIndex,
+    noFollow: row.seo.noFollow,
+    hreflangLanguages,
   });
 }

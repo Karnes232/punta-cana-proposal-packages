@@ -5,7 +5,7 @@ import { type PostHeroData } from "./types";
 
 interface PostHeroProps {
   post: PostHeroData;
-  locale: "en" | "es";
+  locale: string;
 }
 
 export default function PostHero({ post, locale }: PostHeroProps) {

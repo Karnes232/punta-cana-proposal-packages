@@ -5,6 +5,7 @@ import { getGeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { isSiteLocale } from "@/i18n/blogLocales";
 import { routing } from "@/i18n/routing";
 import Navbar from "@/components/Layout/Navbar/Navbar";
 import Footer from "@/components/Layout/Footer/Footer";
@@ -48,7 +49,11 @@ export default async function RootLayout({
           {children}
           <Footer
             logo={generalLayout?.companyLogo ?? null}
-            description={generalLayout?.companyDescription[locale]}
+            description={
+              isSiteLocale(locale)
+                ? generalLayout?.companyDescription[locale]
+                : generalLayout?.companyDescription.en
+            }
             telephone={generalLayout?.telephone}
             email={generalLayout?.email}
             socialLinks={generalLayout?.socialLinks}

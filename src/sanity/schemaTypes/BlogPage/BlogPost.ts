@@ -1,5 +1,11 @@
 import { defineField, defineType } from "sanity";
 import { ComposeIcon } from "@sanity/icons";
+import { ALL_LOCALES } from "../../../i18n/blogLocales";
+
+const languageOptions = ALL_LOCALES.map((code) => ({
+  title: code.toUpperCase(),
+  value: code,
+}));
 
 export default defineType({
   name: "blogPost",
@@ -7,40 +13,48 @@ export default defineType({
   type: "document",
   icon: ComposeIcon,
   groups: [
-    {
-      name: "basic",
-      title: "Basic",
-    },
-    {
-      name: "blogPost",
-      title: "Blog Post",
-    },
-    {
-      name: "seo",
-      title: "SEO",
-    },
+    { name: "basic", title: "Basic" },
+    { name: "blogPost", title: "Blog Post" },
+    { name: "seo", title: "SEO" },
   ],
   fields: [
-    // ── Identity ──────────────────────────────────────────────
+    defineField({
+      name: "language",
+      title: "Post language",
+      description:
+        "This document is one language version. Create another blog post per translation and use the same Translation group ID.",
+      type: "string",
+      group: "basic",
+      options: {
+        list: languageOptions,
+        layout: "radio",
+      },
+      validation: (R) => R.required(),
+    }),
+    defineField({
+      name: "translationGroup",
+      title: "Translation group ID",
+      description:
+        "Same ID on all language versions of this article (any short unique string, e.g. proposal-tips-2025).",
+      type: "string",
+      group: "basic",
+      validation: (R) => R.required(),
+    }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
       group: "basic",
-      options: { source: "title.en" },
+      options: { source: "title" },
       validation: (R) => R.required(),
     }),
-
     defineField({
       name: "title",
-      title: "Post Title",
-      description: "Full post title in both languages.",
+      title: "Post title",
+      type: "string",
       group: "basic",
-      type: "localizedString",
       validation: (R) => R.required(),
     }),
-
-    // ── Classification ────────────────────────────────────────
     defineField({
       name: "category",
       title: "Category",
@@ -50,126 +64,105 @@ export default defineType({
       options: { disableNew: true },
       validation: (R) => R.required(),
     }),
-
     defineField({
       name: "categoryTag",
-      title: "Category Tag Label",
-      description:
-        'Display label shown on cards — e.g. "Proposal Tips" / "Consejos de Propuesta"',
+      title: "Category tag label",
+      description: 'Shown on cards, e.g. "Proposal tips"',
+      type: "string",
       group: "basic",
-      type: "localizedString",
       validation: (R) => R.required(),
     }),
-
     defineField({
       name: "publishedAt",
-      title: "Publish Date",
+      title: "Publish date",
       group: "basic",
       type: "date",
       validation: (R) => R.required(),
     }),
-
     defineField({
       name: "readingTime",
-      title: "Reading Time (minutes)",
-      description: "Estimated reading time — e.g. 5",
-      group: "basic",
+      title: "Reading time (minutes)",
       type: "number",
+      group: "basic",
       validation: (R) => R.required().min(1).max(60),
     }),
-
-    // ── Media ─────────────────────────────────────────────────
     defineField({
       name: "heroPhoto",
-      title: "Hero Photo",
-      description: "Main photo — used in the hero and on blog cards.",
+      title: "Hero photo",
       type: "image",
       group: "basic",
       options: { hotspot: true },
       fields: [
         defineField({
           name: "alt",
-          title: "Alt Text",
+          title: "Alt text",
           type: "string",
         }),
       ],
       validation: (R) => R.required(),
     }),
-
     defineField({
       name: "gallery",
-      title: "Photo Gallery",
+      title: "Photo gallery",
       group: "blogPost",
-      description:
-        "Additional photos shown in the gallery grid on the post page.",
       type: "array",
       of: [
         {
           type: "image",
           options: { hotspot: true },
           fields: [
-            defineField({
-              name: "alt",
-              title: "Alt Text",
-              type: "string",
-            }),
+            defineField({ name: "alt", title: "Alt text", type: "string" }),
             defineField({
               name: "caption",
               title: "Caption",
-              type: "localizedString",
+              type: "string",
             }),
           ],
         },
       ],
     }),
-
-    // ── Content ───────────────────────────────────────────────
     defineField({
       name: "excerpt",
       title: "Excerpt",
+      type: "text",
+      rows: 3,
       group: "basic",
-      description:
-        "Short 1–2 sentence summary shown on cards and at the top of the post page.",
-      type: "localizedString",
       validation: (R) => R.required(),
     }),
-
     defineField({
       name: "body",
-      title: "Post Body",
-      description: "Full post — supports rich text in both languages.",
-      type: "localizedBlock",
+      title: "Post body",
+      type: "array",
+      of: [{ type: "block" }],
       group: "blogPost",
       validation: (R) => R.required(),
     }),
     defineField({
       name: "seo",
       title: "SEO",
-      type: "seo",
+      type: "blogPostSeo",
       group: "seo",
       validation: (R) => R.required(),
     }),
   ],
-
-  // ── Preview ───────────────────────────────────────────────
   preview: {
     select: {
-      title: "title.en",
-      subtitle: "category.label.en",
+      title: "title",
+      language: "language",
       media: "heroPhoto",
+      group: "translationGroup",
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ title, language, media, group }) {
       return {
-        title,
-        subtitle,
+        title: title || "Untitled",
+        subtitle: `${(language || "").toUpperCase()} · group: ${group || "—"}`,
         media,
       };
     },
   },
-
   orderings: [
     {
-      title: "Newest First",
+      title: "Newest first",
       name: "publishedAtDesc",
       by: [{ field: "publishedAt", direction: "desc" }],
     },

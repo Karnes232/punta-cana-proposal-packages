@@ -36,6 +36,7 @@ import StoriesPageCtaStrip from "./StoriesPage/CtaStrip";
 //BlogPage
 import BlogPageHero from "./BlogPage/BlogPageHero";
 import BlogPost from "./BlogPage/BlogPost";
+import BlogPostSeo from "./BlogPage/BlogPostSeo";
 import BlogCategory from "./BlogPage/BlogCategory";
 import BlogPageCtaStrip from "./BlogPage/CtaStrip";
 
@@ -95,6 +96,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
 
     //BlogPage
     BlogPageHero,
+    BlogPostSeo,
     BlogPost,
     BlogCategory,
     BlogPageCtaStrip,

@@ -21,7 +21,7 @@ function SidebarDetailRow({ label, value }: SidebarDetailRowProps) {
 
 interface PostSidebarProps {
   data: PostBodyData;
-  locale: "en" | "es";
+  locale: string;
 }
 
 export default function PostSidebar({ data, locale }: PostSidebarProps) {

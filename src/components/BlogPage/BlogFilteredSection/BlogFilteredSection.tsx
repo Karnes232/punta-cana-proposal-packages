@@ -4,13 +4,11 @@ import { useState } from "react";
 import FeaturedPost from "@/components/BlogPage/FeaturedBlogPost/FeaturedPost";
 import BlogFilterBar from "@/components/BlogPage/BlogFilterBar/BlogFilterBar";
 import BlogGrid from "@/components/BlogPage/BlogGrid/BlogGrid";
-// import type { FeaturedPostData } from "@/components/BlogPage/FeaturedBlogPost/types";
-import type { BlogCardData } from "@/components/BlogPage/BlogGrid/types";
 import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/Hero";
 import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
 interface BlogFilteredSectionProps {
-  featuredPost: FeaturedPostType;
+  featuredPost: FeaturedPostType | null;
   categories: {
     value: string;
     label: {
@@ -19,38 +17,38 @@ interface BlogFilteredSectionProps {
     };
   }[];
   posts: BlogPost[];
-  locale: "en" | "es";
+  /** UI strings from en/es site copy (hero, filter bar, grid). */
+  uiLocale: "en" | "es";
 }
 
 export default function BlogFilteredSection({
   featuredPost,
   categories,
   posts,
-  locale,
+  uiLocale,
 }: BlogFilteredSectionProps) {
   const [activeFilter, setActiveFilter] = useState("all");
 
   return (
     <>
-      {/* Featured post — sits between hero and filter bar */}
-      <section className="bg-ivory">
-        {/* <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-12 md:py-16"> */}
-        <FeaturedPost post={featuredPost} locale={locale} />
-        {/* </div> */}
-      </section>
+      {featuredPost ? (
+        <section className="bg-ivory">
+          <FeaturedPost post={featuredPost} uiLocale={uiLocale} />
+        </section>
+      ) : null}
 
-      {/* Filter bar — black strip with category tabs */}
       <BlogFilterBar
         categories={categories}
-        locale={locale}
+        uiLocale={uiLocale}
         onChange={setActiveFilter}
       />
 
-      {/* Grid — ivory background, filtered by active tab */}
       <section className="bg-ivory">
-        {/* <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-12 md:py-16"> */}
-        <BlogGrid posts={posts} locale={locale} activeFilter={activeFilter} />
-        {/* </div> */}
+        <BlogGrid
+          posts={posts}
+          uiLocale={uiLocale}
+          activeFilter={activeFilter}
+        />
       </section>
     </>
   );

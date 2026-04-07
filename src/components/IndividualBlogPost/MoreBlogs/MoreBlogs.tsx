@@ -5,7 +5,7 @@ export default function MoreBlogs({
   locale,
 }: {
   blogs: any[];
-  locale: "en" | "es";
+  locale: string;
 }) {
   if (!blogs || blogs.length === 0) return null;
 

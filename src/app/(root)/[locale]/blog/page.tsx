@@ -4,16 +4,26 @@ import BlogFilteredSection from "@/components/BlogPage/BlogFilteredSection/BlogF
 
 import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
 import JsonLd from "@/components/seo/JsonLd";
+import { isSiteLocale } from "@/i18n/blogLocales";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { blogCategories } from "@/sanity/queries/BlogPage/BlogCategories";
-import { blogPosts } from "@/sanity/queries/BlogPage/BlogPosts";
+import { blogPostsByLanguage } from "@/sanity/queries/BlogPage/BlogPosts";
 import { blogPageCtaStrip } from "@/sanity/queries/BlogPage/CtaStripe";
 import { blogPageHero } from "@/sanity/queries/BlogPage/Hero";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
+
+function parseJsonLd(raw: string | null | undefined): unknown {
+  if (raw == null || raw === "") return null;
+  try {
+    return JSON.parse(raw) as unknown;
+  } catch {
+    return null;
+  }
+}
 
 export default async function Blog({
   params,
@@ -21,43 +31,49 @@ export default async function Blog({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const uiLocale = isSiteLocale(locale) ? locale : "en";
+
   const [structuredData, hero, categories, posts, ctaStrip] = await Promise.all(
     [
       getStructuredData("blog"),
       blogPageHero(),
       blogCategories(),
-      blogPosts(),
+      blogPostsByLanguage(locale),
       blogPageCtaStrip(),
     ],
   );
+
+  const featuredPost =
+    hero?.featuredPost?.language === locale ? hero.featuredPost : null;
 
   return (
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+        data={parseJsonLd(
+          structuredData?.seo?.structuredData[uiLocale as "en" | "es"],
+        )}
       />
       <BlogHero
-        eyebrow={hero?.eyebrow[locale as "en" | "es"]}
-        headingLine1={hero?.headingLine1[locale as "en" | "es"]}
-        headingLine2={hero?.headingLine2[locale as "en" | "es"]}
-        subheading={hero?.subheading[locale as "en" | "es"]}
+        eyebrow={hero?.eyebrow[uiLocale]}
+        headingLine1={hero?.headingLine1[uiLocale]}
+        headingLine2={hero?.headingLine2[uiLocale]}
+        subheading={hero?.subheading[uiLocale]}
         image={hero?.image}
-        locale={locale as "en" | "es"}
       />
       <BlogFilteredSection
-        featuredPost={hero.featuredPost}
+        featuredPost={featuredPost}
         categories={categories}
         posts={posts}
-        locale={locale as "en" | "es"}
+        uiLocale={uiLocale}
       />
 
       <BlogCTAStrip
-        eyebrow={ctaStrip.eyebrow[locale as "en" | "es"]}
-        heading={ctaStrip.heading[locale as "en" | "es"]}
-        headingAccent={ctaStrip.headingAccent[locale as "en" | "es"]}
-        subheading={ctaStrip.subheading[locale as "en" | "es"]}
-        ctaLabel={ctaStrip.ctaLabel[locale as "en" | "es"]}
+        eyebrow={ctaStrip.eyebrow[uiLocale]}
+        heading={ctaStrip.heading[uiLocale]}
+        headingAccent={ctaStrip.headingAccent[uiLocale]}
+        subheading={ctaStrip.subheading[uiLocale]}
+        ctaLabel={ctaStrip.ctaLabel[uiLocale]}
         ctaHref={ctaStrip.ctaHref}
       />
     </main>
@@ -67,27 +83,40 @@ export default async function Blog({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: "en" | "es" }>;
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const seoLocale = isSiteLocale(locale) ? locale : "en";
   const pageSeo = await getPageSeo("blog");
   const path = "/blog";
   const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
-    return fallbackSiteMetadata(locale, path, canonicalUrl);
+    return fallbackSiteMetadata(seoLocale, path, canonicalUrl);
   }
 
-  return buildSeoMetadata({
+  const hreflangLanguages: Record<string, string> | undefined = isSiteLocale(
     locale,
+  )
+    ? undefined
+    : {
+        en: siteCanonicalUrl("en", path),
+        es: siteCanonicalUrl("es", path),
+        [locale]: siteCanonicalUrl(locale, path),
+        "x-default": siteCanonicalUrl("en", path),
+      };
+
+  return buildSeoMetadata({
+    locale: seoLocale,
     path,
     canonicalUrl,
-    meta: pageSeo.seo.meta[locale],
+    meta: pageSeo.seo.meta[seoLocale as "en" | "es"],
     openGraph: {
-      title: pageSeo.seo.openGraph[locale].title,
-      description: pageSeo.seo.openGraph[locale].description,
+      title: pageSeo.seo.openGraph[seoLocale as "en" | "es"].title,
+      description: pageSeo.seo.openGraph[seoLocale as "en" | "es"].description,
       image: pageSeo.seo.openGraph.image,
     },
     noIndex: pageSeo.seo.noIndex,
     noFollow: pageSeo.seo.noFollow,
+    hreflangLanguages,
   });
 }

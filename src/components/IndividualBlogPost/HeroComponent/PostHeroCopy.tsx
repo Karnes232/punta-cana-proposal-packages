@@ -4,7 +4,7 @@ interface PostHeroCopyProps {
   publishedAt: string;
   readingTime: number;
   readTimeSuffix: string;
-  locale: "en" | "es";
+  locale: string;
 }
 
 export default function PostHeroCopy({

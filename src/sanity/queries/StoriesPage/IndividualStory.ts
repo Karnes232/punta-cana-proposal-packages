@@ -1,5 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import { IndividualBlogSEO } from "../BlogPage/IndividualBlog";
+import type { EmbeddedLocalizedDocumentSeo } from "../SEO/embeddedLocalizedSeo";
 
 // ── Shared image fragment ─────────────────────────────────────────────────────
 
@@ -349,6 +349,6 @@ export const individualStorySEOQueryString = `*[_type == "individualStory" && sl
 
 export const individualStorySEOQuery = async (
   slug: string,
-): Promise<IndividualBlogSEO | null> => {
+): Promise<EmbeddedLocalizedDocumentSeo | null> => {
   return client.fetch(individualStorySEOQueryString, { slug });
 };

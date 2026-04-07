@@ -1,11 +1,14 @@
 import { client } from "@/sanity/lib/client";
 
+import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
+
 const sitemapPackagesQuery = `*[_type == "ProposalPackages"] {
   "category": page,
   "slugs": packages[]->slug.current
 }`;
 
-const sitemapBlogSlugsQuery = `*[_type == "blogPost" && defined(slug.current)] {
+const sitemapBlogEntriesQuery = `*[_type == "blogPost" && defined(slug.current) && defined(language)] {
+  "language": language,
   "slug": slug.current
 }`;
 
@@ -34,11 +37,10 @@ export const STATIC_SITEMAP_PATHS = [
 ] as const;
 
 export async function getSitemapDynamicPaths(): Promise<string[]> {
-  const [packages, blogs, stories] = await Promise.all([
+  const [packages, stories] = await Promise.all([
     client.fetch<Array<{ category: string; slugs: (string | null)[] | null }>>(
       sitemapPackagesQuery,
     ),
-    client.fetch<Array<{ slug: string }>>(sitemapBlogSlugsQuery),
     client.fetch<Array<{ slug: string }>>(sitemapStorySlugsQuery),
   ]);
 
@@ -53,12 +55,19 @@ export async function getSitemapDynamicPaths(): Promise<string[]> {
       }
     }
   }
-  for (const b of blogs ?? []) {
-    if (b.slug) paths.push(`/blog/${b.slug}`);
-  }
   for (const s of stories ?? []) {
     if (s.slug) paths.push(`/stories/${s.slug}`);
   }
 
   return paths;
+}
+
+export async function getSitemapBlogEntries(): Promise<
+  { language: string; slug: string }[]
+> {
+  return await client.fetch(sitemapBlogEntriesQuery);
+}
+
+export function absoluteBlogUrl(language: string, slug: string): string {
+  return siteCanonicalUrl(language, blogPostPath(slug));
 }

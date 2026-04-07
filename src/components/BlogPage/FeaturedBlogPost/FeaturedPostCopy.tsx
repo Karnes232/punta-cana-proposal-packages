@@ -3,16 +3,16 @@ import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage
 
 interface FeaturedPostCopyProps {
   post: FeaturedPostType;
-  locale: "en" | "es";
+  uiLocale: "en" | "es";
 }
 
 export default function FeaturedPostCopy({
   post,
-  locale,
+  uiLocale,
 }: FeaturedPostCopyProps) {
-  const ctaLabel = locale === "es" ? "Leer Artículo" : "Read Article";
+  const ctaLabel = uiLocale === "es" ? "Leer Artículo" : "Read Article";
 
-  const dateStr = new Date(post.publishedAt).toLocaleDateString(locale, {
+  const dateStr = new Date(post.publishedAt).toLocaleDateString(uiLocale, {
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -23,13 +23,13 @@ export default function FeaturedPostCopy({
     <div className="flex flex-col justify-center gap-7 px-8 py-12 md:px-12 md:py-16 bg-white">
       {/* Category tag */}
       <span className="text-[10.5px] font-body font-medium tracking-[0.18em] uppercase text-gold">
-        {post.categoryTag[locale]}
+        {post.categoryTag}
       </span>
 
       {/* Title + date */}
       <div className="flex flex-col gap-1.5">
         <h2 className="font-display font-normal text-fluid-h3 text-black leading-[1.1]">
-          {post.title[locale]}
+          {post.title}
         </h2>
         <p className="text-[12px] font-body font-light tracking-[0.06em] text-gray">
           {capitalizedDate}
@@ -41,7 +41,7 @@ export default function FeaturedPostCopy({
 
       {/* Excerpt */}
       <p className="font-body font-light text-fluid-sm text-black/70 leading-relaxed">
-        {post.excerpt[locale]}
+        {post.excerpt}
       </p>
 
       {/* CTA */}

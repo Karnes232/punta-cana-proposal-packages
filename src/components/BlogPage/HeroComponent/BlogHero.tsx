@@ -5,7 +5,6 @@ import BlogHeroSubheading from "./BlogHeroSubheading";
 import StoriesHeroBackground from "@/components/StoriesPage/HeroComponent/StoriesHeroBackground";
 
 interface BlogHeroProps {
-  locale: "en" | "es";
   /** Pass Sanity data to override defaults */
   eyebrow: string;
   headingLine1: string;
@@ -26,7 +25,6 @@ interface BlogHeroProps {
 }
 
 export default function BlogHero({
-  locale,
   eyebrow,
   headingLine1,
   headingLine2,

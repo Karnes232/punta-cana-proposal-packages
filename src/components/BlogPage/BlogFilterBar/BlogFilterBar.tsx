@@ -10,13 +10,13 @@ interface BlogFilterBarProps {
       es: string;
     };
   }[];
-  locale: "en" | "es";
+  uiLocale: "en" | "es";
   onChange?: (value: string) => void;
 }
 
 export default function BlogFilterBar({
   categories,
-  locale,
+  uiLocale,
   onChange,
 }: BlogFilterBarProps) {
   const [active, setActive] = useState("all");
@@ -24,7 +24,7 @@ export default function BlogFilterBar({
   // "All" is a UI concern — always present, never comes from Sanity
   const allTab = {
     value: "all",
-    label: locale === "es" ? "Todos" : "All Posts",
+    label: uiLocale === "es" ? "Todos" : "All Posts",
   };
 
   function handleSelect(value: string) {
@@ -66,7 +66,7 @@ export default function BlogFilterBar({
 
         {/* Category tabs — from Sanity */}
         {categories.map((tab) => {
-          const label = tab.label[locale];
+          const label = tab.label[uiLocale];
           return renderTab(tab.value, label);
         })}
       </div>

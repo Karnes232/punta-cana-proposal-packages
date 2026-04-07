@@ -8,7 +8,7 @@ const MoreBlogsCarousel = ({
   locale,
 }: {
   blogs: any[];
-  locale: "en" | "es";
+  locale: string;
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);

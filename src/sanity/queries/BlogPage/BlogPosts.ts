@@ -2,13 +2,11 @@ import { client } from "@/sanity/lib/client";
 
 export interface BlogPost {
   _id: string;
+  language: string;
   slug: {
     current: string;
   };
-  title: {
-    en: string;
-    es: string;
-  };
+  title: string;
   category: {
     _id: string;
     label: {
@@ -18,14 +16,8 @@ export interface BlogPost {
     value: string;
   };
   publishedAt: string;
-  categoryTag: {
-    en: string;
-    es: string;
-  };
-  excerpt: {
-    en: string;
-    es: string;
-  };
+  categoryTag: string;
+  excerpt: string;
   readingTime: number;
   heroPhoto: {
     asset: {
@@ -54,33 +46,25 @@ const imageFragment = `
   alt
 `;
 
-export const blogPostsQuery = `*[_type == "blogPost"] {
+export const blogPostsByLanguageQuery = `*[_type == "blogPost" && language == $lang] | order(publishedAt desc) {
   _id,
+  language,
   slug {
     current
   },
-  title {
-    en,
-    es
-  },
+  title,
   category -> {
     _id,
     label { en, es },
     value
   },
-  categoryTag {
-    en,
-    es
-  },
+  categoryTag,
   publishedAt,
   readingTime,
-  excerpt {
-    en,
-    es
-  },
+  excerpt,
 heroPhoto { ${imageFragment} },
 }`;
 
-export const blogPosts = async (): Promise<BlogPost[]> => {
-  return await client.fetch(blogPostsQuery);
+export const blogPostsByLanguage = async (lang: string): Promise<BlogPost[]> => {
+  return await client.fetch(blogPostsByLanguageQuery, { lang });
 };

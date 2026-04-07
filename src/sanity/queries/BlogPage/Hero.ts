@@ -1,22 +1,14 @@
 import { client } from "@/sanity/lib/client";
 
 export interface FeaturedPost {
+  language: string;
   slug: {
     current: string;
   };
-  title: {
-    en: string;
-    es: string;
-  };
+  title: string;
   publishedAt: string;
-  categoryTag: {
-    en: string;
-    es: string;
-  };
-  excerpt: {
-    en: string;
-    es: string;
-  };
+  categoryTag: string;
+  excerpt: string;
   readingTime: number;
   heroPhoto: {
     asset: {
@@ -94,21 +86,13 @@ export const blogPageHeroQuery = `*[_type == "BlogPageHero"][0] {
     alt
   },
   featuredPost -> {
+    language,
     slug,
-    title {
-      en,
-      es
-    },
+    title,
     publishedAt,
-    categoryTag {
-      en,
-      es
-    },
+    categoryTag,
     readingTime,
-    excerpt {
-      en,
-      es
-    },
+    excerpt,
     heroPhoto {
       asset-> {
         url,

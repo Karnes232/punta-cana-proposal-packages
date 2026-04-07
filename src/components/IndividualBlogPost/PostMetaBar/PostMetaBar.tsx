@@ -33,7 +33,7 @@ function Divider() {
 
 interface PostMetaBarProps {
   data: PostMetaBarData;
-  locale: "en" | "es";
+  locale: string;
   content?: PostMetaBarContent;
 }
 

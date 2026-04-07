@@ -1,4 +1,26 @@
-import { SITE_URL } from "@/lib/seo/constants";
+import { SITE_URL, blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
+
+export type HreflangSibling = { language: string; slug: string };
+
+/**
+ * hreflang map for blog posts: one URL per translation + x-default (prefers English).
+ */
+export function buildBlogHreflangMap(
+  siblings: HreflangSibling[],
+): Record<string, string> {
+  const languages: Record<string, string> = {};
+  for (const { language, slug } of siblings) {
+    languages[language] = siteCanonicalUrl(language, blogPostPath(slug));
+  }
+  const en = siblings.find((s) => s.language === "en");
+  if (en) {
+    languages["x-default"] = siteCanonicalUrl("en", blogPostPath(en.slug));
+  } else if (siblings[0]) {
+    const s = siblings[0];
+    languages["x-default"] = siteCanonicalUrl(s.language, blogPostPath(s.slug));
+  }
+  return languages;
+}
 
 /**
  * Utility function to generate hreflang URLs for a given path

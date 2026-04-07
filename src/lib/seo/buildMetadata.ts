@@ -12,7 +12,8 @@ type OgImageInput = {
 };
 
 export function buildSeoMetadata(opts: {
-  locale: SeoLocale;
+  /** Used for default hreflang when hreflangLanguages is omitted; may be any routing locale. */
+  locale: string;
   path: string;
   canonicalUrl: string;
   meta: { title: string; description: string; keywords: string[] };
@@ -23,9 +24,19 @@ export function buildSeoMetadata(opts: {
   };
   noIndex?: boolean;
   noFollow?: boolean;
+  /** When set (e.g. blog translations), replaces fixed en/es hreflang alternates. */
+  hreflangLanguages?: Record<string, string>;
 }): Metadata {
-  const { locale, path, canonicalUrl, meta, openGraph, noIndex, noFollow } =
-    opts;
+  const {
+    locale,
+    path,
+    canonicalUrl,
+    meta,
+    openGraph,
+    noIndex,
+    noFollow,
+    hreflangLanguages,
+  } = opts;
 
   const ogImages =
     openGraph.image?.url != null && openGraph.image.url !== ""
@@ -64,7 +75,9 @@ export function buildSeoMetadata(opts: {
     },
     alternates: {
       canonical: canonicalUrl,
-      ...generateHreflangAlternates(locale, path),
+      ...(hreflangLanguages
+        ? { languages: hreflangLanguages }
+        : generateHreflangAlternates(locale as SeoLocale, path)),
     },
   };
 }
@@ -84,13 +97,13 @@ const SITE_DEFAULTS = {
 
 /** When PageSeo is missing in Sanity — still allow indexing. */
 export function fallbackSiteMetadata(
-  locale: SeoLocale,
+  locale: string,
   path: string,
   canonicalUrl: string,
 ): Metadata {
-  const d = SITE_DEFAULTS[locale];
+  const d = SITE_DEFAULTS[locale as SeoLocale] ?? SITE_DEFAULTS.en;
   return buildSeoMetadata({
-    locale,
+    locale: locale as SeoLocale,
     path,
     canonicalUrl,
     meta: { title: d.title, description: d.description, keywords: [] },
@@ -100,13 +113,13 @@ export function fallbackSiteMetadata(
 
 /** When a slug document is missing — avoid indexing thin/empty URLs. */
 export function fallbackMissingDocumentMetadata(
-  locale: SeoLocale,
+  locale: string,
   path: string,
   canonicalUrl: string,
 ): Metadata {
-  const d = SITE_DEFAULTS[locale];
+  const d = SITE_DEFAULTS[locale as SeoLocale] ?? SITE_DEFAULTS.en;
   return buildSeoMetadata({
-    locale,
+    locale: locale as SeoLocale,
     path,
     canonicalUrl,
     meta: { title: d.title, description: d.description, keywords: [] },

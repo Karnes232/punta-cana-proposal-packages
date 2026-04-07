@@ -3,6 +3,8 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo/constants";
 import {
   STATIC_SITEMAP_PATHS,
+  absoluteBlogUrl,
+  getSitemapBlogEntries,
   getSitemapDynamicPaths,
 } from "@/sanity/queries/SEO/sitemapUrls";
 
@@ -40,11 +42,12 @@ function priority(path: string): number {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const dynamicPaths = await getSitemapDynamicPaths();
-  const pathSet = new Set<string>([
-    ...STATIC_SITEMAP_PATHS,
-    ...dynamicPaths,
+  const [dynamicPaths, blogEntries] = await Promise.all([
+    getSitemapDynamicPaths(),
+    getSitemapBlogEntries(),
   ]);
+
+  const pathSet = new Set<string>([...STATIC_SITEMAP_PATHS, ...dynamicPaths]);
 
   const entries: MetadataRoute.Sitemap = [];
   const urlSeen = new Set<string>();
@@ -62,6 +65,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: priority(path),
       });
     }
+  }
+
+  for (const row of blogEntries) {
+    if (!row.slug || !row.language) continue;
+    const url = absoluteBlogUrl(row.language, row.slug);
+    if (urlSeen.has(url)) continue;
+    urlSeen.add(url);
+    const path = normalizePath(`/blog/${row.slug}`);
+    entries.push({
+      url,
+      lastModified: now,
+      changeFrequency: changeFrequency(path),
+      priority: priority(path),
+    });
   }
 
   return entries;

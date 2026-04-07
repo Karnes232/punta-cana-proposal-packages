@@ -1,5 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import { IndividualBlogSEO } from "../BlogPage/IndividualBlog";
+import type { EmbeddedLocalizedDocumentSeo } from "../SEO/embeddedLocalizedSeo";
 
 export interface IndividualProposalPackage {
   image: {
@@ -237,6 +237,6 @@ export const individualProposalPackageSEOQueryString = `*[_type == "IndividualPr
 
 export const individualStorySEOQuery = async (
   slug: string,
-): Promise<IndividualBlogSEO | null> => {
+): Promise<EmbeddedLocalizedDocumentSeo | null> => {
   return client.fetch(individualProposalPackageSEOQueryString, { slug });
 };
