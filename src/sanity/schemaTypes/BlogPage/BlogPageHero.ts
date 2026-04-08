@@ -10,25 +10,25 @@ export default defineType({
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
-      type: "localizedString",
+      type: "blogLocalizedString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "headingLine1",
       title: "Heading Line 1",
-      type: "localizedString",
+      type: "blogLocalizedString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "headingLine2",
       title: "Heading Line 2",
-      type: "localizedString",
+      type: "blogLocalizedString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "subheading",
       title: "Subheading",
-      type: "localizedText",
+      type: "blogLocalizedText",
       validation: (Rule) => Rule.required(),
     }),
     defineField({

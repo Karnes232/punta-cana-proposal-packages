@@ -1,4 +1,6 @@
+import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
+import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
 
 export interface FeaturedPost {
   language: string;
@@ -25,22 +27,10 @@ export interface FeaturedPost {
 }
 
 export interface BlogPageHero {
-  eyebrow: {
-    en: string;
-    es: string;
-  };
-  headingLine1: {
-    en: string;
-    es: string;
-  };
-  headingLine2: {
-    en: string;
-    es: string;
-  };
-  subheading: {
-    en: string;
-    es: string;
-  };
+  eyebrow: BlogLocalizedValue;
+  headingLine1: BlogLocalizedValue;
+  headingLine2: BlogLocalizedValue;
+  subheading: BlogLocalizedValue;
   image?: {
     asset: {
       url: string;
@@ -57,22 +47,10 @@ export interface BlogPageHero {
 }
 
 export const blogPageHeroQuery = `*[_type == "BlogPageHero"][0] {
-  eyebrow {
-    en,
-    es
-  },
-  headingLine1 {
-    en,
-    es
-  },
-  headingLine2 {
-    en,
-    es
-  },
-  subheading {
-    en,
-    es
-  },
+  eyebrow ${blogLocalizedStringGroq},
+  headingLine1 ${blogLocalizedStringGroq},
+  headingLine2 ${blogLocalizedStringGroq},
+  subheading ${blogLocalizedStringGroq},
   image {
     asset-> {
       url,

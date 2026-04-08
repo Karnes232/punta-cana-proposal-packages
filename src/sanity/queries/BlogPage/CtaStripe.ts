@@ -1,50 +1,22 @@
+import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
+import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
 
 export interface BlogPageCtaStrip {
-  eyebrow: {
-    en: string;
-    es: string;
-  };
-  heading: {
-    en: string;
-    es: string;
-  };
-  headingAccent: {
-    en: string;
-    es: string;
-  };
-  subheading: {
-    en: string;
-    es: string;
-  };
-  ctaLabel: {
-    en: string;
-    es: string;
-  };
+  eyebrow: BlogLocalizedValue;
+  heading: BlogLocalizedValue;
+  headingAccent: BlogLocalizedValue;
+  subheading: BlogLocalizedValue;
+  ctaLabel: BlogLocalizedValue;
   ctaHref: string;
 }
 
 export const blogPageCtaStripQuery = `*[_type == "BlogPageCtaStrip"][0] {
-  eyebrow {
-    en,
-    es
-  },
-  heading {
-    en,
-    es
-  },
-  headingAccent {
-    en,
-    es
-  },
-  subheading {
-    en,
-    es
-  },
-  ctaLabel {
-    en,
-    es
-  },
+  eyebrow ${blogLocalizedStringGroq},
+  heading ${blogLocalizedStringGroq},
+  headingAccent ${blogLocalizedStringGroq},
+  subheading ${blogLocalizedStringGroq},
+  ctaLabel ${blogLocalizedStringGroq},
   ctaHref,
 }`;
 

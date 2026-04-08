@@ -9,6 +9,7 @@ import { isSiteLocale } from "@/i18n/blogLocales";
 import { routing } from "@/i18n/routing";
 import Navbar from "@/components/Layout/Navbar/Navbar";
 import Footer from "@/components/Layout/Footer/Footer";
+import { BlogLanguageAlternatesProvider } from "@/components/LanguageSwitcher/BlogLanguageAlternatesContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -45,8 +46,10 @@ export default async function RootLayout({
     <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
-          <Navbar logo={generalLayout?.companyLogo ?? null} />
-          {children}
+          <BlogLanguageAlternatesProvider>
+            <Navbar logo={generalLayout?.companyLogo ?? null} />
+            {children}
+          </BlogLanguageAlternatesProvider>
           <Footer
             logo={generalLayout?.companyLogo ?? null}
             description={

@@ -2,29 +2,28 @@
 
 import { useState } from "react";
 
+import { blogAllPostsFilterLabel } from "@/i18n/blogLocales";
+
 interface BlogFilterBarProps {
   categories: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: string;
   }[];
-  uiLocale: "en" | "es";
+  /** App route locale (`en`, `es`, `fr`, …) for the “all posts” tab label. */
+  locale: string;
   onChange?: (value: string) => void;
 }
 
 export default function BlogFilterBar({
   categories,
-  uiLocale,
+  locale,
   onChange,
 }: BlogFilterBarProps) {
   const [active, setActive] = useState("all");
 
-  // "All" is a UI concern — always present, never comes from Sanity
   const allTab = {
     value: "all",
-    label: uiLocale === "es" ? "Todos" : "All Posts",
+    label: blogAllPostsFilterLabel(locale),
   };
 
   function handleSelect(value: string) {
@@ -61,14 +60,9 @@ export default function BlogFilterBar({
   return (
     <div className="w-full bg-black border-t border-gold/20 overflow-x-auto">
       <div className="flex items-center min-w-max px-6 md:px-12 mx-auto max-w-site">
-        {/* All tab — hardcoded, always first */}
         {renderTab(allTab.value, allTab.label)}
 
-        {/* Category tabs — from Sanity */}
-        {categories.map((tab) => {
-          const label = tab.label[uiLocale];
-          return renderTab(tab.value, label);
-        })}
+        {categories.map((tab) => renderTab(tab.value, tab.label))}
       </div>
     </div>
   );

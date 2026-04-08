@@ -14,6 +14,23 @@ export const ALL_LOCALES = [
 ] as const;
 export type AppLocale = (typeof ALL_LOCALES)[number];
 
+/** Label for the blog category filter “show all posts” tab. */
+const ALL_POSTS_FILTER_LABELS: Record<AppLocale, string> = {
+  en: "All Posts",
+  es: "Todos",
+  fr: "Tous les articles",
+  de: "Alle Beiträge",
+  it: "Tutti gli articoli",
+  pt: "Todos os artigos",
+};
+
+export function blogAllPostsFilterLabel(locale: string): string {
+  if ((ALL_LOCALES as readonly string[]).includes(locale)) {
+    return ALL_POSTS_FILTER_LABELS[locale as AppLocale];
+  }
+  return ALL_POSTS_FILTER_LABELS.en;
+}
+
 export function isBlogOnlyLocale(locale: string): locale is BlogOnlyLocale {
   return (BLOG_ONLY_LOCALES as readonly string[]).includes(locale);
 }

@@ -20,7 +20,7 @@ export default defineType({
       title: "Label",
       description:
         "Display label — e.g. 'Proposal Tips' / 'Consejos de Propuesta'",
-      type: "localizedString",
+      type: "blogLocalizedString",
       validation: (Rule) => Rule.required(),
     }),
   ],

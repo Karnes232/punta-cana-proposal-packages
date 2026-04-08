@@ -11,21 +11,24 @@ interface BlogFilteredSectionProps {
   featuredPost: FeaturedPostType | null;
   categories: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: string;
   }[];
   posts: BlogPost[];
-  /** UI strings from en/es site copy (hero, filter bar, grid). */
-  uiLocale: "en" | "es";
+  /** EN/ES labels for filter bar, grid chrome, featured ribbon (blog-only URLs use English). */
+  chromeLocale: "en" | "es";
+  /** Locale string for date formatting on cards (matches URL locale). */
+  dateLocale: string;
+  /** App route locale for filter chrome (e.g. “All posts” tab). */
+  locale: string;
 }
 
 export default function BlogFilteredSection({
   featuredPost,
   categories,
   posts,
-  uiLocale,
+  chromeLocale,
+  dateLocale,
+  locale,
 }: BlogFilteredSectionProps) {
   const [activeFilter, setActiveFilter] = useState("all");
 
@@ -33,20 +36,25 @@ export default function BlogFilteredSection({
     <>
       {featuredPost ? (
         <section className="bg-ivory">
-          <FeaturedPost post={featuredPost} uiLocale={uiLocale} />
+          <FeaturedPost
+            post={featuredPost}
+            chromeLocale={chromeLocale}
+            dateLocale={dateLocale}
+          />
         </section>
       ) : null}
 
       <BlogFilterBar
         categories={categories}
-        uiLocale={uiLocale}
+        locale={locale}
         onChange={setActiveFilter}
       />
 
       <section className="bg-ivory">
         <BlogGrid
           posts={posts}
-          uiLocale={uiLocale}
+          chromeLocale={chromeLocale}
+          dateLocale={dateLocale}
           activeFilter={activeFilter}
         />
       </section>

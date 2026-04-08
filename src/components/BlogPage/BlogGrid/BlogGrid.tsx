@@ -17,7 +17,8 @@ const PAGE_SIZE = 6;
 interface BlogGridProps {
   posts: BlogPost[];
   content?: BlogGridContent;
-  uiLocale: "en" | "es";
+  chromeLocale: "en" | "es";
+  dateLocale: string;
   /** Active filter value passed down from the filter bar — "all" or a categoryType slug */
   activeFilter?: string;
 }
@@ -43,20 +44,21 @@ const variantPattern: Variant[] = [
 export default function BlogGrid({
   posts,
   content = defaultBlogGridContent,
-  uiLocale,
+  chromeLocale,
+  dateLocale,
   activeFilter = "all",
 }: BlogGridProps) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
 
   const sectionLabel =
-    uiLocale === "es" ? content.sectionEyebrowEs : content.sectionEyebrowEn;
+    chromeLocale === "es" ? content.sectionEyebrowEs : content.sectionEyebrowEn;
   const readMoreLabel =
-    uiLocale === "es" ? content.readMoreLabelEs : content.readMoreLabelEn;
+    chromeLocale === "es" ? content.readMoreLabelEs : content.readMoreLabelEn;
   const loadMoreLabel =
-    uiLocale === "es" ? content.loadMoreLabelEs : content.loadMoreLabelEn;
+    chromeLocale === "es" ? content.loadMoreLabelEs : content.loadMoreLabelEn;
   const readTimeSuffix =
-    uiLocale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
+    chromeLocale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
 
   // Client-side filter
   const filtered =
@@ -80,7 +82,7 @@ export default function BlogGrid({
     return (
       <div className="py-24 text-center">
         <p className="font-body font-light text-gray text-fluid-base">
-          {uiLocale === "es"
+          {chromeLocale === "es"
             ? "No hay artículos para esta categoría todavía."
             : "No posts for this category yet."}
         </p>
@@ -121,7 +123,7 @@ export default function BlogGrid({
                 readMoreLabel={readMoreLabel}
                 readTimeSuffix={readTimeSuffix}
                 variant={variant}
-                uiLocale={uiLocale}
+                dateLocale={dateLocale}
               />
             </div>
           );

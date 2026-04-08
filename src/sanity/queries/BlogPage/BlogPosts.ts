@@ -1,4 +1,6 @@
+import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
+import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
 
 export interface BlogPost {
   _id: string;
@@ -9,10 +11,7 @@ export interface BlogPost {
   title: string;
   category: {
     _id: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: BlogLocalizedValue;
     value: string;
   };
   publishedAt: string;
@@ -55,7 +54,7 @@ export const blogPostsByLanguageQuery = `*[_type == "blogPost" && language == $l
   title,
   category -> {
     _id,
-    label { en, es },
+    label ${blogLocalizedStringGroq},
     value
   },
   categoryTag,

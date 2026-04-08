@@ -3,16 +3,19 @@ import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage
 
 interface FeaturedPostCopyProps {
   post: FeaturedPostType;
-  uiLocale: "en" | "es";
+  chromeLocale: "en" | "es";
+  dateLocale: string;
 }
 
 export default function FeaturedPostCopy({
   post,
-  uiLocale,
+  chromeLocale,
+  dateLocale,
 }: FeaturedPostCopyProps) {
-  const ctaLabel = uiLocale === "es" ? "Leer Artículo" : "Read Article";
+  const ctaLabel =
+    chromeLocale === "es" ? "Leer Artículo" : "Read Article";
 
-  const dateStr = new Date(post.publishedAt).toLocaleDateString(uiLocale, {
+  const dateStr = new Date(post.publishedAt).toLocaleDateString(dateLocale, {
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -21,12 +24,10 @@ export default function FeaturedPostCopy({
 
   return (
     <div className="flex flex-col justify-center gap-7 px-8 py-12 md:px-12 md:py-16 bg-white">
-      {/* Category tag */}
       <span className="text-[10.5px] font-body font-medium tracking-[0.18em] uppercase text-gold">
         {post.categoryTag}
       </span>
 
-      {/* Title + date */}
       <div className="flex flex-col gap-1.5">
         <h2 className="font-display font-normal text-fluid-h3 text-black leading-[1.1]">
           {post.title}
@@ -36,15 +37,12 @@ export default function FeaturedPostCopy({
         </p>
       </div>
 
-      {/* Gold rule */}
       <span className="block w-10 h-px bg-gold/40" aria-hidden="true" />
 
-      {/* Excerpt */}
       <p className="font-body font-light text-fluid-sm text-black/70 leading-relaxed">
         {post.excerpt}
       </p>
 
-      {/* CTA */}
       <Link
         href={`/blog/${post.slug.current}`}
         className="

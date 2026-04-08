@@ -4,7 +4,11 @@ import BlogFilteredSection from "@/components/BlogPage/BlogFilteredSection/BlogF
 
 import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
 import JsonLd from "@/components/seo/JsonLd";
-import { isSiteLocale } from "@/i18n/blogLocales";
+import { ALL_LOCALES, isSiteLocale } from "@/i18n/blogLocales";
+import {
+  blogDateFormatLocale,
+  pickBlogLocalized,
+} from "@/i18n/pickBlogLocalized";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
@@ -31,7 +35,8 @@ export default async function Blog({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const uiLocale = isSiteLocale(locale) ? locale : "en";
+  const chromeLocale = isSiteLocale(locale) ? locale : "en";
+  const dateLocale = blogDateFormatLocale(locale);
 
   const [structuredData, hero, categories, posts, ctaStrip] = await Promise.all(
     [
@@ -46,34 +51,41 @@ export default async function Blog({
   const featuredPost =
     hero?.featuredPost?.language === locale ? hero.featuredPost : null;
 
+  const categoriesForFilter = categories.map((c) => ({
+    value: c.value,
+    label: pickBlogLocalized(c.label, locale),
+  }));
+
   return (
     <main>
       <JsonLd
         id="structured-data-schema"
         data={parseJsonLd(
-          structuredData?.seo?.structuredData[uiLocale as "en" | "es"],
+          structuredData?.seo?.structuredData[chromeLocale as "en" | "es"],
         )}
       />
       <BlogHero
-        eyebrow={hero?.eyebrow[uiLocale]}
-        headingLine1={hero?.headingLine1[uiLocale]}
-        headingLine2={hero?.headingLine2[uiLocale]}
-        subheading={hero?.subheading[uiLocale]}
+        eyebrow={pickBlogLocalized(hero?.eyebrow, locale)}
+        headingLine1={pickBlogLocalized(hero?.headingLine1, locale)}
+        headingLine2={pickBlogLocalized(hero?.headingLine2, locale)}
+        subheading={pickBlogLocalized(hero?.subheading, locale)}
         image={hero?.image}
       />
       <BlogFilteredSection
         featuredPost={featuredPost}
-        categories={categories}
+        categories={categoriesForFilter}
         posts={posts}
-        uiLocale={uiLocale}
+        chromeLocale={chromeLocale}
+        dateLocale={dateLocale}
+        locale={locale}
       />
 
       <BlogCTAStrip
-        eyebrow={ctaStrip.eyebrow[uiLocale]}
-        heading={ctaStrip.heading[uiLocale]}
-        headingAccent={ctaStrip.headingAccent[uiLocale]}
-        subheading={ctaStrip.subheading[uiLocale]}
-        ctaLabel={ctaStrip.ctaLabel[uiLocale]}
+        eyebrow={pickBlogLocalized(ctaStrip.eyebrow, locale)}
+        heading={pickBlogLocalized(ctaStrip.heading, locale)}
+        headingAccent={pickBlogLocalized(ctaStrip.headingAccent, locale)}
+        subheading={pickBlogLocalized(ctaStrip.subheading, locale)}
+        ctaLabel={pickBlogLocalized(ctaStrip.ctaLabel, locale)}
         ctaHref={ctaStrip.ctaHref}
       />
     </main>
@@ -94,16 +106,10 @@ export async function generateMetadata({
     return fallbackSiteMetadata(seoLocale, path, canonicalUrl);
   }
 
-  const hreflangLanguages: Record<string, string> | undefined = isSiteLocale(
-    locale,
-  )
-    ? undefined
-    : {
-        en: siteCanonicalUrl("en", path),
-        es: siteCanonicalUrl("es", path),
-        [locale]: siteCanonicalUrl(locale, path),
-        "x-default": siteCanonicalUrl("en", path),
-      };
+  const hreflangLanguages: Record<string, string> = Object.fromEntries(
+    ALL_LOCALES.map((l) => [l, siteCanonicalUrl(l, path)]),
+  );
+  hreflangLanguages["x-default"] = siteCanonicalUrl("en", path);
 
   return buildSeoMetadata({
     locale: seoLocale,

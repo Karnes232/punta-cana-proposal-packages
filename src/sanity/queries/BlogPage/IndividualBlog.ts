@@ -1,5 +1,7 @@
 import type { AppLocale } from "@/i18n/blogLocales";
+import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
+import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
 
 export type HreflangSibling = { language: string; slug: string };
 
@@ -34,10 +36,7 @@ export interface IndividualBlog {
   title: string;
   category: {
     _id: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: BlogLocalizedValue;
     value: string;
   };
   categoryTag: string;
@@ -107,7 +106,7 @@ export const individualBlogQueryString = `*[_type == "blogPost" && slug.current 
   title,
   category -> {
     _id,
-    label { en, es },
+    label ${blogLocalizedStringGroq},
     value
   },
   categoryTag,

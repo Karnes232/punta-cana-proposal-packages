@@ -1,6 +1,8 @@
 import { type SchemaTypeDefinition } from "sanity";
 import GeneralLayout from "./GeneralLayout/GeneralLayout";
 import {
+  blogLocalizedString,
+  blogLocalizedText,
   localizedBlock,
   localizedString,
   localizedText,
@@ -64,6 +66,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     localizedString,
     localizedText,
     localizedBlock,
+    blogLocalizedString,
+    blogLocalizedText,
     //GeneralLayout
     GeneralLayout,
     PageSeo,

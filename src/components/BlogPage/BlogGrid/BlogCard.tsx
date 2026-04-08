@@ -9,7 +9,7 @@ interface BlogCardProps {
   readTimeSuffix: string;
   /** Controls photo aspect ratio in the asymmetric grid */
   variant: "tall" | "wide" | "standard";
-  uiLocale: "en" | "es";
+  dateLocale: string;
 }
 
 const photoHeights: Record<BlogCardProps["variant"], string> = {
@@ -23,9 +23,9 @@ export default function BlogCard({
   readMoreLabel,
   readTimeSuffix,
   variant,
-  uiLocale,
+  dateLocale,
 }: BlogCardProps) {
-  const dateStr = new Date(post.publishedAt).toLocaleDateString(uiLocale, {
+  const dateStr = new Date(post.publishedAt).toLocaleDateString(dateLocale, {
     month: "long",
     day: "numeric",
     year: "numeric",
