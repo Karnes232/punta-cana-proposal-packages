@@ -145,5 +145,13 @@
     "WhatsIncluded": {
       "noPackageSelected": "No hay paquete seleccionado"
     }
+  },
+  "NotFoundPage": {
+    "metaTitle": "Página no encontrada",
+    "code": "404",
+    "heading": "Esta página no existe",
+    "description": "El enlace puede estar roto o la página pudo haberse movido.",
+    "homeCta": "Volver al inicio",
+    "blogCta": "Ver el blog"
   }
 }
