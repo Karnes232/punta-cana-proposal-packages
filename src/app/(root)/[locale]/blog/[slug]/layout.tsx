@@ -11,9 +11,7 @@ export default async function BlogPostLayout({
   const { slug, locale } = await params;
   const metadata = await individualBlogMetadataQuery(slug, locale);
   const siblings =
-    metadata && metadata.language === locale
-      ? metadata.hreflangSiblings
-      : null;
+    metadata && metadata.language === locale ? metadata.hreflangSiblings : null;
 
   return (
     <>

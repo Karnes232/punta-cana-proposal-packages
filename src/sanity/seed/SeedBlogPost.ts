@@ -97,7 +97,10 @@ const post1_en = {
   _type: "blogPost",
   language: "en",
   translationGroup: "proposal-planning-guide-2025",
-  slug: { _type: "slug", current: "the-ultimate-guide-to-planning-a-proposal-in-punta-cana" },
+  slug: {
+    _type: "slug",
+    current: "the-ultimate-guide-to-planning-a-proposal-in-punta-cana",
+  },
   title: "The Ultimate Guide to Planning a Proposal in Punta Cana",
   category: CATEGORY_PLANNING_TIPS,
   categoryTag: "Planning Tips",
@@ -189,7 +192,10 @@ const post1_es = {
   _type: "blogPost",
   language: "es",
   translationGroup: "proposal-planning-guide-2025",
-  slug: { _type: "slug", current: "guia-definitiva-planificar-propuesta-punta-cana" },
+  slug: {
+    _type: "slug",
+    current: "guia-definitiva-planificar-propuesta-punta-cana",
+  },
   title: "La Guía Definitiva para Planificar una Propuesta en Punta Cana",
   category: CATEGORY_PLANNING_TIPS,
   categoryTag: "Consejos de Planificación",
@@ -198,7 +204,10 @@ const post1_es = {
   excerpt:
     "Desde elegir la playa perfecta hasta coordinar flores, fotografía y el elemento sorpresa — todo lo que necesitas para planificar una propuesta impecable en el Caribe.",
   body: [
-    h2("Por Qué Punta Cana Es el Destino Perfecto para una Propuesta", "p1-es-b1"),
+    h2(
+      "Por Qué Punta Cana Es el Destino Perfecto para una Propuesta",
+      "p1-es-b1",
+    ),
     block(
       "Hay una razón por la que Punta Cana aparece en cada lista de lugares soñados para pedir matrimonio. Con más de 30 kilómetros de costa de arena blanca, clima cálido todo el año y atardeceres que pintan el cielo en tonos ámbar y rosa, la costa este de República Dominicana ofrece un escenario que parece diseñado para la pregunta que estás a punto de hacer.",
       "p1-es-b2",
@@ -280,7 +289,10 @@ const post1_fr = {
   _type: "blogPost",
   language: "fr",
   translationGroup: "proposal-planning-guide-2025",
-  slug: { _type: "slug", current: "guide-ultime-planifier-demande-mariage-punta-cana" },
+  slug: {
+    _type: "slug",
+    current: "guide-ultime-planifier-demande-mariage-punta-cana",
+  },
   title: "Le Guide Ultime pour Planifier une Demande en Mariage à Punta Cana",
   category: CATEGORY_PLANNING_TIPS,
   categoryTag: "Conseils de Planification",
@@ -289,7 +301,10 @@ const post1_fr = {
   excerpt:
     "Du choix de la plage parfaite à la coordination des fleurs, de la photographie et de l'effet de surprise — tout ce qu'il faut pour planifier une demande en mariage inoubliable dans les Caraïbes.",
   body: [
-    h2("Pourquoi Punta Cana Est la Destination Idéale pour une Demande en Mariage", "p1-fr-b1"),
+    h2(
+      "Pourquoi Punta Cana Est la Destination Idéale pour une Demande en Mariage",
+      "p1-fr-b1",
+    ),
     block(
       "Il y a une raison pour laquelle Punta Cana figure sur toutes les listes de lieux de rêve pour une demande en mariage. Avec plus de 30 kilomètres de côte de sable blanc, un climat chaud toute l'année et des couchers de soleil qui peignent le ciel de nuances ambrées et rosées, la côte est de la République dominicaine offre un décor qui semble conçu pour la question que vous êtes sur le point de poser.",
       "p1-fr-b2",
@@ -357,7 +372,8 @@ const post1_fr = {
       ],
     },
     openGraph: {
-      title: "Le Guide Ultime pour Planifier une Demande en Mariage à Punta Cana",
+      title:
+        "Le Guide Ultime pour Planifier une Demande en Mariage à Punta Cana",
       description:
         "Tout ce qu'il faut pour planifier une demande en mariage parfaite dans les Caraïbes.",
     },
@@ -371,7 +387,10 @@ const post1_de = {
   _type: "blogPost",
   language: "de",
   translationGroup: "proposal-planning-guide-2025",
-  slug: { _type: "slug", current: "ultimativer-leitfaden-heiratsantrag-punta-cana" },
+  slug: {
+    _type: "slug",
+    current: "ultimativer-leitfaden-heiratsantrag-punta-cana",
+  },
   title: "Der Ultimative Leitfaden für einen Heiratsantrag in Punta Cana",
   category: CATEGORY_PLANNING_TIPS,
   categoryTag: "Planungstipps",
@@ -380,7 +399,10 @@ const post1_de = {
   excerpt:
     "Von der Wahl des perfekten Strandes bis zur Koordination von Blumen, Fotografie und dem Überraschungsmoment — alles, was Sie für einen makellosen karibischen Heiratsantrag brauchen.",
   body: [
-    h2("Warum Punta Cana das Perfekte Ziel für einen Heiratsantrag Ist", "p1-de-b1"),
+    h2(
+      "Warum Punta Cana das Perfekte Ziel für einen Heiratsantrag Ist",
+      "p1-de-b1",
+    ),
     block(
       "Es gibt einen Grund, warum Punta Cana auf jeder Liste der Traum-Orte für Heiratsanträge erscheint. Mit über 30 Kilometern weißem Sandstrand, ganzjährig warmem Wetter und Sonnenuntergängen, die den Himmel in Bernstein- und Rosatöne tauchen, bietet die Ostküste der Dominikanischen Republik eine Kulisse, die wie geschaffen für die Frage scheint, die Sie gleich stellen werden.",
       "p1-de-b2",
@@ -449,7 +471,8 @@ const post1_de = {
     },
     openGraph: {
       title: "Der Ultimative Leitfaden für einen Heiratsantrag in Punta Cana",
-      description: "Alles, was Sie für einen perfekten karibischen Heiratsantrag brauchen.",
+      description:
+        "Alles, was Sie für einen perfekten karibischen Heiratsantrag brauchen.",
     },
     noIndex: false,
     noFollow: false,
@@ -461,8 +484,12 @@ const post1_it = {
   _type: "blogPost",
   language: "it",
   translationGroup: "proposal-planning-guide-2025",
-  slug: { _type: "slug", current: "guida-definitiva-proposta-matrimonio-punta-cana" },
-  title: "La Guida Definitiva per Pianificare una Proposta di Matrimonio a Punta Cana",
+  slug: {
+    _type: "slug",
+    current: "guida-definitiva-proposta-matrimonio-punta-cana",
+  },
+  title:
+    "La Guida Definitiva per Pianificare una Proposta di Matrimonio a Punta Cana",
   category: CATEGORY_PLANNING_TIPS,
   categoryTag: "Consigli di Pianificazione",
   publishedAt: "2025-03-15",
@@ -470,7 +497,10 @@ const post1_it = {
   excerpt:
     "Dalla scelta della spiaggia perfetta al coordinamento di fiori, fotografia e l'effetto sorpresa — tutto ciò che serve per pianificare una proposta impeccabile ai Caraibi.",
   body: [
-    h2("Perché Punta Cana È la Destinazione Perfetta per una Proposta", "p1-it-b1"),
+    h2(
+      "Perché Punta Cana È la Destinazione Perfetta per una Proposta",
+      "p1-it-b1",
+    ),
     block(
       "C'è una ragione per cui Punta Cana appare in ogni lista di luoghi da sogno per una proposta di matrimonio. Con oltre 30 chilometri di costa di sabbia bianca, clima caldo tutto l'anno e tramonti che dipingono il cielo di sfumature ambrate e rosate, la costa orientale della Repubblica Dominicana offre uno scenario che sembra progettato per la domanda che stai per fare.",
       "p1-it-b2",
@@ -527,7 +557,8 @@ const post1_it = {
   ],
   seo: {
     meta: {
-      title: "Pianificare una Proposta di Matrimonio a Punta Cana — Guida Completa",
+      title:
+        "Pianificare una Proposta di Matrimonio a Punta Cana — Guida Completa",
       description:
         "Guida completa per pianificare una proposta di matrimonio in spiaggia a Punta Cana. Location, tempismo, fiori, fotografia e consigli esperti.",
       keywords: [
@@ -552,7 +583,10 @@ const post1_pt = {
   _type: "blogPost",
   language: "pt",
   translationGroup: "proposal-planning-guide-2025",
-  slug: { _type: "slug", current: "guia-definitivo-planejar-pedido-casamento-punta-cana" },
+  slug: {
+    _type: "slug",
+    current: "guia-definitivo-planejar-pedido-casamento-punta-cana",
+  },
   title: "O Guia Definitivo para Planejar um Pedido de Casamento em Punta Cana",
   category: CATEGORY_PLANNING_TIPS,
   categoryTag: "Dicas de Planejamento",
@@ -561,7 +595,10 @@ const post1_pt = {
   excerpt:
     "Da escolha da praia perfeita à coordenação de flores, fotografia e o elemento surpresa — tudo o que você precisa para planejar um pedido de casamento impecável no Caribe.",
   body: [
-    h2("Por Que Punta Cana É o Destino Perfeito para um Pedido de Casamento", "p1-pt-b1"),
+    h2(
+      "Por Que Punta Cana É o Destino Perfeito para um Pedido de Casamento",
+      "p1-pt-b1",
+    ),
     block(
       "Há uma razão pela qual Punta Cana aparece em toda lista de lugares dos sonhos para pedidos de casamento. Com mais de 30 quilômetros de costa de areia branca, clima quente o ano todo e pores do sol que pintam o céu em tons de âmbar e rosa, a costa leste da República Dominicana oferece um cenário que parece ter sido projetado para a pergunta que você está prestes a fazer.",
       "p1-pt-b2",
@@ -667,7 +704,10 @@ const post2_en = {
       "A ten-minute drive north of the main hotel zone, Playa Macao is known for its raw, undeveloped beauty. But the real secret is the low bluffs at the southern end of the beach. Climb the gentle rise and you are rewarded with an unobstructed 180-degree view of the Atlantic. The wind is stronger here, the waves more dramatic, and the sense of isolation is complete. There are no lounge chairs, no vendors — just the horizon.",
       "p2-en-b4",
     ),
-    block("Best for couples who love rugged landscapes and do not mind a short hike in sandals.", "p2-en-b5"),
+    block(
+      "Best for couples who love rugged landscapes and do not mind a short hike in sandals.",
+      "p2-en-b5",
+    ),
     h2("2. Juanillo Cove at Low Tide", "p2-en-b6"),
     block(
       "Playa Juanillo in Cap Cana is no secret, but its low-tide transformation is. When the water recedes in the late afternoon, a natural sandbar emerges roughly 40 meters offshore, creating a shallow wading path. Walk out to the sandbar at golden hour and you are standing in the middle of the Caribbean with water barely reaching your ankles and a 360-degree sunset unfolding around you.",
@@ -679,19 +719,28 @@ const post2_en = {
       "Most visitors to Scape Park descend into the famous cenote. Few realize that the trail leading to it — particularly the elevated section before the final staircase — faces due west. In the late afternoon, the jungle canopy frames the lowering sun, casting cathedral-like light through the trees. It is quiet, cool, and completely unexpected.",
       "p2-en-b10",
     ),
-    block("Best for partners who prefer forest and nature over sand and surf.", "p2-en-b11"),
+    block(
+      "Best for partners who prefer forest and nature over sand and surf.",
+      "p2-en-b11",
+    ),
     h2("4. The Lagoons of Indigenous Eyes Ecological Park", "p2-en-b12"),
     block(
       "This protected reserve within the Puntacana Resort and Club contains twelve freshwater lagoons connected by shaded jungle trails. The fourth lagoon, accessible by a 20-minute walk from the entrance, faces a small clearing to the west. At sunset, the still water mirrors the colors of the sky in near-perfect symmetry. The park closes at five, so you will need to coordinate access with the resort, but for those who manage it, the reward is extraordinary.",
       "p2-en-b13",
     ),
-    block("Best for intimate, nature-immersed moments away from the coast.", "p2-en-b14"),
+    block(
+      "Best for intimate, nature-immersed moments away from the coast.",
+      "p2-en-b14",
+    ),
     h2("5. Cap Cana Marina at Dusk", "p2-en-b15"),
     block(
       "This is the only location on the list that is not a natural setting, but it earns its place. The Cap Cana Marina, modeled after Mediterranean yacht harbors, offers an entirely different kind of sunset — one framed by white architecture, polished teak decks, and the gentle clink of halyard lines against masts. Grab a table at one of the waterfront restaurants and watch the sky change from coral to violet while boats rock softly in the harbor.",
       "p2-en-b16",
     ),
-    block("Best for couples who prefer elegance and a glass of wine over sand between their toes.", "p2-en-b17"),
+    block(
+      "Best for couples who prefer elegance and a glass of wine over sand between their toes.",
+      "p2-en-b17",
+    ),
     h2("Planning Your Sunset Moment", "p2-en-b18"),
     block(
       "Each of these locations requires different levels of access and coordination. Some are public and easy to reach; others need advance arrangements with resort staff or park management. If you are planning a proposal at any of these spots, working with a local planner who knows the logistics — tide schedules, access permits, photographer positioning — makes the difference between a good idea and a flawless moment.",
@@ -744,31 +793,46 @@ const post2_es = {
       "A diez minutos en auto al norte de la zona hotelera principal, Playa Macao es conocida por su belleza cruda y sin desarrollar. Pero el verdadero secreto son los acantilados bajos en el extremo sur de la playa. Sube la suave pendiente y serás recompensado con una vista de 180 grados del Atlántico sin obstáculos. El viento es más fuerte aquí, las olas más dramáticas, y la sensación de aislamiento es completa. No hay tumbonas ni vendedores — solo el horizonte.",
       "p2-es-b4",
     ),
-    block("Ideal para parejas que aman paisajes agrestes y no les importa una caminata corta en sandalias.", "p2-es-b5"),
+    block(
+      "Ideal para parejas que aman paisajes agrestes y no les importa una caminata corta en sandalias.",
+      "p2-es-b5",
+    ),
     h2("2. Caleta de Juanillo en Marea Baja", "p2-es-b6"),
     block(
       "Playa Juanillo en Cap Cana no es un secreto, pero su transformación en marea baja sí lo es. Cuando el agua retrocede a media tarde, emerge un banco de arena natural a unos 40 metros de la costa, creando un camino de vadeo poco profundo. Camina hasta el banco de arena a la hora dorada y estarás de pie en medio del Caribe con el agua apenas llegándote a los tobillos y un atardecer de 360 grados desplegándose a tu alrededor.",
       "p2-es-b7",
     ),
-    block("Ideal para fotos de propuesta dramáticas e irrepetibles.", "p2-es-b8"),
+    block(
+      "Ideal para fotos de propuesta dramáticas e irrepetibles.",
+      "p2-es-b8",
+    ),
     h2("3. El Sendero Sobre Hoyo Azul", "p2-es-b9"),
     block(
       "La mayoría de los visitantes de Scape Park descienden al famoso cenote. Pocos se dan cuenta de que el sendero que lleva a él — particularmente la sección elevada antes de la escalera final — mira directo al oeste. A media tarde, el dosel de la selva enmarca el sol descendente, proyectando una luz tipo catedral entre los árboles. Es silencioso, fresco y completamente inesperado.",
       "p2-es-b10",
     ),
-    block("Ideal para parejas que prefieren el bosque y la naturaleza al mar y la arena.", "p2-es-b11"),
+    block(
+      "Ideal para parejas que prefieren el bosque y la naturaleza al mar y la arena.",
+      "p2-es-b11",
+    ),
     h2("4. Las Lagunas del Parque Ecológico Indigenous Eyes", "p2-es-b12"),
     block(
       "Esta reserva protegida dentro del Puntacana Resort and Club contiene doce lagunas de agua dulce conectadas por senderos sombreados de selva. La cuarta laguna, accesible tras una caminata de 20 minutos desde la entrada, da a un pequeño claro hacia el oeste. Al atardecer, el agua quieta refleja los colores del cielo en simetría casi perfecta. El parque cierra a las cinco, así que necesitarás coordinar el acceso con el resort, pero para quienes lo logran, la recompensa es extraordinaria.",
       "p2-es-b13",
     ),
-    block("Ideal para momentos íntimos inmersos en la naturaleza, lejos de la costa.", "p2-es-b14"),
+    block(
+      "Ideal para momentos íntimos inmersos en la naturaleza, lejos de la costa.",
+      "p2-es-b14",
+    ),
     h2("5. Marina de Cap Cana al Anochecer", "p2-es-b15"),
     block(
       "Esta es la única ubicación de la lista que no es un entorno natural, pero se gana su lugar. La Marina de Cap Cana, inspirada en puertos de yates mediterráneos, ofrece un tipo de atardecer completamente diferente — uno enmarcado por arquitectura blanca, cubiertas de teca pulida y el suave tintineo de las drizas contra los mástiles. Toma una mesa en uno de los restaurantes frente al agua y observa cómo el cielo cambia de coral a violeta mientras los barcos se mecen suavemente en el puerto.",
       "p2-es-b16",
     ),
-    block("Ideal para parejas que prefieren la elegancia y una copa de vino a la arena entre los dedos.", "p2-es-b17"),
+    block(
+      "Ideal para parejas que prefieren la elegancia y una copa de vino a la arena entre los dedos.",
+      "p2-es-b17",
+    ),
     h2("Planificando Tu Momento al Atardecer", "p2-es-b18"),
     block(
       "Cada una de estas ubicaciones requiere diferentes niveles de acceso y coordinación. Algunas son públicas y fáciles de alcanzar; otras necesitan arreglos previos con el personal del resort o la administración del parque. Si estás planificando una propuesta en alguno de estos lugares, trabajar con un planificador local que conozca la logística — horarios de mareas, permisos de acceso, posicionamiento del fotógrafo — marca la diferencia entre una buena idea y un momento impecable.",
@@ -789,7 +853,8 @@ const post2_es = {
     },
     openGraph: {
       title: "5 Lugares Románticos para el Atardecer en Punta Cana",
-      description: "Cinco ubicaciones secretas donde la hora dorada parece hecha solo para ustedes dos.",
+      description:
+        "Cinco ubicaciones secretas donde la hora dorada parece hecha solo para ustedes dos.",
     },
     noIndex: false,
     noFollow: false,
@@ -801,8 +866,12 @@ const post2_fr = {
   _type: "blogPost",
   language: "fr",
   translationGroup: "hidden-sunset-spots-2025",
-  slug: { _type: "slug", current: "5-spots-romantiques-coucher-soleil-punta-cana" },
-  title: "5 Spots Romantiques au Coucher du Soleil à Punta Cana que Vous ne Connaissez Pas",
+  slug: {
+    _type: "slug",
+    current: "5-spots-romantiques-coucher-soleil-punta-cana",
+  },
+  title:
+    "5 Spots Romantiques au Coucher du Soleil à Punta Cana que Vous ne Connaissez Pas",
   category: CATEGORY_DESTINATION_GUIDES,
   categoryTag: "Guides de Destination",
   publishedAt: "2025-04-02",
@@ -820,31 +889,46 @@ const post2_fr = {
       "À dix minutes en voiture au nord de la zone hôtelière principale, Playa Macao est connue pour sa beauté brute et préservée. Mais le vrai secret réside dans les falaises basses à l'extrémité sud de la plage. Gravissez la pente douce et vous êtes récompensé par une vue dégagée à 180 degrés sur l'Atlantique. Le vent est plus fort ici, les vagues plus dramatiques, et le sentiment d'isolement est total. Pas de transats, pas de vendeurs — juste l'horizon.",
       "p2-fr-b4",
     ),
-    block("Idéal pour les couples qui aiment les paysages sauvages et ne craignent pas une courte marche en sandales.", "p2-fr-b5"),
+    block(
+      "Idéal pour les couples qui aiment les paysages sauvages et ne craignent pas une courte marche en sandales.",
+      "p2-fr-b5",
+    ),
     h2("2. La Crique de Juanillo à Marée Basse", "p2-fr-b6"),
     block(
       "Playa Juanillo à Cap Cana n'est pas un secret, mais sa transformation à marée basse l'est. Quand l'eau se retire en fin d'après-midi, un banc de sable naturel émerge à environ 40 mètres du rivage, créant un chemin de gué peu profond. Marchez jusqu'au banc de sable à l'heure dorée et vous vous tenez au milieu des Caraïbes, l'eau atteignant à peine vos chevilles, un coucher de soleil à 360 degrés se déployant autour de vous.",
       "p2-fr-b7",
     ),
-    block("Idéal pour des photos de demande en mariage dramatiques et uniques.", "p2-fr-b8"),
+    block(
+      "Idéal pour des photos de demande en mariage dramatiques et uniques.",
+      "p2-fr-b8",
+    ),
     h2("3. Le Sentier Au-Dessus de Hoyo Azul", "p2-fr-b9"),
     block(
       "La plupart des visiteurs de Scape Park descendent dans le fameux cénote. Peu réalisent que le sentier qui y mène — en particulier la section élevée avant l'escalier final — fait face plein ouest. En fin d'après-midi, la canopée de la jungle encadre le soleil couchant, projetant une lumière de cathédrale à travers les arbres. C'est silencieux, frais et totalement inattendu.",
       "p2-fr-b10",
     ),
-    block("Idéal pour les partenaires qui préfèrent la forêt et la nature au sable et au surf.", "p2-fr-b11"),
+    block(
+      "Idéal pour les partenaires qui préfèrent la forêt et la nature au sable et au surf.",
+      "p2-fr-b11",
+    ),
     h2("4. Les Lagons du Parc Écologique Indigenous Eyes", "p2-fr-b12"),
     block(
       "Cette réserve protégée au sein du Puntacana Resort and Club contient douze lagons d'eau douce reliés par des sentiers ombragés de jungle. Le quatrième lagon, accessible après une marche de 20 minutes depuis l'entrée, fait face à une petite clairière à l'ouest. Au coucher du soleil, l'eau immobile reflète les couleurs du ciel en symétrie presque parfaite. Le parc ferme à dix-sept heures, vous devrez donc coordonner l'accès avec le resort, mais pour ceux qui y parviennent, la récompense est extraordinaire.",
       "p2-fr-b13",
     ),
-    block("Idéal pour des moments intimes immergés dans la nature, loin de la côte.", "p2-fr-b14"),
+    block(
+      "Idéal pour des moments intimes immergés dans la nature, loin de la côte.",
+      "p2-fr-b14",
+    ),
     h2("5. La Marina de Cap Cana au Crépuscule", "p2-fr-b15"),
     block(
       "C'est le seul lieu de la liste qui n'est pas un cadre naturel, mais il mérite sa place. La Marina de Cap Cana, inspirée des ports de yachts méditerranéens, offre un type de coucher de soleil entièrement différent — encadré par une architecture blanche, des ponts en teck poli et le tintement délicat des drisses contre les mâts. Prenez une table dans l'un des restaurants en bord de l'eau et regardez le ciel passer du corail au violet tandis que les bateaux se balancent doucement dans le port.",
       "p2-fr-b16",
     ),
-    block("Idéal pour les couples qui préfèrent l'élégance et un verre de vin au sable entre les orteils.", "p2-fr-b17"),
+    block(
+      "Idéal pour les couples qui préfèrent l'élégance et un verre de vin au sable entre les orteils.",
+      "p2-fr-b17",
+    ),
     h2("Planifier Votre Moment au Coucher du Soleil", "p2-fr-b18"),
     block(
       "Chacun de ces lieux nécessite différents niveaux d'accès et de coordination. Certains sont publics et faciles d'accès ; d'autres nécessitent des arrangements préalables avec le personnel du resort ou la direction du parc. Si vous planifiez une demande à l'un de ces endroits, travailler avec un organisateur local qui connaît la logistique — horaires des marées, permis d'accès, positionnement du photographe — fait la différence entre une bonne idée et un moment impeccable.",
@@ -865,7 +949,8 @@ const post2_fr = {
     },
     openGraph: {
       title: "5 Spots Romantiques au Coucher du Soleil à Punta Cana",
-      description: "Cinq lieux isolés où l'heure dorée semble créée rien que pour vous deux.",
+      description:
+        "Cinq lieux isolés où l'heure dorée semble créée rien que pour vous deux.",
     },
     noIndex: false,
     noFollow: false,
@@ -877,8 +962,12 @@ const post2_de = {
   _type: "blogPost",
   language: "de",
   translationGroup: "hidden-sunset-spots-2025",
-  slug: { _type: "slug", current: "5-romantische-sonnenuntergang-orte-punta-cana" },
-  title: "5 Romantische Sonnenuntergangs-Orte in Punta Cana, die Sie Noch Nicht Kennen",
+  slug: {
+    _type: "slug",
+    current: "5-romantische-sonnenuntergang-orte-punta-cana",
+  },
+  title:
+    "5 Romantische Sonnenuntergangs-Orte in Punta Cana, die Sie Noch Nicht Kennen",
   category: CATEGORY_DESTINATION_GUIDES,
   categoryTag: "Reiseziel-Guides",
   publishedAt: "2025-04-02",
@@ -896,7 +985,10 @@ const post2_de = {
       "Zehn Autominuten nördlich der Haupthotelzone ist Playa Macao für seine unberührte, unentwickelte Schönheit bekannt. Das wahre Geheimnis sind aber die niedrigen Klippen am südlichen Ende des Strandes. Erklimmen Sie den sanften Anstieg und werden mit einem ungehinderten 180-Grad-Blick auf den Atlantik belohnt. Der Wind ist hier stärker, die Wellen dramatischer, und das Gefühl der Abgeschiedenheit ist vollkommen. Keine Liegestühle, keine Verkäufer — nur der Horizont.",
       "p2-de-b4",
     ),
-    block("Ideal für Paare, die raue Landschaften lieben und eine kurze Wanderung in Sandalen nicht scheuen.", "p2-de-b5"),
+    block(
+      "Ideal für Paare, die raue Landschaften lieben und eine kurze Wanderung in Sandalen nicht scheuen.",
+      "p2-de-b5",
+    ),
     h2("2. Die Juanillo-Bucht bei Ebbe", "p2-de-b6"),
     block(
       "Playa Juanillo in Cap Cana ist kein Geheimnis, aber seine Verwandlung bei Ebbe schon. Wenn das Wasser am späten Nachmittag zurückweicht, entsteht etwa 40 Meter vor der Küste eine natürliche Sandbank, die einen flachen Watweg schafft. Gehen Sie bei goldener Stunde zur Sandbank hinaus und stehen mitten in der Karibik, das Wasser reicht kaum bis zu Ihren Knöcheln, während sich ein 360-Grad-Sonnenuntergang um Sie herum entfaltet.",
@@ -908,19 +1000,28 @@ const post2_de = {
       "Die meisten Besucher des Scape Parks steigen in den berühmten Cenote hinab. Wenige bemerken, dass der Weg dorthin — insbesondere der erhöhte Abschnitt vor der letzten Treppe — nach Westen ausgerichtet ist. Am späten Nachmittag rahmt das Dschungeldach die untergehende Sonne ein und wirft ein kathedralenartiges Licht durch die Bäume. Es ist still, kühl und völlig unerwartet.",
       "p2-de-b10",
     ),
-    block("Ideal für Partner, die Wald und Natur dem Sand und der Brandung vorziehen.", "p2-de-b11"),
+    block(
+      "Ideal für Partner, die Wald und Natur dem Sand und der Brandung vorziehen.",
+      "p2-de-b11",
+    ),
     h2("4. Die Lagunen des Ökologischen Parks Indigenous Eyes", "p2-de-b12"),
     block(
       "Dieses Schutzgebiet innerhalb des Puntacana Resort and Club enthält zwölf Süßwasserlagunen, verbunden durch schattige Dschungelpfade. Die vierte Lagune, erreichbar nach einem 20-minütigen Fußmarsch vom Eingang, grenzt an eine kleine Lichtung nach Westen. Bei Sonnenuntergang spiegelt das stille Wasser die Farben des Himmels in nahezu perfekter Symmetrie. Der Park schließt um fünf Uhr, Sie müssen also den Zugang mit dem Resort koordinieren, aber für diejenigen, die es schaffen, ist die Belohnung außergewöhnlich.",
       "p2-de-b13",
     ),
-    block("Ideal für intime, naturverbundene Momente abseits der Küste.", "p2-de-b14"),
+    block(
+      "Ideal für intime, naturverbundene Momente abseits der Küste.",
+      "p2-de-b14",
+    ),
     h2("5. Die Marina von Cap Cana in der Abenddämmerung", "p2-de-b15"),
     block(
       "Dies ist der einzige Ort auf der Liste, der kein natürliches Setting ist, aber er verdient seinen Platz. Die Marina von Cap Cana, angelehnt an mediterrane Yachthäfen, bietet eine ganz andere Art von Sonnenuntergang — eingerahmt von weißer Architektur, polierten Teakholzdecks und dem sanften Klirren der Fallen gegen die Masten. Nehmen Sie einen Tisch in einem der Uferrestaurants und beobachten Sie, wie der Himmel von Koralle zu Violett wechselt, während Boote sanft im Hafen schaukeln.",
       "p2-de-b16",
     ),
-    block("Ideal für Paare, die Eleganz und ein Glas Wein dem Sand zwischen den Zehen vorziehen.", "p2-de-b17"),
+    block(
+      "Ideal für Paare, die Eleganz und ein Glas Wein dem Sand zwischen den Zehen vorziehen.",
+      "p2-de-b17",
+    ),
     h2("Planen Sie Ihren Sonnenuntergangs-Moment", "p2-de-b18"),
     block(
       "Jeder dieser Orte erfordert unterschiedliche Zugangs- und Koordinationslevel. Manche sind öffentlich und leicht erreichbar; andere benötigen Vorab-Arrangements mit dem Resort-Personal oder der Parkverwaltung. Wenn Sie an einem dieser Orte einen Antrag planen, macht die Zusammenarbeit mit einem lokalen Planer, der die Logistik kennt — Gezeitenzeiten, Zugangsgenehmigungen, Fotografen-Positionierung — den Unterschied zwischen einer guten Idee und einem makellosen Moment.",
@@ -941,7 +1042,8 @@ const post2_de = {
     },
     openGraph: {
       title: "5 Romantische Sonnenuntergangs-Orte in Punta Cana",
-      description: "Fünf abgelegene Orte, an denen die goldene Stunde nur für Sie beide geschaffen scheint.",
+      description:
+        "Fünf abgelegene Orte, an denen die goldene Stunde nur für Sie beide geschaffen scheint.",
     },
     noIndex: false,
     noFollow: false,
@@ -972,31 +1074,46 @@ const post2_it = {
       "A dieci minuti di auto a nord della zona alberghiera principale, Playa Macao è conosciuta per la sua bellezza grezza e incontaminata. Ma il vero segreto sono le basse scogliere all'estremità sud della spiaggia. Salite il dolce pendio e sarete ricompensati con una vista libera a 180 gradi sull'Atlantico. Il vento è più forte qui, le onde più drammatiche, e la sensazione di isolamento è totale. Nessun lettino, nessun venditore — solo l'orizzonte.",
       "p2-it-b4",
     ),
-    block("Ideale per coppie che amano paesaggi selvaggi e non temono una breve passeggiata in sandali.", "p2-it-b5"),
+    block(
+      "Ideale per coppie che amano paesaggi selvaggi e non temono una breve passeggiata in sandali.",
+      "p2-it-b5",
+    ),
     h2("2. La Caletta di Juanillo con la Bassa Marea", "p2-it-b6"),
     block(
       "Playa Juanillo a Cap Cana non è un segreto, ma la sua trasformazione con la bassa marea sì. Quando l'acqua si ritira nel tardo pomeriggio, emerge un banco di sabbia naturale a circa 40 metri dalla riva, creando un sentiero di guado poco profondo. Camminate fino al banco di sabbia all'ora dorata e vi troverete in mezzo ai Caraibi con l'acqua che vi arriva appena alle caviglie e un tramonto a 360 gradi che si dispiega intorno a voi.",
       "p2-it-b7",
     ),
-    block("Ideale per foto di proposta drammatiche e irripetibili.", "p2-it-b8"),
+    block(
+      "Ideale per foto di proposta drammatiche e irripetibili.",
+      "p2-it-b8",
+    ),
     h2("3. Il Sentiero Sopra Hoyo Azul", "p2-it-b9"),
     block(
       "La maggior parte dei visitatori dello Scape Park scende nel famoso cenote. Pochi si rendono conto che il sentiero che vi conduce — in particolare la sezione sopraelevata prima della scalinata finale — è rivolto a ovest. Nel tardo pomeriggio, la volta della giungla incornicia il sole calante, proiettando una luce da cattedrale attraverso gli alberi. È silenzioso, fresco e completamente inaspettato.",
       "p2-it-b10",
     ),
-    block("Ideale per partner che preferiscono foresta e natura alla sabbia e al mare.", "p2-it-b11"),
+    block(
+      "Ideale per partner che preferiscono foresta e natura alla sabbia e al mare.",
+      "p2-it-b11",
+    ),
     h2("4. Le Lagune del Parco Ecologico Indigenous Eyes", "p2-it-b12"),
     block(
       "Questa riserva protetta all'interno del Puntacana Resort and Club contiene dodici lagune d'acqua dolce collegate da sentieri ombreggiati nella giungla. La quarta laguna, raggiungibile dopo una camminata di 20 minuti dall'ingresso, si affaccia su una piccola radura a ovest. Al tramonto, l'acqua immobile riflette i colori del cielo in simmetria quasi perfetta. Il parco chiude alle cinque, quindi dovrete coordinare l'accesso con il resort, ma per chi ci riesce, la ricompensa è straordinaria.",
       "p2-it-b13",
     ),
-    block("Ideale per momenti intimi immersi nella natura, lontani dalla costa.", "p2-it-b14"),
+    block(
+      "Ideale per momenti intimi immersi nella natura, lontani dalla costa.",
+      "p2-it-b14",
+    ),
     h2("5. Il Marina di Cap Cana al Crepuscolo", "p2-it-b15"),
     block(
       "Questa è l'unica location della lista che non è un ambiente naturale, ma si guadagna il suo posto. Il Marina di Cap Cana, ispirato ai porti turistici mediterranei, offre un tipo di tramonto completamente diverso — incorniciato da architettura bianca, ponti in teak lucidato e il delicato tintinnio delle drizze contro gli alberi maestri. Prendete un tavolo in uno dei ristoranti sul lungomare e guardate il cielo passare dal corallo al viola mentre le barche ondoleggiano dolcemente nel porto.",
       "p2-it-b16",
     ),
-    block("Ideale per coppie che preferiscono l'eleganza e un calice di vino alla sabbia tra le dita dei piedi.", "p2-it-b17"),
+    block(
+      "Ideale per coppie che preferiscono l'eleganza e un calice di vino alla sabbia tra le dita dei piedi.",
+      "p2-it-b17",
+    ),
     h2("Pianificare il Vostro Momento al Tramonto", "p2-it-b18"),
     block(
       "Ognuna di queste location richiede diversi livelli di accesso e coordinamento. Alcune sono pubbliche e facili da raggiungere; altre necessitano di accordi preventivi con il personale del resort o la gestione del parco. Se state pianificando una proposta in uno di questi luoghi, lavorare con un organizzatore locale che conosce la logistica — orari delle maree, permessi di accesso, posizionamento del fotografo — fa la differenza tra una buona idea e un momento impeccabile.",
@@ -1017,7 +1134,8 @@ const post2_it = {
     },
     openGraph: {
       title: "5 Spot Romantici al Tramonto a Punta Cana",
-      description: "Cinque luoghi appartati dove l'ora dorata sembra creata solo per voi due.",
+      description:
+        "Cinque luoghi appartati dove l'ora dorata sembra creata solo per voi due.",
     },
     noIndex: false,
     noFollow: false,
@@ -1029,8 +1147,12 @@ const post2_pt = {
   _type: "blogPost",
   language: "pt",
   translationGroup: "hidden-sunset-spots-2025",
-  slug: { _type: "slug", current: "5-lugares-romanticos-por-do-sol-punta-cana" },
-  title: "5 Lugares Românticos para o Pôr do Sol em Punta Cana que Você Não Conhecia",
+  slug: {
+    _type: "slug",
+    current: "5-lugares-romanticos-por-do-sol-punta-cana",
+  },
+  title:
+    "5 Lugares Românticos para o Pôr do Sol em Punta Cana que Você Não Conhecia",
   category: CATEGORY_DESTINATION_GUIDES,
   categoryTag: "Guias de Destino",
   publishedAt: "2025-04-02",
@@ -1048,31 +1170,46 @@ const post2_pt = {
       "A dez minutos de carro ao norte da zona hoteleira principal, Playa Macao é conhecida por sua beleza crua e intocada. Mas o verdadeiro segredo são os penhascos baixos na extremidade sul da praia. Suba a suave elevação e será recompensado com uma vista desimpedida de 180 graus do Atlântico. O vento é mais forte aqui, as ondas mais dramáticas, e a sensação de isolamento é completa. Sem espreguiçadeiras, sem vendedores — apenas o horizonte.",
       "p2-pt-b4",
     ),
-    block("Ideal para casais que amam paisagens agrestes e não se importam com uma curta caminhada de sandálias.", "p2-pt-b5"),
+    block(
+      "Ideal para casais que amam paisagens agrestes e não se importam com uma curta caminhada de sandálias.",
+      "p2-pt-b5",
+    ),
     h2("2. A Enseada de Juanillo na Maré Baixa", "p2-pt-b6"),
     block(
       "Playa Juanillo em Cap Cana não é segredo, mas sua transformação na maré baixa é. Quando a água recua no final da tarde, um banco de areia natural emerge a cerca de 40 metros da costa, criando um caminho de vau raso. Caminhe até o banco de areia na hora dourada e estará de pé no meio do Caribe com a água mal chegando aos tornozelos e um pôr do sol de 360 graus se desdobrando ao seu redor.",
       "p2-pt-b7",
     ),
-    block("Ideal para fotos de pedido de casamento dramáticas e irrepetíveis.", "p2-pt-b8"),
+    block(
+      "Ideal para fotos de pedido de casamento dramáticas e irrepetíveis.",
+      "p2-pt-b8",
+    ),
     h2("3. A Trilha Acima de Hoyo Azul", "p2-pt-b9"),
     block(
       "A maioria dos visitantes do Scape Park desce ao famoso cenote. Poucos percebem que a trilha que leva até ele — particularmente a seção elevada antes da escada final — está voltada para o oeste. No final da tarde, o dossel da selva emoldura o sol poente, projetando uma luz de catedral através das árvores. É silencioso, fresco e completamente inesperado.",
       "p2-pt-b10",
     ),
-    block("Ideal para parceiros que preferem floresta e natureza à areia e ao mar.", "p2-pt-b11"),
+    block(
+      "Ideal para parceiros que preferem floresta e natureza à areia e ao mar.",
+      "p2-pt-b11",
+    ),
     h2("4. As Lagoas do Parque Ecológico Indigenous Eyes", "p2-pt-b12"),
     block(
       "Esta reserva protegida dentro do Puntacana Resort and Club contém doze lagoas de água doce conectadas por trilhas sombreadas na selva. A quarta lagoa, acessível após uma caminhada de 20 minutos da entrada, dá para uma pequena clareira a oeste. Ao pôr do sol, a água parada espelha as cores do céu em simetria quase perfeita. O parque fecha às cinco, então será preciso coordenar o acesso com o resort, mas para quem consegue, a recompensa é extraordinária.",
       "p2-pt-b13",
     ),
-    block("Ideal para momentos íntimos imersos na natureza, longe da costa.", "p2-pt-b14"),
+    block(
+      "Ideal para momentos íntimos imersos na natureza, longe da costa.",
+      "p2-pt-b14",
+    ),
     h2("5. A Marina de Cap Cana ao Entardecer", "p2-pt-b15"),
     block(
       "Este é o único local da lista que não é um cenário natural, mas merece seu lugar. A Marina de Cap Cana, inspirada em portos de iates mediterrâneos, oferece um tipo completamente diferente de pôr do sol — emoldurado por arquitetura branca, decks de teca polida e o suave tilintar das adriças contra os mastros. Pegue uma mesa em um dos restaurantes à beira d'água e assista o céu mudar de coral para violeta enquanto os barcos balançam suavemente no porto.",
       "p2-pt-b16",
     ),
-    block("Ideal para casais que preferem elegância e uma taça de vinho à areia entre os dedos dos pés.", "p2-pt-b17"),
+    block(
+      "Ideal para casais que preferem elegância e uma taça de vinho à areia entre os dedos dos pés.",
+      "p2-pt-b17",
+    ),
     h2("Planejando Seu Momento ao Pôr do Sol", "p2-pt-b18"),
     block(
       "Cada um desses locais exige diferentes níveis de acesso e coordenação. Alguns são públicos e fáceis de alcançar; outros precisam de arranjos prévios com a equipe do resort ou a administração do parque. Se você está planejando um pedido de casamento em algum desses lugares, trabalhar com um planejador local que conhece a logística — horários das marés, permissões de acesso, posicionamento do fotógrafo — faz a diferença entre uma boa ideia e um momento impecável.",
@@ -1093,7 +1230,8 @@ const post2_pt = {
     },
     openGraph: {
       title: "5 Lugares Românticos para o Pôr do Sol em Punta Cana",
-      description: "Cinco locais isolados onde a hora dourada parece feita só para vocês dois.",
+      description:
+        "Cinco locais isolados onde a hora dourada parece feita só para vocês dois.",
     },
     noIndex: false,
     noFollow: false,
@@ -1185,7 +1323,8 @@ const post3_en = {
     },
     openGraph: {
       title: "What to Wear When Your Partner Proposes in the Caribbean",
-      description: "How to dress for a proposal without giving away the surprise — for both of you.",
+      description:
+        "How to dress for a proposal without giving away the surprise — for both of you.",
     },
     noIndex: false,
     noFollow: false,
@@ -1262,11 +1401,17 @@ const post3_es = {
       title: "Qué Vestir para una Propuesta en el Caribe — Guía de Outfits",
       description:
         "Cómo vestirse para una propuesta en la playa del Caribe sin arruinar la sorpresa. Consejos de outfit para ella, para él, y para fotos impecables.",
-      keywords: ["outfit propuesta", "que vestir propuesta", "vestimenta propuesta caribe", "ropa propuesta playa"],
+      keywords: [
+        "outfit propuesta",
+        "que vestir propuesta",
+        "vestimenta propuesta caribe",
+        "ropa propuesta playa",
+      ],
     },
     openGraph: {
       title: "Qué Vestir Cuando Tu Pareja Te Propone en el Caribe",
-      description: "Cómo vestirse para una propuesta sin arruinar la sorpresa — para ambos.",
+      description:
+        "Cómo vestirse para una propuesta sin arruinar la sorpresa — para ambos.",
     },
     noIndex: false,
     noFollow: false,
@@ -1278,8 +1423,12 @@ const post3_fr = {
   _type: "blogPost",
   language: "fr",
   translationGroup: "proposal-outfit-guide-2025",
-  slug: { _type: "slug", current: "comment-shabiller-demande-mariage-caraibes" },
-  title: "Comment S'habiller Quand Votre Partenaire Vous Demande en Mariage aux Caraïbes",
+  slug: {
+    _type: "slug",
+    current: "comment-shabiller-demande-mariage-caraibes",
+  },
+  title:
+    "Comment S'habiller Quand Votre Partenaire Vous Demande en Mariage aux Caraïbes",
   category: CATEGORY_PLANNING_TIPS,
   categoryTag: "Conseils de Planification",
   publishedAt: "2025-04-20",
@@ -1352,7 +1501,8 @@ const post3_fr = {
     },
     openGraph: {
       title: "Comment S'habiller pour une Demande en Mariage aux Caraïbes",
-      description: "Comment s'habiller pour une demande sans gâcher la surprise — pour vous deux.",
+      description:
+        "Comment s'habiller pour une demande sans gâcher la surprise — pour vous deux.",
     },
     noIndex: false,
     noFollow: false,
@@ -1365,7 +1515,8 @@ const post3_de = {
   language: "de",
   translationGroup: "proposal-outfit-guide-2025",
   slug: { _type: "slug", current: "was-anziehen-heiratsantrag-karibik" },
-  title: "Was Anziehen, Wenn Ihr Partner Ihnen in der Karibik einen Antrag Macht",
+  title:
+    "Was Anziehen, Wenn Ihr Partner Ihnen in der Karibik einen Antrag Macht",
   category: CATEGORY_PLANNING_TIPS,
   categoryTag: "Planungstipps",
   publishedAt: "2025-04-20",
@@ -1373,7 +1524,10 @@ const post3_de = {
   excerpt:
     "Sie möchten, dass die Fotos zeitlos sind. So kleiden Sie sich für einen Heiratsantrag, ohne die Überraschung zu verraten — für Sie beide.",
   body: [
-    h2("Die Herausforderung: Großartig Aussehen, Ohne Verdacht zu Erregen", "p3-de-b1"),
+    h2(
+      "Die Herausforderung: Großartig Aussehen, Ohne Verdacht zu Erregen",
+      "p3-de-b1",
+    ),
     block(
       "Hier ist das Dilemma jedes Antragstellers: Sie möchten, dass Ihr Partner auf den Fotos umwerfend aussieht, aber Sie können nicht einfach sagen: „Zieh heute Abend etwas Schönes an — ohne besonderen Grund.' Der Trick liegt in der Subtilität. Das Ziel ist nicht, eine Garderobe zu inszenieren, sondern sanft zu Entscheidungen zu lenken, die im karibischen Licht wunderschön fotografiert werden und sich im Moment natürlich anfühlen.",
       "p3-de-b2",
@@ -1438,7 +1592,8 @@ const post3_de = {
     },
     openGraph: {
       title: "Was Anziehen beim Heiratsantrag in der Karibik",
-      description: "So kleiden Sie sich für einen Antrag, ohne die Überraschung zu verraten — für Sie beide.",
+      description:
+        "So kleiden Sie sich für einen Antrag, ohne die Überraschung zu verraten — für Sie beide.",
     },
     noIndex: false,
     noFollow: false,
@@ -1524,7 +1679,8 @@ const post3_it = {
     },
     openGraph: {
       title: "Come Vestirsi per una Proposta di Matrimonio ai Caraibi",
-      description: "Come vestirsi per una proposta senza rovinare la sorpresa — per entrambi.",
+      description:
+        "Come vestirsi per una proposta senza rovinare la sorpresa — per entrambi.",
     },
     noIndex: false,
     noFollow: false,
@@ -1610,7 +1766,8 @@ const post3_pt = {
     },
     openGraph: {
       title: "Como Se Vestir para um Pedido de Casamento no Caribe",
-      description: "Como se vestir para um pedido sem estragar a surpresa — para vocês dois.",
+      description:
+        "Como se vestir para um pedido sem estragar a surpresa — para vocês dois.",
     },
     noIndex: false,
     noFollow: false,
@@ -1646,7 +1803,9 @@ const ALL_POSTS = [
 ];
 
 async function seed() {
-  console.log("📝 Seeding BlogCategory documents (required for post references)...\n");
+  console.log(
+    "📝 Seeding BlogCategory documents (required for post references)...\n",
+  );
 
   for (const doc of BLOG_CATEGORIES) {
     try {
@@ -1659,7 +1818,9 @@ async function seed() {
     }
   }
 
-  console.log("\n📝 Seeding Blog Posts (3 posts × 6 languages = 18 documents)...\n");
+  console.log(
+    "\n📝 Seeding Blog Posts (3 posts × 6 languages = 18 documents)...\n",
+  );
 
   let success = 0;
   let failed = 0;

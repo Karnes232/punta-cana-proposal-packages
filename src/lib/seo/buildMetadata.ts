@@ -53,9 +53,7 @@ export function buildSeoMetadata(opts: {
   return {
     title: meta.title,
     description: meta.description,
-    ...(meta.keywords.length > 0
-      ? { keywords: meta.keywords.join(", ") }
-      : {}),
+    ...(meta.keywords.length > 0 ? { keywords: meta.keywords.join(", ") } : {}),
     openGraph: {
       title: openGraph.title,
       description: openGraph.description,

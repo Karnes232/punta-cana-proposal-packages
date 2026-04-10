@@ -5,13 +5,18 @@
 export const SITE_LOCALES = ["en", "es"] as const;
 export type SiteLocale = (typeof SITE_LOCALES)[number];
 
-export const BLOG_ONLY_LOCALES = ["fr", "de", "it", "pt"] as const;
+export const BLOG_ONLY_LOCALES = [
+  "fr",
+  "de",
+  "it",
+  "pt",
+  "zh",
+  "ru",
+  "ar",
+] as const;
 export type BlogOnlyLocale = (typeof BLOG_ONLY_LOCALES)[number];
 
-export const ALL_LOCALES = [
-  ...SITE_LOCALES,
-  ...BLOG_ONLY_LOCALES,
-] as const;
+export const ALL_LOCALES = [...SITE_LOCALES, ...BLOG_ONLY_LOCALES] as const;
 export type AppLocale = (typeof ALL_LOCALES)[number];
 
 /** Label for the blog category filter “show all posts” tab. */
@@ -22,6 +27,9 @@ const ALL_POSTS_FILTER_LABELS: Record<AppLocale, string> = {
   de: "Alle Beiträge",
   it: "Tutti gli articoli",
   pt: "Todos os artigos",
+  zh: "所有帖子",
+  ru: "Все сообщения",
+  ar: "جميع المشاركات",
 };
 
 export function blogAllPostsFilterLabel(locale: string): string {

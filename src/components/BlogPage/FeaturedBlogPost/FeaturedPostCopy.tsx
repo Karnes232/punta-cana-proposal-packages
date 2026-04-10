@@ -12,8 +12,7 @@ export default function FeaturedPostCopy({
   chromeLocale,
   dateLocale,
 }: FeaturedPostCopyProps) {
-  const ctaLabel =
-    chromeLocale === "es" ? "Leer Artículo" : "Read Article";
+  const ctaLabel = chromeLocale === "es" ? "Leer Artículo" : "Read Article";
 
   const dateStr = new Date(post.publishedAt).toLocaleDateString(dateLocale, {
     month: "long",

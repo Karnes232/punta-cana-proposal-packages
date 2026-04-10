@@ -32,6 +32,9 @@ export const blogLocalizedString = defineType({
     defineField({ name: "de", title: "Deutsch", type: "string" }),
     defineField({ name: "it", title: "Italiano", type: "string" }),
     defineField({ name: "pt", title: "Português", type: "string" }),
+    defineField({ name: "zh", title: "chinese", type: "string" }),
+    defineField({ name: "ru", title: "Russian", type: "string" }),
+    defineField({ name: "ar", title: "arabic", type: "string" }),
   ],
 });
 
@@ -46,6 +49,9 @@ export const blogLocalizedText = defineType({
     defineField({ name: "de", title: "Deutsch", type: "text" }),
     defineField({ name: "it", title: "Italiano", type: "text" }),
     defineField({ name: "pt", title: "Português", type: "text" }),
+    defineField({ name: "zh", title: "chinese", type: "string" }),
+    defineField({ name: "ru", title: "Russian", type: "string" }),
+    defineField({ name: "ar", title: "arabic", type: "string" }),
   ],
 });
 

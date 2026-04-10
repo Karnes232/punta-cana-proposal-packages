@@ -15,8 +15,7 @@ export default function FeaturedPost({
 }: FeaturedPostProps) {
   const eyebrow =
     chromeLocale === "es" ? "Artículo Destacado" : "Featured Post";
-  const readTimeSuffix =
-    chromeLocale === "es" ? "min de lectura" : "min read";
+  const readTimeSuffix = chromeLocale === "es" ? "min de lectura" : "min read";
 
   return (
     <article className="group grid grid-cols-1 md:grid-cols-2 border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden">

@@ -64,6 +64,8 @@ export const blogPostsByLanguageQuery = `*[_type == "blogPost" && language == $l
 heroPhoto { ${imageFragment} },
 }`;
 
-export const blogPostsByLanguage = async (lang: string): Promise<BlogPost[]> => {
+export const blogPostsByLanguage = async (
+  lang: string,
+): Promise<BlogPost[]> => {
   return await client.fetch(blogPostsByLanguageQuery, { lang });
 };

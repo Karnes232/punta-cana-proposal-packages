@@ -5,7 +5,10 @@ export const SITE_URL = "https://puntacanaproposalpackages.com";
 export type SiteLocale = "en" | "es";
 
 /** Path without locale prefix, e.g. `""` (home), `/contact`, `/blog/slug`. */
-export function siteCanonicalUrl(locale: AppLocale | string, path: string): string {
+export function siteCanonicalUrl(
+  locale: AppLocale | string,
+  path: string,
+): string {
   const normalized =
     path === "" || path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
   if (locale === "en") {
