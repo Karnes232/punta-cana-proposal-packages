@@ -44,6 +44,13 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
+      <head>
+        <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="ePt9nfyI13zBZGdIfJBvQQ"
+          async
+        ></script>
+      </head>
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
           <BlogLanguageAlternatesProvider>
