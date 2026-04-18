@@ -12,11 +12,12 @@ import {
 } from "@/lib/seo/buildMetadata";
 import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
 import {
+  findBlogPostLocaleBySlug,
   getMoreBlogs,
   individualBlogMetadataQuery,
   individualBlogQuery,
 } from "@/sanity/queries/BlogPage/IndividualBlog";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 function parseJsonLd(raw: string | null | undefined): unknown {
   if (raw == null || raw === "") return null;
@@ -40,6 +41,12 @@ export default async function BlogPostPage({
     : [];
 
   if (!individualBlog) {
+    const existingPost = await findBlogPostLocaleBySlug(slug);
+    if (existingPost) {
+      const lang = existingPost.language;
+      const path = lang === "en" ? `/blog/${slug}` : `/${lang}/blog/${slug}`;
+      permanentRedirect(path);
+    }
     notFound();
   }
 

@@ -202,6 +202,15 @@ export const moreBlogsQueryString = `*[_type == "blogPost" && slug.current != $s
   },
 }`;
 
+export const findBlogPostLocaleBySlugQuery =
+  `*[_type == "blogPost" && slug.current == $slug] | order(_updatedAt desc) [0] { language, "slug": slug.current }`;
+
+export const findBlogPostLocaleBySlug = async (
+  slug: string,
+): Promise<{ language: string; slug: string } | null> => {
+  return await client.fetch(findBlogPostLocaleBySlugQuery, { slug });
+};
+
 export const getMoreBlogs = async (
   slug: string,
   lang: string,
