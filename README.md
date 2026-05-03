@@ -1,6 +1,6 @@
 # Punta Cana Proposal Packages
 
-A premium, bilingual wedding proposal package website for Punta Cana, Dominican Republic. Built with Next.js 15, Sanity CMS, and next-intl for multi-locale support.
+A premium, bilingual wedding proposal package website for Punta Cana, Dominican Republic. Built with Next.js 16, Sanity CMS, and next-intl for multi-locale support.
 
 ## Features
 
@@ -16,7 +16,7 @@ A premium, bilingual wedding proposal package website for Punta Cana, Dominican 
 
 | Category | Technology |
 |---|---|
-| Framework | Next.js 15 (App Router), React 19 |
+| Framework | Next.js 16 (App Router), React 19 |
 | Language | TypeScript 5 (strict) |
 | CMS | Sanity.io v4 |
 | i18n | next-intl v4 |
