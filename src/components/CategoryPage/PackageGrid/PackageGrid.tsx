@@ -28,12 +28,17 @@ interface PackageGridProps {
       en: string;
       es: string;
     };
+    cardSelectLabel: {
+      en: string;
+      es: string;
+    };
     inclusions: {
       icon: string;
       title: {
         en: string;
         es: string;
       };
+
       description: {
         en: string;
         es: string;
@@ -80,6 +85,7 @@ export default function PackageGrid({
                 price={pkg.price}
                 description={pkg.description[locale]}
                 inclusions={pkg.inclusions}
+                selectLabel={pkg.cardSelectLabel[locale]}
               />
             </RevealOnScroll>
           ))}

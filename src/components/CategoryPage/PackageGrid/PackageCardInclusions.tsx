@@ -8,7 +8,7 @@ export default function PackageCardInclusions({
   if (!items.length) return null;
 
   return (
-    <ul className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-1.5 min-h-[36px]">
+    <ul className="grid grid-cols-1 gap-x-4 gap-y-1.5 min-h-[36px]">
       {items.slice(0, 6).map((item, i) => (
         <li key={i} className="flex items-center gap-1.5 min-w-0">
           <span

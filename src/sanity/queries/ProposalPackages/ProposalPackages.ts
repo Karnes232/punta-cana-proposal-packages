@@ -71,12 +71,17 @@ export interface ProposalPackages {
       en: string;
       es: string;
     };
+    cardSelectLabel: {
+      en: string;
+      es: string;
+    };
     inclusions: {
       icon: string;
       title: {
         en: string;
         es: string;
       };
+
       description: {
         en: string;
         es: string;
@@ -156,12 +161,17 @@ export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && pag
       en,
       es
     },
+    cardSelectLabel {
+        en,
+        es
+      },
     inclusions[] {
       icon,
       title {
         en,
         es
       },
+      
       description {
         en,
         es

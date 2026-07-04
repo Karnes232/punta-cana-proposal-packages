@@ -119,7 +119,7 @@ export default function PackageCard({
       <PackageCardImage image={image} title={name} badge={badge} />
 
       {/* Card body */}
-      <div className="flex flex-col gap-4 p-7 lg:p-8">
+      <div className="flex flex-1 flex-col gap-4 p-7 lg:p-8 pb-0">
         {/* Name + Price row */}
         <div className="flex items-start justify-between gap-4">
           <h3
@@ -142,13 +142,13 @@ export default function PackageCard({
         </div>
 
         {/* Description */}
-        <div className="min-h-[72px]">
+        {/* <div className="min-h-[72px]">
           {description && (
             <p className="font-light text-white/50 text-[13.5px] leading-[1.8] group-hover:text-white/70 transition-colors duration-300 line-clamp-3">
               {description}
             </p>
           )}
-        </div>
+        </div> */}
 
         {/* Inclusions */}
         <PackageCardInclusions
@@ -156,53 +156,53 @@ export default function PackageCard({
             (inclusion) => inclusion.title[locale as "en" | "es"],
           )}
         />
+      </div>
 
-        {/* CTA row */}
-        <div className="flex items-center gap-2 mt-auto pt-2">
-          {/* {isSelected ? ( */}
-          {/* <> */}
-          {/* Checkmark */}
-          {/* <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-gold"
-                aria-hidden="true"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
-                {selectedLabel}
-              </span>
-            </> */}
-          {/* ) : ( */}
-          <>
-            <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
-              {selectLabel}
-            </span>
-            <svg
+      {/* CTA row — pinned to card bottom */}
+      <div className="mt-auto flex items-center gap-2 px-7 pt-4 pb-7 lg:px-8 lg:pb-8">
+        {/* {isSelected ? ( */}
+        {/* <> */}
+        {/* Checkmark */}
+        {/* <svg
               width="14"
               height="14"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-gold transition-transform duration-300 group-hover:translate-x-1.5"
+              className="text-gold"
               aria-hidden="true"
             >
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
+              <polyline points="20 6 9 17 4 12" />
             </svg>
-          </>
-          {/* )} */}
-        </div>
+            <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
+              {selectedLabel}
+            </span>
+          </> */}
+        {/* ) : ( */}
+        <>
+          <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-gold">
+            {selectLabel}
+          </span>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="text-gold transition-transform duration-300 group-hover:translate-x-1.5"
+            aria-hidden="true"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </>
+        {/* )} */}
       </div>
 
       {/* Corner accent — top right */}

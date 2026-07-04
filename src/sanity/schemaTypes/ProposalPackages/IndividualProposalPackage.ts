@@ -156,10 +156,28 @@ export default defineType({
               validation: (Rule) => Rule.required(),
             }),
           ],
+          preview: {
+            select: {
+              title: "title.en",
+              subtitle: "description.en",
+            },
+            prepare({ title, subtitle }) {
+              return { title, subtitle };
+            },
+          },
         }),
       ],
       group: "inclusions",
       validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({
+      name: "cardSelectLabel",
+      title: "Card Select Label",
+      type: "localizedString",
+      group: "inclusions",
+      validation: (Rule) => Rule.required(),
+      description:
+        "Label for the select button on the card. e.g. 'Select this package'",
     }),
 
     // ── Variants group ──
