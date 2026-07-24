@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 
 interface PackageBookingFormProps {
   /** Package name — already locale-resolved */
-  category: "classic" | "modern" | "dining";
+  category: "classic" | "modern" | "dining" | "adventure";
   packageName: string;
   /** Base price (used when no variant is selected) */
   basePrice: number;

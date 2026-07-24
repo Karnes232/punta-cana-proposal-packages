@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
@@ -35,6 +36,7 @@ export default defineType({
           { title: "Classic Proposals", value: "classic-proposals" },
           { title: "Modern Proposals", value: "modern-proposals" },
           { title: "Dining Proposals", value: "dining-proposals" },
+          { title: "Adventure Proposals", value: "adventure-proposals" },
         ],
       },
       validation: (Rule) => Rule.required(),
