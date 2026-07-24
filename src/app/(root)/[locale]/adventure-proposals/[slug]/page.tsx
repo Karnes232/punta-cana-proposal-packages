@@ -56,7 +56,9 @@ export default async function AdventureProposalsSlug({
         }
       />
       <PackageGallery
-        images={individualProposalPackage.gallery ?? []}
+        images={(individualProposalPackage.gallery ?? []).filter(
+          (image) => image?.asset?.url,
+        )}
         locale={locale as "en" | "es"}
       />
       <PackageInclusions
@@ -71,7 +73,7 @@ export default async function AdventureProposalsSlug({
           name: variant.name[locale as "en" | "es"],
           description: variant.description[locale as "en" | "es"],
           price: variant.price,
-          image: variant.image,
+          image: variant.image?.asset?.url ? variant.image : undefined,
         }))}
         addons={(individualProposalPackage.addons ?? []).map((addon) => ({
           name: addon.name[locale as "en" | "es"],
