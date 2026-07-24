@@ -56,24 +56,24 @@ export default async function AdventureProposalsSlug({
         }
       />
       <PackageGallery
-        images={individualProposalPackage.gallery}
+        images={individualProposalPackage.gallery ?? []}
         locale={locale as "en" | "es"}
       />
       <PackageInclusions
-        inclusions={individualProposalPackage.inclusions}
+        inclusions={individualProposalPackage.inclusions ?? []}
         locale={locale as "en" | "es"}
       />
       <PackageBookingForm
         category="adventure"
         packageName={individualProposalPackage.name[locale as "en" | "es"]}
         basePrice={individualProposalPackage.price}
-        variants={individualProposalPackage.variants.map((variant) => ({
+        variants={(individualProposalPackage.variants ?? []).map((variant) => ({
           name: variant.name[locale as "en" | "es"],
           description: variant.description[locale as "en" | "es"],
           price: variant.price,
           image: variant.image,
         }))}
-        addons={individualProposalPackage?.addons?.map((addon) => ({
+        addons={(individualProposalPackage.addons ?? []).map((addon) => ({
           name: addon.name[locale as "en" | "es"],
           description: addon.description[locale as "en" | "es"],
           price: addon.price,
