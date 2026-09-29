@@ -35,7 +35,7 @@ Los importes se calculan en centavos. El servidor vuelve a consultar Sanity sin 
 
 ## Solicitudes y contacto
 
-POST /api/experience-requests guarda contacto y configuración recalculada en Netlify Blobs, store experience-requests. El equipo consulta los registros desde el proyecto Netlify → Blobs. No existe endpoint público para leerlos. La función solo confirma éxito después de persistir. No se configura envío de email ni pago.
+POST /api/experience-requests guarda contacto y configuración recalculada en Netlify Blobs, store experience-requests. Los hosts deploy-preview-N--sitio.netlify.app escriben en experience-requests-preview para separar las pruebas de las solicitudes reales. El equipo consulta los registros desde el proyecto Netlify → Blobs. No existe endpoint público para leerlos. La función solo confirma éxito después de persistir. No se configura envío de email ni pago.
 Netlify suministra las credenciales al runtime de Next.js. No se guardan datos personales en el dataset público de Sanity; su plan Free actual no permite dataset privado. No hace falta ampliar el plan de Sanity.
 
 Validar un envío en Deploy Preview con datos de prueba autorizados antes de activar producción, y confirmar el registro desde Netlify. Con next dev sin contexto Netlify, el endpoint devuelve 503. npm test prueba persistencia y fallos con almacenamiento simulado. El límite de solicitudes por IP es local al proceso, no un rate limit distribuido; para tráfico abusivo configurar protección de Netlify.

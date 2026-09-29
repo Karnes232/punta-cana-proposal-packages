@@ -109,7 +109,12 @@ export async function POST(request: NextRequest) {
     // Site-scoped storage survives deployments; no public read endpoint is exposed.
     // Netlify supplies credentials to the Next.js server function at runtime.
     const id = randomUUID();
-    const saved = await getStore("experience-requests").setJSON(
+    const storeName = /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(
+      publicHost,
+    )
+      ? "experience-requests-preview"
+      : "experience-requests";
+    const saved = await getStore(storeName).setJSON(
       id,
       {
         receivedAt: new Date().toISOString(),
