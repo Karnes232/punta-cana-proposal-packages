@@ -105,14 +105,12 @@ test("EN and ES: styles change image/price, keep extras, gallery keyboard and in
     assert.equal(document.querySelector("input[type=checkbox]").checked, true);
     assert.match(document.querySelector(".ec-total strong").textContent, /210/);
     await act(async () =>
-      document
-        .querySelector(".ec-gallery")
-        .dispatchEvent(
-          new window.KeyboardEvent("keydown", {
-            key: "ArrowRight",
-            bubbles: true,
-          }),
-        ),
+      document.querySelector(".ec-gallery").dispatchEvent(
+        new window.KeyboardEvent("keydown", {
+          key: "ArrowRight",
+          bubbles: true,
+        }),
+      ),
     );
     assert.match(document.querySelector(".ec-gallery img").src, /gallery/);
     await act(async () =>
@@ -135,6 +133,20 @@ test("dinner renders a menu for every guest and style does not affect price", as
     maximumDurationMinutes: 180,
     menuItems: [
       {
+        _id: "starter",
+        active: true,
+        courseType: "starter",
+        included: true,
+        name: { en: "fixture-starter" },
+      },
+      {
+        _id: "dessert",
+        active: true,
+        courseType: "dessert",
+        included: true,
+        name: { en: "fixture-dessert" },
+      },
+      {
         _id: "m",
         active: true,
         courseType: "main",
@@ -149,7 +161,7 @@ test("dinner renders a menu for every guest and style does not affect price", as
       React.createElement(Card, { experience: e, locale: "en", settings: {} }),
     ),
   );
-  assert.equal(document.querySelectorAll("details select").length, 3);
+  assert.equal(document.querySelectorAll("details select").length, 9);
   await act(async () =>
     document.querySelectorAll("input[type=radio]")[1].click(),
   );
@@ -157,7 +169,7 @@ test("dinner renders a menu for every guest and style does not affect price", as
   const menus = document.querySelectorAll("details select");
   await act(async () => {
     for (const el of menus) {
-      el.value = "m";
+      el.value = el.options[1].value;
       el.dispatchEvent(new window.Event("change", { bubbles: true }));
     }
   });
@@ -186,5 +198,35 @@ test("empty media/styles/addons render without false options", async () => {
   assert.equal(document.querySelectorAll("img").length, 0);
   assert.equal(document.querySelectorAll("input[type=radio]").length, 0);
   assert.match(document.querySelector(".ec-total strong").textContent, /100/);
+  await act(async () => root.unmount());
+});
+
+test("dinner template has 3 setups, individual 3-course menus and quote-only extras, never a booking", async () => {
+  const { dinnerPreview } = require("../src/lib/experience/dinnerTemplate.ts");
+  const root = createRoot(document.getElementById("root"));
+  await act(async () =>
+    root.render(
+      React.createElement(Card, {
+        experience: dinnerPreview(),
+        locale: "es",
+        settings: {},
+        demo: true,
+      }),
+    ),
+  );
+  assert.equal(document.querySelectorAll("input[type=radio]").length, 3);
+  assert.equal(document.querySelectorAll(".ec-guest-menus select").length, 6);
+  assert.equal(document.querySelectorAll("input[type=checkbox]").length, 4);
+  const menus = document.querySelectorAll(".ec-guest-menus select");
+  await act(async () => {
+    menus[0].value = menus[0].options[1].value;
+    menus[0].dispatchEvent(new window.Event("change", { bubbles: true }));
+    document.querySelector("input[type=checkbox]").click();
+    document.querySelectorAll("input[type=radio]")[2].click();
+  });
+  assert.equal(menus[3].value, "");
+  assert.equal(document.querySelector("input[type=checkbox]").checked, true);
+  assert.match(document.querySelector(".ec-total").textContent, /cotización/);
+  assert.equal(document.querySelector(".ec-card-body > button").disabled, true);
   await act(async () => root.unmount());
 });

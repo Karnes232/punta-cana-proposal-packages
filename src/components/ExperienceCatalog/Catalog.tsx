@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
+import { dinnerPreview } from "@/lib/experience/dinnerTemplate";
 import {
   getCatalogContent,
   getExperiences,
@@ -80,6 +82,18 @@ export default async function Catalog({
     getExperiences(),
     getCatalogContent(),
   ]);
+  const requestHeaders = await headers();
+  const host = (
+    requestHeaders.get("x-forwarded-host") ||
+    requestHeaders.get("host") ||
+    ""
+  )
+    .split(",")[0]
+    .trim();
+  const showTemplate =
+    section === "romantic-dinners" &&
+    (/^localhost(:\d+)?$/.test(host) ||
+      /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host));
   const settings = content.settings || {},
     home = content.home;
   const t = (key: string) => label(settings, locale, key),
@@ -143,8 +157,27 @@ export default async function Catalog({
                     )}
                   </p>
                 </div>
+                {showTemplate && dinner && (
+                  <>
+                    <div className="ec-template-note">
+                      {locale === "es"
+                        ? "Plantilla interactiva · Solo vista previa. Los nombres de montajes y platos son espacios por completar; no es una oferta reservable. Extras pendientes de cotización."
+                        : "Interactive template · Preview only. Setup and dish names are slots to complete, not a bookable offer. Extras require a quote."}
+                    </div>
+                    <div className="ec-dinner-grid">
+                      <RomanticDinnerCard
+                        experience={dinnerPreview()}
+                        locale={locale}
+                        settings={settings}
+                        demo
+                      />
+                    </div>
+                  </>
+                )}
                 {rows.length ? (
-                  <div className="ec-grid">
+                  <div
+                    className={dinner ? "ec-grid ec-dinner-grid" : "ec-grid"}
+                  >
                     {rows.map((e) =>
                       dinner ? (
                         <RomanticDinnerCard
@@ -163,7 +196,7 @@ export default async function Catalog({
                       ),
                     )}
                   </div>
-                ) : (
+                ) : showTemplate && dinner ? null : (
                   <div className="ec-empty">
                     <p>{t(dinner ? "emptyDinners" : "emptyProposals")}</p>
                     <Link href={`${prefix}/contact`}>

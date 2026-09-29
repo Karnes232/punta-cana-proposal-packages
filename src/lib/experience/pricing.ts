@@ -65,6 +65,11 @@ export function calculate(e: Experience, s: Selection, complete = false) {
           (v) => v.active && v.courseType === course,
         );
         const selected = s.guestMenus[i]?.[course];
+        if (complete)
+          assert(
+            options.length > 0,
+            "Three-course menu configuration unavailable",
+          );
         if (complete && options.length)
           assert(selected, "Select each guest course");
         if (!selected) continue;

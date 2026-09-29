@@ -16,10 +16,12 @@ export default function ExperienceCard({
   experience: e,
   locale,
   settings,
+  demo = false,
 }: {
   experience: Experience;
   locale: Locale;
   settings: Settings;
+  demo?: boolean;
 }) {
   const dinner = e._type === "romanticDinnerExperience";
   const [selectedStyleId, setStyle] = useState(id(e.styles[0] || {}));
@@ -75,6 +77,19 @@ export default function ExperienceCard({
   }
   return (
     <article className="ec-card" id={e.slug?.current || e._id}>
+      {demo && !style?.mainImage?.url && (
+        <div className="ec-template-media">
+          <span>
+            {locale === "es" ? "Plantilla de montaje" : "Setup template"}
+          </span>
+          <strong>{local(style?.name, locale)}</strong>
+          <small>
+            {locale === "es"
+              ? "Fotografía real pendiente de cargar en Sanity"
+              : "Real photograph to be added in Sanity"}
+          </small>
+        </div>
+      )}
       <ExperienceGallery
         key={selectedStyleId}
         selectedStyleImage={style?.mainImage}
@@ -117,7 +132,7 @@ export default function ExperienceCard({
           </fieldset>
         )}
         {e.inclusions.length > 0 && (
-          <details>
+          <details className="ec-inclusions" open>
             <summary>{t("includedLabel")}</summary>
             <ul>
               {e.inclusions.map((v) => (
@@ -181,63 +196,68 @@ export default function ExperienceCard({
                 />
               </label>
             )}
-            {e.menuItems.length > 0 && (
+            {(dinner || e.menuItems.length > 0) && (
               <details open>
                 <summary>{t("menu")}</summary>
-                {Array.from({ length: guestCount }, (_, i) => (
-                  <fieldset key={i}>
-                    <legend>
-                      {t("guest")} {i + 1}
-                    </legend>
-                    {(["starter", "main", "dessert"] as Course[]).map(
-                      (course) => {
-                        const items = e.menuItems.filter(
-                          (v) => v.courseType === course,
-                        );
-                        const selected = items.find(
-                          (v) => id(v) === guestMenus[i]?.[course],
-                        );
-                        return items.length > 0 ? (
-                          <label key={course}>
-                            {t(course)}
-                            <select
-                              value={guestMenus[i]?.[course] || ""}
-                              onChange={(event) =>
-                                setMenus((old) =>
-                                  Array.from({ length: guestCount }, (_, j) =>
-                                    j === i
-                                      ? {
-                                          ...old[j],
-                                          [course]: event.target.value,
-                                        }
-                                      : { ...old[j] },
-                                  ),
-                                )
-                              }
-                            >
-                              <option value="">{t("select")}</option>
-                              {items.map((v) => (
-                                <option key={id(v)} value={id(v)}>
-                                  {local(v.name, locale)}
-                                  {v.included
-                                    ? ""
-                                    : ` (+${money(v.supplementPrice || 0)})`}
-                                </option>
-                              ))}
-                            </select>
-                            {selected && (
-                              <small>
-                                {local(selected.description, locale)}{" "}
-                                {selected.dietaryTags?.join(" · ")}{" "}
-                                {local(selected.allergenInformation, locale)}
-                              </small>
-                            )}
-                          </label>
-                        ) : null;
-                      },
-                    )}
-                  </fieldset>
-                ))}
+                <div className="ec-guest-menus">
+                  {Array.from({ length: guestCount }, (_, i) => (
+                    <fieldset key={i}>
+                      <legend>
+                        {t("guest")} {i + 1}
+                      </legend>
+                      {(["starter", "main", "dessert"] as Course[]).map(
+                        (course) => {
+                          const items = e.menuItems.filter(
+                            (v) => v.courseType === course,
+                          );
+                          const selected = items.find(
+                            (v) => id(v) === guestMenus[i]?.[course],
+                          );
+                          return (
+                            <label key={course}>
+                              {t(course)}
+                              <select
+                                disabled={!items.length}
+                                value={guestMenus[i]?.[course] || ""}
+                                onChange={(event) =>
+                                  setMenus((old) =>
+                                    Array.from(
+                                      { length: guestCount },
+                                      (_, j) =>
+                                        j === i
+                                          ? {
+                                              ...old[j],
+                                              [course]: event.target.value,
+                                            }
+                                          : { ...old[j] },
+                                    ),
+                                  )
+                                }
+                              >
+                                <option value="">{t("select")}</option>
+                                {items.map((v) => (
+                                  <option key={id(v)} value={id(v)}>
+                                    {local(v.name, locale)}
+                                    {v.included
+                                      ? ""
+                                      : ` (+${money(v.supplementPrice || 0)})`}
+                                  </option>
+                                ))}
+                              </select>
+                              {selected && (
+                                <small>
+                                  {local(selected.description, locale)}{" "}
+                                  {selected.dietaryTags?.join(" · ")}{" "}
+                                  {local(selected.allergenInformation, locale)}
+                                </small>
+                              )}
+                            </label>
+                          );
+                        },
+                      )}
+                    </fieldset>
+                  ))}
+                </div>
               </details>
             )}
             {e.beverages.length > 0 && (
@@ -358,12 +378,16 @@ export default function ExperienceCard({
         <button
           className="ec-button"
           aria-expanded={availabilityOpen}
-          disabled={!ready}
+          disabled={demo || !ready}
           onClick={() => setAvailability(!availabilityOpen)}
         >
-          {t("availabilityButtonLabel")}
+          {demo
+            ? locale === "es"
+              ? "Plantilla · no reservable"
+              : "Template · not bookable"
+            : t("availabilityButtonLabel")}
         </button>
-        {availabilityOpen && ready && (
+        {!demo && availabilityOpen && ready && (
           <AvailabilityForm
             locale={locale}
             settings={settings}

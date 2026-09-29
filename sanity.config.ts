@@ -12,6 +12,7 @@ import { structureTool } from "sanity/structure";
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import { schema } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
+import DinnerTemplateTool from "./src/sanity/tools/DinnerTemplateTool";
 import { media } from "sanity-plugin-media";
 const catalogConfig = defineConfig({
   name: "catalog",
@@ -32,6 +33,13 @@ const catalogConfig = defineConfig({
           ].includes(t.schemaType),
       ),
   },
+  tools: [
+    {
+      name: "dinner-template",
+      title: "Dinner template",
+      component: DinnerTemplateTool,
+    },
+  ],
   plugins: [
     structureTool({ structure }),
     media(),

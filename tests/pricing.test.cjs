@@ -38,6 +38,8 @@ const dinner = {
   includedDurationMinutes: 120,
   maximumDurationMinutes: 180,
   menuItems: [
+    { _id: "starter", active: true, courseType: "starter", included: true },
+    { _id: "dessert", active: true, courseType: "dessert", included: true },
     { _id: "m", active: true, courseType: "main", supplementPrice: 12 },
   ],
   beverages: [{ _id: "b", active: true, supplementPrice: 20 }],
@@ -76,7 +78,11 @@ test("dinner guests, per guest supplements, beverages and addon", () =>
       {
         ...ds,
         guestCount: 3,
-        guestMenus: [{ main: "m" }, { main: "m" }, { main: "m" }],
+        guestMenus: Array.from({ length: 3 }, () => ({
+          starter: "starter",
+          main: "m",
+          dessert: "dessert",
+        })),
         beverages: ["b"],
         addons: { a: 1 },
       },
@@ -194,4 +200,24 @@ test("custom occasion obeys CMS allowance", () =>
       selectedOccasionId: "o",
       customOccasion: "text",
     }),
+  ));
+
+test("dinner requests require all three courses to be configured", () =>
+  assert.throws(
+    () =>
+      calculate(
+        {
+          ...dinner,
+          menuItems: dinner.menuItems.filter((x) => x.courseType !== "dessert"),
+        },
+        {
+          ...ds,
+          guestMenus: [
+            { starter: "starter", main: "m" },
+            { starter: "starter", main: "m" },
+          ],
+        },
+        true,
+      ),
+    /Three-course/,
   ));

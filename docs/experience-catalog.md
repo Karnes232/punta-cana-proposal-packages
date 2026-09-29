@@ -49,7 +49,14 @@ Nuevas rutas: /proposals, /romantic-dinners, /contact y /es equivalentes. Detall
 
 ## Verificación y activación
 
-25 pruebas automatizadas: precios, IDs inválidos, límites, duración, menús, estilos, extras conservados, galería por teclado, EN/ES, estados vacíos y persistencia. Revisión visual desktop y móvil de 390 px. TypeScript/ESLint y build de producción.
+27 pruebas automatizadas: precios, IDs inválidos, límites, duración, menús, estilos, extras conservados, galería por teclado, EN/ES, estados vacíos y persistencia. Revisión visual desktop y móvil de 390 px. TypeScript/ESLint y build de producción.
 Antes de merge/despliegue: revisar catálogo vacío, Studio y persistencia real en Netlify; confirmar que la cena inicial está guardada como borrador inactivo. No se publicaron productos de prueba. La rama no cambia producción hasta integrarse y desplegarse.
 
 Cena inicial guardada y verificada tras recarga en Sanity: drafts.8d9e1e5f-d981-4276-ab95-8d88a3ebd429. Inactiva, sin publicar; 849 USD, 2 invitados, 120 minutos. No se creó ningún token ni se modificó CORS.
+
+## Plantilla solicitada e integración visual
+
+Se recupera la identidad existente: negro #0b0b0c, dorado #cfae70, marfil #f7f5f1, Playfair e Inter, navbar negro, botones y bordes dorados.
+En /romantic-dinners de localhost y Deploy Preview aparece una plantilla interactiva marcada como no reservable. Nunca se añade al catálogo público de producción. Incluye 3 espacios de montaje sin fotos inventadas, 2 opciones de plantilla por cada tiempo (entrada, plato principal y postre), selección independiente por invitado, transporte desde toda Punta Cana y 4 extras indicados por el usuario: rosas, espumantes premium, chocolates y neón Happy Anniversary. Extras sin precio: quoteOnly.
+Studio → Dinner template guarda de forma idempotente la cena y 10 documentos relacionados en borrador (6 espacios de platos + 4 extras), sin sobrescribir campos existentes. Ya se ejecutó y confirmó. Los montajes, platos y extras están inactivos; reemplazar las etiquetas de plantilla, cargar fotos reales y confirmar precios/disponibilidad antes de activar. Los límites de 2 personas y 120 minutos del ejemplo son exclusivamente para probar la base aprobada: no se guardaron como máximos comerciales en Sanity.
+El servidor exige que estén configurados los tres tiempos antes de admitir una solicitud real de cena. Cada invitado debe elegir entrada, principal y postre.
