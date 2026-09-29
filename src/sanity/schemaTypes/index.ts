@@ -1,3 +1,4 @@
+import {experienceCatalogSchemas} from './ExperienceCatalog';
 import { type SchemaTypeDefinition } from "sanity";
 import GeneralLayout from "./GeneralLayout/GeneralLayout";
 import {
@@ -62,6 +63,7 @@ import Seo from "./SEO/seo";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
+    ...experienceCatalogSchemas,
     //Localized
     localizedString,
     localizedText,

@@ -12,13 +12,40 @@ import { structureTool } from "sanity/structure";
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import { schema } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
+import ProposalTemplateTool from "./src/sanity/tools/ProposalTemplateTool";
+import DinnerTemplateTool from "./src/sanity/tools/DinnerTemplateTool";
 import { media } from "sanity-plugin-media";
-export default defineConfig({
+const catalogConfig = defineConfig({
+  name: "catalog",
+  title: "Website",
   basePath: "/studio",
   projectId,
   dataset,
   // Add and edit the content schema in the './sanity/schemaTypes' folder
-  schema,
+  schema: {
+    ...schema,
+    templates: (templates) =>
+      templates.filter(
+        (t) =>
+          ![
+            "experienceCatalogSettings",
+            "catalogHome",
+            "catalogContact",
+          ].includes(t.schemaType),
+      ),
+  },
+  tools: [
+    {
+      name: "proposal-template",
+      title: "Proposal template",
+      component: ProposalTemplateTool,
+    },
+    {
+      name: "dinner-template",
+      title: "Dinner template",
+      component: DinnerTemplateTool,
+    },
+  ],
   plugins: [
     structureTool({ structure }),
     media(),
@@ -27,3 +54,5 @@ export default defineConfig({
     visionTool({ defaultApiVersion: apiVersion }),
   ],
 });
+
+export default catalogConfig;

@@ -136,7 +136,7 @@ export const proposalPackagesQueryString = `*[_type == "ProposalPackages" && pag
     en,
     es
   },
- packages[]->{
+ packages[coalesce(@->slug.current, "") != "adventure-to-yes" && _ref != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93"]->{
   image {
       asset-> {
         url,

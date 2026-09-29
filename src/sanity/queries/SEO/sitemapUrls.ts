@@ -4,7 +4,7 @@ import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
 
 const sitemapPackagesQuery = `*[_type == "ProposalPackages"] {
   "category": page,
-  "slugs": packages[]->slug.current
+  "slugs": packages[coalesce(@->slug.current, "") != "adventure-to-yes" && _ref != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93"]->slug.current
 }`;
 
 const sitemapBlogEntriesQuery = `*[_type == "blogPost" && defined(slug.current) && defined(language)] {
@@ -23,6 +23,8 @@ const PROPOSAL_HUB_SEGMENTS = new Set([
 ]);
 
 export const STATIC_SITEMAP_PATHS = [
+  "/proposals",
+  "/romantic-dinners",
   "",
   "/classic-proposals",
   "/modern-proposals",
