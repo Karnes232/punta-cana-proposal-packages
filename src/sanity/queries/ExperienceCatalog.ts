@@ -42,9 +42,15 @@ export async function getCatalogContent() {
 
 // Only called on preview hosts. Reads the existing inactive dinner, not private drafts.
 export async function getDinnerPreview() {
+  return getTemplatePreview("8d9e1e5f-d981-4276-ab95-8d88a3ebd429");
+}
+export async function getProposalPreview() {
+  return getTemplatePreview("proposal-initial-template");
+}
+async function getTemplatePreview(id: string) {
   const row = await fresh.fetch<Experience | null>(
-    `*[_id=="8d9e1e5f-d981-4276-ab95-8d88a3ebd429"][0]${experienceProjection}`,
-    {},
+    `*[_id==$id][0]${experienceProjection}`,
+    { id },
     { cache: "no-store" },
   );
   return row

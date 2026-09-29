@@ -6,6 +6,7 @@ import { proposalPreview } from "@/lib/experience/proposalTemplate";
 import { dinnerPreview } from "@/lib/experience/dinnerTemplate";
 import {
   getDinnerPreview,
+  getProposalPreview,
   getCatalogContent,
   getExperiences,
 } from "@/sanity/queries/ExperienceCatalog";
@@ -93,12 +94,15 @@ export default async function Catalog({
     .split(",")[0]
     .trim();
   const showTemplate =
-    !!section &&
-    (/^localhost(:\d+)?$/.test(host) ||
-      /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host));
+    /^localhost(:\d+)?$/.test(host) ||
+    /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host);
   const cmsDinnerPreview =
-    showTemplate && section === "romantic-dinners"
+    showTemplate && (!section || section === "romantic-dinners")
       ? await getDinnerPreview()
+      : null;
+  const cmsProposalPreview =
+    showTemplate && (!section || section === "proposals")
+      ? await getProposalPreview()
       : null;
   const settings = content.settings || {},
     home = content.home;
@@ -168,15 +172,15 @@ export default async function Catalog({
                     <div className="ec-template-note">
                       {!dinner ? (
                         locale === "es" ? (
-                          "Plantilla de propuesta · Solo vista previa, no reservable. Montajes, fotos, inclusiones y precios pendientes de completar en Sanity."
+                          "Ejemplo editable · Fotografías y precios de referencia del catálogo de Sanity. Puedes probar la configuración y el formulario; no se enviarán reservas."
                         ) : (
-                          "Proposal template · Preview only, not bookable. Setups, photographs, inclusions and prices must be completed in Sanity."
+                          "Editable example · Reference photographs and prices from the Sanity catalog. Try the configuration and form; no bookings will be sent."
                         )
                       ) : (
                         <>
                           {locale === "es"
-                            ? "Vista previa · Menú y tarifas administrados en Sanity. Faltan fotografías y confirmar capacidad antes de habilitar reservas."
-                            : "Preview · Menu and prices managed in Sanity. Photographs and confirmed capacity are needed before enabling bookings."}
+                            ? "Ejemplo editable · Tres montajes con imágenes de referencia de Sanity. Menú y tarifas configurados; capacidad final pendiente de confirmar."
+                            : "Editable example · Three setups with reference images from Sanity. Menu and prices configured; final capacity awaiting confirmation."}
                         </>
                       )}
                     </div>
@@ -185,7 +189,7 @@ export default async function Catalog({
                         experience={
                           dinner
                             ? cmsDinnerPreview || dinnerPreview()
-                            : proposalPreview()
+                            : cmsProposalPreview || proposalPreview()
                         }
                         locale={locale}
                         settings={settings}

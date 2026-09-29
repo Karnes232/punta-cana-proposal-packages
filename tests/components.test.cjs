@@ -226,7 +226,7 @@ test("dinner template has 3 setups, individual 3-course menus and quote-only ext
   assert.equal(menus[3].value, "");
   assert.equal(document.querySelector("input[type=checkbox]").checked, true);
   assert.match(document.querySelector(".ec-total").textContent, /cotización/);
-  assert.equal(document.querySelector(".ec-purchase > button").disabled, true);
+  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
   await act(async () => root.unmount());
 });
 
@@ -261,7 +261,7 @@ test("proposal template keeps extras across styles, shows no invented price and 
     document.querySelector(".ec-template-media").textContent,
     /Estilo B/,
   );
-  assert.equal(document.querySelector(".ec-purchase > button").disabled, true);
+  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
   await act(async () => root.unmount());
 });
 
@@ -358,6 +358,43 @@ test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across c
       "",
     );
     assert.ok(document.querySelector(".ec-dietary").textContent.includes("Ve"));
+    await act(async () => root.unmount());
+  }
+});
+
+test("demo opens the real inline form but cannot transmit a request", async () => {
+  const root = createRoot(document.getElementById("root"));
+  const previousFetch = global.fetch;
+  let requests = 0;
+  global.fetch = async () => {
+    requests++;
+    throw new Error("Demo must not send");
+  };
+  try {
+    await act(async () =>
+      root.render(
+        React.createElement(Card, {
+          experience: fixture,
+          locale: "es",
+          settings: {},
+          demo: true,
+        }),
+      ),
+    );
+    await act(async () =>
+      document.querySelector(".ec-purchase > button").click(),
+    );
+    const form = document.querySelector("form");
+    assert.ok(form);
+    assert.equal(form.querySelector("button").disabled, true);
+    await act(async () =>
+      form.dispatchEvent(
+        new window.Event("submit", { bubbles: true, cancelable: true }),
+      ),
+    );
+    assert.equal(requests, 0);
+  } finally {
+    global.fetch = previousFetch;
     await act(async () => root.unmount());
   }
 });

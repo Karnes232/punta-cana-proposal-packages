@@ -729,3 +729,16 @@
     font-size: 1.4rem;
   }
 }
+
+.ec-style-options label {
+  flex-wrap: wrap;
+  align-content: start;
+}
+.ec-style-thumb {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+  flex-basis: 100%;
+  margin-bottom: 6px;
+}

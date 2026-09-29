@@ -1,4 +1,5 @@
 "use client";
+import NextImage from "next/image";
 import { useState } from "react";
 import type {
   Experience,
@@ -158,6 +159,18 @@ export default function ExperienceCard({
                   key={id(v)}
                   className={id(v) === selectedStyleId ? "selected" : ""}
                 >
+                  {v.mainImage?.url && (
+                    <NextImage
+                      className="ec-style-thumb"
+                      src={v.mainImage.url}
+                      alt=""
+                      width={240}
+                      height={160}
+                      sizes="(max-width: 800px) 40vw, 280px"
+                      quality={75}
+                      loading="lazy"
+                    />
+                  )}
                   <input
                     type="radio"
                     name={`style-${e._id}`}
@@ -567,20 +580,17 @@ export default function ExperienceCard({
           <button
             className="ec-button"
             aria-expanded={availabilityOpen}
-            disabled={demo || !ready}
+            disabled={!demo && !ready}
             onClick={() => setAvailability(!availabilityOpen)}
           >
-            {demo
-              ? locale === "es"
-                ? "Plantilla · no reservable"
-                : "Template · not bookable"
-              : t("availabilityButtonLabel")}
+            {t("availabilityButtonLabel")}
           </button>
         </div>
-        {!demo && availabilityOpen && ready && (
+        {availabilityOpen && (demo || ready) && (
           <AvailabilityForm
             locale={locale}
             settings={settings}
+            demo={demo}
             experienceId={e._id}
             selection={selection}
           />

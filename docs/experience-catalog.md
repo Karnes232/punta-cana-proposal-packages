@@ -76,3 +76,13 @@ The owner's supplied 23 dishes, 10 cocktails and 3 wine choices are individual b
 Maximum guest capacity is awaiting owner confirmation. No arbitrary commercial capacity is assumed. Missing capacity permits a base estimate but blocks extra guests and booking; server submission still requires confirmed guest/duration limits. Photographs and real setup names remain editorial requirements before activation. Previously requested template drafts are preserved; no new fictitious packages/styles were added.
 
 Validation: 32 unit/component/API tests, TypeScript and scoped ESLint. EN/ES tests cover guest preservation, collapsing, image changes, supplements per guest, single wine, malicious IDs, limits, total recalculation and inline form. Browser checks cover 320/375/390/768/1440 widths, actual CMS menu selection, extras and style persistence. Production code is not deployed until PR review/merge.
+
+## Visual examples and footer follow-up
+
+The shared footer again links to Blog and FAQ in both languages, alongside experience pages, contact, legal pages, telephone, email and social links. Existing blog content/routes remain intact.
+
+The existing template documents now have real reference imagery from the existing Sanity library. The dinner has three editable setup templates with distinct main photos and a five-photo gallery. The proposal example reuses the existing Everlasting Flame package's images, two variant prices, inclusions and extras. Original legacy documents/assets are untouched. Template documents remain inactive and appear only on localhost/Deploy Preview, including the homepage. Template names, imagery and reference rates are editable through the existing schemas.
+
+Style controls include optimized thumbnails. Duplicate gallery images are removed. Demo availability buttons open the same inline form, clearly marked as a preview; both the submit button and submit handler prevent transmission. Real booking behavior remains unchanged. Visual-template actions are available in the existing Studio tools and use revision checks when updating existing documents.
+
+Verification: 33 tests pass, TypeScript and scoped ESLint pass. Browser verified three dinner image switches with base price unchanged, proposal image/price changes while retaining an extra (1949 + 399 = 2348 USD), demo form, and existing Spanish blog articles reached from the footer.

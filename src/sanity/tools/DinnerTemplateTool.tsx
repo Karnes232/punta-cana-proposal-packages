@@ -5,6 +5,7 @@ import {
   approvedAddons,
   approvedDinnerPrices,
 } from "@/lib/experience/approvedDinnerContent";
+import { populateVisualTemplate } from "./populateVisualTemplate";
 import { useState } from "react";
 import { useClient } from "sanity";
 import {
@@ -167,6 +168,31 @@ export default function DinnerTemplateTool() {
         }}
       >
         Guardar menú y tarifas aprobadas
+      </button>
+      <hr style={{ margin: "24px 0" }} />
+      <h2>Ejemplo visual con imágenes de Sanity</h2>
+      <p>
+        Completa los tres montajes con fotografías existentes y una galería
+        editable. Conserva menú, tarifas, extras y capacidad. No activa reservas
+        ni modifica el paquete original.
+      </p>
+      <button
+        disabled={status === "Guardando…"}
+        onClick={async () => {
+          setStatus("Guardando…");
+          try {
+            await populateVisualTemplate(client, "dinner");
+            setStatus(
+              "Ejemplo visual guardado en Sanity. Imágenes y contenido editables; experiencia inactiva.",
+            );
+          } catch (error) {
+            setStatus(
+              error instanceof Error ? error.message : "No se pudo guardar.",
+            );
+          }
+        }}
+      >
+        Guardar ejemplo visual de los tres montajes
       </button>
       <p role="status">{status}</p>
     </div>

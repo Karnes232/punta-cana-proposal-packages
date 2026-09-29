@@ -87,6 +87,12 @@ export const ui: Record<string, [string, string]> = {
   previous: ["Previous photo", "Foto anterior"],
   next: ["Next photo", "Foto siguiente"],
   photo: ["Photo", "Foto"],
+  blog: ["Blog", "Blog"],
+  faq: ["Frequently asked questions", "Preguntas frecuentes"],
+  previewOnly: [
+    "Preview only · no request will be sent",
+    "Solo vista previa · no se enviará ninguna solicitud",
+  ],
   privacy: ["Privacy policy", "Política de privacidad"],
   terms: ["Terms of service", "Términos de servicio"],
 };

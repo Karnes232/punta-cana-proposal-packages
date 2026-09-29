@@ -16,11 +16,21 @@ export default function CatalogFooter({
       <div>
         <div>
           <p>{company?.companyName}</p>
-          <nav>
+          <small>
+            © {new Date().getFullYear()} {company?.companyName}.{" "}
+            {locale === "es"
+              ? "Todos los derechos reservados."
+              : "All rights reserved."}
+          </small>
+          <nav
+            aria-label={locale === "es" ? "Enlaces del sitio" : "Site links"}
+          >
             {[
               ["proposals", "proposalSectionTitle"],
               ["romantic-dinners", "dinnerSectionTitle"],
               ["contact", "contactUsLabel"],
+              ["blog", "blog"],
+              ["faq", "faq"],
               ["privacy-policy", "privacy"],
               ["terms-of-service", "terms"],
             ].map(([path, key]) => (

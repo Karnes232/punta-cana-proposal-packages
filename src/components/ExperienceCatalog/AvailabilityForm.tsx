@@ -7,11 +7,13 @@ export default function AvailabilityForm({
   settings,
   experienceId,
   selection,
+  demo = false,
 }: {
   locale: Locale;
   settings: Settings;
   experienceId?: string;
   selection?: Selection;
+  demo?: boolean;
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle",
@@ -22,7 +24,7 @@ export default function AvailabilityForm({
       className="ec-form"
       onSubmit={async (e) => {
         e.preventDefault();
-        if (status === "sending") return;
+        if (demo || status === "sending") return;
         const form = e.currentTarget;
         setStatus("sending");
         try {
@@ -40,6 +42,7 @@ export default function AvailabilityForm({
         }
       }}
     >
+      {demo && <p role="note">{t("previewOnly")}</p>}
       <div className="ec-form-grid">
         {(["fullName", "email", "phone", "hotel", "desiredDate"] as const).map(
           (key) => (
@@ -87,7 +90,7 @@ export default function AvailabilityForm({
       </label>
       <button
         className="ec-button"
-        disabled={status === "sending" || status === "sent"}
+        disabled={demo || status === "sending" || status === "sent"}
       >
         {status === "sending" ? "…" : t("send")}
       </button>

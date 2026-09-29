@@ -1,4 +1,5 @@
 "use client";
+import { populateVisualTemplate } from "./populateVisualTemplate";
 import { useState } from "react";
 import { useClient } from "sanity";
 import {
@@ -69,6 +70,31 @@ export default function ProposalTemplateTool() {
         }}
       >
         Guardar plantilla de propuesta en Sanity
+      </button>
+      <hr style={{ margin: "24px 0" }} />
+      <h2>Ejemplo visual con imágenes de Sanity</h2>
+      <p>
+        Completa la plantilla existente con el paquete Llama Eterna:
+        fotografías, estilos, inclusiones, extras y precios de referencia del
+        catálogo. No activa reservas ni modifica el paquete original.
+      </p>
+      <button
+        disabled={status === "Guardando…"}
+        onClick={async () => {
+          setStatus("Guardando…");
+          try {
+            await populateVisualTemplate(client, "proposal");
+            setStatus(
+              "Ejemplo visual guardado en Sanity. Imágenes y contenido editables; experiencia inactiva.",
+            );
+          } catch (error) {
+            setStatus(
+              error instanceof Error ? error.message : "No se pudo guardar.",
+            );
+          }
+        }}
+      >
+        Guardar ejemplo visual de propuesta
       </button>
       <p role="status">{status}</p>
     </div>

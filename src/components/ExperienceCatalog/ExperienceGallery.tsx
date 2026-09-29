@@ -22,7 +22,11 @@ export default function ExperienceGallery({
       ? [{ image: selectedStyleImage, alt: selectedStyleImage.alt }]
       : []),
     ...gallery,
-  ].filter((p) => p.image?.url);
+  ].filter(
+    (p, index, all) =>
+      p.image?.url &&
+      all.findIndex((other) => other.image?.url === p.image?.url) === index,
+  );
   if (!slides.length) return null;
   const index = Math.min(galleryIndex, slides.length - 1),
     slide = slides[index];
