@@ -11,6 +11,7 @@ import { local, id } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import { calculate } from "@/lib/experience/pricing";
 import ExperienceGallery from "./ExperienceGallery";
+import Accordion from "./Accordion";
 import AvailabilityForm from "./AvailabilityForm";
 export default function ExperienceCard({
   experience: e,
@@ -46,6 +47,33 @@ export default function ExperienceCard({
       )
       .join("");
   const style = e.styles.find((v) => id(v) === selectedStyleId);
+  const cocktails = e.beverages.filter((v) => v.type === "welcomeDrink");
+  const sharedDrinks = e.beverages.filter((v) => v.type !== "welcomeDrink");
+  const courses: Course[] = ["starter", "main", "dessert"];
+  const menuComplete = (i: number) =>
+    courses.every((c) => !!guestMenus[i]?.[c]) &&
+    (!cocktails.length || !!guestMenus[i]?.welcomeCocktail);
+  const completed = Array.from({ length: guestCount }, (_, i) =>
+    menuComplete(i),
+  ).filter(Boolean).length;
+  const cocktailCount = guestMenus.filter((m) => m.welcomeCocktail).length;
+  const extraNames = e.availableAddons
+    .filter((a) => selectedAddons[id(a)])
+    .map((a) => local(a.name, locale));
+  const changeGuests = (n: number) => {
+    setGuests(n);
+    setMenus((old) => old.slice(0, n));
+  };
+  const setGuestOption = (
+    i: number,
+    key: Course | "welcomeCocktail",
+    value: string,
+  ) =>
+    setMenus((old) =>
+      Array.from({ length: guestCount }, (_, j) =>
+        j === i ? { ...old[j], [key]: value } : { ...old[j] },
+      ),
+    );
   const occasion = e.occasions.find((v) => id(v) === selectedOccasionId);
   const selection: Selection = {
     selectedStyleId: selectedStyleId || undefined,
@@ -145,8 +173,7 @@ export default function ExperienceCard({
           </fieldset>
         )}
         {e.inclusions.length > 0 && (
-          <details className="ec-inclusions" open>
-            <summary>{t("includedLabel")}</summary>
+          <Accordion className="ec-inclusions" title={t("includedLabel")}>
             <ul>
               {e.inclusions.map((v) => (
                 <li key={id(v)}>
@@ -154,70 +181,108 @@ export default function ExperienceCard({
                 </li>
               ))}
             </ul>
-          </details>
+          </Accordion>
         )}
         {dinner && (
           <>
-            <label>
-              {t("guests")}
-              <input
-                type="number"
-                min={e.includedGuests}
-                max={
-                  e.additionalGuestPrice === undefined
-                    ? e.includedGuests
-                    : e.maximumGuests
-                }
-                value={guestCount}
-                onChange={(event) => {
-                  const n = Number(event.target.value);
-                  if (
-                    Number.isInteger(n) &&
-                    n >= Number(e.includedGuests) &&
-                    n <= Number(e.maximumGuests)
-                  ) {
-                    setGuests(n);
-                    setMenus((old) => old.slice(0, n));
-                  }
-                }}
-              />
-            </label>
-            <label>
-              {t("occasion")}
-              <select
-                value={selectedOccasionId}
-                onChange={(event) => {
-                  setOccasion(event.target.value);
-                  setCustom("");
-                }}
+            <Accordion
+              title={t("occasionGuests")}
+              summary={
+                (local(occasion?.name, locale) ||
+                  customOccasion ||
+                  t("occasion")) +
+                " · " +
+                guestCount +
+                " " +
+                t("guests")
+              }
+            >
+              <div
+                className="ec-guest-control"
+                role="group"
+                aria-label={t("guests")}
               >
-                <option value="">{t("customOccasion")}</option>
-                {e.occasions.map((v) => (
-                  <option key={id(v)} value={id(v)}>
-                    {local(v.name, locale)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            {(!occasion || occasion.allowCustomMessage) && (
+                <span>{t("guests")}</span>
+                <div>
+                  <button
+                    type="button"
+                    aria-label={t("removeGuest")}
+                    disabled={
+                      guestCount <= (e.minimumGuests ?? e.includedGuests ?? 2)
+                    }
+                    onClick={() => changeGuests(guestCount - 1)}
+                  >
+                    −
+                  </button>
+                  <output aria-live="polite">{guestCount}</output>
+                  <button
+                    type="button"
+                    aria-label={t("addGuest")}
+                    disabled={
+                      e.additionalGuestPrice === undefined ||
+                      !e.maximumGuests ||
+                      guestCount >= e.maximumGuests
+                    }
+                    onClick={() => changeGuests(guestCount + 1)}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <small>
+                {e.includedGuests} {t("includedLabel")}{" "}
+                {guestCount > Number(e.includedGuests) &&
+                  " · +" +
+                    (guestCount - Number(e.includedGuests)) +
+                    " · +" +
+                    money(
+                      (guestCount - Number(e.includedGuests)) *
+                        (e.additionalGuestPrice || 0),
+                    )}
+              </small>
+              {!e.maximumGuests && <small>{t("capacityPending")}</small>}
               <label>
-                {t("customOccasion")}
-                <input
-                  value={customOccasion}
-                  maxLength={500}
-                  onChange={(event) => setCustom(event.target.value)}
-                />
+                {t("occasion")}
+                <select
+                  value={selectedOccasionId}
+                  onChange={(event) => {
+                    setOccasion(event.target.value);
+                    setCustom("");
+                  }}
+                >
+                  <option value="">{t("customOccasion")}</option>
+                  {e.occasions.map((v) => (
+                    <option key={id(v)} value={id(v)}>
+                      {local(v.name, locale)}
+                    </option>
+                  ))}
+                </select>
               </label>
-            )}
+              {(!occasion || occasion.allowCustomMessage) && (
+                <label>
+                  {t("customOccasion")}
+                  <input
+                    value={customOccasion}
+                    maxLength={500}
+                    onChange={(event) => setCustom(event.target.value)}
+                  />
+                </label>
+              )}
+            </Accordion>
             {(dinner || e.menuItems.length > 0) && (
-              <details open>
-                <summary>{t("menu")}</summary>
+              <Accordion
+                title={t("foodMenu")}
+                summary={`${completed} / ${guestCount} ${t("menusCompleted")}`}
+              >
                 <div className="ec-guest-menus">
                   {Array.from({ length: guestCount }, (_, i) => (
-                    <fieldset key={i}>
-                      <legend>
-                        {t("guest")} {i + 1}
-                      </legend>
+                    <Accordion
+                      key={i}
+                      title={`${t("guest")} ${i + 1}`}
+                      summary={
+                        menuComplete(i) ? t("menuSelected") : t("chooseMenu")
+                      }
+                    >
                       {(["starter", "main", "dessert"] as Course[]).map(
                         (course) => {
                           const items = e.menuItems.filter(
@@ -251,6 +316,11 @@ export default function ExperienceCard({
                                 {items.map((v) => (
                                   <option key={id(v)} value={id(v)}>
                                     {local(v.name, locale)}
+                                    {v.dietaryType === "vegan"
+                                      ? " · Ve"
+                                      : v.dietaryType === "vegetarian"
+                                        ? " · V"
+                                        : ""}
                                     {v.included
                                       ? ""
                                       : ` (+${money(v.supplementPrice || 0)})`}
@@ -259,6 +329,18 @@ export default function ExperienceCard({
                               </select>
                               {selected && (
                                 <small>
+                                  {selected.dietaryType &&
+                                    selected.dietaryType !== "regular" && (
+                                      <span
+                                        className="ec-dietary"
+                                        title={t(selected.dietaryType)}
+                                      >
+                                        {selected.dietaryType === "vegan"
+                                          ? "Ve"
+                                          : "V"}{" "}
+                                        · {t(selected.dietaryType)}
+                                      </span>
+                                    )}{" "}
                                   {local(selected.description, locale)}{" "}
                                   {selected.dietaryTags?.join(" · ")}{" "}
                                   {local(selected.allergenInformation, locale)}
@@ -268,15 +350,64 @@ export default function ExperienceCard({
                           );
                         },
                       )}
-                    </fieldset>
+                      {cocktails.length > 0 && (
+                        <label>
+                          {t("welcomeCocktail")}
+                          <select
+                            value={guestMenus[i]?.welcomeCocktail || ""}
+                            onChange={(event) =>
+                              setGuestOption(
+                                i,
+                                "welcomeCocktail",
+                                event.target.value,
+                              )
+                            }
+                          >
+                            <option value="">{t("select")}</option>
+                            {cocktails.map((v) => (
+                              <option key={id(v)} value={id(v)}>
+                                {local(v.name, locale)} ·{" "}
+                                {v.included
+                                  ? t("includedLabel")
+                                  : "+" + money(v.supplementPrice || 0)}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      )}
+                    </Accordion>
                   ))}
                 </div>
-              </details>
+              </Accordion>
             )}
             {e.beverages.length > 0 && (
-              <fieldset>
-                <legend>{t("beverages")}</legend>
-                {e.beverages.map((v) => (
+              <Accordion
+                title={t("drinksWine")}
+                summary={[
+                  `${cocktailCount} ${t("cocktails")}`,
+                  ...sharedDrinks
+                    .filter((v) => selectedBeverages.includes(id(v)))
+                    .map((v) => local(v.name, locale)),
+                ].join(" · ")}
+              >
+                {cocktails.length > 0 && (
+                  <>
+                    <strong>{t("welcomeCocktail")}</strong>
+                    <small>{t("cocktailHint")}</small>
+                    {guestMenus.map((m, i) => (
+                      <small key={i}>
+                        {t("guest")} {i + 1}:{" "}
+                        {local(
+                          cocktails.find((v) => id(v) === m.welcomeCocktail)
+                            ?.name,
+                          locale,
+                        ) || t("select")}
+                      </small>
+                    ))}
+                  </>
+                )}
+                {sharedDrinks.length > 0 && <p>{t("wineSelection")}</p>}
+                {sharedDrinks.map((v) => (
                   <label className="ec-check" key={id(v)}>
                     <input
                       type="checkbox"
@@ -284,7 +415,17 @@ export default function ExperienceCard({
                       onChange={(event) =>
                         setBeverages((old) =>
                           event.target.checked
-                            ? [...old, id(v)]
+                            ? [
+                                ...old.filter(
+                                  (key) =>
+                                    !["wine", "sparkling"].includes(v.type) ||
+                                    !["wine", "sparkling"].includes(
+                                      e.beverages.find((b) => id(b) === key)
+                                        ?.type || "",
+                                    ),
+                                ),
+                                id(v),
+                              ]
                             : old.filter((x) => x !== id(v)),
                         )
                       }
@@ -295,13 +436,19 @@ export default function ExperienceCard({
                       : `+${money(v.supplementPrice || 0)}`}
                   </label>
                 ))}
-              </fieldset>
+              </Accordion>
             )}
           </>
         )}
         {e.availableAddons.length > 0 && (
-          <fieldset>
-            <legend>{t("addonsLabel")}</legend>
+          <Accordion
+            title={t("extras")}
+            summary={
+              extraNames.length
+                ? `${extraNames.join(" · ")} · +${money(estimate?.lines.filter((l) => l.kind.startsWith("addon:")).reduce((sum, l) => sum + l.amount, 0) || 0)}${estimate?.quoteRequired ? " · " + t("quotePending") : ""}`
+                : t("noExtras")
+            }
+          >
             {e.availableAddons.map((a) => {
               const key = id(a),
                 quantity = selectedAddons[key] || 0;
@@ -374,32 +521,62 @@ export default function ExperienceCard({
                 </div>
               );
             })}
-          </fieldset>
+          </Accordion>
         )}
-        <div className="ec-total" aria-live="polite">
-          <span>{t("estimatedTotalLabel")}</span>
-          <strong>{estimate ? money(estimate.estimatedTotal) : "—"}</strong>
-          {estimate?.quoteRequired && <small>{t("quotePending")}</small>}
-          {dinner && (
-            <small>
-              {t("duration")}:{" "}
-              {estimate?.durationMinutes ?? e.includedDurationMinutes}{" "}
-              {t("minutes")}
-            </small>
-          )}
+        <div className="ec-purchase">
+          <div className="ec-total" aria-live="polite">
+            <span>{t("estimatedTotalLabel")}</span>
+            <strong>{estimate ? money(estimate.estimatedTotal) : "—"}</strong>
+            {estimate?.quoteRequired && <small>{t("quotePending")}</small>}
+            {dinner && (
+              <small>
+                {t("duration")}:{" "}
+                {estimate?.durationMinutes ?? e.includedDurationMinutes}{" "}
+                {t("minutes")}
+              </small>
+            )}
+          </div>
+          <Accordion title={t("priceDetails")}>
+            {estimate && (
+              <dl className="ec-breakdown">
+                {[
+                  ["baseExperience", "base"],
+                  ["additionalGuests", "guests"],
+                  ["menuSupplements", "menu:"],
+                  ["drinkSupplements", "beverage:"],
+                  ["extras", "addon:"],
+                ].map(([key, prefix]) => {
+                  const amount = estimate.lines
+                    .filter((l) => l.kind.startsWith(prefix))
+                    .reduce((sum, l) => sum + l.amount, 0);
+                  return amount > 0 ? (
+                    <div key={key}>
+                      <dt>{t(key)}</dt>
+                      <dd>{money(amount)}</dd>
+                    </div>
+                  ) : null;
+                })}
+                <div>
+                  <dt>{t("estimatedTotalLabel")}</dt>
+                  <dd>{money(estimate.estimatedTotal)}</dd>
+                </div>
+              </dl>
+            )}
+          </Accordion>
+          {!demo && !ready && <small>{t("completeHint")}</small>}
+          <button
+            className="ec-button"
+            aria-expanded={availabilityOpen}
+            disabled={demo || !ready}
+            onClick={() => setAvailability(!availabilityOpen)}
+          >
+            {demo
+              ? locale === "es"
+                ? "Plantilla · no reservable"
+                : "Template · not bookable"
+              : t("availabilityButtonLabel")}
+          </button>
         </div>
-        <button
-          className="ec-button"
-          aria-expanded={availabilityOpen}
-          disabled={demo || !ready}
-          onClick={() => setAvailability(!availabilityOpen)}
-        >
-          {demo
-            ? locale === "es"
-              ? "Plantilla · no reservable"
-              : "Template · not bookable"
-            : t("availabilityButtonLabel")}
-        </button>
         {!demo && availabilityOpen && ready && (
           <AvailabilityForm
             locale={locale}

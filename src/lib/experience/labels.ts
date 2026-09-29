@@ -1,5 +1,40 @@
 import type { Locale, Settings } from "./types";
 export const ui: Record<string, [string, string]> = {
+  occasionGuests: ["Occasion & guests", "Ocasión e invitados"],
+  foodMenu: ["Food menu", "Menú de comida"],
+  drinksWine: ["Drinks & wine", "Bebidas y vinos"],
+  welcomeCocktail: ["Welcome cocktail", "Cóctel de bienvenida"],
+  wineSelection: [
+    "Wine selection · per experience",
+    "Selección de vino · por experiencia",
+  ],
+  menusCompleted: ["menus completed", "menús completos"],
+  chooseMenu: ["Choose menu", "Elige el menú"],
+  menuSelected: ["Menu selected ✓", "Menú seleccionado ✓"],
+  priceDetails: ["Price details", "Desglose del precio"],
+  baseExperience: ["Base experience", "Experiencia base"],
+  additionalGuests: ["Additional guests", "Invitados adicionales"],
+  menuSupplements: ["Menu supplements", "Suplementos del menú"],
+  drinkSupplements: ["Drink supplements", "Suplementos de bebidas"],
+  extras: ["Extras", "Extras"],
+  addGuest: ["Add guest", "Añadir invitado"],
+  removeGuest: ["Remove guest", "Quitar invitado"],
+  noExtras: ["No extras selected", "Sin extras seleccionados"],
+  cocktails: ["cocktails", "cócteles"],
+  cocktailHint: [
+    "Choose each welcome cocktail in the guest menu.",
+    "Elige cada cóctel de bienvenida en el menú del invitado.",
+  ],
+  completeHint: [
+    "Complete each guest menu to check availability.",
+    "Completa el menú de cada invitado para consultar disponibilidad.",
+  ],
+  capacityPending: [
+    "Additional capacity awaiting confirmation.",
+    "Capacidad adicional pendiente de confirmar.",
+  ],
+  vegan: ["Vegan", "Vegano"],
+  vegetarian: ["Vegetarian", "Vegetariano"],
   proposalSectionTitle: ["Proposals", "Propuestas"],
   dinnerSectionTitle: [
     "Punta Cana Romantic Dinners",

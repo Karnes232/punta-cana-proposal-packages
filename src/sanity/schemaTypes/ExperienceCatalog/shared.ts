@@ -93,6 +93,13 @@ export function validExperience(value: unknown) {
     return "maximumGuests must be at least includedGuests";
   if (Number(d.maximumDurationMinutes) < Number(d.includedDurationMinutes))
     return "maximumDurationMinutes must be at least includedDurationMinutes";
+  if (
+    d.minimumGuests !== undefined &&
+    (!Number.isInteger(d.minimumGuests) ||
+      Number(d.minimumGuests) < 1 ||
+      Number(d.minimumGuests) > Number(d.includedGuests))
+  )
+    return "minimumGuests must be a positive integer no greater than includedGuests";
   if (!d.active) return true;
   if (!(d.slug as { current?: string })?.current)
     return "Active experiences require a slug";

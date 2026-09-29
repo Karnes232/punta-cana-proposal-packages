@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { proposalPreview } from "@/lib/experience/proposalTemplate";
 import { dinnerPreview } from "@/lib/experience/dinnerTemplate";
 import {
+  getDinnerPreview,
   getCatalogContent,
   getExperiences,
 } from "@/sanity/queries/ExperienceCatalog";
@@ -95,6 +96,10 @@ export default async function Catalog({
     !!section &&
     (/^localhost(:\d+)?$/.test(host) ||
       /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host));
+  const cmsDinnerPreview =
+    showTemplate && section === "romantic-dinners"
+      ? await getDinnerPreview()
+      : null;
   const settings = content.settings || {},
     home = content.home;
   const t = (key: string) => label(settings, locale, key),
@@ -170,15 +175,17 @@ export default async function Catalog({
                       ) : (
                         <>
                           {locale === "es"
-                            ? "Plantilla interactiva · Solo vista previa. Los nombres de montajes y platos son espacios por completar; no es una oferta reservable. Extras pendientes de cotización."
-                            : "Interactive template · Preview only. Setup and dish names are slots to complete, not a bookable offer. Extras require a quote."}
+                            ? "Vista previa · Menú y tarifas administrados en Sanity. Faltan fotografías y confirmar capacidad antes de habilitar reservas."
+                            : "Preview · Menu and prices managed in Sanity. Photographs and confirmed capacity are needed before enabling bookings."}
                         </>
                       )}
                     </div>
                     <div className="ec-dinner-grid">
                       <ProposalCard
                         experience={
-                          dinner ? dinnerPreview() : proposalPreview()
+                          dinner
+                            ? cmsDinnerPreview || dinnerPreview()
+                            : proposalPreview()
                         }
                         locale={locale}
                         settings={settings}

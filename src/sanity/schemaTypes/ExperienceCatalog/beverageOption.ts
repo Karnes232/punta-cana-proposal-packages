@@ -5,7 +5,12 @@ export default defineType({
   type: "document",
   fields: [
     ...named,
-    options("type", ["wine", "welcomeDrink", "sparkling", "other"]),
+    {
+      ...options("type", ["wine", "welcomeDrink", "sparkling", "other"]),
+      title: "Category",
+      description:
+        "Welcome drinks are selected per guest. Wine, sparkling wine and other drinks are selected once per experience.",
+    },
     field("included", "boolean"),
     money("supplementPrice"),
     image("image"),

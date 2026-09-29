@@ -9,6 +9,7 @@ export default defineType({
     image("image"),
     field("included", "boolean"),
     money("supplementPrice"),
+    options("dietaryType", ["regular", "vegetarian", "vegan"]),
     defineField({
       name: "dietaryTags",
       type: "array",

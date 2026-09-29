@@ -1,5 +1,5 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
+import NextImage from "next/image";
 import { useRef, useState } from "react";
 import type { Image, Photo, Locale, Settings } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";
@@ -54,8 +54,10 @@ export default function ExperienceGallery({
         }
       }}
     >
-      <img
-        src={slide.image?.url}
+      <NextImage
+        src={slide.image!.url!}
+        sizes="(max-width: 800px) 100vw, (max-width: 1200px) 80vw, 1000px"
+        quality={80}
         alt={local(slide.alt || slide.image?.alt, locale)}
         loading="lazy"
         width={1000}

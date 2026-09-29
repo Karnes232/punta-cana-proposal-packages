@@ -48,15 +48,16 @@ export function calculate(e: Experience, s: Selection, complete = false) {
     assert(
       Number.isInteger(e.includedGuests) &&
         Number(e.includedGuests) > 0 &&
-        Number.isInteger(e.maximumGuests),
+        (Number.isInteger(e.maximumGuests) ||
+          (!complete && e.maximumGuests == null)),
       "Guest configuration unavailable",
     );
     assert(
-      s.guestCount >= Number(e.includedGuests) &&
-        s.guestCount <= Number(e.maximumGuests),
+      s.guestCount >= Number(e.minimumGuests ?? e.includedGuests) &&
+        s.guestCount <= Number(e.maximumGuests ?? e.includedGuests),
       "Guest limit exceeded",
     );
-    const extra = s.guestCount - Number(e.includedGuests);
+    const extra = Math.max(0, s.guestCount - Number(e.includedGuests));
     if (extra) add("guests", extra * cents(e.additionalGuestPrice));
     assert(s.guestMenus.length <= s.guestCount, "Invalid guest menus");
     for (let i = 0; i < s.guestCount; i++)
@@ -80,12 +81,38 @@ export function calculate(e: Experience, s: Selection, complete = false) {
           item.included ? 0 : cents(item.supplementPrice),
         );
       }
+    const cocktails = e.beverages.filter(
+      (v) => v.active && v.type === "welcomeDrink",
+    );
+    for (let i = 0; i < s.guestCount; i++) {
+      const selected = s.guestMenus[i]?.welcomeCocktail;
+      if (complete && cocktails.length)
+        assert(selected, "Select each guest cocktail");
+      if (!selected) continue;
+      const drink = cocktails.find((v) => identity(v) === selected);
+      assert(drink, "Invalid guest cocktail");
+      add(
+        `beverage:guest:${i}:${selected}`,
+        drink.included ? 0 : cents(drink.supplementPrice),
+      );
+    }
     assert(
       new Set(s.beverages).size === s.beverages.length,
       "Duplicate beverages",
     );
+    assert(
+      s.beverages.filter((key) =>
+        e.beverages.some(
+          (b) => identity(b) === key && ["wine", "sparkling"].includes(b.type),
+        ),
+      ).length <= 1,
+      "Select one wine per experience",
+    );
     for (const selected of s.beverages) {
-      const b = e.beverages.find((v) => v.active && identity(v) === selected);
+      const b = e.beverages.find(
+        (v) =>
+          v.active && v.type !== "welcomeDrink" && identity(v) === selected,
+      );
       assert(b, "Invalid beverage");
       add(`beverage:${selected}`, b.included ? 0 : cents(b.supplementPrice));
     }
@@ -157,7 +184,11 @@ export function calculate(e: Experience, s: Selection, complete = false) {
     assert(
       Number.isInteger(duration) &&
         duration > 0 &&
-        duration <= Number(e.maximumDurationMinutes),
+        duration <=
+          Number(
+            e.maximumDurationMinutes ??
+              (!complete ? e.includedDurationMinutes : undefined),
+          ),
       "Duration limit exceeded",
     );
   assert(Number.isSafeInteger(total), "Total out of range");

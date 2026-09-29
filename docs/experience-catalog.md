@@ -64,3 +64,15 @@ El servidor exige que estén configurados los tres tiempos antes de admitir una 
 ## Plantilla de propuesta de matrimonio
 
 Studio → Proposal template crea un borrador inactivo proposal-initial-template y tres extras relacionados, sin sobrescribir documentos publicados ni borradores existentes. Incluye tres estilos por completar, tres espacios de fotografía y una inclusión editable. No se asignan precios ni nombres comerciales inventados. La vista previa /proposals muestra el ejemplo interactivo no reservable; estilos y extras funcionan sin presentar precio cero. Las solicitudes reales nunca aceptan el ID de demostración. Sustituir textos, imágenes, inclusiones y precios completos de cada estilo antes de activar y publicar.
+
+## Incremental configurator update — 2026-09-29
+
+The current card, gallery, requests API, navigation and pricing function are retained. Configuration sections now use accessible, initially collapsed buttons with persistent panels and reduced-motion support. Guest menus include an individual welcome cocktail; wine is selected once per experience. The sticky total has a collapsed breakdown. The gallery uses Next Image and loads only the current slide.
+
+Extended existing schemas with minimumGuests and dietaryType; beverageOption.type remains the existing category field to preserve stored documents. Studio groups Food & Beverage separately. No V2 schemas or destructive migrations.
+
+The owner's supplied 23 dishes, 10 cocktails and 3 wine choices are individual bilingual Sanity documents. Dietary classifications match the supplied menu. The existing Dinner template tool has an idempotent approved-content action, preserving editor changes to existing menu entries, setup fields and capacity. It replaces placeholder menu references without deleting their documents. Prices are 849 USD, 2 included/minimum guests, 100 USD per additional guest, 120 minutes; Photographer 299 and Videographer 449 are optional fixed extras. Approved content is stored in the public dataset, with the dinner still inactive. Preview hosts read this inactive dinner from Sanity; the public commercial query still requires active=true.
+
+Maximum guest capacity is awaiting owner confirmation. No arbitrary commercial capacity is assumed. Missing capacity permits a base estimate but blocks extra guests and booking; server submission still requires confirmed guest/duration limits. Photographs and real setup names remain editorial requirements before activation. Previously requested template drafts are preserved; no new fictitious packages/styles were added.
+
+Validation: 32 unit/component/API tests, TypeScript and scoped ESLint. EN/ES tests cover guest preservation, collapsing, image changes, supplements per guest, single wine, malicious IDs, limits, total recalculation and inline form. Browser checks cover 320/375/390/768/1440 widths, actual CMS menu selection, extras and style persistence. Production code is not deployed until PR review/merge.

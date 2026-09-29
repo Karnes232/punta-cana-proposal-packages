@@ -43,10 +43,13 @@ export type MenuItem = Entry & {
   included?: boolean;
   supplementPrice?: number;
   dietaryTags?: string[];
+  dietaryType?: "regular" | "vegetarian" | "vegan";
+  image?: Image;
   allergenInformation?: Localized;
 };
 export type Beverage = Entry & {
   type: string;
+  image?: Image;
   included?: boolean;
   supplementPrice?: number;
 };
@@ -74,6 +77,7 @@ export type Experience = Entry & {
   beverages: Beverage[];
   occasions: Occasion[];
   includedGuests?: number;
+  minimumGuests?: number;
   maximumGuests?: number;
   additionalGuestPrice?: number;
   includedDurationMinutes?: number;
@@ -84,7 +88,7 @@ export type Selection = {
   selectedStyleId?: string;
   addons: Record<string, number>;
   guestCount: number;
-  guestMenus: Partial<Record<Course, string>>[];
+  guestMenus: Partial<Record<Course | "welcomeCocktail", string>>[];
   beverages: string[];
   selectedOccasionId?: string;
   customOccasion?: string;

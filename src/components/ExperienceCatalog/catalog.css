@@ -558,3 +558,174 @@
     min-width: 100px;
   }
 }
+
+/* Progressive configuration keeps the existing brand and state. */
+.ec-card {
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+.ec-card-body {
+  min-width: 0;
+}
+.ec-accordion {
+  border-top: 1px solid var(--ec-border);
+}
+.ec-accordion > button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  padding: 18px 0;
+  min-height: 56px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.ec-accordion > button small {
+  font-weight: 400;
+  margin-top: 4px;
+}
+.ec-accordion > button > span:last-child {
+  font-size: 1.25rem;
+  flex: none;
+}
+.ec-accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 180ms ease,
+    visibility 180ms;
+}
+.ec-accordion-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  visibility: visible;
+}
+.ec-accordion-panel > div {
+  overflow: hidden;
+  min-height: 0;
+}
+.ec-accordion-content {
+  padding-bottom: 18px;
+}
+.ec-guest-menus {
+  display: block;
+  padding-left: 12px;
+}
+.ec-guest-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.ec-guest-control > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ec-guest-control button {
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--ec-border);
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.ec-guest-control button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.ec-guest-control output {
+  min-width: 20px;
+  text-align: center;
+}
+.ec-dietary {
+  display: inline-block;
+  background: #f3ecde;
+  padding: 2px 6px;
+  margin-right: 5px;
+  color: #534426;
+}
+.ec-purchase {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: #fff;
+  padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+  border-top: 1px solid #cfae70;
+  margin-top: 24px;
+}
+.ec-purchase .ec-total {
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+.ec-purchase .ec-total strong {
+  font-size: 1.65rem;
+}
+.ec-purchase > .ec-button {
+  width: 100%;
+}
+.ec-purchase > .ec-accordion {
+  border: 0;
+}
+.ec-purchase > .ec-accordion > button {
+  min-height: 32px;
+  padding: 3px 0;
+  font-size: 0.75rem;
+}
+.ec-purchase .ec-accordion-content {
+  max-height: 30vh;
+  overflow: auto;
+  padding-bottom: 8px;
+}
+.ec-breakdown {
+  margin: 0;
+  font-size: 0.8rem;
+}
+.ec-breakdown > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 3px 0;
+}
+.ec-breakdown > div:last-child {
+  border-top: 1px solid var(--ec-border);
+  font-weight: 600;
+}
+.ec-gallery img {
+  animation: ec-photo 180ms ease;
+}
+@keyframes ec-photo {
+  from {
+    opacity: 0.75;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.ec-addon .ec-check {
+  min-height: 48px;
+}
+.ec-addon .ec-check > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ec-shell select {
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+@media (max-width: 390px) {
+  .ec-wrap {
+    padding-inline: 14px;
+  }
+  .ec-card-body {
+    padding: 18px 14px;
+  }
+  .ec-purchase .ec-total strong {
+    font-size: 1.4rem;
+  }
+}

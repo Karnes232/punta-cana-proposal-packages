@@ -221,3 +221,83 @@ test("dinner requests require all three courses to be configured", () =>
       ),
     /Three-course/,
   ));
+
+test("per-guest cocktails are charged per person and wine only once", () => {
+  const e = {
+    ...dinner,
+    additionalGuestPrice: 100,
+    beverages: [
+      {
+        _id: "cocktail",
+        active: true,
+        type: "welcomeDrink",
+        supplementPrice: 5,
+      },
+      { _id: "wine", active: true, type: "wine", supplementPrice: 20 },
+    ],
+  };
+  const s = {
+    ...ds,
+    guestCount: 3,
+    guestMenus: Array.from({ length: 3 }, () => ({
+      starter: "starter",
+      main: "m",
+      dessert: "dessert",
+      welcomeCocktail: "cocktail",
+    })),
+    beverages: ["wine"],
+  };
+  assert.equal(calculate(e, s, true).estimatedTotal, 1020);
+  assert.throws(
+    () =>
+      calculate(
+        e,
+        {
+          ...s,
+          guestMenus: s.guestMenus.map((m, i) =>
+            i ? m : { ...m, welcomeCocktail: undefined },
+          ),
+        },
+        true,
+      ),
+    /cocktail/,
+  );
+  assert.throws(
+    () => calculate(e, { ...s, beverages: ["cocktail"] }),
+    /beverage/,
+  );
+  assert.throws(
+    () => calculate(e, { ...s, guestMenus: [{ welcomeCocktail: "wine" }] }),
+    /cocktail/,
+  );
+});
+test("one wine selection, inactive cocktail and minimum guests are enforced", () => {
+  const e = {
+    ...dinner,
+    minimumGuests: 1,
+    beverages: [
+      { _id: "w1", active: true, type: "wine", included: true },
+      { _id: "w2", active: true, type: "sparkling", included: true },
+      { _id: "c", active: false, type: "welcomeDrink", included: true },
+    ],
+  };
+  assert.equal(calculate(e, { ...ds, guestCount: 1 }).estimatedTotal, 849);
+  assert.throws(
+    () => calculate(e, { ...ds, beverages: ["w1", "w2"] }),
+    /one wine/,
+  );
+  assert.throws(
+    () => calculate(e, { ...ds, guestMenus: [{ welcomeCocktail: "c" }] }),
+    /cocktail/,
+  );
+});
+test("unconfirmed capacity allows base estimate but never additional guests or submission", () => {
+  const e = {
+    ...dinner,
+    maximumGuests: undefined,
+    maximumDurationMinutes: undefined,
+  };
+  assert.equal(calculate(e, ds).estimatedTotal, 849);
+  assert.throws(() => calculate(e, { ...ds, guestCount: 3 }));
+  assert.throws(() => calculate(e, ds, true));
+});

@@ -24,6 +24,8 @@ export default defineType({
     basePrice: 849,
     currency: "USD",
     includedGuests: 2,
+    minimumGuests: 2,
+    additionalGuestPrice: 100,
     includedDurationMinutes: 120,
   },
   fields: [
@@ -33,6 +35,7 @@ export default defineType({
     refs("menuItems", "menuItem", "menu"),
     refs("beverages", "beverageOption", "beverages"),
     number("includedGuests", "capacity"),
+    number("minimumGuests", "capacity"),
     number("maximumGuests", "capacity"),
     money("additionalGuestPrice", "capacity"),
     number("includedDurationMinutes", "capacity"),

@@ -18,10 +18,17 @@ export const structure: StructureResolver = (S) => {
               list("Proposals", "proposalExperience"),
               list("Romantic Dinner", "romanticDinnerExperience"),
               list("Add-ons", "experienceAddon"),
-              list("Menu", "menuItem"),
-              list("Occasions", "dinnerOccasion"),
+            ]),
+        ),
+      S.listItem()
+        .title("FOOD & BEVERAGE")
+        .child(
+          S.list()
+            .title("Food & Beverage")
+            .items([
+              list("Food Menu", "menuItem"),
               list("Beverages", "beverageOption"),
-              singleton("Catalog Settings", "experienceCatalogSettings"),
+              list("Occasions", "dinnerOccasion"),
             ]),
         ),
       S.listItem()
@@ -30,6 +37,7 @@ export const structure: StructureResolver = (S) => {
           S.list()
             .title("Website")
             .items([
+              singleton("Catalog Settings", "experienceCatalogSettings"),
               singleton("Home", "catalogHome"),
               singleton("Contact", "catalogContact"),
               list("Business information & social links", "generalLayout"),
