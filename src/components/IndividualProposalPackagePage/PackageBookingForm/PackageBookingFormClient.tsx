@@ -6,7 +6,7 @@ import AddonToggle, { AddonData } from "./AddonToggle";
 import PackagePriceSummary from "./PackagePriceSummary";
 
 interface PackageBookingFormClientProps {
-  category: "classic" | "modern" | "dining";
+  category: "classic" | "modern" | "dining" | "adventure";
   packageName: string;
   basePrice: number;
   variants: VariantData[];

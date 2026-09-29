@@ -45,6 +45,7 @@ export default function Footer({
     { label: t("classicProposals"), href: "/classic-proposals" },
     { label: t("modernProposals"), href: "/modern-proposals" },
     { label: t("diningProposals"), href: "/dining-proposals" },
+    { label: t("adventureProposals"), href: "/adventure-proposals" },
     { label: t("stories"), href: "/stories" },
   ];
 

@@ -20,6 +20,7 @@ const PROPOSAL_HUB_SEGMENTS = new Set([
   "classic-proposals",
   "modern-proposals",
   "dining-proposals",
+  "adventure-proposals",
 ]);
 
 export const STATIC_SITEMAP_PATHS = [
@@ -29,6 +30,7 @@ export const STATIC_SITEMAP_PATHS = [
   "/classic-proposals",
   "/modern-proposals",
   "/dining-proposals",
+  "/adventure-proposals",
   "/blog",
   "/stories",
   "/faq",

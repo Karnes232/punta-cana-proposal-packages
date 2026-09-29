@@ -3,6 +3,7 @@
     "classic": "Classic",
     "modern": "Modern",
     "dining": "Dining",
+    "adventure": "Adventure",
     "stories": "Stories",
     "howItWorks": "How It Works",
     "contact": "Contact"
@@ -19,6 +20,7 @@
     "classicProposals": "Classic Proposals",
     "modernProposals": "Modern Proposals",
     "diningProposals": "Dining Proposals",
+    "adventureProposals": "Adventure Proposals",
     "stories": "Stories",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
@@ -104,7 +106,8 @@
       "startingAtLabel": "Starting at",
       "diningProposals": "Dining Proposals",
       "classicProposals": "Classic Proposals",
-      "modernProposals": "Modern Proposals"
+      "modernProposals": "Modern Proposals",
+      "adventureProposals": "Adventure Proposals"
     },
     "BookingForm": {
       "variantTitle": "Choose Your Style",

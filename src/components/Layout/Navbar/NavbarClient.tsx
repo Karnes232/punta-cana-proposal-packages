@@ -40,6 +40,7 @@ export default function NavbarClient() {
     { label: t("classic"), href: "/classic-proposals" },
     { label: t("modern"), href: "/modern-proposals" },
     { label: t("dining"), href: "/dining-proposals" },
+    { label: t("adventure"), href: "/adventure-proposals" },
     { label: t("stories"), href: "/stories" },
     { label: t("howItWorks"), href: "/how-it-works" },
   ];
