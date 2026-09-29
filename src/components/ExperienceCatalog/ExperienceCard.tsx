@@ -19,11 +19,17 @@ export default function ExperienceCard({
   locale,
   settings,
   demo = false,
+  selectable = false,
+  selected = false,
+  onSelect,
 }: {
   experience: Experience;
   locale: Locale;
   settings: Settings;
   demo?: boolean;
+  selectable?: boolean;
+  selected?: boolean;
+  onSelect?: () => void;
 }) {
   const dinner = e._type === "romanticDinnerExperience";
   const [selectedStyleId, setStyle] = useState(id(e.styles[0] || {}));
@@ -109,7 +115,22 @@ export default function ExperienceCard({
     } catch {}
   }
   return (
-    <article className="ec-card" id={e.slug?.current || e._id}>
+    <article
+      className={`ec-card ${selectable ? "ec-proposal-card" : ""} ${selected ? "is-selected" : ""}`}
+      id={e.slug?.current || e._id}
+      onClick={
+        selectable
+          ? (event) => {
+              if (
+                !(event.target as HTMLElement).closest(
+                  "button, input, select, textarea, label, a",
+                )
+              )
+                onSelect?.();
+            }
+          : undefined
+      }
+    >
       {demo && !style?.mainImage?.url && (
         <div className="ec-template-media">
           <span>
@@ -134,7 +155,7 @@ export default function ExperienceCard({
         <div className="ec-card-heading">
           <h2>{local(e.name, locale)}</h2>
           <span>
-            {local(e.priceLabel, locale)}{" "}
+            {selectable ? t("startingAtLabel") : local(e.priceLabel, locale)}{" "}
             {demo &&
             !dinner &&
             style?.price === undefined &&
@@ -149,8 +170,30 @@ export default function ExperienceCard({
                 )}
           </span>
         </div>
-        <p>{local(e.shortDescription, locale)}</p>
-        {e.styles.length > 0 && (
+        {!selectable && <p>{local(e.shortDescription, locale)}</p>}
+        {selectable && (
+          <ul className="ec-proposal-inclusions">
+            {e.inclusions.map((v) => (
+              <li key={id(v)}>{local(v.name, locale)}</li>
+            ))}
+          </ul>
+        )}
+        {selectable && e.styles.length > 0 && (
+          <label className="ec-compact-style">
+            {t("selectStyleLabel")}
+            <select
+              value={selectedStyleId}
+              onChange={(event) => setStyle(event.target.value)}
+            >
+              {e.styles.map((v) => (
+                <option key={id(v)} value={id(v)}>
+                  {local(v.name, locale)}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        {!selectable && e.styles.length > 0 && (
           <fieldset>
             <legend>{t("selectStyleLabel")}</legend>
             <div className="ec-style-options">
@@ -185,7 +228,7 @@ export default function ExperienceCard({
             {style && <p>{local(style.description, locale)}</p>}
           </fieldset>
         )}
-        {e.inclusions.length > 0 && (
+        {!selectable && e.inclusions.length > 0 && (
           <Accordion className="ec-inclusions" title={t("includedLabel")}>
             <ul>
               {e.inclusions.map((v) => (
@@ -453,149 +496,165 @@ export default function ExperienceCard({
             )}
           </>
         )}
-        {e.availableAddons.length > 0 && (
-          <Accordion
-            title={t("extras")}
-            summary={
-              extraNames.length
-                ? `${extraNames.join(" · ")} · +${money(estimate?.lines.filter((l) => l.kind.startsWith("addon:")).reduce((sum, l) => sum + l.amount, 0) || 0)}${estimate?.quoteRequired ? " · " + t("quotePending") : ""}`
-                : t("noExtras")
-            }
+        {selectable && (
+          <button
+            type="button"
+            className="ec-select-package"
+            aria-pressed={selected}
+            aria-controls={`configure-${e._id}`}
+            onClick={onSelect}
           >
-            {e.availableAddons.map((a) => {
-              const key = id(a),
-                quantity = selectedAddons[key] || 0;
-              const canMultiply = [
-                "perUnit",
-                "perHour",
-                "per30Minutes",
-                "quoteOnly",
-              ].includes(a.pricingType);
-              const min = Math.max(1, a.minimumQuantity || 1);
-              let max = a.maximumQuantity || 100;
-              if (a.durationMinutesPerUnit && dinner) {
-                const others = Object.entries(selectedAddons).reduce(
-                  (sum, [k, q]) =>
-                    sum +
-                    (k === key
-                      ? 0
-                      : (e.availableAddons.find((x) => id(x) === k)
-                          ?.durationMinutesPerUnit || 0) * q),
-                  0,
-                );
-                max = Math.min(
-                  max,
-                  Math.floor(
-                    ((e.maximumDurationMinutes || 0) -
-                      (e.includedDurationMinutes || 0) -
-                      others) /
-                      a.durationMinutesPerUnit,
-                  ),
-                );
+            {t(selected ? "selectedPackage" : "selectPackage")}{" "}
+            <span aria-hidden="true">{selected ? "✓" : "→"}</span>
+          </button>
+        )}
+        <div id={`configure-${e._id}`} hidden={selectable && !selected}>
+          {e.availableAddons.length > 0 && (
+            <Accordion
+              title={t("extras")}
+              summary={
+                extraNames.length
+                  ? `${extraNames.join(" · ")} · +${money(estimate?.lines.filter((l) => l.kind.startsWith("addon:")).reduce((sum, l) => sum + l.amount, 0) || 0)}${estimate?.quoteRequired ? " · " + t("quotePending") : ""}`
+                  : t("noExtras")
               }
-              return (
-                <div key={key} className="ec-addon">
-                  <label className="ec-check">
-                    <input
-                      type="checkbox"
-                      checked={!!quantity}
-                      disabled={!quantity && max < min}
-                      onChange={(event) =>
-                        addonChange(key, event.target.checked ? min : 0)
-                      }
-                    />
-                    <span>
-                      {local(a.name, locale)}
-                      <small>{local(a.description, locale)}</small>
-                    </span>
-                    <span>
-                      {a.pricingType === "quoteOnly"
-                        ? t("quotePending")
-                        : money(
-                            (a.price || 0) *
-                              (a.pricingType === "perPerson" ? guestCount : 1),
-                          )}
-                    </span>
-                  </label>
-                  {!!quantity && canMultiply && (
-                    <label>
-                      {t("quantity")}
+            >
+              {e.availableAddons.map((a) => {
+                const key = id(a),
+                  quantity = selectedAddons[key] || 0;
+                const canMultiply = [
+                  "perUnit",
+                  "perHour",
+                  "per30Minutes",
+                  "quoteOnly",
+                ].includes(a.pricingType);
+                const min = Math.max(1, a.minimumQuantity || 1);
+                let max = a.maximumQuantity || 100;
+                if (a.durationMinutesPerUnit && dinner) {
+                  const others = Object.entries(selectedAddons).reduce(
+                    (sum, [k, q]) =>
+                      sum +
+                      (k === key
+                        ? 0
+                        : (e.availableAddons.find((x) => id(x) === k)
+                            ?.durationMinutesPerUnit || 0) * q),
+                    0,
+                  );
+                  max = Math.min(
+                    max,
+                    Math.floor(
+                      ((e.maximumDurationMinutes || 0) -
+                        (e.includedDurationMinutes || 0) -
+                        others) /
+                        a.durationMinutesPerUnit,
+                    ),
+                  );
+                }
+                return (
+                  <div key={key} className="ec-addon">
+                    <label className="ec-check">
                       <input
-                        type="number"
-                        min={min}
-                        max={max}
-                        value={quantity}
+                        type="checkbox"
+                        checked={!!quantity}
+                        disabled={!quantity && max < min}
                         onChange={(event) =>
-                          addonChange(key, Number(event.target.value))
+                          addonChange(key, event.target.checked ? min : 0)
                         }
                       />
+                      <span>
+                        {local(a.name, locale)}
+                        <small>{local(a.description, locale)}</small>
+                      </span>
+                      <span>
+                        {a.pricingType === "quoteOnly"
+                          ? t("quotePending")
+                          : money(
+                              (a.price || 0) *
+                                (a.pricingType === "perPerson"
+                                  ? guestCount
+                                  : 1),
+                            )}
+                      </span>
                     </label>
-                  )}
-                </div>
-              );
-            })}
-          </Accordion>
-        )}
-        <div className="ec-purchase">
-          <div className="ec-total" aria-live="polite">
-            <span>{t("estimatedTotalLabel")}</span>
-            <strong>{estimate ? money(estimate.estimatedTotal) : "—"}</strong>
-            {estimate?.quoteRequired && <small>{t("quotePending")}</small>}
-            {dinner && (
-              <small>
-                {t("duration")}:{" "}
-                {estimate?.durationMinutes ?? e.includedDurationMinutes}{" "}
-                {t("minutes")}
-              </small>
-            )}
+                    {!!quantity && canMultiply && (
+                      <label>
+                        {t("quantity")}
+                        <input
+                          type="number"
+                          min={min}
+                          max={max}
+                          value={quantity}
+                          onChange={(event) =>
+                            addonChange(key, Number(event.target.value))
+                          }
+                        />
+                      </label>
+                    )}
+                  </div>
+                );
+              })}
+            </Accordion>
+          )}
+          <div className="ec-purchase">
+            <div className="ec-total" aria-live="polite">
+              <span>{t("estimatedTotalLabel")}</span>
+              <strong>{estimate ? money(estimate.estimatedTotal) : "—"}</strong>
+              {estimate?.quoteRequired && <small>{t("quotePending")}</small>}
+              {dinner && (
+                <small>
+                  {t("duration")}:{" "}
+                  {estimate?.durationMinutes ?? e.includedDurationMinutes}{" "}
+                  {t("minutes")}
+                </small>
+              )}
+            </div>
+            <Accordion title={t("priceDetails")}>
+              {estimate && (
+                <dl className="ec-breakdown">
+                  {[
+                    ["baseExperience", "base"],
+                    ["additionalGuests", "guests"],
+                    ["menuSupplements", "menu:"],
+                    ["drinkSupplements", "beverage:"],
+                    ["extras", "addon:"],
+                  ].map(([key, prefix]) => {
+                    const amount = estimate.lines
+                      .filter((l) => l.kind.startsWith(prefix))
+                      .reduce((sum, l) => sum + l.amount, 0);
+                    return amount > 0 ? (
+                      <div key={key}>
+                        <dt>{t(key)}</dt>
+                        <dd>{money(amount)}</dd>
+                      </div>
+                    ) : null;
+                  })}
+                  <div>
+                    <dt>{t("estimatedTotalLabel")}</dt>
+                    <dd>{money(estimate.estimatedTotal)}</dd>
+                  </div>
+                </dl>
+              )}
+            </Accordion>
+            {!demo && !ready && <small>{t("completeHint")}</small>}
+            <button
+              className="ec-button"
+              aria-expanded={availabilityOpen}
+              disabled={!demo && !ready}
+              onClick={() => setAvailability(!availabilityOpen)}
+            >
+              {t("availabilityButtonLabel")}
+            </button>
           </div>
-          <Accordion title={t("priceDetails")}>
-            {estimate && (
-              <dl className="ec-breakdown">
-                {[
-                  ["baseExperience", "base"],
-                  ["additionalGuests", "guests"],
-                  ["menuSupplements", "menu:"],
-                  ["drinkSupplements", "beverage:"],
-                  ["extras", "addon:"],
-                ].map(([key, prefix]) => {
-                  const amount = estimate.lines
-                    .filter((l) => l.kind.startsWith(prefix))
-                    .reduce((sum, l) => sum + l.amount, 0);
-                  return amount > 0 ? (
-                    <div key={key}>
-                      <dt>{t(key)}</dt>
-                      <dd>{money(amount)}</dd>
-                    </div>
-                  ) : null;
-                })}
-                <div>
-                  <dt>{t("estimatedTotalLabel")}</dt>
-                  <dd>{money(estimate.estimatedTotal)}</dd>
-                </div>
-              </dl>
-            )}
-          </Accordion>
-          {!demo && !ready && <small>{t("completeHint")}</small>}
-          <button
-            className="ec-button"
-            aria-expanded={availabilityOpen}
-            disabled={!demo && !ready}
-            onClick={() => setAvailability(!availabilityOpen)}
-          >
-            {t("availabilityButtonLabel")}
-          </button>
+          {availabilityOpen && (demo || ready) && (
+            <AvailabilityForm
+              locale={locale}
+              settings={settings}
+              demo={demo}
+              experienceId={e._id}
+              selection={selection}
+            />
+          )}
         </div>
-        {availabilityOpen && (demo || ready) && (
-          <AvailabilityForm
-            locale={locale}
-            settings={settings}
-            demo={demo}
-            experienceId={e._id}
-            selection={selection}
-          />
-        )}
-        {local(e.longDescription, locale) && (
+        {!selectable && local(e.longDescription, locale) && (
           <p>{local(e.longDescription, locale)}</p>
         )}
       </div>

@@ -742,3 +742,117 @@
   flex-basis: 100%;
   margin-bottom: 6px;
 }
+
+/* Proposal cards retain the original dark catalogue treatment. */
+.ec-proposals-section {
+  --ec-ink: #f7f5f1;
+  --ec-muted: #b9b7b5;
+  --ec-border: #cfae7033;
+  background: #0b0b0c;
+  color: #f7f5f1;
+  padding: 36px 28px;
+}
+.ec-proposal-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+.ec-proposal-card {
+  border: 1px solid #cfae7033;
+  background: #141416;
+  color: #f7f5f1;
+  cursor: pointer;
+  min-width: 0;
+  transition: border-color 180ms;
+}
+.ec-proposal-card:hover,
+.ec-proposal-card.is-selected {
+  border-color: #cfae70;
+}
+.ec-proposal-card .ec-gallery img {
+  aspect-ratio: 3/2;
+  height: auto;
+}
+.ec-proposal-card .ec-gallery-controls {
+  background: #141416;
+  color: #cfae70;
+  padding: 2px 12px;
+}
+.ec-proposal-card .ec-card-heading h2 {
+  font-style: italic;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+}
+.ec-proposal-card .ec-card-heading > span {
+  color: #cfae70;
+  white-space: normal;
+  text-align: right;
+  flex-shrink: 0;
+  max-width: 40%;
+}
+.ec-proposal-inclusions {
+  padding-left: 18px;
+  margin: 22px 0;
+  font-size: 0.85rem;
+  color: #cfcdca;
+  list-style: disc;
+}
+.ec-proposal-inclusions li {
+  padding: 2px 0;
+}
+.ec-compact-style {
+  margin-top: 24px !important;
+}
+.ec-proposal-card .ec-compact-style select {
+  background: #1c1c20;
+  color: #f7f5f1;
+  border-color: #cfae7066;
+}
+.ec-select-package {
+  color: #cfae70;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 24px 0 8px;
+  min-height: 48px;
+  text-align: left;
+  cursor: pointer;
+}
+.ec-proposal-card .ec-purchase {
+  background: #141416;
+}
+.ec-proposal-card .ec-total {
+  color: #f7f5f1;
+}
+.ec-proposal-card small,
+.ec-proposals-section .ec-preview-caption {
+  color: #b9b7b5;
+}
+.ec-proposal-card .ec-form {
+  cursor: auto;
+}
+.ec-proposal-card [hidden] {
+  display: none !important;
+}
+@media (max-width: 800px) {
+  .ec-proposals-section {
+    padding: 28px 14px;
+  }
+  .ec-proposal-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .ec-proposal-card .ec-card-heading {
+    display: flex;
+  }
+}
+.ec-proposal-page {
+  --ec-ink: #f7f5f1;
+  --ec-muted: #b9b7b5;
+  background: #0b0b0c;
+}
+.ec-proposal-page .ec-proposals-section {
+  padding-inline: 0;
+}

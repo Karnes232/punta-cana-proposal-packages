@@ -398,3 +398,47 @@ test("demo opens the real inline form but cannot transmit a request", async () =
     await act(async () => root.unmount());
   }
 });
+
+test("proposal grid selects one package inline, preserves each configuration and has no detail links", async () => {
+  const Grid =
+    require("../src/components/ExperienceCatalog/ProposalGrid.tsx").default;
+  const root = createRoot(document.getElementById("root"));
+  await act(async () =>
+    root.render(
+      React.createElement(Grid, {
+        experiences: [
+          fixture,
+          { ...fixture, _id: "second", name: { en: "Second" } },
+        ],
+        locale: "en",
+        settings: {},
+      }),
+    ),
+  );
+  const cards = document.querySelectorAll(".ec-proposal-card");
+  assert.equal(cards.length, 2);
+  assert.equal(document.querySelectorAll(".ec-proposal-card a").length, 0);
+  assert.equal(
+    document.querySelectorAll(".ec-select-package[aria-pressed=true]").length,
+    0,
+  );
+  await act(async () => cards[0].querySelector(".ec-select-package").click());
+  await act(async () => cards[0].querySelector("input[type=checkbox]").click());
+  await act(async () => {
+    const select = cards[0].querySelector("select");
+    select.value = "s2";
+    select.dispatchEvent(new window.Event("change", { bubbles: true }));
+  });
+  assert.match(cards[0].querySelector(".ec-total strong").textContent, /210/);
+  await act(async () => cards[1].querySelector("h2").click());
+  assert.equal(
+    document.querySelectorAll(".ec-select-package[aria-pressed=true]").length,
+    1,
+  );
+  assert.equal(cards[0].querySelector("[id^=configure-]").hidden, true);
+  await act(async () => cards[0].querySelector(".ec-select-package").click());
+  assert.equal(cards[0].querySelector("select").value, "s2");
+  assert.equal(cards[0].querySelector("input[type=checkbox]").checked, true);
+  assert.equal(window.location.pathname, "/");
+  await act(async () => root.unmount());
+});

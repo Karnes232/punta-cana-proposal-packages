@@ -2,11 +2,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
-import { proposalPreview } from "@/lib/experience/proposalTemplate";
 import { dinnerPreview } from "@/lib/experience/dinnerTemplate";
 import {
   getDinnerPreview,
-  getProposalPreview,
+  getLegacyProposalPreviews,
   getCatalogContent,
   getExperiences,
 } from "@/sanity/queries/ExperienceCatalog";
@@ -15,7 +14,7 @@ import { label } from "@/lib/experience/labels";
 import type { Locale, Seo } from "@/lib/experience/types";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
-import ProposalCard from "./ProposalCard";
+import ProposalGrid from "./ProposalGrid";
 import RomanticDinnerCard from "./RomanticDinnerCard";
 export function catalogMetadata(
   locale: Locale,
@@ -100,16 +99,18 @@ export default async function Catalog({
     showTemplate && (!section || section === "romantic-dinners")
       ? await getDinnerPreview()
       : null;
-  const cmsProposalPreview =
+  const legacyProposals =
     showTemplate && (!section || section === "proposals")
-      ? await getProposalPreview()
-      : null;
+      ? await getLegacyProposalPreviews()
+      : [];
   const settings = content.settings || {},
     home = content.home;
   const t = (key: string) => label(settings, locale, key),
     prefix = locale === "es" ? "/es" : "";
   return (
-    <main className="ec-shell">
+    <main
+      className={`ec-shell ${section === "proposals" ? "ec-proposal-page" : ""}`}
+    >
       <div className="ec-wrap">
         {!section && (
           <section className="ec-hero">
@@ -154,7 +155,11 @@ export default async function Catalog({
               );
             const Heading = section ? "h1" : "h2";
             return (
-              <section className="ec-section" id={key} key={key}>
+              <section
+                className={`ec-section ${!dinner ? "ec-proposals-section" : ""}`}
+                id={key}
+                key={key}
+              >
                 <div className="ec-section-heading">
                   <Heading>
                     {t(dinner ? "dinnerSectionTitle" : "proposalSectionTitle")}
@@ -167,7 +172,7 @@ export default async function Catalog({
                     )}
                   </p>
                 </div>
-                {showTemplate && (
+                {showTemplate && dinner && (
                   <>
                     <div className="ec-template-note">
                       {!dinner ? (
@@ -185,12 +190,8 @@ export default async function Catalog({
                       )}
                     </div>
                     <div className="ec-dinner-grid">
-                      <ProposalCard
-                        experience={
-                          dinner
-                            ? cmsDinnerPreview || dinnerPreview()
-                            : cmsProposalPreview || proposalPreview()
-                        }
+                      <RomanticDinnerCard
+                        experience={cmsDinnerPreview || dinnerPreview()}
                         locale={locale}
                         settings={settings}
                         demo
@@ -198,32 +199,45 @@ export default async function Catalog({
                     </div>
                   </>
                 )}
-                {rows.length ? (
-                  <div
-                    className={dinner ? "ec-grid ec-dinner-grid" : "ec-grid"}
-                  >
-                    {rows.map((e) =>
-                      dinner ? (
-                        <RomanticDinnerCard
-                          key={e._id}
-                          experience={e}
-                          locale={locale}
-                          settings={settings}
-                        />
-                      ) : (
-                        <ProposalCard
-                          key={e._id}
-                          experience={e}
-                          locale={locale}
-                          settings={settings}
-                        />
-                      ),
+                {!dinner && (rows.length > 0 || legacyProposals.length > 0) ? (
+                  <>
+                    {showTemplate && legacyProposals.length > 0 && (
+                      <p className="ec-preview-caption">
+                        {locale === "es"
+                          ? "Vista previa interactiva del catálogo de Sanity. Las solicitudes de los ejemplos no se envían."
+                          : "Interactive preview of the Sanity catalog. Example requests are not sent."}
+                      </p>
                     )}
+                    <ProposalGrid
+                      experiences={[
+                        ...rows,
+                        ...legacyProposals.filter(
+                          (e) =>
+                            !rows.some(
+                              (row) => row.slug?.current === e.slug?.current,
+                            ),
+                        ),
+                      ]}
+                      demoIds={legacyProposals.map((e) => e._id)}
+                      locale={locale}
+                      settings={settings}
+                    />
+                  </>
+                ) : rows.length ? (
+                  <div className="ec-grid ec-dinner-grid">
+                    {rows.map((e) => (
+                      <RomanticDinnerCard
+                        key={e._id}
+                        experience={e}
+                        locale={locale}
+                        settings={settings}
+                      />
+                    ))}
                   </div>
                 ) : showTemplate ? null : (
                   <div className="ec-empty">
                     <p>{t(dinner ? "emptyDinners" : "emptyProposals")}</p>
-                    <Link href={`${prefix}/contact`}>
+                    <Link href={prefix + "/contact"}>
                       {t("contactUsLabel")} →
                     </Link>
                   </div>

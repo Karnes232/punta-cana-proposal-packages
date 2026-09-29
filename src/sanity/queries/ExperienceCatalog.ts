@@ -61,3 +61,36 @@ async function getTemplatePreview(id: string) {
       })
     : null;
 }
+
+// Read-only previews of existing packages: no duplication or migration of their documents.
+export async function getLegacyProposalPreviews() {
+  const legacyImage = `{ "url":asset->url, "alt":{"en":alt,"es":alt} }`;
+  const rows = await fresh.fetch<
+    Array<Experience & { mainImage?: import("@/lib/experience/types").Image }>
+  >(
+    `*[_type=="IndividualProposalPackage"] | order(name.en asc) {
+ _id,"_type":"proposalExperience","active":true,name,slug,"shortDescription":description,"basePrice":price,"currency":"USD",
+ "mainImage":image${legacyImage},"gallery":gallery[]{_key,"image":${legacyImage}},
+ "styles":variants[]{_key,name,description,price,"active":true,"mainImage":image${legacyImage}},
+ "inclusions":inclusions[]{_key,"name":title,description,"active":true},
+ "availableAddons":addons[]{_key,name,description,price,"active":true,"pricingType":"fixed","applicableTo":["proposal"]},
+ "menuItems":[],"beverages":[],"occasions":[]
+ }`,
+    {},
+    { next: { revalidate: 60 } },
+  );
+  return rows.map((e) =>
+    normalizeExperience({
+      ...e,
+      gallery: [{ _key: "main", image: e.mainImage }, ...(e.gallery || [])],
+      styles: (e.styles || []).map((style, index) => ({
+        ...style,
+        mainImage: style.mainImage?.url
+          ? style.mainImage
+          : index === 0
+            ? e.mainImage
+            : e.gallery?.[index - 1]?.image || e.mainImage,
+      })),
+    }),
+  );
+}

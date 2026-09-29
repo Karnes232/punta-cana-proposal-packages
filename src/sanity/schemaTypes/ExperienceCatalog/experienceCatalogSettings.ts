@@ -64,6 +64,8 @@ export const labelKeys = [
   "previous",
   "next",
   "photo",
+  "selectPackage",
+  "selectedPackage",
   "blog",
   "faq",
   "previewOnly",

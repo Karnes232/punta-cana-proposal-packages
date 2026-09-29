@@ -87,6 +87,8 @@ export const ui: Record<string, [string, string]> = {
   previous: ["Previous photo", "Foto anterior"],
   next: ["Next photo", "Foto siguiente"],
   photo: ["Photo", "Foto"],
+  selectPackage: ["Select package", "Seleccionar paquete"],
+  selectedPackage: ["Package selected", "Paquete seleccionado"],
   blog: ["Blog", "Blog"],
   faq: ["Frequently asked questions", "Preguntas frecuentes"],
   previewOnly: [

@@ -86,3 +86,11 @@ The existing template documents now have real reference imagery from the existin
 Style controls include optimized thumbnails. Duplicate gallery images are removed. Demo availability buttons open the same inline form, clearly marked as a preview; both the submit button and submit handler prevent transmission. Real booking behavior remains unchanged. Visual-template actions are available in the existing Studio tools and use revision checks when updating existing documents.
 
 Verification: 33 tests pass, TypeScript and scoped ESLint pass. Browser verified three dinner image switches with base price unchanged, proposal image/price changes while retaining an extra (1949 + 399 = 2348 USD), demo form, and existing Spanish blog articles reached from the footer.
+
+## Proposal card layout restoration
+
+Proposals now retain the original dark, two-column card appearance with photograph, italic package name, starting price and visible inclusions. A compact style selector updates the photograph and price within each card. A package button (or clicking non-interactive card content) selects one package on the same page and reveals extras/availability inline. No card links to a detail page. Configurations remain mounted and survive changing the selected package; keyboard users select via native buttons.
+
+The existing card/pricing/form components are reused. ProposalGrid owns only the selected package ID and renders the full Sanity list without a fixed count. Preview hosts read all 17 existing IndividualProposalPackage documents without migrating or duplicating them; those legacy preview cards cannot submit requests. Active new-schema packages remain bookable through the existing server validation. Dinner behavior and the restored blog/footer are unchanged.
+
+Verified 34 pricing/component/API tests, scoped ESLint, TypeScript and real browser selection/style changes. All 17 cards rendered in EN/ES. No horizontal overflow at 320/375/390/768/1440px. The location remained /es/proposals after selection.
