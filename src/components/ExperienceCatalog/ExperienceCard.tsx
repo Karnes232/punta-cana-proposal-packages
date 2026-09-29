@@ -71,6 +71,10 @@ export default function ExperienceCard({
     if (quantity) next[key] = quantity;
     else delete next[key];
     try {
+      if (demo) {
+        setAddons(next);
+        return;
+      }
       calculate(e, { ...selection, addons: next });
       setAddons(next);
     } catch {}
@@ -102,9 +106,18 @@ export default function ExperienceCard({
           <h2>{local(e.name, locale)}</h2>
           <span>
             {local(e.priceLabel, locale)}{" "}
-            {money(
-              dinner ? e.basePrice || 0 : (style?.price ?? e.basePrice ?? 0),
-            )}
+            {demo &&
+            !dinner &&
+            style?.price === undefined &&
+            e.basePrice === undefined
+              ? locale === "es"
+                ? "Precio por definir"
+                : "Price to be defined"
+              : money(
+                  dinner
+                    ? e.basePrice || 0
+                    : (style?.price ?? e.basePrice ?? 0),
+                )}
           </span>
         </div>
         <p>{local(e.shortDescription, locale)}</p>

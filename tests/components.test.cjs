@@ -230,3 +230,38 @@ test("dinner template has 3 setups, individual 3-course menus and quote-only ext
   assert.equal(document.querySelector(".ec-card-body > button").disabled, true);
   await act(async () => root.unmount());
 });
+
+test("proposal template keeps extras across styles, shows no invented price and cannot book", async () => {
+  const {
+    proposalPreview,
+  } = require("../src/lib/experience/proposalTemplate.ts");
+  const root = createRoot(document.getElementById("root"));
+  await act(async () =>
+    root.render(
+      React.createElement(Card, {
+        experience: proposalPreview(),
+        locale: "es",
+        settings: {},
+        demo: true,
+      }),
+    ),
+  );
+  assert.equal(document.querySelectorAll("input[type=radio]").length, 3);
+  assert.equal(document.querySelectorAll("input[type=checkbox]").length, 3);
+  assert.match(
+    document.querySelector(".ec-card-heading").textContent,
+    /Precio por definir/,
+  );
+  assert.equal(document.querySelectorAll(".ec-guest-menus").length, 0);
+  await act(async () => {
+    document.querySelector("input[type=checkbox]").click();
+    document.querySelectorAll("input[type=radio]")[1].click();
+  });
+  assert.equal(document.querySelector("input[type=checkbox]").checked, true);
+  assert.match(
+    document.querySelector(".ec-template-media").textContent,
+    /Estilo B/,
+  );
+  assert.equal(document.querySelector(".ec-card-body > button").disabled, true);
+  await act(async () => root.unmount());
+});

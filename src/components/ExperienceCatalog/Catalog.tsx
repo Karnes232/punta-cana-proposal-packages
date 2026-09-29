@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
+import { proposalPreview } from "@/lib/experience/proposalTemplate";
 import { dinnerPreview } from "@/lib/experience/dinnerTemplate";
 import {
   getCatalogContent,
@@ -91,7 +92,7 @@ export default async function Catalog({
     .split(",")[0]
     .trim();
   const showTemplate =
-    section === "romantic-dinners" &&
+    !!section &&
     (/^localhost(:\d+)?$/.test(host) ||
       /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host));
   const settings = content.settings || {},
@@ -157,16 +158,28 @@ export default async function Catalog({
                     )}
                   </p>
                 </div>
-                {showTemplate && dinner && (
+                {showTemplate && (
                   <>
                     <div className="ec-template-note">
-                      {locale === "es"
-                        ? "Plantilla interactiva · Solo vista previa. Los nombres de montajes y platos son espacios por completar; no es una oferta reservable. Extras pendientes de cotización."
-                        : "Interactive template · Preview only. Setup and dish names are slots to complete, not a bookable offer. Extras require a quote."}
+                      {!dinner ? (
+                        locale === "es" ? (
+                          "Plantilla de propuesta · Solo vista previa, no reservable. Montajes, fotos, inclusiones y precios pendientes de completar en Sanity."
+                        ) : (
+                          "Proposal template · Preview only, not bookable. Setups, photographs, inclusions and prices must be completed in Sanity."
+                        )
+                      ) : (
+                        <>
+                          {locale === "es"
+                            ? "Plantilla interactiva · Solo vista previa. Los nombres de montajes y platos son espacios por completar; no es una oferta reservable. Extras pendientes de cotización."
+                            : "Interactive template · Preview only. Setup and dish names are slots to complete, not a bookable offer. Extras require a quote."}
+                        </>
+                      )}
                     </div>
                     <div className="ec-dinner-grid">
-                      <RomanticDinnerCard
-                        experience={dinnerPreview()}
+                      <ProposalCard
+                        experience={
+                          dinner ? dinnerPreview() : proposalPreview()
+                        }
                         locale={locale}
                         settings={settings}
                         demo
@@ -196,7 +209,7 @@ export default async function Catalog({
                       ),
                     )}
                   </div>
-                ) : showTemplate && dinner ? null : (
+                ) : showTemplate ? null : (
                   <div className="ec-empty">
                     <p>{t(dinner ? "emptyDinners" : "emptyProposals")}</p>
                     <Link href={`${prefix}/contact`}>
