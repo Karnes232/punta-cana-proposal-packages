@@ -10,7 +10,7 @@ const img = `{ "url":asset->url,alt }`;
 const photo = `{_key,alt,caption,displayOrder,image${img}}`;
 const entry = `_id,_key,name,description,active,displayOrder`;
 export const experienceProjection = `{${entry},_type,slug,shortDescription,longDescription,basePrice,currency,priceLabel,includedGuests,minimumGuests,maximumGuests,additionalGuestPrice,includedDurationMinutes,maximumDurationMinutes,inclusions[]{${entry},icon},gallery[]${photo},styles[]{${entry},price,mainImage${img},gallery[]${photo}},availableAddons[]->{${entry},price,pricingType,applicableTo,minimumQuantity,maximumQuantity,durationMinutesPerUnit,icon,image${img}},menuItems[]->{${entry},courseType,included,supplementPrice,dietaryType,dietaryTags,allergenInformation,image${img}},beverages[]->{${entry},type,included,supplementPrice,image${img}},occasions[]->{${entry},allowCustomMessage},seo{...,image${img}}}`;
-export const catalogQuery = `*[_type in ["proposalExperience","romanticDinnerExperience"] && active==true] | order(displayOrder asc,_id asc) ${experienceProjection}`;
+export const catalogQuery = `*[_type in ["proposalExperience","romanticDinnerExperience"] && active==true && coalesce(slug.current, "") != "adventure-to-yes"] | order(displayOrder asc,_id asc) ${experienceProjection}`;
 const fresh = client.withConfig({ useCdn: false, perspective: "published" });
 export async function getExperiences() {
   const rows = await fresh.fetch<Experience[]>(
@@ -22,7 +22,7 @@ export async function getExperiences() {
 }
 export async function getExperience(id: string) {
   const e = await fresh.fetch<Experience | null>(
-    `*[_id==$id && _type in ["proposalExperience","romanticDinnerExperience"] && active==true][0]${experienceProjection}`,
+    `*[_id==$id && _type in ["proposalExperience","romanticDinnerExperience"] && active==true && coalesce(slug.current, "") != "adventure-to-yes"][0]${experienceProjection}`,
     { id },
     { cache: "no-store" },
   );
@@ -68,7 +68,7 @@ export async function getLegacyProposalPreviews() {
   const rows = await fresh.fetch<
     Array<Experience & { mainImage?: import("@/lib/experience/types").Image }>
   >(
-    `*[_type=="IndividualProposalPackage"] | order(name.en asc) {
+    `*[_type=="IndividualProposalPackage" && _id != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93" && coalesce(slug.current, "") != "adventure-to-yes"] | order(name.en asc) {
  _id,"_type":"proposalExperience","active":true,name,slug,"shortDescription":description,"basePrice":price,"currency":"USD",
  "mainImage":image${legacyImage},"gallery":gallery[]{_key,"image":${legacyImage}},
  "styles":variants[]{_key,name,description,price,"active":true,"mainImage":image${legacyImage}},

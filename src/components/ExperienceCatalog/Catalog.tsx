@@ -14,6 +14,7 @@ import { label } from "@/lib/experience/labels";
 import type { Locale, Seo } from "@/lib/experience/types";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
+import CatalogIntroduction from "./CatalogIntroduction";
 import ProposalGrid from "./ProposalGrid";
 import RomanticDinnerCard from "./RomanticDinnerCard";
 export function catalogMetadata(
@@ -153,25 +154,18 @@ export default async function Catalog({
                   e._type ===
                   (dinner ? "romanticDinnerExperience" : "proposalExperience"),
               );
-            const Heading = section ? "h1" : "h2";
             return (
               <section
                 className={`ec-section ${!dinner ? "ec-proposals-section" : ""}`}
                 id={key}
                 key={key}
               >
-                <div className="ec-section-heading">
-                  <Heading>
-                    {t(dinner ? "dinnerSectionTitle" : "proposalSectionTitle")}
-                  </Heading>
-                  <p>
-                    {t(
-                      dinner
-                        ? "dinnerSectionDescription"
-                        : "proposalSectionDescription",
-                    )}
-                  </p>
-                </div>
+                <CatalogIntroduction
+                  dinner={dinner}
+                  standalone={!!section}
+                  locale={locale}
+                  settings={settings}
+                />
                 {showTemplate && dinner && (
                   <>
                     <div className="ec-template-note">

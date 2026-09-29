@@ -856,3 +856,55 @@
 .ec-proposal-page .ec-proposals-section {
   padding-inline: 0;
 }
+.ec-catalog-intro {
+  margin-bottom: 40px;
+}
+.ec-catalog-intro > h1,
+.ec-catalog-intro > h2 {
+  margin-bottom: 28px;
+  max-width: 980px;
+}
+.ec-intro-box {
+  border: 1px solid var(--ec-border);
+  border-top: 2px solid #cfae70;
+  padding: clamp(20px, 3vw, 36px);
+  background: #ffffff60;
+}
+.ec-proposals-section .ec-intro-box {
+  background: #141416;
+}
+.ec-intro-box .ec-intro-lead {
+  margin: 0 0 28px;
+  color: var(--ec-ink);
+  max-width: 85ch;
+  font-size: 1.05rem;
+}
+.ec-intro-box ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 40px;
+  padding-left: 24px;
+  list-style: decimal;
+}
+.ec-intro-box li::marker {
+  color: #9b773d;
+  font-weight: 600;
+}
+.ec-proposals-section .ec-intro-box li::marker {
+  color: #cfae70;
+}
+.ec-intro-box li p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+.ec-intro-box .ec-intro-note {
+  margin: 28px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--ec-border);
+  font-size: 0.85rem;
+}
+@media (max-width: 700px) {
+  .ec-intro-box ol {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,5 +1,7 @@
 import type { Locale, Settings } from "./types";
+import { introductionLabels } from "./introduction";
 export const ui: Record<string, [string, string]> = {
+  ...introductionLabels,
   occasionGuests: ["Occasion & guests", "Ocasión e invitados"],
   foodMenu: ["Food menu", "Menú de comida"],
   drinksWine: ["Drinks & wine", "Bebidas y vinos"],

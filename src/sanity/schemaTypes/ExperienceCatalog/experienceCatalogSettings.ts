@@ -1,3 +1,4 @@
+import { introductionLabels } from "@/lib/experience/introduction";
 import { defineType } from "sanity";
 import { field, image } from "./shared";
 export const labelKeys = [
@@ -76,7 +77,10 @@ export default defineType({
   name: "experienceCatalogSettings",
   type: "document",
   title: "Catalog Settings",
-  fields: labelKeys.map((k) => field(k, "localizedString")),
+  fields: [
+    ...labelKeys.map((k) => field(k, "localizedString")),
+    ...Object.keys(introductionLabels).map((k) => field(k, "localizedText")),
+  ],
 });
 export const catalogHome = defineType({
   name: "catalogHome",

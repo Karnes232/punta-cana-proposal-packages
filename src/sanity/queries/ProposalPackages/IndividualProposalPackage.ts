@@ -96,7 +96,7 @@ export interface IndividualProposalPackage {
   };
 }
 
-export const individualProposalPackageQueryString = `*[_type == "IndividualProposalPackage" && slug.current == $slug][0] {
+export const individualProposalPackageQueryString = `*[_type == "IndividualProposalPackage" && slug.current == $slug && slug.current != "adventure-to-yes" && _id != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93"][0] {
   image {
     asset-> {
       url,
@@ -197,7 +197,7 @@ export const individualProposalPackageQuery = async (
   return await client.fetch(individualProposalPackageQueryString, { slug });
 };
 
-export const individualProposalPackageSEOQueryString = `*[_type == "IndividualProposalPackage" && slug.current == $slug][0] {
+export const individualProposalPackageSEOQueryString = `*[_type == "IndividualProposalPackage" && slug.current == $slug && slug.current != "adventure-to-yes" && _id != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93"][0] {
   _id,
   seo {
         meta {
