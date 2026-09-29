@@ -7,7 +7,25 @@ export const runtime = "nodejs";
 const recent = new Map<string, { count: number; until: number }>();
 export async function POST(request: NextRequest) {
   const origin = request.headers.get("origin");
-  if (origin && origin !== request.nextUrl.origin)
+  // Netlify forwards the public host while the internal Next.js URL may differ.
+  const publicHost = (
+    request.headers.get("x-forwarded-host") ||
+    request.headers.get("host") ||
+    request.nextUrl.host
+  )
+    .split(",")[0]
+    .trim();
+  let validOrigin = !origin;
+  try {
+    if (origin) {
+      const url = new URL(origin);
+      validOrigin =
+        ["http:", "https:"].includes(url.protocol) && url.host === publicHost;
+    }
+  } catch {
+    validOrigin = false;
+  }
+  if (!validOrigin)
     return NextResponse.json({ error: "Invalid origin" }, { status: 403 });
   const key = request.headers.get("x-forwarded-for")?.split(",")[0] || "local";
   const now = Date.now();

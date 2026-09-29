@@ -88,3 +88,18 @@ test("invalid experience and contact are rejected before storage", async () => {
   );
   assert.equal(stored, null);
 });
+
+test("accepts public host behind Netlify proxy and rejects foreign origin", async () => {
+  const make = (origin) =>
+    new NextRequest("http://internal/api/experience-requests", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-forwarded-host": "preview.netlify.app",
+        origin,
+      },
+      body: JSON.stringify(body),
+    });
+  assert.equal((await POST(make("https://preview.netlify.app"))).status, 201);
+  assert.equal((await POST(make("https://foreign.invalid"))).status, 403);
+});
