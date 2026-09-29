@@ -19,6 +19,7 @@ export default function ExperienceCard({
   locale,
   settings,
   demo = false,
+  contactOnly = false,
   selectable = false,
   selected = false,
   onSelect,
@@ -27,6 +28,7 @@ export default function ExperienceCard({
   locale: Locale;
   settings: Settings;
   demo?: boolean;
+  contactOnly?: boolean;
   selectable?: boolean;
   selected?: boolean;
   onSelect?: () => void;
@@ -225,7 +227,7 @@ export default function ExperienceCard({
                 </label>
               ))}
             </div>
-            {style && <p>{local(style.description, locale)}</p>}
+            {style && !contactOnly && <p>{local(style.description, locale)}</p>}
           </fieldset>
         )}
         {!selectable && e.inclusions.length > 0 && (
@@ -635,14 +637,23 @@ export default function ExperienceCard({
               )}
             </Accordion>
             {!demo && !ready && <small>{t("completeHint")}</small>}
-            <button
-              className="ec-button"
-              aria-expanded={availabilityOpen}
-              disabled={!demo && !ready}
-              onClick={() => setAvailability(!availabilityOpen)}
-            >
-              {t("availabilityButtonLabel")}
-            </button>
+            {contactOnly ? (
+              <a
+                className="ec-button"
+                href={`${locale === "es" ? "/es" : ""}/contact`}
+              >
+                {t("contactUsLabel")}
+              </a>
+            ) : (
+              <button
+                className="ec-button"
+                aria-expanded={availabilityOpen}
+                disabled={!demo && !ready}
+                onClick={() => setAvailability(!availabilityOpen)}
+              >
+                {t("availabilityButtonLabel")}
+              </button>
+            )}
           </div>
           {availabilityOpen && (demo || ready) && (
             <AvailabilityForm

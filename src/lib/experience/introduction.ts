@@ -71,8 +71,8 @@ export const introductionLabels: Record<string, [string, string]> = {
     "Revisa y consulta disponibilidad",
   ],
   dinnerIntroStep4: [
-    "Check the estimated total and its breakdown for guests, menu or drink supplements and selected extras. Complete every guest's menu, then open Check availability and provide your contact details, preferred date and celebration requests.",
-    "Revisa el total estimado y su desglose de invitados, suplementos de comida o bebida y extras seleccionados. Completa el menú de cada persona; después abre Consultar disponibilidad e indica tus datos de contacto, la fecha deseada y tus peticiones para la celebración.",
+    "Check the estimated total and its breakdown for guests, menu or drink supplements and selected extras. Complete every guest's menu, then use Check availability, or Contact us for a sample dinner, to share your contact details, preferred date and celebration requests.",
+    "Revisa el total estimado y su desglose de invitados, suplementos de comida o bebida y extras seleccionados. Completa el menú de cada persona; después usa Consultar disponibilidad, o Contáctanos si estás explorando una cena de referencia, para indicar tus datos, la fecha deseada y tus peticiones para la celebración.",
   ],
   dinnerIntroNote: [
     "Your request helps us prepare a tailored celebration. It does not confirm a reservation or take a payment: our team will confirm availability, capacity, dietary requirements, transportation and the final price with you.",

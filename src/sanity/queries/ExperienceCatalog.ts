@@ -26,7 +26,7 @@ export async function getExperience(id: string) {
     { id },
     { cache: "no-store" },
   );
-  return e ? normalizeExperience(e) : null;
+  return e ? normalizeExperience(e) : (await getLegacyProposals(id))[0] || null;
 }
 export async function getCatalogContent() {
   return fresh.fetch<{
@@ -62,13 +62,13 @@ async function getTemplatePreview(id: string) {
     : null;
 }
 
-// Read-only previews of existing packages: no duplication or migration of their documents.
-export async function getLegacyProposalPreviews() {
+// Published legacy packages share the catalog and server-side price validation.
+export async function getLegacyProposals(id?: string) {
   const legacyImage = `{ "url":asset->url, "alt":{"en":alt,"es":alt} }`;
   const rows = await fresh.fetch<
     Array<Experience & { mainImage?: import("@/lib/experience/types").Image }>
   >(
-    `*[_type=="IndividualProposalPackage" && _id != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93" && coalesce(slug.current, "") != "adventure-to-yes"] | order(name.en asc) {
+    `*[_type=="IndividualProposalPackage" && (!defined($id) || _id==$id) && _id != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93" && coalesce(slug.current, "") != "adventure-to-yes"] | order(name.en asc) {
  _id,"_type":"proposalExperience","active":true,name,slug,"shortDescription":description,"basePrice":price,"currency":"USD",
  "mainImage":image${legacyImage},"gallery":gallery[]{_key,"image":${legacyImage}},
  "styles":variants[]{_key,name,description,price,"active":true,"mainImage":image${legacyImage}},
@@ -76,8 +76,8 @@ export async function getLegacyProposalPreviews() {
  "availableAddons":addons[]{_key,name,description,price,"active":true,"pricingType":"fixed","applicableTo":["proposal"]},
  "menuItems":[],"beverages":[],"occasions":[]
  }`,
-    {},
-    { next: { revalidate: 60 } },
+    { id: id || null },
+    { cache: "no-store" },
   );
   return rows.map((e) =>
     normalizeExperience({

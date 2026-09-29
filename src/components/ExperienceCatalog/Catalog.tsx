@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { dinnerPreview } from "@/lib/experience/dinnerTemplate";
 import {
   getDinnerPreview,
-  getLegacyProposalPreviews,
+  getLegacyProposals,
   getCatalogContent,
   getExperiences,
 } from "@/sanity/queries/ExperienceCatalog";
@@ -97,13 +97,13 @@ export default async function Catalog({
     /^localhost(:\d+)?$/.test(host) ||
     /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host);
   const cmsDinnerPreview =
-    showTemplate && (!section || section === "romantic-dinners")
+    (!section || section === "romantic-dinners") &&
+    (showTemplate ||
+      !experiences.some((e) => e._type === "romanticDinnerExperience"))
       ? await getDinnerPreview()
       : null;
   const legacyProposals =
-    showTemplate && (!section || section === "proposals")
-      ? await getLegacyProposalPreviews()
-      : [];
+    !section || section === "proposals" ? await getLegacyProposals() : [];
   const settings = content.settings || {},
     home = content.home;
   const t = (key: string) => label(settings, locale, key),
@@ -166,22 +166,16 @@ export default async function Catalog({
                   locale={locale}
                   settings={settings}
                 />
-                {showTemplate && dinner && (
+                {dinner && (showTemplate || rows.length === 0) && (
                   <>
                     <div className="ec-template-note">
-                      {!dinner ? (
-                        locale === "es" ? (
-                          "Ejemplo editable · Fotografías y precios de referencia del catálogo de Sanity. Puedes probar la configuración y el formulario; no se enviarán reservas."
-                        ) : (
-                          "Editable example · Reference photographs and prices from the Sanity catalog. Try the configuration and form; no bookings will be sent."
-                        )
-                      ) : (
-                        <>
-                          {locale === "es"
-                            ? "Ejemplo editable · Tres montajes con imágenes de referencia de Sanity. Menú y tarifas configurados; capacidad final pendiente de confirmar."
-                            : "Editable example · Three setups with reference images from Sanity. Menu and prices configured; final capacity awaiting confirmation."}
-                        </>
-                      )}
+                      {showTemplate
+                        ? locale === "es"
+                          ? "Ejemplo editable · Tres montajes con imágenes de referencia de Sanity. Menú y tarifas configurados; capacidad final pendiente de confirmar."
+                          : "Editable example · Three setups with reference images from Sanity. Menu and prices configured; final capacity awaiting confirmation."
+                        : locale === "es"
+                          ? "Explora los montajes y personaliza tu cena de referencia. Contáctanos para confirmar la capacidad, disponibilidad y presupuesto de tu celebración."
+                          : "Explore the setups and personalize your sample dinner. Contact us to confirm capacity, availability and the quote for your celebration."}
                     </div>
                     <div className="ec-dinner-grid">
                       <RomanticDinnerCard
@@ -189,6 +183,7 @@ export default async function Catalog({
                         locale={locale}
                         settings={settings}
                         demo
+                        contactOnly={!showTemplate}
                       />
                     </div>
                   </>
@@ -212,7 +207,9 @@ export default async function Catalog({
                             ),
                         ),
                       ]}
-                      demoIds={legacyProposals.map((e) => e._id)}
+                      demoIds={
+                        showTemplate ? legacyProposals.map((e) => e._id) : []
+                      }
                       locale={locale}
                       settings={settings}
                     />
