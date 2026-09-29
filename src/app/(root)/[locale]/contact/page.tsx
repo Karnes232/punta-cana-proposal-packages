@@ -1,85 +1,9 @@
-import ContactHero from "@/components/ContactPage/HeroComponent/ContactHero";
-import ContactBody from "@/components/ContactPage/MainContent/ContactBody";
-import ContactTrustBar from "@/components/ContactPage/TrustBar/ContactTrustBar";
-import { contactPageContent } from "@/sanity/queries/ContactPage/Content";
-import { packageOptions } from "@/sanity/queries/ContactPage/PackageOptions";
-import { contactInfo } from "@/sanity/queries/ContactPage/Content";
-import JsonLd from "@/components/seo/JsonLd";
-import {
-  buildSeoMetadata,
-  fallbackSiteMetadata,
-} from "@/lib/seo/buildMetadata";
-import { siteCanonicalUrl } from "@/lib/seo/constants";
-import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
-
-export default async function Contact({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const [content, packageOptionsData, contactInfoData, structuredData] =
-    await Promise.all([
-      contactPageContent(),
-      packageOptions(),
-      contactInfo(),
-      getStructuredData("contact"),
-    ]);
-
-  return (
-    <main>
-      <JsonLd
-        id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
-      />
-      <ContactHero
-        heroEyebrow={content.heroEyebrow[locale as "en" | "es"]}
-        heroHeadingLine1={content.heroHeadingLine1[locale as "en" | "es"]}
-        heroHeadingLine2={content.heroHeadingLine2[locale as "en" | "es"]}
-        heroSubheading={content.heroSubheading[locale as "en" | "es"]}
-        heroImage={content.heroImage}
-      />
-      <ContactBody
-        formEyebrow={content.formEyebrow[locale as "en" | "es"]}
-        formHeadingLine1={content.formHeadingLine1[locale as "en" | "es"]}
-        formHeadingLine2={content.formHeadingLine2[locale as "en" | "es"]}
-        locale={locale as "en" | "es"}
-        packageOptions={packageOptionsData.categories}
-        email={contactInfoData.email}
-        telephone={contactInfoData.telephone}
-      />
-      <ContactTrustBar
-        trustBarStats={content.trustBarStats}
-        locale={locale as "en" | "es"}
-      />
-    </main>
-  );
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: "en" | "es" }>;
-}) {
-  const { locale } = await params;
-  const pageSeo = await getPageSeo("contact");
-  const path = "/contact";
-  const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
-    return fallbackSiteMetadata(locale, path, canonicalUrl);
-  }
-
-  return buildSeoMetadata({
-    locale,
-    path,
-    canonicalUrl,
-    meta: pageSeo.seo.meta[locale],
-    openGraph: {
-      title: pageSeo.seo.openGraph[locale].title,
-      description: pageSeo.seo.openGraph[locale].description,
-      image: pageSeo.seo.openGraph.image,
-    },
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
-  });
-}
+import {getCatalogContent} from '@/sanity/queries/ExperienceCatalog';
+import {getGeneralLayout} from '@/sanity/queries/GeneralLayout/GeneralLayout';
+import {local} from '@/lib/experience/normalize';
+import {label} from '@/lib/experience/labels';
+import type {Locale} from '@/lib/experience/types';
+import AvailabilityForm from '@/components/ExperienceCatalog/AvailabilityForm';
+import {catalogPageMetadata} from '@/components/ExperienceCatalog/Catalog';
+export default async function Page({params}:{params:Promise<{locale:Locale}>}){const {locale}=await params;const [content,company]=await Promise.all([getCatalogContent(),getGeneralLayout()]);const c=content.contact,settings=content.settings||{};return <main className="ec-shell"><div className="ec-wrap"><h1>{local(c?.heading,locale)||label(settings,locale,'contactUsLabel')}</h1><p>{local(c?.description,locale)}</p><div className="ec-contact-grid"><AvailabilityForm locale={locale} settings={settings}/><aside>{(c?.telephone||company?.telephone)&&<p><a href={'tel:'+(c?.telephone||company?.telephone)}>{c?.telephone||company?.telephone}</a></p>}{(c?.email||company?.email)&&<p><a href={'mailto:'+(c?.email||company?.email)}>{c?.email||company?.email}</a></p>}{c?.whatsapp&&<p><a href={'https://wa.me/'+c.whatsapp.replace(/\D/g,'')}>WhatsApp</a></p>}<p>{local(c?.businessInformation,locale)}</p></aside></div></div></main>;}
+export async function generateMetadata({params}:{params:Promise<{locale:Locale}>}){const {locale}=await params;const c=await getCatalogContent();return catalogPageMetadata(locale,'/contact',c.contact?.seo,label(c.settings,locale,'contactUsLabel'));}

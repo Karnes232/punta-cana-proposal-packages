@@ -13,12 +13,25 @@ import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import { schema } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 import { media } from "sanity-plugin-media";
-export default defineConfig({
+const catalogConfig = defineConfig({
+  name: "catalog",
+  title: "Website",
   basePath: "/studio",
   projectId,
   dataset,
   // Add and edit the content schema in the './sanity/schemaTypes' folder
-  schema,
+  schema: {
+    ...schema,
+    templates: (templates) =>
+      templates.filter(
+        (t) =>
+          ![
+            "experienceCatalogSettings",
+            "catalogHome",
+            "catalogContact",
+          ].includes(t.schemaType),
+      ),
+  },
   plugins: [
     structureTool({ structure }),
     media(),
@@ -27,3 +40,5 @@ export default defineConfig({
     visionTool({ defaultApiVersion: apiVersion }),
   ],
 });
+
+export default catalogConfig;

@@ -1,14 +1,17 @@
-import type { Metadata } from "next";
+
 import { Playfair_Display, Inter } from "next/font/google";
 import "../../globals.css";
 import { getGeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { isSiteLocale } from "@/i18n/blogLocales";
+
 import { routing } from "@/i18n/routing";
-import Navbar from "@/components/Layout/Navbar/Navbar";
-import Footer from "@/components/Layout/Footer/Footer";
+import Navbar from "@/components/ExperienceCatalog/CatalogNavigation";
+import {getCatalogContent} from "@/sanity/queries/ExperienceCatalog";
+import type {Locale} from "@/lib/experience/types";
+import "@/components/ExperienceCatalog/catalog.css";
+import Footer from "@/components/ExperienceCatalog/CatalogFooter";
 import { BlogLanguageAlternatesProvider } from "@/components/LanguageSwitcher/BlogLanguageAlternatesContext";
 
 const playfair = Playfair_Display({
@@ -40,7 +43,7 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const [generalLayout] = await Promise.all([getGeneralLayout()]);
+  const [generalLayout, catalog] = await Promise.all([getGeneralLayout(),getCatalogContent()]);
 
   return (
     <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
@@ -54,21 +57,10 @@ export default async function RootLayout({
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
           <BlogLanguageAlternatesProvider>
-            <Navbar logo={generalLayout?.companyLogo ?? null} />
+            <Navbar locale={(locale === "es" ? "es" : "en") as Locale} settings={catalog.settings||{}} logo={generalLayout?.companyLogo?.asset?.url} companyName={generalLayout?.companyName} />
             {children}
           </BlogLanguageAlternatesProvider>
-          <Footer
-            logo={generalLayout?.companyLogo ?? null}
-            description={
-              isSiteLocale(locale)
-                ? generalLayout?.companyDescription[locale]
-                : generalLayout?.companyDescription.en
-            }
-            telephone={generalLayout?.telephone}
-            email={generalLayout?.email}
-            socialLinks={generalLayout?.socialLinks}
-            companyName={generalLayout?.companyName}
-          />
+          <Footer locale={(locale === "es" ? "es" : "en") as Locale} settings={catalog.settings||{}} company={generalLayout} />
         </body>
       </NextIntlClientProvider>
     </html>

@@ -23,6 +23,8 @@ const PROPOSAL_HUB_SEGMENTS = new Set([
 ]);
 
 export const STATIC_SITEMAP_PATHS = [
+  "/proposals",
+  "/romantic-dinners",
   "",
   "/classic-proposals",
   "/modern-proposals",

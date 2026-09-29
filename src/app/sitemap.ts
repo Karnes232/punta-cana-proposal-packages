@@ -1,3 +1,4 @@
+import { getExperiences } from "@/sanity/queries/ExperienceCatalog";
 import type { MetadataRoute } from "next";
 
 import { SITE_URL } from "@/lib/seo/constants";
@@ -47,7 +48,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getSitemapBlogEntries(),
   ]);
 
-  const pathSet = new Set<string>([...STATIC_SITEMAP_PATHS, ...dynamicPaths]);
+  const experiences = await getExperiences();
+  const catalogPaths = experiences
+    .filter((e) => e.slug?.current && !e.seo?.noIndex)
+    .map(
+      (e) =>
+        `/${e._type === "proposalExperience" ? "proposals" : "romantic-dinners"}/${e.slug!.current}`,
+    );
+  const pathSet = new Set<string>([
+    ...STATIC_SITEMAP_PATHS,
+    ...dynamicPaths,
+    ...catalogPaths,
+  ]);
 
   const entries: MetadataRoute.Sitemap = [];
   const urlSeen = new Set<string>();
@@ -63,6 +75,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: now,
         changeFrequency: changeFrequency(path),
         priority: priority(path),
+        alternates: {
+          languages: { en: absoluteEn(path), es: absoluteEs(path) },
+        },
       });
     }
   }
