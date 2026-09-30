@@ -301,3 +301,78 @@ test("unconfirmed capacity allows base estimate but never additional guests or s
   assert.throws(() => calculate(e, { ...ds, guestCount: 3 }));
   assert.throws(() => calculate(e, ds, true));
 });
+
+test("inquiry pricing permits unconfirmed capacity without pretending it is confirmed", () => {
+  const e = {
+    ...dinner,
+    maximumGuests: undefined,
+    maximumDurationMinutes: undefined,
+  };
+  const s = {
+    ...ds,
+    guestCount: 3,
+    guestMenus: Array.from({ length: 3 }, () => ({
+      starter: "starter",
+      main: "m",
+      dessert: "dessert",
+    })),
+  };
+  const result = calculate(e, s, true, true);
+  assert.equal(result.quoteRequired, true);
+  assert.equal(result.estimatedTotal, 935);
+  assert.throws(
+    () => calculate(e, { ...s, guestCount: 1000000000 }, true, true),
+    /course/,
+  );
+  assert.throws(
+    () => calculate({ ...e, maximumGuests: 2 }, s, true, true),
+    /limit/,
+  );
+});
+
+test("proposal premium extras cost 399/399/399/299 and require two complete dinner menus", () => {
+  const {
+    withProposalExtras,
+    proposalDinnerId,
+  } = require("../work/pricing-tests/proposalExtras.js");
+  const menu = dinner.menuItems.map((m) => ({ ...m, included: true }));
+  const e = withProposalExtras(proposal, menu);
+  const menus = [0, 1].map(() => ({
+    starter: "starter",
+    main: "m",
+    dessert: "dessert",
+  }));
+  const addons = Object.fromEntries(
+    e.availableAddons.filter((a) => a._key).map((a) => [a._key, 1]),
+  );
+  assert.equal(
+    calculate(e, { ...selection, addons, guestMenus: menus }, true)
+      .estimatedTotal,
+    1646,
+  );
+  assert.throws(() => calculate(e, { ...selection, addons }, true));
+  assert.throws(() =>
+    calculate(
+      e,
+      { ...selection, addons, guestMenus: [...menus, menus[0]] },
+      true,
+    ),
+  );
+  assert.throws(() =>
+    calculate(
+      e,
+      {
+        ...selection,
+        addons,
+        guestMenus: [{ ...menus[0], main: "forged" }, menus[1]],
+      },
+      true,
+    ),
+  );
+  assert.throws(() => calculate(e, { ...selection, guestMenus: menus }, true));
+  assert.equal(
+    calculate(e, { ...selection, addons: { [proposalDinnerId]: 1 } })
+      .estimatedTotal,
+    449,
+  );
+});

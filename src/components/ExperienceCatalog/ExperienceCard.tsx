@@ -11,8 +11,11 @@ import type {
 import { local, id } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import { calculate } from "@/lib/experience/pricing";
+import { proposalDinnerId } from "@/lib/experience/proposalExtras";
+import ProposalDinnerMenu from "./ProposalDinnerMenu";
 import ExperienceGallery from "./ExperienceGallery";
 import Accordion from "./Accordion";
+import RequestDialog from "./RequestDialog";
 import AvailabilityForm from "./AvailabilityForm";
 export default function ExperienceCard({
   experience: e,
@@ -51,7 +54,9 @@ export default function ExperienceCard({
       .formatToParts(n)
       .map((part) =>
         part.type === "currency"
-          ? settings.currencySymbol?.[locale] || part.value
+          ? (typeof settings.currencySymbol === "object" &&
+              settings.currencySymbol?.[locale]) ||
+            part.value
           : part.value,
       )
       .join("");
@@ -88,18 +93,18 @@ export default function ExperienceCard({
     selectedStyleId: selectedStyleId || undefined,
     addons: selectedAddons,
     guestCount,
-    guestMenus,
+    guestMenus: dinner || selectedAddons[proposalDinnerId] ? guestMenus : [],
     beverages: selectedBeverages,
     selectedOccasionId: selectedOccasionId || undefined,
     customOccasion: customOccasion || undefined,
   };
   let estimate: ReturnType<typeof calculate> | undefined;
   try {
-    estimate = calculate(e, selection);
+    estimate = calculate(e, selection, false, dinner);
   } catch {}
   let ready = true;
   try {
-    calculate(e, selection, true);
+    calculate(e, selection, true, dinner);
   } catch {
     ready = false;
   }
@@ -112,7 +117,16 @@ export default function ExperienceCard({
         setAddons(next);
         return;
       }
-      calculate(e, { ...selection, addons: next });
+      calculate(
+        e,
+        {
+          ...selection,
+          addons: next,
+          guestMenus: dinner || next[proposalDinnerId] ? guestMenus : [],
+        },
+        false,
+        dinner,
+      );
       setAddons(next);
     } catch {}
   }
@@ -278,8 +292,7 @@ export default function ExperienceCard({
                     aria-label={t("addGuest")}
                     disabled={
                       e.additionalGuestPrice === undefined ||
-                      !e.maximumGuests ||
-                      guestCount >= e.maximumGuests
+                      (e.maximumGuests != null && guestCount >= e.maximumGuests)
                     }
                     onClick={() => changeGuests(guestCount + 1)}
                   >
@@ -596,6 +609,15 @@ export default function ExperienceCard({
               })}
             </Accordion>
           )}
+          {!dinner && !!selectedAddons[proposalDinnerId] && (
+            <ProposalDinnerMenu
+              experience={e}
+              locale={locale}
+              settings={settings}
+              menus={guestMenus}
+              onChange={setMenus}
+            />
+          )}
           <div className="ec-purchase">
             <div className="ec-total" aria-live="polite">
               <span>{t("estimatedTotalLabel")}</span>
@@ -637,33 +659,43 @@ export default function ExperienceCard({
               )}
             </Accordion>
             {!demo && !ready && <small>{t("completeHint")}</small>}
-            {contactOnly ? (
-              <a
-                className="ec-button"
-                href={`${locale === "es" ? "/es" : ""}/contact`}
-              >
-                {t("contactUsLabel")}
-              </a>
-            ) : (
-              <button
-                className="ec-button"
-                aria-expanded={availabilityOpen}
-                disabled={!demo && !ready}
-                onClick={() => setAvailability(!availabilityOpen)}
-              >
-                {t("availabilityButtonLabel")}
-              </button>
-            )}
+            <button
+              className="ec-button"
+              aria-expanded={availabilityOpen}
+              disabled={!demo && !ready}
+              onClick={() => setAvailability(!availabilityOpen)}
+            >
+              {t(dinner ? "requestDinnerDate" : "availabilityButtonLabel")}
+            </button>
           </div>
-          {availabilityOpen && (demo || ready) && (
-            <AvailabilityForm
-              locale={locale}
-              settings={settings}
-              demo={demo}
-              experienceId={e._id}
-              selection={selection}
-            />
-          )}
+          {availabilityOpen &&
+            (demo || ready) &&
+            (selectable ? (
+              <RequestDialog
+                title={t("availabilityButtonLabel")}
+                closeLabel={locale === "es" ? "Cerrar" : "Close"}
+                onClose={() => setAvailability(false)}
+              >
+                {" "}
+                <AvailabilityForm
+                  locale={locale}
+                  settings={settings}
+                  demo={demo}
+                  dinner={dinner}
+                  experienceId={e._id}
+                  selection={selection}
+                />
+              </RequestDialog>
+            ) : (
+              <AvailabilityForm
+                locale={locale}
+                settings={settings}
+                demo={demo}
+                dinner={dinner}
+                experienceId={e._id}
+                selection={selection}
+              />
+            ))}
         </div>
         {!selectable && local(e.longDescription, locale) && (
           <p>{local(e.longDescription, locale)}</p>

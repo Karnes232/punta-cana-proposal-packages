@@ -1,4 +1,5 @@
 import type { Experience, Selection, Course } from "./types";
+import { proposalDinnerId } from "./proposalExtras";
 const courses: Course[] = ["starter", "main", "dessert"];
 const identity = (v: { _id?: string; _key?: string }) => v._id || v._key;
 function assert(condition: unknown, message: string): asserts condition {
@@ -13,7 +14,12 @@ function cents(value: unknown) {
   assert(Number.isSafeInteger(n), "Price out of range");
   return n;
 }
-export function calculate(e: Experience, s: Selection, complete = false) {
+export function calculate(
+  e: Experience,
+  s: Selection,
+  complete = false,
+  requestOnly = false,
+) {
   assert(e.active === true, "Experience inactive");
   assert(
     s &&
@@ -28,7 +34,7 @@ export function calculate(e: Experience, s: Selection, complete = false) {
     "Invalid selection",
   );
   assert(
-    Number.isInteger(s.guestCount) && s.guestCount > 0,
+    Number.isSafeInteger(s.guestCount) && s.guestCount > 0,
     "Invalid guest count",
   );
   const dinner = e._type === "romanticDinnerExperience";
@@ -49,14 +55,18 @@ export function calculate(e: Experience, s: Selection, complete = false) {
       Number.isInteger(e.includedGuests) &&
         Number(e.includedGuests) > 0 &&
         (Number.isInteger(e.maximumGuests) ||
-          (!complete && e.maximumGuests == null)),
+          ((!complete || requestOnly) && e.maximumGuests == null)),
       "Guest configuration unavailable",
     );
     assert(
       s.guestCount >= Number(e.minimumGuests ?? e.includedGuests) &&
-        s.guestCount <= Number(e.maximumGuests ?? e.includedGuests),
+        ((requestOnly && e.maximumGuests == null) ||
+          s.guestCount <= Number(e.maximumGuests ?? e.includedGuests)),
       "Guest limit exceeded",
     );
+    if (requestOnly && e.maximumGuests == null) quoteRequired = true;
+    if (complete)
+      assert(s.guestMenus.length === s.guestCount, "Select each guest course");
     const extra = Math.max(0, s.guestCount - Number(e.includedGuests));
     if (extra) add("guests", extra * cents(e.additionalGuestPrice));
     assert(s.guestMenus.length <= s.guestCount, "Invalid guest menus");
@@ -133,12 +143,38 @@ export function calculate(e: Experience, s: Selection, complete = false) {
   } else {
     assert(
       s.guestCount === 1 &&
-        s.guestMenus.length === 0 &&
+        (s.addons[proposalDinnerId]
+          ? s.guestMenus.length <= 2
+          : s.guestMenus.length === 0) &&
         s.beverages.length === 0 &&
         !s.selectedOccasionId &&
         !s.customOccasion,
       "Dinner fields are invalid for proposals",
     );
+  }
+  if (!dinner && s.addons[proposalDinnerId]) {
+    if (complete)
+      assert(s.guestMenus.length === 2, "Select the menu for two guests");
+    for (let i = 0; i < 2; i++) {
+      assert(
+        !s.guestMenus[i]?.welcomeCocktail,
+        "Cocktail unavailable for this addon",
+      );
+      for (const course of courses) {
+        const selected = s.guestMenus[i]?.[course];
+        if (complete) assert(selected, "Select each guest course");
+        if (!selected) continue;
+        const item = e.menuItems.find(
+          (v) =>
+            v.active && v.courseType === course && identity(v) === selected,
+        );
+        assert(item, "Invalid menu item");
+        add(
+          `menu:${i}:${selected}`,
+          item.included ? 0 : cents(item.supplementPrice),
+        );
+      }
+    }
   }
   for (const [selected, quantity] of Object.entries(s.addons)) {
     const a = e.availableAddons.find(
@@ -187,7 +223,9 @@ export function calculate(e: Experience, s: Selection, complete = false) {
         duration <=
           Number(
             e.maximumDurationMinutes ??
-              (!complete ? e.includedDurationMinutes : undefined),
+              (!complete || requestOnly
+                ? e.includedDurationMinutes
+                : undefined),
           ),
       "Duration limit exceeded",
     );

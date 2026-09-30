@@ -1,34 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useId, useState } from "react";
 import type { Locale, Settings, Selection } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
+import { depositText } from "@/lib/experience/dinnerPolicy";
 export default function AvailabilityForm({
   locale,
   settings,
   experienceId,
   selection,
   demo = false,
+  dinner = false,
 }: {
   locale: Locale;
   settings: Settings;
   experienceId?: string;
   selection?: Selection;
   demo?: boolean;
+  dinner?: boolean;
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle",
   );
-  const t = (key: string) => label(settings, locale, key);
+  const noteId = useId();
+  const t = (key: string) =>
+    label(settings, locale, key).replaceAll(
+      "{deposit}",
+      depositText(settings, locale),
+    );
   return (
     <form
       className="ec-form"
       onSubmit={async (e) => {
         e.preventDefault();
-        if (demo || status === "sending") return;
+        if (demo || status === "sending" || status === "sent") return;
         const form = e.currentTarget;
         setStatus("sending");
         try {
-          const contact = Object.fromEntries(new FormData(form));
+          const data = new FormData(form);
+          const contact = {
+            ...Object.fromEntries(data),
+            datesFlexible: data.get("datesFlexible") === "on",
+          };
           const response = await fetch("/api/experience-requests", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -36,7 +48,6 @@ export default function AvailabilityForm({
           });
           if (!response.ok) throw Error();
           setStatus("sent");
-          form.reset();
         } catch {
           setStatus("error");
         }
@@ -44,39 +55,49 @@ export default function AvailabilityForm({
     >
       {demo && <p role="note">{t("previewOnly")}</p>}
       <div className="ec-form-grid">
-        {(["fullName", "email", "phone", "hotel", "desiredDate"] as const).map(
-          (key) => (
-            <label key={key}>
-              {t(key)}
-              <input
-                name={key}
-                type={
-                  key === "email"
-                    ? "email"
-                    : key === "desiredDate"
-                      ? "date"
-                      : key === "phone"
-                        ? "tel"
-                        : "text"
-                }
-                required={["fullName", "email", "phone"].includes(key)}
-                maxLength={key === "fullName" ? 120 : 254}
-                autoComplete={
-                  key === "fullName"
-                    ? "name"
-                    : key === "phone"
-                      ? "tel"
-                      : key === "email"
-                        ? "email"
-                        : "off"
-                }
-              />
-            </label>
-          ),
-        )}
+        {(["fullName", "email", "phone", "hotel"] as const).map((key) => (
+          <label key={key}>
+            {t(key === "hotel" ? "hotelAccommodation" : key)}
+            <input
+              name={key}
+              type={
+                key === "email" ? "email" : key === "phone" ? "tel" : "text"
+              }
+              required={key !== "hotel"}
+              maxLength={key === "fullName" ? 120 : 254}
+              autoComplete={
+                key === "fullName"
+                  ? "name"
+                  : key === "phone"
+                    ? "tel"
+                    : key === "email"
+                      ? "email"
+                      : "off"
+              }
+            />
+          </label>
+        ))}
+        <label>
+          {t("preferredDate")}
+          <input
+            name="desiredDate"
+            type="date"
+            required={dinner}
+            aria-describedby={noteId}
+          />
+        </label>
+        <label>
+          {t("alternativeDate")}
+          <input name="alternativeDate" type="date" aria-describedby={noteId} />
+        </label>
       </div>
+      <label className="ec-date-flexibility">
+        <input name="datesFlexible" type="checkbox" />
+        {t("datesFlexible")}
+      </label>
+      <p id={noteId}>{t("datePreferenceNote")}</p>
       <label>
-        {t("notes")}
+        {t("requestComments")}
         <textarea
           name="notes"
           required={!experienceId}
@@ -84,6 +105,16 @@ export default function AvailabilityForm({
           rows={4}
         />
       </label>
+      <label>
+        {t("fragranceSensitivity")}
+        <input name="fragranceSensitivity" type="text" maxLength={500} />
+      </label>
+      {dinner && (
+        <div className="ec-request-policy">
+          <p>{t("dinnerRequestNote")}</p>
+          <p>{t("dinnerPaymentNote")}</p>
+        </div>
+      )}
       <label className="ec-honeypot" aria-hidden="true">
         Website
         <input name="website" tabIndex={-1} autoComplete="off" />
@@ -96,7 +127,7 @@ export default function AvailabilityForm({
       </button>
       <p role="status">
         {status === "sent"
-          ? t("success")
+          ? t(dinner ? "dinnerRequestSuccess" : "success")
           : status === "error"
             ? t("error")
             : ""}

@@ -1,7 +1,17 @@
+import { homeCopy } from "@/lib/experience/homeCopy";
 import { introductionLabels } from "@/lib/experience/introduction";
-import { defineType } from "sanity";
+import { dinnerPolicyLabels } from "@/lib/experience/dinnerPolicy";
+import { defineType, defineField } from "sanity";
 import { field, image } from "./shared";
 export const labelKeys = [
+  "navHome",
+  "navProposals",
+  "navDinners",
+  "navHow",
+  "navFaq",
+  "planProposal",
+  "planCelebration",
+  "fragranceSensitivity",
   "occasionGuests",
   "foodMenu",
   "drinksWine",
@@ -77,7 +87,26 @@ export default defineType({
   name: "experienceCatalogSettings",
   type: "document",
   title: "Catalog Settings",
+  initialValue: {
+    dinnerDepositAmount: 200,
+    ...Object.fromEntries(
+      Object.entries(dinnerPolicyLabels).map(([key, [en, es]]) => [
+        key,
+        { en, es },
+      ]),
+    ),
+  },
   fields: [
+    defineField({
+      name: "dinnerDepositAmount",
+      title: "Dinner deposit (USD)",
+      type: "number",
+      initialValue: 200,
+      validation: (rule) => rule.positive().precision(2),
+      description:
+        "Requested manually only after availability is confirmed. Use {deposit} in the policy messages.",
+    }),
+    ...Object.keys(dinnerPolicyLabels).map((k) => field(k, "localizedText")),
     ...labelKeys.map((k) => field(k, "localizedString")),
     ...Object.keys(introductionLabels).map((k) => field(k, "localizedText")),
   ],
@@ -86,8 +115,46 @@ export const catalogHome = defineType({
   name: "catalogHome",
   type: "document",
   title: "Home",
+  initialValue: {
+    copy: Object.fromEntries(
+      Object.entries(homeCopy).map(([key, [en, es]]) => [key, { en, es }]),
+    ),
+  },
   fields: [
     image("heroImage"),
+    image("proposalHeroImage"),
+    image("dinnerHeroImage"),
+    image("proposalSelectorImage"),
+    image("dinnerSelectorImage"),
+    defineField({
+      name: "copy",
+      title: "Home page text (EN / ES)",
+      type: "object",
+      fields: Object.keys(homeCopy).map((k) => field(k, "localizedText")),
+    }),
+    defineField({
+      name: "featuredProposals",
+      type: "array",
+      title: "Featured proposals (up to three, ordered)",
+      of: [
+        {
+          type: "reference",
+          to: [
+            { type: "proposalExperience" },
+            { type: "IndividualProposalPackage" },
+          ],
+        },
+      ],
+      validation: (r) => r.max(3).unique(),
+    }),
+    ...["journeyImages", "editorialImages", "moments"].map((name) =>
+      defineField({
+        name,
+        type: "array",
+        of: [image("photo")],
+        validation: (r) => r.max(name === "journeyImages" ? 5 : 8),
+      }),
+    ),
     ...[
       "eyebrow",
       "headline",

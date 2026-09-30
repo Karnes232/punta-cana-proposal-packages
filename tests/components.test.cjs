@@ -8,6 +8,8 @@ const dom = new JSDOM('<!doctype html><div id="root"></div>', {
 global.window = dom.window;
 global.document = dom.window.document;
 global.HTMLElement = dom.window.HTMLElement;
+global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
+global.cancelAnimationFrame = clearTimeout;
 global.IS_REACT_ACT_ENVIRONMENT = true;
 const Module = require("node:module"),
   ts = require("typescript");
@@ -440,5 +442,145 @@ test("proposal grid selects one package inline, preserves each configuration and
   assert.equal(cards[0].querySelector("select").value, "s2");
   assert.equal(cards[0].querySelector("input[type=checkbox]").checked, true);
   assert.equal(window.location.pathname, "/");
+  await act(async () => root.unmount());
+});
+
+test("date request form sends preferences and uses the editable deposit without confirming a booking", async () => {
+  const Form =
+    require("../src/components/ExperienceCatalog/AvailabilityForm.tsx").default;
+  const oldFetch = global.fetch,
+    oldFormData = global.FormData;
+  global.FormData = window.FormData;
+  let sent;
+  global.fetch = async (url, options) => {
+    sent = JSON.parse(options.body);
+    return { ok: true };
+  };
+  try {
+    for (const locale of ["en", "es"]) {
+      const root = createRoot(document.getElementById("root"));
+      await act(async () =>
+        root.render(
+          React.createElement(Form, {
+            locale,
+            settings: { dinnerDepositAmount: 250 },
+            experienceId: "dinner",
+            dinner: true,
+            selection: {
+              guestCount: 2,
+              guestMenus: [],
+              addons: {},
+              beverages: [],
+            },
+          }),
+        ),
+      );
+      const form = document.querySelector("form");
+      assert.equal(form.querySelector("[name=desiredDate]").required, true);
+      assert.equal(
+        form.querySelector("[name=alternativeDate]").required,
+        false,
+      );
+      for (const [name, value] of Object.entries({
+        fullName: "Test",
+        email: "test@example.invalid",
+        phone: "000",
+        desiredDate: "2026-12-12",
+        alternativeDate: "2026-12-14",
+        hotel: "Test hotel",
+        fragranceSensitivity: "No fragrance",
+      }))
+        form.querySelector(`[name=${name}]`).value = value;
+      form.querySelector("[name=datesFlexible]").checked = true;
+      await act(async () =>
+        form.dispatchEvent(
+          new window.Event("submit", { bubbles: true, cancelable: true }),
+        ),
+      );
+      assert.equal(sent.contact.datesFlexible, true);
+      assert.equal(sent.contact.alternativeDate, "2026-12-14");
+      assert.match(form.querySelector("[role=status]").textContent, /250/);
+      assert.match(
+        form.querySelector("[role=status]").textContent,
+        locale === "es"
+          ? /confirmar la disponibilidad/
+          : /confirm availability/,
+      );
+      assert.doesNotMatch(
+        form.querySelector("[role=status]").textContent,
+        /reservation is confirmed|reserva confirmada/,
+      );
+      assert.equal(
+        form.querySelector("[name=desiredDate]").value,
+        "2026-12-12",
+      );
+      await act(async () => root.unmount());
+    }
+  } finally {
+    global.fetch = oldFetch;
+    global.FormData = oldFormData;
+  }
+});
+
+test("proposal dinner opens two menus, retains choices across toggles and requires completion", async () => {
+  const {
+    withProposalExtras,
+  } = require("../src/lib/experience/proposalExtras.ts");
+  const e = withProposalExtras(
+    fixture,
+    ["starter", "main", "dessert"].map((course) => ({
+      _id: course,
+      active: true,
+      included: true,
+      courseType: course,
+      name: { en: course, es: course },
+    })),
+  );
+  const root = createRoot(document.getElementById("root"));
+  await act(async () =>
+    root.render(
+      React.createElement(Card, {
+        experience: e,
+        locale: "es",
+        settings: {},
+        selectable: true,
+        selected: true,
+      }),
+    ),
+  );
+  const dinner = () =>
+    [...document.querySelectorAll(".ec-addon label")]
+      .find((el) => el.textContent.includes("Cena romántica"))
+      .querySelector("input");
+  await act(async () => dinner().click());
+  assert.equal(
+    document.querySelectorAll(".ec-proposal-dinner select").length,
+    6,
+  );
+  assert.equal(document.querySelector(".ec-purchase > button").disabled, true);
+  await act(async () => {
+    document.querySelectorAll(".ec-proposal-dinner select").forEach((el) => {
+      el.value = el.options[1].value;
+      el.dispatchEvent(new window.Event("change", { bubbles: true }));
+    });
+  });
+  // Each event commits independently to model normal user input.
+  for (const el of document.querySelectorAll(".ec-proposal-dinner select")) {
+    await act(async () => {
+      el.value = el.options[1].value;
+      el.dispatchEvent(new window.Event("change", { bubbles: true }));
+    });
+  }
+  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
+  assert.match(document.querySelector(".ec-total").textContent, /449/);
+  await act(async () => dinner().click());
+  assert.equal(document.querySelector(".ec-proposal-dinner"), null);
+  assert.match(document.querySelector(".ec-total").textContent, /150/);
+  await act(async () => dinner().click());
+  assert.equal(
+    document.querySelector(".ec-proposal-dinner select").value,
+    "starter",
+  );
+  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
   await act(async () => root.unmount());
 });

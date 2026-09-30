@@ -47,8 +47,8 @@ export const introductionLabels: Record<string, [string, string]> = {
     "Elige el montaje y la ocasión",
   ],
   dinnerIntroStep1: [
-    "Explore the three basic setups and their reference photographs. Choose your preferred style, indicate the occasion and select the number of guests within the available capacity. Use the custom occasion field for a different celebration or a personal message.",
-    "Explora los tres montajes básicos y sus fotografías de referencia. Elige tu estilo, indica la ocasión y selecciona el número de invitados dentro de la capacidad disponible. Usa el campo de ocasión personalizada para otra celebración o un mensaje especial.",
+    "Explore the three basic setups and their reference photographs. Choose your preferred style, indicate the occasion and indicate the number of guests for our team to review. Use the custom occasion field for a different celebration or a personal message.",
+    "Explora los tres montajes básicos y sus fotografías de referencia. Elige tu estilo, indica la ocasión y indica el número de invitados para que nuestro equipo lo revise. Usa el campo de ocasión personalizada para otra celebración o un mensaje especial.",
   ],
   dinnerIntroStep2Title: [
     "Build each guest's menu",
@@ -71,8 +71,8 @@ export const introductionLabels: Record<string, [string, string]> = {
     "Revisa y consulta disponibilidad",
   ],
   dinnerIntroStep4: [
-    "Check the estimated total and its breakdown for guests, menu or drink supplements and selected extras. Complete every guest's menu, then use Check availability, or Contact us for a sample dinner, to share your contact details, preferred date and celebration requests.",
-    "Revisa el total estimado y su desglose de invitados, suplementos de comida o bebida y extras seleccionados. Completa el menú de cada persona; después usa Consultar disponibilidad, o Contáctanos si estás explorando una cena de referencia, para indicar tus datos, la fecha deseada y tus peticiones para la celebración.",
+    "Check the estimated total and its breakdown for guests, menu or drink supplements and selected extras. Complete every guest's menu, then use Request your preferred date to share your contact details, preferred and alternative dates, and celebration requests.",
+    "Revisa el total estimado y su desglose de invitados, suplementos de comida o bebida y extras seleccionados. Completa el menú de cada persona; después usa Solicita tu fecha preferida para indicar tus datos, la fecha preferida, una alternativa y tus peticiones para la celebración.",
   ],
   dinnerIntroNote: [
     "Your request helps us prepare a tailored celebration. It does not confirm a reservation or take a payment: our team will confirm availability, capacity, dietary requirements, transportation and the final price with you.",
