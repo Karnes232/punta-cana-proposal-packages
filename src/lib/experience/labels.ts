@@ -1,7 +1,20 @@
 import type { Locale, Settings } from "./types";
 import { introductionLabels } from "./introduction";
+import { dinnerPolicyLabels } from "./dinnerPolicy";
 export const ui: Record<string, [string, string]> = {
   ...introductionLabels,
+  ...dinnerPolicyLabels,
+  navHome: ["Home", "Inicio"],
+  navProposals: ["Proposal Packages", "Propuestas"],
+  navDinners: ["Dinners & Celebrations", "Cenas y celebraciones"],
+  navHow: ["How It Works", "Cómo funciona"],
+  navFaq: ["FAQ", "Preguntas frecuentes"],
+  planProposal: ["Plan your proposal", "Planea tu propuesta"],
+  planCelebration: ["Plan your celebration", "Planea tu celebración"],
+  fragranceSensitivity: [
+    "Fragrance sensitivity — optional",
+    "Sensibilidad a fragancias — opcional",
+  ],
   occasionGuests: ["Occasion & guests", "Ocasión e invitados"],
   foodMenu: ["Food menu", "Menú de comida"],
   drinksWine: ["Drinks & wine", "Bebidas y vinos"],
@@ -105,5 +118,10 @@ export function label(
   locale: Locale,
   key: string,
 ) {
-  return settings?.[key]?.[locale] || ui[key]?.[locale === "es" ? 1 : 0] || "";
+  const custom = settings?.[key];
+  return (
+    (typeof custom === "object" && custom?.[locale]) ||
+    ui[key]?.[locale === "es" ? 1 : 0] ||
+    ""
+  );
 }

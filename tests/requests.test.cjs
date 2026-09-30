@@ -7,6 +7,8 @@ const resolve = Module._resolveFilename,
   load = Module._load;
 let mode = "ok",
   stored;
+let requestExperience = null;
+let requestNumber = 0;
 Module._resolveFilename = function (request, parent, ...rest) {
   return resolve.call(
     this,
@@ -27,7 +29,12 @@ Module._load = function (request, ...rest) {
       }),
     };
   if (request === "@/sanity/queries/ExperienceCatalog")
-    return { getExperience: async () => null };
+    return {
+      getRequestExperience: async () => requestExperience,
+      getCatalogContent: async () => ({
+        settings: { dinnerDepositAmount: 250 },
+      }),
+    };
   return load.call(this, request, ...rest);
 };
 require.extensions[".ts"] = (module, file) =>
@@ -56,7 +63,11 @@ const body = {
 function request(data = body) {
   return new NextRequest("http://localhost/api/experience-requests", {
     method: "POST",
-    headers: { "content-type": "application/json", origin: "http://localhost" },
+    headers: {
+      "content-type": "application/json",
+      origin: "http://localhost",
+      "x-forwarded-for": `fixture-${++requestNumber}`,
+    },
     body: JSON.stringify(data),
   });
 }
@@ -102,4 +113,85 @@ test("accepts public host behind Netlify proxy and rejects foreign origin", asyn
     });
   assert.equal((await POST(make("https://preview.netlify.app"))).status, 201);
   assert.equal((await POST(make("https://foreign.invalid"))).status, 403);
+});
+
+test("dinner requests can share dates, preserve configuration and never reserve or collect a deposit", async () => {
+  requestExperience = {
+    _id: "dinner",
+    _type: "romanticDinnerExperience",
+    name: { en: "Dinner" },
+    active: true,
+    basePrice: 849,
+    currency: "USD",
+    includedGuests: 2,
+    additionalGuestPrice: 100,
+    includedDurationMinutes: 120,
+    styles: [],
+    availableAddons: [],
+    beverages: [],
+    occasions: [],
+    menuItems: ["starter", "main", "dessert"].map((c) => ({
+      _id: c,
+      courseType: c,
+      active: true,
+      included: true,
+    })),
+  };
+  const data = {
+    ...body,
+    experienceId: "dinner",
+    contact: {
+      ...body.contact,
+      desiredDate: "2026-12-12",
+      alternativeDate: "2026-12-13",
+      datesFlexible: true,
+      hotel: "Test hotel",
+      fragranceSensitivity: "No fragrance",
+    },
+    selection: {
+      guestCount: 3,
+      guestMenus: Array.from({ length: 3 }, () => ({
+        starter: "starter",
+        main: "main",
+        dessert: "dessert",
+      })),
+      addons: {},
+      beverages: [],
+      customOccasion: "Birthday",
+    },
+  };
+  try {
+    const first = await POST(request(data));
+    assert.equal(first.status, 201);
+    const id = (await first.json()).id;
+    const second = await POST(request(data));
+    assert.equal(second.status, 201);
+    assert.notEqual((await second.json()).id, id);
+    assert.equal(stored.value.status, "new");
+    assert.equal(stored.value.snapshot.selection.customOccasion, "Birthday");
+    assert.equal(stored.value.snapshot.estimatedTotal, 949);
+    assert.equal(stored.value.snapshot.quoteRequired, true);
+    assert.deepEqual(stored.value.datePreferences, {
+      preferredDate: "2026-12-12",
+      alternativeDate: "2026-12-13",
+      flexible: true,
+    });
+    assert.equal(stored.value.paymentPolicy.depositAmount, 250);
+    assert.equal(stored.value.paymentPolicy.depositStatus, "not_requested");
+    assert.equal(stored.value.paymentPolicy.balanceDue, "dinner_day");
+    assert.equal(stored.value.contact.fragranceSensitivity, "No fragrance");
+    assert.ok(stored.value.receivedAt);
+    assert.equal(stored.value.reservation, undefined);
+    for (const contact of [
+      { ...data.contact, desiredDate: "" },
+      { ...data.contact, alternativeDate: "2026-02-30" },
+      { ...data.contact, datesFlexible: "yes" },
+    ]) {
+      stored = null;
+      assert.equal((await POST(request({ ...data, contact }))).status, 400);
+      assert.equal(stored, null);
+    }
+  } finally {
+    requestExperience = null;
+  }
 });

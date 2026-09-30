@@ -11,6 +11,8 @@ import {
 export const experienceFields = [
   field("internalTitle", "string", "general"),
   field("name", "localizedString", "general"),
+  field("location", "localizedString", "general"),
+  field("badge", "localizedString", "general"),
   defineField({
     name: "slug",
     type: "slug",

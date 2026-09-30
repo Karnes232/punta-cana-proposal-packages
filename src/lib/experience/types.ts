@@ -69,6 +69,8 @@ export type Experience = Entry & {
   basePrice?: number;
   currency?: string;
   priceLabel?: Localized;
+  location?: Localized;
+  badge?: Localized;
   gallery: Photo[];
   styles: Style[];
   inclusions: Entry[];
@@ -93,8 +95,14 @@ export type Selection = {
   selectedOccasionId?: string;
   customOccasion?: string;
 };
-export type Settings = Record<string, Localized | undefined>;
+export type Settings = Record<string, Localized | number | undefined>;
 export type Home = {
+  copy?: Record<string, Localized>;
+  journeyImages?: Image[];
+  moments?: Image[];
+  editorialImages?: Image[];
+  proposalSelectorImage?: Image;
+  dinnerSelectorImage?: Image;
   heroImage?: Image;
   eyebrow?: Localized;
   headline?: Localized;

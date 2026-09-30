@@ -1,96 +1,38 @@
-# Experience Catalog — entrega y operación
+# Current implementation — September 29, 2026
 
-## Alcance
+This update reuses the Next.js 16 / React 19 application, EN/ES routes, Sanity production content, shared pricing and request storage. It does not migrate/delete existing CMS documents or replace the existing blog, stories, legal, FAQ or legacy detail routes. Adventure to Yes is intentionally excluded from public package queries and the sitemap.
 
-Nueva estructura vacía EN/ES, administrable desde Sanity. No se migran ni se borran productos automáticamente. No hay nombres, fotografías, menús ni precios comerciales inventados. Única configuración aprobada: cena USD 849, 2 invitados, 120 minutos, inicialmente inactiva.
+## Home
 
-## Auditoría del 29 de septiembre de 2026
+The home route uses ExperienceHome rather than the complete catalog. A full-height real Sanity photograph leads with proposals, followed by an interactive two-experience selector, trust benefits, up to three featured proposals, a five-step pickup journey, a real editorial photo sequence, a secondary private-dinner section, eight planning steps and a native-dialog photo gallery. There are no configurators/forms on Home. Featured links select the relevant card on /proposals via its hash; cards still never navigate to new detail pages.
 
-Repositorio: Karnes232/punta-cana-proposal-packages, base c206e1c. Sanity: czmzv5on / production. Exportación autenticada: 526 documentos, incluidos 3 borradores y documentos de sistema; consulta pública: 512 documentos. Hay 17 propuestas anteriores, 289 assets de imagen y 140 posts publicados. Respaldo JSON fuera de Git; conserva documentos y referencias de assets, no sus binarios. No se eliminó contenido.
+The existing black/ivory/gold palette and Playfair/Inter fonts remain. Images use Next Image, lazy loading except the hero, responsive sizes and quality 80. Hero content enters once; motion and transitions respect reduced-motion preferences. The header is sticky, transparent over the home hero and solid after scrolling. The larger logo, active links, contextual proposal/celebration CTA, full navigation and EN/ES links are shared. The mobile menu expands in the header flow and closes with Escape. Blog language alternates reuse the existing translation context.
 
-Mapeo previsto para migración posterior:
+Proposal forms use a native modal dialog on the same page to avoid stretching the grid. Package/style/extra state stays in the existing cards. Dialogs provide keyboard focus containment and Escape dismissal. Home photo galleries restore focus to the invoking thumbnail.
 
-- IndividualProposalPackage: nombre, descripción, fotos y SEO hacia proposalExperience; revisar cada precio y variante antes de migrar.
-- HomePageHero y ContactPageContent: revisar contenido aprobado para catalogHome y catalogContact. generalLayout sigue proporcionando logo, contacto y redes.
-- Assets existentes: reutilizar referencias después de verificar relación con cada experiencia, derechos y texto alternativo.
-- PageSeo: se preserva para Home y Contact como respaldo hasta completar el SEO nuevo. Blogs, FAQ, Legal y URLs anteriores permanecen disponibles.
-- Al menos un slug anterior contiene texto concatenado del botón. No corregirlo sin registrar su URL original y preparar redirección individual.
+## Sanity editing
 
-## Editar contenido
+- Catalog Settings: bilingual navigation labels, exclusivity, one-couple-or-group-per-night message, date preference warning, deposit/remaining-balance policy and submission success text. `dinnerDepositAmount` defaults to USD200; policy messages use `{deposit}` so changes remain consistent.
+- Home: bilingual `copy` fields, hero/selector photographs, up to three ordered `featuredProposals` references (legacy or current packages), five ordered `journeyImages`, `editorialImages` and `moments`. Copy fields initialize with the approved business text on new documents; published overrides are read at runtime. No public driver identity is stored or displayed.
+- Proposal experiences gain optional location and badge fields. Missing durations and inclusions are not invented. Featured cards show only real supplied values, with a maximum of four inclusions.
+- Existing dinner/menu/style/extras documents remain editable through the existing Studio tools.
 
-Studio → EXPERIENCES contiene Proposals, Romantic Dinner, Add-ons, Menu, Occasions, Beverages y Catalog Settings. WEBSITE contiene Home, Contact, información institucional, FAQ, Blog, Legal y SEO anterior.
+No verified same-location before/after pair was supplied, so the website uses a real editorial sequence instead of a fabricated comparison. No verified driver/vehicle photos or short videos were supplied: transport steps use consistent line icons until actual journey photographs are assigned; the real proposal photograph is used for the hero. Existing gallery photographs come from Sanity, without invented testimonials or names. The master attachment ends in section 16; this implementation covers its supplied content.
 
-Crear un documento inactivo, completar EN/ES, slug, precio, 3–5 imágenes con alt y estilos reales. Crear extras globales y referenciarlos desde la experiencia. Configurar displayOrder. Activar y publicar: aparecerá sin cambiar código (caché máxima de 60 segundos). Los borradores y los documentos inactivos no aparecen en el catálogo.
+## Date requests, not automatic reservations
 
-Los estilos de propuesta tienen precio completo; los estilos de cena no tienen precio. Para cena configurar también maximumGuests y maximumDurationMinutes; si hay invitados adicionales, indicar additionalGuestPrice. No se inventaron estos límites. Cada persona selecciona sus propios platos. Opciones sin configurar no se rellenan automáticamente.
+Clients configure dinner style, guests, occasion, individual three-course menus, cocktails, shared wine and extras. They can supply preferred and alternative dates, date flexibility, accommodation, contact information, comments and optional fragrance sensitivity. Preferred date is required for a dinner inquiry. The published example can accept a manually reviewed request without being activated as a confirmed/bookable inventory item.
 
-Los singletons se editan desde el menú, sin crear duplicados. Etiquetas funcionales tienen respaldo bilingüe editable; el contenido comercial se carga desde el CMS. Para inicialización automatizada, copiar .env.example a .env.local y configurar temporalmente SANITY_API_WRITE_TOKEN. npm run catalog:bootstrap usa createIfNotExists: no reemplaza documentos. El script detecta cualquier cena existente y evita crear otra.
+The server reloads the selected experience and price data from Sanity. It validates real calendar dates, input types, menu/style/extra identities and applicable prices. Unknown capacity may be requested, but is explicitly marked for quotation/manual review; a configured maximum is respected. Guest-menu counts are checked before iteration. No calendar, temporary hold, inventory decrement, payment or reservation is created.
 
-## Cálculo
+Every valid request receives its own UUID and UTC timestamp in private Netlify Blobs with `status: new`, contact data, date preferences, selected configuration, server-calculated estimate and payment-policy snapshot. Multiple clients may submit the same preferred date. The deposit status remains `not_requested`. Netlify preview requests use a separate store. Success appears only after a durable write, explicitly stating that the team will confirm availability and provide the next step for the deposit. No automatic email notification or checkout is configured.
 
-Propuesta = precio completo del estilo seleccionado (o base si no hay estilos) + extras. Nunca base + precio del estilo.
-Cena = base + invitados adicionales + suplementos de platos por persona + suplementos de bebidas + extras. Cambiar estilo no añade precio. Las bebidas se seleccionan para la reserva, no por persona.
-fixed: una unidad; perPerson: precio por invitado; perUnit: unidades; perHour: horas enteras; per30Minutes: bloques de 30 minutos. quoteOnly no inventa importe: muestra que requiere cotización. durationMinutesPerUnit suma tiempo únicamente en extras que amplían la experiencia; un fotógrafo por hora no amplía automáticamente la duración. La suma de todos los extras respeta el máximo.
-Los importes se calculan en centavos. El servidor vuelve a consultar Sanity sin CDN/caché, valida referencias activas, curso de platos, límites y cantidades. Ignora cualquier total enviado por el navegador.
+Operational flow: request → manual agenda/capacity review → availability communicated → USD200 deposit requested and received → reservation officially confirmed → remaining balance paid on dinner day. “One table / one group per evening” communicates exclusivity, not real-time availability.
 
-## Solicitudes y contacto
+## Verified
 
-POST /api/experience-requests guarda contacto y configuración recalculada en Netlify Blobs, store experience-requests. Los hosts deploy-preview-N--sitio.netlify.app escriben en experience-requests-preview para separar las pruebas de las solicitudes reales. El equipo consulta los registros desde el proyecto Netlify → Blobs. No existe endpoint público para leerlos. La función solo confirma éxito después de persistir. No se configura envío de email ni pago.
-Netlify suministra las credenciales al runtime de Next.js. No se guardan datos personales en el dataset público de Sanity; su plan Free actual no permite dataset privado. No hace falta ampliar el plan de Sanity.
+37 pricing, component and API tests pass, including duplicate-date requests with unique IDs, date validation, request-only capacity handling, preserved configuration, editable deposit amount and non-confirming success messages. TypeScript and scoped ESLint pass. Browser checks cover EN/ES Home, exactly three featured packages, no Home forms, selector changes, pickup steps, gallery navigation/Escape/focus restoration, mobile navigation, card selection from featured links and proposal request dialogs. Existing Blog link remains in the footer.
 
-Validar un envío en Deploy Preview con datos de prueba autorizados antes de activar producción, y confirmar el registro desde Netlify. Con next dev sin contexto Netlify, el endpoint devuelve 503. npm test prueba persistencia y fallos con almacenamiento simulado. El límite de solicitudes por IP es local al proceso, no un rate limit distribuido; para tráfico abusivo configurar protección de Netlify.
-Documentación: https://docs.netlify.com/build/data-and-storage/netlify-blobs/ y https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/
+## Deployment
 
-## SEO y publicación
-
-Stories, How It Works y categorías anteriores se retiraron de Home, Navbar, menú móvil, Footer y menú principal de Studio. Sus rutas y esquemas siguen disponibles para preservar enlaces y documentos. No se publican redirects masivos hacia Home.
-Antes de retirar cada URL: exportar Search Console (clics/impresiones/indexación), Analytics (entradas/conversiones), backlinks y canonicals; elegir sustituto equivalente y registrar old→new; aplicar 301 y actualizar sitemap/enlaces, verificar respuesta final y ausencia de cadenas. Si no existe equivalente, decidir conservación o retiro explícito. Esta revisión de tráfico/backlinks aún está pendiente.
-Nuevas rutas: /proposals, /romantic-dinners, /contact y /es equivalentes. Detalles con slug, canonical EN/ES, hreflang y Service JSON-LD. Experiencias noIndex excluidas del sitemap.
-
-## Verificación y activación
-
-28 pruebas automatizadas: precios, IDs inválidos, límites, duración, menús, estilos, extras conservados, galería por teclado, EN/ES, estados vacíos y persistencia. Revisión visual desktop y móvil de 390 px. TypeScript/ESLint y build de producción.
-Antes de merge/despliegue: revisar catálogo vacío, Studio y persistencia real en Netlify; confirmar que la cena inicial está guardada como borrador inactivo. No se publicaron productos de prueba. La rama no cambia producción hasta integrarse y desplegarse.
-
-Cena inicial guardada y verificada tras recarga en Sanity: drafts.8d9e1e5f-d981-4276-ab95-8d88a3ebd429. Inactiva, sin publicar; 849 USD, 2 invitados, 120 minutos. No se creó ningún token ni se modificó CORS.
-
-## Plantilla solicitada e integración visual
-
-Se recupera la identidad existente: negro #0b0b0c, dorado #cfae70, marfil #f7f5f1, Playfair e Inter, navbar negro, botones y bordes dorados.
-En /romantic-dinners de localhost y Deploy Preview aparece una plantilla interactiva marcada como no reservable. Nunca se añade al catálogo público de producción. Incluye 3 espacios de montaje sin fotos inventadas, 2 opciones de plantilla por cada tiempo (entrada, plato principal y postre), selección independiente por invitado, transporte desde toda Punta Cana y 4 extras indicados por el usuario: rosas, espumantes premium, chocolates y neón Happy Anniversary. Extras sin precio: quoteOnly.
-Studio → Dinner template guarda de forma idempotente la cena y 10 documentos relacionados en borrador (6 espacios de platos + 4 extras), sin sobrescribir campos existentes. Ya se ejecutó y confirmó. Los montajes, platos y extras están inactivos; reemplazar las etiquetas de plantilla, cargar fotos reales y confirmar precios/disponibilidad antes de activar. Los límites de 2 personas y 120 minutos del ejemplo son exclusivamente para probar la base aprobada: no se guardaron como máximos comerciales en Sanity.
-El servidor exige que estén configurados los tres tiempos antes de admitir una solicitud real de cena. Cada invitado debe elegir entrada, principal y postre.
-
-## Plantilla de propuesta de matrimonio
-
-Studio → Proposal template crea un borrador inactivo proposal-initial-template y tres extras relacionados, sin sobrescribir documentos publicados ni borradores existentes. Incluye tres estilos por completar, tres espacios de fotografía y una inclusión editable. No se asignan precios ni nombres comerciales inventados. La vista previa /proposals muestra el ejemplo interactivo no reservable; estilos y extras funcionan sin presentar precio cero. Las solicitudes reales nunca aceptan el ID de demostración. Sustituir textos, imágenes, inclusiones y precios completos de cada estilo antes de activar y publicar.
-
-## Incremental configurator update — 2026-09-29
-
-The current card, gallery, requests API, navigation and pricing function are retained. Configuration sections now use accessible, initially collapsed buttons with persistent panels and reduced-motion support. Guest menus include an individual welcome cocktail; wine is selected once per experience. The sticky total has a collapsed breakdown. The gallery uses Next Image and loads only the current slide.
-
-Extended existing schemas with minimumGuests and dietaryType; beverageOption.type remains the existing category field to preserve stored documents. Studio groups Food & Beverage separately. No V2 schemas or destructive migrations.
-
-The owner's supplied 23 dishes, 10 cocktails and 3 wine choices are individual bilingual Sanity documents. Dietary classifications match the supplied menu. The existing Dinner template tool has an idempotent approved-content action, preserving editor changes to existing menu entries, setup fields and capacity. It replaces placeholder menu references without deleting their documents. Prices are 849 USD, 2 included/minimum guests, 100 USD per additional guest, 120 minutes; Photographer 299 and Videographer 449 are optional fixed extras. Approved content is stored in the public dataset, with the dinner still inactive. Preview hosts read this inactive dinner from Sanity; the public commercial query still requires active=true.
-
-Maximum guest capacity is awaiting owner confirmation. No arbitrary commercial capacity is assumed. Missing capacity permits a base estimate but blocks extra guests and booking; server submission still requires confirmed guest/duration limits. Photographs and real setup names remain editorial requirements before activation. Previously requested template drafts are preserved; no new fictitious packages/styles were added.
-
-Validation: 32 unit/component/API tests, TypeScript and scoped ESLint. EN/ES tests cover guest preservation, collapsing, image changes, supplements per guest, single wine, malicious IDs, limits, total recalculation and inline form. Browser checks cover 320/375/390/768/1440 widths, actual CMS menu selection, extras and style persistence. Production code is not deployed until PR review/merge.
-
-## Visual examples and footer follow-up
-
-The shared footer again links to Blog and FAQ in both languages, alongside experience pages, contact, legal pages, telephone, email and social links. Existing blog content/routes remain intact.
-
-The existing template documents now have real reference imagery from the existing Sanity library. The dinner has three editable setup templates with distinct main photos and a five-photo gallery. The proposal example reuses the existing Everlasting Flame package's images, two variant prices, inclusions and extras. Original legacy documents/assets are untouched. Template documents remain inactive and appear only on localhost/Deploy Preview, including the homepage. Template names, imagery and reference rates are editable through the existing schemas.
-
-Style controls include optimized thumbnails. Duplicate gallery images are removed. Demo availability buttons open the same inline form, clearly marked as a preview; both the submit button and submit handler prevent transmission. Real booking behavior remains unchanged. Visual-template actions are available in the existing Studio tools and use revision checks when updating existing documents.
-
-Verification: 33 tests pass, TypeScript and scoped ESLint pass. Browser verified three dinner image switches with base price unchanged, proposal image/price changes while retaining an extra (1949 + 399 = 2348 USD), demo form, and existing Spanish blog articles reached from the footer.
-
-## Proposal card layout restoration
-
-Proposals now retain the original dark, two-column card appearance with photograph, italic package name, starting price and visible inclusions. A compact style selector updates the photograph and price within each card. A package button (or clicking non-interactive card content) selects one package on the same page and reveals extras/availability inline. No card links to a detail page. Configurations remain mounted and survive changing the selected package; keyboard users select via native buttons.
-
-The existing card/pricing/form components are reused. ProposalGrid owns only the selected package ID and renders the full Sanity list without a fixed count. Preview hosts read all 17 existing IndividualProposalPackage documents without migrating or duplicating them; those legacy preview cards cannot submit requests. Active new-schema packages remain bookable through the existing server validation. Dinner behavior and the restored blog/footer are unchanged.
-
-Verified 34 pricing/component/API tests, scoped ESLint, TypeScript and real browser selection/style changes. All 17 cards rendered in EN/ES. No horizontal overflow at 320/375/390/768/1440px. The location remained /es/proposals after selection.
+Work is on `feat/experience-catalog`, upstream PR #2. The public site has not been merged through this account: GitHub reports `push: false` on Karnes232/punta-cana-proposal-packages. Preview deployment is independently available for review. Do not interpret a successful preview as a production release.

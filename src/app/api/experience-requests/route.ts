@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStore } from "@netlify/blobs";
 import { randomUUID } from "node:crypto";
-import { getExperience } from "@/sanity/queries/ExperienceCatalog";
+import {
+  getRequestExperience,
+  getCatalogContent,
+} from "@/sanity/queries/ExperienceCatalog";
 import { calculate } from "@/lib/experience/pricing";
+import { dinnerDeposit } from "@/lib/experience/dinnerPolicy";
 export const runtime = "nodejs";
 const recent = new Map<string, { count: number; until: number }>();
 export async function POST(request: NextRequest) {
@@ -68,6 +72,8 @@ export async function POST(request: NextRequest) {
       ["phone", 80, true],
       ["hotel", 254, false],
       ["desiredDate", 10, false],
+      ["alternativeDate", 10, false],
+      ["fragranceSensitivity", 500, false],
       ["notes", 4000, !body.experienceId],
     ] as const) {
       const value = c[field] ?? "";
@@ -80,25 +86,40 @@ export async function POST(request: NextRequest) {
       contact[field] = value.trim();
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)) throw Error("email");
-    if (
-      contact.desiredDate &&
-      (!/^\d{4}-\d{2}-\d{2}$/.test(contact.desiredDate) ||
-        !Number.isFinite(Date.parse(contact.desiredDate)) ||
-        new Date(contact.desiredDate).toISOString().slice(0, 10) !==
-          contact.desiredDate)
-    )
-      throw Error("date");
+    for (const date of [contact.desiredDate, contact.alternativeDate])
+      if (
+        date &&
+        (!/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+          !Number.isFinite(Date.parse(date)) ||
+          new Date(date).toISOString().slice(0, 10) !== date)
+      )
+        throw Error("date");
     if (!["en", "es"].includes(body.locale)) throw Error("locale");
+    if (c.datesFlexible !== undefined && typeof c.datesFlexible !== "boolean")
+      throw Error("datesFlexible");
     let snapshot: unknown = null;
+    let paymentPolicy: unknown = null;
     if (body.experienceId) {
       if (
         typeof body.experienceId !== "string" ||
         body.experienceId.length > 200
       )
         throw Error("id");
-      const e = await getExperience(body.experienceId);
+      const e = await getRequestExperience(body.experienceId);
       if (!e) throw Error("experience");
-      const result = calculate(e, body.selection, true);
+      const dinner = e._type === "romanticDinnerExperience";
+      if (dinner && !contact.desiredDate) throw Error("desiredDate");
+      const result = calculate(e, body.selection, true, dinner);
+      if (dinner) {
+        const content = await getCatalogContent();
+        paymentPolicy = {
+          depositAmount: dinnerDeposit(content.settings),
+          currency: "USD",
+          depositStatus: "not_requested",
+          balanceDue: "dinner_day",
+          manualAvailabilityReview: true,
+        };
+      }
       snapshot = {
         experienceId: e._id,
         name: e.name,
@@ -122,6 +143,12 @@ export async function POST(request: NextRequest) {
         status: "new",
         contact,
         snapshot,
+        datePreferences: {
+          preferredDate: contact.desiredDate || null,
+          alternativeDate: contact.alternativeDate || null,
+          flexible: c.datesFlexible === true,
+        },
+        paymentPolicy,
       },
       { onlyIfNew: true },
     );
@@ -138,6 +165,9 @@ export async function POST(request: NextRequest) {
           "phone",
           "hotel",
           "desiredDate",
+          "alternativeDate",
+          "fragranceSensitivity",
+          "datesFlexible",
           "notes",
           "date",
           "locale",

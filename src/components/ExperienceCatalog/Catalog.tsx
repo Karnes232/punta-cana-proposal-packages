@@ -174,15 +174,15 @@ export default async function Catalog({
                           ? "Ejemplo editable · Tres montajes con imágenes de referencia de Sanity. Menú y tarifas configurados; capacidad final pendiente de confirmar."
                           : "Editable example · Three setups with reference images from Sanity. Menu and prices configured; final capacity awaiting confirmation."
                         : locale === "es"
-                          ? "Explora los montajes y personaliza tu cena de referencia. Contáctanos para confirmar la capacidad, disponibilidad y presupuesto de tu celebración."
-                          : "Explore the setups and personalize your sample dinner. Contact us to confirm capacity, availability and the quote for your celebration."}
+                          ? "Personaliza tu cena y envíanos tu fecha preferida. Nuestro equipo confirmará personalmente la capacidad y disponibilidad de tu celebración."
+                          : "Personalize your dinner and send us your preferred date. Our team will personally confirm capacity and availability for your celebration."}
                     </div>
                     <div className="ec-dinner-grid">
                       <RomanticDinnerCard
                         experience={cmsDinnerPreview || dinnerPreview()}
                         locale={locale}
                         settings={settings}
-                        demo
+                        demo={showTemplate}
                         contactOnly={!showTemplate}
                       />
                     </div>

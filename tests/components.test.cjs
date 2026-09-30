@@ -8,6 +8,8 @@ const dom = new JSDOM('<!doctype html><div id="root"></div>', {
 global.window = dom.window;
 global.document = dom.window.document;
 global.HTMLElement = dom.window.HTMLElement;
+global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
+global.cancelAnimationFrame = clearTimeout;
 global.IS_REACT_ACT_ENVIRONMENT = true;
 const Module = require("node:module"),
   ts = require("typescript");
@@ -441,4 +443,81 @@ test("proposal grid selects one package inline, preserves each configuration and
   assert.equal(cards[0].querySelector("input[type=checkbox]").checked, true);
   assert.equal(window.location.pathname, "/");
   await act(async () => root.unmount());
+});
+
+test("date request form sends preferences and uses the editable deposit without confirming a booking", async () => {
+  const Form =
+    require("../src/components/ExperienceCatalog/AvailabilityForm.tsx").default;
+  const oldFetch = global.fetch,
+    oldFormData = global.FormData;
+  global.FormData = window.FormData;
+  let sent;
+  global.fetch = async (url, options) => {
+    sent = JSON.parse(options.body);
+    return { ok: true };
+  };
+  try {
+    for (const locale of ["en", "es"]) {
+      const root = createRoot(document.getElementById("root"));
+      await act(async () =>
+        root.render(
+          React.createElement(Form, {
+            locale,
+            settings: { dinnerDepositAmount: 250 },
+            experienceId: "dinner",
+            dinner: true,
+            selection: {
+              guestCount: 2,
+              guestMenus: [],
+              addons: {},
+              beverages: [],
+            },
+          }),
+        ),
+      );
+      const form = document.querySelector("form");
+      assert.equal(form.querySelector("[name=desiredDate]").required, true);
+      assert.equal(
+        form.querySelector("[name=alternativeDate]").required,
+        false,
+      );
+      for (const [name, value] of Object.entries({
+        fullName: "Test",
+        email: "test@example.invalid",
+        phone: "000",
+        desiredDate: "2026-12-12",
+        alternativeDate: "2026-12-14",
+        hotel: "Test hotel",
+        fragranceSensitivity: "No fragrance",
+      }))
+        form.querySelector(`[name=${name}]`).value = value;
+      form.querySelector("[name=datesFlexible]").checked = true;
+      await act(async () =>
+        form.dispatchEvent(
+          new window.Event("submit", { bubbles: true, cancelable: true }),
+        ),
+      );
+      assert.equal(sent.contact.datesFlexible, true);
+      assert.equal(sent.contact.alternativeDate, "2026-12-14");
+      assert.match(form.querySelector("[role=status]").textContent, /250/);
+      assert.match(
+        form.querySelector("[role=status]").textContent,
+        locale === "es"
+          ? /confirmar la disponibilidad/
+          : /confirm availability/,
+      );
+      assert.doesNotMatch(
+        form.querySelector("[role=status]").textContent,
+        /reservation is confirmed|reserva confirmada/,
+      );
+      assert.equal(
+        form.querySelector("[name=desiredDate]").value,
+        "2026-12-12",
+      );
+      await act(async () => root.unmount());
+    }
+  } finally {
+    global.fetch = oldFetch;
+    global.FormData = oldFormData;
+  }
 });

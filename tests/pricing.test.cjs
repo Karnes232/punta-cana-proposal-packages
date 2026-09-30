@@ -301,3 +301,31 @@ test("unconfirmed capacity allows base estimate but never additional guests or s
   assert.throws(() => calculate(e, { ...ds, guestCount: 3 }));
   assert.throws(() => calculate(e, ds, true));
 });
+
+test("inquiry pricing permits unconfirmed capacity without pretending it is confirmed", () => {
+  const e = {
+    ...dinner,
+    maximumGuests: undefined,
+    maximumDurationMinutes: undefined,
+  };
+  const s = {
+    ...ds,
+    guestCount: 3,
+    guestMenus: Array.from({ length: 3 }, () => ({
+      starter: "starter",
+      main: "m",
+      dessert: "dessert",
+    })),
+  };
+  const result = calculate(e, s, true, true);
+  assert.equal(result.quoteRequired, true);
+  assert.equal(result.estimatedTotal, 935);
+  assert.throws(
+    () => calculate(e, { ...s, guestCount: 1000000000 }, true, true),
+    /course/,
+  );
+  assert.throws(
+    () => calculate({ ...e, maximumGuests: 2 }, s, true, true),
+    /limit/,
+  );
+});

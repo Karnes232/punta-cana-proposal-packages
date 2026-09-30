@@ -1,3 +1,4 @@
+import { depositText } from "@/lib/experience/dinnerPolicy";
 import { label } from "@/lib/experience/labels";
 import type { Locale, Settings } from "@/lib/experience/types";
 
@@ -20,6 +21,19 @@ export default function CatalogIntroduction({
       <Heading>{t("Title")}</Heading>
       <div className="ec-intro-box">
         <p className="ec-intro-lead">{t("Description")}</p>
+        {dinner && (
+          <aside className="ec-privacy-note">
+            <strong>{label(settings, locale, "dinnerPrivacyTagline")}</strong>
+            <p>{label(settings, locale, "dinnerExclusivity")}</p>
+            <p>
+              {label(settings, locale, "dinnerRequestNote").replaceAll(
+                "{deposit}",
+                depositText(settings, locale),
+              )}
+            </p>
+            <p>{label(settings, locale, "dinnerPaymentNote")}</p>
+          </aside>
+        )}
         <ol>
           {[1, 2, 3, 4].map((step) => (
             <li key={step}>
