@@ -35,4 +35,4 @@ Operational flow: request → manual agenda/capacity review → availability com
 
 ## Deployment
 
-Work is on `feat/experience-catalog`, upstream PR #2. The public site has not been merged through this account: GitHub reports `push: false` on Karnes232/punta-cana-proposal-packages. Preview deployment is independently available for review. Do not interpret a successful preview as a production release.
+Work is on `feat/experience-catalog`. GitHub reports that the earlier PR #2 was merged separately. This Home/date-request expansion is delivered in a follow-up PR with its own preview. The connected account still reports `push: false` on Karnes232/punta-cana-proposal-packages, so a maintainer must merge the follow-up. Do not interpret a successful preview as a production release.

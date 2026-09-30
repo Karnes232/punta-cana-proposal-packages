@@ -8,7 +8,7 @@ export const ui: Record<string, [string, string]> = {
   navProposals: ["Proposal Packages", "Propuestas"],
   navDinners: ["Dinners & Celebrations", "Cenas y celebraciones"],
   navHow: ["How It Works", "Cómo funciona"],
-  navFaq: ["FAQ", "Preguntas frecuentes"],
+  navFaq: ["FAQ", "FAQ"],
   planProposal: ["Plan your proposal", "Planea tu propuesta"],
   planCelebration: ["Plan your celebration", "Planea tu celebración"],
   fragranceSensitivity: [

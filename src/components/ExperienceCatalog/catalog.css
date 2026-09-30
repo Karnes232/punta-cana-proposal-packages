@@ -1656,3 +1656,4 @@
     transform: none;
   }
 }
+.ec-nav > a { white-space: nowrap; }
