@@ -122,6 +122,8 @@ export const catalogHome = defineType({
   },
   fields: [
     image("heroImage"),
+    image("proposalHeroImage"),
+    image("dinnerHeroImage"),
     image("proposalSelectorImage"),
     image("dinnerSelectorImage"),
     defineField({

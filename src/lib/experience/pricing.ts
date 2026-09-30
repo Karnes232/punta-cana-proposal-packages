@@ -1,4 +1,5 @@
 import type { Experience, Selection, Course } from "./types";
+import { proposalDinnerId } from "./proposalExtras";
 const courses: Course[] = ["starter", "main", "dessert"];
 const identity = (v: { _id?: string; _key?: string }) => v._id || v._key;
 function assert(condition: unknown, message: string): asserts condition {
@@ -142,12 +143,38 @@ export function calculate(
   } else {
     assert(
       s.guestCount === 1 &&
-        s.guestMenus.length === 0 &&
+        (s.addons[proposalDinnerId]
+          ? s.guestMenus.length <= 2
+          : s.guestMenus.length === 0) &&
         s.beverages.length === 0 &&
         !s.selectedOccasionId &&
         !s.customOccasion,
       "Dinner fields are invalid for proposals",
     );
+  }
+  if (!dinner && s.addons[proposalDinnerId]) {
+    if (complete)
+      assert(s.guestMenus.length === 2, "Select the menu for two guests");
+    for (let i = 0; i < 2; i++) {
+      assert(
+        !s.guestMenus[i]?.welcomeCocktail,
+        "Cocktail unavailable for this addon",
+      );
+      for (const course of courses) {
+        const selected = s.guestMenus[i]?.[course];
+        if (complete) assert(selected, "Select each guest course");
+        if (!selected) continue;
+        const item = e.menuItems.find(
+          (v) =>
+            v.active && v.courseType === course && identity(v) === selected,
+        );
+        assert(item, "Invalid menu item");
+        add(
+          `menu:${i}:${selected}`,
+          item.included ? 0 : cents(item.supplementPrice),
+        );
+      }
+    }
   }
   for (const [selected, quantity] of Object.entries(s.addons)) {
     const a = e.availableAddons.find(

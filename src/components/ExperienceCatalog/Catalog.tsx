@@ -14,6 +14,7 @@ import { label } from "@/lib/experience/labels";
 import type { Locale, Seo } from "@/lib/experience/types";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
+import CatalogHero from "./CatalogHero";
 import CatalogIntroduction from "./CatalogIntroduction";
 import ProposalGrid from "./ProposalGrid";
 import RomanticDinnerCard from "./RomanticDinnerCard";
@@ -112,6 +113,28 @@ export default async function Catalog({
     <main
       className={`ec-shell ${section === "proposals" ? "ec-proposal-page" : ""}`}
     >
+      {section && (
+        <CatalogHero
+          dinner={section === "romantic-dinners"}
+          locale={locale}
+          settings={settings}
+          image={
+            section === "romantic-dinners"
+              ? home?.dinnerHeroImage ||
+                experiences.find((e) => e._type === "romanticDinnerExperience")
+                  ?.gallery[0]?.image ||
+                cmsDinnerPreview?.styles[1]?.mainImage ||
+                cmsDinnerPreview?.gallery[0]?.image
+              : home?.proposalHeroImage ||
+                legacyProposals.find(
+                  (e) => e.slug?.current === "love-signature",
+                )?.gallery[0]?.image ||
+                experiences.find((e) => e._type === "proposalExperience")
+                  ?.gallery[0]?.image ||
+                legacyProposals[0]?.gallery[0]?.image
+          }
+        />
+      )}
       <div className="ec-wrap">
         {!section && (
           <section className="ec-hero">
@@ -162,10 +185,11 @@ export default async function Catalog({
               >
                 <CatalogIntroduction
                   dinner={dinner}
-                  standalone={!!section}
+                  standalone={false}
                   locale={locale}
                   settings={settings}
                 />
+                <div id="packages" className="ec-scroll-target" />
                 {dinner && (showTemplate || rows.length === 0) && (
                   <>
                     <div className="ec-template-note">

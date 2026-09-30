@@ -17,8 +17,14 @@ export default function CatalogIntroduction({
   const prefix = dinner ? "dinnerIntro" : "proposalIntro";
   const t = (suffix: string) => label(settings, locale, prefix + suffix);
   return (
-    <header className="ec-catalog-intro">
-      <Heading>{t("Title")}</Heading>
+    <header id="experience-guide" className="ec-catalog-intro">
+      <Heading>
+        {standalone
+          ? t("Title")
+          : locale === "es"
+            ? "Tu experiencia, paso a paso"
+            : "Your experience, step by step"}
+      </Heading>
       <div className="ec-intro-box">
         <p className="ec-intro-lead">{t("Description")}</p>
         {dinner && (

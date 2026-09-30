@@ -11,6 +11,8 @@ import type {
 import { local, id } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import { calculate } from "@/lib/experience/pricing";
+import { proposalDinnerId } from "@/lib/experience/proposalExtras";
+import ProposalDinnerMenu from "./ProposalDinnerMenu";
 import ExperienceGallery from "./ExperienceGallery";
 import Accordion from "./Accordion";
 import RequestDialog from "./RequestDialog";
@@ -91,7 +93,7 @@ export default function ExperienceCard({
     selectedStyleId: selectedStyleId || undefined,
     addons: selectedAddons,
     guestCount,
-    guestMenus,
+    guestMenus: dinner || selectedAddons[proposalDinnerId] ? guestMenus : [],
     beverages: selectedBeverages,
     selectedOccasionId: selectedOccasionId || undefined,
     customOccasion: customOccasion || undefined,
@@ -115,7 +117,16 @@ export default function ExperienceCard({
         setAddons(next);
         return;
       }
-      calculate(e, { ...selection, addons: next }, false, dinner);
+      calculate(
+        e,
+        {
+          ...selection,
+          addons: next,
+          guestMenus: dinner || next[proposalDinnerId] ? guestMenus : [],
+        },
+        false,
+        dinner,
+      );
       setAddons(next);
     } catch {}
   }
@@ -597,6 +608,15 @@ export default function ExperienceCard({
                 );
               })}
             </Accordion>
+          )}
+          {!dinner && !!selectedAddons[proposalDinnerId] && (
+            <ProposalDinnerMenu
+              experience={e}
+              locale={locale}
+              settings={settings}
+              menus={guestMenus}
+              onChange={setMenus}
+            />
           )}
           <div className="ec-purchase">
             <div className="ec-total" aria-live="polite">

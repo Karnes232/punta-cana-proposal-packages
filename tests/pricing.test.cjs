@@ -329,3 +329,50 @@ test("inquiry pricing permits unconfirmed capacity without pretending it is conf
     /limit/,
   );
 });
+
+test("proposal premium extras cost 399/399/399/299 and require two complete dinner menus", () => {
+  const {
+    withProposalExtras,
+    proposalDinnerId,
+  } = require("../work/pricing-tests/proposalExtras.js");
+  const menu = dinner.menuItems.map((m) => ({ ...m, included: true }));
+  const e = withProposalExtras(proposal, menu);
+  const menus = [0, 1].map(() => ({
+    starter: "starter",
+    main: "m",
+    dessert: "dessert",
+  }));
+  const addons = Object.fromEntries(
+    e.availableAddons.filter((a) => a._key).map((a) => [a._key, 1]),
+  );
+  assert.equal(
+    calculate(e, { ...selection, addons, guestMenus: menus }, true)
+      .estimatedTotal,
+    1646,
+  );
+  assert.throws(() => calculate(e, { ...selection, addons }, true));
+  assert.throws(() =>
+    calculate(
+      e,
+      { ...selection, addons, guestMenus: [...menus, menus[0]] },
+      true,
+    ),
+  );
+  assert.throws(() =>
+    calculate(
+      e,
+      {
+        ...selection,
+        addons,
+        guestMenus: [{ ...menus[0], main: "forged" }, menus[1]],
+      },
+      true,
+    ),
+  );
+  assert.throws(() => calculate(e, { ...selection, guestMenus: menus }, true));
+  assert.equal(
+    calculate(e, { ...selection, addons: { [proposalDinnerId]: 1 } })
+      .estimatedTotal,
+    449,
+  );
+});

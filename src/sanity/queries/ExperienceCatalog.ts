@@ -6,6 +6,7 @@ import type {
   Contact,
 } from "@/lib/experience/types";
 import { normalizeExperience } from "@/lib/experience/normalize";
+import { withProposalExtras } from "@/lib/experience/proposalExtras";
 const img = `{ "url":asset->url,alt }`;
 const photo = `{_key,alt,caption,displayOrder,image${img}}`;
 const entry = `_id,_key,name,description,active,displayOrder`;
@@ -18,7 +19,10 @@ export async function getExperiences() {
     {},
     { next: { revalidate: 60 } },
   );
-  return rows.map(normalizeExperience);
+  const menu = rows.some((e) => e._type === "proposalExperience")
+    ? (await getDinnerPreview())?.menuItems || []
+    : [];
+  return rows.map((e) => withProposalExtras(normalizeExperience(e), menu));
 }
 export async function getExperience(id: string) {
   const e = await fresh.fetch<Experience | null>(
@@ -26,7 +30,14 @@ export async function getExperience(id: string) {
     { id },
     { cache: "no-store" },
   );
-  return e ? normalizeExperience(e) : (await getLegacyProposals(id))[0] || null;
+  return e
+    ? withProposalExtras(
+        normalizeExperience(e),
+        e._type === "proposalExperience"
+          ? (await getDinnerPreview())?.menuItems || []
+          : [],
+      )
+    : (await getLegacyProposals(id))[0] || null;
 }
 export async function getCatalogContent() {
   return fresh.fetch<{
@@ -34,7 +45,7 @@ export async function getCatalogContent() {
     home: Home | null;
     contact: Contact | null;
   }>(
-    `{"settings":*[_id=="experienceCatalogSettings"][0],"home":*[_id=="catalogHome"][0]{...,heroImage${img},proposalSelectorImage${img},dinnerSelectorImage${img},journeyImages[]${img},editorialImages[]${img},moments[]${img},seo{...,image${img}}},"contact":*[_id=="catalogContact"][0]{...,seo{...,image${img}}}}`,
+    `{"settings":*[_id=="experienceCatalogSettings"][0],"home":*[_id=="catalogHome"][0]{...,heroImage${img},proposalHeroImage${img},dinnerHeroImage${img},proposalSelectorImage${img},dinnerSelectorImage${img},journeyImages[]${img},editorialImages[]${img},moments[]${img},seo{...,image${img}}},"contact":*[_id=="catalogContact"][0]{...,seo{...,image${img}}}}`,
     {},
     { next: { revalidate: 60 } },
   );
@@ -79,19 +90,23 @@ export async function getLegacyProposals(id?: string) {
     { id: id || null },
     { cache: "no-store" },
   );
+  const menu = rows.length ? (await getDinnerPreview())?.menuItems || [] : [];
   return rows.map((e) =>
-    normalizeExperience({
-      ...e,
-      gallery: [{ _key: "main", image: e.mainImage }, ...(e.gallery || [])],
-      styles: (e.styles || []).map((style, index) => ({
-        ...style,
-        mainImage: style.mainImage?.url
-          ? style.mainImage
-          : index === 0
-            ? e.mainImage
-            : e.gallery?.[index - 1]?.image || e.mainImage,
-      })),
-    }),
+    withProposalExtras(
+      normalizeExperience({
+        ...e,
+        gallery: [{ _key: "main", image: e.mainImage }, ...(e.gallery || [])],
+        styles: (e.styles || []).map((style, index) => ({
+          ...style,
+          mainImage: style.mainImage?.url
+            ? style.mainImage
+            : index === 0
+              ? e.mainImage
+              : e.gallery?.[index - 1]?.image || e.mainImage,
+        })),
+      }),
+      menu,
+    ),
   );
 }
 
