@@ -20,7 +20,6 @@ punta-cana-proposal-packages/
 ├── package.json
 ├── sanity.cli.ts             # Sanity CLI (project id, dataset)
 ├── sanity.config.ts          # Studio config (schema, plugins)
-├── tailwind.config.ts
 └── tsconfig.json
 ```
 
