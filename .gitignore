@@ -43,3 +43,7 @@ next-env.d.ts
 # Local audit exports and test artifacts
 /work/
 !.env.example
+
+# Sanity Studio build output
+/dist/
+/.sanity/

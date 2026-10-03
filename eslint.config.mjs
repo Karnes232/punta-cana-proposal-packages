@@ -14,6 +14,9 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Compiled test output from scripts/run-tests.cjs.
     "work/**",
+    // Sanity Studio build output.
+    "dist/**",
+    ".sanity/**",
   ]),
   {
     // Node test files and scripts are CommonJS.

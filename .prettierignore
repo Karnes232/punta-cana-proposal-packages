@@ -5,3 +5,5 @@ public
 package-lock.json
 *.tsbuildinfo
 next-env.d.ts
+dist
+.sanity
