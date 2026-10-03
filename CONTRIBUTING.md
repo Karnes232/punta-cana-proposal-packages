@@ -47,6 +47,9 @@ Never commit minified or one-line code.
 - **No hard-coded document IDs or slugs** scattered through the code. Put them
   in one named constant and import it.
 - **No `any`.** Type query results. Lint runs with `--max-warnings=0`.
+- **Regenerate Sanity types after changing a schema or a `defineQuery` query:**
+  `npm run typegen` (also part of `npm run check`) updates `schema.json` and
+  `sanity.types.ts`; commit both. CI fails if they're out of date.
 - **Bilingual by default.** Every user-facing string needs `en` and `es`.
 - **Secrets stay out of git.** `.env*` files are ignored (except
   `.env.example`). Never prefix a secret with `NEXT_PUBLIC_`.

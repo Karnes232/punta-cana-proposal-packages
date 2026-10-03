@@ -4,6 +4,7 @@ import type { Experience } from "@/lib/experience/types";
 import { uncachedClient } from "./client";
 import { experienceProjection } from "./fragments";
 import { DINNER_TEMPLATE_ID } from "@/sanity/constants";
+import { defineQuery } from "next-sanity";
 
 /**
  * The romantic dinner example. It is an inactive document, so it is read
@@ -11,13 +12,17 @@ import { DINNER_TEMPLATE_ID } from "@/sanity/constants";
  * as an add-on, for the inquiry-only dinner card, and on preview hosts.
  * Reads the published document, never private drafts.
  */
+export const templatePreviewQuery = defineQuery(
+  `*[_id == $id][0] ${experienceProjection}`,
+);
+
 export async function getDinnerPreview() {
   return getTemplatePreview(DINNER_TEMPLATE_ID);
 }
 
 async function getTemplatePreview(id: string) {
   const row = await uncachedClient.fetch<Experience | null>(
-    /* groq */ `*[_id == $id][0] ${experienceProjection}`,
+    templatePreviewQuery,
     { id },
     { cache: "no-store" },
   );

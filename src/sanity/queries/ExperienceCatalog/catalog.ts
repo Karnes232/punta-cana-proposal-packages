@@ -6,12 +6,17 @@ import { DINNER_TEMPLATE_ID, EXCLUDED_PROPOSAL_SLUG } from "@/sanity/constants";
 import { uncachedClient } from "./client";
 import { activeExperienceFilter, experienceProjection } from "./fragments";
 import { getDinnerPreview } from "./templates";
+import { defineQuery } from "next-sanity";
 
-export const catalogQuery = /* groq */ `
+export const catalogQuery = defineQuery(`
   *[${activeExperienceFilter}]
   | order(displayOrder asc, _id asc)
   ${experienceProjection}
-`;
+`);
+
+export const experienceByIdQuery = defineQuery(
+  `*[_id == $id && ${activeExperienceFilter}][0] ${experienceProjection}`,
+);
 
 /** Proposals get the dinner menu, offered through the dinner add-on. */
 async function proposalDinnerMenu(experiences: Experience[]) {
@@ -36,7 +41,7 @@ export async function getExperiences() {
 /** One public experience by document ID, or null. */
 export async function getExperience(id: string) {
   const experience = await uncachedClient.fetch<Experience | null>(
-    /* groq */ `*[_id == $id && ${activeExperienceFilter}][0] ${experienceProjection}`,
+    experienceByIdQuery,
     { id, excludedSlug: EXCLUDED_PROPOSAL_SLUG },
     { cache: "no-store" },
   );

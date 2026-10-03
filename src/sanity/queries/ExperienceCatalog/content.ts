@@ -15,17 +15,9 @@ import {
 import { getExperience } from "./catalog";
 import { uncachedClient } from "./client";
 import { imageWithAlt } from "./fragments";
+import { defineQuery } from "next-sanity";
 
-export type CatalogContent = {
-  settings: Settings | null;
-  home: Home | null;
-  contact: Contact | null;
-};
-
-/** The three catalog singletons: settings, home page and contact page. */
-export async function getCatalogContent() {
-  return uncachedClient.fetch<CatalogContent>(
-    /* groq */ `{
+export const catalogContentQuery = defineQuery(`{
       "settings": *[_id == $settingsId][0],
       "home": *[_id == $homeId][0] {
         ...,
@@ -43,7 +35,32 @@ export async function getCatalogContent() {
         ...,
         seo { ..., image ${imageWithAlt} }
       }
-    }`,
+    }`);
+
+export const homePresentationQuery = defineQuery(`{
+      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref,
+      "hero": *[_type == "HomePageHero"][0].image {
+        "url": asset->url,
+        "alt": { "en": alt, "es": alt }
+      }
+    }`);
+
+export const featuredFallbackQuery = defineQuery(`*[
+        _type == "proposalExperience"
+        && active == true
+        && slug.current in $featuredSlugs
+      ] | order(name.en asc)[0...3]._id`);
+
+export type CatalogContent = {
+  settings: Settings | null;
+  home: Home | null;
+  contact: Contact | null;
+};
+
+/** The three catalog singletons: settings, home page and contact page. */
+export async function getCatalogContent() {
+  return uncachedClient.fetch<CatalogContent>(
+    catalogContentQuery,
     {
       settingsId: CATALOG_SETTINGS_ID,
       homeId: CATALOG_HOME_ID,
@@ -65,24 +82,14 @@ type HomeConfig = {
  */
 export async function getHomePresentation() {
   const config = await uncachedClient.fetch<HomeConfig>(
-    /* groq */ `{
-      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref,
-      "hero": *[_type == "HomePageHero"][0].image {
-        "url": asset->url,
-        "alt": { "en": alt, "es": alt }
-      }
-    }`,
+    homePresentationQuery,
     { homeId: CATALOG_HOME_ID },
     { next: { revalidate: 60 } },
   );
   const ids =
     config.ids ??
     (await uncachedClient.fetch<string[]>(
-      /* groq */ `*[
-        _type == "proposalExperience"
-        && active == true
-        && slug.current in $featuredSlugs
-      ] | order(name.en asc)[0...3]._id`,
+      featuredFallbackQuery,
       { featuredSlugs: FEATURED_FALLBACK_SLUGS },
       { next: { revalidate: 60 } },
     ));
