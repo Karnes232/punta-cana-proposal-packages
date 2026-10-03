@@ -5,7 +5,6 @@ import { headers } from "next/headers";
 import { dinnerPreview } from "@/lib/experience/dinnerTemplate";
 import {
   getDinnerPreview,
-  getLegacyProposals,
   getCatalogContent,
   getExperiences,
 } from "@/sanity/queries/ExperienceCatalog";
@@ -103,8 +102,6 @@ export default async function Catalog({
       !experiences.some((e) => e._type === "romanticDinnerExperience"))
       ? await getDinnerPreview()
       : null;
-  const legacyProposals =
-    !section || section === "proposals" ? await getLegacyProposals() : [];
   const settings = content.settings || {},
     home = content.home;
   const t = (key: string) => label(settings, locale, key),
@@ -126,12 +123,13 @@ export default async function Catalog({
                 cmsDinnerPreview?.styles[1]?.mainImage ||
                 cmsDinnerPreview?.gallery[0]?.image
               : home?.proposalHeroImage ||
-                legacyProposals.find(
-                  (e) => e.slug?.current === "love-signature",
+                experiences.find(
+                  (e) =>
+                    e._type === "proposalExperience" &&
+                    e.slug?.current === "love-signature",
                 )?.gallery[0]?.image ||
                 experiences.find((e) => e._type === "proposalExperience")
-                  ?.gallery[0]?.image ||
-                legacyProposals[0]?.gallery[0]?.image
+                  ?.gallery[0]?.image
           }
         />
       )}
@@ -212,32 +210,12 @@ export default async function Catalog({
                     </div>
                   </>
                 )}
-                {!dinner && (rows.length > 0 || legacyProposals.length > 0) ? (
-                  <>
-                    {showTemplate && legacyProposals.length > 0 && (
-                      <p className="ec-preview-caption">
-                        {locale === "es"
-                          ? "Vista previa interactiva del catálogo de Sanity. Las solicitudes de los ejemplos no se envían."
-                          : "Interactive preview of the Sanity catalog. Example requests are not sent."}
-                      </p>
-                    )}
-                    <ProposalGrid
-                      experiences={[
-                        ...rows,
-                        ...legacyProposals.filter(
-                          (e) =>
-                            !rows.some(
-                              (row) => row.slug?.current === e.slug?.current,
-                            ),
-                        ),
-                      ]}
-                      demoIds={
-                        showTemplate ? legacyProposals.map((e) => e._id) : []
-                      }
-                      locale={locale}
-                      settings={settings}
-                    />
-                  </>
+                {!dinner && rows.length > 0 ? (
+                  <ProposalGrid
+                    experiences={rows}
+                    locale={locale}
+                    settings={settings}
+                  />
                 ) : rows.length ? (
                   <div className="ec-grid ec-dinner-grid">
                     {rows.map((e) => (

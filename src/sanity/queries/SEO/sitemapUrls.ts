@@ -2,11 +2,6 @@ import { client } from "@/sanity/lib/client";
 
 import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
 
-const sitemapPackagesQuery = `*[_type == "ProposalPackages"] {
-  "category": page,
-  "slugs": packages[coalesce(@->slug.current, "") != "adventure-to-yes" && _ref != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93"]->slug.current
-}`;
-
 const sitemapBlogEntriesQuery = `*[_type == "blogPost" && defined(slug.current) && defined(language)] {
   "language": language,
   "slug": slug.current
@@ -16,21 +11,10 @@ const sitemapStorySlugsQuery = `*[_type == "individualStory" && defined(slug.cur
   "slug": slug.current
 }`;
 
-const PROPOSAL_HUB_SEGMENTS = new Set([
-  "classic-proposals",
-  "modern-proposals",
-  "dining-proposals",
-  "adventure-proposals",
-]);
-
 export const STATIC_SITEMAP_PATHS = [
   "/proposals",
   "/romantic-dinners",
   "",
-  "/classic-proposals",
-  "/modern-proposals",
-  "/dining-proposals",
-  "/adventure-proposals",
   "/blog",
   "/stories",
   "/faq",
@@ -41,24 +25,12 @@ export const STATIC_SITEMAP_PATHS = [
 ] as const;
 
 export async function getSitemapDynamicPaths(): Promise<string[]> {
-  const [packages, stories] = await Promise.all([
-    client.fetch<Array<{ category: string; slugs: (string | null)[] | null }>>(
-      sitemapPackagesQuery,
-    ),
-    client.fetch<Array<{ slug: string }>>(sitemapStorySlugsQuery),
-  ]);
+  const stories = await client.fetch<Array<{ slug: string }>>(
+    sitemapStorySlugsQuery,
+  );
 
   const paths: string[] = [];
 
-  for (const row of packages ?? []) {
-    const seg = row.category;
-    if (!seg || !PROPOSAL_HUB_SEGMENTS.has(seg)) continue;
-    for (const slug of row.slugs ?? []) {
-      if (typeof slug === "string" && slug.length > 0) {
-        paths.push(`/${seg}/${slug}`);
-      }
-    }
-  }
   for (const s of stories ?? []) {
     if (s.slug) paths.push(`/stories/${s.slug}`);
   }
