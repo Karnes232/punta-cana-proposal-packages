@@ -16,6 +16,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
+  localizedSeoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
@@ -119,12 +120,7 @@ export async function generateMetadata({
     locale,
     path,
     canonicalUrl,
-    meta: pageSeo.seo.meta[locale],
-    openGraph: {
-      title: pageSeo.seo.openGraph[locale].title,
-      description: pageSeo.seo.openGraph[locale].description,
-      image: pageSeo.seo.openGraph.image,
-    },
+    ...localizedSeoFields(pageSeo.seo, locale),
     noIndex: pageSeo.seo.noIndex,
     noFollow: pageSeo.seo.noFollow,
   });

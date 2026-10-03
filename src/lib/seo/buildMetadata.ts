@@ -11,6 +11,55 @@ type OgImageInput = {
   height?: number | null;
 };
 
+type LocalizedSeoText = {
+  title?: string | null;
+  description?: string | null;
+  keywords?: string[] | null;
+} | null;
+
+/** The per-locale `seo` object returned by Sanity SEO projections. */
+type LocalizedSeoInput = {
+  meta?: Partial<Record<SeoLocale, LocalizedSeoText>> | null;
+  openGraph?:
+    | (Partial<Record<SeoLocale, LocalizedSeoText>> & {
+        image?: OgImageInput | null;
+      })
+    | null;
+};
+
+/**
+ * Picks the `meta` and `openGraph` fields for `locale`, falling back when an
+ * editor left a translation empty: Open Graph falls back to the page's meta
+ * text, and a missing locale falls back to English. A missing field never
+ * throws, so one untranslated document can't take its page down.
+ */
+export function localizedSeoFields(
+  seo: LocalizedSeoInput | null | undefined,
+  locale: string,
+): {
+  meta: { title: string; description: string; keywords: string[] };
+  openGraph: {
+    title: string;
+    description: string;
+    image?: OgImageInput | null;
+  };
+} {
+  const lang: SeoLocale = locale === "es" ? "es" : "en";
+  const meta = seo?.meta?.[lang] ?? seo?.meta?.en ?? null;
+  const og = seo?.openGraph?.[lang] ?? seo?.openGraph?.en ?? null;
+  const title = meta?.title ?? og?.title ?? "";
+  const description = meta?.description ?? og?.description ?? "";
+
+  return {
+    meta: { title, description, keywords: meta?.keywords ?? [] },
+    openGraph: {
+      title: og?.title ?? title,
+      description: og?.description ?? description,
+      image: seo?.openGraph?.image,
+    },
+  };
+}
+
 export function buildSeoMetadata(opts: {
   /** Used for default hreflang when hreflangLanguages is omitted; may be any routing locale. */
   locale: string;
