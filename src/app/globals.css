@@ -11,6 +11,16 @@
   }
 }
 
+/* Slow settle on page hero images: animate-[slowZoom_10s_ease_forwards] */
+@keyframes slowZoom {
+  from {
+    transform: scale(1.03);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #0b0b0c;
@@ -27,6 +37,33 @@
   --color-foreground: var(--foreground);
   --font-display: var(--font-playfair);
   --font-body: var(--font-inter);
+}
+
+@theme {
+  /* max-w-site */
+  --container-site: 1280px;
+
+  /* Fluid type scale: text-fluid-* */
+  --text-fluid-h1: clamp(32px, 4vw, 52px);
+  --text-fluid-h1--line-height: 1.15;
+  --text-fluid-h2: clamp(26px, 3vw, 40px);
+  --text-fluid-h2--line-height: 1.2;
+  --text-fluid-h3: clamp(22px, 2.5vw, 32px);
+  --text-fluid-h3--line-height: 1.2;
+  --text-fluid-h4: clamp(18px, 2vw, 26px);
+  --text-fluid-h4--line-height: 1.25;
+  --text-fluid-h5: clamp(16px, 1.8vw, 22px);
+  --text-fluid-h5--line-height: 1.3;
+  --text-fluid-h6: clamp(14px, 1.6vw, 18px);
+  --text-fluid-h6--line-height: 1.35;
+  --text-fluid-xl: clamp(18px, 2vw, 24px);
+  --text-fluid-xl--line-height: 1.4;
+  --text-fluid-lg: clamp(16px, 1.6vw, 20px);
+  --text-fluid-lg--line-height: 1.6;
+  --text-fluid-base: clamp(14px, 1.4vw, 16px);
+  --text-fluid-base--line-height: 1.9;
+  --text-fluid-sm: clamp(12px, 1.2vw, 14px);
+  --text-fluid-sm--line-height: 1.7;
 }
 
 body {
