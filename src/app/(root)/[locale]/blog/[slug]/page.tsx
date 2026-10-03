@@ -110,11 +110,12 @@ export default async function BlogPostPage({
           nextLabelEs: "Siguiente",
         }}
         photos={
-          individualBlog.gallery.map((photo) => ({
+          // Gallery is optional in Sanity and comes back as null when empty.
+          (individualBlog.gallery ?? []).map((photo) => ({
             asset: photo.asset,
             alt: photo.alt,
             caption: photo.caption ?? "",
-          })) ?? []
+          }))
         }
         locale={locale === "es" ? "es" : "en"}
       />

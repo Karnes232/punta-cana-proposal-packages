@@ -66,11 +66,12 @@ export default async function StoryPage({
       />
       <StoryGallery
         photos={
-          story.gallery.map((photo) => ({
+          // Gallery is optional in Sanity and comes back as null when empty.
+          (story.gallery ?? []).map((photo) => ({
             asset: photo.asset,
             alt: photo.alt,
-            caption: photo.caption[localeTyped] ?? "",
-          })) ?? []
+            caption: photo.caption?.[localeTyped] ?? "",
+          }))
         }
         locale={localeTyped}
       />
