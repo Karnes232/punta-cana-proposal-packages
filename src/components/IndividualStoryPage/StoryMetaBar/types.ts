@@ -12,12 +12,3 @@ export interface StoryMetaBarContent {
   locationLabelEn: string;
   locationLabelEs: string;
 }
-
-export const defaultStoryMetaBarContent: StoryMetaBarContent = {
-  packageLabelEn: "Package",
-  packageLabelEs: "Paquete",
-  dateLabelEn: "Date",
-  dateLabelEs: "Fecha",
-  locationLabelEn: "Location",
-  locationLabelEs: "Lugar",
-};

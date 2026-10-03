@@ -55,9 +55,6 @@ export async function getCatalogContent() {
 export async function getDinnerPreview() {
   return getTemplatePreview("8d9e1e5f-d981-4276-ab95-8d88a3ebd429");
 }
-export async function getProposalPreview() {
-  return getTemplatePreview("proposal-initial-template");
-}
 async function getTemplatePreview(id: string) {
   const row = await fresh.fetch<Experience | null>(
     `*[_id==$id][0]${experienceProjection}`,

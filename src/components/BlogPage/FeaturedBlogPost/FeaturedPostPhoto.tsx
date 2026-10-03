@@ -1,5 +1,4 @@
 import Image from "next/image";
-// import type { FeaturedPostImage } from "./types";
 
 interface FeaturedPostPhotoProps {
   photo: {
