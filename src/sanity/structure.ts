@@ -1,4 +1,25 @@
 import type { StructureResolver } from "sanity/structure";
+
+// Types that have a curated home in the groups below.
+const curatedTypes = new Set([
+  "proposalExperience",
+  "romanticDinnerExperience",
+  "experienceAddon",
+  "menuItem",
+  "beverageOption",
+  "dinnerOccasion",
+  "experienceCatalogSettings",
+  "catalogHome",
+  "catalogContact",
+  "generalLayout",
+  "FaqsPageFaqs",
+  "FaqsPageFaqsCategories",
+  "blogPost",
+  "BlogCategory",
+  "legalDocuments",
+  "PageSeo",
+]);
+
 export const structure: StructureResolver = (S) => {
   const list = (title: string, type: string) =>
     S.listItem().title(title).child(S.documentTypeList(type).title(title));
@@ -48,6 +69,20 @@ export const structure: StructureResolver = (S) => {
               list("Legal", "legalDocuments"),
               list("Existing page SEO", "PageSeo"),
             ]),
+        ),
+      S.divider(),
+      // Every other registered document type, so nothing the site renders
+      // can be hidden from editors. Shrinks as legacy types are migrated.
+      S.listItem()
+        .title("LEGACY (MIGRATING)")
+        .child(
+          S.list()
+            .title("Legacy (migrating)")
+            .items(
+              S.documentTypeListItems().filter(
+                (item) => !curatedTypes.has(item.getId() ?? ""),
+              ),
+            ),
         ),
     ]);
 };
