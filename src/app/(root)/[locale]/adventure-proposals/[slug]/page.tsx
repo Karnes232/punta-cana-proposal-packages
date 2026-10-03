@@ -7,6 +7,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackMissingDocumentMetadata,
+  localizedSeoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import {
@@ -120,12 +121,7 @@ export async function generateMetadata({
     locale,
     path,
     canonicalUrl,
-    meta: individualProposalPackage.seo.meta[locale],
-    openGraph: {
-      title: individualProposalPackage.seo.openGraph[locale].title,
-      description: individualProposalPackage.seo.openGraph[locale].description,
-      image: individualProposalPackage.seo.openGraph.image,
-    },
+    ...localizedSeoFields(individualProposalPackage.seo, locale),
     noIndex: individualProposalPackage.seo.noIndex,
     noFollow: individualProposalPackage.seo.noFollow,
   });
