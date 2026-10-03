@@ -57,9 +57,8 @@ src/app/
 │       ├── how-it-works/page.tsx
 │       ├── privacy-policy/page.tsx
 │       ├── terms-of-service/page.tsx
-│       ├── classic-proposals/page.tsx
-│       ├── modern-proposals/page.tsx
-│       ├── dining-proposals/page.tsx
+│       ├── proposals/page.tsx         # Proposal packages (+ [slug] detail)
+│       ├── romantic-dinners/page.tsx  # Romantic dinners (+ [slug] detail)
 │       └── stories/
 │           ├── page.tsx          # Stories index
 │           └── [slug]/page.tsx   # Individual story
