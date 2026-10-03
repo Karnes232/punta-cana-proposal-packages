@@ -1,5 +1,4 @@
 import { Playfair_Display, Inter } from "next/font/google";
-import "../../globals.css";
 import { getGeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
