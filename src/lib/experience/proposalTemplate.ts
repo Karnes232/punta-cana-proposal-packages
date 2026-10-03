@@ -1,6 +1,6 @@
 import type { Experience } from "./types";
 const l = (en: string, es: string) => ({ en, es });
-export const proposalTemplateId = "proposal-initial-template";
+export { PROPOSAL_TEMPLATE_ID as proposalTemplateId } from "@/sanity/constants";
 export const proposalTemplateAddons = ["A", "B", "C"].map((key, index) => ({
   _id: "proposal-template-addon-" + key.toLowerCase(),
   _type: "experienceAddon",

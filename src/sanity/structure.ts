@@ -1,4 +1,10 @@
 import type { StructureResolver } from "sanity/structure";
+import {
+  CATALOG_CONTACT_ID,
+  CATALOG_HOME_ID,
+  CATALOG_SETTINGS_ID,
+  CATALOG_SINGLETON_IDS,
+} from "@/sanity/constants";
 
 // Types that have a curated home in the groups below.
 const curatedTypes = new Set([
@@ -8,9 +14,7 @@ const curatedTypes = new Set([
   "menuItem",
   "beverageOption",
   "dinnerOccasion",
-  "experienceCatalogSettings",
-  "catalogHome",
-  "catalogContact",
+  ...CATALOG_SINGLETON_IDS,
   "generalLayout",
   "FaqsPageFaqs",
   "FaqsPageFaqsCategories",
@@ -58,9 +62,9 @@ export const structure: StructureResolver = (S) => {
           S.list()
             .title("Website")
             .items([
-              singleton("Catalog Settings", "experienceCatalogSettings"),
-              singleton("Home", "catalogHome"),
-              singleton("Contact", "catalogContact"),
+              singleton("Catalog Settings", CATALOG_SETTINGS_ID),
+              singleton("Home", CATALOG_HOME_ID),
+              singleton("Contact", CATALOG_CONTACT_ID),
               list("Business information & social links", "generalLayout"),
               list("FAQ", "FaqsPageFaqs"),
               list("FAQ categories", "FaqsPageFaqsCategories"),

@@ -17,6 +17,7 @@ import CatalogHero from "./CatalogHero";
 import CatalogIntroduction from "./CatalogIntroduction";
 import ProposalGrid from "./ProposalGrid";
 import RomanticDinnerCard from "./RomanticDinnerCard";
+import { PROPOSALS_HERO_SLUG } from "@/sanity/constants";
 export function catalogMetadata(
   locale: Locale,
   path: string,
@@ -126,7 +127,7 @@ export default async function Catalog({
                 experiences.find(
                   (e) =>
                     e._type === "proposalExperience" &&
-                    e.slug?.current === "love-signature",
+                    e.slug?.current === PROPOSALS_HERO_SLUG,
                 )?.gallery[0]?.image ||
                 experiences.find((e) => e._type === "proposalExperience")
                   ?.gallery[0]?.image

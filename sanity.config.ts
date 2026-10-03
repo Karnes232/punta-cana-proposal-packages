@@ -15,6 +15,7 @@ import { structure } from "./src/sanity/structure";
 import ProposalTemplateTool from "./src/sanity/tools/ProposalTemplateTool";
 import DinnerTemplateTool from "./src/sanity/tools/DinnerTemplateTool";
 import { media } from "sanity-plugin-media";
+import { CATALOG_SINGLETON_IDS } from "./src/sanity/constants";
 const catalogConfig = defineConfig({
   name: "catalog",
   title: "Website",
@@ -27,11 +28,8 @@ const catalogConfig = defineConfig({
     templates: (templates) =>
       templates.filter(
         (t) =>
-          ![
-            "experienceCatalogSettings",
-            "catalogHome",
-            "catalogContact",
-          ].includes(t.schemaType),
+          // Singletons are opened from the structure, never created as new docs.
+          !(CATALOG_SINGLETON_IDS as readonly string[]).includes(t.schemaType),
       ),
   },
   tools: [
