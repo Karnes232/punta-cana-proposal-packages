@@ -55,19 +55,21 @@ export interface IndividualBlog {
     };
     alt?: string;
   };
-  gallery: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
+  gallery:
+    | {
+        asset: {
+          url: string;
+          metadata: {
+            dimensions: {
+              width: number;
+              height: number;
+            };
+          };
         };
-      };
-    };
-    alt: string;
-    caption: string;
-  }[];
+        alt: string;
+        caption: string;
+      }[]
+    | null;
   body: unknown[];
   seo: BlogPostSeoResolved;
   hreflangSiblings: HreflangSibling[];

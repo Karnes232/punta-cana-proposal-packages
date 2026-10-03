@@ -52,22 +52,24 @@ export interface IndividualStory {
     };
     alt: string;
   };
-  gallery: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
+  gallery:
+    | {
+        asset: {
+          url: string;
+          metadata: {
+            dimensions: {
+              width: number;
+              height: number;
+            };
+          };
         };
-      };
-    };
-    alt: string;
-    caption: {
-      en: string;
-      es: string;
-    };
-  }[];
+        alt: string;
+        caption: {
+          en: string;
+          es: string;
+        };
+      }[]
+    | null;
   quote: {
     en: string;
     es: string;
