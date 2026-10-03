@@ -14,14 +14,14 @@ A premium, bilingual wedding proposal package website for Punta Cana, Dominican 
 
 ## Tech Stack
 
-| Category | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router), React 19 |
-| Language | TypeScript 5 (strict) |
-| CMS | Sanity.io v4 |
-| i18n | next-intl v4 |
-| Styling | Tailwind CSS v4, styled-components |
-| Fonts | Playfair Display, Inter (Google Fonts) |
+| Category  | Technology                             |
+| --------- | -------------------------------------- |
+| Framework | Next.js 16 (App Router), React 19      |
+| Language  | TypeScript 5 (strict)                  |
+| CMS       | Sanity.io v4                           |
+| i18n      | next-intl v4                           |
+| Styling   | Tailwind CSS v4, styled-components     |
+| Fonts     | Playfair Display, Inter (Google Fonts) |
 
 ## Getting Started
 

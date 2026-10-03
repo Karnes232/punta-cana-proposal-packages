@@ -1,4 +1,4 @@
-import {experienceCatalogSchemas} from './ExperienceCatalog';
+import { experienceCatalogSchemas } from "./ExperienceCatalog";
 import { type SchemaTypeDefinition } from "sanity";
 import GeneralLayout from "./GeneralLayout/GeneralLayout";
 import {

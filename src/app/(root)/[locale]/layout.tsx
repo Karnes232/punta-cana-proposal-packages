@@ -1,4 +1,3 @@
-
 import { Playfair_Display, Inter } from "next/font/google";
 import "../../globals.css";
 import { getGeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
@@ -8,8 +7,8 @@ import { notFound } from "next/navigation";
 
 import { routing } from "@/i18n/routing";
 import Navbar from "@/components/ExperienceCatalog/CatalogNavigation";
-import {getCatalogContent} from "@/sanity/queries/ExperienceCatalog";
-import type {Locale} from "@/lib/experience/types";
+import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
+import type { Locale } from "@/lib/experience/types";
 import "@/components/ExperienceCatalog/catalog.css";
 import Footer from "@/components/ExperienceCatalog/CatalogFooter";
 import { BlogLanguageAlternatesProvider } from "@/components/LanguageSwitcher/BlogLanguageAlternatesContext";
@@ -43,7 +42,10 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const [generalLayout, catalog] = await Promise.all([getGeneralLayout(),getCatalogContent()]);
+  const [generalLayout, catalog] = await Promise.all([
+    getGeneralLayout(),
+    getCatalogContent(),
+  ]);
 
   return (
     <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
@@ -57,10 +59,19 @@ export default async function RootLayout({
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
           <BlogLanguageAlternatesProvider>
-            <Navbar locale={(locale === "es" ? "es" : "en") as Locale} settings={catalog.settings||{}} logo={generalLayout?.companyLogo?.asset?.url} companyName={generalLayout?.companyName} />
+            <Navbar
+              locale={(locale === "es" ? "es" : "en") as Locale}
+              settings={catalog.settings || {}}
+              logo={generalLayout?.companyLogo?.asset?.url}
+              companyName={generalLayout?.companyName}
+            />
             {children}
           </BlogLanguageAlternatesProvider>
-          <Footer locale={(locale === "es" ? "es" : "en") as Locale} settings={catalog.settings||{}} company={generalLayout} />
+          <Footer
+            locale={(locale === "es" ? "es" : "en") as Locale}
+            settings={catalog.settings || {}}
+            company={generalLayout}
+          />
         </body>
       </NextIntlClientProvider>
     </html>
