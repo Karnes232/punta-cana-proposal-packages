@@ -19,6 +19,7 @@ import { blogPostsByLanguage } from "@/sanity/queries/BlogPage/BlogPosts";
 import { blogPageCtaStrip } from "@/sanity/queries/BlogPage/CtaStripe";
 import { blogPageHero } from "@/sanity/queries/BlogPage/Hero";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
+import { requireLocale } from "@/i18n/requireLocale";
 
 function parseJsonLd(raw: string | null | undefined): unknown {
   if (raw == null || raw === "") return null;
@@ -35,6 +36,7 @@ export default async function Blog({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const chromeLocale = isSiteLocale(locale) ? locale : "en";
   const dateLocale = blogDateFormatLocale(locale);
 
@@ -98,6 +100,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const seoLocale = isSiteLocale(locale) ? locale : "en";
   const pageSeo = await getPageSeo("blog");
   const path = "/blog";

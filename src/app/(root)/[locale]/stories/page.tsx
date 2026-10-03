@@ -14,6 +14,7 @@ import {
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { storiesPageCtaStrip } from "@/sanity/queries/StoriesPage/CtaStripe";
+import { requireLocale } from "@/i18n/requireLocale";
 
 export default async function Stories({
   params,
@@ -21,6 +22,7 @@ export default async function Stories({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const [hero, proposalTypes, allStories, structuredData, ctaStrip] =
     await Promise.all([
       storiesPageHero(),
@@ -78,6 +80,7 @@ export async function generateMetadata({
   params: Promise<{ locale: "en" | "es" }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const pageSeo = await getPageSeo("stories");
   const path = "/stories";
   const canonicalUrl = siteCanonicalUrl(locale, path);

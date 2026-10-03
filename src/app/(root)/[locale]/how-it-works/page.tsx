@@ -19,6 +19,7 @@ import {
 import { howItWorksPageHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
 import { getStructuredData } from "@/sanity/queries/SEO/seo";
+import { requireLocale } from "@/i18n/requireLocale";
 
 export default async function HowItWorks({
   params,
@@ -26,6 +27,7 @@ export default async function HowItWorks({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const [hero, steps, faqsCategories, faqsPage, ctaPage, structuredData] =
     await Promise.all([
       howItWorksPageHero(),
@@ -91,6 +93,7 @@ export async function generateMetadata({
   params: Promise<{ locale: "en" | "es" }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const pageSeo = await getPageSeo("how-it-works");
   const path = "/how-it-works";
   const canonicalUrl = siteCanonicalUrl(locale, path);

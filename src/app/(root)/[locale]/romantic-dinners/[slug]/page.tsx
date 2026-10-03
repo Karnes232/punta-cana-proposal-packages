@@ -7,6 +7,7 @@ import { catalogMetadata } from "@/components/ExperienceCatalog/Catalog";
 import ExperienceCard from "@/components/ExperienceCatalog/ExperienceCard";
 import type { Locale } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";
+import { requireLocale } from "@/i18n/requireLocale";
 async function data(slug: string) {
   return (await getExperiences()).find(
     (e) => e._type === "romanticDinnerExperience" && e.slug?.current === slug,
@@ -18,6 +19,7 @@ export default async function Page({
   params: Promise<{ locale: Locale; slug: string }>;
 }) {
   const { locale, slug } = await params;
+  requireLocale(locale);
   const [e, c] = await Promise.all([data(slug), getCatalogContent()]);
   if (!e) notFound();
   const json = {
@@ -55,6 +57,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; slug: string }>;
 }) {
   const { locale, slug } = await params;
+  requireLocale(locale);
   const e = await data(slug);
   if (!e) notFound();
   return catalogMetadata(

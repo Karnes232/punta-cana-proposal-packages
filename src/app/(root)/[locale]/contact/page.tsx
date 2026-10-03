@@ -5,12 +5,14 @@ import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
 import AvailabilityForm from "@/components/ExperienceCatalog/AvailabilityForm";
 import { catalogPageMetadata } from "@/components/ExperienceCatalog/Catalog";
+import { requireLocale } from "@/i18n/requireLocale";
 export default async function Page({
   params,
 }: {
   params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const [content, company] = await Promise.all([
     getCatalogContent(),
     getGeneralLayout(),
@@ -62,6 +64,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const c = await getCatalogContent();
   return catalogPageMetadata(
     locale,

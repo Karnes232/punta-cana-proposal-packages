@@ -13,6 +13,7 @@ import {
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
+import { requireLocale } from "@/i18n/requireLocale";
 
 export default async function FAQ({
   params,
@@ -20,6 +21,7 @@ export default async function FAQ({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const [hero, contactStrip, faqsCategories, faqs, structuredData] =
     await Promise.all([
       faqsPageHeroComponent(),
@@ -64,6 +66,7 @@ export async function generateMetadata({
   params: Promise<{ locale: "en" | "es" }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const pageSeo = await getPageSeo("faq");
   const path = "/faq";
   const canonicalUrl = siteCanonicalUrl(locale, path);

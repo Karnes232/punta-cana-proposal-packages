@@ -8,6 +8,7 @@ import {
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
+import { requireLocale } from "@/i18n/requireLocale";
 
 export default async function Terms({
   params,
@@ -15,6 +16,7 @@ export default async function Terms({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const [legalDocuments, structuredData] = await Promise.all([
     getLegalDocuments("terms-of-service"),
     getStructuredData("terms-of-service"),
@@ -84,6 +86,7 @@ export async function generateMetadata({
   params: Promise<{ locale: "en" | "es" }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const pageSeo = await getPageSeo("terms-of-service");
   const path = "/terms-of-service";
   const canonicalUrl = siteCanonicalUrl(locale, path);
