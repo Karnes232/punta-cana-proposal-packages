@@ -6,7 +6,7 @@ A premium, bilingual wedding proposal package website for Punta Cana, Dominican 
 
 - **Multi-locale routing** — Full UI translations in English and Spanish; blog content in 9 languages (EN, ES, FR, DE, IT, PT, ZH, RU, AR)
 - **Headless CMS** — Content managed via Sanity.io with an embedded Studio at `/studio`
-- **Proposal packages** — Three categories: Classic, Modern, and Dining proposals
+- **Proposal packages and romantic dinners** — Configurable experiences (`proposalExperience`, `romanticDinnerExperience`) at `/proposals` and `/romantic-dinners`
 - **Stories/Testimonials** — Individual couple story pages with galleries
 - **SEO-optimized** — JSON-LD structured data, hreflang alternates, dynamic sitemaps, robots.txt
 - **Contact form** — Package preference, date/time selection, and inquiry capture
@@ -71,9 +71,8 @@ src/
 │   ├── (root)/
 │   │   └── [locale]/         # Locale-prefixed routes (en/es)
 │   │       ├── page.tsx      # Home
-│   │       ├── classic-proposals/
-│   │       ├── modern-proposals/
-│   │       ├── dining-proposals/
+│   │       ├── proposals/
+│   │       ├── romantic-dinners/
 │   │       ├── stories/
 │   │       ├── blog/
 │   │       ├── contact/
