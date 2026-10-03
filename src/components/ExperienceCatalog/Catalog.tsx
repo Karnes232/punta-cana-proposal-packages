@@ -13,7 +13,7 @@ import type { Locale } from "@/lib/experience/types";
 import CatalogHero from "./CatalogHero";
 import CatalogIntroduction from "./CatalogIntroduction";
 import ProposalGrid from "./ProposalGrid";
-import RomanticDinnerCard from "./RomanticDinnerCard";
+import ExperienceCard from "./ExperienceCard";
 import { PROPOSALS_HERO_SLUG } from "@/sanity/constants";
 import { getRequestHost, isPreviewHost } from "@/lib/requestHost";
 export default async function Catalog({
@@ -133,7 +133,7 @@ export default async function Catalog({
                           : "Personalize your dinner and send us your preferred date. Our team will personally confirm capacity and availability for your celebration."}
                     </div>
                     <div className="ec-dinner-grid">
-                      <RomanticDinnerCard
+                      <ExperienceCard
                         experience={cmsDinnerPreview || dinnerPreview()}
                         locale={locale}
                         settings={settings}
@@ -152,7 +152,7 @@ export default async function Catalog({
                 ) : rows.length ? (
                   <div className="ec-grid ec-dinner-grid">
                     {rows.map((e) => (
-                      <RomanticDinnerCard
+                      <ExperienceCard
                         key={e._id}
                         experience={e}
                         locale={locale}

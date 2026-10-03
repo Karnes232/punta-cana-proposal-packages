@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import type { Experience, Locale, Settings } from "@/lib/experience/types";
-import ProposalCard from "./ProposalCard";
+import ExperienceCard from "./ExperienceCard";
 export default function ProposalGrid({
   experiences,
   locale,
@@ -37,7 +37,7 @@ export default function ProposalGrid({
   return (
     <div className="ec-grid ec-proposal-grid">
       {experiences.map((e) => (
-        <ProposalCard
+        <ExperienceCard
           key={e._id}
           experience={e}
           locale={locale}
