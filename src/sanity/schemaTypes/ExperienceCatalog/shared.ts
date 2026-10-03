@@ -105,8 +105,8 @@ export function validExperience(value: unknown) {
     return "Active experiences require a slug";
   if (typeof d.basePrice !== "number" || d.basePrice < 0)
     return "Active experiences require a non-negative basePrice";
-  if (!Array.isArray(d.gallery) || d.gallery.length < 3 || d.gallery.length > 5)
-    return "Active experiences require 3–5 gallery photographs";
+  if (!Array.isArray(d.gallery) || d.gallery.length < 1)
+    return "Active experiences require at least one gallery photograph";
   if (
     d.gallery.some(
       (p: { image?: unknown; alt?: { en?: string; es?: string } }) =>
