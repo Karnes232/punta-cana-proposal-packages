@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
+    "format": "prettier --write .",
     "test": "node scripts/run-tests.cjs",
     "typecheck": "tsc --noEmit",
     "catalog:bootstrap": "node --env-file=.env.local scripts/bootstrap-catalog.mjs",
-    "catalog:audit": "node --env-file=.env.local scripts/audit-sanity.mjs"
+    "catalog:audit": "node --env-file=.env.local scripts/audit-sanity.mjs",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@netlify/blobs": "^11.1.1",
