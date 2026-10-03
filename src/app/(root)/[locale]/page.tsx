@@ -1,4 +1,4 @@
-import { catalogPageMetadata } from "@/components/ExperienceCatalog/Catalog";
+import { catalogPageMetadata } from "@/lib/seo/catalogMetadata";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import ExperienceHome from "@/components/ExperienceCatalog/ExperienceHome";
 import type { Locale } from "@/lib/experience/types";

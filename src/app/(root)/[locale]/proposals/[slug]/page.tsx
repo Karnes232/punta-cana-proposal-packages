@@ -3,7 +3,7 @@ import {
   getExperiences,
   getCatalogContent,
 } from "@/sanity/queries/ExperienceCatalog";
-import { catalogMetadata } from "@/components/ExperienceCatalog/Catalog";
+import { catalogMetadata } from "@/lib/seo/catalogMetadata";
 import ExperienceCard from "@/components/ExperienceCatalog/ExperienceCard";
 import type { Locale } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";

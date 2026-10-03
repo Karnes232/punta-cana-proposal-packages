@@ -4,7 +4,7 @@ import { local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
 import AvailabilityForm from "@/components/ExperienceCatalog/AvailabilityForm";
-import { catalogPageMetadata } from "@/components/ExperienceCatalog/Catalog";
+import { catalogPageMetadata } from "@/lib/seo/catalogMetadata";
 import { requireLocale } from "@/i18n/requireLocale";
 export default async function Page({
   params,

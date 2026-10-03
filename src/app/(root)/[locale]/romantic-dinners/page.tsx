@@ -1,6 +1,5 @@
-import Catalog, {
-  catalogMetadata,
-} from "@/components/ExperienceCatalog/Catalog";
+import Catalog from "@/components/ExperienceCatalog/Catalog";
+import { catalogMetadata } from "@/lib/seo/catalogMetadata";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
