@@ -24,12 +24,6 @@ import HomePageFeatureStorySection from "./HomePage/FeatureStorySection";
 import HomePageTrustIndicators from "./HomePage/TrustIndicators";
 import HomePageCTABanner from "./HomePage/CTABanner";
 
-//ProposalPackages
-import ProposalPackages from "./ProposalPackages/ProposalPackages";
-import IndividualProposalPackage from "./ProposalPackages/IndividualProposalPackage";
-import ProposalPackageHeaders from "./ProposalPackages/ProposalPackageHeaders";
-import CustomizationOptions from "./ProposalPackages/CustomizationOptions";
-
 //StoriesPage
 import StoriesPageHero from "./StoriesPage/Hero";
 import ProposalType from "./StoriesPage/ProposalType";
@@ -87,12 +81,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HomePageFeatureStorySection,
     HomePageTrustIndicators,
     HomePageCTABanner,
-
-    //ProposalPackages
-    ProposalPackages,
-    IndividualProposalPackage,
-    ProposalPackageHeaders,
-    CustomizationOptions,
 
     //StoriesPage
     StoriesPageHero,

@@ -569,177 +569,6 @@ export type ProposalType = {
   label?: LocalizedString;
 };
 
-export type CustomizationOptions = {
-  _id: string;
-  _type: "CustomizationOptions";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  label?: LocalizedString;
-  tier?: "standard" | "premium";
-};
-
-export type ProposalPackageHeader = {
-  _id: string;
-  _type: "ProposalPackageHeader";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  CustomizationSelectorEyebrow?: LocalizedString;
-  CustomizationSelectorHeadingLine1?: LocalizedString;
-  CustomizationSelectorHeadingLine2?: LocalizedString;
-  CustomizationSelectorDescription?: LocalizedText;
-  WhatsIncludedEyebrow?: LocalizedString;
-  WhatsIncludedHeadingLine1?: LocalizedString;
-  WhatsIncludedHeadingLine2?: LocalizedString;
-  WhatsIncludedDescription?: LocalizedText;
-  BookingFormEyebrow?: LocalizedString;
-  BookingFormHeadingLine1?: LocalizedString;
-  BookingFormHeadingLine2?: LocalizedString;
-  BookingFormDescription?: LocalizedText;
-  RelatedStoriesEyebrow?: LocalizedString;
-  RelatedStoriesHeadingLine1?: LocalizedString;
-  RelatedStoriesHeadingLine2?: LocalizedString;
-  RelatedStoriesDescription?: LocalizedText;
-  RelatedStoriesReadMore?: LocalizedString;
-  RelatedStoriesViewAll?: LocalizedString;
-};
-
-export type IndividualProposalPackage = {
-  _id: string;
-  _type: "IndividualProposalPackage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  name?: LocalizedString;
-  slug?: Slug;
-  price?: number;
-  description?: LocalizedText;
-  gallery?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    caption?: LocalizedString;
-    _type: "image";
-    _key: string;
-  }>;
-  inclusions?: Array<{
-    icon?:
-      | "utensils"
-      | "sparkles"
-      | "camera"
-      | "car"
-      | "wine"
-      | "flower"
-      | "clock"
-      | "candle"
-      | "music"
-      | "shield";
-    title?: LocalizedString;
-    description?: LocalizedText;
-    _key: string;
-  }>;
-  cardSelectLabel?: LocalizedString;
-  variants?: Array<{
-    name?: LocalizedString;
-    description?: LocalizedText;
-    price?: number;
-    image?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    };
-    _key: string;
-  }>;
-  addons?: Array<{
-    name?: LocalizedString;
-    description?: LocalizedText;
-    price?: number;
-    icon?:
-      | "music"
-      | "clock"
-      | "sparkles"
-      | "flower"
-      | "camera"
-      | "wine"
-      | "candle"
-      | "utensils"
-      | "shield"
-      | "car";
-    _key: string;
-  }>;
-  seo?: Seo;
-};
-
-export type ProposalPackages = {
-  _id: string;
-  _type: "ProposalPackages";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  page?:
-    | "classic-proposals"
-    | "modern-proposals"
-    | "dining-proposals"
-    | "adventure-proposals";
-  heroImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  heroEyebrow?: LocalizedString;
-  heroHeadingLine1?: LocalizedString;
-  heroHeadingLine2?: LocalizedString;
-  heroSubheading?: LocalizedText;
-  introEyebrow?: LocalizedString;
-  introHeadingLine1?: LocalizedString;
-  introHeadingLine2?: LocalizedString;
-  introDescription?: LocalizedText;
-  packages?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "IndividualProposalPackage";
-  }>;
-};
-
 export type HomePageCTABanner = {
   _id: string;
   _type: "HomePageCTABanner";
@@ -992,10 +821,6 @@ export type PageSeo = {
   _rev: string;
   pageName?:
     | "home"
-    | "classic-proposals"
-    | "modern-proposals"
-    | "dining-proposals"
-    | "adventure-proposals"
     | "stories"
     | "how-it-works"
     | "faq"
@@ -1241,20 +1066,13 @@ export type CatalogHome = {
     next?: LocalizedText;
     startTitle?: LocalizedText;
   };
-  featuredProposals?: Array<
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "proposalExperience";
-      }
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "IndividualProposalPackage";
-      }
-  >;
+  featuredProposals?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "proposalExperience";
+  }>;
   journeyImages?: Array<{
     asset?: {
       _ref: string;
@@ -1846,10 +1664,6 @@ export type AllSanitySchemaTypes =
   | IndividualStory
   | LocalizedBlock
   | ProposalType
-  | CustomizationOptions
-  | ProposalPackageHeader
-  | IndividualProposalPackage
-  | ProposalPackages
   | HomePageCTABanner
   | TrustIndicators
   | HomePageFeatureStorySection
@@ -2685,20 +2499,13 @@ export type CatalogContentQueryResult = {
           next?: LocalizedText;
           startTitle?: LocalizedText;
         };
-        featuredProposals?: Array<
-          | {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "IndividualProposalPackage";
-            }
-          | {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "proposalExperience";
-            }
-        >;
+        featuredProposals?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "proposalExperience";
+        }>;
         journeyImages?: Array<{
           asset?: {
             _ref: string;
@@ -2780,15 +2587,6 @@ export type CatalogContentQueryResult = {
           label?: LocalizedString;
           _key: string;
         }>;
-      }
-    | {
-        _id: string;
-        _type: "CustomizationOptions";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        label?: LocalizedString;
-        tier?: "premium" | "standard";
       }
     | {
         _id: string;
@@ -3324,99 +3122,6 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "IndividualProposalPackage";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        name?: LocalizedString;
-        slug?: Slug;
-        price?: number;
-        description?: LocalizedText;
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        inclusions?: Array<{
-          icon?:
-            | "camera"
-            | "candle"
-            | "car"
-            | "clock"
-            | "flower"
-            | "music"
-            | "shield"
-            | "sparkles"
-            | "utensils"
-            | "wine";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          _key: string;
-        }>;
-        cardSelectLabel?: LocalizedString;
-        variants?: Array<{
-          name?: LocalizedString;
-          description?: LocalizedText;
-          price?: number;
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            alt?: string;
-            _type: "image";
-          };
-          _key: string;
-        }>;
-        addons?: Array<{
-          name?: LocalizedString;
-          description?: LocalizedText;
-          price?: number;
-          icon?:
-            | "camera"
-            | "candle"
-            | "car"
-            | "clock"
-            | "flower"
-            | "music"
-            | "shield"
-            | "sparkles"
-            | "utensils"
-            | "wine";
-          _key: string;
-        }>;
-        seo?: Seo;
-      }
-    | {
-        _id: string;
         _type: "individualStory";
         _createdAt: string;
         _updatedAt: string;
@@ -3519,15 +3224,11 @@ export type CatalogContentQueryResult = {
         _updatedAt: string;
         _rev: string;
         pageName?:
-          | "adventure-proposals"
           | "blog"
-          | "classic-proposals"
           | "contact"
-          | "dining-proposals"
           | "faq"
           | "home"
           | "how-it-works"
-          | "modern-proposals"
           | "privacy-policy"
           | "stories"
           | "terms-of-service";
@@ -3575,71 +3276,6 @@ export type CatalogContentQueryResult = {
         featured?: boolean;
         displayOrder?: number;
         seo?: ExperienceSeo;
-      }
-    | {
-        _id: string;
-        _type: "ProposalPackageHeader";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        CustomizationSelectorEyebrow?: LocalizedString;
-        CustomizationSelectorHeadingLine1?: LocalizedString;
-        CustomizationSelectorHeadingLine2?: LocalizedString;
-        CustomizationSelectorDescription?: LocalizedText;
-        WhatsIncludedEyebrow?: LocalizedString;
-        WhatsIncludedHeadingLine1?: LocalizedString;
-        WhatsIncludedHeadingLine2?: LocalizedString;
-        WhatsIncludedDescription?: LocalizedText;
-        BookingFormEyebrow?: LocalizedString;
-        BookingFormHeadingLine1?: LocalizedString;
-        BookingFormHeadingLine2?: LocalizedString;
-        BookingFormDescription?: LocalizedText;
-        RelatedStoriesEyebrow?: LocalizedString;
-        RelatedStoriesHeadingLine1?: LocalizedString;
-        RelatedStoriesHeadingLine2?: LocalizedString;
-        RelatedStoriesDescription?: LocalizedText;
-        RelatedStoriesReadMore?: LocalizedString;
-        RelatedStoriesViewAll?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "ProposalPackages";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        page?:
-          | "adventure-proposals"
-          | "classic-proposals"
-          | "dining-proposals"
-          | "modern-proposals";
-        heroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        heroEyebrow?: LocalizedString;
-        heroHeadingLine1?: LocalizedString;
-        heroHeadingLine2?: LocalizedString;
-        heroSubheading?: LocalizedText;
-        introEyebrow?: LocalizedString;
-        introHeadingLine1?: LocalizedString;
-        introHeadingLine2?: LocalizedString;
-        introDescription?: LocalizedText;
-        packages?: Array<{
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          _key: string;
-          [internalGroqTypeReferenceTo]?: "IndividualProposalPackage";
-        }>;
       }
     | {
         _id: string;
@@ -4209,20 +3845,13 @@ export type CatalogContentQueryResult = {
           next?: LocalizedText;
           startTitle?: LocalizedText;
         };
-        featuredProposals?: Array<
-          | {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "IndividualProposalPackage";
-            }
-          | {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "proposalExperience";
-            }
-        >;
+        featuredProposals?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "proposalExperience";
+        }>;
         journeyImages: Array<{
           url: string | null;
           alt: LocalizedString | null;
@@ -4274,24 +3903,6 @@ export type CatalogContentQueryResult = {
           label?: LocalizedString;
           _key: string;
         }>;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "CustomizationOptions";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        label?: LocalizedString;
-        tier?: "premium" | "standard";
-        heroImage: null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
         proposalSelectorImage: null;
@@ -5023,107 +4634,6 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "IndividualProposalPackage";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        name?: LocalizedString;
-        slug?: Slug;
-        price?: number;
-        description?: LocalizedText;
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        inclusions?: Array<{
-          icon?:
-            | "camera"
-            | "candle"
-            | "car"
-            | "clock"
-            | "flower"
-            | "music"
-            | "shield"
-            | "sparkles"
-            | "utensils"
-            | "wine";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          _key: string;
-        }>;
-        cardSelectLabel?: LocalizedString;
-        variants?: Array<{
-          name?: LocalizedString;
-          description?: LocalizedText;
-          price?: number;
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            alt?: string;
-            _type: "image";
-          };
-          _key: string;
-        }>;
-        addons?: Array<{
-          name?: LocalizedString;
-          description?: LocalizedText;
-          price?: number;
-          icon?:
-            | "camera"
-            | "candle"
-            | "car"
-            | "clock"
-            | "flower"
-            | "music"
-            | "shield"
-            | "sparkles"
-            | "utensils"
-            | "wine";
-          _key: string;
-        }>;
-        seo: null;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
         _type: "individualStory";
         _createdAt: string;
         _updatedAt: string;
@@ -5261,15 +4771,11 @@ export type CatalogContentQueryResult = {
         _updatedAt: string;
         _rev: string;
         pageName?:
-          | "adventure-proposals"
           | "blog"
-          | "classic-proposals"
           | "contact"
-          | "dining-proposals"
           | "faq"
           | "home"
           | "how-it-works"
-          | "modern-proposals"
           | "privacy-policy"
           | "stories"
           | "terms-of-service";
@@ -5342,79 +4848,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-      }
-    | {
-        _id: string;
-        _type: "ProposalPackageHeader";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        CustomizationSelectorEyebrow?: LocalizedString;
-        CustomizationSelectorHeadingLine1?: LocalizedString;
-        CustomizationSelectorHeadingLine2?: LocalizedString;
-        CustomizationSelectorDescription?: LocalizedText;
-        WhatsIncludedEyebrow?: LocalizedString;
-        WhatsIncludedHeadingLine1?: LocalizedString;
-        WhatsIncludedHeadingLine2?: LocalizedString;
-        WhatsIncludedDescription?: LocalizedText;
-        BookingFormEyebrow?: LocalizedString;
-        BookingFormHeadingLine1?: LocalizedString;
-        BookingFormHeadingLine2?: LocalizedString;
-        BookingFormDescription?: LocalizedText;
-        RelatedStoriesEyebrow?: LocalizedString;
-        RelatedStoriesHeadingLine1?: LocalizedString;
-        RelatedStoriesHeadingLine2?: LocalizedString;
-        RelatedStoriesDescription?: LocalizedText;
-        RelatedStoriesReadMore?: LocalizedString;
-        RelatedStoriesViewAll?: LocalizedString;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "ProposalPackages";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        page?:
-          | "adventure-proposals"
-          | "classic-proposals"
-          | "dining-proposals"
-          | "modern-proposals";
-        heroImage: {
-          url: string | null;
-          alt: string | null;
-        } | null;
-        heroEyebrow?: LocalizedString;
-        heroHeadingLine1?: LocalizedString;
-        heroHeadingLine2?: LocalizedString;
-        heroSubheading?: LocalizedText;
-        introEyebrow?: LocalizedString;
-        introHeadingLine1?: LocalizedString;
-        introHeadingLine2?: LocalizedString;
-        introDescription?: LocalizedText;
-        packages?: Array<{
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          _key: string;
-          [internalGroqTypeReferenceTo]?: "IndividualProposalPackage";
-        }>;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -6061,20 +5494,13 @@ export type CatalogContentQueryResult = {
           next?: LocalizedText;
           startTitle?: LocalizedText;
         };
-        featuredProposals?: Array<
-          | {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "IndividualProposalPackage";
-            }
-          | {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "proposalExperience";
-            }
-        >;
+        featuredProposals?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "proposalExperience";
+        }>;
         journeyImages?: Array<{
           asset?: {
             _ref: string;
@@ -6165,16 +5591,6 @@ export type CatalogContentQueryResult = {
           label?: LocalizedString;
           _key: string;
         }>;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "CustomizationOptions";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        label?: LocalizedString;
-        tier?: "premium" | "standard";
         seo: null;
       }
     | {
@@ -6733,99 +6149,6 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "IndividualProposalPackage";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        name?: LocalizedString;
-        slug?: Slug;
-        price?: number;
-        description?: LocalizedText;
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        inclusions?: Array<{
-          icon?:
-            | "camera"
-            | "candle"
-            | "car"
-            | "clock"
-            | "flower"
-            | "music"
-            | "shield"
-            | "sparkles"
-            | "utensils"
-            | "wine";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          _key: string;
-        }>;
-        cardSelectLabel?: LocalizedString;
-        variants?: Array<{
-          name?: LocalizedString;
-          description?: LocalizedText;
-          price?: number;
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            alt?: string;
-            _type: "image";
-          };
-          _key: string;
-        }>;
-        addons?: Array<{
-          name?: LocalizedString;
-          description?: LocalizedText;
-          price?: number;
-          icon?:
-            | "camera"
-            | "candle"
-            | "car"
-            | "clock"
-            | "flower"
-            | "music"
-            | "shield"
-            | "sparkles"
-            | "utensils"
-            | "wine";
-          _key: string;
-        }>;
-        seo: null;
-      }
-    | {
-        _id: string;
         _type: "individualStory";
         _createdAt: string;
         _updatedAt: string;
@@ -6931,15 +6254,11 @@ export type CatalogContentQueryResult = {
         _updatedAt: string;
         _rev: string;
         pageName?:
-          | "adventure-proposals"
           | "blog"
-          | "classic-proposals"
           | "contact"
-          | "dining-proposals"
           | "faq"
           | "home"
           | "how-it-works"
-          | "modern-proposals"
           | "privacy-policy"
           | "stories"
           | "terms-of-service";
@@ -6996,73 +6315,6 @@ export type CatalogContentQueryResult = {
           } | null;
           noIndex?: boolean;
         } | null;
-      }
-    | {
-        _id: string;
-        _type: "ProposalPackageHeader";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        CustomizationSelectorEyebrow?: LocalizedString;
-        CustomizationSelectorHeadingLine1?: LocalizedString;
-        CustomizationSelectorHeadingLine2?: LocalizedString;
-        CustomizationSelectorDescription?: LocalizedText;
-        WhatsIncludedEyebrow?: LocalizedString;
-        WhatsIncludedHeadingLine1?: LocalizedString;
-        WhatsIncludedHeadingLine2?: LocalizedString;
-        WhatsIncludedDescription?: LocalizedText;
-        BookingFormEyebrow?: LocalizedString;
-        BookingFormHeadingLine1?: LocalizedString;
-        BookingFormHeadingLine2?: LocalizedString;
-        BookingFormDescription?: LocalizedText;
-        RelatedStoriesEyebrow?: LocalizedString;
-        RelatedStoriesHeadingLine1?: LocalizedString;
-        RelatedStoriesHeadingLine2?: LocalizedString;
-        RelatedStoriesDescription?: LocalizedText;
-        RelatedStoriesReadMore?: LocalizedString;
-        RelatedStoriesViewAll?: LocalizedString;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "ProposalPackages";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        page?:
-          | "adventure-proposals"
-          | "classic-proposals"
-          | "dining-proposals"
-          | "modern-proposals";
-        heroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        heroEyebrow?: LocalizedString;
-        heroHeadingLine1?: LocalizedString;
-        heroHeadingLine2?: LocalizedString;
-        heroSubheading?: LocalizedText;
-        introEyebrow?: LocalizedString;
-        introHeadingLine1?: LocalizedString;
-        introHeadingLine2?: LocalizedString;
-        introDescription?: LocalizedText;
-        packages?: Array<{
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          _key: string;
-          [internalGroqTypeReferenceTo]?: "IndividualProposalPackage";
-        }>;
-        seo: null;
       }
     | {
         _id: string;
@@ -7595,37 +6847,6 @@ export type TemplatePreviewQueryResult =
       active: null;
       displayOrder: null;
       _type: "ContactPageContent";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "CustomizationOptions";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -8334,62 +7555,6 @@ export type TemplatePreviewQueryResult =
   | {
       _id: string;
       _key: null;
-      name: LocalizedString | null;
-      description: LocalizedText | null;
-      active: null;
-      displayOrder: null;
-      _type: "IndividualProposalPackage";
-      slug: Slug | null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: Array<{
-        _id: null;
-        _key: string;
-        name: null;
-        description: LocalizedText | null;
-        active: null;
-        displayOrder: null;
-        icon:
-          | "camera"
-          | "candle"
-          | "car"
-          | "clock"
-          | "flower"
-          | "music"
-          | "shield"
-          | "sparkles"
-          | "utensils"
-          | "wine"
-          | null;
-      }> | null;
-      gallery: Array<{
-        _key: string;
-        alt: string | null;
-        caption: LocalizedString | null;
-        displayOrder: null;
-        image: null;
-      }> | null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
       name: null;
       description: null;
       active: null;
@@ -8642,68 +7807,6 @@ export type TemplatePreviewQueryResult =
         } | null;
         noIndex?: boolean;
       } | null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "ProposalPackageHeader";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "ProposalPackages";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
     }
   | {
       _id: string;

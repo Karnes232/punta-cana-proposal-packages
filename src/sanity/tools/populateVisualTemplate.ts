@@ -8,7 +8,34 @@ type Media = {
   asset?: { _ref: string; _type: string };
   alt?: string | Localized;
 };
-type Legacy = {
+/**
+ * Reference content for the templates: published proposals migrated from the
+ * former proposal packages. The query maps them back into the shape this tool
+ * was written for (hero image + gallery, variants, inclusions with titles,
+ * add-ons keyed like the original inline add-ons, so the template's
+ * proposal-template-reference-addon-* documents keep their IDs).
+ */
+const TEMPLATE_SOURCE_IDS = {
+  dinner: "proposal-elegant-dinner-proposal",
+  proposal: "proposal-everlasting-flame",
+};
+const sourceQuery = /* groq */ `*[_id == $id][0] {
+  name,
+  "description": shortDescription,
+  "price": basePrice,
+  "image": gallery[0].image { asset, "alt": alt.en },
+  "gallery": gallery[1..-1] { _key, "asset": image.asset, "alt": image.alt.en },
+  "variants": styles[] { _key, name, description, price },
+  "inclusions": inclusions[] { _key, "title": name, description },
+  "addons": availableAddons[]-> {
+    // legacy-addon-<slug>-<key>: the key is the last segment (hex, no hyphens).
+    "_key": string::split(_id, "-")[-1],
+    name,
+    description,
+    price
+  }
+}`;
+type Source = {
   name: Localized;
   description: Localized;
   price: number;
@@ -36,12 +63,14 @@ export async function populateVisualTemplate(
   const dinner = kind === "dinner";
   const targetId = dinner ? dinnerTemplateId : proposalTemplateId;
   const sourceId = dinner
-    ? "14df8441-2bb1-4247-b428-c5684b75ed62"
-    : "cf6202ee-8795-4c43-8742-78f4c97175ea";
-  const source = await client.fetch<Legacy>(
-    "*[_id==$id][0]{name,description,price,image,gallery,variants,inclusions,addons}",
+    ? TEMPLATE_SOURCE_IDS.dinner
+    : TEMPLATE_SOURCE_IDS.proposal;
+  const source = await client.fetch<Source>(
+    sourceQuery,
     { id: sourceId },
-    { perspective: "published" },
+    {
+      perspective: "published",
+    },
   );
   if (!source?.image?.asset)
     throw new Error("La referencia visual no está disponible.");
