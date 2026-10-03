@@ -47,7 +47,7 @@ export default function MoreStoriesCard({
           {story.names}
         </h3>
         <p className="font-body font-light italic text-fluid-sm text-gray leading-relaxed flex-1 line-clamp-3">
-          "{story.quote}"
+          &quot;{story.quote}&quot;
         </p>
 
         {/* Footer */}

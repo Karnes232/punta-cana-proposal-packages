@@ -75,25 +75,8 @@ export default function PackageBookingFormClient({
     const variantPrice = selectedVariant?.price ?? basePrice;
     const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
 
-    const payload = {
-      category,
-      packageName,
-      variant: selectedVariant?.name ?? null,
-      variantPrice,
-      addons: selectedAddons.map((a) => ({ name: a.name, price: a.price })),
-      addonsTotal,
-      estimatedTotal: variantPrice + addonsTotal,
-      name: formData.get("name"),
-      hotel: formData.get("hotel"),
-      phone: formData.get("phone"),
-      email: formData.get("email"),
-      date: formData.get("date"),
-      notes: formData.get("notes"),
-    };
-
-    // TODO: POST to API route
     try {
-      const formDataToSend = new FormData();
+      const formDataToSend = new URLSearchParams();
       formDataToSend.append("form-name", "package-booking");
       formDataToSend.append("category", category);
       formDataToSend.append("packageName", packageName);
@@ -120,7 +103,7 @@ export default function PackageBookingFormClient({
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: new URLSearchParams(formDataToSend as any),
+        body: formDataToSend,
       });
 
       if (!response.ok) {

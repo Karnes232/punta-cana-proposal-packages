@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import type { StoryBodyData, StorySidebarContent } from "./types";
+import type { StoryBodyData } from "./types";
 import { useTranslations } from "next-intl";
 interface StorySidebarProps {
   data: StoryBodyData;

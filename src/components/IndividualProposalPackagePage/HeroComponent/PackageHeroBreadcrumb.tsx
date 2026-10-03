@@ -17,8 +17,6 @@ export default function PackageHeroBreadcrumb({
     >
       <ol className="flex items-center gap-2 text-[10.5px] font-light tracking-[0.18em] uppercase">
         {items.map((item, i) => {
-          const isLast = i === items.length - 1;
-
           return (
             <li key={i} className="flex items-center gap-2">
               {i > 0 && (

@@ -42,7 +42,7 @@ export default function FeaturedStoryCopy({
       {/* Pull quote */}
       <blockquote className="border-l border-gold/40 pl-5">
         <p className="font-display font-normal italic text-fluid-lg text-black/80 leading-relaxed">
-          "{story.quote[locale]}"
+          &quot;{story.quote[locale]}&quot;
         </p>
       </blockquote>
 

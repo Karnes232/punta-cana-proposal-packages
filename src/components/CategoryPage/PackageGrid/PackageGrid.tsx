@@ -1,5 +1,5 @@
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
-import PackageCard, { PackageCardProps } from "./PackageCard";
+import PackageCard from "./PackageCard";
 
 interface PackageGridProps {
   /** Array of packages — fetched from Sanity, filtered by category */

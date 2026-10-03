@@ -1,6 +1,5 @@
 "use client";
 
-import { useCustomization } from "@/components/CategoryPage/CustomizationSelector/CustomizationContext";
 import PackageCardImage from "./PackageCardImage";
 import PackageCardInclusions from "./PackageCardInclusions";
 import { useLocale } from "next-intl";
@@ -79,14 +78,12 @@ export default function PackageCard({
   categorySlug,
   image,
   price,
-  description,
   // colorCustomizationOptions = [],
   // floralCustomizationOptions = [],
   // toneCustomizationOptions = [],
   inclusions = [],
   badge,
   selectLabel = "Select Package",
-  selectedLabel = "Selected",
 }: PackageCardProps) {
   // const { state, setSelectedPackage } = useCustomization();
   // const isSelected = state.selectedPackage?.slug === slug;

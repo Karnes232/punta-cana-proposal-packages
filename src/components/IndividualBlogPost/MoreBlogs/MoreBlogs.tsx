@@ -1,10 +1,11 @@
+import type { MoreBlogsPost } from "./types";
 import MoreBlogsCarousel from "./MoreBlogsCarousel";
 
 export default function MoreBlogs({
   blogs,
   locale,
 }: {
-  blogs: any[];
+  blogs: MoreBlogsPost[];
   locale: string;
 }) {
   if (!blogs || blogs.length === 0) return null;

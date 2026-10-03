@@ -38,6 +38,7 @@ Operational flow: request → manual agenda/capacity review → availability com
 Work is on `feat/experience-catalog`. GitHub reports that the earlier PR #2 was merged separately. This Home/date-request expansion is delivered in a follow-up PR with its own preview. The connected account still reports `push: false` on Karnes232/punta-cana-proposal-packages, so a maintainer must merge the follow-up. Do not interpret a successful preview as a production release.
 
 ## Photographic section heroes and proposal extras
+
 Both catalog pages now have photographic heroes with one H1, package and explanation anchors, and responsive gold/ivory CTAs. `catalogHome.proposalHeroImage` and `dinnerHeroImage` override the real published Sanity catalog image fallbacks.
 
 All proposal catalogs and server request lookups share the approved extras: drone videographer USD399, violinist USD399, saxophonist USD399, and romantic dinner for two USD299. Matching legacy extras are replaced in the presentation layer without modifying Sanity documents; unrelated extras remain. Approved rates are centralized in `src/lib/experience/proposalExtras.ts`. Standalone dinner extras retain their existing rates.

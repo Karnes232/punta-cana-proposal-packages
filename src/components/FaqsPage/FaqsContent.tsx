@@ -20,7 +20,9 @@ const FaqsContent = ({ locale, faqsCategories, faqs }: FaqsContentProps) => {
         onCategoryChange={setActiveCategory}
         faqsCategories={faqsCategories}
       />
+      {/* Keyed by category so a filter change starts collapsed, on page 1. */}
       <FaqAccordion
+        key={activeCategory}
         activeCategory={activeCategory}
         locale={locale as "en" | "es"}
         faqs={faqs}

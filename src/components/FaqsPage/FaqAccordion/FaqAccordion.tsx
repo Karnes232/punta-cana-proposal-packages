@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import FaqAccordionList from "./FaqAccordionList";
 import { Faqs } from "@/sanity/queries/FaqsPage/Faqs";
 import { useTranslations } from "next-intl";
@@ -24,12 +24,6 @@ export default function FaqAccordion({
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 10;
   const t = useTranslations("FaqPage");
-  // When the category filter changes, collapse any open item so the
-  // newly filtered list always starts clean, at page 1.
-  useEffect(() => {
-    setOpenId(null);
-    setCurrentPage(1);
-  }, [activeCategory]);
 
   function handleToggle(id: string) {
     setOpenId((prev) => (prev === id ? null : id));

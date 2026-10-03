@@ -2,7 +2,6 @@ import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksCTAOrnament from "./HowItWorksCTAOrnament";
 import HowItWorksCTACopy from "./HowItWorksCTACopy";
 import HowItWorksCTAButtons from "./HowItWorksCTAButtons";
-import { howItWorksCTAContent, HowItWorksCTALocale } from "./types";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 

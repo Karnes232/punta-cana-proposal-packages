@@ -4,12 +4,7 @@ import { useState } from "react";
 import BlogCard from "./BlogCard";
 import BlogGridDivider from "./BlogGridDivider";
 import LoadMore from "./LoadMore";
-import {
-  defaultBlogPosts,
-  defaultBlogGridContent,
-  type BlogCardData,
-  type BlogGridContent,
-} from "./types";
+import { defaultBlogGridContent, type BlogGridContent } from "./types";
 import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
 const PAGE_SIZE = 6;

@@ -69,7 +69,7 @@ export default function StoryCard({
         </h3>
 
         <p className="font-body font-light italic text-fluid-sm text-gray leading-relaxed flex-1">
-          "{story.quote}"
+          &quot;{story.quote}&quot;
         </p>
 
         {/* Divider + CTA */}

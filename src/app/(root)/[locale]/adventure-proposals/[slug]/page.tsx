@@ -23,8 +23,7 @@ export default async function AdventureProposalsSlug({
 }) {
   const { locale, slug } = await params;
 
-  const individualProposalPackage =
-    await individualProposalPackageQuery(slug);
+  const individualProposalPackage = await individualProposalPackageQuery(slug);
   if (!individualProposalPackage) {
     notFound();
   }
@@ -37,9 +36,7 @@ export default async function AdventureProposalsSlug({
       <JsonLd
         id="structured-data-schema"
         data={
-          individualProposalPackage.seo?.structuredData?.[
-            locale as "en" | "es"
-          ]
+          individualProposalPackage.seo?.structuredData?.[locale as "en" | "es"]
         }
       />
       <PackageHero

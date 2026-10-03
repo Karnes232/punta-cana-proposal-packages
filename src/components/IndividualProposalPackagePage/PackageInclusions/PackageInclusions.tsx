@@ -2,12 +2,6 @@ import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import PackageInclusionItem from "./PackageInclusionItem";
 import { useTranslations } from "next-intl";
 
-interface InclusionData {
-  icon: string;
-  title: string;
-  description: string;
-}
-
 interface PackageInclusionsProps {
   /** Already locale-resolved inclusions from Sanity */
   inclusions: {

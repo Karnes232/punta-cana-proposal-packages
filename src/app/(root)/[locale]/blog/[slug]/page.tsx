@@ -71,7 +71,7 @@ export default async function BlogPostPage({
               url: individualBlog.heroPhoto.asset.url,
               metadata: { dimensions: { width: 200, height: 300 } },
             },
-            alt: individualBlog.heroPhoto.asset.alt,
+            alt: individualBlog.heroPhoto.alt,
           },
         }}
         locale={locale}

@@ -231,7 +231,7 @@ export default defineType({
               try {
                 JSON.parse(text);
                 return true;
-              } catch (err) {
+              } catch {
                 return "Must be valid JSON";
               }
             }),
@@ -273,7 +273,7 @@ export default defineType({
               try {
                 JSON.parse(text);
                 return true;
-              } catch (err) {
+              } catch {
                 return "Must be valid JSON";
               }
             }),

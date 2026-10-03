@@ -1,4 +1,3 @@
-import { FaqItem } from "./types";
 import FaqAccordionItem from "./FaqAccordionItem";
 import { Faqs } from "@/sanity/queries/FaqsPage/Faqs";
 import { useTranslations } from "next-intl";

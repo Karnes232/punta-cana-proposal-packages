@@ -1,4 +1,4 @@
-import { defineType, defineField, validation } from "sanity";
+import { defineType, defineField } from "sanity";
 import { DocumentIcon } from "@sanity/icons";
 export default defineType({
   name: "HowItWorksPageHowItWorksFAQ",
