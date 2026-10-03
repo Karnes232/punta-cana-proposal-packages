@@ -1,4 +1,7 @@
-export type Locale = "en" | "es";
+// Relative path: tests compile this file without the "@/" alias.
+import type { SiteLocale } from "../../i18n/blogLocales";
+
+export type Locale = SiteLocale;
 export type Localized = Partial<Record<Locale, string>>;
 export type Image = { url?: string; alt?: Localized };
 export type Entry = {

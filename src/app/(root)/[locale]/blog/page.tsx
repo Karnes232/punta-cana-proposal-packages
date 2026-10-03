@@ -4,7 +4,7 @@ import BlogFilteredSection from "@/components/BlogPage/BlogFilteredSection/BlogF
 
 import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
 import JsonLd from "@/components/seo/JsonLd";
-import { ALL_LOCALES, isSiteLocale } from "@/i18n/blogLocales";
+import { ALL_LOCALES, toSiteLocale } from "@/i18n/blogLocales";
 import {
   blogDateFormatLocale,
   pickBlogLocalized,
@@ -37,7 +37,7 @@ export default async function Blog({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const chromeLocale = isSiteLocale(locale) ? locale : "en";
+  const chromeLocale = toSiteLocale(locale);
   const dateLocale = blogDateFormatLocale(locale);
 
   const [structuredData, hero, categories, posts, ctaStrip] = await Promise.all(
@@ -62,9 +62,7 @@ export default async function Blog({
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={parseJsonLd(
-          structuredData?.seo?.structuredData[chromeLocale as "en" | "es"],
-        )}
+        data={parseJsonLd(structuredData?.seo?.structuredData[chromeLocale])}
       />
       <BlogHero
         eyebrow={pickBlogLocalized(hero?.eyebrow, locale)}
@@ -101,7 +99,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const seoLocale = isSiteLocale(locale) ? locale : "en";
+  const seoLocale = toSiteLocale(locale);
   const pageSeo = await getPageSeo("blog");
   const path = "/blog";
   const canonicalUrl = siteCanonicalUrl(locale, path);
@@ -118,10 +116,10 @@ export async function generateMetadata({
     locale: seoLocale,
     path,
     canonicalUrl,
-    meta: pageSeo.seo.meta[seoLocale as "en" | "es"],
+    meta: pageSeo.seo.meta[seoLocale],
     openGraph: {
-      title: pageSeo.seo.openGraph[seoLocale as "en" | "es"].title,
-      description: pageSeo.seo.openGraph[seoLocale as "en" | "es"].description,
+      title: pageSeo.seo.openGraph[seoLocale].title,
+      description: pageSeo.seo.openGraph[seoLocale].description,
       image: pageSeo.seo.openGraph.image,
     },
     noIndex: pageSeo.seo.noIndex,

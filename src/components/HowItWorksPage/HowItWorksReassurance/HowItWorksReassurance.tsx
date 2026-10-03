@@ -35,8 +35,8 @@ export default function HowItWorksReassurance({
                 key={item.id}
                 item={{
                   id: item.id,
-                  title: item.title[locale as "en" | "es"],
-                  caption: item.caption[locale as "en" | "es"],
+                  title: item.title[locale],
+                  caption: item.caption[locale],
                 }}
                 index={index}
               />

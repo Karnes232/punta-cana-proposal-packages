@@ -18,6 +18,7 @@ import CatalogIntroduction from "./CatalogIntroduction";
 import ProposalGrid from "./ProposalGrid";
 import RomanticDinnerCard from "./RomanticDinnerCard";
 import { PROPOSALS_HERO_SLUG } from "@/sanity/constants";
+import { getRequestHost, isPreviewHost } from "@/lib/requestHost";
 export function catalogMetadata(
   locale: Locale,
   path: string,
@@ -87,16 +88,7 @@ export default async function Catalog({
     getCatalogContent(),
   ]);
   const requestHeaders = await headers();
-  const host = (
-    requestHeaders.get("x-forwarded-host") ||
-    requestHeaders.get("host") ||
-    ""
-  )
-    .split(",")[0]
-    .trim();
-  const showTemplate =
-    /^localhost(:\d+)?$/.test(host) ||
-    /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host);
+  const showTemplate = isPreviewHost(getRequestHost(requestHeaders));
   const cmsDinnerPreview =
     (!section || section === "romantic-dinners") &&
     (showTemplate ||

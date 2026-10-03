@@ -13,6 +13,7 @@ import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
+import { toSiteLocale } from "@/i18n/blogLocales";
 
 export default async function Privacy({
   params,
@@ -21,6 +22,7 @@ export default async function Privacy({
 }) {
   const { locale } = await params;
   requireLocale(locale);
+  const lang = toSiteLocale(locale);
   const [legalDocuments, structuredData] = await Promise.all([
     getLegalDocuments("privacy-policy"),
     getStructuredData("privacy-policy"),
@@ -29,7 +31,7 @@ export default async function Privacy({
     <div className="min-h-screen bg-ivory">
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+        data={structuredData?.seo?.structuredData[lang]}
       />
       {/* Page header */}
       <div className="relative bg-black border-b border-gold/15 overflow-hidden">
@@ -74,10 +76,7 @@ export default async function Privacy({
 
         {/* Content */}
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-12 py-10 lg:py-14">
-          <BlockContent
-            content={legalDocuments.content}
-            language={locale as "en" | "es"}
-          />
+          <BlockContent content={legalDocuments.content} language={lang} />
         </div>
       </div>
     </div>

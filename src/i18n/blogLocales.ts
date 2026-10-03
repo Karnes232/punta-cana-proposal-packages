@@ -46,3 +46,8 @@ export function isBlogOnlyLocale(locale: string): locale is BlogOnlyLocale {
 export function isSiteLocale(locale: string): locale is SiteLocale {
   return (SITE_LOCALES as readonly string[]).includes(locale);
 }
+
+/** The site UI's language for a route locale: Spanish, otherwise English. */
+export function toSiteLocale(locale: string): SiteLocale {
+  return isSiteLocale(locale) ? locale : "en";
+}

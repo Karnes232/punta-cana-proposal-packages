@@ -15,6 +15,7 @@ import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { storiesPageCtaStrip } from "@/sanity/queries/StoriesPage/CtaStripe";
 import { requireLocale } from "@/i18n/requireLocale";
+import { toSiteLocale } from "@/i18n/blogLocales";
 
 export default async function Stories({
   params,
@@ -31,13 +32,13 @@ export default async function Stories({
       getStructuredData("stories"),
       storiesPageCtaStrip(),
     ]);
-  const localeTyped = locale as "en" | "es";
+  const localeTyped = toSiteLocale(locale);
 
   return (
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+        data={structuredData?.seo?.structuredData[localeTyped]}
       />
       <StoriesHero
         image={hero?.image}

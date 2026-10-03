@@ -14,6 +14,7 @@ import {
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
+import { toSiteLocale } from "@/i18n/blogLocales";
 
 export default async function FAQ({
   params,
@@ -22,6 +23,7 @@ export default async function FAQ({
 }) {
   const { locale } = await params;
   requireLocale(locale);
+  const lang = toSiteLocale(locale);
   const [hero, contactStrip, faqsCategories, faqs, structuredData] =
     await Promise.all([
       faqsPageHeroComponent(),
@@ -35,26 +37,22 @@ export default async function FAQ({
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+        data={structuredData?.seo?.structuredData[lang]}
       />
       <FaqHero
         heroImage={hero?.heroImage}
-        eyebrow={hero?.eyebrow[locale as "en" | "es"]}
-        headingLine1={hero?.headingLine1[locale as "en" | "es"]}
-        headingLine2={hero?.headingLine2[locale as "en" | "es"]}
-        subheading={hero?.subheading[locale as "en" | "es"]}
+        eyebrow={hero?.eyebrow[lang]}
+        headingLine1={hero?.headingLine1[lang]}
+        headingLine2={hero?.headingLine2[lang]}
+        subheading={hero?.subheading[lang]}
       />
-      <FaqsContent
-        locale={locale as "en" | "es"}
-        faqsCategories={faqsCategories}
-        faqs={faqs}
-      />
+      <FaqsContent locale={lang} faqsCategories={faqsCategories} faqs={faqs} />
       <FaqContactStrip
-        eyebrow={contactStrip?.eyebrow[locale as "en" | "es"]}
-        line1={contactStrip?.line1[locale as "en" | "es"]}
-        line2={contactStrip?.line2[locale as "en" | "es"]}
-        body={contactStrip?.body[locale as "en" | "es"]}
-        cta={contactStrip?.cta[locale as "en" | "es"]}
+        eyebrow={contactStrip?.eyebrow[lang]}
+        line1={contactStrip?.line1[lang]}
+        line2={contactStrip?.line2[lang]}
+        body={contactStrip?.body[lang]}
+        cta={contactStrip?.cta[lang]}
       />
     </main>
   );

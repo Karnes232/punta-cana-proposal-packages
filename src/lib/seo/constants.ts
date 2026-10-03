@@ -2,8 +2,6 @@ import type { AppLocale } from "@/i18n/blogLocales";
 
 export const SITE_URL = "https://puntacanaproposalpackages.com";
 
-export type SiteLocale = "en" | "es";
-
 /** Path without locale prefix, e.g. `""` (home), `/contact`, `/blog/slug`. */
 export function siteCanonicalUrl(
   locale: AppLocale | string,

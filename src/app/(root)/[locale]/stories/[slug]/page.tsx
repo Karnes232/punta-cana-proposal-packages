@@ -17,6 +17,7 @@ import {
 } from "@/sanity/queries/StoriesPage/IndividualStory";
 import { notFound } from "next/navigation";
 import { requireLocale } from "@/i18n/requireLocale";
+import { toSiteLocale } from "@/i18n/blogLocales";
 
 export default async function StoryPage({
   params,
@@ -25,7 +26,7 @@ export default async function StoryPage({
 }) {
   const { slug, locale } = await params;
   requireLocale(locale);
-  const localeTyped = locale as "en" | "es";
+  const localeTyped = toSiteLocale(locale);
   const [story] = await Promise.all([getIndividualStory(slug)]);
   if (!story) {
     notFound();

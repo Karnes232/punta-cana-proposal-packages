@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 import { generateHreflangAlternates } from "@/i18n/hreflang";
+import type { SiteLocale } from "@/i18n/blogLocales";
 
-export type SeoLocale = "en" | "es";
+export type SeoLocale = SiteLocale;
 
 type OgImageInput = {
   url?: string | null;
