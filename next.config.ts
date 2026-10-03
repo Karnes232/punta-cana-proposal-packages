@@ -15,6 +15,23 @@ const nextConfig: NextConfig = {
     // Update image caching to match 3-day revalidation
     minimumCacheTTL: 259200, // 3 days
   },
+  // The legacy category pages were retired when their packages moved to
+  // /proposals (proposalExperience). Keep old links and search results working.
+  async redirects() {
+    const category = ":category(classic|modern|dining|adventure)-proposals";
+    return ["", "/es"].flatMap((prefix) => [
+      {
+        source: `${prefix}/${category}`,
+        destination: `${prefix}/proposals`,
+        permanent: true,
+      },
+      {
+        source: `${prefix}/${category}/:slug`,
+        destination: `${prefix}/proposals#:slug`,
+        permanent: true,
+      },
+    ]);
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();

@@ -37,7 +37,7 @@ export async function getExperience(id: string) {
           ? (await getDinnerPreview())?.menuItems || []
           : [],
       )
-    : (await getLegacyProposals(id))[0] || null;
+    : null;
 }
 export async function getCatalogContent() {
   return fresh.fetch<{
@@ -70,43 +70,6 @@ async function getTemplatePreview(id: string) {
     : null;
 }
 
-// Published legacy packages share the catalog and server-side price validation.
-export async function getLegacyProposals(id?: string) {
-  const legacyImage = `{ "url":asset->url, "alt":{"en":alt,"es":alt} }`;
-  const rows = await fresh.fetch<
-    Array<Experience & { mainImage?: import("@/lib/experience/types").Image }>
-  >(
-    `*[_type=="IndividualProposalPackage" && (!defined($id) || _id==$id) && _id != "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93" && coalesce(slug.current, "") != "adventure-to-yes"] | order(name.en asc) {
- _id,"_type":"proposalExperience","active":true,name,slug,"shortDescription":description,"basePrice":price,"currency":"USD",
- "mainImage":image${legacyImage},"gallery":gallery[]{_key,"image":${legacyImage}},
- "styles":variants[]{_key,name,description,price,"active":true,"mainImage":image${legacyImage}},
- "inclusions":inclusions[]{_key,"name":title,description,"active":true},
- "availableAddons":addons[]{_key,name,description,price,"active":true,"pricingType":"fixed","applicableTo":["proposal"]},
- "menuItems":[],"beverages":[],"occasions":[]
- }`,
-    { id: id || null },
-    { cache: "no-store" },
-  );
-  const menu = rows.length ? (await getDinnerPreview())?.menuItems || [] : [];
-  return rows.map((e) =>
-    withProposalExtras(
-      normalizeExperience({
-        ...e,
-        gallery: [{ _key: "main", image: e.mainImage }, ...(e.gallery || [])],
-        styles: (e.styles || []).map((style, index) => ({
-          ...style,
-          mainImage: style.mainImage?.url
-            ? style.mainImage
-            : index === 0
-              ? e.mainImage
-              : e.gallery?.[index - 1]?.image || e.mainImage,
-        })),
-      }),
-      menu,
-    ),
-  );
-}
-
 // The published dinner example accepts inquiries, never confirmed reservations.
 export async function getRequestExperience(id: string) {
   const active = await getExperience(id);
@@ -132,7 +95,7 @@ export async function getHomePresentation() {
   const ids =
     config.ids ??
     (await fresh.fetch<string[]>(
-      `*[_type=="IndividualProposalPackage" && slug.current in ["love-signature","path-of-love","marry-me-sign"]] | order(name.en asc)[0...3]._id`,
+      `*[_type=="proposalExperience" && active==true && slug.current in ["love-signature","path-of-love","marry-me-sign"]] | order(name.en asc)[0...3]._id`,
       {},
       { next: { revalidate: 60 } },
     ));
