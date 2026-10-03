@@ -1,3 +1,4 @@
+import type { PortableTextBlock } from "@portabletext/react";
 import { client } from "@/sanity/lib/client";
 import type { EmbeddedLocalizedDocumentSeo } from "../SEO/embeddedLocalizedSeo";
 
@@ -72,8 +73,8 @@ export interface IndividualStory {
     es: string;
   };
   body: {
-    en: any;
-    es: any;
+    en: PortableTextBlock[];
+    es: PortableTextBlock[];
   };
   seo: {
     structuredData: {

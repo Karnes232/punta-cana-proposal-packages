@@ -4,8 +4,6 @@ import CategoryIntroEyebrow from "./CategoryIntroEyebrow";
 import CategoryIntroHeading from "./CategoryIntroHeading";
 import CategoryIntroDescription from "./CategoryIntroDescription";
 
-type CategorySlug = "classic" | "modern" | "dining";
-
 interface CategoryIntroProps {
   eyebrow: string;
   headingLine1: string;

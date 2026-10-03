@@ -6,13 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
-    "test": "node scripts/run-tests.cjs",
+    "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
+    "test": "node scripts/run-tests.cjs",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test",
+    "studio:build": "sanity build",
     "catalog:bootstrap": "node --env-file=.env.local scripts/bootstrap-catalog.mjs",
-    "catalog:audit": "node --env-file=.env.local scripts/audit-sanity.mjs",
-    "format:check": "prettier --check ."
+    "catalog:audit": "node --env-file=.env.local scripts/audit-sanity.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^11.1.1",

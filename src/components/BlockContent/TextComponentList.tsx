@@ -5,7 +5,7 @@
 import React from "react";
 
 interface TextComponentListProps {
-  items: React.ReactNode[];
+  items: React.ReactNode;
   listType: "bullet" | "number";
   ListClassName?: string;
 }

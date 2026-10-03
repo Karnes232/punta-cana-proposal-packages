@@ -1,3 +1,4 @@
+import type { MoreBlogsPost } from "./types";
 import Image from "next/image";
 import React from "react";
 import { Link } from "@/i18n/navigation";
@@ -6,7 +7,7 @@ const MoreBlogsCard = ({
   readMoreLabel,
   locale,
 }: {
-  blog: any;
+  blog: MoreBlogsPost;
   readMoreLabel: string;
   locale: string;
 }) => {
@@ -48,7 +49,7 @@ const MoreBlogsCard = ({
           {blog.title}
         </h3>
         <p className="font-body font-light italic text-fluid-sm text-gray leading-relaxed flex-1 line-clamp-3">
-          "{blog.excerpt}"
+          &quot;{blog.excerpt}&quot;
         </p>
 
         {/* Footer */}

@@ -1,9 +1,6 @@
-// adjust to your sanity client path
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksFAQHeader from "./HowItWorksFAQHeader";
 import HowItWorksFAQAccordion from "./HowItWorksFAQAccordion";
-import { faqQuery, faqUIContent, placeholderFAQItems } from "./types";
-import type { FAQItem, FAQLocale } from "./types";
 import {
   HowItWorksFaqs,
   HowItWorksFaqsCategories,

@@ -52,8 +52,8 @@ export interface IndividualBlog {
           height: number;
         };
       };
-      alt: string;
     };
+    alt?: string;
   };
   gallery: {
     asset: {

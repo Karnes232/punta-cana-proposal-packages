@@ -3,7 +3,7 @@
 import { useState } from "react";
 import HowItWorksFAQFilters from "./HowItWorksFAQFilters";
 import HowItWorksFAQItem from "./HowItWorksFAQItem";
-import type { FAQItem, FAQLocale } from "./types";
+import type { FAQLocale } from "./types";
 import { faqUIContent } from "./types";
 import {
   HowItWorksFaqs,

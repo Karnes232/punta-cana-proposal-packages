@@ -2,12 +2,13 @@
 
 import { useRef, useState, useEffect } from "react";
 import MoreBlogsCard from "./MoreBlogsCard";
+import type { MoreBlogsPost } from "./types";
 
 const MoreBlogsCarousel = ({
   blogs,
   locale,
 }: {
-  blogs: any[];
+  blogs: MoreBlogsPost[];
   locale: string;
 }) => {
   const trackRef = useRef<HTMLDivElement>(null);

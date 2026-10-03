@@ -4,25 +4,6 @@ import FaqHeroDivider from "./FaqHeroDivider";
 import FaqHeroSubheading from "./FaqHeroSubheading";
 import FaqHeroBackground from "./FaqHeroBackground";
 
-// ─── Bilingual content ────────────────────────────────────────────────────────
-
-const content = {
-  en: {
-    eyebrow: "Frequently Asked Questions",
-    line1: "Answers to Every",
-    line2: "Detail & Doubt",
-    subheading:
-      "Everything you need to know before you get down on one knee — from booking to the perfect moment.",
-  },
-  es: {
-    eyebrow: "Preguntas Frecuentes",
-    line1: "Respuestas a Cada",
-    line2: "Duda y Detalle",
-    subheading:
-      "Todo lo que necesitas saber antes de arrodillarte — desde la reserva hasta el momento perfecto.",
-  },
-} as const;
-
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface FaqHeroProps {

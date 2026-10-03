@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import type { BlogCardData } from "./types";
 import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
 interface BlogCardProps {
