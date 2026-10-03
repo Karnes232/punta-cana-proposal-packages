@@ -20,15 +20,3 @@ export interface StoryBodyData {
   quote: string;
   body: PortableTextBlock[];
 }
-
-export const defaultStorySidebarContent: StorySidebarContent = {
-  packageLabelEn: "Package",
-  packageLabelEs: "Paquete",
-  dateLabelEn: "Proposed",
-  dateLabelEs: "Propuesta",
-  locationLabelEn: "Location",
-  locationLabelEs: "Lugar",
-  ctaLabelEn: "Book This Experience",
-  ctaLabelEs: "Reserva Esta Experiencia",
-  ctaHref: "/contact",
-};
