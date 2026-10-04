@@ -3,7 +3,7 @@ import StoriesFilteredSection from "@/components/StoriesPage/StoriesFilteredSect
 import { storiesPageHero } from "@/sanity/queries/StoriesPage/Hero";
 import { getProposalTypes } from "@/sanity/queries/StoriesPage/ProposalTypes";
 //
-import StoriesCTAStrip from "@/components/StoriesPage/StoriesCTAStrip/StoriesCTAStrip";
+import CtaStrip from "@/components/ui/CtaStrip";
 import { getAllStories } from "@/sanity/queries/StoriesPage/IndividualStory";
 import JsonLd from "@/components/seo/JsonLd";
 import {
@@ -63,7 +63,7 @@ export default async function Stories({
         }))}
         locale={localeTyped}
       />
-      <StoriesCTAStrip
+      <CtaStrip
         eyebrow={ctaStrip.eyebrow[localeTyped]}
         heading={ctaStrip.heading[localeTyped]}
         headingAccent={ctaStrip.headingAccent[localeTyped]}

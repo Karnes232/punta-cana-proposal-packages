@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 
-interface BlogCTAStripProps {
+interface CtaStripProps {
   eyebrow: string;
   heading: string;
   headingAccent: string;
@@ -9,14 +9,14 @@ interface BlogCTAStripProps {
   ctaHref: string;
 }
 
-export default function BlogCTAStrip({
+export default function CtaStrip({
   eyebrow,
   heading,
   headingAccent,
   subheading,
   ctaLabel,
   ctaHref,
-}: BlogCTAStripProps) {
+}: CtaStripProps) {
   return (
     <section className="relative w-full bg-black overflow-hidden">
       {/* Top fade from ivory into black */}

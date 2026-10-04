@@ -1,8 +1,8 @@
-import FaqHeroEyebrow from "./FaqHeroEyebrow";
-import FaqHeroHeading from "./FaqHeroHeading";
-import FaqHeroDivider from "./FaqHeroDivider";
-import FaqHeroSubheading from "./FaqHeroSubheading";
-import FaqHeroBackground from "./FaqHeroBackground";
+import HeroDivider from "@/components/ui/hero/HeroDivider";
+import HeroEyebrow from "@/components/ui/hero/HeroEyebrow";
+import HeroHeading from "@/components/ui/hero/HeroHeading";
+import HeroSubheading from "@/components/ui/hero/HeroSubheading";
+import DimHeroBackground from "@/components/ui/hero/DimHeroBackground";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -47,7 +47,7 @@ export default async function FaqHero({
       aria-labelledby="faq-heading"
     >
       {heroImage ? (
-        <FaqHeroBackground photo={heroImage} altFallback={imageAltFallback} />
+        <DimHeroBackground photo={heroImage} altFallback={imageAltFallback} />
       ) : null}
 
       {/* Subtle radial glow behind heading */}
@@ -61,10 +61,14 @@ export default async function FaqHero({
       />
 
       <div className="relative z-10 flex flex-col items-center justify-center gap-6">
-        <FaqHeroEyebrow label={eyebrow} />
-        <FaqHeroHeading line1={headingLine1} line2={headingLine2} />
-        <FaqHeroDivider />
-        <FaqHeroSubheading text={subheading} />
+        <HeroEyebrow label={eyebrow} />
+        <HeroHeading
+          id="faq-heading"
+          line1={headingLine1}
+          line2={headingLine2}
+        />
+        <HeroDivider />
+        <HeroSubheading text={subheading} />
       </div>
     </section>
   );

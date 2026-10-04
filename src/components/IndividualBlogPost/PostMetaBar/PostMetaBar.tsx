@@ -3,33 +3,7 @@ import {
   type PostMetaBarData,
   type PostMetaBarContent,
 } from "./types";
-
-interface MetaItemProps {
-  label: string;
-  value: string;
-}
-
-function MetaItem({ label, value }: MetaItemProps) {
-  return (
-    <div className="flex flex-col gap-1 px-8 py-4 md:px-10">
-      <span className="text-[9.5px] font-body font-medium tracking-[0.2em] uppercase text-gray">
-        {label}
-      </span>
-      <span className="text-[13px] font-body font-light tracking-[0.04em] text-black">
-        {value}
-      </span>
-    </div>
-  );
-}
-
-function Divider() {
-  return (
-    <span
-      className="self-stretch w-px bg-gold/20 my-3 shrink-0"
-      aria-hidden="true"
-    />
-  );
-}
+import { MetaDivider, MetaItem } from "@/components/ui/MetaItem";
 
 interface PostMetaBarProps {
   data: PostMetaBarData;
@@ -62,9 +36,9 @@ export default function PostMetaBar({
     <div className="w-full bg-white border-b border-gold/20">
       <div className="flex items-stretch mx-auto overflow-x-auto">
         <MetaItem label={categoryLabel} value={data.categoryTag} />
-        <Divider />
+        <MetaDivider />
         <MetaItem label={publishedLabel} value={capitalizedDate} />
-        <Divider />
+        <MetaDivider />
         <MetaItem
           label={readTimeLabel}
           value={`${data.readingTime} ${readTimeSuffix}`}

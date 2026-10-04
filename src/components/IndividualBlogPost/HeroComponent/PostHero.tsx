@@ -1,5 +1,5 @@
-import PostHeroBackground from "./PostHeroBackground";
-import PostHeroBackLink from "./PostHeroBackLink";
+import PhotoHeroBackground from "@/components/ui/hero/PhotoHeroBackground";
+import HeroBackLink from "@/components/ui/HeroBackLink";
 import PostHeroCopy from "./PostHeroCopy";
 import { type PostHeroData } from "./types";
 
@@ -15,7 +15,10 @@ export default function PostHero({ post, locale }: PostHeroProps) {
   return (
     <section className="relative w-full min-h-[70svh] md:min-h-[80svh] flex flex-col justify-between overflow-hidden bg-black">
       {/* ── Background photo + scrim ── */}
-      <PostHeroBackground photo={post.photo} title={post.title} />
+      <PhotoHeroBackground
+        photo={post.photo}
+        alt={post.photo.alt ?? `${post.title} hero photo`}
+      />
 
       {/* ── Gold corner accents ── */}
       <div
@@ -29,7 +32,7 @@ export default function PostHero({ post, locale }: PostHeroProps) {
 
       {/* ── Top: back link ── */}
       <div className="relative z-10 px-8 pt-8 md:px-12 md:pt-10">
-        <PostHeroBackLink label={backLabel} />
+        <HeroBackLink label={backLabel} href="/blog" />
       </div>
 
       {/* ── Bottom: title + meta ── */}

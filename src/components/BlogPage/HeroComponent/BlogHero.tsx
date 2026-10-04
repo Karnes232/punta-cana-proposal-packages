@@ -1,8 +1,8 @@
 import BlogHeroEyebrow from "./BlogHeroEyebrow";
 import BlogHeroHeading from "./BlogHeroHeading";
-import BlogHeroDivider from "./BlogHeroDivider";
+import HeroDivider from "@/components/ui/hero/HeroDivider";
 import BlogHeroSubheading from "./BlogHeroSubheading";
-import StoriesHeroBackground from "@/components/StoriesPage/HeroComponent/StoriesHeroBackground";
+import ListingHeroBackground from "@/components/ui/hero/ListingHeroBackground";
 
 interface BlogHeroProps {
   /** Pass Sanity data to override defaults */
@@ -34,7 +34,7 @@ export default function BlogHero({
   return (
     <section className="relative w-full bg-[#0B0B0C] overflow-hidden">
       {/* Subtle radial gold bloom behind heading */}
-      <StoriesHeroBackground image={image} />
+      <ListingHeroBackground image={image} />
       <div
         className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[340px] pointer-events-none"
         style={{
@@ -58,7 +58,7 @@ export default function BlogHero({
       <div className="relative z-10 flex flex-col items-center gap-5 px-6 pt-36 pb-24 md:pt-44 md:pb-32 text-center max-w-[720px] mx-auto">
         <BlogHeroEyebrow label={eyebrow} />
         <BlogHeroHeading line1={headingLine1} line2={headingLine2} />
-        <BlogHeroDivider />
+        <HeroDivider />
         <BlogHeroSubheading text={subheading} />
       </div>
     </section>

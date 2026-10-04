@@ -1,8 +1,8 @@
-export default function StoriesHeroSubheading({
-  text = "Every couple who trusted us with their most important moment. Read their stories and begin imagining yours.",
-}: {
-  text?: string;
-}) {
+interface HeroSubheadingProps {
+  text: string;
+}
+
+export default function HeroSubheading({ text }: HeroSubheadingProps) {
   return (
     <p
       className="

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import BlogCard from "./BlogCard";
-import BlogGridDivider from "./BlogGridDivider";
-import LoadMore from "./LoadMore";
+import SectionLabelDivider from "@/components/ui/SectionLabelDivider";
+import LoadMore from "@/components/ui/LoadMore";
 import { defaultBlogGridContent, type BlogGridContent } from "./types";
 import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
@@ -87,7 +87,7 @@ export default function BlogGrid({
 
   return (
     <section>
-      <BlogGridDivider label={sectionLabel} />
+      <SectionLabelDivider label={sectionLabel} />
 
       {/*
         Asymmetric grid — two column base.

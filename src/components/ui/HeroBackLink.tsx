@@ -1,13 +1,14 @@
 import { Link } from "@/i18n/navigation";
 
-interface StoryHeroBackLinkProps {
+interface HeroBackLinkProps {
   label: string;
+  href: string;
 }
 
-export default function StoryHeroBackLink({ label }: StoryHeroBackLinkProps) {
+export default function HeroBackLink({ label, href }: HeroBackLinkProps) {
   return (
     <Link
-      href="/stories"
+      href={href}
       className="
         inline-flex items-center gap-2
         text-[10.5px] font-body font-medium tracking-[0.16em] uppercase

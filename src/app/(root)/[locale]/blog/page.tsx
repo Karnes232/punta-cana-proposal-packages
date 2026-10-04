@@ -1,4 +1,4 @@
-import BlogCTAStrip from "@/components/BlogPage/BlogCTAStrip/BlogCTAStrip";
+import CtaStrip from "@/components/ui/CtaStrip";
 
 import BlogFilteredSection from "@/components/BlogPage/BlogFilteredSection/BlogFilteredSection";
 
@@ -80,7 +80,7 @@ export default async function Blog({
         locale={locale}
       />
 
-      <BlogCTAStrip
+      <CtaStrip
         eyebrow={pickBlogLocalized(ctaStrip.eyebrow, locale)}
         heading={pickBlogLocalized(ctaStrip.heading, locale)}
         headingAccent={pickBlogLocalized(ctaStrip.headingAccent, locale)}

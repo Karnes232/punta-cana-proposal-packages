@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import StoryCard from "./StoryCard";
-import StoriesGridDivider from "./StoriesGridDivider";
-import LoadMore from "./LoadMore";
+import SectionLabelDivider from "@/components/ui/SectionLabelDivider";
+import LoadMore from "@/components/ui/LoadMore";
 import { type StoryCardData } from "./types";
 
 const PAGE_SIZE = 6;
@@ -78,7 +78,7 @@ export default function StoriesGrid({
 
   return (
     <section>
-      <StoriesGridDivider label={sectionLabel} />
+      <SectionLabelDivider label={sectionLabel} />
 
       {/*
         Asymmetric grid — two column base.

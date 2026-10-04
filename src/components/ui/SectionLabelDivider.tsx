@@ -1,8 +1,10 @@
-interface StoriesGridDividerProps {
+interface SectionLabelDividerProps {
   label: string;
 }
 
-export default function StoriesGridDivider({ label }: StoriesGridDividerProps) {
+export default function SectionLabelDivider({
+  label,
+}: SectionLabelDividerProps) {
   return (
     <div className="flex items-center gap-5 mb-8" aria-hidden="true">
       <span className="block w-10 h-px bg-gold/40 shrink-0" />

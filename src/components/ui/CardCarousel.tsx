@@ -1,23 +1,30 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import MoreBlogsCard from "./MoreBlogsCard";
-import type { MoreBlogsPost } from "./types";
+import {
+  Children,
+  isValidElement,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
-const MoreBlogsCarousel = ({
-  blogs,
-  locale,
-}: {
-  blogs: MoreBlogsPost[];
-  locale: string;
-}) => {
+interface CardCarouselProps {
+  children: ReactNode;
+  prevLabel: string;
+  nextLabel: string;
+}
+
+// Horizontal snap-scrolling row of cards with previous/next buttons.
+export default function CardCarousel({
+  children,
+  prevLabel,
+  nextLabel,
+}: CardCarouselProps) {
+  const cards = Children.toArray(children);
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
-
-  const readMoreLabel = locale === "es" ? "Leer Historia" : "Read Story";
-  const prevLabel = locale === "es" ? "Anterior" : "Previous";
-  const nextLabel = locale === "es" ? "Siguiente" : "Next";
 
   // How far to scroll per button press — one card width + gap
   const SCROLL_AMOUNT = 380;
@@ -35,7 +42,7 @@ const MoreBlogsCarousel = ({
     updateButtons();
     el.addEventListener("scroll", updateButtons, { passive: true });
     return () => el.removeEventListener("scroll", updateButtons);
-  }, [blogs]);
+  }, [cards.length]);
 
   function scrollBy(direction: "prev" | "next") {
     trackRef.current?.scrollBy({
@@ -50,22 +57,18 @@ const MoreBlogsCarousel = ({
         ref={trackRef}
         className="flex gap-4 overflow-x-auto scroll-smooth pb-2 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {blogs.map((blog) => (
+        {cards.map((card, i) => (
           <div
-            key={blog.slug}
+            key={isValidElement(card) ? card.key : i}
             className="shrink-0 w-[80vw] sm:w-[45vw] lg:w-[360px] snap-start"
           >
-            <MoreBlogsCard
-              blog={blog}
-              readMoreLabel={readMoreLabel}
-              locale={locale}
-            />
+            {card}
           </div>
         ))}
       </div>
 
       {/* Prev / Next buttons — only shown when scrollable */}
-      {blogs.length > 1 && (
+      {cards.length > 1 && (
         <div className="flex items-center gap-3 mt-6">
           <button
             onClick={() => scrollBy("prev")}
@@ -113,6 +116,4 @@ const MoreBlogsCarousel = ({
       )}
     </div>
   );
-};
-
-export default MoreBlogsCarousel;
+}
