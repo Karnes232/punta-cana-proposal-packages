@@ -15,6 +15,7 @@ import ProposalGrid from "./ProposalGrid";
 import ExperienceCard from "./ExperienceCard";
 import { PROPOSALS_HERO_SLUG } from "@/sanity/constants";
 import { getRequestHost, isPreviewHost } from "@/lib/requestHost";
+import { wrapClass } from "./styles";
 export default async function Catalog({
   locale,
   section,
@@ -40,7 +41,7 @@ export default async function Catalog({
     prefix = locale === "es" ? "/es" : "";
   return (
     <main
-      className={`ec-shell ${section === "proposals" ? "ec-proposal-page" : ""}`}
+      className={`ec-shell ${section === "proposals" ? "bg-black [--ec-ink:#f7f5f1] [--ec-muted:#b9b7b5]" : ""}`}
     >
       <CatalogHero
         dinner={section === "romantic-dinners"}
@@ -63,7 +64,7 @@ export default async function Catalog({
                 ?.gallery[0]?.image
         }
       />
-      <div className="ec-wrap">
+      <div className={wrapClass}>
         {(["proposals", "romantic-dinners"] as const)
           .filter((k) => section === k)
           .map((key) => {
@@ -75,7 +76,11 @@ export default async function Catalog({
               );
             return (
               <section
-                className={`ec-section ${!dinner ? "ec-proposals-section" : ""}`}
+                className={`scroll-mt-[100px] ${
+                  dinner
+                    ? "py-14 upto800:py-9"
+                    : "bg-black px-0 py-9 text-ivory [--ec-border:#cfae7033] [--ec-ink:#f7f5f1] [--ec-muted:#b9b7b5] upto800:py-7"
+                }`}
                 id={key}
                 key={key}
               >
@@ -85,10 +90,10 @@ export default async function Catalog({
                   locale={locale}
                   settings={settings}
                 />
-                <div id="packages" className="ec-scroll-target" />
+                <div id="packages" className="scroll-mt-[120px]" />
                 {dinner && (showTemplate || rows.length === 0) && (
                   <>
-                    <div className="ec-template-note">
+                    <div className="my-5 border-l-[3px] border-l-gold bg-white px-6 py-[18px] text-[0.85rem] text-[#6e6e73]">
                       {showTemplate
                         ? locale === "es"
                           ? "Ejemplo editable · Tres montajes con imágenes de referencia de Sanity. Menú y tarifas configurados; capacidad final pendiente de confirmar."
@@ -97,7 +102,7 @@ export default async function Catalog({
                           ? "Personaliza tu cena y envíanos tu fecha preferida. Nuestro equipo confirmará personalmente la capacidad y disponibilidad de tu celebración."
                           : "Personalize your dinner and send us your preferred date. Our team will personally confirm capacity and availability for your celebration."}
                     </div>
-                    <div className="ec-dinner-grid">
+                    <div className="m-auto max-w-[1000px]">
                       <ExperienceCard
                         experience={cmsDinnerPreview || dinnerPreview()}
                         locale={locale}
@@ -115,7 +120,7 @@ export default async function Catalog({
                     settings={settings}
                   />
                 ) : rows.length ? (
-                  <div className="ec-grid ec-dinner-grid">
+                  <div className="m-auto grid max-w-[1000px] grid-cols-[1fr] [align-items:start] gap-7">
                     {rows.map((e) => (
                       <ExperienceCard
                         key={e._id}
@@ -126,7 +131,7 @@ export default async function Catalog({
                     ))}
                   </div>
                 ) : showTemplate ? null : (
-                  <div className="ec-empty">
+                  <div className="rounded-[4px] border border-(--ec-border) p-[38px]">
                     <p>{t(dinner ? "emptyDinners" : "emptyProposals")}</p>
                     <Link href={prefix + "/contact"}>
                       {t("contactUsLabel")} →
@@ -136,7 +141,7 @@ export default async function Catalog({
               </section>
             );
           })}
-        <section className="ec-contact-cta">
+        <section className="border-t border-t-(--ec-border) py-[45px]">
           {local(home?.contactHeading, locale) && (
             <h2>{local(home?.contactHeading, locale)}</h2>
           )}

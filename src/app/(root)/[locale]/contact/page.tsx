@@ -6,6 +6,7 @@ import type { Locale } from "@/lib/experience/types";
 import AvailabilityForm from "@/components/ExperienceCatalog/AvailabilityForm";
 import { catalogPageMetadata } from "@/lib/seo/catalogMetadata";
 import { requireLocale } from "@/i18n/requireLocale";
+import { wrapClass } from "@/components/ExperienceCatalog/styles";
 export default async function Page({
   params,
 }: {
@@ -21,7 +22,7 @@ export default async function Page({
     settings = content.settings || {};
   return (
     <main className="ec-shell">
-      <div className="ec-wrap">
+      <div className={wrapClass}>
         <h1>
           {local(c?.heading, locale) ||
             label(settings, locale, "contactUsLabel")}

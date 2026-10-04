@@ -17,11 +17,6 @@
     line-height: 1.65;
     min-height: 70vh;
   }
-  .ec-wrap {
-    max-width: 1180px;
-    margin: auto;
-    padding: 48px 28px;
-  }
   .ec-shell h1,
   .ec-shell h2 {
     font-family: var(--font-playfair), Georgia, serif;
@@ -73,21 +68,6 @@
     background: transparent;
     color: var(--ec-ink);
   }
-  .ec-section {
-    padding: 56px 0;
-    scroll-margin-top: 100px;
-  }
-  .ec-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px;
-    align-items: start;
-  }
-  .ec-empty {
-    border: 1px solid var(--ec-border);
-    padding: 38px;
-    border-radius: 4px;
-  }
   .ec-shell fieldset,
   .ec-shell details {
     border: 0;
@@ -131,10 +111,6 @@
     display: block;
     font-size: 0.75rem;
     color: var(--ec-muted);
-  }
-  .ec-contact-cta {
-    border-top: 1px solid var(--ec-border);
-    padding: 45px 0;
   }
   .ec-header {
     position: sticky;
@@ -195,9 +171,6 @@
     outline-offset: 3px;
   }
   @media (max-width: 800px) {
-    .ec-grid {
-      grid-template-columns: 1fr;
-    }
     .ec-nav {
       display: none;
     }
@@ -215,12 +188,6 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-    }
-    .ec-wrap {
-      padding: 28px 20px;
-    }
-    .ec-section {
-      padding: 36px 0;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -283,19 +250,6 @@
   .ec-eyebrow {
     color: #9b773d !important;
   }
-  .ec-dinner-grid {
-    grid-template-columns: 1fr;
-    max-width: 1000px;
-    margin: auto;
-  }
-  .ec-template-note {
-    padding: 18px 24px;
-    border-left: 3px solid #cfae70;
-    background: #fff;
-    margin: 20px 0;
-    color: #6e6e73;
-    font-size: 0.85rem;
-  }
   @media (max-width: 800px) {
     .ec-header-inner {
       padding: 8px 20px;
@@ -317,99 +271,15 @@
     min-width: 0;
     text-overflow: ellipsis;
   }
-  @media (max-width: 390px) {
-    .ec-wrap {
-      padding-inline: 14px;
-    }
-  } /* Proposal cards retain the original dark catalogue treatment. */
-  .ec-proposals-section {
-    --ec-ink: #f7f5f1;
-    --ec-muted: #b9b7b5;
-    --ec-border: #cfae7033;
-    background: #0b0b0c;
-    color: #f7f5f1;
-    padding: 36px 28px;
-  }
   .ec-proposal-card small {
     color: #b9b7b5;
-  }
-  @media (max-width: 800px) {
-    .ec-proposals-section {
-      padding: 28px 14px;
-    }
-  }
-  .ec-proposal-page {
-    --ec-ink: #f7f5f1;
-    --ec-muted: #b9b7b5;
-    background: #0b0b0c;
-  }
-  .ec-proposal-page .ec-proposals-section {
-    padding-inline: 0;
-  }
-  .ec-catalog-intro {
-    margin-bottom: 40px;
-  }
-  .ec-catalog-intro > h1,
-  .ec-catalog-intro > h2 {
-    margin-bottom: 28px;
-    max-width: 980px;
-  }
-  .ec-intro-box {
-    border: 1px solid var(--ec-border);
-    border-top: 2px solid #cfae70;
-    padding: clamp(20px, 3vw, 36px);
-    background: #ffffff60;
-  }
-  .ec-proposals-section .ec-intro-box {
-    background: #141416;
-  }
-  .ec-intro-box .ec-intro-lead {
-    margin: 0 0 28px;
-    color: var(--ec-ink);
-    max-width: 85ch;
-    font-size: 1.05rem;
-  }
-  .ec-intro-box ol {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px 40px;
-    padding-left: 24px;
-    list-style: decimal;
-  }
-  .ec-intro-box li::marker {
-    color: #9b773d;
-    font-weight: 600;
-  }
-  .ec-proposals-section .ec-intro-box li::marker {
-    color: #cfae70;
-  }
-  .ec-intro-box li p {
-    margin: 8px 0 0;
-    font-size: 0.9rem;
-  }
-  .ec-intro-box .ec-intro-note {
-    margin: 28px 0 0;
-    padding-top: 20px;
-    border-top: 1px solid var(--ec-border);
-    font-size: 0.85rem;
-  }
-  @media (max-width: 700px) {
-    .ec-intro-box ol {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  /* Editorial home and shared accessibility refinements. */
-  .ec-wrap {
-    max-width: 1280px;
   }
   .ec-shell {
     font-size: 16px;
   }
   .ec-shell small,
   .ec-shell .ec-button,
-  .ec-eyebrow,
-  .ec-intro-box .ec-intro-note {
+  .ec-eyebrow {
     font-size: 14px;
   }
   .ec-shell :focus-visible,
@@ -455,16 +325,6 @@
   }
   .ec-languages {
     white-space: nowrap;
-  }
-  .ec-privacy-note {
-    padding: 24px;
-    margin: 24px 0 32px;
-    border-left: 2px solid #cfae70;
-    background: #cfae700d;
-  }
-  .ec-privacy-note strong {
-    font-family: var(--font-playfair), serif;
-    font-size: 1.5rem;
   }
   .lux-home h1 {
     font-size: clamp(3.5rem, 6vw, 6.5rem);
@@ -1093,95 +953,5 @@
   }
   .ec-nav > a {
     white-space: nowrap;
-  }
-
-  /* Photographic catalog entrances and intimate proposal dinner menus. */
-  .ec-photo-hero {
-    position: relative;
-    isolation: isolate;
-    min-height: min(800px, 88svh);
-    display: flex;
-    align-items: center;
-    background: #161719;
-    color: #f7f5f1;
-    overflow: hidden;
-  }
-  .ec-photo-hero > img {
-    object-fit: cover;
-    object-position: center;
-    z-index: -2;
-  }
-  .ec-photo-hero-shade {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      linear-gradient(90deg, rgba(7, 9, 12, 0.8), rgba(7, 9, 12, 0.36)),
-      linear-gradient(0deg, rgba(7, 9, 12, 0.5), transparent 65%);
-  }
-  .ec-photo-hero-copy {
-    width: 100%;
-    padding-top: 90px;
-    padding-bottom: 90px;
-  }
-  .ec-photo-hero h1 {
-    max-width: 1000px;
-    font-size: clamp(2.5rem, 5.2vw, 5.3rem);
-    line-height: 1.08;
-    letter-spacing: -0.025em;
-    text-wrap: balance;
-    margin: 24px 0;
-    color: inherit;
-  }
-  .ec-photo-hero-copy > p:not(.ec-eyebrow) {
-    max-width: 600px;
-    font-size: clamp(1rem, 1.4vw, 1.2rem);
-    line-height: 1.7;
-    color: #eee8dd;
-  }
-  .ec-photo-hero .ec-actions {
-    margin-top: 32px;
-    gap: 16px;
-  }
-  .ec-photo-hero .secondary {
-    color: #fff;
-    border-color: #d3bd90;
-    background: rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px);
-  }
-  .ec-photo-hero .ec-eyebrow {
-    color: #e9cf9f;
-  }
-  .ec-photo-hero .ec-button {
-    min-height: 52px;
-    transition:
-      background 0.2s,
-      transform 0.2s;
-  }
-  .ec-photo-hero .ec-button:hover {
-    transform: translateY(-2px);
-  }
-  .ec-scroll-target,
-  #experience-guide {
-    scroll-margin-top: 120px;
-  }
-  @media (max-width: 600px) {
-    .ec-photo-hero {
-      min-height: 700px;
-      min-height: 85svh;
-    }
-    .ec-photo-hero-copy {
-      padding-top: 65px;
-      padding-bottom: 65px;
-    }
-    .ec-photo-hero .ec-actions {
-      align-items: stretch;
-      flex-direction: column;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .ec-photo-hero .ec-button {
-      transition: none;
-    }
   }
 }
