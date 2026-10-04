@@ -14,6 +14,7 @@ import {
 } from "react-icons/fi";
 import type { Image, Locale } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";
+import { homeButton, homeButtonIcon, homeH3, homeIcon } from "./styles";
 export function HomePhoto({
   photo,
   locale,
@@ -61,9 +62,9 @@ export function ExperienceSelector({
             <span className="mb-4 block text-[14px] text-[#9b773d]">
               0{i + 1}
             </span>
-            <h3>{copy[kind + "Choice"]}</h3>
-            <p className="mb-0">{copy[kind + "Description"]}</p>
-            <FiArrowRight aria-hidden="true" />
+            <h3 className={homeH3}>{copy[kind + "Choice"]}</h3>
+            <p className="mb-0 text-[16px]">{copy[kind + "Description"]}</p>
+            <FiArrowRight aria-hidden="true" className={homeIcon} />
           </button>
         ))}
       </div>
@@ -74,11 +75,11 @@ export function ExperienceSelector({
           className="object-cover [transition:transform_0.4s] [:hover>&]:[transform:scale(1.03)]"
         />
         <a
-          className="ec-button absolute right-6 bottom-6 left-6"
+          className={`ec-button absolute right-6 bottom-6 left-6 ${homeButton}`}
           href={`${prefix}/${selected === 0 ? "proposals" : "romantic-dinners"}`}
         >
           {copy[selected === 0 ? "exploreProposals" : "exploreDinners"]}
-          <FiArrowRight aria-hidden="true" />
+          <FiArrowRight aria-hidden="true" className={homeButtonIcon} />
         </a>
       </div>
     </div>
@@ -113,7 +114,7 @@ export function PickupJourney({
               className={`flex cursor-pointer flex-col items-center gap-4 border-b p-4 text-[14px] upto700:flex-row upto700:text-left ${selected === i ? "border-gold bg-[#cfae700a] text-gold" : "border-b-[#cfae7033]"}`}
               onClick={() => setSelected(i)}
             >
-              <StepIcon aria-hidden="true" className="h-6 w-6" />
+              <StepIcon aria-hidden="true" className={`h-6 w-6 ${homeIcon}`} />
               <span>{step.title}</span>
             </button>
           );
@@ -133,14 +134,14 @@ export function PickupJourney({
           ) : (
             <Icon
               aria-hidden="true"
-              className="h-[100px] w-[100px] [stroke-width:1]"
+              className={`h-[100px] w-[100px] [stroke-width:1] ${homeIcon}`}
             />
           )}
         </div>
         <div className="self-center p-12 upto700:p-6">
           <span className="ec-eyebrow">0{selected + 1} / 05</span>
-          <h3>{steps[selected].title}</h3>
-          <p>{steps[selected].text}</p>
+          <h3 className={homeH3}>{steps[selected].title}</h3>
+          <p className="text-[16px] text-[#c7c2b9]">{steps[selected].text}</p>
         </div>
       </div>
     </div>
@@ -207,7 +208,7 @@ export function MomentsGallery({
           aria-label={copy.close}
           autoFocus
         >
-          <FiX />
+          <FiX className={homeIcon} />
         </button>
         <div className="relative h-[70svh] upto700:h-[60svh]">
           <HomePhoto
@@ -222,9 +223,9 @@ export function MomentsGallery({
             onClick={() => move(-1)}
             aria-label={copy.previous}
           >
-            <FiChevronLeft />
+            <FiChevronLeft className={homeIcon} />
           </button>
-          <p aria-live="polite" className="text-ivory">
+          <p aria-live="polite" className="text-[16px] text-ivory">
             {selected + 1} / {photos.length}
           </p>
           <button
@@ -232,7 +233,7 @@ export function MomentsGallery({
             onClick={() => move(1)}
             aria-label={copy.next}
           >
-            <FiChevronRight />
+            <FiChevronRight className={homeIcon} />
           </button>
         </div>
       </dialog>
