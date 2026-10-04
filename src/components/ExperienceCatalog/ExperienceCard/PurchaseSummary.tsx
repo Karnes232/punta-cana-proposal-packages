@@ -64,7 +64,7 @@ export default function PurchaseSummary({
             </small>
           )}
         </div>
-        <Accordion title={t("priceDetails")}>
+        <Accordion compact title={t("priceDetails")}>
           {estimate && (
             <dl className="ec-breakdown">
               {BREAKDOWN.map(([key, prefix]) => {

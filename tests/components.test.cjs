@@ -103,20 +103,23 @@ test("EN and ES: styles change image/price, keep extras, gallery keyboard and in
       document.querySelectorAll("input[type=radio]")[1].click(),
     );
     assert.match(
-      document.querySelector(".ec-gallery img").getAttribute("src"),
+      document.querySelector("[data-testid=gallery] img").getAttribute("src"),
       /b.jpg/,
     );
     assert.equal(document.querySelector("input[type=checkbox]").checked, true);
     assert.match(document.querySelector(".ec-total strong").textContent, /210/);
     await act(async () =>
-      document.querySelector(".ec-gallery").dispatchEvent(
+      document.querySelector("[data-testid=gallery]").dispatchEvent(
         new window.KeyboardEvent("keydown", {
           key: "ArrowRight",
           bubbles: true,
         }),
       ),
     );
-    assert.match(document.querySelector(".ec-gallery img").src, /gallery/);
+    assert.match(
+      document.querySelector("[data-testid=gallery] img").src,
+      /gallery/,
+    );
     await act(async () =>
       document.querySelector(".ec-purchase > button").click(),
     );
@@ -304,7 +307,7 @@ test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across c
       ),
     );
     assert.ok(
-      [...document.querySelectorAll(".ec-accordion > button")].every(
+      [...document.querySelectorAll("section > button[aria-expanded]")].every(
         (b) => b.getAttribute("aria-expanded") === "false",
       ),
     );
@@ -345,7 +348,7 @@ test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across c
       ),
     );
     const accordion = document.querySelector(
-      ".ec-guest-menus .ec-accordion > button",
+      ".ec-guest-menus section > button[aria-expanded]",
     );
     await act(async () => accordion.click());
     await act(async () => accordion.click());
