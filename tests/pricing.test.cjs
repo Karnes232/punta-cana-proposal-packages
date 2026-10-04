@@ -1,6 +1,8 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { calculate } = require("../work/pricing-tests/pricing.js");
+const {
+  calculate,
+} = require("../work/pricing-tests/lib/experience/pricing.js");
 // Isolated test fixtures. Never sent to Sanity or included in production catalog.
 const addon = {
   _id: "a",
@@ -334,7 +336,7 @@ test("proposal premium extras cost 399/399/399/299 and require two complete dinn
   const {
     withProposalExtras,
     proposalDinnerId,
-  } = require("../work/pricing-tests/proposalExtras.js");
+  } = require("../work/pricing-tests/lib/experience/proposalExtras.js");
   const menu = dinner.menuItems.map((m) => ({ ...m, included: true }));
   const e = withProposalExtras(proposal, menu);
   const menus = [0, 1].map(() => ({
