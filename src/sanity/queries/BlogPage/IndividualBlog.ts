@@ -1,4 +1,4 @@
-import type { AppLocale } from "@/i18n/blogLocales";
+import type { AppLocale } from "@/i18n/locales";
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
@@ -96,7 +96,7 @@ const seoProjection = `seo {
   noFollow
 }`;
 
-export const individualBlogQueryString = `*[_type == "blogPost" && slug.current == $slug && language == $lang][0] {
+export const individualBlogQuery = `*[_type == "blogPost" && slug.current == $slug && language == $lang][0] {
   _id,
   language,
   translationGroup,
@@ -128,11 +128,11 @@ export const individualBlogQueryString = `*[_type == "blogPost" && slug.current 
   }
 }`;
 
-export const individualBlogQuery = async (
+export const getIndividualBlog = async (
   slug: string,
   lang: string,
 ): Promise<IndividualBlog | null> => {
-  return await client.fetch(individualBlogQueryString, { slug, lang });
+  return await client.fetch(individualBlogQuery, { slug, lang });
 };
 
 export interface IndividualBlogMetadata {
@@ -143,7 +143,7 @@ export interface IndividualBlogMetadata {
   hreflangSiblings: HreflangSibling[];
 }
 
-export const individualBlogMetadataQueryString = `*[_type == "blogPost" && slug.current == $slug && language == $lang][0] {
+export const individualBlogMetadataQuery = `*[_type == "blogPost" && slug.current == $slug && language == $lang][0] {
   language,
   "slug": slug.current,
   translationGroup,
@@ -154,14 +154,14 @@ export const individualBlogMetadataQueryString = `*[_type == "blogPost" && slug.
   }
 }`;
 
-export const individualBlogMetadataQuery = async (
+export const getIndividualBlogMetadata = async (
   slug: string,
   lang: string,
 ): Promise<IndividualBlogMetadata | null> => {
-  return await client.fetch(individualBlogMetadataQueryString, { slug, lang });
+  return await client.fetch(individualBlogMetadataQuery, { slug, lang });
 };
 
-export const moreBlogsQueryString = `*[_type == "blogPost" && slug.current != $slug && language == $lang] | order(publishedAt desc) {
+export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug && language == $lang] | order(publishedAt desc) {
   slug {
     current
   },
@@ -177,7 +177,7 @@ export const moreBlogsQueryString = `*[_type == "blogPost" && slug.current != $s
 
 export const findBlogPostLocaleBySlugQuery = `*[_type == "blogPost" && slug.current == $slug] | order(_updatedAt desc) [0] { language, "slug": slug.current }`;
 
-export const findBlogPostLocaleBySlug = async (
+export const getBlogPostLocaleBySlug = async (
   slug: string,
 ): Promise<{ language: string; slug: string } | null> => {
   return await client.fetch(findBlogPostLocaleBySlugQuery, { slug });
@@ -197,5 +197,5 @@ export const getMoreBlogs = async (
     heroPhoto: IndividualBlog["heroPhoto"];
   }[]
 > => {
-  return await client.fetch(moreBlogsQueryString, { slug, lang });
+  return await client.fetch(moreBlogsQuery, { slug, lang });
 };

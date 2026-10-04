@@ -2,19 +2,19 @@
 
 import { useEffect, useCallback } from "react";
 import Image from "next/image";
-import type { GalleryPhoto, StoryGalleryContent } from "./types";
+import type { GalleryPhoto, GalleryContent } from "./types";
 
-interface StoryGalleryLightboxProps {
+interface GalleryLightboxProps {
   photos: GalleryPhoto[];
   activeIndex: number;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
-  content: StoryGalleryContent;
+  content: GalleryContent;
   locale: "en" | "es";
 }
 
-export default function StoryGalleryLightbox({
+export default function GalleryLightbox({
   photos,
   activeIndex,
   onClose,
@@ -22,7 +22,7 @@ export default function StoryGalleryLightbox({
   onNext,
   content,
   locale,
-}: StoryGalleryLightboxProps) {
+}: GalleryLightboxProps) {
   const photo = photos[activeIndex];
   const closeLabel =
     locale === "es" ? content.closeLabelEs : content.closeLabelEn;

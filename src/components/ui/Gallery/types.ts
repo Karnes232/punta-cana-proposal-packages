@@ -12,7 +12,7 @@ export interface GalleryPhoto {
   caption?: string;
 }
 
-export interface StoryGalleryContent {
+export interface GalleryContent {
   sectionLabelEn: string;
   sectionLabelEs: string;
   /** "View all X photos" — use {count} as placeholder */
@@ -26,7 +26,7 @@ export interface StoryGalleryContent {
   nextLabelEs: string;
 }
 
-export const defaultStoryGalleryContent: StoryGalleryContent = {
+export const defaultGalleryContent: GalleryContent = {
   sectionLabelEn: "The Proposal",
   sectionLabelEs: "La Propuesta",
   viewAllLabelEn: "View all {count} photos",

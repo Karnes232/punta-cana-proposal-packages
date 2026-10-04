@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "@/i18n/navigation";
-import { ALL_LOCALES } from "@/i18n/blogLocales";
+import { ALL_LOCALES } from "@/i18n/locales";
 import { useBlogLanguageAlternates } from "./BlogLanguageAlternatesContext";
 
 /**

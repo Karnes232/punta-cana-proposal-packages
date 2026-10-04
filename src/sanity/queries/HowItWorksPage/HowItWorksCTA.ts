@@ -66,6 +66,6 @@ export const howItWorksCTAQuery = `*[_type == "HowItWorksPageHowItWorksCTA"][0] 
   secondaryCTAHref,
 }`;
 
-export async function howItWorksCTA(): Promise<HowItWorksCTA> {
+export async function getHowItWorksCta(): Promise<HowItWorksCTA> {
   return await client.fetch(howItWorksCTAQuery);
 }

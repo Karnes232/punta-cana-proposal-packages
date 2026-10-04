@@ -3,24 +3,24 @@
 import { useState } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
-import StoryGalleryLightbox from "./StoryGalleryLightbox";
+import GalleryLightbox from "./GalleryLightbox";
 import {
   GALLERY_VISIBLE_COUNT,
   type GalleryPhoto,
-  type StoryGalleryContent,
+  type GalleryContent,
 } from "./types";
 
-interface StoryGalleryGridProps {
+interface GalleryGridProps {
   photos: GalleryPhoto[];
-  content: StoryGalleryContent;
+  content: GalleryContent;
   locale: "en" | "es";
 }
 
-export default function StoryGalleryGrid({
+export default function GalleryGrid({
   photos,
   content,
   locale,
-}: StoryGalleryGridProps) {
+}: GalleryGridProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const visiblePhotos = photos.slice(0, GALLERY_VISIBLE_COUNT);
@@ -96,7 +96,7 @@ export default function StoryGalleryGrid({
       {/* Lightbox — rendered in a portal to escape stacking contexts */}
       {lightboxIndex !== null &&
         createPortal(
-          <StoryGalleryLightbox
+          <GalleryLightbox
             photos={photos}
             activeIndex={lightboxIndex}
             onClose={closeLightbox}

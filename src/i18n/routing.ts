@@ -1,6 +1,6 @@
 import { defineRouting } from "next-intl/routing";
 
-import { ALL_LOCALES } from "./blogLocales";
+import { ALL_LOCALES } from "./locales";
 
 export const routing = defineRouting({
   locales: [...ALL_LOCALES],

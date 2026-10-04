@@ -35,7 +35,7 @@ export const howItWorksFaqsCategoriesQuery = `*[_type == "HowItWorksPageHowItWor
     }
 }`;
 
-export async function howItWorksFaqsCategories(): Promise<
+export async function getHowItWorksFaqCategories(): Promise<
   HowItWorksFaqsCategories[]
 > {
   return await client.fetch(howItWorksFaqsCategoriesQuery);
@@ -80,6 +80,6 @@ export const howItWorksFaqsPageQuery = `*[_type == "HowItWorksPageHowItWorksFAQ"
     }
 `;
 
-export async function howItWorksFaqsPage(): Promise<HowItWorksFaqsPage> {
+export async function getHowItWorksFaqs(): Promise<HowItWorksFaqsPage> {
   return await client.fetch(howItWorksFaqsPageQuery);
 }

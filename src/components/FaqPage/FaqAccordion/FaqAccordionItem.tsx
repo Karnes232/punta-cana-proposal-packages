@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { Faqs } from "@/sanity/queries/FaqsPage/Faqs";
+import { Faqs } from "@/sanity/queries/FaqPage/Faqs";
 
 interface FaqAccordionItemProps {
   item: Faqs;

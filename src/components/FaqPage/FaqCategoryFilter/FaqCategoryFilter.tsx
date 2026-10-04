@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import FaqCategoryPill from "./FaqCategoryPill";
-import { FaqsCategories } from "@/sanity/queries/FaqsPage/Faqs";
+import { FaqsCategories } from "@/sanity/queries/FaqPage/Faqs";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 

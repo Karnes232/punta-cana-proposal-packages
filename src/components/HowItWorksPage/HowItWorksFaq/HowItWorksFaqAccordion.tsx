@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import HowItWorksFAQFilters from "./HowItWorksFAQFilters";
-import HowItWorksFAQItem from "./HowItWorksFAQItem";
+import HowItWorksFaqFilters from "./HowItWorksFaqFilters";
+import HowItWorksFaqItem from "./HowItWorksFaqItem";
 import type { FAQLocale } from "./types";
 import { faqUIContent } from "./types";
 import {
@@ -12,7 +12,7 @@ import {
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
-interface HowItWorksFAQAccordionProps {
+interface HowItWorksFaqAccordionProps {
   items: HowItWorksFaqs[];
   locale: FAQLocale;
   faqsCategories: HowItWorksFaqsCategories[];
@@ -20,11 +20,11 @@ interface HowItWorksFAQAccordionProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function HowItWorksFAQAccordion({
+export default function HowItWorksFaqAccordion({
   items,
   locale,
   faqsCategories,
-}: HowItWorksFAQAccordionProps) {
+}: HowItWorksFaqAccordionProps) {
   const t = faqUIContent[locale];
   const filterOptions = [
     { id: "all", label: t.categories.all },
@@ -55,7 +55,7 @@ export default function HowItWorksFAQAccordion({
   return (
     <div>
       {/* Filter pills */}
-      <HowItWorksFAQFilters
+      <HowItWorksFaqFilters
         options={filterOptions}
         active={activeCategory}
         onChange={handleCategoryChange}
@@ -79,7 +79,7 @@ export default function HowItWorksFAQAccordion({
         ) : (
           filtered.map((item) => (
             <div key={item._key} className="relative">
-              <HowItWorksFAQItem
+              <HowItWorksFaqItem
                 question={item.question[locale]}
                 answer={item.answer[locale]}
                 isOpen={openKey === item._key}

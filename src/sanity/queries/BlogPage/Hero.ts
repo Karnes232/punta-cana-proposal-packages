@@ -69,6 +69,6 @@ export const blogPageHeroQuery = `*[_type == "BlogPageHero"][0] {
   }
 }`;
 
-export const blogPageHero = async (): Promise<BlogPageHero> => {
+export const getBlogPageHero = async (): Promise<BlogPageHero> => {
   return await client.fetch(blogPageHeroQuery);
 };

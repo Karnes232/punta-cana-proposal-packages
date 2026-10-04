@@ -5,12 +5,12 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { routing } from "@/i18n/routing";
-import Navbar from "@/components/ExperienceCatalog/CatalogNavigation";
+import CatalogNavigation from "@/components/ExperienceCatalog/CatalogNavigation";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import type { Locale } from "@/lib/experience/types";
 import "@/components/ExperienceCatalog/catalog.css";
-import Footer from "@/components/ExperienceCatalog/CatalogFooter";
-import { BlogLanguageAlternatesProvider } from "@/components/LanguageSwitcher/BlogLanguageAlternatesContext";
+import CatalogFooter from "@/components/ExperienceCatalog/CatalogFooter";
+import { BlogLanguageAlternatesProvider } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -52,7 +52,7 @@ export default async function RootLayout({
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
           <BlogLanguageAlternatesProvider>
-            <Navbar
+            <CatalogNavigation
               locale={(locale === "es" ? "es" : "en") as Locale}
               settings={catalog.settings || {}}
               logo={generalLayout?.companyLogo?.asset?.url}
@@ -60,7 +60,7 @@ export default async function RootLayout({
             />
             {children}
           </BlogLanguageAlternatesProvider>
-          <Footer
+          <CatalogFooter
             locale={(locale === "es" ? "es" : "en") as Locale}
             settings={catalog.settings || {}}
             company={generalLayout}

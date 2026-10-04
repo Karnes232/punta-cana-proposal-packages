@@ -46,7 +46,7 @@ export const faqContactStripQuery = `*[_type == "FaqsPageFaqContactStrip"][0] {
   }
 }`;
 
-export const faqContactStrip = async (): Promise<FaqContactStrip> => {
+export const getFaqContactStrip = async (): Promise<FaqContactStrip> => {
   const query = await client.fetch(faqContactStripQuery);
   return query;
 };

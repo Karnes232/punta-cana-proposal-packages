@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { blogAllPostsFilterLabel } from "@/i18n/blogLocales";
+import { blogAllPostsFilterLabel } from "@/i18n/locales";
 
 interface BlogFilterBarProps {
   categories: {

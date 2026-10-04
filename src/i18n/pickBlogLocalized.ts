@@ -1,4 +1,4 @@
-import type { AppLocale } from "@/i18n/blogLocales";
+import type { AppLocale } from "@/i18n/locales";
 
 /** Fields stored from Sanity `blogLocalizedString` / `blogLocalizedText`. */
 export type BlogLocalizedValue = Partial<Record<AppLocale, string | undefined>>;

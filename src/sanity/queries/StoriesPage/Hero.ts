@@ -105,6 +105,6 @@ export const storiesPageHeroQuery = `*[_type == "StoriesPageHero"][0] {
   } 
 }`;
 
-export async function storiesPageHero(): Promise<StoriesPageHero> {
+export async function getStoriesPageHero(): Promise<StoriesPageHero> {
   return await client.fetch<StoriesPageHero>(storiesPageHeroQuery);
 }

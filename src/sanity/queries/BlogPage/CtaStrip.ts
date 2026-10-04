@@ -20,6 +20,6 @@ export const blogPageCtaStripQuery = `*[_type == "BlogPageCtaStrip"][0] {
   ctaHref,
 }`;
 
-export const blogPageCtaStrip = async () => {
+export const getBlogPageCtaStrip = async () => {
   return await client.fetch<BlogPageCtaStrip>(blogPageCtaStripQuery);
 };

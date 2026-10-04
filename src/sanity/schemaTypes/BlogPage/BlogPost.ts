@@ -1,6 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { ComposeIcon } from "@sanity/icons";
-import { ALL_LOCALES } from "../../../i18n/blogLocales";
+import { ALL_LOCALES } from "../../../i18n/locales";
 
 const languageOptions = ALL_LOCALES.map((code) => ({
   title: code.toUpperCase(),

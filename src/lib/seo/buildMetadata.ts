@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { generateHreflangAlternates } from "@/i18n/hreflang";
-import type { SiteLocale } from "@/i18n/blogLocales";
+import type { SiteLocale } from "@/i18n/locales";
 
 export type SeoLocale = SiteLocale;
 

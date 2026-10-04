@@ -1,21 +1,21 @@
-import StoryGalleryGrid from "./StoryGalleryGrid";
+import GalleryGrid from "./GalleryGrid";
 import {
-  defaultStoryGalleryContent,
+  defaultGalleryContent,
   type GalleryPhoto,
-  type StoryGalleryContent,
+  type GalleryContent,
 } from "./types";
 
-interface StoryGalleryProps {
+interface GalleryProps {
   photos: GalleryPhoto[];
   locale: "en" | "es";
-  content?: StoryGalleryContent;
+  content?: GalleryContent;
 }
 
-export default function StoryGallery({
+export default function Gallery({
   photos,
   locale,
-  content = defaultStoryGalleryContent,
-}: StoryGalleryProps) {
+  content = defaultGalleryContent,
+}: GalleryProps) {
   if (!photos || photos.length === 0) return null;
 
   const sectionLabel =
@@ -36,7 +36,7 @@ export default function StoryGallery({
           <span className="block flex-1 h-px bg-gold/20" aria-hidden="true" />
         </div>
 
-        <StoryGalleryGrid photos={photos} content={content} locale={locale} />
+        <GalleryGrid photos={photos} content={content} locale={locale} />
       </div>
     </section>
   );

@@ -7,7 +7,7 @@ export interface FAQFilterOption {
   label: string;
 }
 
-interface HowItWorksFAQFiltersProps {
+interface HowItWorksFaqFiltersProps {
   options: FAQFilterOption[];
   active: string;
   onChange: (id: string) => void;
@@ -15,11 +15,11 @@ interface HowItWorksFAQFiltersProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function HowItWorksFAQFilters({
+export default function HowItWorksFaqFilters({
   options,
   active,
   onChange,
-}: HowItWorksFAQFiltersProps) {
+}: HowItWorksFaqFiltersProps) {
   return (
     <div
       className="flex flex-wrap justify-center gap-2 mb-10"

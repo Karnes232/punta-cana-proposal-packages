@@ -14,6 +14,6 @@ export const blogCategoriesQuery = `*[_type == "BlogCategory"] {
   value
 }`;
 
-export const blogCategories = async (): Promise<BlogCategory[]> => {
+export const getBlogCategories = async (): Promise<BlogCategory[]> => {
   return await client.fetch(blogCategoriesQuery);
 };

@@ -41,10 +41,10 @@ export const faqsPageFaqsQuery = `*[_type == "FaqsPageFaqs"] {
 }
 `;
 
-export async function faqsPageFaqsCategories(): Promise<FaqsCategories[]> {
+export async function getFaqCategories(): Promise<FaqsCategories[]> {
   return await client.fetch(faqsPageFaqsCategoriesQuery);
 }
 
-export async function faqsPageFaqs(): Promise<Faqs[]> {
+export async function getFaqs(): Promise<Faqs[]> {
   return await client.fetch(faqsPageFaqsQuery);
 }

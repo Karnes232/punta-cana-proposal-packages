@@ -1,6 +1,6 @@
 import StoriesHero from "@/components/StoriesPage/HeroComponent/StoriesHero";
-import StoriesFilteredSection from "@/components/StoriesPage/StoriesFilteredSection";
-import { storiesPageHero } from "@/sanity/queries/StoriesPage/Hero";
+import StoriesFilteredSection from "@/components/StoriesPage/StoriesFilteredSection/StoriesFilteredSection";
+import { getStoriesPageHero } from "@/sanity/queries/StoriesPage/Hero";
 import { getProposalTypes } from "@/sanity/queries/StoriesPage/ProposalTypes";
 //
 import CtaStrip from "@/components/ui/CtaStrip";
@@ -13,9 +13,9 @@ import {
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
-import { storiesPageCtaStrip } from "@/sanity/queries/StoriesPage/CtaStripe";
+import { getStoriesPageCtaStrip } from "@/sanity/queries/StoriesPage/CtaStrip";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/blogLocales";
+import { toSiteLocale } from "@/i18n/locales";
 
 export default async function Stories({
   params,
@@ -26,11 +26,11 @@ export default async function Stories({
   requireLocale(locale);
   const [hero, proposalTypes, allStories, structuredData, ctaStrip] =
     await Promise.all([
-      storiesPageHero(),
+      getStoriesPageHero(),
       getProposalTypes(),
       getAllStories(),
       getStructuredData("stories"),
-      storiesPageCtaStrip(),
+      getStoriesPageCtaStrip(),
     ]);
   const localeTyped = toSiteLocale(locale);
 

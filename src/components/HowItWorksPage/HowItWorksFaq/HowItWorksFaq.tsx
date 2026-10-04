@@ -1,6 +1,6 @@
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
-import HowItWorksFAQHeader from "./HowItWorksFAQHeader";
-import HowItWorksFAQAccordion from "./HowItWorksFAQAccordion";
+import HowItWorksFaqHeader from "./HowItWorksFaqHeader";
+import HowItWorksFaqAccordion from "./HowItWorksFaqAccordion";
 import {
   HowItWorksFaqs,
   HowItWorksFaqsCategories,
@@ -8,7 +8,7 @@ import {
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
-interface HowItWorksFAQProps {
+interface HowItWorksFaqProps {
   locale: "en" | "es";
   faqsCategories: HowItWorksFaqsCategories[];
   eyebrow: string;
@@ -20,7 +20,7 @@ interface HowItWorksFAQProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default async function HowItWorksFAQ({
+export default async function HowItWorksFaq({
   locale,
   faqsCategories,
   eyebrow,
@@ -28,7 +28,7 @@ export default async function HowItWorksFAQ({
   headingAccent,
   subheading,
   faqs,
-}: HowItWorksFAQProps) {
+}: HowItWorksFaqProps) {
   const items = faqs;
 
   return (
@@ -38,7 +38,7 @@ export default async function HowItWorksFAQ({
     >
       <div className="max-w-3xl mx-auto px-6 md:px-10">
         <RevealOnScroll>
-          <HowItWorksFAQHeader
+          <HowItWorksFaqHeader
             eyebrow={eyebrow}
             heading={heading}
             headingAccent={headingAccent}
@@ -48,7 +48,7 @@ export default async function HowItWorksFAQ({
 
         <RevealOnScroll delay={100}>
           {/* Accordion is a client component — receives pre-fetched items as props */}
-          <HowItWorksFAQAccordion
+          <HowItWorksFaqAccordion
             items={items}
             locale={locale}
             faqsCategories={faqsCategories}

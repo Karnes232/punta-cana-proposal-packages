@@ -1,5 +1,5 @@
-import RegisterBlogPostAlternates from "@/components/LanguageSwitcher/RegisterBlogPostAlternates";
-import { individualBlogMetadataQuery } from "@/sanity/queries/BlogPage/IndividualBlog";
+import RegisterBlogPostAlternates from "@/components/BlogLanguageAlternates/RegisterBlogPostAlternates";
+import { getIndividualBlogMetadata } from "@/sanity/queries/BlogPage/IndividualBlog";
 
 export default async function BlogPostLayout({
   children,
@@ -9,7 +9,7 @@ export default async function BlogPostLayout({
   params: Promise<{ locale: string; slug: string }>;
 }>) {
   const { slug, locale } = await params;
-  const metadata = await individualBlogMetadataQuery(slug, locale);
+  const metadata = await getIndividualBlogMetadata(slug, locale);
   const siblings =
     metadata && metadata.language === locale ? metadata.hreflangSiblings : null;
 

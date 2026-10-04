@@ -9,7 +9,7 @@ import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/blogLocales";
+import { toSiteLocale } from "@/i18n/locales";
 
 export default async function Terms({
   params,

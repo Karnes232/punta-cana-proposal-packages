@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState } from "react";
-import { useBlogLanguageAlternates } from "@/components/LanguageSwitcher/BlogLanguageAlternatesContext";
+import { useBlogLanguageAlternates } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 import { usePathname } from "next/navigation";
 import type { Locale, Settings } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";

@@ -1,7 +1,7 @@
 import StoryHero from "@/components/IndividualStoryPage/HeroComponent/StoryHero";
 import MoreStories from "@/components/IndividualStoryPage/MoreStories/MoreStories";
 import StoryBody from "@/components/IndividualStoryPage/StoryBody/StoryBody";
-import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
+import Gallery from "@/components/ui/Gallery/Gallery";
 import StoryMetaBar from "@/components/IndividualStoryPage/StoryMetaBar/StoryMetaBar";
 import JsonLd from "@/components/seo/JsonLd";
 import {
@@ -13,11 +13,11 @@ import { siteCanonicalUrl } from "@/lib/seo/constants";
 import {
   getIndividualStory,
   getMoreStories,
-  individualStorySEOQuery,
+  getIndividualStorySeo,
 } from "@/sanity/queries/StoriesPage/IndividualStory";
 import { notFound } from "next/navigation";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/blogLocales";
+import { toSiteLocale } from "@/i18n/locales";
 
 export default async function StoryPage({
   params,
@@ -68,7 +68,7 @@ export default async function StoryPage({
           body: story.body[localeTyped] ?? [],
         }}
       />
-      <StoryGallery
+      <Gallery
         photos={
           // Gallery is optional in Sanity and comes back as null when empty.
           (story.gallery ?? []).map((photo) => ({
@@ -102,7 +102,7 @@ export async function generateMetadata({
 }) {
   const { slug, locale } = await params;
   requireLocale(locale);
-  const individualStory = await individualStorySEOQuery(slug);
+  const individualStory = await getIndividualStorySeo(slug);
   const path = `/stories/${slug}`;
   const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!individualStory) {

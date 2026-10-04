@@ -1,16 +1,16 @@
-interface HowItWorksFAQHeaderProps {
+interface HowItWorksFaqHeaderProps {
   eyebrow: string;
   heading: string;
   headingAccent: string;
   subheading: string;
 }
 
-export default function HowItWorksFAQHeader({
+export default function HowItWorksFaqHeader({
   eyebrow,
   heading,
   headingAccent,
   subheading,
-}: HowItWorksFAQHeaderProps) {
+}: HowItWorksFaqHeaderProps) {
   return (
     <div className="flex flex-col items-center gap-4 text-center mb-12">
       {/* Eyebrow */}

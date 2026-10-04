@@ -1,18 +1,18 @@
 "use client";
 
-interface HowItWorksFAQItemProps {
+interface HowItWorksFaqItemProps {
   question: string;
   answer: string;
   isOpen: boolean;
   onToggle: () => void;
 }
 
-export default function HowItWorksFAQItem({
+export default function HowItWorksFaqItem({
   question,
   answer,
   isOpen,
   onToggle,
-}: HowItWorksFAQItemProps) {
+}: HowItWorksFaqItemProps) {
   return (
     <div
       className={`

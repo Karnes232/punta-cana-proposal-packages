@@ -48,6 +48,7 @@ export const storiesPageCtaStripQuery = `*[_type == "StoriesPageCtaStrip"][0] {
   ctaHref,
 }`;
 
-export const storiesPageCtaStrip = async (): Promise<StoriesPageCtaStrip> => {
-  return await client.fetch<StoriesPageCtaStrip>(storiesPageCtaStripQuery);
-};
+export const getStoriesPageCtaStrip =
+  async (): Promise<StoriesPageCtaStrip> => {
+    return await client.fetch<StoriesPageCtaStrip>(storiesPageCtaStripQuery);
+  };

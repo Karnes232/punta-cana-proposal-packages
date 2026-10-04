@@ -54,6 +54,6 @@ export const faqsPageHeroComponentQuery = `*[_type == "FaqsPageHeroComponent"][0
   }
 }`;
 
-export const faqsPageHeroComponent = async () => {
+export const getFaqPageHero = async () => {
   return await client.fetch(faqsPageHeroComponentQuery);
 };

@@ -1,4 +1,4 @@
-import type { AppLocale } from "@/i18n/blogLocales";
+import type { AppLocale } from "@/i18n/locales";
 
 export const SITE_URL = "https://puntacanaproposalpackages.com";
 

@@ -1,7 +1,7 @@
 import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 
-import type { AppLocale } from "./blogLocales";
+import type { AppLocale } from "./locales";
 import { routing } from "./routing";
 
 /**

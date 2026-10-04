@@ -236,13 +236,13 @@ export const getAllStories = async (): Promise<AllStoriesCard[]> => {
   return client.fetch(allStoriesQuery);
 };
 
-export const individualStorySEOQueryString = `*[_type == "individualStory" && slug.current == $slug][0] {
+export const individualStorySeoQuery = `*[_type == "individualStory" && slug.current == $slug][0] {
   _id,
   ${localizedSeoProjection}
 }`;
 
-export const individualStorySEOQuery = async (
+export const getIndividualStorySeo = async (
   slug: string,
 ): Promise<EmbeddedLocalizedDocumentSeo | null> => {
-  return client.fetch(individualStorySEOQueryString, { slug });
+  return client.fetch(individualStorySeoQuery, { slug });
 };
