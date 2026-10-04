@@ -27,7 +27,7 @@ export default async function Page({
             label(settings, locale, "contactUsLabel")}
         </h1>
         <p>{local(c?.description, locale)}</p>
-        <div className="ec-contact-grid">
+        <div className="grid grid-cols-[2fr_1fr] gap-[50px] upto800:grid-cols-[1fr]">
           <AvailabilityForm locale={locale} settings={settings} />
           <aside>
             {(c?.telephone || company?.telephone) && (

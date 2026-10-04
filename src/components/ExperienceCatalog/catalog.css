@@ -132,18 +132,6 @@
     font-size: 0.75rem;
     color: var(--ec-muted);
   }
-  .ec-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0 16px;
-  }
-  .ec-form .ec-honeypot {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-  }
   .ec-contact-cta {
     border-top: 1px solid var(--ec-border);
     padding: 45px 0;
@@ -206,14 +194,8 @@
     outline: 3px solid #9b773d;
     outline-offset: 3px;
   }
-  .ec-contact-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 50px;
-  }
   @media (max-width: 800px) {
-    .ec-grid,
-    .ec-contact-grid {
+    .ec-grid {
       grid-template-columns: 1fr;
     }
     .ec-nav {
@@ -239,9 +221,6 @@
     }
     .ec-section {
       padding: 36px 0;
-    }
-    .ec-form-grid {
-      grid-template-columns: 1fr;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -353,9 +332,6 @@
   }
   .ec-proposal-card small {
     color: #b9b7b5;
-  }
-  .ec-proposal-card .ec-form {
-    cursor: auto;
   }
   @media (max-width: 800px) {
     .ec-proposals-section {
@@ -489,23 +465,6 @@
   .ec-privacy-note strong {
     font-family: var(--font-playfair), serif;
     font-size: 1.5rem;
-  }
-  .ec-date-flexibility {
-    display: flex !important;
-    align-items: center;
-    gap: 12px;
-    margin-block: 24px;
-  }
-  .ec-date-flexibility input {
-    width: 20px !important;
-    height: 20px;
-    accent-color: #9b773d;
-  }
-  .ec-request-policy {
-    border-top: 1px solid var(--ec-border);
-    border-bottom: 1px solid var(--ec-border);
-    padding: 8px 0;
-    margin: 24px 0;
   }
   .lux-home h1 {
     font-size: clamp(3.5rem, 6vw, 6.5rem);
@@ -1103,10 +1062,6 @@
   .lux-hero {
     min-height: 100svh;
     padding-top: 176px;
-  }
-  .ec-request-dialog .ec-form input,
-  .ec-request-dialog .ec-form textarea {
-    color: #0b0b0c;
   }
   @media (max-width: 700px) {
     .ec-header-home {
