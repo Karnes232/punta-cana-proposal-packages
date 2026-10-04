@@ -54,12 +54,53 @@ Never commit minified or one-line code.
 - **Secrets stay out of git.** `.env*` files are ignored (except
   `.env.example`). Never prefix a secret with `NEXT_PUBLIC_`.
 
+## Styling
+
+- Use Tailwind classes in the component. There is no per-feature stylesheet;
+  `src/app/globals.css` holds the theme tokens (`gold`, `ivory`, `black`,
+  `gray`, fonts, fluid type sizes), keyframes and a small base layer.
+- Experience catalog breakpoints use the `upto390`, `upto600`, `upto700`,
+  `upto800` and `upto1280` variants (inclusive max-width, e.g.
+  `upto700:p-6`), not `max-[700px]:`, which switches 1px later.
+- Reuse the helpers in `src/components/ExperienceCatalog/styles.ts`
+  (`shellClass`, `wrapClass`, `buttonClass`, `eyebrowClass`, the `home*`
+  blocks). To change one part of a button, pass that part (`layout`,
+  `height`, `colors`, ...) rather than adding a second conflicting class.
+- Element defaults inside catalog pages (`p`, `small`, form fields, headings)
+  are the `@layer base` block in `globals.css`, scoped to `.ec-shell`. A
+  class on the element overrides them.
+- Shared page pieces live in `src/components/ui/` (hero backgrounds and
+  headings, CTA strip, carousel, gallery, load more). Use them instead of
+  copying markup.
+
+## Where text lives
+
+- **Editable catalog text** (proposals, dinners, home, nav, footer): the
+  defaults are in `src/lib/experience/labels.ts` (`ui`) and `homeCopy.ts`.
+  Adding a key there and to `labelKeys` (or `homeCopy`) gives editors a field
+  in Catalog Settings / Catalog Home; `label()` and `homeText()` fall back to
+  the default when the field is empty.
+- **Other UI text** (blog, stories, FAQ, gallery, 404): `messages/en.json`
+  and `messages/es.json`, read with `useTranslations` / `getTranslations`.
+- Page content itself (headings, paragraphs, images) comes from Sanity.
+- Don't write `locale === "es" ? "…" : "…"` in components.
+
+## Constants, tools and redirects
+
+- Named document IDs and slugs: `src/sanity/constants.ts`.
+- Studio tools (proposal and dinner templates): `src/sanity/tools/`.
+- Legacy URL redirects and blog-only locale handling: `src/proxy.ts`.
+- One-off Sanity scripts: `scripts/` (`npm run catalog:*`). Back up the
+  dataset before running anything that writes to production.
+
 ## Useful commands
 
 | Command                | What it does                                             |
 | ---------------------- | -------------------------------------------------------- |
 | `npm run dev`          | Local site at http://localhost:3000, Studio at `/studio` |
-| `npm run check`        | Typecheck, lint, format check, tests                     |
+| `npm run check`        | Typegen, typecheck, lint, format check, tests            |
+| `npm test`             | Pricing, request API and component tests                 |
+| `npm run typegen`      | Regenerate `schema.json` and `sanity.types.ts`           |
 | `npm run format`       | Format everything with Prettier                          |
 | `npm run build`        | Production build of the site                             |
 | `npm run studio:build` | Standalone Studio build (what `sanity deploy` uses)      |
