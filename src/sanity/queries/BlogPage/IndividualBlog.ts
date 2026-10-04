@@ -2,6 +2,7 @@ import type { AppLocale } from "@/i18n/blogLocales";
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
+import { imageWithDimensions, seoImageFields } from "../fragments";
 
 export type HreflangSibling = { language: string; slug: string };
 
@@ -87,10 +88,7 @@ const seoProjection = `seo {
   },
   "image": select(
     defined(image.asset._ref) => {
-      "url": image.asset->url,
-      "alt": image.alt,
-      "width": image.asset->metadata.dimensions.width,
-      "height": image.asset->metadata.dimensions.height
+      ${seoImageFields}
     }
   ),
   structuredData,
@@ -116,28 +114,10 @@ export const individualBlogQueryString = `*[_type == "blogPost" && slug.current 
   readingTime,
   excerpt,
   heroPhoto {
-    asset-> {
-      url,
-      metadata {
-        dimensions {
-          width,
-          height
-        }
-      }
-    },
-    alt
+    ${imageWithDimensions}
   },
   gallery[] {
-    asset-> {
-      url,
-      metadata {
-        dimensions {
-          width,
-          height
-        }
-      }
-    },
-    alt,
+    ${imageWithDimensions},
     caption
   },
   body,
@@ -191,16 +171,7 @@ export const moreBlogsQueryString = `*[_type == "blogPost" && slug.current != $s
   readingTime,
   excerpt,
   heroPhoto {
-    asset-> {
-      url,
-      metadata {
-        dimensions {
-          width,
-          height
-        }
-      }
-    },
-    alt
+    ${imageWithDimensions}
   },
 }`;
 

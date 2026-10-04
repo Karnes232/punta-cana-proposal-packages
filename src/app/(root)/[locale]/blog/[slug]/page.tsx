@@ -18,6 +18,7 @@ import {
   individualBlogQuery,
 } from "@/sanity/queries/BlogPage/IndividualBlog";
 import { notFound, permanentRedirect } from "next/navigation";
+import { requireLocale } from "@/i18n/requireLocale";
 
 function parseJsonLd(raw: string | null | undefined): unknown {
   if (raw == null || raw === "") return null;
@@ -34,6 +35,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await params;
+  requireLocale(locale);
 
   const individualBlog = await individualBlogQuery(slug, locale);
   const moreBlogs = individualBlog
@@ -143,6 +145,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await params;
+  requireLocale(locale);
   const path = blogPostPath(slug);
   const canonicalUrl = siteCanonicalUrl(locale, path);
   const row = await individualBlogMetadataQuery(slug, locale);

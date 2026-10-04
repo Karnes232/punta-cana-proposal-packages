@@ -16,6 +16,8 @@ import {
   individualStorySEOQuery,
 } from "@/sanity/queries/StoriesPage/IndividualStory";
 import { notFound } from "next/navigation";
+import { requireLocale } from "@/i18n/requireLocale";
+import { toSiteLocale } from "@/i18n/blogLocales";
 
 export default async function StoryPage({
   params,
@@ -23,7 +25,8 @@ export default async function StoryPage({
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await params;
-  const localeTyped = locale as "en" | "es";
+  requireLocale(locale);
+  const localeTyped = toSiteLocale(locale);
   const [story] = await Promise.all([getIndividualStory(slug)]);
   if (!story) {
     notFound();
@@ -98,6 +101,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; locale: "en" | "es" }>;
 }) {
   const { slug, locale } = await params;
+  requireLocale(locale);
   const individualStory = await individualStorySEOQuery(slug);
   const path = `/stories/${slug}`;
   const canonicalUrl = siteCanonicalUrl(locale, path);

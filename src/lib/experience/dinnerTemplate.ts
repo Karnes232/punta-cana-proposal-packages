@@ -1,6 +1,6 @@
 import type { Experience, Course } from "./types";
 const l = (en: string, es: string) => ({ en, es });
-export const dinnerTemplateId = "8d9e1e5f-d981-4276-ab95-8d88a3ebd429";
+export { DINNER_TEMPLATE_ID as dinnerTemplateId } from "@/sanity/constants";
 const courseNames: Record<Course, [string, string]> = {
   starter: ["Starter", "Entrada"],
   main: ["Main course", "Plato principal"],

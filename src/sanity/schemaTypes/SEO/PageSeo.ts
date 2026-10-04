@@ -12,10 +12,6 @@ export default defineType({
       options: {
         list: [
           { title: "Home", value: "home" },
-          { title: "Classic Proposals", value: "classic-proposals" },
-          { title: "Modern Proposals", value: "modern-proposals" },
-          { title: "Dining Proposals", value: "dining-proposals" },
-          { title: "Adventure Proposals", value: "adventure-proposals" },
           { title: "Stories", value: "stories" },
           { title: "How It Works", value: "how-it-works" },
           { title: "FAQ", value: "faq" },

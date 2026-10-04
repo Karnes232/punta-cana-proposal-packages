@@ -8,6 +8,7 @@ import {
 import { populateVisualTemplate } from "./populateVisualTemplate";
 import { useState } from "react";
 import { useClient } from "sanity";
+import { apiVersion } from "../env";
 import {
   dinnerTemplateId,
   dinnerTemplateFields,
@@ -15,7 +16,7 @@ import {
   templateAddons,
 } from "@/lib/experience/dinnerTemplate";
 export default function DinnerTemplateTool() {
-  const client = useClient({ apiVersion: "2026-03-07" });
+  const client = useClient({ apiVersion });
   const [status, setStatus] = useState("");
   return (
     <div style={{ padding: 32, maxWidth: 780, margin: "auto" }}>

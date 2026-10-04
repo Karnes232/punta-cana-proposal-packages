@@ -139,10 +139,7 @@ export const catalogHome = defineType({
       of: [
         {
           type: "reference",
-          to: [
-            { type: "proposalExperience" },
-            { type: "IndividualProposalPackage" },
-          ],
+          to: [{ type: "proposalExperience" }],
         },
       ],
       validation: (r) => r.max(3).unique(),

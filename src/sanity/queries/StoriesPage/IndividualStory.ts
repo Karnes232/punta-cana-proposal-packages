@@ -1,21 +1,7 @@
 import type { PortableTextBlock } from "@portabletext/react";
 import { client } from "@/sanity/lib/client";
 import type { EmbeddedLocalizedDocumentSeo } from "../SEO/embeddedLocalizedSeo";
-
-// ── Shared image fragment ─────────────────────────────────────────────────────
-
-const imageFragment = `
-  asset-> {
-    url,
-    metadata {
-      dimensions {
-        width,
-        height
-      }
-    }
-  },
-  alt
-`;
+import { imageWithDimensions, localizedSeoProjection } from "../fragments";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -138,9 +124,9 @@ export const individualStoryQuery = `
     packageTag { en, es },
     date,
     location { en, es },
-    heroPhoto { ${imageFragment} },
+    heroPhoto { ${imageWithDimensions} },
     gallery[] {
-      ${imageFragment},
+      ${imageWithDimensions},
       caption { en, es }
     },
     quote { en, es },
@@ -174,7 +160,7 @@ export const moreStoriesQuery = `
     packageTag { en, es },
     date,
     location { en, es },
-    heroPhoto { ${imageFragment} },
+    heroPhoto { ${imageWithDimensions} },
     quote { en, es }
   }
 `;
@@ -251,7 +237,7 @@ export const allStoriesQuery = `
     packageTag { en, es },
     proposalType-> { value, label { en, es } },
     quote { en, es },
-    heroPhoto { ${imageFragment} }
+    heroPhoto { ${imageWithDimensions} }
   }
 `;
 
@@ -259,95 +245,9 @@ export const getAllStories = async (): Promise<AllStoriesCard[]> => {
   return client.fetch(allStoriesQuery);
 };
 
-export interface relatedStories {
-  slug?: {
-    current: string;
-  };
-  names: string;
-  date: string;
-  location: {
-    en: string;
-    es: string;
-  };
-  proposalType: {
-    value: string;
-    label: {
-      en: string;
-      es: string;
-    };
-  };
-  quote: {
-    en: string;
-    es: string;
-  };
-  heroPhoto: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
-    alt: string;
-  };
-}
-
-export const relatedStoriesQuery = `
-    *[_type == "individualStory" && proposalType->value == $proposalTypeValue] | order(publishedAt desc) [0...2] {
-      slug,
-      names,
-      date,
-      location { en, es },
-      proposalType-> { value, label { en, es } },
-      quote { en, es },
-      heroPhoto { ${imageFragment} }
-    }
-  `;
-
-export const getRelatedStories = async (
-  proposalTypeValue: string,
-): Promise<relatedStories[]> => {
-  return client.fetch(relatedStoriesQuery, { proposalTypeValue });
-};
-
 export const individualStorySEOQueryString = `*[_type == "individualStory" && slug.current == $slug][0] {
   _id,
-  seo {
-        meta {
-    en {
-      title,
-      description,
-      keywords
-    },
-    es {
-      title,
-      description,
-      keywords
-    }
-  },
-  // Open Graph data
-  openGraph {
-    en {
-      title,
-      description
-    },
-    es {
-      title,
-      description
-    },
-    "image": {
-      "url": image.asset->url,
-      "alt": image.alt,
-      "width": image.asset->metadata.dimensions.width,
-      "height": image.asset->metadata.dimensions.height
-    }
-  },
-  // Other SEO settings
-  noIndex,
-  noFollow
-    }
+  ${localizedSeoProjection}
 }`;
 
 export const individualStorySEOQuery = async (

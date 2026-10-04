@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { imageWithDimensions } from "../fragments";
 
 export interface FaqsPageHeroComponent {
   heroImage?: {
@@ -33,16 +34,7 @@ export interface FaqsPageHeroComponent {
 
 export const faqsPageHeroComponentQuery = `*[_type == "FaqsPageHeroComponent"][0] {
   heroImage {
-    asset-> {
-      url,
-      metadata {
-        dimensions {
-          width,
-          height
-        }
-      }
-    },
-    alt
+    ${imageWithDimensions}
   },
   eyebrow {
     en,

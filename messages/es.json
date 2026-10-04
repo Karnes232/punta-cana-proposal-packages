@@ -1,37 +1,4 @@
 {
-  "Navbar": {
-    "classic": "Clásico",
-    "modern": "Moderno",
-    "dining": "Cena",
-    "adventure": "Aventura",
-    "stories": "Historias",
-    "howItWorks": "Cómo funciona",
-    "contact": "Contacto"
-  },
-  "Footer": {
-    "packages": "Paquetes",
-    "company": "Empresa",
-    "getInTouch": "Contactar",
-    "location": "Punta Cana, República Dominicana",
-    "howItWorks": "Cómo funciona",
-    "contactUs": "Contactar",
-    "faq": "FAQ",
-    "blog": "Blog",
-    "classicProposals": "Proposiciones Clásicas",
-    "modernProposals": "Proposiciones Modernas",
-    "diningProposals": "Proposiciones de Cena",
-    "adventureProposals": "Proposiciones de Aventura",
-    "stories": "Historias",
-    "privacyPolicy": "Política de Privacidad",
-    "termsOfService": "Términos de Servicio",
-    "allRightsReserved": "Todos los derechos reservados",
-    "builtBy": "Desarrollado por",
-    "developedBy": "Desarrollo Web en República Dominicana"
-  },
-  "FeaturedStoryCard": {
-    "readTheirStory": "Leer su Historia",
-    "viewAllStories": "Ver todas las Historias"
-  },
   "IndividualStoryPage": {
     "allStories": "Todas las Historias",
     "package": "Paquete",
@@ -40,114 +7,12 @@
     "proposed": "Propuesta",
     "bookThisExperience": "Reserva Esta Experiencia"
   },
-  "ContactPageForm": {
-    "namePlaceholder": "Tu nombre",
-    "nameLabel": "Nombre Completo",
-    "emailLabel": "Correo Electrónico",
-    "emailPlaceholder": "tu@correo.com",
-    "packageLabel": "Paquete de Preferencia",
-    "packageDefault": "Selecciona un paquete",
-    "notSure": "Aún no lo sé",
-    "dateLabel": "Fecha de la Propuesta",
-    "timeLabel": "Hora Preferida",
-    "timeDefault": "Selecciona una hora",
-    "messageLabel": "Tu Mensaje",
-    "messagePlaceholder": "Cuéntanos tu visión — el lugar, el estilo, cualquier detalle que importa...",
-    "submitLabel": "Enviar Mensaje",
-    "submitting": "Enviando...",
-    "successHeading": "Mensaje Recibido",
-    "successBody": "Gracias por contactarnos. Te responderemos en menos de 24 horas para comenzar a planificar tu momento perfecto.",
-    "successCta": "Volver al inicio",
-    "contactEyebrow": "¿Prefieres contactarnos directamente?",
-    "whatsappLabel": "WhatsApp",
-    "whatsappSub": "Chatea con nosotros al instante",
-    "emailContactLabel": "Correo",
-    "emailContactSub": "Respondemos en menos de 24 horas",
-    "locationLabel": "Nuestra Ubicación",
-    "locationCity": "Punta Cana, República Dominicana",
-    "locationDetail": "Operamos en múltiples ubicaciones premium en la zona de Punta Cana y Bávaro. El lugar exacto se confirma durante la consulta.",
-    "mapsLink": "Ver en Google Maps",
-    "validationNameRequired": "Por favor, escribe tu nombre.",
-    "validationNameMin": "Escribe al menos 2 caracteres.",
-    "validationEmailRequired": "Por favor, escribe tu correo electrónico.",
-    "validationEmailInvalid": "Introduce un correo electrónico válido.",
-    "validationPackageRequired": "Selecciona un paquete o «Aún no lo sé».",
-    "validationDateRequired": "Por favor, elige la fecha de la propuesta.",
-    "validationDateInvalid": "Introduce una fecha válida.",
-    "validationDatePast": "Elige hoy o una fecha futura.",
-    "validationTimeRequired": "Selecciona una hora preferida.",
-    "validationMessageRequired": "Cuéntanos un poco sobre tus planes.",
-    "validationMessageMin": "Escribe al menos 15 caracteres para poder ayudarte."
-  },
   "FaqPage": {
     "emptyLabel": "No hay preguntas en esta categoría todavía.",
     "previous": "Anterior",
     "next": "Siguiente",
     "page": "Página",
     "of": "de"
-  },
-  "PackagePage": {
-    "CustomizationSelector": {
-      "tierStandard": "Estándar",
-      "tierPremium": "Premium",
-      "colorTitle": "Paleta de Color",
-      "floralTitle": "Estilo Floral",
-      "toneTitle": "Tono General",
-      "noPackageSelected": "Selecciona un paquete arriba para ver las opciones de color",
-      "premiumUnlocked": "Opciones premium desbloqueadas — florales elevados, paletas más ricas y estilos exclusivos."
-    },
-    "PackageInclusions": {
-      "eyebrow": "¿Qué incluye?",
-      "headingLine1": "Todo lo que necesitas",
-      "headingLine2": "para hacer tu evento inolvidable"
-    },
-    "PackageHero": {
-      "breadcrumb": "Proposiciones de Cena",
-      "startingAtLabel": "A partir de",
-      "diningProposals": "Proposiciones de Cena",
-      "classicProposals": "Proposiciones Clásicas",
-      "modernProposals": "Proposiciones Modernas",
-      "adventureProposals": "Proposiciones de Aventura"
-    },
-    "BookingForm": {
-      "variantTitle": "Elige Tu Estilo",
-      "addonTitle": "Agrega Extras (Opcional)",
-      "detailsTitle": "Tus Datos",
-      "name": "Nombre Completo",
-      "hotel": "Hotel / Resort",
-      "phone": "Número de Teléfono",
-      "email": "Correo Electrónico",
-      "date": "Fecha de la Propuesta",
-      "notes": "¿Algo más que quieras contarnos?",
-      "notesPlaceholder": "Solicitudes especiales, preferencias de horario, sorpresas…",
-      "submit": "Enviar Solicitud de Reserva",
-      "submitting": "Enviando…",
-      "successTitle": "¡Gracias!",
-      "successMessage": "Hemos recibido tu solicitud y nos pondremos en contacto en menos de 24 horas para comenzar a planificar tu momento perfecto.",
-      "summaryBasePrice": "Precio Base",
-      "summaryVariant": "Variante",
-      "summaryAddons": "Extras",
-      "summaryTotal": "Total Estimado",
-
-      "eyebrow": "Reserva Tu Propuesta",
-      "headingLine1": "¿Listo para",
-      "headingLine2": "Comenzar?",
-      "description": "Personaliza tu paquete y completa el formulario — te responderemos en menos de 24 horas.",
-
-      "summaryPackage": "Paquete",
-      "summaryTier": "Nivel",
-      "summaryColor": "Color",
-      "summaryFloral": "Floral",
-      "summaryTone": "Tono",
-      "summaryEstimated": "Total Estimado",
-      "summaryNoPackage": "Ningún paquete seleccionado",
-      "summaryStandard": "Estándar",
-      "summaryPremium": "Premium",
-      "summaryNotSelected": "No seleccionado"
-    },
-    "WhatsIncluded": {
-      "noPackageSelected": "No hay paquete seleccionado"
-    }
   },
   "NotFoundPage": {
     "metaTitle": "Página no encontrada",

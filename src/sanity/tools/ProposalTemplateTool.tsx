@@ -2,13 +2,14 @@
 import { populateVisualTemplate } from "./populateVisualTemplate";
 import { useState } from "react";
 import { useClient } from "sanity";
+import { apiVersion } from "../env";
 import {
   proposalTemplateId,
   proposalTemplateFields,
   proposalTemplateAddons as templateAddons,
 } from "@/lib/experience/proposalTemplate";
 export default function ProposalTemplateTool() {
-  const client = useClient({ apiVersion: "2026-03-07" });
+  const client = useClient({ apiVersion });
   const [status, setStatus] = useState("");
   return (
     <div style={{ padding: 32, maxWidth: 780, margin: "auto" }}>

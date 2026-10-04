@@ -1,6 +1,7 @@
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
+import { imageWithDimensions } from "../fragments";
 
 export interface BlogPost {
   _id: string;
@@ -32,19 +33,6 @@ export interface BlogPost {
   };
 }
 
-const imageFragment = `
-  asset-> {
-    url,
-    metadata {
-      dimensions {
-        width,
-        height
-      }
-    }
-  },
-  alt
-`;
-
 export const blogPostsByLanguageQuery = `*[_type == "blogPost" && language == $lang] | order(publishedAt desc) {
   _id,
   language,
@@ -61,7 +49,7 @@ export const blogPostsByLanguageQuery = `*[_type == "blogPost" && language == $l
   publishedAt,
   readingTime,
   excerpt,
-heroPhoto { ${imageFragment} },
+heroPhoto { ${imageWithDimensions} },
 }`;
 
 export const blogPostsByLanguage = async (

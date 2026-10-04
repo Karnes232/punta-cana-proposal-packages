@@ -16,7 +16,7 @@ const FaqsContent = ({ locale, faqsCategories, faqs }: FaqsContentProps) => {
   return (
     <>
       <FaqCategoryFilter
-        locale={locale as "en" | "es"}
+        locale={locale}
         onCategoryChange={setActiveCategory}
         faqsCategories={faqsCategories}
       />
@@ -24,7 +24,7 @@ const FaqsContent = ({ locale, faqsCategories, faqs }: FaqsContentProps) => {
       <FaqAccordion
         key={activeCategory}
         activeCategory={activeCategory}
-        locale={locale as "en" | "es"}
+        locale={locale}
         faqs={faqs}
       />
     </>

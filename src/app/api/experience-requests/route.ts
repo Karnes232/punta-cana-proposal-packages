@@ -7,18 +7,13 @@ import {
 } from "@/sanity/queries/ExperienceCatalog";
 import { calculate } from "@/lib/experience/pricing";
 import { dinnerDeposit } from "@/lib/experience/dinnerPolicy";
+import { getRequestHost, isDeployPreviewHost } from "@/lib/requestHost";
 export const runtime = "nodejs";
 const recent = new Map<string, { count: number; until: number }>();
 export async function POST(request: NextRequest) {
   const origin = request.headers.get("origin");
   // Netlify forwards the public host while the internal Next.js URL may differ.
-  const publicHost = (
-    request.headers.get("x-forwarded-host") ||
-    request.headers.get("host") ||
-    request.nextUrl.host
-  )
-    .split(",")[0]
-    .trim();
+  const publicHost = getRequestHost(request.headers, request.nextUrl.host);
   let validOrigin = !origin;
   try {
     if (origin) {
@@ -130,9 +125,7 @@ export async function POST(request: NextRequest) {
     // Site-scoped storage survives deployments; no public read endpoint is exposed.
     // Netlify supplies credentials to the Next.js server function at runtime.
     const id = randomUUID();
-    const storeName = /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(
-      publicHost,
-    )
+    const storeName = isDeployPreviewHost(publicHost)
       ? "experience-requests-preview"
       : "experience-requests";
     const saved = await getStore(storeName).setJSON(

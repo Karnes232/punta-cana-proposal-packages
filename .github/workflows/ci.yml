@@ -23,6 +23,9 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      # schema.json and sanity.types.ts are generated; fail if they're stale.
+      - run: npm run typegen
+      - run: git diff --exit-code -- schema.json sanity.types.ts
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run format:check

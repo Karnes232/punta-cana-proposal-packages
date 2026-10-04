@@ -19,6 +19,8 @@ import {
 import { howItWorksPageHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
 import { getStructuredData } from "@/sanity/queries/SEO/seo";
+import { requireLocale } from "@/i18n/requireLocale";
+import { toSiteLocale } from "@/i18n/blogLocales";
 
 export default async function HowItWorks({
   params,
@@ -26,6 +28,8 @@ export default async function HowItWorks({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
+  const lang = toSiteLocale(locale);
   const [hero, steps, faqsCategories, faqsPage, ctaPage, structuredData] =
     await Promise.all([
       howItWorksPageHero(),
@@ -40,45 +44,42 @@ export default async function HowItWorks({
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[locale as "en" | "es"]}
+        data={structuredData?.seo?.structuredData[lang]}
       />
       <HowItWorksHero
         heroImage={hero?.image}
-        eyebrow={hero?.eyebrow[locale as "en" | "es"]}
-        headingLine1={hero?.headingLine1[locale as "en" | "es"]}
-        headingLine2={hero?.headingLine2[locale as "en" | "es"]}
-        subheading={hero?.subheading[locale as "en" | "es"]}
+        eyebrow={hero?.eyebrow[lang]}
+        headingLine1={hero?.headingLine1[lang]}
+        headingLine2={hero?.headingLine2[lang]}
+        subheading={hero?.subheading[lang]}
       />
       <HowItWorksSteps
-        eyebrow={steps?.eyebrow[locale as "en" | "es"]}
-        heading={steps?.heading[locale as "en" | "es"]}
-        headingAccent={steps?.headingAccent[locale as "en" | "es"]}
-        subheading={steps?.subheading[locale as "en" | "es"]}
+        eyebrow={steps?.eyebrow[lang]}
+        heading={steps?.heading[lang]}
+        headingAccent={steps?.headingAccent[lang]}
+        subheading={steps?.subheading[lang]}
         steps={steps?.steps}
-        locale={locale as "en" | "es"}
+        locale={lang}
       />
-      <HowItWorksReassurance
-        items={steps?.reassurance}
-        locale={locale as "en" | "es"}
-      />
+      <HowItWorksReassurance items={steps?.reassurance} locale={lang} />
       <HowItWorksFAQ
-        locale={locale as "en" | "es"}
+        locale={lang}
         faqsCategories={faqsCategories}
-        eyebrow={faqsPage?.eyebrow[locale as "en" | "es"]}
-        heading={faqsPage?.heading[locale as "en" | "es"]}
-        headingAccent={faqsPage?.headingAccent[locale as "en" | "es"]}
-        subheading={faqsPage?.subheading[locale as "en" | "es"]}
+        eyebrow={faqsPage?.eyebrow[lang]}
+        heading={faqsPage?.heading[lang]}
+        headingAccent={faqsPage?.headingAccent[lang]}
+        subheading={faqsPage?.subheading[lang]}
         faqs={faqsPage?.faqs}
       />
       <HowItWorksCTA
-        eyebrow={ctaPage?.eyebrow[locale as "en" | "es"]}
-        scriptLine={ctaPage?.scriptLine[locale as "en" | "es"]}
-        heading={ctaPage?.heading[locale as "en" | "es"]}
-        headingAccent={ctaPage?.headingAccent[locale as "en" | "es"]}
-        subheading={ctaPage?.subheading[locale as "en" | "es"]}
-        primaryCTA={ctaPage?.primaryCTA[locale as "en" | "es"]}
+        eyebrow={ctaPage?.eyebrow[lang]}
+        scriptLine={ctaPage?.scriptLine[lang]}
+        heading={ctaPage?.heading[lang]}
+        headingAccent={ctaPage?.headingAccent[lang]}
+        subheading={ctaPage?.subheading[lang]}
+        primaryCTA={ctaPage?.primaryCTA[lang]}
         primaryHref={ctaPage?.primaryCTAHref}
-        secondaryCTA={ctaPage?.secondaryCTA[locale as "en" | "es"]}
+        secondaryCTA={ctaPage?.secondaryCTA[lang]}
         secondaryHref={ctaPage?.secondaryCTAHref}
       />
     </main>
@@ -91,6 +92,7 @@ export async function generateMetadata({
   params: Promise<{ locale: "en" | "es" }>;
 }) {
   const { locale } = await params;
+  requireLocale(locale);
   const pageSeo = await getPageSeo("how-it-works");
   const path = "/how-it-works";
   const canonicalUrl = siteCanonicalUrl(locale, path);

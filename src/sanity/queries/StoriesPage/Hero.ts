@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { imageWithDimensions } from "../fragments";
 
 export interface StoriesPageHero {
   eyebrow?: {
@@ -80,16 +81,7 @@ export const storiesPageHeroQuery = `*[_type == "StoriesPageHero"][0] {
     es
   },
   image {
-    asset-> {
-      url,
-      metadata {
-        dimensions {
-          width,
-          height
-        }
-      }
-    },
-    alt
+    ${imageWithDimensions}
   },
   featuredStory -> {
     slug,
@@ -104,16 +96,7 @@ export const storiesPageHeroQuery = `*[_type == "StoriesPageHero"][0] {
       es
     },
     heroPhoto {
-      asset-> {
-        url,
-        metadata {
-          dimensions {
-            width,
-            height
-          }
-        }
-      },
-      alt
+      ${imageWithDimensions}
     },
     quote {
       en,

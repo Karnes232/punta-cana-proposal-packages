@@ -1,6 +1,7 @@
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
+import { imageWithDimensions } from "../fragments";
 
 export interface FeaturedPost {
   language: string;
@@ -52,16 +53,7 @@ export const blogPageHeroQuery = `*[_type == "BlogPageHero"][0] {
   headingLine2 ${blogLocalizedStringGroq},
   subheading ${blogLocalizedStringGroq},
   image {
-    asset-> {
-      url,
-      metadata {
-        dimensions {
-          width,
-          height
-        }
-      }
-    },
-    alt
+    ${imageWithDimensions}
   },
   featuredPost -> {
     language,
@@ -72,16 +64,7 @@ export const blogPageHeroQuery = `*[_type == "BlogPageHero"][0] {
     readingTime,
     excerpt,
     heroPhoto {
-      asset-> {
-        url,
-        metadata {
-          dimensions {
-            width,
-            height
-          }
-        }
-      },
-      alt
+      ${imageWithDimensions}
     }
   }
 }`;
