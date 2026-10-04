@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { headers } from "next/headers";
 import { dinnerPreview } from "@/lib/experience/dinnerTemplate";
@@ -21,7 +20,7 @@ export default async function Catalog({
   section,
 }: {
   locale: Locale;
-  section?: "proposals" | "romantic-dinners";
+  section: "proposals" | "romantic-dinners";
 }) {
   const [experiences, content] = await Promise.all([
     getExperiences(),
@@ -30,7 +29,7 @@ export default async function Catalog({
   const requestHeaders = await headers();
   const showTemplate = isPreviewHost(getRequestHost(requestHeaders));
   const cmsDinnerPreview =
-    (!section || section === "romantic-dinners") &&
+    section === "romantic-dinners" &&
     (showTemplate ||
       !experiences.some((e) => e._type === "romanticDinnerExperience"))
       ? await getDinnerPreview()
@@ -43,64 +42,30 @@ export default async function Catalog({
     <main
       className={`ec-shell ${section === "proposals" ? "ec-proposal-page" : ""}`}
     >
-      {section && (
-        <CatalogHero
-          dinner={section === "romantic-dinners"}
-          locale={locale}
-          settings={settings}
-          image={
-            section === "romantic-dinners"
-              ? home?.dinnerHeroImage ||
-                experiences.find((e) => e._type === "romanticDinnerExperience")
-                  ?.gallery[0]?.image ||
-                cmsDinnerPreview?.styles[1]?.mainImage ||
-                cmsDinnerPreview?.gallery[0]?.image
-              : home?.proposalHeroImage ||
-                experiences.find(
-                  (e) =>
-                    e._type === "proposalExperience" &&
-                    e.slug?.current === PROPOSALS_HERO_SLUG,
-                )?.gallery[0]?.image ||
-                experiences.find((e) => e._type === "proposalExperience")
-                  ?.gallery[0]?.image
-          }
-        />
-      )}
+      <CatalogHero
+        dinner={section === "romantic-dinners"}
+        locale={locale}
+        settings={settings}
+        image={
+          section === "romantic-dinners"
+            ? home?.dinnerHeroImage ||
+              experiences.find((e) => e._type === "romanticDinnerExperience")
+                ?.gallery[0]?.image ||
+              cmsDinnerPreview?.styles[1]?.mainImage ||
+              cmsDinnerPreview?.gallery[0]?.image
+            : home?.proposalHeroImage ||
+              experiences.find(
+                (e) =>
+                  e._type === "proposalExperience" &&
+                  e.slug?.current === PROPOSALS_HERO_SLUG,
+              )?.gallery[0]?.image ||
+              experiences.find((e) => e._type === "proposalExperience")
+                ?.gallery[0]?.image
+        }
+      />
       <div className="ec-wrap">
-        {!section && (
-          <section className="ec-hero">
-            <div>
-              {local(home?.eyebrow, locale) && (
-                <p className="ec-eyebrow">{local(home?.eyebrow, locale)}</p>
-              )}
-              <h1>
-                {local(home?.headline, locale) ||
-                  "Punta Cana Proposal Packages"}
-              </h1>
-              {local(home?.subheadline, locale) && (
-                <p>{local(home?.subheadline, locale)}</p>
-              )}
-              <div className="ec-actions">
-                <a className="ec-button" href="#proposals">
-                  {local(home?.primaryCTA, locale) || t("proposalSectionTitle")}
-                </a>
-                <a className="ec-button secondary" href="#romantic-dinners">
-                  {local(home?.secondaryCTA, locale) || t("dinnerSectionTitle")}
-                </a>
-              </div>
-            </div>
-            {home?.heroImage?.url && (
-              <img
-                src={home.heroImage.url}
-                alt={local(home.heroImage.alt, locale)}
-                width={1200}
-                height={600}
-              />
-            )}
-          </section>
-        )}
         {(["proposals", "romantic-dinners"] as const)
-          .filter((k) => !section || section === k)
+          .filter((k) => section === k)
           .map((key) => {
             const dinner = key === "romantic-dinners",
               rows = experiences.filter(

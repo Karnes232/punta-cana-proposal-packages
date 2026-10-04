@@ -24,12 +24,6 @@ const inter = Inter({
   display: "swap",
 });
 
-// export const metadata: Metadata = {
-//   title: "Punta Cana Proposal Packages",
-//   description:
-//     "Private, curated proposal experiences in the heart of Punta Cana.",
-// };
-
 export default async function RootLayout({
   children,
   params,

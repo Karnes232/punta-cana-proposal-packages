@@ -61,16 +61,6 @@ export default function BlogHero({
         <BlogHeroDivider />
         <BlogHeroSubheading text={subheading} />
       </div>
-
-      {/* Bottom fade into ivory content area */}
-      {/* <div
-        className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent, #F7F5F1)",
-        }}
-        aria-hidden="true"
-      /> */}
     </section>
   );
 }

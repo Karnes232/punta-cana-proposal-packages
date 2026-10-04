@@ -18,17 +18,3 @@ export interface PostHeroData {
   readingTime: number;
   photo: PostHeroImage;
 }
-
-// export interface PostHeroContent {
-//   backLabelEn: string;
-//   backLabelEs: string;
-//   readTimeSuffixEn: string;
-//   readTimeSuffixEs: string;
-// }
-
-// export const defaultPostHeroContent: PostHeroContent = {
-//   backLabelEn: "All Posts",
-//   backLabelEs: "Todos los Artículos",
-//   readTimeSuffixEn: "min read",
-//   readTimeSuffixEs: "min de lectura",
-// };

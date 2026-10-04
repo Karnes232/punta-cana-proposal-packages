@@ -1,10 +1,9 @@
 import { useTranslations } from "next-intl";
-import { type StoryMetaBarData, type StoryMetaBarContent } from "./types";
+import { type StoryMetaBarData } from "./types";
 
 interface StoryMetaBarProps {
   data: StoryMetaBarData;
   locale: "en" | "es";
-  content?: StoryMetaBarContent;
 }
 
 interface MetaItemProps {

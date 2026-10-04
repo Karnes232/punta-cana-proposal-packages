@@ -165,11 +165,6 @@ export const moreStoriesQuery = `
   }
 `;
 
-/** All slugs — used in generateStaticParams */
-export const allStorySlugsQuery = `
-  *[_type == "individualStory"] { "slug": slug.current }
-`;
-
 // ── Fetchers ──────────────────────────────────────────────────────────────────
 
 export const getIndividualStory = async (
@@ -183,10 +178,6 @@ export const getMoreStories = async (
   currentSlug: string,
 ): Promise<StoryCard[]> => {
   return client.fetch(moreStoriesQuery, { proposalTypeValue, currentSlug });
-};
-
-export const getAllStorySlugs = async (): Promise<{ slug: string }[]> => {
-  return client.fetch(allStorySlugsQuery);
 };
 
 export interface AllStoriesCard {

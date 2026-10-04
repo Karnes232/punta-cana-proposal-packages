@@ -4,18 +4,12 @@ import { useState } from "react";
 import StoryCard from "./StoryCard";
 import StoriesGridDivider from "./StoriesGridDivider";
 import LoadMore from "./LoadMore";
-import {
-  // defaultStories,
-  // defaultStoriesGridContent,
-  type StoryCardData,
-  // type StoriesGridContent,
-} from "./types";
+import { type StoryCardData } from "./types";
 
 const PAGE_SIZE = 6;
 
 interface StoriesGridProps {
   stories: StoryCardData[];
-  // content?: StoriesGridContent;
   locale: "en" | "es";
   /** Active filter value passed down from the filter bar — "all" or a packageType slug */
   activeFilter?: string;

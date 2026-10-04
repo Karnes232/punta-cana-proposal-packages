@@ -63,12 +63,6 @@ export default function StoriesHero({
         <StoriesHeroDivider />
         <StoriesHeroSubheading text={subheading} />
       </div>
-
-      {/* ── Bottom fade into ivory content area ── */}
-      {/* <div
-        className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#F7F5F1] pointer-events-none"
-        aria-hidden="true"
-      /> */}
     </section>
   );
 }
