@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import StoryHero from "@/components/IndividualStoryPage/HeroComponent/StoryHero";
 import MoreStories from "@/components/IndividualStoryPage/MoreStories/MoreStories";
 import StoryBody from "@/components/IndividualStoryPage/StoryBody/StoryBody";
@@ -26,6 +27,7 @@ export default async function StoryPage({
 }) {
   const { slug, locale } = await params;
   requireLocale(locale);
+  const tStory = await getTranslations("IndividualStoryPage");
   const localeTyped = toSiteLocale(locale);
   const [story] = await Promise.all([getIndividualStory(slug)]);
   if (!story) {
@@ -69,6 +71,7 @@ export default async function StoryPage({
         }}
       />
       <Gallery
+        sectionLabel={tStory("galleryLabel")}
         photos={
           // Gallery is optional in Sanity and comes back as null when empty.
           (story.gallery ?? []).map((photo) => ({
@@ -77,7 +80,6 @@ export default async function StoryPage({
             caption: photo.caption?.[localeTyped] ?? "",
           }))
         }
-        locale={localeTyped}
       />
       <MoreStories
         stories={moreStories.map((story) => ({
@@ -89,7 +91,6 @@ export default async function StoryPage({
           quote: story.quote[localeTyped] ?? "",
           heroPhoto: story.heroPhoto,
         }))}
-        locale={localeTyped}
       />
     </main>
   );

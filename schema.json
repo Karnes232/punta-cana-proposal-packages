@@ -6561,6 +6561,38 @@
                 "name": "localizedText"
               },
               "optional": true
+            },
+            "planningEyebrow": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
+            "trustLabel": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
+            "journeyLabel": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
+            "howItWorksLink": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
             }
           }
         },
@@ -7696,6 +7728,158 @@
         "optional": true
       },
       "terms": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "rightsReserved": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "siteLinks": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "close": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "introStepsHeading": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "priceToBeDefined": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "setupTemplate": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "photoPending": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "dinnerTemplatePreviewNote": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "dinnerInquiryNote": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "heroEyebrow": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "dinnerHeroText": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "proposalHeroText": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "dinnerHeroCta": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "proposalHeroCta": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "heroHowItWorks": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "proposalDinnerEyebrow": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "proposalDinnerTitle": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "proposalDinnerIntro": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "localizedString"
+        },
+        "optional": true
+      },
+      "dietaryLegend": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",

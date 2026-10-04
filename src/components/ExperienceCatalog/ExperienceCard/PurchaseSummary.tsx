@@ -115,7 +115,7 @@ export default function PurchaseSummary({
         (inDialog ? (
           <RequestDialog
             title={t("availabilityButtonLabel")}
-            closeLabel={locale === "es" ? "Cerrar" : "Close"}
+            closeLabel={t("close")}
             onClose={() => setFormOpen(false)}
           >
             {" "}

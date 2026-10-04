@@ -21,13 +21,9 @@ export default function CatalogFooter({
           <p>{company?.companyName}</p>
           <small>
             © {new Date().getFullYear()} {company?.companyName}.{" "}
-            {locale === "es"
-              ? "Todos los derechos reservados."
-              : "All rights reserved."}
+            {label(settings, locale, "rightsReserved")}
           </small>
-          <nav
-            aria-label={locale === "es" ? "Enlaces del sitio" : "Site links"}
-          >
+          <nav aria-label={label(settings, locale, "siteLinks")}>
             {[
               ["proposals", "proposalSectionTitle"],
               ["romantic-dinners", "dinnerSectionTitle"],

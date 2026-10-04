@@ -92,13 +92,11 @@ export default async function Catalog({
                 {dinner && (showTemplate || rows.length === 0) && (
                   <>
                     <div className="my-5 border-l-[3px] border-l-gold bg-white px-6 py-[18px] text-[0.85rem] text-[#6e6e73]">
-                      {showTemplate
-                        ? locale === "es"
-                          ? "Ejemplo editable · Tres montajes con imágenes de referencia de Sanity. Menú y tarifas configurados; capacidad final pendiente de confirmar."
-                          : "Editable example · Three setups with reference images from Sanity. Menu and prices configured; final capacity awaiting confirmation."
-                        : locale === "es"
-                          ? "Personaliza tu cena y envíanos tu fecha preferida. Nuestro equipo confirmará personalmente la capacidad y disponibilidad de tu celebración."
-                          : "Personalize your dinner and send us your preferred date. Our team will personally confirm capacity and availability for your celebration."}
+                      {t(
+                        showTemplate
+                          ? "dinnerTemplatePreviewNote"
+                          : "dinnerInquiryNote",
+                      )}
                     </div>
                     <div className="m-auto max-w-[1000px]">
                       <ExperienceCard

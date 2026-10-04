@@ -161,9 +161,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
       </section>
       <section id="planning" className={homeSection}>
         <p className={eyebrowClass({ size: "text-[16px]" })}>
-          {locale === "es"
-            ? "Punta Cana · Experiencias privadas"
-            : "Punta Cana · Private experiences"}
+          {t("planningEyebrow")}
         </p>
         <h2 className={homeH2}>{t("planning")}</h2>
         <ExperienceSelector
@@ -174,7 +172,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
       </section>
       <section
         className="bg-black px-[max(24px,calc((100vw_-_1200px)/2))] py-12 text-ivory"
-        aria-label={locale === "es" ? "Nuestra experiencia" : "Our experience"}
+        aria-label={t("trustLabel")}
       >
         <div className="grid grid-cols-[repeat(3,1fr)] gap-6 upto700:grid-cols-[1fr_1fr] upto700:gap-4">
           {trust.map(([key, Icon]) => (
@@ -282,6 +280,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
           </p>
           <PickupJourney
             locale={locale}
+            label={t("journeyLabel")}
             steps={steps.slice(0, 5).map((step, i) => ({
               title: t("journey" + step),
               text: t("journey" + step + "Text"),
@@ -366,7 +365,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
             ))}
           </ol>
           <Link className={homeTextLink} href={`${prefix}/how-it-works`}>
-            {locale === "es" ? "Cómo funciona" : "How it works"}
+            {t("howItWorksLink")}
             <FiArrowRight aria-hidden="true" className={homeIcon} />
           </Link>
         </div>

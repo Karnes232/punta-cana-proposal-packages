@@ -2,7 +2,8 @@
 
 import { useEffect, useCallback } from "react";
 import Image from "next/image";
-import type { GalleryPhoto, GalleryContent } from "./types";
+import { useTranslations } from "next-intl";
+import type { GalleryPhoto } from "./types";
 
 interface GalleryLightboxProps {
   photos: GalleryPhoto[];
@@ -10,8 +11,6 @@ interface GalleryLightboxProps {
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
-  content: GalleryContent;
-  locale: "en" | "es";
 }
 
 export default function GalleryLightbox({
@@ -20,14 +19,12 @@ export default function GalleryLightbox({
   onClose,
   onPrev,
   onNext,
-  content,
-  locale,
 }: GalleryLightboxProps) {
   const photo = photos[activeIndex];
-  const closeLabel =
-    locale === "es" ? content.closeLabelEs : content.closeLabelEn;
-  const prevLabel = locale === "es" ? content.prevLabelEs : content.prevLabelEn;
-  const nextLabel = locale === "es" ? content.nextLabelEs : content.nextLabelEn;
+  const t = useTranslations("Gallery");
+  const closeLabel = t("close");
+  const prevLabel = t("previous");
+  const nextLabel = t("next");
 
   // Keyboard navigation
   const handleKeyDown = useCallback(

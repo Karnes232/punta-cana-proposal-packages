@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import type { MoreBlogsPost } from "./types";
 import Image from "next/image";
 import React from "react";
@@ -5,13 +6,11 @@ import { Link } from "@/i18n/navigation";
 const MoreBlogsCard = ({
   blog,
   readMoreLabel,
-  locale,
 }: {
   blog: MoreBlogsPost;
   readMoreLabel: string;
-  locale: string;
 }) => {
-  const readTimeSuffix = locale === "es" ? "min de lectura" : "min read";
+  const readTimeSuffix = useTranslations("BlogPost")("minRead");
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">
       {/* Photo */}

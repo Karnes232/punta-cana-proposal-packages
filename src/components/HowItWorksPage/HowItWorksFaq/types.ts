@@ -13,6 +13,7 @@ export const faqUIContent = {
       logistics: "Logistics",
       photography: "Photography",
     },
+    noQuestions: "No questions in this category.",
   },
   es: {
     eyebrow: "Preguntas",
@@ -27,6 +28,7 @@ export const faqUIContent = {
       logistics: "Logística",
       photography: "Fotografía",
     },
+    noQuestions: "No hay preguntas en esta categoría.",
   },
 } as const;
 

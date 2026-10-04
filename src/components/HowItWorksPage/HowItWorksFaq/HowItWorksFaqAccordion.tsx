@@ -72,9 +72,7 @@ export default function HowItWorksFaqAccordion({
       >
         {filtered.length === 0 ? (
           <p className="px-6 py-8 text-center font-body font-light text-gray text-sm">
-            {locale === "es"
-              ? "No hay preguntas en esta categoría."
-              : "No questions in this category."}
+            {t.noQuestions}
           </p>
         ) : (
           filtered.map((item) => (

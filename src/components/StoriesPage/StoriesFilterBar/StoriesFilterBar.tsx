@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useState } from "react";
 
@@ -19,12 +20,13 @@ export default function StoriesFilterBar({
   locale,
   onChange,
 }: StoriesFilterBarProps) {
+  const t = useTranslations("StoriesPage");
   const [active, setActive] = useState("all");
 
   // "All" is a UI concern — always present, never comes from Sanity
   const allTab = {
     value: "all",
-    label: locale === "es" ? "Todas" : "All Stories",
+    label: t("all"),
   };
 
   function handleSelect(value: string) {

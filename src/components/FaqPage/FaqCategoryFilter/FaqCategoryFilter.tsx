@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useState } from "react";
 import FaqCategoryPill from "./FaqCategoryPill";
@@ -20,6 +21,7 @@ export default function FaqCategoryFilter({
   locale,
   onCategoryChange,
 }: FaqCategoryFilterProps) {
+  const t = useTranslations("FaqPage");
   const [active, setActive] = useState<string>("all");
 
   function handleSelect(value: string) {
@@ -61,9 +63,7 @@ export default function FaqCategoryFilter({
         {/* Pill row: horizontal scroll below xl; wraps on xl+ */}
         <div
           role="tablist"
-          aria-label={
-            locale === "es" ? "Filtrar por categoría" : "Filter by category"
-          }
+          aria-label={t("filterLabel")}
           className="
             flex flex-nowrap items-center gap-3
             overflow-x-auto scrollbar-hide
@@ -75,7 +75,7 @@ export default function FaqCategoryFilter({
           <FaqCategoryPill
             key="all"
             value="all"
-            label={locale === "es" ? "Todas" : "All"}
+            label={t("all")}
             isActive={active === "all"}
             onClick={handleSelect}
           />

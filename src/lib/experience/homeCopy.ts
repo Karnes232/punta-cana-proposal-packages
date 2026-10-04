@@ -190,6 +190,13 @@ export const homeCopy: Record<string, [string, string]> = {
   previous: ["Previous photograph", "Fotografía anterior"],
   next: ["Next photograph", "Fotografía siguiente"],
   startTitle: ["Let’s Plan Your Perfect Yes", "Planeemos tu sí perfecto"],
+  planningEyebrow: [
+    "Punta Cana · Private experiences",
+    "Punta Cana · Experiencias privadas",
+  ],
+  trustLabel: ["Our experience", "Nuestra experiencia"],
+  journeyLabel: ["Your journey", "Tu recorrido"],
+  howItWorksLink: ["How it works", "Cómo funciona"],
 };
 export function homeText(
   home: Home | null | undefined,

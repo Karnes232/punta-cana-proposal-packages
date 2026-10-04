@@ -1,29 +1,18 @@
-import {
-  defaultPostMetaBarContent,
-  type PostMetaBarData,
-  type PostMetaBarContent,
-} from "./types";
+import { useTranslations } from "next-intl";
+import type { PostMetaBarData } from "./types";
 import { MetaDivider, MetaItem } from "@/components/ui/MetaItem";
 
 interface PostMetaBarProps {
   data: PostMetaBarData;
   locale: string;
-  content?: PostMetaBarContent;
 }
 
-export default function PostMetaBar({
-  data,
-  locale,
-  content = defaultPostMetaBarContent,
-}: PostMetaBarProps) {
-  const categoryLabel =
-    locale === "es" ? content.categoryLabelEs : content.categoryLabelEn;
-  const publishedLabel =
-    locale === "es" ? content.publishedLabelEs : content.publishedLabelEn;
-  const readTimeLabel =
-    locale === "es" ? content.readTimeLabelEs : content.readTimeLabelEn;
-  const readTimeSuffix =
-    locale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
+export default function PostMetaBar({ data, locale }: PostMetaBarProps) {
+  const t = useTranslations("BlogPost");
+  const categoryLabel = t("category");
+  const publishedLabel = t("published");
+  const readTimeLabel = t("readingTime");
+  const readTimeSuffix = t("minRead");
 
   const dateStr = new Date(data.publishedAt).toLocaleDateString(locale, {
     month: "long",

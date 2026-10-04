@@ -5,9 +5,9 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { routing } from "@/i18n/routing";
+import { toSiteLocale } from "@/i18n/locales";
 import CatalogNavigation from "@/components/ExperienceCatalog/CatalogNavigation";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
-import type { Locale } from "@/lib/experience/types";
 import CatalogFooter from "@/components/ExperienceCatalog/CatalogFooter";
 import { BlogLanguageAlternatesProvider } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 
@@ -52,7 +52,7 @@ export default async function RootLayout({
         <body className="bg-ivory font-body text-black antialiased">
           <BlogLanguageAlternatesProvider>
             <CatalogNavigation
-              locale={(locale === "es" ? "es" : "en") as Locale}
+              locale={toSiteLocale(locale)}
               settings={catalog.settings || {}}
               logo={generalLayout?.companyLogo?.asset?.url}
               companyName={generalLayout?.companyName}
@@ -60,7 +60,7 @@ export default async function RootLayout({
             {children}
           </BlogLanguageAlternatesProvider>
           <CatalogFooter
-            locale={(locale === "es" ? "es" : "en") as Locale}
+            locale={toSiteLocale(locale)}
             settings={catalog.settings || {}}
             company={generalLayout}
           />

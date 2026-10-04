@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { PortableTextBlock } from "@portabletext/react";
 import PostHero from "@/components/IndividualBlogPage/HeroComponent/PostHero";
 import MoreBlogs from "@/components/IndividualBlogPage/MoreBlogs/MoreBlogs";
@@ -36,6 +37,7 @@ export default async function BlogPostPage({
 }) {
   const { slug, locale } = await params;
   requireLocale(locale);
+  const tBlog = await getTranslations("BlogPost");
 
   const individualBlog = await getIndividualBlog(slug, locale);
   const moreBlogs = individualBlog
@@ -99,18 +101,7 @@ export default async function BlogPostPage({
         }}
       />
       <Gallery
-        content={{
-          sectionLabelEn: "Blog Post Gallery",
-          sectionLabelEs: "Galería de la publicación del blog",
-          viewAllLabelEn: "View all {count} photos",
-          viewAllLabelEs: "Ver las {count} fotos",
-          closeLabelEn: "Close",
-          closeLabelEs: "Cerrar",
-          prevLabelEn: "Previous",
-          prevLabelEs: "Anterior",
-          nextLabelEn: "Next",
-          nextLabelEs: "Siguiente",
-        }}
+        sectionLabel={tBlog("galleryLabel")}
         photos={
           // Gallery is optional in Sanity and comes back as null when empty.
           (individualBlog.gallery ?? []).map((photo) => ({
@@ -119,7 +110,6 @@ export default async function BlogPostPage({
             caption: photo.caption ?? "",
           }))
         }
-        locale={locale === "es" ? "es" : "en"}
       />
       {moreBlogs.length > 0 && (
         <MoreBlogs
@@ -132,7 +122,6 @@ export default async function BlogPostPage({
             excerpt: blog.excerpt,
             heroPhoto: blog.heroPhoto,
           }))}
-          locale={locale}
         />
       )}
     </main>

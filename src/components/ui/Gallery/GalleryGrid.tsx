@@ -3,24 +3,16 @@
 import { useState } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
+import { useTranslations } from "next-intl";
 import GalleryLightbox from "./GalleryLightbox";
-import {
-  GALLERY_VISIBLE_COUNT,
-  type GalleryPhoto,
-  type GalleryContent,
-} from "./types";
+import { GALLERY_VISIBLE_COUNT, type GalleryPhoto } from "./types";
 
 interface GalleryGridProps {
   photos: GalleryPhoto[];
-  content: GalleryContent;
-  locale: "en" | "es";
 }
 
-export default function GalleryGrid({
-  photos,
-  content,
-  locale,
-}: GalleryGridProps) {
+export default function GalleryGrid({ photos }: GalleryGridProps) {
+  const t = useTranslations("Gallery");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const visiblePhotos = photos.slice(0, GALLERY_VISIBLE_COUNT);
@@ -81,10 +73,7 @@ export default function GalleryGrid({
                     +{remainingCount}
                   </span>
                   <span className="text-[10px] font-body font-medium tracking-[0.18em] uppercase text-white/60">
-                    {(locale === "es"
-                      ? content.viewAllLabelEs
-                      : content.viewAllLabelEn
-                    ).replace("{count}", String(photos.length))}
+                    {t("viewAll", { count: photos.length })}
                   </span>
                 </div>
               )}
@@ -102,8 +91,6 @@ export default function GalleryGrid({
             onClose={closeLightbox}
             onPrev={goPrev}
             onNext={goNext}
-            content={content}
-            locale={locale}
           />,
           document.body,
         )}

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { PostBodyData } from "./types";
 
@@ -25,14 +26,12 @@ interface PostSidebarProps {
 }
 
 export default function PostSidebar({ data, locale }: PostSidebarProps) {
-  const categoryLabel = locale === "es" ? "Categoría" : "Category";
-  const publishedLabel = locale === "es" ? "Publicado" : "Published";
-  const readTimeLabel = locale === "es" ? "Tiempo de Lectura" : "Reading Time";
-  const readTimeSuffix = locale === "es" ? "min de lectura" : "min read";
-  const ctaLabel =
-    locale === "es"
-      ? "Comienza a Planificar Tu Propuesta"
-      : "Start Planning Your Proposal";
+  const t = useTranslations("BlogPost");
+  const categoryLabel = t("category");
+  const publishedLabel = t("published");
+  const readTimeLabel = t("readingTime");
+  const readTimeSuffix = t("minRead");
+  const ctaLabel = t("planCta");
 
   const dateStr = new Date(data.publishedAt).toLocaleDateString(locale, {
     month: "long",

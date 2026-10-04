@@ -32,20 +32,12 @@ export default function ProposalDinnerMenu({
       className="my-6 rounded-[4px_32px_4px_4px] border border-[#776443] bg-[linear-gradient(135deg,#20201f,#111214)] p-6 upto600:p-4"
     >
       <p className={`${eyebrowClass()} leading-[1.6]`}>
-        {locale === "es"
-          ? "Una mesa para dos · Tres tiempos"
-          : "A table for two · Three courses"}
+        {t("proposalDinnerEyebrow")}
       </p>
       <h3 className="text-[1.7rem] leading-[1.2] text-[#ecd6aa]">
-        {locale === "es"
-          ? "El final perfecto para tu propuesta"
-          : "The perfect ending to your proposal"}
+        {t("proposalDinnerTitle")}
       </h3>
-      <p className="leading-[1.6]">
-        {locale === "es"
-          ? "Elige una entrada, un plato principal y un postre para cada invitado."
-          : "Choose a starter, main course and dessert for each guest."}
-      </p>
+      <p className="leading-[1.6]">{t("proposalDinnerIntro")}</p>
       {[0, 1].map((i) => (
         <Accordion
           key={i}
@@ -100,11 +92,7 @@ export default function ProposalDinnerMenu({
           })}
         </Accordion>
       ))}
-      <small>
-        {locale === "es"
-          ? "V: vegetariano · Ve: vegano"
-          : "V: vegetarian · Ve: vegan"}
-      </small>
+      <small>{t("dietaryLegend")}</small>
     </section>
   );
 }

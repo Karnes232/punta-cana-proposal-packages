@@ -19,11 +19,7 @@ export default function CatalogIntroduction({
   return (
     <header id="experience-guide" className="mb-10 scroll-mt-[120px]">
       <Heading className="mb-7 max-w-[980px]">
-        {standalone
-          ? t("Title")
-          : locale === "es"
-            ? "Tu experiencia, paso a paso"
-            : "Your experience, step by step"}
+        {standalone ? t("Title") : label(settings, locale, "introStepsHeading")}
       </Heading>
       <div
         className={`border border-t-2 border-(--ec-border) border-t-gold p-[clamp(20px,3vw,36px)] ${dinner ? "bg-[#ffffff60]" : "bg-[#141416]"}`}

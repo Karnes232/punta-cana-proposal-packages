@@ -1,25 +1,14 @@
 import GalleryGrid from "./GalleryGrid";
-import {
-  defaultGalleryContent,
-  type GalleryPhoto,
-  type GalleryContent,
-} from "./types";
+import type { GalleryPhoto } from "./types";
 
 interface GalleryProps {
   photos: GalleryPhoto[];
-  locale: "en" | "es";
-  content?: GalleryContent;
+  /** Divider label above the grid, e.g. "The Proposal". */
+  sectionLabel: string;
 }
 
-export default function Gallery({
-  photos,
-  locale,
-  content = defaultGalleryContent,
-}: GalleryProps) {
+export default function Gallery({ photos, sectionLabel }: GalleryProps) {
   if (!photos || photos.length === 0) return null;
-
-  const sectionLabel =
-    locale === "es" ? content.sectionLabelEs : content.sectionLabelEn;
 
   return (
     <section className="bg-ivory">
@@ -36,7 +25,7 @@ export default function Gallery({
           <span className="block flex-1 h-px bg-gold/20" aria-hidden="true" />
         </div>
 
-        <GalleryGrid photos={photos} content={content} locale={locale} />
+        <GalleryGrid photos={photos} />
       </div>
     </section>
   );

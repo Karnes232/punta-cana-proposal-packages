@@ -98,9 +98,11 @@ const lightboxButton =
 const journeyIcons = [FiMapPin, FiTruck, FiSun, FiCamera, FiShield];
 export function PickupJourney({
   locale,
+  label,
   steps,
 }: {
   locale: Locale;
+  label: string;
   steps: { title: string; text: string; photo?: Image }[];
 }) {
   const [selected, setSelected] = useState(0);
@@ -110,7 +112,7 @@ export function PickupJourney({
       <div
         className="mx-0 mt-10 mb-6 grid grid-cols-[repeat(5,1fr)] gap-2 upto700:grid-cols-[1fr] upto700:gap-1"
         role="group"
-        aria-label={locale === "es" ? "Tu recorrido" : "Your journey"}
+        aria-label={label}
       >
         {steps.map((step, i) => {
           const StepIcon = journeyIcons[i];

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import PhotoHeroBackground from "@/components/ui/hero/PhotoHeroBackground";
 import HeroBackLink from "@/components/ui/HeroBackLink";
 import PostHeroCopy from "./PostHeroCopy";
@@ -9,8 +10,9 @@ interface PostHeroProps {
 }
 
 export default function PostHero({ post, locale }: PostHeroProps) {
-  const backLabel = locale === "es" ? "Todos los Artículos" : "All Posts";
-  const readTimeSuffix = locale === "es" ? "min de lectura" : "min read";
+  const t = useTranslations("BlogPost");
+  const backLabel = t("allPosts");
+  const readTimeSuffix = t("minRead");
 
   return (
     <section className="relative w-full min-h-[70svh] md:min-h-[80svh] flex flex-col justify-between overflow-hidden bg-black">

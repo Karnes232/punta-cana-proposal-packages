@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useState } from "react";
 import StoryCard from "./StoryCard";
@@ -41,10 +42,10 @@ export default function StoriesGrid({
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
 
-  const sectionLabel = locale === "es" ? "Más Historias" : "More Stories";
-  const readMoreLabel = locale === "es" ? "Leer Historia" : "Read Story";
-  const loadMoreLabel =
-    locale === "es" ? "Ver Más Historias" : "Load More Stories";
+  const t = useTranslations("StoriesPage");
+  const sectionLabel = t("more");
+  const readMoreLabel = t("readStory");
+  const loadMoreLabel = t("loadMore");
 
   // Client-side filter
   const filtered =
@@ -68,9 +69,7 @@ export default function StoriesGrid({
     return (
       <div className="py-24 text-center">
         <p className="font-body font-light text-gray text-fluid-base">
-          {locale === "es"
-            ? "No hay historias para este tipo de propuesta todavía."
-            : "No stories for this package type yet."}
+          {t("empty")}
         </p>
       </div>
     );

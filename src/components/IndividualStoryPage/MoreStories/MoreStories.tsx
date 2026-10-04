@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import CardCarousel from "@/components/ui/CardCarousel";
 import MoreSection from "@/components/ui/MoreSection";
 import MoreStoriesCard from "./MoreStoriesCard";
@@ -5,29 +6,26 @@ import { type MoreStoriesStory } from "./types";
 
 interface MoreStoriesProps {
   stories: MoreStoriesStory[];
-  locale: "en" | "es";
 }
 
-export default function MoreStories({ stories, locale }: MoreStoriesProps) {
-  if (!stories || stories.length === 0) return null;
+export default function MoreStories({ stories }: MoreStoriesProps) {
+  const t = useTranslations("IndividualStoryPage");
+  const tc = useTranslations("Carousel");
 
-  const es = locale === "es";
+  if (!stories || stories.length === 0) return null;
 
   return (
     <MoreSection
-      label={es ? "Más Historias" : "More Stories"}
-      heading={es ? "Mismo Paquete," : "Same Package,"}
-      headingAccent={es ? "Historias Diferentes" : "Different Stories"}
+      label={t("more")}
+      heading={t("moreHeading")}
+      headingAccent={t("moreAccent")}
     >
-      <CardCarousel
-        prevLabel={es ? "Anterior" : "Previous"}
-        nextLabel={es ? "Siguiente" : "Next"}
-      >
+      <CardCarousel prevLabel={tc("previous")} nextLabel={tc("next")}>
         {stories.map((story) => (
           <MoreStoriesCard
             key={story.slug}
             story={story}
-            readMoreLabel={es ? "Leer Historia" : "Read Story"}
+            readMoreLabel={t("readStory")}
           />
         ))}
       </CardCarousel>

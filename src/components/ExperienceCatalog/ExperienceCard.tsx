@@ -55,9 +55,7 @@ export default function ExperienceCard({
     !dinner &&
     style?.price === undefined &&
     experience.basePrice === undefined
-      ? locale === "es"
-        ? "Precio por definir"
-        : "Price to be defined"
+      ? t("priceToBeDefined")
       : money(
           dinner
             ? experience.basePrice || 0
@@ -93,16 +91,12 @@ export default function ExperienceCard({
           className="grid min-h-[260px] place-content-center gap-3.5 border-b border-b-gold bg-[#151515] p-8 text-center text-ivory"
         >
           <span className="text-[0.7rem] tracking-[0.18em] text-gold uppercase">
-            {locale === "es" ? "Plantilla de montaje" : "Setup template"}
+            {t("setupTemplate")}
           </span>
           <strong className="font-display text-[2.4rem] font-normal">
             {local(style?.name, locale)}
           </strong>
-          <small className="text-[#b7b1a6]">
-            {locale === "es"
-              ? "Fotografía real pendiente de cargar en Sanity"
-              : "Real photograph to be added in Sanity"}
-          </small>
+          <small className="text-[#b7b1a6]">{t("photoPending")}</small>
         </div>
       )}
       <ExperienceGallery
