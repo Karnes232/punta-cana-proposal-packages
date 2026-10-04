@@ -26,18 +26,21 @@ export default function ProposalDinnerMenu({
   const courses: Course[] = ["starter", "main", "dessert"];
   const t = (key: string) => label(settings, locale, key);
   return (
-    <section className="ec-proposal-dinner">
-      <p className="ec-eyebrow">
+    <section
+      data-testid="proposal-dinner"
+      className="my-6 rounded-[4px_32px_4px_4px] border border-[#776443] bg-[linear-gradient(135deg,#20201f,#111214)] p-6 upto600:p-4"
+    >
+      <p className="ec-eyebrow leading-[1.6]">
         {locale === "es"
           ? "Una mesa para dos · Tres tiempos"
           : "A table for two · Three courses"}
       </p>
-      <h3>
+      <h3 className="text-[1.7rem] leading-[1.2] text-[#ecd6aa]">
         {locale === "es"
           ? "El final perfecto para tu propuesta"
           : "The perfect ending to your proposal"}
       </h3>
-      <p>
+      <p className="leading-[1.6]">
         {locale === "es"
           ? "Elige una entrada, un plato principal y un postre para cada invitado."
           : "Choose a starter, main course and dessert for each guest."}
@@ -53,9 +56,10 @@ export default function ProposalDinnerMenu({
               (item) => id(item) === menus[i]?.[course],
             );
             return (
-              <label key={course}>
+              <label key={course} className="my-3.5 grid gap-2">
                 {t(course)}
                 <select
+                  className="w-full min-w-0"
                   value={menus[i]?.[course] || ""}
                   onChange={(event) =>
                     onChange(

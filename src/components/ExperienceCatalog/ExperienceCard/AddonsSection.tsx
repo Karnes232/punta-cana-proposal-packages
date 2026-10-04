@@ -74,8 +74,12 @@ export default function AddonsSection({
             maxUnitsWithinDuration(experience, addon, selectedAddons),
           );
         return (
-          <div key={key} className="ec-addon">
-            <label className="ec-check">
+          <div
+            key={key}
+            data-testid="addon"
+            className="p-3 [transition:background_0.2s] has-[input:checked]:bg-[rgba(207,174,112,0.08)] has-[input:checked]:shadow-[inset_2px_0_#cfae70] motion-reduce:[transition:none]"
+          >
+            <label className="min-h-12 flex-row items-center gap-3">
               <input
                 type="checkbox"
                 checked={!!quantity}
@@ -84,11 +88,11 @@ export default function AddonsSection({
                   changeAddon(key, event.target.checked ? min : 0)
                 }
               />
-              <span>
+              <span className="min-w-0 wrap-anywhere">
                 {local(addon.name, locale)}
                 <small>{local(addon.description, locale)}</small>
               </span>
-              <span>
+              <span className="ml-auto min-w-0 wrap-anywhere">
                 {addon.pricingType === "quoteOnly"
                   ? t("quotePending")
                   : money(

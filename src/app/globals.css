@@ -70,12 +70,13 @@
  * Inclusive max-width breakpoints for the experience catalog. Tailwind's
  * max-[700px]: means "narrower than 700px"; these match the catalog's original
  * (max-width: 700px) queries exactly, so layouts switch at the same width.
+ * Widest first: a narrower breakpoint must come later to win, as in catalog.css.
  */
-@custom-variant upto390 (@media (max-width: 390px));
-@custom-variant upto600 (@media (max-width: 600px));
-@custom-variant upto700 (@media (max-width: 700px));
-@custom-variant upto800 (@media (max-width: 800px));
 @custom-variant upto1280 (@media (max-width: 1280px));
+@custom-variant upto800 (@media (max-width: 800px));
+@custom-variant upto700 (@media (max-width: 700px));
+@custom-variant upto600 (@media (max-width: 600px));
+@custom-variant upto390 (@media (max-width: 390px));
 
 body {
   background: var(--background);
