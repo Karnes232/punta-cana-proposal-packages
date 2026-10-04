@@ -6,6 +6,7 @@ import Accordion from "../Accordion";
 import AvailabilityForm from "../AvailabilityForm";
 import RequestDialog from "../RequestDialog";
 import type { CardSectionProps } from "./types";
+import { buttonClass } from "../styles";
 
 const breakdownRow =
   "flex justify-between gap-4 py-[3px] last:border-t last:border-t-(--ec-border) last:font-semibold";
@@ -101,7 +102,7 @@ export default function PurchaseSummary({
         </Accordion>
         {!canRequest && <small>{t("completeHint")}</small>}
         <button
-          className="ec-button w-full"
+          className={`${buttonClass()} w-full`}
           aria-expanded={formOpen}
           disabled={!canRequest}
           onClick={() => setFormOpen(!formOpen)}

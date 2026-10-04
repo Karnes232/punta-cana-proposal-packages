@@ -1,9 +1,13 @@
 import type { Image, Locale, Settings } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
 import { HomePhoto } from "./HomeWidgets";
+import { buttonClass, eyebrowClass } from "./styles";
 
-const heroButton =
-  "min-h-[52px] [transition:background_0.2s,transform_0.2s] motion-reduce:[transition:none] [&:hover]:[transform:translateY(-2px)]";
+const heroButtonParts = {
+  height: "min-h-[52px]",
+  motion:
+    "[transition:background_0.2s,transform_0.2s] motion-reduce:[transition:none] [&:hover]:[transform:translateY(-2px)]",
+};
 
 export default function CatalogHero({
   dinner,
@@ -27,7 +31,7 @@ export default function CatalogHero({
       />
       <div className="absolute inset-0 -z-1 bg-[linear-gradient(90deg,rgba(7,9,12,0.8),rgba(7,9,12,0.36)),linear-gradient(0deg,rgba(7,9,12,0.5),transparent_65%)]" />
       <div className="m-auto w-full max-w-[1280px] px-7 py-[90px] upto800:px-5 upto600:py-[65px] upto390:px-3.5">
-        <p className="ec-eyebrow">
+        <p className={eyebrowClass()}>
           Punta Cana ·{" "}
           {es ? "Momentos extraordinarios" : "Extraordinary moments"}
         </p>
@@ -47,8 +51,8 @@ export default function CatalogHero({
               ? "Un escenario inolvidable para el comienzo de su historia. Cada detalle, elegido por ti."
               : "An unforgettable setting for the beginning of your story. Every detail, chosen by you."}
         </p>
-        <div className="ec-actions mt-8 gap-4 upto600:flex-col upto600:items-stretch">
-          <a className={`ec-button ${heroButton}`} href="#packages">
+        <div className="mt-8 flex flex-wrap gap-4 upto600:flex-col upto600:items-stretch">
+          <a className={buttonClass(heroButtonParts)} href="#packages">
             {dinner
               ? es
                 ? "Elige tu montaje"
@@ -59,7 +63,11 @@ export default function CatalogHero({
             <span aria-hidden="true">↗</span>
           </a>
           <a
-            className={`ec-button secondary ${heroButton} border-[#d3bd90] bg-[rgba(0,0,0,0.15)] [background-position:initial] text-white [backdrop-filter:blur(8px)] [&:hover:not(:disabled)]:bg-[#dfc493]`}
+            className={buttonClass({
+              ...heroButtonParts,
+              colors:
+                "border-[#d3bd90] bg-[rgba(0,0,0,0.15)] [background-position:initial] text-white [backdrop-filter:blur(8px)]",
+            })}
             href="#experience-guide"
           >
             {es ? "Cómo funciona" : "How it works"}

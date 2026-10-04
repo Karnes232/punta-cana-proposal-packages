@@ -27,7 +27,11 @@ import {
   MomentsGallery,
 } from "./HomeWidgets";
 import {
-  homeButton,
+  actionsClass,
+  buttonClass,
+  eyebrowClass,
+  homeButtonParts,
+  shellClass,
   homeButtonIcon,
   homeDarkSection,
   homeH2,
@@ -103,9 +107,8 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
     "Eight",
   ];
   return (
-    <main className="ec-shell lux-home">
-      {/* lux-hero stays as the hook for its eyebrow colour until ec-eyebrow moves. */}
-      <section className="lux-hero relative isolate flex min-h-[100svh] items-center overflow-hidden bg-black px-[max(24px,calc((100vw_-_1200px)/2))] pt-[176px] pb-[72px] text-ivory upto700:px-6 upto700:pt-[144px] upto700:pb-12">
+    <main className={shellClass()}>
+      <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-black px-[max(24px,calc((100vw_-_1200px)/2))] pt-[176px] pb-[72px] text-ivory upto700:px-6 upto700:pt-[144px] upto700:pb-12">
         <HomePhoto
           photo={hero}
           locale={locale}
@@ -114,7 +117,9 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
         />
         <div className="absolute inset-0 -z-1 bg-[linear-gradient(90deg,#000c,#0005),linear-gradient(0deg,#0008,transparent)]" />
         <div className="max-w-[1000px] animate-[lux-enter_0.6s_ease-out]">
-          <p className="ec-eyebrow max-w-[760px]">
+          <p
+            className={`${eyebrowClass({ color: "text-[#e7ca97]" })} max-w-[760px]`}
+          >
             {local(home?.eyebrow, locale) || t("eyebrow")}
           </p>
           <h1 className="max-w-[1050px] text-[clamp(3.5rem,6vw,6.5rem)] upto700:text-[clamp(2.5rem,11vw,4rem)]">
@@ -123,16 +128,22 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
           <p className="max-w-[760px] text-[18px] text-ivory upto700:text-[16px]">
             {local(home?.subheadline, locale) || t("introduction")}
           </p>
-          <div className="ec-actions upto700:flex-col upto700:items-stretch">
+          <div
+            className={`${actionsClass} upto700:flex-col upto700:items-stretch`}
+          >
             <Link
-              className={`ec-button ${homeButton}`}
+              className={buttonClass(homeButtonParts)}
               href={`${prefix}/proposals`}
             >
               {t("exploreProposals")}
               <FiArrowRight aria-hidden="true" className={homeButtonIcon} />
             </Link>
             <Link
-              className={`ec-button secondary ${homeButton} bg-[#0b0b0c50] [background-position:initial] text-ivory [&:hover:not(:disabled)]:bg-[#dfc493]`}
+              className={buttonClass({
+                ...homeButtonParts,
+                colors:
+                  "border-[#b99a62] bg-[#0b0b0c50] [background-position:initial] text-ivory",
+              })}
               href={`${prefix}/romantic-dinners`}
             >
               {t("exploreDinners")}
@@ -149,7 +160,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
         </div>
       </section>
       <section id="planning" className={homeSection}>
-        <p className="ec-eyebrow text-[16px]">
+        <p className={eyebrowClass({ size: "text-[16px]" })}>
           {locale === "es"
             ? "Punta Cana · Experiencias privadas"
             : "Punta Cana · Private experiences"}
@@ -313,7 +324,9 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
           />
         </div>
         <div>
-          <p className="ec-eyebrow text-[16px]">Cabeza de Toro · Punta Cana</p>
+          <p className={eyebrowClass({ size: "text-[16px]" })}>
+            Cabeza de Toro · Punta Cana
+          </p>
           <h2 className={homeH2}>{t("dinnerTitle")}</h2>
           <p className="text-[16px]">{t("dinnerText")}</p>
           <p className="text-[16px]">{t("dinnerCelebrations")}</p>
@@ -328,7 +341,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
             {label(settings, locale, "dinnerPaymentNote")}
           </p>
           <Link
-            className={`ec-button ${homeButton}`}
+            className={buttonClass(homeButtonParts)}
             href={`${prefix}/romantic-dinners`}
           >
             {t("exploreDinners")}
@@ -372,7 +385,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
         <h2 className={`${homeH2} mx-auto`}>{t("startTitle")}</h2>
         <p className="text-[16px]">{t("deposit")}</p>
         <Link
-          className={`ec-button ${homeButton}`}
+          className={buttonClass(homeButtonParts)}
           href={`${prefix}/proposals`}
         >
           {t("exploreProposals")}

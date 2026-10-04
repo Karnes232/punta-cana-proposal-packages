@@ -3,6 +3,7 @@ import { useId, useState } from "react";
 import type { Locale, Settings, Selection } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
 import { depositText } from "@/lib/experience/dinnerPolicy";
+import { buttonClass } from "./styles";
 export default function AvailabilityForm({
   locale,
   settings,
@@ -123,7 +124,7 @@ export default function AvailabilityForm({
         <input name="website" tabIndex={-1} autoComplete="off" />
       </label>
       <button
-        className="ec-button"
+        className={buttonClass()}
         disabled={demo || status === "sending" || status === "sent"}
       >
         {status === "sending" ? "…" : t("send")}

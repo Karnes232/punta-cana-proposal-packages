@@ -9,6 +9,7 @@ import type {
 import { local, id } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import Accordion from "./Accordion";
+import { eyebrowClass } from "./styles";
 
 export default function ProposalDinnerMenu({
   experience,
@@ -30,7 +31,7 @@ export default function ProposalDinnerMenu({
       data-testid="proposal-dinner"
       className="my-6 rounded-[4px_32px_4px_4px] border border-[#776443] bg-[linear-gradient(135deg,#20201f,#111214)] p-6 upto600:p-4"
     >
-      <p className="ec-eyebrow leading-[1.6]">
+      <p className={`${eyebrowClass()} leading-[1.6]`}>
         {locale === "es"
           ? "Una mesa para dos · Tres tiempos"
           : "A table for two · Three courses"}

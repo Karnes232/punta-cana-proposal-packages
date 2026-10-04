@@ -8,7 +8,6 @@ import { routing } from "@/i18n/routing";
 import CatalogNavigation from "@/components/ExperienceCatalog/CatalogNavigation";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import type { Locale } from "@/lib/experience/types";
-import "@/components/ExperienceCatalog/catalog.css";
 import CatalogFooter from "@/components/ExperienceCatalog/CatalogFooter";
 import { BlogLanguageAlternatesProvider } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 

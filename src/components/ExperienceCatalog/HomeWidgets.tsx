@@ -14,7 +14,14 @@ import {
 } from "react-icons/fi";
 import type { Image, Locale } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";
-import { homeButton, homeButtonIcon, homeH3, homeIcon } from "./styles";
+import {
+  buttonClass,
+  eyebrowClass,
+  homeButtonIcon,
+  homeButtonParts,
+  homeH3,
+  homeIcon,
+} from "./styles";
 export function HomePhoto({
   photo,
   locale,
@@ -75,7 +82,7 @@ export function ExperienceSelector({
           className="object-cover [transition:transform_0.4s] [:hover>&]:[transform:scale(1.03)]"
         />
         <a
-          className={`ec-button absolute right-6 bottom-6 left-6 ${homeButton}`}
+          className={`${buttonClass(homeButtonParts)} absolute right-6 bottom-6 left-6`}
           href={`${prefix}/${selected === 0 ? "proposals" : "romantic-dinners"}`}
         >
           {copy[selected === 0 ? "exploreProposals" : "exploreDinners"]}
@@ -139,7 +146,7 @@ export function PickupJourney({
           )}
         </div>
         <div className="self-center p-12 upto700:p-6">
-          <span className="ec-eyebrow">0{selected + 1} / 05</span>
+          <span className={eyebrowClass()}>0{selected + 1} / 05</span>
           <h3 className={homeH3}>{steps[selected].title}</h3>
           <p className="text-[16px] text-[#c7c2b9]">{steps[selected].text}</p>
         </div>

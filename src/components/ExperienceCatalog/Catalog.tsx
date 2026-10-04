@@ -15,7 +15,7 @@ import ProposalGrid from "./ProposalGrid";
 import ExperienceCard from "./ExperienceCard";
 import { PROPOSALS_HERO_SLUG } from "@/sanity/constants";
 import { getRequestHost, isPreviewHost } from "@/lib/requestHost";
-import { wrapClass } from "./styles";
+import { buttonClass, shellClass, wrapClass } from "./styles";
 export default async function Catalog({
   locale,
   section,
@@ -40,9 +40,7 @@ export default async function Catalog({
   const t = (key: string) => label(settings, locale, key),
     prefix = locale === "es" ? "/es" : "";
   return (
-    <main
-      className={`ec-shell ${section === "proposals" ? "bg-black [--ec-ink:#f7f5f1] [--ec-muted:#b9b7b5]" : ""}`}
-    >
+    <main className={shellClass(section === "proposals")}>
       <CatalogHero
         dinner={section === "romantic-dinners"}
         locale={locale}
@@ -145,7 +143,10 @@ export default async function Catalog({
           {local(home?.contactHeading, locale) && (
             <h2>{local(home?.contactHeading, locale)}</h2>
           )}
-          <Link className="ec-button secondary" href={`${prefix}/contact`}>
+          <Link
+            className={buttonClass({ secondary: true })}
+            href={`${prefix}/contact`}
+          >
             {t("contactUsLabel")} →
           </Link>
         </section>
