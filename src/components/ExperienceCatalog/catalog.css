@@ -261,58 +261,6 @@
     max-width: 800px;
     margin-bottom: 32px !important;
   }
-  .lux-selector {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 24px;
-  }
-  .lux-selector-options {
-    display: grid;
-    gap: 16px;
-  }
-  .lux-selector-options button {
-    text-align: left;
-    padding: 32px;
-    border: 1px solid #ded5c4;
-    cursor: pointer;
-    transition:
-      border-color 0.2s,
-      background 0.2s;
-  }
-  .lux-selector-options button:first-child {
-    padding-block: 40px;
-  }
-  .lux-selector-options button.is-active {
-    border-color: #9b773d;
-    background: #cfae700e;
-  }
-  .lux-selector-options button p {
-    margin-bottom: 0;
-  }
-  .lux-index {
-    color: #9b773d;
-    font-size: 14px;
-    display: block;
-    margin-bottom: 16px;
-  }
-  .lux-selector-image {
-    position: relative;
-    min-height: 480px;
-    overflow: hidden;
-  }
-  .lux-selector-image img {
-    object-fit: cover;
-    transition: transform 0.4s;
-  }
-  .lux-selector-image:hover img {
-    transform: scale(1.03);
-  }
-  .lux-selector-image a {
-    position: absolute;
-    bottom: 24px;
-    left: 24px;
-    right: 24px;
-  }
   .lux-trust {
     background: #0b0b0c;
     color: #f7f5f1;
@@ -425,56 +373,6 @@
     max-width: 1200px;
     margin: auto;
   }
-  .lux-journey-buttons {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    margin: 40px 0 24px;
-  }
-  .lux-journey-buttons button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    cursor: pointer;
-    padding: 16px;
-    border-bottom: 1px solid #cfae7033;
-    font-size: 14px;
-  }
-  .lux-journey-buttons button.is-active {
-    border-color: #cfae70;
-    color: #cfae70;
-    background: #cfae700a;
-  }
-  .lux-journey-buttons svg {
-    width: 24px;
-    height: 24px;
-  }
-  .lux-journey-panel {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 360px;
-    border: 1px solid #cfae7033;
-  }
-  .lux-journey-panel > div:last-child {
-    padding: 48px;
-    align-self: center;
-  }
-  .lux-journey-visual {
-    position: relative;
-    min-height: 320px;
-    display: grid;
-    place-items: center;
-    background: #141416;
-  }
-  .lux-journey-visual img {
-    object-fit: cover;
-  }
-  .lux-journey-symbol {
-    width: 100px;
-    height: 100px;
-    stroke-width: 1;
-  }
   .lux-editorial {
     display: grid;
     grid-template-columns: 1fr 1.4fr 1fr;
@@ -524,74 +422,6 @@
     font-size: 1.4rem;
     margin-top: 16px;
   }
-  .lux-moments {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-  }
-  .lux-moments button {
-    position: relative;
-    aspect-ratio: 3/4;
-    overflow: hidden;
-    cursor: zoom-in;
-  }
-  .lux-moments button:nth-child(5n + 1) {
-    grid-column: span 2;
-    aspect-ratio: 3/2;
-  }
-  .lux-moments img {
-    object-fit: cover;
-    transition: transform 0.3s;
-  }
-  .lux-moments button:hover img {
-    transform: scale(1.03);
-  }
-  .lux-moments button span {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    background: #0b0b0c;
-    color: #f7f5f1;
-    padding: 4px 12px;
-  }
-  .lux-lightbox {
-    background: #0b0b0c;
-    color: #f7f5f1;
-    width: min(1100px, 95vw);
-    max-height: 95svh;
-    padding: 24px;
-    margin: auto;
-    border: 1px solid #cfae7055;
-  }
-  .lux-lightbox::backdrop {
-    background: #000d;
-  }
-  .lux-lightbox-photo {
-    position: relative;
-    height: 70svh;
-  }
-  .lux-lightbox-photo img {
-    object-fit: contain;
-  }
-  .lux-lightbox button {
-    min-width: 44px;
-    min-height: 44px;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-  }
-  .lux-lightbox-close {
-    margin-left: auto;
-  }
-  .lux-lightbox-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 24px;
-  }
-  .lux-lightbox-controls p {
-    color: #f7f5f1;
-  }
   .lux-final {
     text-align: center;
     border-top: 1px solid #ded5c4;
@@ -637,13 +467,8 @@
     .lux-hero-copy > p {
       font-size: 16px;
     }
-    .lux-selector,
-    .lux-dinner,
-    .lux-journey-panel {
+    .lux-dinner {
       grid-template-columns: 1fr;
-    }
-    .lux-selector-image {
-      min-height: 380px;
     }
     .lux-trust > div {
       grid-template-columns: 1fr 1fr;
@@ -660,20 +485,6 @@
     .lux-featured-photo {
       aspect-ratio: 4/3;
     }
-    .lux-journey-buttons {
-      grid-template-columns: 1fr;
-      gap: 4px;
-    }
-    .lux-journey-buttons button {
-      flex-direction: row;
-      text-align: left;
-    }
-    .lux-journey-panel > div:last-child {
-      padding: 24px;
-    }
-    .lux-journey-visual {
-      min-height: 240px;
-    }
     .lux-editorial {
       gap: 8px;
     }
@@ -689,19 +500,6 @@
     }
     .lux-how p {
       font-size: 14px;
-    }
-    .lux-moments {
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-    .lux-moments button:nth-child(5n + 1) {
-      grid-column: span 2;
-    }
-    .lux-lightbox {
-      padding: 12px;
-    }
-    .lux-lightbox-photo {
-      height: 60svh;
     }
     .lux-home .ec-actions {
       align-items: stretch;

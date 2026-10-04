@@ -49,26 +49,32 @@ export function ExperienceSelector({
   const [selected, setSelected] = useState(0);
   const prefix = locale === "es" ? "/es" : "";
   return (
-    <div className="lux-selector">
-      <div className="lux-selector-options">
+    <div className="grid grid-cols-[1fr_1.2fr] gap-6 upto700:grid-cols-[1fr]">
+      <div className="grid gap-4">
         {["proposal", "dinner"].map((kind, i) => (
           <button
             key={kind}
-            className={selected === i ? "is-active" : ""}
+            className={`cursor-pointer border p-8 text-left [transition:border-color_0.2s,background_0.2s] first:py-10 ${selected === i ? "border-[#9b773d] bg-[#cfae700e]" : "border-[#ded5c4]"}`}
             aria-pressed={selected === i}
             onClick={() => setSelected(i)}
           >
-            <span className="lux-index">0{i + 1}</span>
+            <span className="mb-4 block text-[14px] text-[#9b773d]">
+              0{i + 1}
+            </span>
             <h3>{copy[kind + "Choice"]}</h3>
-            <p>{copy[kind + "Description"]}</p>
+            <p className="mb-0">{copy[kind + "Description"]}</p>
             <FiArrowRight aria-hidden="true" />
           </button>
         ))}
       </div>
-      <div className="lux-selector-image">
-        <HomePhoto photo={images[selected]} locale={locale} />
+      <div className="relative min-h-[480px] overflow-hidden upto700:min-h-[380px]">
+        <HomePhoto
+          photo={images[selected]}
+          locale={locale}
+          className="object-cover [transition:transform_0.4s] [:hover>&]:[transform:scale(1.03)]"
+        />
         <a
-          className="ec-button"
+          className="ec-button absolute right-6 bottom-6 left-6"
           href={`${prefix}/${selected === 0 ? "proposals" : "romantic-dinners"}`}
         >
           {copy[selected === 0 ? "exploreProposals" : "exploreDinners"]}
@@ -78,6 +84,9 @@ export function ExperienceSelector({
     </div>
   );
 }
+const lightboxButton =
+  "grid min-h-11 min-w-11 cursor-pointer place-items-center";
+
 const journeyIcons = [FiMapPin, FiTruck, FiSun, FiCamera, FiShield];
 export function PickupJourney({
   locale,
@@ -89,9 +98,9 @@ export function PickupJourney({
   const [selected, setSelected] = useState(0);
   const Icon = journeyIcons[selected];
   return (
-    <div className="lux-journey">
+    <div>
       <div
-        className="lux-journey-buttons"
+        className="mx-0 mt-10 mb-6 grid grid-cols-[repeat(5,1fr)] gap-2 upto700:grid-cols-[1fr] upto700:gap-1"
         role="group"
         aria-label={locale === "es" ? "Tu recorrido" : "Your journey"}
       >
@@ -101,24 +110,34 @@ export function PickupJourney({
             <button
               key={step.title}
               aria-pressed={selected === i}
-              className={selected === i ? "is-active" : ""}
+              className={`flex cursor-pointer flex-col items-center gap-4 border-b p-4 text-[14px] upto700:flex-row upto700:text-left ${selected === i ? "border-gold bg-[#cfae700a] text-gold" : "border-b-[#cfae7033]"}`}
               onClick={() => setSelected(i)}
             >
-              <StepIcon aria-hidden="true" />
+              <StepIcon aria-hidden="true" className="h-6 w-6" />
               <span>{step.title}</span>
             </button>
           );
         })}
       </div>
-      <div className="lux-journey-panel" aria-live="polite">
-        <div className="lux-journey-visual">
+      <div
+        className="grid min-h-[360px] grid-cols-[1fr_1fr] border border-[#cfae7033] upto700:grid-cols-[1fr]"
+        aria-live="polite"
+      >
+        <div className="relative grid min-h-[320px] place-items-center bg-[#141416] upto700:min-h-[240px]">
           {steps[selected].photo?.url ? (
-            <HomePhoto photo={steps[selected].photo} locale={locale} />
+            <HomePhoto
+              photo={steps[selected].photo}
+              locale={locale}
+              className="object-cover"
+            />
           ) : (
-            <Icon aria-hidden="true" className="lux-journey-symbol" />
+            <Icon
+              aria-hidden="true"
+              className="h-[100px] w-[100px] [stroke-width:1]"
+            />
           )}
         </div>
-        <div>
+        <div className="self-center p-12 upto700:p-6">
           <span className="ec-eyebrow">0{selected + 1} / 05</span>
           <h3>{steps[selected].title}</h3>
           <p>{steps[selected].text}</p>
@@ -142,23 +161,33 @@ export function MomentsGallery({
     setSelected((i) => (i + delta + photos.length) % photos.length);
   return (
     <>
-      <div className="lux-moments">
+      <div className="grid grid-cols-[repeat(4,1fr)] gap-4 upto700:grid-cols-[1fr_1fr] upto700:gap-2">
         {photos.map((photo, i) => (
           <button
             key={photo.url}
             aria-label={`${copy.galleryOpen} ${i + 1}`}
+            className="relative aspect-[3/4] cursor-zoom-in overflow-hidden nth-[5n+1]:[grid-column:span_2] nth-[5n+1]:aspect-[3/2]"
             onClick={() => {
               setSelected(i);
               dialog.current?.showModal();
             }}
           >
-            <HomePhoto photo={photo} locale={locale} />
-            <span aria-hidden="true">+</span>
+            <HomePhoto
+              photo={photo}
+              locale={locale}
+              className="object-cover [transition:transform_0.3s] [:hover>&]:[transform:scale(1.03)]"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute right-4 bottom-4 bg-black px-3 py-1 text-ivory"
+            >
+              +
+            </span>
           </button>
         ))}
       </div>
       <dialog
-        className="lux-lightbox"
+        className="m-auto max-h-[95svh] w-[min(1100px,95vw)] border border-[#cfae7055] bg-black p-6 text-ivory backdrop:bg-[#000d] upto700:p-3"
         ref={dialog}
         aria-label={copy.realMoments}
         onKeyDown={(e) => {
@@ -173,24 +202,36 @@ export function MomentsGallery({
         }}
       >
         <button
-          className="lux-lightbox-close"
+          className={`ml-auto ${lightboxButton}`}
           onClick={() => dialog.current?.close()}
           aria-label={copy.close}
           autoFocus
         >
           <FiX />
         </button>
-        <div className="lux-lightbox-photo">
-          <HomePhoto photo={photos[selected]} locale={locale} />
+        <div className="relative h-[70svh] upto700:h-[60svh]">
+          <HomePhoto
+            photo={photos[selected]}
+            locale={locale}
+            className="object-contain"
+          />
         </div>
-        <div className="lux-lightbox-controls">
-          <button onClick={() => move(-1)} aria-label={copy.previous}>
+        <div className="flex items-center justify-center gap-6">
+          <button
+            className={lightboxButton}
+            onClick={() => move(-1)}
+            aria-label={copy.previous}
+          >
             <FiChevronLeft />
           </button>
-          <p aria-live="polite">
+          <p aria-live="polite" className="text-ivory">
             {selected + 1} / {photos.length}
           </p>
-          <button onClick={() => move(1)} aria-label={copy.next}>
+          <button
+            className={lightboxButton}
+            onClick={() => move(1)}
+            aria-label={copy.next}
+          >
             <FiChevronRight />
           </button>
         </div>
