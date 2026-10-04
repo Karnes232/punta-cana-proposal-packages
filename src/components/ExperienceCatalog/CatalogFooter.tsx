@@ -1,6 +1,9 @@
 import type { Locale, Settings } from "@/lib/experience/types";
 import type { GeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
 import { label } from "@/lib/experience/labels";
+
+const footerLink =
+  "my-[5px] mr-3 ml-0 inline-block text-[0.85rem] [&:hover]:text-gold";
 export default function CatalogFooter({
   locale,
   settings,
@@ -12,8 +15,8 @@ export default function CatalogFooter({
 }) {
   const prefix = locale === "es" ? "/es" : "";
   return (
-    <footer className="ec-footer">
-      <div>
+    <footer className="border-t border-t-[rgba(207,174,112,0.25)] bg-black px-7 py-[60px] text-ivory">
+      <div className="m-auto flex max-w-[1180px] flex-wrap justify-between gap-5">
         <div>
           <p>{company?.companyName}</p>
           <small>
@@ -34,7 +37,7 @@ export default function CatalogFooter({
               ["privacy-policy", "privacy"],
               ["terms-of-service", "terms"],
             ].map(([path, key]) => (
-              <a key={path} href={`${prefix}/${path}`}>
+              <a key={path} href={`${prefix}/${path}`} className={footerLink}>
                 {label(settings, locale, key)}
               </a>
             ))}
@@ -42,10 +45,14 @@ export default function CatalogFooter({
         </div>
         <div>
           {company?.telephone && (
-            <a href={`tel:${company.telephone}`}>{company.telephone}</a>
+            <a href={`tel:${company.telephone}`} className={footerLink}>
+              {company.telephone}
+            </a>
           )}
           {company?.email && (
-            <a href={`mailto:${company.email}`}>{company.email}</a>
+            <a href={`mailto:${company.email}`} className={footerLink}>
+              {company.email}
+            </a>
           )}
           <div>
             {Object.entries(company?.socialLinks || {})
@@ -61,7 +68,12 @@ export default function CatalogFooter({
                 }
               })
               .map(([name, url]) => (
-                <a key={name} href={url} rel="noopener noreferrer">
+                <a
+                  key={name}
+                  href={url}
+                  rel="noopener noreferrer"
+                  className={footerLink}
+                >
                   {{
                     facebook: "Facebook",
                     instagram: "Instagram",

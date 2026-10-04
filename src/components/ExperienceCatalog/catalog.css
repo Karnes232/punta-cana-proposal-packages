@@ -112,83 +112,9 @@
     font-size: 0.75rem;
     color: var(--ec-muted);
   }
-  .ec-header {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: #f7f5f1;
-    border-bottom: 1px solid #ded5c4;
-    color: #0b0b0c;
-  }
-  .ec-header-inner {
-    max-width: 1240px;
-    margin: auto;
-    padding: 18px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-  }
-  .ec-logo img {
-    width: 64px;
-    height: 64px;
-    object-fit: contain;
-    background: #0b0b0c;
-    border-radius: 4px;
-  }
-  .ec-nav {
-    display: flex;
-    align-items: center;
-    gap: 26px;
-    font-size: 12px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-  }
-  .ec-mobile {
-    display: none;
-  }
-  .ec-footer {
-    background: #0b0b0c;
-    color: #fff;
-    padding: 40px 28px;
-  }
-  .ec-footer > div {
-    max-width: 1180px;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-  }
-  .ec-footer a {
-    display: inline-block;
-    margin: 5px 12px 5px 0;
-    font-size: 0.85rem;
-  }
-  .ec-shell :focus-visible,
-  .ec-header :focus-visible {
+  .ec-shell :focus-visible {
     outline: 3px solid #9b773d;
     outline-offset: 3px;
-  }
-  @media (max-width: 800px) {
-    .ec-nav {
-      display: none;
-    }
-    .ec-mobile {
-      display: block;
-    }
-    .ec-mobile nav {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 100%;
-      padding: 24px;
-      background: #f7f5f1;
-      border-bottom: 1px solid #ded5c4;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
   }
   @media (prefers-reduced-motion: reduce) {
     .ec-shell * {
@@ -196,34 +122,6 @@
       transition: none !important;
       scroll-behavior: auto !important;
     }
-  }
-
-  /* Reuse the established black, gold and ivory brand palette. */
-  .ec-header {
-    background: #0b0b0c;
-    color: #f7f5f1;
-    border-color: rgba(207, 174, 112, 0.22);
-  }
-  .ec-header-inner {
-    max-width: 1280px;
-    padding: 8px 48px;
-    min-height: 80px;
-  }
-  .ec-logo img {
-    background: transparent;
-    border-radius: 0;
-  }
-  .ec-nav a:hover,
-  .ec-footer a:hover {
-    color: #cfae70;
-  }
-  .ec-nav a[href$="/contact"] {
-    border: 1px solid #cfae70;
-    color: #cfae70;
-    padding: 11px 22px;
-  }
-  .ec-nav [aria-current="true"] {
-    color: #cfae70;
   }
   .ec-button {
     color: #0b0b0c;
@@ -241,23 +139,8 @@
   .ec-button.secondary {
     border-color: #b99a62;
   }
-  .ec-footer {
-    background: #0b0b0c;
-    border-top: 1px solid rgba(207, 174, 112, 0.25);
-    color: #f7f5f1;
-    padding-block: 60px;
-  }
   .ec-eyebrow {
     color: #9b773d !important;
-  }
-  @media (max-width: 800px) {
-    .ec-header-inner {
-      padding: 8px 20px;
-    }
-    .ec-mobile nav {
-      background: #0b0b0c;
-      border-color: #cfae70;
-    }
   }
   @keyframes ec-photo {
     from {
@@ -282,49 +165,9 @@
   .ec-eyebrow {
     font-size: 14px;
   }
-  .ec-shell :focus-visible,
-  .ec-header :focus-visible {
+  .ec-shell :focus-visible {
     outline: 2px solid #cfae70;
     outline-offset: 5px;
-  }
-  .ec-header {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    transition: background 0.25s;
-  }
-  .ec-header.ec-header-hero {
-    background: #0b0b0ce6;
-  }
-  .ec-header-inner {
-    padding: 8px 24px;
-    min-height: 104px;
-  }
-  .ec-logo img {
-    width: 88px;
-    height: 88px;
-    object-fit: contain;
-  }
-  .ec-nav {
-    gap: 16px;
-    font-size: 14px;
-  }
-  .ec-nav a[href$="/contact"] {
-    border: 0;
-    padding: 0;
-    color: inherit;
-  }
-  .ec-nav [aria-current="page"] {
-    color: #cfae70;
-    border-bottom: 1px solid #cfae70;
-  }
-  .ec-nav-cta {
-    border: 1px solid #cfae70;
-    padding: 12px !important;
-    color: #cfae70 !important;
-  }
-  .ec-languages {
-    white-space: nowrap;
   }
   .lux-home h1 {
     font-size: clamp(3.5rem, 6vw, 6.5rem);
@@ -767,37 +610,6 @@
     }
   }
   @media (max-width: 1280px) {
-    .ec-nav {
-      display: none;
-    }
-    .ec-mobile {
-      display: block;
-    }
-    .ec-header-inner {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
-    .ec-mobile nav {
-      position: static !important;
-      padding: 24px;
-      background: #0b0b0c;
-    }
-    .ec-mobile[open] {
-      width: 100%;
-    }
-    .ec-mobile[open] summary {
-      text-align: right;
-    }
-    .ec-mobile nav a {
-      display: block;
-      padding: 12px 0;
-    }
-    .ec-mobile .ec-languages {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
     .lux-featured {
       gap: 16px;
     }
@@ -809,14 +621,6 @@
     }
   }
   @media (max-width: 700px) {
-    .ec-header-inner {
-      min-height: 88px;
-      padding: 4px 24px;
-    }
-    .ec-logo img {
-      width: 80px;
-      height: 80px;
-    }
     .lux-home h1 {
       font-size: clamp(2.5rem, 11vw, 4rem);
     }
@@ -905,28 +709,17 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .ec-header,
     .lux-home * {
       animation: none !important;
       transition: none !important;
       scroll-behavior: auto !important;
     }
   }
-  .ec-header-home {
-    margin-bottom: -104px;
-  }
-  .ec-header-home.ec-header-hero {
-    background: linear-gradient(#0b0b0cbf, #0b0b0c40);
-    border-color: #ffffff18;
-  }
   .lux-hero {
     min-height: 100svh;
     padding-top: 176px;
   }
   @media (max-width: 700px) {
-    .ec-header-home {
-      margin-bottom: -88px;
-    }
     .lux-hero {
       padding-top: 144px;
     }
@@ -950,8 +743,5 @@
       animation: none !important;
       transform: none;
     }
-  }
-  .ec-nav > a {
-    white-space: nowrap;
   }
 }
