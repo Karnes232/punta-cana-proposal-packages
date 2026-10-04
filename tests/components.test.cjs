@@ -280,7 +280,7 @@ test("proposal template keeps extras across styles, shows no invented price and 
   assert.equal(document.querySelectorAll("input[type=radio]").length, 3);
   assert.equal(document.querySelectorAll("input[type=checkbox]").length, 3);
   assert.match(
-    document.querySelector(".ec-card-heading").textContent,
+    document.querySelector("[data-testid=card-heading]").textContent,
     /Precio por definir/,
   );
   assert.equal(
@@ -293,7 +293,7 @@ test("proposal template keeps extras across styles, shows no invented price and 
   });
   assert.equal(document.querySelector("input[type=checkbox]").checked, true);
   assert.match(
-    document.querySelector(".ec-template-media").textContent,
+    document.querySelector("[data-testid=template-media]").textContent,
     /Estilo B/,
   );
   assert.equal(
@@ -469,10 +469,10 @@ test("proposal grid selects one package inline, preserves each configuration and
   assert.equal(cards.length, 2);
   assert.equal(document.querySelectorAll(".ec-proposal-card a").length, 0);
   assert.equal(
-    document.querySelectorAll(".ec-select-package[aria-pressed=true]").length,
+    document.querySelectorAll("button[aria-pressed][aria-pressed=true]").length,
     0,
   );
-  await act(async () => cards[0].querySelector(".ec-select-package").click());
+  await act(async () => cards[0].querySelector("button[aria-pressed]").click());
   await act(async () => cards[0].querySelector("input[type=checkbox]").click());
   await act(async () => {
     const select = cards[0].querySelector("select");
@@ -485,11 +485,11 @@ test("proposal grid selects one package inline, preserves each configuration and
   );
   await act(async () => cards[1].querySelector("h2").click());
   assert.equal(
-    document.querySelectorAll(".ec-select-package[aria-pressed=true]").length,
+    document.querySelectorAll("button[aria-pressed][aria-pressed=true]").length,
     1,
   );
   assert.equal(cards[0].querySelector("[id^=configure-]").hidden, true);
-  await act(async () => cards[0].querySelector(".ec-select-package").click());
+  await act(async () => cards[0].querySelector("button[aria-pressed]").click());
   assert.equal(cards[0].querySelector("select").value, "s2");
   assert.equal(cards[0].querySelector("input[type=checkbox]").checked, true);
   assert.equal(window.location.pathname, "/");

@@ -35,7 +35,7 @@ export default function ProposalGrid({
     };
   }, [experiences]);
   return (
-    <div className="ec-grid ec-proposal-grid">
+    <div className="grid grid-cols-2 [align-items:start] gap-7 upto800:grid-cols-[1fr] upto800:gap-6">
       {experiences.map((e) => (
         <ExperienceCard
           key={e._id}

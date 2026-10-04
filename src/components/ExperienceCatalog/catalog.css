@@ -83,29 +83,6 @@
     gap: 28px;
     align-items: start;
   }
-  .ec-card {
-    background: #fff;
-    border: 1px solid var(--ec-border);
-    border-radius: 5px;
-    overflow: hidden;
-    scroll-margin-top: 100px;
-  }
-  .ec-card-body {
-    padding: 28px;
-  }
-  .ec-card-heading {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    align-items: start;
-  }
-  .ec-card-heading h2 {
-    font-size: 1.8rem;
-  }
-  .ec-card-heading > span {
-    white-space: nowrap;
-    font-size: 0.9rem;
-  }
   .ec-empty {
     border: 1px solid var(--ec-border);
     padding: 38px;
@@ -260,17 +237,11 @@
     .ec-wrap {
       padding: 28px 20px;
     }
-    .ec-card-body {
-      padding: 22px;
-    }
     .ec-section {
       padding: 36px 0;
     }
     .ec-form-grid {
       grid-template-columns: 1fr;
-    }
-    .ec-card-heading {
-      display: block;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -333,33 +304,10 @@
   .ec-eyebrow {
     color: #9b773d !important;
   }
-  .ec-card {
-    border-radius: 0;
-    box-shadow: 0 12px 40px #0b0b0c08;
-  }
-  .ec-card-heading > span {
-    color: #8b672e;
-    font-weight: 500;
-  }
-  .ec-card-body > .ec-button {
-    width: 100%;
-  }
   .ec-dinner-grid {
     grid-template-columns: 1fr;
     max-width: 1000px;
     margin: auto;
-  }
-  .ec-inclusions ul {
-    display: flex;
-    gap: 14px 28px;
-    flex-wrap: wrap;
-    padding: 8px 0;
-    list-style: none;
-  }
-  .ec-inclusions li::before {
-    content: "✓";
-    color: #9b773d;
-    margin-right: 8px;
   }
   .ec-template-note {
     padding: 18px 24px;
@@ -369,31 +317,6 @@
     color: #6e6e73;
     font-size: 0.85rem;
   }
-  .ec-template-media {
-    background: #151515;
-    color: #f7f5f1;
-    min-height: 260px;
-    display: grid;
-    place-content: center;
-    text-align: center;
-    padding: 32px;
-    border-bottom: 1px solid #cfae70;
-    gap: 14px;
-  }
-  .ec-template-media span {
-    color: #cfae70;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-  .ec-template-media strong {
-    font-family: var(--font-playfair), Georgia, serif;
-    font-size: 2.4rem;
-    font-weight: 400;
-  }
-  .ec-template-media small {
-    color: #b7b1a6;
-  }
   @media (max-width: 800px) {
     .ec-header-inner {
       padding: 8px 20px;
@@ -402,16 +325,6 @@
       background: #0b0b0c;
       border-color: #cfae70;
     }
-  }
-
-  /* Progressive configuration keeps the existing brand and state. */
-  .ec-card {
-    border: 0;
-    box-shadow: none;
-    overflow: visible;
-  }
-  .ec-card-body {
-    min-width: 0;
   }
   @keyframes ec-photo {
     from {
@@ -429,9 +342,6 @@
     .ec-wrap {
       padding-inline: 14px;
     }
-    .ec-card-body {
-      padding: 18px 14px;
-    }
   } /* Proposal cards retain the original dark catalogue treatment. */
   .ec-proposals-section {
     --ec-ink: #f7f5f1;
@@ -441,76 +351,15 @@
     color: #f7f5f1;
     padding: 36px 28px;
   }
-  .ec-proposal-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px;
-  }
-  .ec-proposal-card {
-    border: 1px solid #cfae7033;
-    background: #141416;
-    color: #f7f5f1;
-    cursor: pointer;
-    min-width: 0;
-    transition: border-color 180ms;
-  }
-  .ec-proposal-card:hover,
-  .ec-proposal-card.is-selected {
-    border-color: #cfae70;
-  }
-  .ec-proposal-card .ec-card-heading h2 {
-    font-style: italic;
-    font-size: clamp(1.5rem, 2.2vw, 2rem);
-  }
-  .ec-proposal-card .ec-card-heading > span {
-    color: #cfae70;
-    white-space: normal;
-    text-align: right;
-    flex-shrink: 0;
-    max-width: 40%;
-  }
-  .ec-proposal-inclusions {
-    padding-left: 18px;
-    margin: 22px 0;
-    font-size: 0.85rem;
-    color: #cfcdca;
-    list-style: disc;
-  }
-  .ec-proposal-inclusions li {
-    padding: 2px 0;
-  }
-  .ec-select-package {
-    color: #cfae70;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 24px 0 8px;
-    min-height: 48px;
-    text-align: left;
-    cursor: pointer;
-  }
   .ec-proposal-card small {
     color: #b9b7b5;
   }
   .ec-proposal-card .ec-form {
     cursor: auto;
   }
-  .ec-proposal-card [hidden] {
-    display: none !important;
-  }
   @media (max-width: 800px) {
     .ec-proposals-section {
       padding: 28px 14px;
-    }
-    .ec-proposal-grid {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .ec-proposal-card .ec-card-heading {
-      display: flex;
     }
   }
   .ec-proposal-page {
@@ -583,8 +432,6 @@
   }
   .ec-shell small,
   .ec-shell .ec-button,
-  .ec-select-package,
-  .ec-proposal-inclusions,
   .ec-eyebrow,
   .ec-intro-box .ec-intro-note {
     font-size: 14px;
@@ -1256,9 +1103,6 @@
   .lux-hero {
     min-height: 100svh;
     padding-top: 176px;
-  }
-  .ec-proposal-card {
-    scroll-margin-top: 120px;
   }
   .ec-request-dialog .ec-form input,
   .ec-request-dialog .ec-form textarea {
