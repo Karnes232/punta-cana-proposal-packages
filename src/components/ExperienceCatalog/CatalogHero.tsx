@@ -31,7 +31,10 @@ export default function CatalogHero({
       />
       <div className="absolute inset-0 -z-1 bg-[linear-gradient(90deg,rgba(7,9,12,0.8),rgba(7,9,12,0.36)),linear-gradient(0deg,rgba(7,9,12,0.5),transparent_65%)]" />
       <div className="m-auto w-full max-w-[1280px] px-7 py-[90px] upto800:px-5 upto600:py-[65px] upto390:px-3.5">
-        <p className={eyebrowClass()}>Punta Cana · {t("heroEyebrow")}</p>
+        <p className={eyebrowClass()}>
+          {/* Separate text nodes, as before: joining them shifts one glyph. */}
+          {"Punta Cana ·"} {t("heroEyebrow")}
+        </p>
         <h1 className="my-6 max-w-[1000px] text-[clamp(2.5rem,5.2vw,5.3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-inherit">
           {t(dinner ? "dinnerIntroTitle" : "proposalIntroTitle")}
         </h1>
