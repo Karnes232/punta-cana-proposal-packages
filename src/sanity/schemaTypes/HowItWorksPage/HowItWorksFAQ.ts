@@ -1,7 +1,7 @@
 import { defineType, defineField } from "sanity";
 import { DocumentIcon } from "@sanity/icons";
 export default defineType({
-  name: "HowItWorksPageHowItWorksFAQ",
+  name: "howItWorksFaq",
   title: "How It Works Page FAQ",
   type: "document",
   icon: DocumentIcon,
@@ -59,7 +59,7 @@ export default defineType({
               name: "category",
               title: "Category",
               type: "reference",
-              to: [{ type: "HowItWorksPageHowItWorksFaqCategory" }],
+              to: [{ type: "howItWorksFaqCategory" }],
               validation: (Rule) => Rule.required(),
               options: {
                 disableNew: true,

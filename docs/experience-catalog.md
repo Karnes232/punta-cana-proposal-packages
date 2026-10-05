@@ -25,8 +25,8 @@ to `/proposals` (with the package slug as the `#hash`) in `src/proxy.ts`.
 - **Proposal experiences** (`proposalExperience`) and **romantic dinner
   experiences** (`romanticDinnerExperience`): styles with prices and photos,
   inclusions, extras, menus and drinks (dinners). Only active documents are
-  shown. The slug in `EXCLUDED_PROPOSAL_SLUG` ("Adventure to Yes") is kept
-  out of public lists and the sitemap.
+  shown; inactive ones (such as "Adventure to Yes") stay out of public lists
+  and the sitemap until an editor turns them on.
 - **Catalog Settings** (`experienceCatalogSettings`): every editable label
   (navigation, card text, hero lines, notes, footer…), the dinner deposit
   amount and policy messages. Defaults live in `src/lib/experience/labels.ts`,
@@ -35,7 +35,16 @@ to `/proposals` (with the package slug as the `#hash`) in `src/proxy.ts`.
 - **Catalog Home** (`catalogHome`): home page text (`copy`, defaults in
   `homeCopy.ts`, read with `homeText()`), hero and selector photos, up to
   three featured proposals, journey/editorial/moments photos. Without featured
-  proposals, the slugs in `FEATURED_FALLBACK_SLUGS` are used.
+  proposals, the slugs in `FEATURED_FALLBACK_SLUGS` are used; without a hero
+  photo, the first featured proposal's photo is used.
+- **Catalog Contact** (`catalogContact`): the contact page heading, text and
+  business information. Phone, email and WhatsApp come from **Business &
+  social links** (`generalLayout`), the same values the footer shows.
+- **SEO**: each page's title, description and sharing image are one `pageSeo`
+  document with the ID `pageSeo-<page>` (`SEO_PAGES`, `pageSeoId()`), shown
+  as "SEO" inside the page's Studio folder. `catalogPageMetadata()` reads it
+  for home, proposals, romantic dinners and contact, and falls back to the
+  page's default title. Each package's own SEO is its `seo` field.
 - **Studio tools** (`src/sanity/tools/`): the proposal and dinner template
   tools fill a draft from the approved template content.
 

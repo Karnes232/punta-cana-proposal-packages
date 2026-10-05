@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
-  name: "StoriesPageHero",
+  name: "storiesHero",
   title: "Stories Page Hero",
   type: "document",
   icon: DocumentIcon,
@@ -49,7 +49,7 @@ export default defineType({
       name: "featuredStory",
       title: "Featured Story",
       type: "reference",
-      to: [{ type: "individualStory" }],
+      to: [{ type: "story" }],
       options: { disableNew: true },
       validation: (Rule) => Rule.required(),
     }),
@@ -57,7 +57,7 @@ export default defineType({
   preview: {
     select: {
       title: "eyebrow.en",
-      subtitle: "heading.en",
+      subtitle: "headingLine1.en",
     },
   },
 });

@@ -2,7 +2,6 @@ import type {
   Contact,
   Experience,
   Home,
-  Image,
   Settings,
 } from "@/lib/experience/types";
 import {
@@ -28,21 +27,13 @@ export const catalogContentQuery = defineQuery(`{
         dinnerSelectorImage ${imageWithAlt},
         journeyImages[] ${imageWithAlt},
         editorialImages[] ${imageWithAlt},
-        moments[] ${imageWithAlt},
-        seo { ..., image ${imageWithAlt} }
+        moments[] ${imageWithAlt}
       },
-      "contact": *[_id == $contactId][0] {
-        ...,
-        seo { ..., image ${imageWithAlt} }
-      }
+      "contact": *[_id == $contactId][0]
     }`);
 
 export const homePresentationQuery = defineQuery(`{
-      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref,
-      "hero": *[_type == "HomePageHero"][0].image {
-        "url": asset->url,
-        "alt": { "en": alt, "es": alt }
-      }
+      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref
     }`);
 
 export const featuredFallbackQuery = defineQuery(`*[
@@ -70,14 +61,10 @@ export async function getCatalogContent() {
   );
 }
 
-type HomeConfig = {
-  ids: string[] | null;
-  /** From the legacy HomePageHero document until Catalog Home has its own. */
-  hero?: Image;
-};
+type HomeConfig = { ids: string[] | null };
 
 /**
- * The proposals featured on Home (up to three) and the legacy hero image.
+ * The proposals featured on Home (up to three).
  * Only these summaries reach Home; the full catalog stays on its own pages.
  */
 export async function getHomePresentation() {
@@ -96,5 +83,5 @@ export async function getHomePresentation() {
   const proposals = (await Promise.all(ids.map(getExperience))).filter(
     (e): e is Experience => !!e && e._type === "proposalExperience",
   );
-  return { proposals, hero: config.hero };
+  return { proposals };
 }

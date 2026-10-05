@@ -27,7 +27,7 @@ export interface HowItWorksFaqsPage {
   faqs: HowItWorksFaqs[];
 }
 
-export const howItWorksFaqsCategoriesQuery = `*[_type == "HowItWorksPageHowItWorksFaqCategory"] {
+export const howItWorksFaqsCategoriesQuery = `*[_type == "howItWorksFaqCategory"] {
     _id,
     name {
         en,
@@ -41,7 +41,7 @@ export async function getHowItWorksFaqCategories(): Promise<
   return await client.fetch(howItWorksFaqsCategoriesQuery);
 }
 
-export const howItWorksFaqsPageQuery = `*[_type == "HowItWorksPageHowItWorksFAQ"][0] {
+export const howItWorksFaqsPageQuery = `*[_type == "howItWorksFaq"][0] {
         _id,
         eyebrow {
             en,

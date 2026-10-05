@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
-  name: "BlogPageCtaStrip",
+  name: "blogCtaStrip",
   title: "Blog Page CTA Strip",
   type: "document",
   icon: DocumentIcon,

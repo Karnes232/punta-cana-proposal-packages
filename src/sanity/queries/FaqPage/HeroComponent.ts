@@ -32,7 +32,7 @@ export interface FaqsPageHeroComponent {
   };
 }
 
-export const faqsPageHeroComponentQuery = `*[_type == "FaqsPageHeroComponent"][0] {
+export const faqsPageHeroComponentQuery = `*[_type == "faqHero"][0] {
   heroImage {
     ${imageWithDimensions}
   },

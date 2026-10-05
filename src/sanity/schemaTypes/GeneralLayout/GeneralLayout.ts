@@ -61,6 +61,12 @@ export default defineType({
           .max(11),
     }),
     defineField({
+      name: "whatsapp",
+      title: "WhatsApp",
+      type: "string",
+      description: "Número con código de país / Number with country code",
+    }),
+    defineField({
       name: "socialLinks",
       title: "Social Links",
       type: "object",

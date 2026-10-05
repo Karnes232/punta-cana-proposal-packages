@@ -12,18 +12,6 @@ import {
 //LegalDocuments
 import { legalDocuments } from "./LegalDocuments/LegalDocuments";
 
-//HomePage
-import HomePageHero from "./HomePage/Hero";
-import HomePageBrandStatement from "./HomePage/BrandStatement";
-import HomePagePackageCategories from "./HomePage/PackageCategories";
-import HomePagePackageCategory from "./HomePage/PackageCategory";
-import HomePageHowItWorks from "./HomePage/HowItWorks";
-import HomePageHowItWorksStep from "./HomePage/HowItWorksStep";
-import HomePageFeatureStory from "./HomePage/FeatureStory";
-import HomePageFeatureStorySection from "./HomePage/FeatureStorySection";
-import HomePageTrustIndicators from "./HomePage/TrustIndicators";
-import HomePageCTABanner from "./HomePage/CTABanner";
-
 //StoriesPage
 import StoriesPageHero from "./StoriesPage/Hero";
 import ProposalType from "./StoriesPage/ProposalType";
@@ -36,9 +24,6 @@ import BlogPost from "./BlogPage/BlogPost";
 import BlogPostSeo from "./BlogPage/BlogPostSeo";
 import BlogCategory from "./BlogPage/BlogCategory";
 import BlogPageCtaStrip from "./BlogPage/CtaStrip";
-
-//ContactPage
-import ContactPageContent from "./ContactPage/Content";
 
 //HowItWorksPage
 import HowItWorksPageHero from "./HowItWorksPage/Hero";
@@ -53,10 +38,12 @@ import FaqsPageFaqContactStrip from "./FaqsPage/FaqContactStrip";
 import FaqsPageFaqsCategories from "./FaqsPage/FaqsCategories";
 import FaqsPageFaqs from "./FaqsPage/Faqs";
 import PageSeo from "./SEO/PageSeo";
+import { withTitles } from "./shared/titles";
 import Seo from "./SEO/seo";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [
+  // Bilingual Studio titles: see shared/titles.ts.
+  types: withTitles([
     ...experienceCatalogSchemas,
     //Localized
     localizedString,
@@ -70,17 +57,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     Seo,
     //LegalDocuments
     legalDocuments,
-    //HomePage
-    HomePageHero,
-    HomePageBrandStatement,
-    HomePagePackageCategories,
-    HomePagePackageCategory,
-    HomePageHowItWorks,
-    HomePageHowItWorksStep,
-    HomePageFeatureStory,
-    HomePageFeatureStorySection,
-    HomePageTrustIndicators,
-    HomePageCTABanner,
 
     //StoriesPage
     StoriesPageHero,
@@ -95,9 +71,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     BlogCategory,
     BlogPageCtaStrip,
 
-    //ContactPage
-    ContactPageContent,
-
     //HowItWorksPage
     HowItWorksPageHero,
     HowItWorksPageHowItWorksSteps,
@@ -110,5 +83,5 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FaqsPageFaqContactStrip,
     FaqsPageFaqsCategories,
     FaqsPageFaqs,
-  ],
+  ]),
 };

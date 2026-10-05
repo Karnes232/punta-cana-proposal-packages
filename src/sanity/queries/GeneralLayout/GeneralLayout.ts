@@ -20,6 +20,7 @@ export interface GeneralLayout {
   };
   telephone: string;
   email: string;
+  whatsapp?: string;
   socialLinks: {
     facebook: string;
     instagram: string;
@@ -45,6 +46,7 @@ export const generalLayoutQuery = `*[_type == "generalLayout"][0] {
   },
   telephone,
   email,
+  whatsapp,
   socialLinks {
     facebook,
     instagram,

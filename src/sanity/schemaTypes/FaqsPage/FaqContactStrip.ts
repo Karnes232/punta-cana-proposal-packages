@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
-  name: "FaqsPageFaqContactStrip",
+  name: "faqContactStrip",
   title: "Faqs Page Faq Contact Strip",
   type: "document",
   icon: DocumentIcon,

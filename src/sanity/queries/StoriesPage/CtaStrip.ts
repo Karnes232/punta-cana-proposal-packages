@@ -24,7 +24,7 @@ export interface StoriesPageCtaStrip {
   ctaHref: string;
 }
 
-export const storiesPageCtaStripQuery = `*[_type == "StoriesPageCtaStrip"][0] {
+export const storiesPageCtaStripQuery = `*[_type == "storiesCtaStrip"][0] {
   eyebrow {
     en,
     es

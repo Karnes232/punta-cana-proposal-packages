@@ -78,7 +78,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
     home?.dinnerSelectorImage ||
     dinner?.styles[0]?.mainImage ||
     dinner?.gallery[0]?.image;
-  const hero = home?.heroImage || presentation.hero || proposalPhoto;
+  const hero = home?.heroImage || proposalPhoto;
   const realPhotos = proposals.flatMap((e) =>
     e.gallery.map((p) => p.image).filter((p): p is Image => !!p?.url),
   );
@@ -120,13 +120,13 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
           <p
             className={`${eyebrowClass({ color: "text-[#e7ca97]" })} max-w-[760px]`}
           >
-            {local(home?.eyebrow, locale) || t("eyebrow")}
+            {t("eyebrow")}
           </p>
           <h1 className="max-w-[1050px] text-[clamp(3.5rem,6vw,6.5rem)] upto700:text-[clamp(2.5rem,11vw,4rem)]">
-            {local(home?.headline, locale) || t("headline")}
+            {t("headline")}
           </h1>
           <p className="max-w-[760px] text-[18px] text-ivory upto700:text-[16px]">
-            {local(home?.subheadline, locale) || t("introduction")}
+            {t("introduction")}
           </p>
           <div
             className={`${actionsClass} upto700:flex-col upto700:items-stretch`}

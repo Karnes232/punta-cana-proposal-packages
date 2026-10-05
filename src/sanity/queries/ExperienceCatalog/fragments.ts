@@ -94,9 +94,8 @@ export const experienceProjection = /* groq */ `{
   }
 }`;
 
-/** Public, active experiences. $excludedSlug hides one proposal on purpose. */
+/** Public, active experiences. */
 export const activeExperienceFilter = /* groq */ `
   _type in ["proposalExperience", "romanticDinnerExperience"]
   && active == true
-  && coalesce(slug.current, "") != $excludedSlug
 `;

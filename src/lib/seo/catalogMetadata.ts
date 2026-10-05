@@ -32,41 +32,29 @@ export function catalogMetadata(
   };
 }
 /**
- * Like catalogMetadata, but Home and Contact fall back to their older
- * PageSeo documents for any field the catalog page leaves empty.
+ * Metadata for a catalog page (home, proposals, romantic dinners, contact)
+ * from its Page SEO entry in the Studio; `title` is used when it has none.
  */
 export async function catalogPageMetadata(
   locale: Locale,
   path: string,
-  seo?: Seo,
+  pageName: string,
   title?: string,
 ): Promise<Metadata> {
-  const previous =
-    path === "" || path === "/contact"
-      ? await getPageSeo(path === "" ? "home" : "contact")
-      : null;
-  const preserved: Seo = {
-    title: {
-      en: previous?.seo?.meta?.en?.title,
-      es: previous?.seo?.meta?.es?.title,
-    },
-    description: {
-      en: previous?.seo?.meta?.en?.description,
-      es: previous?.seo?.meta?.es?.description,
-    },
-    image: previous?.seo?.openGraph?.image
-      ? { url: previous.seo.openGraph.image.url }
-      : undefined,
-    noIndex: previous?.seo?.noIndex,
-  };
+  const page = (await getPageSeo(pageName))?.seo;
   return catalogMetadata(
     locale,
     path,
     {
-      ...preserved,
-      ...seo,
-      title: { ...preserved.title, ...seo?.title },
-      description: { ...preserved.description, ...seo?.description },
+      title: { en: page?.meta?.en?.title, es: page?.meta?.es?.title },
+      description: {
+        en: page?.meta?.en?.description,
+        es: page?.meta?.es?.description,
+      },
+      image: page?.openGraph?.image
+        ? { url: page.openGraph.image.url }
+        : undefined,
+      noIndex: page?.noIndex,
     },
     title,
   );

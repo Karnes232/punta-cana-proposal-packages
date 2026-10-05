@@ -1,22 +1,20 @@
 import { client } from "@/sanity/lib/client";
+import { pageSeoId } from "@/sanity/constants";
 import { localizedSeoProjection } from "../fragments";
 import type { LocalizedSeo } from "./embeddedLocalizedSeo";
 
 interface PageSeo {
-  pageName: string;
   seo: LocalizedSeo;
 }
-export const seoQuery = `*[_type == "PageSeo" && pageName == $pageName][0] {
-    pageName,
+export const seoQuery = `*[_type == "pageSeo" && _id == $id][0] {
     ${localizedSeoProjection}
 }`;
 
 export async function getPageSeo(pageName: string): Promise<PageSeo | null> {
-  return client.fetch(seoQuery, { pageName });
+  return client.fetch(seoQuery, { id: pageSeoId(pageName) });
 }
 
-export const structuredDataQuery = `*[_type == "PageSeo" && pageName == $pageName][0] {
-    pageName,
+export const structuredDataQuery = `*[_type == "pageSeo" && _id == $id][0] {
     seo {
         structuredData {
             en,
@@ -26,7 +24,6 @@ export const structuredDataQuery = `*[_type == "PageSeo" && pageName == $pageNam
 }`;
 
 export interface structuredData {
-  pageName: string;
   seo: {
     structuredData: {
       en: string;
@@ -38,6 +35,8 @@ export interface structuredData {
 export const getStructuredData = async (
   pageName: string,
 ): Promise<structuredData> => {
-  const structuredData = await client.fetch(structuredDataQuery, { pageName });
+  const structuredData = await client.fetch(structuredDataQuery, {
+    id: pageSeoId(pageName),
+  });
   return structuredData;
 };

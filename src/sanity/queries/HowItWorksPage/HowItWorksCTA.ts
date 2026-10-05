@@ -33,7 +33,7 @@ export interface HowItWorksCTA {
   secondaryCTAHref: string;
 }
 
-export const howItWorksCTAQuery = `*[_type == "HowItWorksPageHowItWorksCTA"][0] {
+export const howItWorksCTAQuery = `*[_type == "howItWorksCta"][0] {
   eyebrow {
     en,
     es

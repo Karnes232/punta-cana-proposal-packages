@@ -1,5 +1,4 @@
 import { catalogPageMetadata } from "@/lib/seo/catalogMetadata";
-import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import ExperienceHome from "@/components/ExperienceCatalog/ExperienceHome";
 import type { Locale } from "@/lib/experience/types";
 import { requireLocale } from "@/i18n/requireLocale";
@@ -19,11 +18,10 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const c = await getCatalogContent();
   return catalogPageMetadata(
     locale,
     "",
-    c.home?.seo,
+    "home",
     "Punta Cana Proposal Packages",
   );
 }

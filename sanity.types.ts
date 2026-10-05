@@ -13,9 +13,9 @@
  */
 
 // Source: schema.json
-export type FaqsPageFaqs = {
+export type Faq = {
   _id: string;
-  _type: "FaqsPageFaqs";
+  _type: "faq";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -23,7 +23,7 @@ export type FaqsPageFaqs = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "FaqsPageFaqsCategories";
+    [internalGroqTypeReferenceTo]?: "faqCategory";
   };
   question?: LocalizedString;
   answer?: LocalizedText;
@@ -41,9 +41,9 @@ export type LocalizedString = {
   es?: string;
 };
 
-export type FaqsPageFaqsCategories = {
+export type FaqCategory = {
   _id: string;
-  _type: "FaqsPageFaqsCategories";
+  _type: "faqCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -52,9 +52,9 @@ export type FaqsPageFaqsCategories = {
   labelEs?: string;
 };
 
-export type FaqsPageFaqContactStrip = {
+export type FaqContactStrip = {
   _id: string;
-  _type: "FaqsPageFaqContactStrip";
+  _type: "faqContactStrip";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -65,9 +65,9 @@ export type FaqsPageFaqContactStrip = {
   cta?: LocalizedString;
 };
 
-export type FaqsPageHeroComponent = {
+export type FaqHero = {
   _id: string;
-  _type: "FaqsPageHeroComponent";
+  _type: "faqHero";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -106,9 +106,9 @@ export type SanityImageHotspot = {
   width?: number;
 };
 
-export type HowItWorksPageHowItWorksCTA = {
+export type HowItWorksCta = {
   _id: string;
-  _type: "HowItWorksPageHowItWorksCTA";
+  _type: "howItWorksCta";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -123,9 +123,9 @@ export type HowItWorksPageHowItWorksCTA = {
   secondaryCTAHref?: string;
 };
 
-export type HowItWorksPageHowItWorksFAQ = {
+export type HowItWorksFaq = {
   _id: string;
-  _type: "HowItWorksPageHowItWorksFAQ";
+  _type: "howItWorksFaq";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -138,7 +138,7 @@ export type HowItWorksPageHowItWorksFAQ = {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "HowItWorksPageHowItWorksFaqCategory";
+      [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
     };
     question?: LocalizedString;
     answer?: LocalizedText;
@@ -147,18 +147,18 @@ export type HowItWorksPageHowItWorksFAQ = {
   }>;
 };
 
-export type HowItWorksPageHowItWorksFaqCategory = {
+export type HowItWorksFaqCategory = {
   _id: string;
-  _type: "HowItWorksPageHowItWorksFaqCategory";
+  _type: "howItWorksFaqCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   name?: LocalizedString;
 };
 
-export type HowItWorksPageHowItWorksSteps = {
+export type HowItWorksSteps = {
   _id: string;
-  _type: "HowItWorksPageHowItWorksSteps";
+  _type: "howItWorksSteps";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -182,9 +182,9 @@ export type HowItWorksPageHowItWorksSteps = {
   }>;
 };
 
-export type HowItWorksPageHero = {
+export type HowItWorksHero = {
   _id: string;
-  _type: "HowItWorksPageHero";
+  _type: "howItWorksHero";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -207,42 +207,9 @@ export type HowItWorksPageHero = {
   };
 };
 
-export type ContactPageContent = {
+export type BlogCtaStrip = {
   _id: string;
-  _type: "ContactPageContent";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  heroEyebrow?: LocalizedString;
-  heroHeadingLine1?: LocalizedString;
-  heroHeadingLine2?: LocalizedString;
-  heroSubheading?: LocalizedText;
-  heroImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  formEyebrow?: LocalizedString;
-  formHeadingLine1?: LocalizedString;
-  formHeadingLine2?: LocalizedString;
-  trustBarStats?: Array<{
-    value?: LocalizedString;
-    label?: LocalizedString;
-    _key: string;
-  }>;
-};
-
-export type BlogPageCtaStrip = {
-  _id: string;
-  _type: "BlogPageCtaStrip";
+  _type: "blogCtaStrip";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -308,9 +275,9 @@ export type BlogPostSeo = {
   noFollow?: boolean;
 };
 
-export type BlogPageHero = {
+export type BlogHero = {
   _id: string;
-  _type: "BlogPageHero";
+  _type: "blogHero";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -353,7 +320,7 @@ export type BlogPost = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "BlogCategory";
+    [internalGroqTypeReferenceTo]?: "blogCategory";
   };
   categoryTag?: string;
   publishedAt?: string;
@@ -410,7 +377,7 @@ export type BlogPost = {
 
 export type BlogCategory = {
   _id: string;
-  _type: "BlogCategory";
+  _type: "blogCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -424,9 +391,9 @@ export type Slug = {
   source?: string;
 };
 
-export type StoriesPageCtaStrip = {
+export type StoriesCtaStrip = {
   _id: string;
-  _type: "StoriesPageCtaStrip";
+  _type: "storiesCtaStrip";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -438,9 +405,9 @@ export type StoriesPageCtaStrip = {
   ctaHref?: string;
 };
 
-export type StoriesPageHero = {
+export type StoriesHero = {
   _id: string;
-  _type: "StoriesPageHero";
+  _type: "storiesHero";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -465,13 +432,13 @@ export type StoriesPageHero = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "individualStory";
+    [internalGroqTypeReferenceTo]?: "story";
   };
 };
 
-export type IndividualStory = {
+export type Story = {
   _id: string;
-  _type: "individualStory";
+  _type: "story";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -481,7 +448,7 @@ export type IndividualStory = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "ProposalType";
+    [internalGroqTypeReferenceTo]?: "storyType";
   };
   packageTag?: LocalizedString;
   date?: string;
@@ -519,258 +486,8 @@ export type IndividualStory = {
   seo?: Seo;
 };
 
-export type LocalizedBlock = {
-  _type: "localizedBlock";
-  en?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  es?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-};
-
-export type ProposalType = {
-  _id: string;
-  _type: "ProposalType";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  value?: string;
-  label?: LocalizedString;
-};
-
-export type HomePageCTABanner = {
-  _id: string;
-  _type: "HomePageCTABanner";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  eyebrow?: LocalizedString;
-  headingLine1?: LocalizedString;
-  headingLine2?: LocalizedString;
-  subheading?: LocalizedString;
-  primaryLabel?: LocalizedString;
-  primaryHref?: string;
-  secondaryLabel?: LocalizedString;
-  secondaryHref?: string;
-};
-
-export type TrustIndicators = {
-  _id: string;
-  _type: "trustIndicators";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  items?: Array<{
-    icon?: "proposals" | "rating" | "private" | "location";
-    value?: LocalizedString;
-    label?: LocalizedString;
-    sublabel?: LocalizedString;
-    _key: string;
-  }>;
-};
-
-export type HomePageFeatureStorySection = {
-  _id: string;
-  _type: "HomePageFeatureStorySection";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  eyebrow?: LocalizedString;
-  heading?: LocalizedString;
-  stories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "HomePageFeatureStory";
-  }>;
-};
-
-export type HomePageFeatureStory = {
-  _id: string;
-  _type: "HomePageFeatureStory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  coupleName?: string;
-  location?: LocalizedString;
-  date?: string;
-  packageUsed?: LocalizedString;
-  quote?: LocalizedText;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-};
-
-export type HomePageHowItWorksStep = {
-  _id: string;
-  _type: "HomePageHowItWorksStep";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  step?: number;
-  icon?: "package" | "customize" | "setup" | "propose";
-  title?: LocalizedString;
-  description?: LocalizedText;
-};
-
-export type HomePageHowItWorks = {
-  _id: string;
-  _type: "HomePageHowItWorks";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  eyebrow?: LocalizedString;
-  headingLine1?: LocalizedString;
-  headingLine2?: LocalizedString;
-  ctaLabel?: LocalizedString;
-  ctaHref?: string;
-  steps?: Array<
-    {
-      _key: string;
-    } & HomePageHowItWorksStep
-  >;
-};
-
-export type HomePagePackageCategory = {
-  _id: string;
-  _type: "HomePagePackageCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: LocalizedString;
-  description?: LocalizedText;
-  href?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  ctaButtonLabel?: LocalizedString;
-};
-
-export type HomePagePackageCategories = {
-  _id: string;
-  _type: "HomePagePackageCategories";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  eyebrow?: LocalizedString;
-  headingLine1?: LocalizedString;
-  headingLine2?: LocalizedString;
-  categories?: Array<
-    {
-      _key: string;
-    } & HomePagePackageCategory
-  >;
-};
-
-export type HomePageBrandStatement = {
-  _id: string;
-  _type: "HomePageBrandStatement";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  quote?: LocalizedString;
-  body?: LocalizedText;
-  signature?: string;
-};
-
-export type HomePageHero = {
-  _id: string;
-  _type: "HomePageHero";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  eyebrow?: LocalizedString;
-  headingLine1?: LocalizedString;
-  headingLine2?: LocalizedString;
-  headingLine3?: LocalizedString;
-  subheading?: LocalizedText;
-  primaryLabel?: LocalizedString;
-  primaryHref?: string;
-  secondaryLabel?: LocalizedString;
-  secondaryHref?: string;
-};
-
-export type LegalDocuments = {
-  _id: string;
-  _type: "legalDocuments";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  pageName?: "privacy-policy" | "terms-of-service";
-  content?: LocalizedBlock;
-};
-
 export type Seo = {
-  _id: string;
   _type: "seo";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
   meta?: {
     en?: {
       title?: string;
@@ -813,21 +530,71 @@ export type Seo = {
   noFollow?: boolean;
 };
 
-export type PageSeo = {
+export type LocalizedBlock = {
+  _type: "localizedBlock";
+  en?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  es?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
+export type StoryType = {
   _id: string;
-  _type: "PageSeo";
+  _type: "storyType";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  pageName?:
-    | "home"
-    | "stories"
-    | "how-it-works"
-    | "faq"
-    | "contact"
-    | "blog"
-    | "privacy-policy"
-    | "terms-of-service";
+  value?: string;
+  label?: LocalizedString;
+};
+
+export type LegalDocument = {
+  _id: string;
+  _type: "legalDocument";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  content?: LocalizedBlock;
+};
+
+export type PageSeo = {
+  _id: string;
+  _type: "pageSeo";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
   seo?: Seo;
 };
 
@@ -866,6 +633,7 @@ export type GeneralLayout = {
   };
   email?: string;
   telephone?: string;
+  whatsapp?: string;
   socialLinks?: {
     facebook?: string;
     instagram?: string;
@@ -923,10 +691,6 @@ export type CatalogContact = {
   heading?: LocalizedText;
   description?: LocalizedText;
   businessInformation?: LocalizedText;
-  telephone?: string;
-  email?: string;
-  whatsapp?: string;
-  seo?: ExperienceSeo;
 };
 
 export type CatalogHome = {
@@ -1007,11 +771,13 @@ export type CatalogHome = {
     exploreProposals?: LocalizedText;
     exploreDinners?: LocalizedText;
     deposit?: LocalizedText;
+    planningEyebrow?: LocalizedText;
     planning?: LocalizedText;
     proposalChoice?: LocalizedText;
     proposalDescription?: LocalizedText;
     dinnerChoice?: LocalizedText;
     dinnerDescription?: LocalizedText;
+    trustLabel?: LocalizedText;
     trustPrivate?: LocalizedText;
     trustLocal?: LocalizedText;
     trustTransport?: LocalizedText;
@@ -1019,6 +785,10 @@ export type CatalogHome = {
     trustPhoto?: LocalizedText;
     trustDelivery?: LocalizedText;
     mediaNote?: LocalizedText;
+    featured?: LocalizedText;
+    customize?: LocalizedText;
+    allProposals?: LocalizedText;
+    journeyLabel?: LocalizedText;
     journeyTitle?: LocalizedText;
     journeyIntro?: LocalizedText;
     journeyOne?: LocalizedText;
@@ -1034,9 +804,6 @@ export type CatalogHome = {
     transformation?: LocalizedText;
     transformationText?: LocalizedText;
     editorialNote?: LocalizedText;
-    featured?: LocalizedText;
-    customize?: LocalizedText;
-    allProposals?: LocalizedText;
     dinnerTitle?: LocalizedText;
     dinnerText?: LocalizedText;
     dinnerCelebrations?: LocalizedText;
@@ -1058,6 +825,7 @@ export type CatalogHome = {
     stepSevenText?: LocalizedText;
     stepEight?: LocalizedText;
     stepEightText?: LocalizedText;
+    howItWorksLink?: LocalizedText;
     realMoments?: LocalizedText;
     viewStories?: LocalizedText;
     galleryOpen?: LocalizedText;
@@ -1065,10 +833,6 @@ export type CatalogHome = {
     previous?: LocalizedText;
     next?: LocalizedText;
     startTitle?: LocalizedText;
-    planningEyebrow?: LocalizedText;
-    trustLabel?: LocalizedText;
-    journeyLabel?: LocalizedText;
-    howItWorksLink?: LocalizedText;
   };
   featuredProposals?: Array<{
     _ref: string;
@@ -1119,13 +883,7 @@ export type CatalogHome = {
     _type: "photo";
     _key: string;
   }>;
-  eyebrow?: LocalizedString;
-  headline?: LocalizedString;
-  subheadline?: LocalizedString;
-  primaryCTA?: LocalizedString;
-  secondaryCTA?: LocalizedString;
   contactHeading?: LocalizedString;
-  seo?: ExperienceSeo;
 };
 
 export type ExperienceCatalogSettings = {
@@ -1660,45 +1418,34 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | FaqsPageFaqs
+  | Faq
   | LocalizedText
   | LocalizedString
-  | FaqsPageFaqsCategories
-  | FaqsPageFaqContactStrip
-  | FaqsPageHeroComponent
+  | FaqCategory
+  | FaqContactStrip
+  | FaqHero
   | SanityImageCrop
   | SanityImageHotspot
-  | HowItWorksPageHowItWorksCTA
-  | HowItWorksPageHowItWorksFAQ
-  | HowItWorksPageHowItWorksFaqCategory
-  | HowItWorksPageHowItWorksSteps
-  | HowItWorksPageHero
-  | ContactPageContent
-  | BlogPageCtaStrip
+  | HowItWorksCta
+  | HowItWorksFaq
+  | HowItWorksFaqCategory
+  | HowItWorksSteps
+  | HowItWorksHero
+  | BlogCtaStrip
   | BlogLocalizedString
   | BlogLocalizedText
   | BlogPostSeo
-  | BlogPageHero
+  | BlogHero
   | BlogPost
   | BlogCategory
   | Slug
-  | StoriesPageCtaStrip
-  | StoriesPageHero
-  | IndividualStory
-  | LocalizedBlock
-  | ProposalType
-  | HomePageCTABanner
-  | TrustIndicators
-  | HomePageFeatureStorySection
-  | HomePageFeatureStory
-  | HomePageHowItWorksStep
-  | HomePageHowItWorks
-  | HomePagePackageCategory
-  | HomePagePackageCategories
-  | HomePageBrandStatement
-  | HomePageHero
-  | LegalDocuments
+  | StoriesCtaStrip
+  | StoriesHero
+  | Story
   | Seo
+  | LocalizedBlock
+  | StoryType
+  | LegalDocument
   | PageSeo
   | GeneralLayout
   | ExperienceSeo
@@ -1727,7 +1474,7 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/queries/ExperienceCatalog/catalog.ts
 // Variable: catalogQuery
-// Query: *[  _type in ["proposalExperience", "romanticDinnerExperience"]  && active == true  && coalesce(slug.current, "") != $excludedSlug]  | order(displayOrder asc, _id asc)  {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  alt}  }}
+// Query: *[  _type in ["proposalExperience", "romanticDinnerExperience"]  && active == true]  | order(displayOrder asc, _id asc)  {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  alt}  }}
 export type CatalogQueryResult = Array<
   | {
       _id: string;
@@ -1969,7 +1716,7 @@ export type CatalogQueryResult = Array<
     }
 >;
 // Variable: experienceByIdQuery
-// Query: *[_id == $id &&   _type in ["proposalExperience", "romanticDinnerExperience"]  && active == true  && coalesce(slug.current, "") != $excludedSlug][0] {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  alt}  }}
+// Query: *[_id == $id &&   _type in ["proposalExperience", "romanticDinnerExperience"]  && active == true][0] {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  alt}  }}
 export type ExperienceByIdQueryResult =
   | {
       _id: string;
@@ -2213,7 +1960,7 @@ export type ExperienceByIdQueryResult =
 
 // Source: ./src/sanity/queries/ExperienceCatalog/content.ts
 // Variable: catalogContentQuery
-// Query: {      "settings": *[_id == $settingsId][0],      "home": *[_id == $homeId][0] {        ...,        heroImage {  "url": asset->url,  alt},        proposalHeroImage {  "url": asset->url,  alt},        dinnerHeroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt},        seo { ..., image {  "url": asset->url,  alt} }      },      "contact": *[_id == $contactId][0] {        ...,        seo { ..., image {  "url": asset->url,  alt} }      }    }
+// Query: {      "settings": *[_id == $settingsId][0],      "home": *[_id == $homeId][0] {        ...,        heroImage {  "url": asset->url,  alt},        proposalHeroImage {  "url": asset->url,  alt},        dinnerHeroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "contact": *[_id == $contactId][0]    }
 export type CatalogContentQueryResult = {
   settings:
     | {
@@ -2245,7 +1992,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogCategory";
+        _type: "blogCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2254,7 +2001,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogPageCtaStrip";
+        _type: "blogCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2267,7 +2014,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogPageHero";
+        _type: "blogHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2309,7 +2056,7 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "BlogCategory";
+          [internalGroqTypeReferenceTo]?: "blogCategory";
         };
         categoryTag?: string;
         publishedAt?: string;
@@ -2380,10 +2127,6 @@ export type CatalogContentQueryResult = {
         heading?: LocalizedText;
         description?: LocalizedText;
         businessInformation?: LocalizedText;
-        telephone?: string;
-        email?: string;
-        whatsapp?: string;
-        seo?: ExperienceSeo;
       }
     | {
         _id: string;
@@ -2463,11 +2206,13 @@ export type CatalogContentQueryResult = {
           exploreProposals?: LocalizedText;
           exploreDinners?: LocalizedText;
           deposit?: LocalizedText;
+          planningEyebrow?: LocalizedText;
           planning?: LocalizedText;
           proposalChoice?: LocalizedText;
           proposalDescription?: LocalizedText;
           dinnerChoice?: LocalizedText;
           dinnerDescription?: LocalizedText;
+          trustLabel?: LocalizedText;
           trustPrivate?: LocalizedText;
           trustLocal?: LocalizedText;
           trustTransport?: LocalizedText;
@@ -2475,6 +2220,10 @@ export type CatalogContentQueryResult = {
           trustPhoto?: LocalizedText;
           trustDelivery?: LocalizedText;
           mediaNote?: LocalizedText;
+          featured?: LocalizedText;
+          customize?: LocalizedText;
+          allProposals?: LocalizedText;
+          journeyLabel?: LocalizedText;
           journeyTitle?: LocalizedText;
           journeyIntro?: LocalizedText;
           journeyOne?: LocalizedText;
@@ -2490,9 +2239,6 @@ export type CatalogContentQueryResult = {
           transformation?: LocalizedText;
           transformationText?: LocalizedText;
           editorialNote?: LocalizedText;
-          featured?: LocalizedText;
-          customize?: LocalizedText;
-          allProposals?: LocalizedText;
           dinnerTitle?: LocalizedText;
           dinnerText?: LocalizedText;
           dinnerCelebrations?: LocalizedText;
@@ -2514,6 +2260,7 @@ export type CatalogContentQueryResult = {
           stepSevenText?: LocalizedText;
           stepEight?: LocalizedText;
           stepEightText?: LocalizedText;
+          howItWorksLink?: LocalizedText;
           realMoments?: LocalizedText;
           viewStories?: LocalizedText;
           galleryOpen?: LocalizedText;
@@ -2521,10 +2268,6 @@ export type CatalogContentQueryResult = {
           previous?: LocalizedText;
           next?: LocalizedText;
           startTitle?: LocalizedText;
-          planningEyebrow?: LocalizedText;
-          trustLabel?: LocalizedText;
-          journeyLabel?: LocalizedText;
-          howItWorksLink?: LocalizedText;
         };
         featuredProposals?: Array<{
           _ref: string;
@@ -2575,45 +2318,7 @@ export type CatalogContentQueryResult = {
           _type: "photo";
           _key: string;
         }>;
-        eyebrow?: LocalizedString;
-        headline?: LocalizedString;
-        subheadline?: LocalizedString;
-        primaryCTA?: LocalizedString;
-        secondaryCTA?: LocalizedString;
         contactHeading?: LocalizedString;
-        seo?: ExperienceSeo;
-      }
-    | {
-        _id: string;
-        _type: "ContactPageContent";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        heroEyebrow?: LocalizedString;
-        heroHeadingLine1?: LocalizedString;
-        heroHeadingLine2?: LocalizedString;
-        heroSubheading?: LocalizedText;
-        heroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        formEyebrow?: LocalizedString;
-        formHeadingLine1?: LocalizedString;
-        formHeadingLine2?: LocalizedString;
-        trustBarStats?: Array<{
-          value?: LocalizedString;
-          label?: LocalizedString;
-          _key: string;
-        }>;
       }
     | {
         _id: string;
@@ -2807,7 +2512,32 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqContactStrip";
+        _type: "faq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "faqCategory";
+        };
+        question?: LocalizedString;
+        answer?: LocalizedText;
+      }
+    | {
+        _id: string;
+        _type: "faqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        labelEn?: string;
+        labelEs?: string;
+      }
+    | {
+        _id: string;
+        _type: "faqContactStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2819,32 +2549,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqs";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "FaqsPageFaqsCategories";
-        };
-        question?: LocalizedString;
-        answer?: LocalizedText;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageFaqsCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        labelEn?: string;
-        labelEs?: string;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageHeroComponent";
+        _type: "faqHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2901,6 +2606,7 @@ export type CatalogContentQueryResult = {
         };
         email?: string;
         telephone?: string;
+        whatsapp?: string;
         socialLinks?: {
           facebook?: string;
           instagram?: string;
@@ -2910,193 +2616,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HomePageBrandStatement";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        quote?: LocalizedString;
-        body?: LocalizedText;
-        signature?: string;
-      }
-    | {
-        _id: string;
-        _type: "HomePageCTABanner";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        subheading?: LocalizedString;
-        primaryLabel?: LocalizedString;
-        primaryHref?: string;
-        secondaryLabel?: LocalizedString;
-        secondaryHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "HomePageFeatureStory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        coupleName?: string;
-        location?: LocalizedString;
-        date?: string;
-        packageUsed?: LocalizedString;
-        quote?: LocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-      }
-    | {
-        _id: string;
-        _type: "HomePageFeatureStorySection";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        heading?: LocalizedString;
-        stories?: Array<{
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          _key: string;
-          [internalGroqTypeReferenceTo]?: "HomePageFeatureStory";
-        }>;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        headingLine3?: LocalizedString;
-        subheading?: LocalizedText;
-        primaryLabel?: LocalizedString;
-        primaryHref?: string;
-        secondaryLabel?: LocalizedString;
-        secondaryHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHowItWorks";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        ctaLabel?: LocalizedString;
-        ctaHref?: string;
-        steps?: Array<
-          {
-            _key: string;
-          } & HomePageHowItWorksStep
-        >;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHowItWorksStep";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        step?: number;
-        icon?: "customize" | "package" | "propose" | "setup";
-        title?: LocalizedString;
-        description?: LocalizedText;
-      }
-    | {
-        _id: string;
-        _type: "HomePagePackageCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        categories?: Array<
-          {
-            _key: string;
-          } & HomePagePackageCategory
-        >;
-      }
-    | {
-        _id: string;
-        _type: "HomePagePackageCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        title?: LocalizedString;
-        description?: LocalizedText;
-        href?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        ctaButtonLabel?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        subheading?: LocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksCTA";
+        _type: "howItWorksCta";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3112,7 +2632,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksFAQ";
+        _type: "howItWorksFaq";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3125,7 +2645,7 @@ export type CatalogContentQueryResult = {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "HowItWorksPageHowItWorksFaqCategory";
+            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
           };
           question?: LocalizedString;
           answer?: LocalizedText;
@@ -3135,7 +2655,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksFaqCategory";
+        _type: "howItWorksFaqCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3143,7 +2663,31 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksSteps";
+        _type: "howItWorksHero";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        headingLine1?: LocalizedString;
+        headingLine2?: LocalizedString;
+        subheading?: LocalizedText;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+      }
+    | {
+        _id: string;
+        _type: "howItWorksSteps";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3168,60 +2712,10 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "individualStory";
+        _type: "legalDocument";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        slug?: Slug;
-        names?: string;
-        proposalType?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "ProposalType";
-        };
-        packageTag?: LocalizedString;
-        date?: string;
-        location?: LocalizedString;
-        heroPhoto?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        quote?: LocalizedString;
-        body?: LocalizedBlock;
-        seo?: Seo;
-      }
-    | {
-        _id: string;
-        _type: "legalDocuments";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        pageName?: "privacy-policy" | "terms-of-service";
         content?: LocalizedBlock;
       }
     | {
@@ -3265,19 +2759,10 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "PageSeo";
+        _type: "pageSeo";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        pageName?:
-          | "blog"
-          | "contact"
-          | "faq"
-          | "home"
-          | "how-it-works"
-          | "privacy-policy"
-          | "stories"
-          | "terms-of-service";
         seo?: Seo;
       }
     | {
@@ -3322,15 +2807,6 @@ export type CatalogContentQueryResult = {
         featured?: boolean;
         displayOrder?: number;
         seo?: ExperienceSeo;
-      }
-    | {
-        _id: string;
-        _type: "ProposalType";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
       }
     | {
         _id: string;
@@ -3447,54 +2923,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "seo";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        meta?: {
-          en?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-        };
-        openGraph?: {
-          en?: {
-            title?: string;
-            description?: string;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-          };
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: "image";
-          };
-        };
-        structuredData?: {
-          en?: string;
-          es?: string;
-        };
-        noIndex?: boolean;
-        noFollow?: boolean;
-      }
-    | {
-        _id: string;
-        _type: "StoriesPageCtaStrip";
+        _type: "storiesCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3507,7 +2936,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "StoriesPageHero";
+        _type: "storiesHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3532,22 +2961,66 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "individualStory";
+          [internalGroqTypeReferenceTo]?: "story";
         };
       }
     | {
         _id: string;
-        _type: "trustIndicators";
+        _type: "story";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        items?: Array<{
-          icon?: "location" | "private" | "proposals" | "rating";
-          value?: LocalizedString;
-          label?: LocalizedString;
-          sublabel?: LocalizedString;
+        slug?: Slug;
+        names?: string;
+        proposalType?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "storyType";
+        };
+        packageTag?: LocalizedString;
+        date?: string;
+        location?: LocalizedString;
+        heroPhoto?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: LocalizedString;
+          _type: "image";
           _key: string;
         }>;
+        quote?: LocalizedString;
+        body?: LocalizedBlock;
+        seo?: Seo;
+      }
+    | {
+        _id: string;
+        _type: "storyType";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
       }
     | null;
   home:
@@ -3585,11 +3058,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "BlogCategory";
+        _type: "blogCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3603,11 +3075,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "BlogPageCtaStrip";
+        _type: "blogCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3625,11 +3096,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "BlogPageHero";
+        _type: "blogHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3664,7 +3134,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -3680,7 +3149,7 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "BlogCategory";
+          [internalGroqTypeReferenceTo]?: "blogCategory";
         };
         categoryTag?: string;
         publishedAt?: string;
@@ -3740,25 +3209,7 @@ export type CatalogContentQueryResult = {
           _type: "block";
           _key: string;
         }>;
-        seo: {
-          _type: "blogPostSeo";
-          meta?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-          openGraph?: {
-            title?: string;
-            description?: string;
-          };
-          image: {
-            url: string | null;
-            alt: null;
-          } | null;
-          structuredData?: string;
-          noIndex?: boolean;
-          noFollow?: boolean;
-        } | null;
+        seo?: BlogPostSeo;
         heroImage: null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
@@ -3777,19 +3228,6 @@ export type CatalogContentQueryResult = {
         heading?: LocalizedText;
         description?: LocalizedText;
         businessInformation?: LocalizedText;
-        telephone?: string;
-        email?: string;
-        whatsapp?: string;
-        seo: {
-          _type: "experienceSeo";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          image: {
-            url: string | null;
-            alt: LocalizedString | null;
-          } | null;
-          noIndex?: boolean;
-        } | null;
         heroImage: null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
@@ -3832,11 +3270,13 @@ export type CatalogContentQueryResult = {
           exploreProposals?: LocalizedText;
           exploreDinners?: LocalizedText;
           deposit?: LocalizedText;
+          planningEyebrow?: LocalizedText;
           planning?: LocalizedText;
           proposalChoice?: LocalizedText;
           proposalDescription?: LocalizedText;
           dinnerChoice?: LocalizedText;
           dinnerDescription?: LocalizedText;
+          trustLabel?: LocalizedText;
           trustPrivate?: LocalizedText;
           trustLocal?: LocalizedText;
           trustTransport?: LocalizedText;
@@ -3844,6 +3284,10 @@ export type CatalogContentQueryResult = {
           trustPhoto?: LocalizedText;
           trustDelivery?: LocalizedText;
           mediaNote?: LocalizedText;
+          featured?: LocalizedText;
+          customize?: LocalizedText;
+          allProposals?: LocalizedText;
+          journeyLabel?: LocalizedText;
           journeyTitle?: LocalizedText;
           journeyIntro?: LocalizedText;
           journeyOne?: LocalizedText;
@@ -3859,9 +3303,6 @@ export type CatalogContentQueryResult = {
           transformation?: LocalizedText;
           transformationText?: LocalizedText;
           editorialNote?: LocalizedText;
-          featured?: LocalizedText;
-          customize?: LocalizedText;
-          allProposals?: LocalizedText;
           dinnerTitle?: LocalizedText;
           dinnerText?: LocalizedText;
           dinnerCelebrations?: LocalizedText;
@@ -3883,6 +3324,7 @@ export type CatalogContentQueryResult = {
           stepSevenText?: LocalizedText;
           stepEight?: LocalizedText;
           stepEightText?: LocalizedText;
+          howItWorksLink?: LocalizedText;
           realMoments?: LocalizedText;
           viewStories?: LocalizedText;
           galleryOpen?: LocalizedText;
@@ -3890,10 +3332,6 @@ export type CatalogContentQueryResult = {
           previous?: LocalizedText;
           next?: LocalizedText;
           startTitle?: LocalizedText;
-          planningEyebrow?: LocalizedText;
-          trustLabel?: LocalizedText;
-          journeyLabel?: LocalizedText;
-          howItWorksLink?: LocalizedText;
         };
         featuredProposals?: Array<{
           _ref: string;
@@ -3914,53 +3352,7 @@ export type CatalogContentQueryResult = {
           url: string | null;
           alt: LocalizedString | null;
         }> | null;
-        eyebrow?: LocalizedString;
-        headline?: LocalizedString;
-        subheadline?: LocalizedString;
-        primaryCTA?: LocalizedString;
-        secondaryCTA?: LocalizedString;
         contactHeading?: LocalizedString;
-        seo: {
-          _type: "experienceSeo";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          image: {
-            url: string | null;
-            alt: LocalizedString | null;
-          } | null;
-          noIndex?: boolean;
-        } | null;
-      }
-    | {
-        _id: string;
-        _type: "ContactPageContent";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        heroEyebrow?: LocalizedString;
-        heroHeadingLine1?: LocalizedString;
-        heroHeadingLine2?: LocalizedString;
-        heroSubheading?: LocalizedText;
-        heroImage: {
-          url: string | null;
-          alt: string | null;
-        } | null;
-        formEyebrow?: LocalizedString;
-        formHeadingLine1?: LocalizedString;
-        formHeadingLine2?: LocalizedString;
-        trustBarStats?: Array<{
-          value?: LocalizedString;
-          label?: LocalizedString;
-          _key: string;
-        }>;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -3981,7 +3373,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -4029,7 +3420,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -4177,11 +3567,51 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqContactStrip";
+        _type: "faq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "faqCategory";
+        };
+        question?: LocalizedString;
+        answer?: LocalizedText;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "faqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        labelEn?: string;
+        labelEs?: string;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "faqContactStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4198,54 +3628,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqs";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "FaqsPageFaqsCategories";
-        };
-        question?: LocalizedString;
-        answer?: LocalizedText;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageFaqsCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        labelEn?: string;
-        labelEs?: string;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageHeroComponent";
+        _type: "faqHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4264,7 +3650,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -4301,6 +3686,7 @@ export type CatalogContentQueryResult = {
         };
         email?: string;
         telephone?: string;
+        whatsapp?: string;
         socialLinks?: {
           facebook?: string;
           instagram?: string;
@@ -4315,287 +3701,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "HomePageBrandStatement";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        quote?: LocalizedString;
-        body?: LocalizedText;
-        signature?: string;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageCTABanner";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        subheading?: LocalizedString;
-        primaryLabel?: LocalizedString;
-        primaryHref?: string;
-        secondaryLabel?: LocalizedString;
-        secondaryHref?: string;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageFeatureStory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        coupleName?: string;
-        location?: LocalizedString;
-        date?: string;
-        packageUsed?: LocalizedString;
-        quote?: LocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageFeatureStorySection";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        heading?: LocalizedString;
-        stories?: Array<{
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          _key: string;
-          [internalGroqTypeReferenceTo]?: "HomePageFeatureStory";
-        }>;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        headingLine3?: LocalizedString;
-        subheading?: LocalizedText;
-        primaryLabel?: LocalizedString;
-        primaryHref?: string;
-        secondaryLabel?: LocalizedString;
-        secondaryHref?: string;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHowItWorks";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        ctaLabel?: LocalizedString;
-        ctaHref?: string;
-        steps?: Array<
-          {
-            _key: string;
-          } & HomePageHowItWorksStep
-        >;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHowItWorksStep";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        step?: number;
-        icon?: "customize" | "package" | "propose" | "setup";
-        title?: LocalizedString;
-        description?: LocalizedText;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePagePackageCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        categories?: Array<
-          {
-            _key: string;
-          } & HomePagePackageCategory
-        >;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePagePackageCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        title?: LocalizedString;
-        description?: LocalizedText;
-        href?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        ctaButtonLabel?: LocalizedString;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        subheading?: LocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksCTA";
+        _type: "howItWorksCta";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4616,11 +3725,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksFAQ";
+        _type: "howItWorksFaq";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4633,7 +3741,7 @@ export type CatalogContentQueryResult = {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "HowItWorksPageHowItWorksFaqCategory";
+            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
           };
           question?: LocalizedString;
           answer?: LocalizedText;
@@ -4648,11 +3756,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksFaqCategory";
+        _type: "howItWorksFaqCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4665,11 +3772,42 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksSteps";
+        _type: "howItWorksHero";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        headingLine1?: LocalizedString;
+        headingLine2?: LocalizedString;
+        subheading?: LocalizedText;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksSteps";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4699,72 +3837,13 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "individualStory";
+        _type: "legalDocument";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        slug?: Slug;
-        names?: string;
-        proposalType?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "ProposalType";
-        };
-        packageTag?: LocalizedString;
-        date?: string;
-        location?: LocalizedString;
-        heroPhoto?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        quote?: LocalizedString;
-        body?: LocalizedBlock;
-        seo: null;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "legalDocuments";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        pageName?: "privacy-policy" | "terms-of-service";
         content?: LocalizedBlock;
         heroImage: null;
         proposalHeroImage: null;
@@ -4774,7 +3853,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -4791,7 +3869,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -4831,24 +3908,14 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "PageSeo";
+        _type: "pageSeo";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        pageName?:
-          | "blog"
-          | "contact"
-          | "faq"
-          | "home"
-          | "how-it-works"
-          | "privacy-policy"
-          | "stories"
-          | "terms-of-service";
-        seo: null;
+        seo?: Seo;
         heroImage: null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
@@ -4899,16 +3966,7 @@ export type CatalogContentQueryResult = {
         active?: boolean;
         featured?: boolean;
         displayOrder?: number;
-        seo: {
-          _type: "experienceSeo";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          image: {
-            url: string | null;
-            alt: LocalizedString | null;
-          } | null;
-          noIndex?: boolean;
-        } | null;
+        seo?: ExperienceSeo;
         heroImage: null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
@@ -4917,24 +3975,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-      }
-    | {
-        _id: string;
-        _type: "ProposalType";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -4972,16 +4012,7 @@ export type CatalogContentQueryResult = {
         active?: boolean;
         featured?: boolean;
         displayOrder?: number;
-        seo: {
-          _type: "experienceSeo";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          image: {
-            url: string | null;
-            alt: LocalizedString | null;
-          } | null;
-          noIndex?: boolean;
-        } | null;
+        seo?: ExperienceSeo;
         styles?: Array<
           {
             _key: string;
@@ -5051,7 +4082,6 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
@@ -5082,67 +4112,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "seo";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        meta?: {
-          en?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-        };
-        openGraph?: {
-          en?: {
-            title?: string;
-            description?: string;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-          };
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: "image";
-          };
-        };
-        structuredData?: {
-          en?: string;
-          es?: string;
-        };
-        noIndex?: boolean;
-        noFollow?: boolean;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "StoriesPageCtaStrip";
+        _type: "storiesCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5160,11 +4133,10 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "StoriesPageHero";
+        _type: "storiesHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5189,7 +4161,7 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "individualStory";
+          [internalGroqTypeReferenceTo]?: "story";
         };
         heroImage: null;
         proposalHeroImage: null;
@@ -5199,21 +4171,55 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "trustIndicators";
+        _type: "story";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        items?: Array<{
-          icon?: "location" | "private" | "proposals" | "rating";
-          value?: LocalizedString;
-          label?: LocalizedString;
-          sublabel?: LocalizedString;
+        slug?: Slug;
+        names?: string;
+        proposalType?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "storyType";
+        };
+        packageTag?: LocalizedString;
+        date?: string;
+        location?: LocalizedString;
+        heroPhoto?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: LocalizedString;
+          _type: "image";
           _key: string;
         }>;
+        quote?: LocalizedString;
+        body?: LocalizedBlock;
+        seo?: Seo;
         heroImage: null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
@@ -5222,7 +4228,23 @@ export type CatalogContentQueryResult = {
         journeyImages: null;
         editorialImages: null;
         moments: null;
-        seo: null;
+      }
+    | {
+        _id: string;
+        _type: "storyType";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
       }
     | null;
   contact:
@@ -5252,21 +4274,19 @@ export type CatalogContentQueryResult = {
           alt?: LocalizedString;
           _type: "image";
         };
-        seo: null;
       }
     | {
         _id: string;
-        _type: "BlogCategory";
+        _type: "blogCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         value?: string;
         label?: BlogLocalizedString;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "BlogPageCtaStrip";
+        _type: "blogCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5276,11 +4296,10 @@ export type CatalogContentQueryResult = {
         subheading?: BlogLocalizedText;
         ctaLabel?: BlogLocalizedString;
         ctaHref?: string;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "BlogPageHero";
+        _type: "blogHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5307,7 +4326,6 @@ export type CatalogContentQueryResult = {
           _weak?: boolean;
           [internalGroqTypeReferenceTo]?: "blogPost";
         };
-        seo: null;
       }
     | {
         _id: string;
@@ -5323,7 +4341,7 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "BlogCategory";
+          [internalGroqTypeReferenceTo]?: "blogCategory";
         };
         categoryTag?: string;
         publishedAt?: string;
@@ -5383,25 +4401,7 @@ export type CatalogContentQueryResult = {
           _type: "block";
           _key: string;
         }>;
-        seo: {
-          _type: "blogPostSeo";
-          meta?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-          openGraph?: {
-            title?: string;
-            description?: string;
-          };
-          image: {
-            url: string | null;
-            alt: null;
-          } | null;
-          structuredData?: string;
-          noIndex?: boolean;
-          noFollow?: boolean;
-        } | null;
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -5412,19 +4412,6 @@ export type CatalogContentQueryResult = {
         heading?: LocalizedText;
         description?: LocalizedText;
         businessInformation?: LocalizedText;
-        telephone?: string;
-        email?: string;
-        whatsapp?: string;
-        seo: {
-          _type: "experienceSeo";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          image: {
-            url: string | null;
-            alt: LocalizedString | null;
-          } | null;
-          noIndex?: boolean;
-        } | null;
       }
     | {
         _id: string;
@@ -5504,11 +4491,13 @@ export type CatalogContentQueryResult = {
           exploreProposals?: LocalizedText;
           exploreDinners?: LocalizedText;
           deposit?: LocalizedText;
+          planningEyebrow?: LocalizedText;
           planning?: LocalizedText;
           proposalChoice?: LocalizedText;
           proposalDescription?: LocalizedText;
           dinnerChoice?: LocalizedText;
           dinnerDescription?: LocalizedText;
+          trustLabel?: LocalizedText;
           trustPrivate?: LocalizedText;
           trustLocal?: LocalizedText;
           trustTransport?: LocalizedText;
@@ -5516,6 +4505,10 @@ export type CatalogContentQueryResult = {
           trustPhoto?: LocalizedText;
           trustDelivery?: LocalizedText;
           mediaNote?: LocalizedText;
+          featured?: LocalizedText;
+          customize?: LocalizedText;
+          allProposals?: LocalizedText;
+          journeyLabel?: LocalizedText;
           journeyTitle?: LocalizedText;
           journeyIntro?: LocalizedText;
           journeyOne?: LocalizedText;
@@ -5531,9 +4524,6 @@ export type CatalogContentQueryResult = {
           transformation?: LocalizedText;
           transformationText?: LocalizedText;
           editorialNote?: LocalizedText;
-          featured?: LocalizedText;
-          customize?: LocalizedText;
-          allProposals?: LocalizedText;
           dinnerTitle?: LocalizedText;
           dinnerText?: LocalizedText;
           dinnerCelebrations?: LocalizedText;
@@ -5555,6 +4545,7 @@ export type CatalogContentQueryResult = {
           stepSevenText?: LocalizedText;
           stepEight?: LocalizedText;
           stepEightText?: LocalizedText;
+          howItWorksLink?: LocalizedText;
           realMoments?: LocalizedText;
           viewStories?: LocalizedText;
           galleryOpen?: LocalizedText;
@@ -5562,10 +4553,6 @@ export type CatalogContentQueryResult = {
           previous?: LocalizedText;
           next?: LocalizedText;
           startTitle?: LocalizedText;
-          planningEyebrow?: LocalizedText;
-          trustLabel?: LocalizedText;
-          journeyLabel?: LocalizedText;
-          howItWorksLink?: LocalizedText;
         };
         featuredProposals?: Array<{
           _ref: string;
@@ -5616,55 +4603,7 @@ export type CatalogContentQueryResult = {
           _type: "photo";
           _key: string;
         }>;
-        eyebrow?: LocalizedString;
-        headline?: LocalizedString;
-        subheadline?: LocalizedString;
-        primaryCTA?: LocalizedString;
-        secondaryCTA?: LocalizedString;
         contactHeading?: LocalizedString;
-        seo: {
-          _type: "experienceSeo";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          image: {
-            url: string | null;
-            alt: LocalizedString | null;
-          } | null;
-          noIndex?: boolean;
-        } | null;
-      }
-    | {
-        _id: string;
-        _type: "ContactPageContent";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        heroEyebrow?: LocalizedString;
-        heroHeadingLine1?: LocalizedString;
-        heroHeadingLine2?: LocalizedString;
-        heroSubheading?: LocalizedText;
-        heroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        formEyebrow?: LocalizedString;
-        formHeadingLine1?: LocalizedString;
-        formHeadingLine2?: LocalizedString;
-        trustBarStats?: Array<{
-          value?: LocalizedString;
-          label?: LocalizedString;
-          _key: string;
-        }>;
-        seo: null;
       }
     | {
         _id: string;
@@ -5677,7 +4616,6 @@ export type CatalogContentQueryResult = {
         active?: boolean;
         displayOrder?: number;
         allowCustomMessage?: boolean;
-        seo: null;
       }
     | {
         _id: string;
@@ -5717,7 +4655,6 @@ export type CatalogContentQueryResult = {
         maximumQuantity?: number;
         durationMinutesPerUnit?: number;
         internalNotes?: string;
-        seo: null;
       }
     | {
         _id: string;
@@ -5857,11 +4794,35 @@ export type CatalogContentQueryResult = {
         dinnerIntroStep4Title?: LocalizedText;
         dinnerIntroStep4?: LocalizedText;
         dinnerIntroNote?: LocalizedText;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqContactStrip";
+        _type: "faq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "faqCategory";
+        };
+        question?: LocalizedString;
+        answer?: LocalizedText;
+      }
+    | {
+        _id: string;
+        _type: "faqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        labelEn?: string;
+        labelEs?: string;
+      }
+    | {
+        _id: string;
+        _type: "faqContactStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5870,38 +4831,10 @@ export type CatalogContentQueryResult = {
         line2?: LocalizedString;
         body?: LocalizedText;
         cta?: LocalizedString;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqs";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "FaqsPageFaqsCategories";
-        };
-        question?: LocalizedString;
-        answer?: LocalizedText;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageFaqsCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        labelEn?: string;
-        labelEs?: string;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageHeroComponent";
+        _type: "faqHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5922,7 +4855,6 @@ export type CatalogContentQueryResult = {
           alt?: string;
           _type: "image";
         };
-        seo: null;
       }
     | {
         _id: string;
@@ -5959,213 +4891,17 @@ export type CatalogContentQueryResult = {
         };
         email?: string;
         telephone?: string;
+        whatsapp?: string;
         socialLinks?: {
           facebook?: string;
           instagram?: string;
           xURL?: string;
           MessengerURL?: string;
         };
-        seo: null;
       }
     | {
         _id: string;
-        _type: "HomePageBrandStatement";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        quote?: LocalizedString;
-        body?: LocalizedText;
-        signature?: string;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageCTABanner";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        subheading?: LocalizedString;
-        primaryLabel?: LocalizedString;
-        primaryHref?: string;
-        secondaryLabel?: LocalizedString;
-        secondaryHref?: string;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageFeatureStory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        coupleName?: string;
-        location?: LocalizedString;
-        date?: string;
-        packageUsed?: LocalizedString;
-        quote?: LocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageFeatureStorySection";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        heading?: LocalizedString;
-        stories?: Array<{
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          _key: string;
-          [internalGroqTypeReferenceTo]?: "HomePageFeatureStory";
-        }>;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        headingLine3?: LocalizedString;
-        subheading?: LocalizedText;
-        primaryLabel?: LocalizedString;
-        primaryHref?: string;
-        secondaryLabel?: LocalizedString;
-        secondaryHref?: string;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHowItWorks";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        ctaLabel?: LocalizedString;
-        ctaHref?: string;
-        steps?: Array<
-          {
-            _key: string;
-          } & HomePageHowItWorksStep
-        >;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePageHowItWorksStep";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        step?: number;
-        icon?: "customize" | "package" | "propose" | "setup";
-        title?: LocalizedString;
-        description?: LocalizedText;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePagePackageCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        categories?: Array<
-          {
-            _key: string;
-          } & HomePagePackageCategory
-        >;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HomePagePackageCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        title?: LocalizedString;
-        description?: LocalizedText;
-        href?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        ctaButtonLabel?: LocalizedString;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        headingLine1?: LocalizedString;
-        headingLine2?: LocalizedString;
-        subheading?: LocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksCTA";
+        _type: "howItWorksCta";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -6178,11 +4914,10 @@ export type CatalogContentQueryResult = {
         primaryCTAHref?: string;
         secondaryCTA?: LocalizedString;
         secondaryCTAHref?: string;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksFAQ";
+        _type: "howItWorksFaq";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -6195,27 +4930,49 @@ export type CatalogContentQueryResult = {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "HowItWorksPageHowItWorksFaqCategory";
+            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
           };
           question?: LocalizedString;
           answer?: LocalizedText;
           _type: "faq";
           _key: string;
         }>;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksFaqCategory";
+        _type: "howItWorksFaqCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         name?: LocalizedString;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksSteps";
+        _type: "howItWorksHero";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        headingLine1?: LocalizedString;
+        headingLine2?: LocalizedString;
+        subheading?: LocalizedText;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+      }
+    | {
+        _id: string;
+        _type: "howItWorksSteps";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -6237,66 +4994,14 @@ export type CatalogContentQueryResult = {
           _type: "reassuranceItem";
           _key: string;
         }>;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "individualStory";
+        _type: "legalDocument";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        slug?: Slug;
-        names?: string;
-        proposalType?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "ProposalType";
-        };
-        packageTag?: LocalizedString;
-        date?: string;
-        location?: LocalizedString;
-        heroPhoto?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        quote?: LocalizedString;
-        body?: LocalizedBlock;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "legalDocuments";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        pageName?: "privacy-policy" | "terms-of-service";
         content?: LocalizedBlock;
-        seo: null;
       }
     | {
         _id: string;
@@ -6305,7 +5010,6 @@ export type CatalogContentQueryResult = {
         _updatedAt: string;
         _rev: string;
         name?: Slug;
-        seo: null;
       }
     | {
         _id: string;
@@ -6337,24 +5041,14 @@ export type CatalogContentQueryResult = {
         dietaryTags?: Array<string>;
         allergenInformation?: LocalizedText;
         internalNotes?: string;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "PageSeo";
+        _type: "pageSeo";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        pageName?:
-          | "blog"
-          | "contact"
-          | "faq"
-          | "home"
-          | "how-it-works"
-          | "privacy-policy"
-          | "stories"
-          | "terms-of-service";
-        seo: null;
+        seo?: Seo;
       }
     | {
         _id: string;
@@ -6397,26 +5091,7 @@ export type CatalogContentQueryResult = {
         active?: boolean;
         featured?: boolean;
         displayOrder?: number;
-        seo: {
-          _type: "experienceSeo";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          image: {
-            url: string | null;
-            alt: LocalizedString | null;
-          } | null;
-          noIndex?: boolean;
-        } | null;
-      }
-    | {
-        _id: string;
-        _type: "ProposalType";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
-        seo: null;
+        seo?: ExperienceSeo;
       }
     | {
         _id: string;
@@ -6454,16 +5129,7 @@ export type CatalogContentQueryResult = {
         active?: boolean;
         featured?: boolean;
         displayOrder?: number;
-        seo: {
-          _type: "experienceSeo";
-          title?: LocalizedString;
-          description?: LocalizedText;
-          image: {
-            url: string | null;
-            alt: LocalizedString | null;
-          } | null;
-          noIndex?: boolean;
-        } | null;
+        seo?: ExperienceSeo;
         styles?: Array<
           {
             _key: string;
@@ -6517,7 +5183,6 @@ export type CatalogContentQueryResult = {
         path?: string;
         url?: string;
         source?: SanityAssetSourceData;
-        seo: null;
       }
     | {
         _id: string;
@@ -6540,59 +5205,10 @@ export type CatalogContentQueryResult = {
         url?: string;
         metadata?: SanityImageMetadata;
         source?: SanityAssetSourceData;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "seo";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        meta?: {
-          en?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-        };
-        openGraph?: {
-          en?: {
-            title?: string;
-            description?: string;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-          };
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: "image";
-          };
-        };
-        structuredData?: {
-          en?: string;
-          es?: string;
-        };
-        noIndex?: boolean;
-        noFollow?: boolean;
-        seo: null;
-      }
-    | {
-        _id: string;
-        _type: "StoriesPageCtaStrip";
+        _type: "storiesCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -6602,11 +5218,10 @@ export type CatalogContentQueryResult = {
         subheading?: LocalizedText;
         ctaLabel?: LocalizedString;
         ctaHref?: string;
-        seo: null;
       }
     | {
         _id: string;
-        _type: "StoriesPageHero";
+        _type: "storiesHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -6631,38 +5246,73 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "individualStory";
+          [internalGroqTypeReferenceTo]?: "story";
         };
-        seo: null;
       }
     | {
         _id: string;
-        _type: "trustIndicators";
+        _type: "story";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        items?: Array<{
-          icon?: "location" | "private" | "proposals" | "rating";
-          value?: LocalizedString;
-          label?: LocalizedString;
-          sublabel?: LocalizedString;
+        slug?: Slug;
+        names?: string;
+        proposalType?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "storyType";
+        };
+        packageTag?: LocalizedString;
+        date?: string;
+        location?: LocalizedString;
+        heroPhoto?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: LocalizedString;
+          _type: "image";
           _key: string;
         }>;
-        seo: null;
+        quote?: LocalizedString;
+        body?: LocalizedBlock;
+        seo?: Seo;
+      }
+    | {
+        _id: string;
+        _type: "storyType";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
       }
     | null;
 };
 // Variable: homePresentationQuery
-// Query: {      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref,      "hero": *[_type == "HomePageHero"][0].image {        "url": asset->url,        "alt": { "en": alt, "es": alt }      }    }
+// Query: {      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref    }
 export type HomePresentationQueryResult = {
   ids: Array<string> | null;
-  hero: {
-    url: string | null;
-    alt: {
-      en: string | null;
-      es: string | null;
-    };
-  } | null;
 };
 // Variable: featuredFallbackQuery
 // Query: *[        _type == "proposalExperience"        && active == true        && slug.current in $featuredSlugs      ] | order(name.en asc)[0...3]._id
@@ -6710,7 +5360,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "BlogCategory";
+      _type: "blogCategory";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6741,7 +5391,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "BlogPageCtaStrip";
+      _type: "blogCtaStrip";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6772,7 +5422,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "BlogPageHero";
+      _type: "blogHero";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6880,16 +5530,7 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: {
-        _type: "experienceSeo";
-        title?: LocalizedString;
-        description?: LocalizedText;
-        image: {
-          url: string | null;
-          alt: LocalizedString | null;
-        } | null;
-        noIndex?: boolean;
-      } | null;
+      seo: null;
     }
   | {
       _id: string;
@@ -6899,46 +5540,6 @@ export type TemplatePreviewQueryResult =
       active: null;
       displayOrder: null;
       _type: "catalogHome";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: {
-        _type: "experienceSeo";
-        title?: LocalizedString;
-        description?: LocalizedText;
-        image: {
-          url: string | null;
-          alt: LocalizedString | null;
-        } | null;
-        noIndex?: boolean;
-      } | null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "ContactPageContent";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7062,7 +5663,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "FaqsPageFaqContactStrip";
+      _type: "faq";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7093,7 +5694,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "FaqsPageFaqs";
+      _type: "faqCategory";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7124,7 +5725,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "FaqsPageFaqsCategories";
+      _type: "faqContactStrip";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7155,7 +5756,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "FaqsPageHeroComponent";
+      _type: "faqHero";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7217,7 +5818,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "HomePageBrandStatement";
+      _type: "howItWorksCta";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7248,317 +5849,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "HomePageCTABanner";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HomePageFeatureStory";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: LocalizedString | null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HomePageFeatureStorySection";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HomePageHero";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HomePageHowItWorks";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: LocalizedText | null;
-      active: null;
-      displayOrder: null;
-      _type: "HomePageHowItWorksStep";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HomePagePackageCategories";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: LocalizedText | null;
-      active: null;
-      displayOrder: null;
-      _type: "HomePagePackageCategory";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HowItWorksPageHero";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HowItWorksPageHowItWorksCTA";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HowItWorksPageHowItWorksFAQ";
+      _type: "howItWorksFaq";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7589,7 +5880,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "HowItWorksPageHowItWorksFaqCategory";
+      _type: "howItWorksFaqCategory";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7620,7 +5911,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "HowItWorksPageHowItWorksSteps";
+      _type: "howItWorksHero";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7651,14 +5942,14 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "individualStory";
-      slug: Slug | null;
+      _type: "howItWorksSteps";
+      slug: null;
       shortDescription: null;
       longDescription: null;
       basePrice: null;
       currency: null;
       priceLabel: null;
-      location: LocalizedString | null;
+      location: null;
       badge: null;
       includedGuests: null;
       minimumGuests: null;
@@ -7667,13 +5958,7 @@ export type TemplatePreviewQueryResult =
       includedDurationMinutes: null;
       maximumDurationMinutes: null;
       inclusions: null;
-      gallery: Array<{
-        _key: string;
-        alt: string | null;
-        caption: LocalizedString | null;
-        displayOrder: null;
-        image: null;
-      }> | null;
+      gallery: null;
       styles: null;
       availableAddons: null;
       menuItems: null;
@@ -7688,7 +5973,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "legalDocuments";
+      _type: "legalDocument";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7781,7 +6066,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "PageSeo";
+      _type: "pageSeo";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7803,7 +6088,50 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
+      seo: {
+        _type: "seo";
+        meta?: {
+          en?: {
+            title?: string;
+            description?: string;
+            keywords?: Array<string>;
+          };
+          es?: {
+            title?: string;
+            description?: string;
+            keywords?: Array<string>;
+          };
+        };
+        openGraph?: {
+          en?: {
+            title?: string;
+            description?: string;
+          };
+          es?: {
+            title?: string;
+            description?: string;
+          };
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: "image";
+          };
+        };
+        structuredData?: {
+          en?: string;
+          es?: string;
+        };
+        noIndex?: boolean;
+        noFollow?: boolean;
+        image: null;
+      } | null;
     }
   | {
       _id: string;
@@ -7899,37 +6227,6 @@ export type TemplatePreviewQueryResult =
         } | null;
         noIndex?: boolean;
       } | null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "ProposalType";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
     }
   | {
       _id: string;
@@ -8143,7 +6440,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "seo";
+      _type: "storiesCtaStrip";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -8174,7 +6471,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "StoriesPageCtaStrip";
+      _type: "storiesHero";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -8205,14 +6502,14 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "StoriesPageHero";
-      slug: null;
+      _type: "story";
+      slug: Slug | null;
       shortDescription: null;
       longDescription: null;
       basePrice: null;
       currency: null;
       priceLabel: null;
-      location: null;
+      location: LocalizedString | null;
       badge: null;
       includedGuests: null;
       minimumGuests: null;
@@ -8221,13 +6518,62 @@ export type TemplatePreviewQueryResult =
       includedDurationMinutes: null;
       maximumDurationMinutes: null;
       inclusions: null;
-      gallery: null;
+      gallery: Array<{
+        _key: string;
+        alt: string | null;
+        caption: LocalizedString | null;
+        displayOrder: null;
+        image: null;
+      }> | null;
       styles: null;
       availableAddons: null;
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
+      seo: {
+        _type: "seo";
+        meta?: {
+          en?: {
+            title?: string;
+            description?: string;
+            keywords?: Array<string>;
+          };
+          es?: {
+            title?: string;
+            description?: string;
+            keywords?: Array<string>;
+          };
+        };
+        openGraph?: {
+          en?: {
+            title?: string;
+            description?: string;
+          };
+          es?: {
+            title?: string;
+            description?: string;
+          };
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: "image";
+          };
+        };
+        structuredData?: {
+          en?: string;
+          es?: string;
+        };
+        noIndex?: boolean;
+        noFollow?: boolean;
+        image: null;
+      } | null;
     }
   | {
       _id: string;
@@ -8236,7 +6582,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "trustIndicators";
+      _type: "storyType";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -8266,10 +6612,10 @@ export type TemplatePreviewQueryResult =
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[\n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n  && coalesce(slug.current, "") != $excludedSlug\n]\n  | order(displayOrder asc, _id asc)\n  {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}\n': CatalogQueryResult;
-    '*[_id == $id && \n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n  && coalesce(slug.current, "") != $excludedSlug\n][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': ExperienceByIdQueryResult;
-    '{\n      "settings": *[_id == $settingsId][0],\n      "home": *[_id == $homeId][0] {\n        ...,\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        proposalHeroImage {\n  "url": asset->url,\n  alt\n},\n        dinnerHeroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n},\n        seo { ..., image {\n  "url": asset->url,\n  alt\n} }\n      },\n      "contact": *[_id == $contactId][0] {\n        ...,\n        seo { ..., image {\n  "url": asset->url,\n  alt\n} }\n      }\n    }': CatalogContentQueryResult;
-    '{\n      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref,\n      "hero": *[_type == "HomePageHero"][0].image {\n        "url": asset->url,\n        "alt": { "en": alt, "es": alt }\n      }\n    }': HomePresentationQueryResult;
+    '\n  *[\n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n]\n  | order(displayOrder asc, _id asc)\n  {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}\n': CatalogQueryResult;
+    '*[_id == $id && \n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': ExperienceByIdQueryResult;
+    '{\n      "settings": *[_id == $settingsId][0],\n      "home": *[_id == $homeId][0] {\n        ...,\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        proposalHeroImage {\n  "url": asset->url,\n  alt\n},\n        dinnerHeroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "contact": *[_id == $contactId][0]\n    }': CatalogContentQueryResult;
+    '{\n      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref\n    }': HomePresentationQueryResult;
     '*[\n        _type == "proposalExperience"\n        && active == true\n        && slug.current in $featuredSlugs\n      ] | order(name.en asc)[0...3]._id': FeaturedFallbackQueryResult;
     '*[_id == $id][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': TemplatePreviewQueryResult;
   }

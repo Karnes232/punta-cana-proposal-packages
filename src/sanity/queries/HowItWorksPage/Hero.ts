@@ -32,7 +32,7 @@ export interface HowItWorksPageHero {
   };
 }
 
-export const howItWorksPageHeroQuery = `*[_type == "HowItWorksPageHero"][0] {
+export const howItWorksPageHeroQuery = `*[_type == "howItWorksHero"][0] {
   eyebrow {
     en,
     es

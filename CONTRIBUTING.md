@@ -38,12 +38,25 @@ Never commit minified or one-line code.
   second content model) is how this codebase got messy.
 - **Delete what you replace.** When new code takes over from old code, remove
   the old code in the same PR.
-- **Every Sanity document type must be editable.** Adding a document type
-  means adding it to `src/sanity/structure.ts`. Any type that isn't listed
-  automatically appears under "Legacy (migrating)", so nothing is ever hidden.
+- **Every Sanity document type must be editable, in the right place.** The
+  Studio sidebar mirrors the website (one folder per page). Adding a document
+  type means:
+  - placing it in its page folder in `src/sanity/structure.ts` (any type
+    that isn't placed falls into the "Other types" catch-all, so nothing is ever
+    hidden, but it won't be where the client looks);
+  - if the site reads it as "the one document of this type", adding it to
+    `PAGE_SINGLETONS` in `src/sanity/constants.ts` (no create, delete or
+    duplicate);
+  - if editors may add documents of it, adding it to `CREATABLE_TYPES`;
+  - giving it bilingual titles ("Español / English") in
+    `src/sanity/schemaTypes/shared/titles.ts`.
+
   Edit the structure; never rewrite it wholesale.
+
 - **Don't rename a Sanity `_type`** without a data migration. Existing
-  documents keep the old name.
+  documents keep the old name, and `_type` and `_id` can't be changed: copy
+  each document to the new type and ID, point references at the copy, then
+  delete the original (see `scripts/migrate-studio-content.mjs`).
 - **No hard-coded document IDs or slugs** scattered through the code. Put them
   in one named constant and import it.
 - **No `any`.** Type query results. Lint runs with `--max-warnings=0`.

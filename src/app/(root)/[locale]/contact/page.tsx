@@ -31,23 +31,21 @@ export default async function Page({
         <div className="grid grid-cols-[2fr_1fr] gap-[50px] upto800:grid-cols-[1fr]">
           <AvailabilityForm locale={locale} settings={settings} />
           <aside>
-            {(c?.telephone || company?.telephone) && (
+            {company?.telephone && (
               <p>
-                <a href={"tel:" + (c?.telephone || company?.telephone)}>
-                  {c?.telephone || company?.telephone}
-                </a>
+                <a href={"tel:" + company.telephone}>{company.telephone}</a>
               </p>
             )}
-            {(c?.email || company?.email) && (
+            {company?.email && (
               <p>
-                <a href={"mailto:" + (c?.email || company?.email)}>
-                  {c?.email || company?.email}
-                </a>
+                <a href={"mailto:" + company.email}>{company.email}</a>
               </p>
             )}
-            {c?.whatsapp && (
+            {company?.whatsapp && (
               <p>
-                <a href={"https://wa.me/" + c.whatsapp.replace(/\D/g, "")}>
+                <a
+                  href={"https://wa.me/" + company.whatsapp.replace(/\D/g, "")}
+                >
                   WhatsApp
                 </a>
               </p>
@@ -70,7 +68,7 @@ export async function generateMetadata({
   return catalogPageMetadata(
     locale,
     "/contact",
-    c.contact?.seo,
+    "contact",
     label(c.settings, locale, "contactUsLabel"),
   );
 }

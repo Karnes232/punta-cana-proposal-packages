@@ -109,20 +109,10 @@ export type Home = {
   heroImage?: Image;
   proposalHeroImage?: Image;
   dinnerHeroImage?: Image;
-  eyebrow?: Localized;
-  headline?: Localized;
-  subheadline?: Localized;
-  primaryCTA?: Localized;
-  secondaryCTA?: Localized;
   contactHeading?: Localized;
-  seo?: Seo;
 };
 export type Contact = {
   heading?: Localized;
   description?: Localized;
   businessInformation?: Localized;
-  telephone?: string;
-  email?: string;
-  whatsapp?: string;
-  seo?: Seo;
 };
