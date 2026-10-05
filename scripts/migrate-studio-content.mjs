@@ -30,6 +30,8 @@
 //      content-fixes.json): Spanish typos and captions, story SEO in every
 //      language, Spanish keywords. Each field changes only if it still holds
 //      the exact old value, so later Studio edits are kept.
+//  10. Home page texts move from the `copy` object to top-level fields, so the
+//      Studio can show each home section's photos and texts together.
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -501,11 +503,15 @@ function translatedCopy(english, language, text, defaults) {
         else problems.push(`No ${language} default for setting ${key}`);
       }
   } else if (english._type === "catalogHome") {
-    for (const key of Object.keys(copy.copy ?? {})) {
-      const value = defaults.homeCopy[key]?.[language];
-      if (value) copy.copy[key] = value;
-      else problems.push(`No ${language} default for home text ${key}`);
-    }
+    // Home texts are top-level fields (phase 10); older documents still
+    // hold them in a `copy` object.
+    const texts = copy.copy ?? copy;
+    for (const key of Object.keys(defaults.homeCopy))
+      if (typeof texts[key] === "string") {
+        const value = defaults.homeCopy[key][language];
+        if (value) texts[key] = value;
+        else problems.push(`No ${language} default for home text ${key}`);
+      }
   } else {
     for (const [path, value] of Object.entries(text ?? {}))
       try {
@@ -712,12 +718,44 @@ async function contentFixPhase() {
   );
 }
 
+// --- Home texts as top-level fields ------------------------------------------
+
+async function flattenHomePhase() {
+  const ids = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES].map((language) =>
+    languageDocumentId("catalogHome", language),
+  );
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: ids.map((id) => `drafts.${id}`),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = await client.fetch(`*[_id in $ids && defined(copy)]`, { ids });
+  const patches = docs.map((doc) => {
+    const set = Object.fromEntries(
+      Object.entries(doc.copy).filter(
+        ([key, value]) =>
+          !key.startsWith("_") && doc[key] === undefined && value,
+      ),
+    );
+    const flattened = { ...withoutSystemFields(doc), ...set };
+    delete flattened.copy;
+    checkAgainstSchema(flattened);
+    return {
+      patch: { id: doc._id, ifRevisionID: doc._rev, set, unset: ["copy"] },
+    };
+  });
+  step(10, "Move the home page texts to top-level fields", patches, [
+    `${patches.length} home documents (${ids.length - patches.length} already done)`,
+  ]);
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
 if (phases.has(7)) await cleanupPhase();
 if (phases.has(8)) await translationPhase();
 if (phases.has(9)) await contentFixPhase();
+if (phases.has(10)) await flattenHomePhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

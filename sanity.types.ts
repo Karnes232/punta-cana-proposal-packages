@@ -827,32 +827,12 @@ export type CatalogHome = {
     alt?: LocalizedString;
     _type: "image";
   };
-  proposalHeroImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: LocalizedString;
-    _type: "image";
-  };
-  dinnerHeroImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: LocalizedString;
-    _type: "image";
-  };
+  eyebrow?: string;
+  headline?: string;
+  introduction?: string;
+  exploreProposals?: string;
+  exploreDinners?: string;
+  deposit?: string;
   proposalSelectorImage?: {
     asset?: {
       _ref: string;
@@ -879,76 +859,20 @@ export type CatalogHome = {
     alt?: LocalizedString;
     _type: "image";
   };
-  copy?: {
-    eyebrow?: string;
-    headline?: string;
-    introduction?: string;
-    exploreProposals?: string;
-    exploreDinners?: string;
-    deposit?: string;
-    planningEyebrow?: string;
-    planning?: string;
-    proposalChoice?: string;
-    proposalDescription?: string;
-    dinnerChoice?: string;
-    dinnerDescription?: string;
-    trustLabel?: string;
-    trustPrivate?: string;
-    trustLocal?: string;
-    trustTransport?: string;
-    trustService?: string;
-    trustPhoto?: string;
-    trustDelivery?: string;
-    mediaNote?: string;
-    featured?: string;
-    customize?: string;
-    allProposals?: string;
-    journeyLabel?: string;
-    journeyTitle?: string;
-    journeyIntro?: string;
-    journeyOne?: string;
-    journeyOneText?: string;
-    journeyTwo?: string;
-    journeyTwoText?: string;
-    journeyThree?: string;
-    journeyThreeText?: string;
-    journeyFour?: string;
-    journeyFourText?: string;
-    journeyFive?: string;
-    journeyFiveText?: string;
-    transformation?: string;
-    transformationText?: string;
-    editorialNote?: string;
-    dinnerTitle?: string;
-    dinnerText?: string;
-    dinnerCelebrations?: string;
-    dinnerPrice?: string;
-    howTitle?: string;
-    stepOne?: string;
-    stepOneText?: string;
-    stepTwo?: string;
-    stepTwoText?: string;
-    stepThree?: string;
-    stepThreeText?: string;
-    stepFour?: string;
-    stepFourText?: string;
-    stepFive?: string;
-    stepFiveText?: string;
-    stepSix?: string;
-    stepSixText?: string;
-    stepSeven?: string;
-    stepSevenText?: string;
-    stepEight?: string;
-    stepEightText?: string;
-    howItWorksLink?: string;
-    realMoments?: string;
-    viewStories?: string;
-    galleryOpen?: string;
-    close?: string;
-    previous?: string;
-    next?: string;
-    startTitle?: string;
-  };
+  planningEyebrow?: string;
+  planning?: string;
+  proposalChoice?: string;
+  proposalDescription?: string;
+  dinnerChoice?: string;
+  dinnerDescription?: string;
+  trustLabel?: string;
+  trustPrivate?: string;
+  trustLocal?: string;
+  trustTransport?: string;
+  trustService?: string;
+  trustPhoto?: string;
+  trustDelivery?: string;
+  mediaNote?: string;
   featuredProposals?: Array<{
     _ref: string;
     _type: "reference";
@@ -956,6 +880,9 @@ export type CatalogHome = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "proposalExperience";
   }>;
+  featured?: string;
+  customize?: string;
+  allProposals?: string;
   journeyImages?: Array<{
     asset?: {
       _ref: string;
@@ -970,6 +897,19 @@ export type CatalogHome = {
     _type: "photo";
     _key: string;
   }>;
+  journeyLabel?: string;
+  journeyTitle?: string;
+  journeyIntro?: string;
+  journeyOne?: string;
+  journeyOneText?: string;
+  journeyTwo?: string;
+  journeyTwoText?: string;
+  journeyThree?: string;
+  journeyThreeText?: string;
+  journeyFour?: string;
+  journeyFourText?: string;
+  journeyFive?: string;
+  journeyFiveText?: string;
   editorialImages?: Array<{
     asset?: {
       _ref: string;
@@ -984,6 +924,31 @@ export type CatalogHome = {
     _type: "photo";
     _key: string;
   }>;
+  transformation?: string;
+  transformationText?: string;
+  editorialNote?: string;
+  dinnerTitle?: string;
+  dinnerText?: string;
+  dinnerCelebrations?: string;
+  dinnerPrice?: string;
+  howTitle?: string;
+  stepOne?: string;
+  stepOneText?: string;
+  stepTwo?: string;
+  stepTwoText?: string;
+  stepThree?: string;
+  stepThreeText?: string;
+  stepFour?: string;
+  stepFourText?: string;
+  stepFive?: string;
+  stepFiveText?: string;
+  stepSix?: string;
+  stepSixText?: string;
+  stepSeven?: string;
+  stepSevenText?: string;
+  stepEight?: string;
+  stepEightText?: string;
+  howItWorksLink?: string;
   moments?: Array<{
     asset?: {
       _ref: string;
@@ -998,6 +963,39 @@ export type CatalogHome = {
     _type: "photo";
     _key: string;
   }>;
+  realMoments?: string;
+  viewStories?: string;
+  galleryOpen?: string;
+  close?: string;
+  previous?: string;
+  next?: string;
+  startTitle?: string;
+  proposalHeroImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: LocalizedString;
+    _type: "image";
+  };
+  dinnerHeroImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: LocalizedString;
+    _type: "image";
+  };
   contactHeading?: string;
 };
 
@@ -2117,7 +2115,7 @@ export type ExperienceByIdQueryResult =
 
 // Source: ./src/sanity/queries/ExperienceCatalog/content.ts
 // Variable: catalogContentQuery
-// Query: {      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]) {        copy,        contactHeading      },      "homePhotos": *[_id == $homeEnId][0] {        heroImage {  "url": asset->url,  alt},        proposalHeroImage {  "url": asset->url,  alt},        dinnerHeroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])    }
+// Query: {      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),      "homePhotos": *[_id == $homeEnId][0] {        heroImage {  "url": asset->url,  alt},        proposalHeroImage {  "url": asset->url,  alt},        dinnerHeroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])    }
 export type CatalogContentQueryResult = {
   settings:
     | {
@@ -2306,32 +2304,12 @@ export type CatalogContentQueryResult = {
           alt?: LocalizedString;
           _type: "image";
         };
-        proposalHeroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: LocalizedString;
-          _type: "image";
-        };
-        dinnerHeroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: LocalizedString;
-          _type: "image";
-        };
+        eyebrow?: string;
+        headline?: string;
+        introduction?: string;
+        exploreProposals?: string;
+        exploreDinners?: string;
+        deposit?: string;
         proposalSelectorImage?: {
           asset?: {
             _ref: string;
@@ -2358,76 +2336,20 @@ export type CatalogContentQueryResult = {
           alt?: LocalizedString;
           _type: "image";
         };
-        copy?: {
-          eyebrow?: string;
-          headline?: string;
-          introduction?: string;
-          exploreProposals?: string;
-          exploreDinners?: string;
-          deposit?: string;
-          planningEyebrow?: string;
-          planning?: string;
-          proposalChoice?: string;
-          proposalDescription?: string;
-          dinnerChoice?: string;
-          dinnerDescription?: string;
-          trustLabel?: string;
-          trustPrivate?: string;
-          trustLocal?: string;
-          trustTransport?: string;
-          trustService?: string;
-          trustPhoto?: string;
-          trustDelivery?: string;
-          mediaNote?: string;
-          featured?: string;
-          customize?: string;
-          allProposals?: string;
-          journeyLabel?: string;
-          journeyTitle?: string;
-          journeyIntro?: string;
-          journeyOne?: string;
-          journeyOneText?: string;
-          journeyTwo?: string;
-          journeyTwoText?: string;
-          journeyThree?: string;
-          journeyThreeText?: string;
-          journeyFour?: string;
-          journeyFourText?: string;
-          journeyFive?: string;
-          journeyFiveText?: string;
-          transformation?: string;
-          transformationText?: string;
-          editorialNote?: string;
-          dinnerTitle?: string;
-          dinnerText?: string;
-          dinnerCelebrations?: string;
-          dinnerPrice?: string;
-          howTitle?: string;
-          stepOne?: string;
-          stepOneText?: string;
-          stepTwo?: string;
-          stepTwoText?: string;
-          stepThree?: string;
-          stepThreeText?: string;
-          stepFour?: string;
-          stepFourText?: string;
-          stepFive?: string;
-          stepFiveText?: string;
-          stepSix?: string;
-          stepSixText?: string;
-          stepSeven?: string;
-          stepSevenText?: string;
-          stepEight?: string;
-          stepEightText?: string;
-          howItWorksLink?: string;
-          realMoments?: string;
-          viewStories?: string;
-          galleryOpen?: string;
-          close?: string;
-          previous?: string;
-          next?: string;
-          startTitle?: string;
-        };
+        planningEyebrow?: string;
+        planning?: string;
+        proposalChoice?: string;
+        proposalDescription?: string;
+        dinnerChoice?: string;
+        dinnerDescription?: string;
+        trustLabel?: string;
+        trustPrivate?: string;
+        trustLocal?: string;
+        trustTransport?: string;
+        trustService?: string;
+        trustPhoto?: string;
+        trustDelivery?: string;
+        mediaNote?: string;
         featuredProposals?: Array<{
           _ref: string;
           _type: "reference";
@@ -2435,6 +2357,9 @@ export type CatalogContentQueryResult = {
           _key: string;
           [internalGroqTypeReferenceTo]?: "proposalExperience";
         }>;
+        featured?: string;
+        customize?: string;
+        allProposals?: string;
         journeyImages?: Array<{
           asset?: {
             _ref: string;
@@ -2449,6 +2374,19 @@ export type CatalogContentQueryResult = {
           _type: "photo";
           _key: string;
         }>;
+        journeyLabel?: string;
+        journeyTitle?: string;
+        journeyIntro?: string;
+        journeyOne?: string;
+        journeyOneText?: string;
+        journeyTwo?: string;
+        journeyTwoText?: string;
+        journeyThree?: string;
+        journeyThreeText?: string;
+        journeyFour?: string;
+        journeyFourText?: string;
+        journeyFive?: string;
+        journeyFiveText?: string;
         editorialImages?: Array<{
           asset?: {
             _ref: string;
@@ -2463,6 +2401,31 @@ export type CatalogContentQueryResult = {
           _type: "photo";
           _key: string;
         }>;
+        transformation?: string;
+        transformationText?: string;
+        editorialNote?: string;
+        dinnerTitle?: string;
+        dinnerText?: string;
+        dinnerCelebrations?: string;
+        dinnerPrice?: string;
+        howTitle?: string;
+        stepOne?: string;
+        stepOneText?: string;
+        stepTwo?: string;
+        stepTwoText?: string;
+        stepThree?: string;
+        stepThreeText?: string;
+        stepFour?: string;
+        stepFourText?: string;
+        stepFive?: string;
+        stepFiveText?: string;
+        stepSix?: string;
+        stepSixText?: string;
+        stepSeven?: string;
+        stepSevenText?: string;
+        stepEight?: string;
+        stepEightText?: string;
+        howItWorksLink?: string;
         moments?: Array<{
           asset?: {
             _ref: string;
@@ -2477,6 +2440,39 @@ export type CatalogContentQueryResult = {
           _type: "photo";
           _key: string;
         }>;
+        realMoments?: string;
+        viewStories?: string;
+        galleryOpen?: string;
+        close?: string;
+        previous?: string;
+        next?: string;
+        startTitle?: string;
+        proposalHeroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        dinnerHeroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
         contactHeading?: string;
       }
     | {
@@ -3256,81 +3252,1134 @@ export type CatalogContentQueryResult = {
   dinnerDepositAmount: null | number;
   homeText:
     | {
-        copy: null;
-        contactHeading: null;
+        _id: string;
+        _type: "beverageOption";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+        description?: LocalizedText;
+        active?: boolean;
+        displayOrder?: number;
+        type?: "other" | "sparkling" | "welcomeDrink" | "wine";
+        included?: boolean;
+        supplementPrice?: number;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
       }
     | {
-        copy: {
-          eyebrow?: string;
-          headline?: string;
-          introduction?: string;
-          exploreProposals?: string;
-          exploreDinners?: string;
-          deposit?: string;
-          planningEyebrow?: string;
-          planning?: string;
-          proposalChoice?: string;
-          proposalDescription?: string;
-          dinnerChoice?: string;
-          dinnerDescription?: string;
-          trustLabel?: string;
-          trustPrivate?: string;
-          trustLocal?: string;
-          trustTransport?: string;
-          trustService?: string;
-          trustPhoto?: string;
-          trustDelivery?: string;
-          mediaNote?: string;
-          featured?: string;
-          customize?: string;
-          allProposals?: string;
-          journeyLabel?: string;
-          journeyTitle?: string;
-          journeyIntro?: string;
-          journeyOne?: string;
-          journeyOneText?: string;
-          journeyTwo?: string;
-          journeyTwoText?: string;
-          journeyThree?: string;
-          journeyThreeText?: string;
-          journeyFour?: string;
-          journeyFourText?: string;
-          journeyFive?: string;
-          journeyFiveText?: string;
-          transformation?: string;
-          transformationText?: string;
-          editorialNote?: string;
-          dinnerTitle?: string;
-          dinnerText?: string;
-          dinnerCelebrations?: string;
-          dinnerPrice?: string;
-          howTitle?: string;
-          stepOne?: string;
-          stepOneText?: string;
-          stepTwo?: string;
-          stepTwoText?: string;
-          stepThree?: string;
-          stepThreeText?: string;
-          stepFour?: string;
-          stepFourText?: string;
-          stepFive?: string;
-          stepFiveText?: string;
-          stepSix?: string;
-          stepSixText?: string;
-          stepSeven?: string;
-          stepSevenText?: string;
-          stepEight?: string;
-          stepEightText?: string;
-          howItWorksLink?: string;
-          realMoments?: string;
-          viewStories?: string;
-          galleryOpen?: string;
-          close?: string;
-          previous?: string;
-          next?: string;
-          startTitle?: string;
-        } | null;
-        contactHeading: string | null;
+        _id: string;
+        _type: "blogCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: BlogLocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "blogCtaStrip";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: BlogLocalizedString;
+        heading?: BlogLocalizedString;
+        headingAccent?: BlogLocalizedString;
+        subheading?: BlogLocalizedText;
+        ctaLabel?: BlogLocalizedString;
+        ctaHref?: string;
+      }
+    | {
+        _id: string;
+        _type: "blogHero";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: BlogLocalizedString;
+        headingLine1?: BlogLocalizedString;
+        headingLine2?: BlogLocalizedString;
+        subheading?: BlogLocalizedText;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        featuredPost?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "blogPost";
+        };
+      }
+    | {
+        _id: string;
+        _type: "blogPost";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: "ar" | "de" | "en" | "es" | "fr" | "it" | "pt" | "ru" | "zh";
+        translationGroup?: string;
+        slug?: Slug;
+        title?: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "blogCategory";
+        };
+        categoryTag?: string;
+        publishedAt?: string;
+        readingTime?: number;
+        heroPhoto?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+          _type: "image";
+          _key: string;
+        }>;
+        excerpt?: string;
+        body?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
+        _type: "catalogContact";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        heading?: string;
+        description?: string;
+        businessInformation?: string;
+      }
+    | {
+        _id: string;
+        _type: "catalogHome";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        heroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        eyebrow?: string;
+        headline?: string;
+        introduction?: string;
+        exploreProposals?: string;
+        exploreDinners?: string;
+        deposit?: string;
+        proposalSelectorImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        dinnerSelectorImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        planningEyebrow?: string;
+        planning?: string;
+        proposalChoice?: string;
+        proposalDescription?: string;
+        dinnerChoice?: string;
+        dinnerDescription?: string;
+        trustLabel?: string;
+        trustPrivate?: string;
+        trustLocal?: string;
+        trustTransport?: string;
+        trustService?: string;
+        trustPhoto?: string;
+        trustDelivery?: string;
+        mediaNote?: string;
+        featuredProposals?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "proposalExperience";
+        }>;
+        featured?: string;
+        customize?: string;
+        allProposals?: string;
+        journeyImages?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "photo";
+          _key: string;
+        }>;
+        journeyLabel?: string;
+        journeyTitle?: string;
+        journeyIntro?: string;
+        journeyOne?: string;
+        journeyOneText?: string;
+        journeyTwo?: string;
+        journeyTwoText?: string;
+        journeyThree?: string;
+        journeyThreeText?: string;
+        journeyFour?: string;
+        journeyFourText?: string;
+        journeyFive?: string;
+        journeyFiveText?: string;
+        editorialImages?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "photo";
+          _key: string;
+        }>;
+        transformation?: string;
+        transformationText?: string;
+        editorialNote?: string;
+        dinnerTitle?: string;
+        dinnerText?: string;
+        dinnerCelebrations?: string;
+        dinnerPrice?: string;
+        howTitle?: string;
+        stepOne?: string;
+        stepOneText?: string;
+        stepTwo?: string;
+        stepTwoText?: string;
+        stepThree?: string;
+        stepThreeText?: string;
+        stepFour?: string;
+        stepFourText?: string;
+        stepFive?: string;
+        stepFiveText?: string;
+        stepSix?: string;
+        stepSixText?: string;
+        stepSeven?: string;
+        stepSevenText?: string;
+        stepEight?: string;
+        stepEightText?: string;
+        howItWorksLink?: string;
+        moments?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "photo";
+          _key: string;
+        }>;
+        realMoments?: string;
+        viewStories?: string;
+        galleryOpen?: string;
+        close?: string;
+        previous?: string;
+        next?: string;
+        startTitle?: string;
+        proposalHeroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        dinnerHeroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        contactHeading?: string;
+      }
+    | {
+        _id: string;
+        _type: "dinnerOccasion";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+        description?: LocalizedText;
+        active?: boolean;
+        displayOrder?: number;
+        allowCustomMessage?: boolean;
+      }
+    | {
+        _id: string;
+        _type: "experienceAddon";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        internalTitle?: string;
+        name?: LocalizedString;
+        description?: LocalizedText;
+        active?: boolean;
+        displayOrder?: number;
+        price?: number;
+        pricingType?:
+          | "fixed"
+          | "per30Minutes"
+          | "perHour"
+          | "perPerson"
+          | "perUnit"
+          | "quoteOnly";
+        applicableTo?: Array<string>;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        icon?: string;
+        minimumQuantity?: number;
+        maximumQuantity?: number;
+        durationMinutesPerUnit?: number;
+        internalNotes?: string;
+      }
+    | {
+        _id: string;
+        _type: "experienceCatalogSettings";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        dinnerDepositAmount?: number;
+        dinnerExclusivity?: string;
+        dinnerPrivacyTagline?: string;
+        preferredDate?: string;
+        alternativeDate?: string;
+        datesFlexible?: string;
+        datePreferenceNote?: string;
+        dinnerRequestNote?: string;
+        dinnerPaymentNote?: string;
+        dinnerRequestSuccess?: string;
+        requestComments?: string;
+        hotelAccommodation?: string;
+        requestDinnerDate?: string;
+        navHome?: string;
+        navProposals?: string;
+        navDinners?: string;
+        navHow?: string;
+        navFaq?: string;
+        planProposal?: string;
+        planCelebration?: string;
+        fragranceSensitivity?: string;
+        occasionGuests?: string;
+        foodMenu?: string;
+        drinksWine?: string;
+        welcomeCocktail?: string;
+        wineSelection?: string;
+        menusCompleted?: string;
+        chooseMenu?: string;
+        menuSelected?: string;
+        priceDetails?: string;
+        baseExperience?: string;
+        additionalGuests?: string;
+        menuSupplements?: string;
+        drinkSupplements?: string;
+        extras?: string;
+        addGuest?: string;
+        removeGuest?: string;
+        noExtras?: string;
+        cocktails?: string;
+        cocktailHint?: string;
+        completeHint?: string;
+        capacityPending?: string;
+        vegan?: string;
+        vegetarian?: string;
+        proposalSectionTitle?: string;
+        proposalSectionDescription?: string;
+        dinnerSectionTitle?: string;
+        dinnerSectionDescription?: string;
+        currencySymbol?: string;
+        estimatedTotalLabel?: string;
+        availabilityButtonLabel?: string;
+        includedLabel?: string;
+        startingAtLabel?: string;
+        selectStyleLabel?: string;
+        addonsLabel?: string;
+        contactUsLabel?: string;
+        emptyProposals?: string;
+        emptyDinners?: string;
+        fullName?: string;
+        email?: string;
+        phone?: string;
+        hotel?: string;
+        desiredDate?: string;
+        notes?: string;
+        send?: string;
+        success?: string;
+        error?: string;
+        guests?: string;
+        guest?: string;
+        occasion?: string;
+        customOccasion?: string;
+        starter?: string;
+        main?: string;
+        dessert?: string;
+        beverages?: string;
+        duration?: string;
+        minutes?: string;
+        quantity?: string;
+        quotePending?: string;
+        select?: string;
+        menu?: string;
+        previous?: string;
+        next?: string;
+        photo?: string;
+        selectPackage?: string;
+        selectedPackage?: string;
+        blog?: string;
+        faq?: string;
+        previewOnly?: string;
+        privacy?: string;
+        terms?: string;
+        rightsReserved?: string;
+        siteLinks?: string;
+        close?: string;
+        introStepsHeading?: string;
+        priceToBeDefined?: string;
+        setupTemplate?: string;
+        photoPending?: string;
+        dinnerTemplatePreviewNote?: string;
+        dinnerInquiryNote?: string;
+        heroEyebrow?: string;
+        dinnerHeroText?: string;
+        proposalHeroText?: string;
+        dinnerHeroCta?: string;
+        proposalHeroCta?: string;
+        heroHowItWorks?: string;
+        proposalDinnerEyebrow?: string;
+        proposalDinnerTitle?: string;
+        proposalDinnerIntro?: string;
+        dietaryLegend?: string;
+        proposalIntroTitle?: string;
+        proposalIntroDescription?: string;
+        proposalIntroStep1Title?: string;
+        proposalIntroStep1?: string;
+        proposalIntroStep2Title?: string;
+        proposalIntroStep2?: string;
+        proposalIntroStep3Title?: string;
+        proposalIntroStep3?: string;
+        proposalIntroStep4Title?: string;
+        proposalIntroStep4?: string;
+        proposalIntroNote?: string;
+        dinnerIntroTitle?: string;
+        dinnerIntroDescription?: string;
+        dinnerIntroStep1Title?: string;
+        dinnerIntroStep1?: string;
+        dinnerIntroStep2Title?: string;
+        dinnerIntroStep2?: string;
+        dinnerIntroStep3Title?: string;
+        dinnerIntroStep3?: string;
+        dinnerIntroStep4Title?: string;
+        dinnerIntroStep4?: string;
+        dinnerIntroNote?: string;
+      }
+    | {
+        _id: string;
+        _type: "faq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "faqCategory";
+        };
+        question?: string;
+        answer?: string;
+      }
+    | {
+        _id: string;
+        _type: "faqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "faqContactStrip";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        eyebrow?: string;
+        line1?: string;
+        line2?: string;
+        body?: string;
+        cta?: string;
+      }
+    | {
+        _id: string;
+        _type: "faqHero";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        eyebrow?: string;
+        headingLine1?: string;
+        headingLine2?: string;
+        subheading?: string;
+        heroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+      }
+    | {
+        _id: string;
+        _type: "generalLayout";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        companyName?: string;
+        companyDescription?: LocalizedText;
+        companyLogo?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        favicon?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        email?: string;
+        telephone?: string;
+        whatsapp?: string;
+        socialLinks?: {
+          facebook?: string;
+          instagram?: string;
+          xURL?: string;
+          MessengerURL?: string;
+        };
+      }
+    | {
+        _id: string;
+        _type: "howItWorksCta";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        eyebrow?: string;
+        scriptLine?: string;
+        heading?: string;
+        headingAccent?: string;
+        subheading?: string;
+        primaryCTA?: string;
+        primaryCTAHref?: string;
+        secondaryCTA?: string;
+        secondaryCTAHref?: string;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksFaq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        eyebrow?: string;
+        heading?: string;
+        headingAccent?: string;
+        subheading?: string;
+        faqs?: Array<{
+          category?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
+          };
+          question?: string;
+          answer?: string;
+          _type: "faq";
+          _key: string;
+        }>;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksFaqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksHero";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        eyebrow?: string;
+        headingLine1?: string;
+        headingLine2?: string;
+        subheading?: string;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+      }
+    | {
+        _id: string;
+        _type: "howItWorksSteps";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        eyebrow?: string;
+        heading?: string;
+        headingAccent?: string;
+        subheading?: string;
+        steps?: Array<{
+          label?: string;
+          title?: string;
+          description?: string;
+          _type: "step";
+          _key: string;
+        }>;
+        reassurance?: Array<{
+          id?: "inclusive" | "memories" | "private" | "team";
+          title?: string;
+          caption?: string;
+          _type: "reassuranceItem";
+          _key: string;
+        }>;
+      }
+    | {
+        _id: string;
+        _type: "legalDocument";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        content?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+      }
+    | {
+        _id: string;
+        _type: "media.tag";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: Slug;
+      }
+    | {
+        _id: string;
+        _type: "menuItem";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+        description?: LocalizedText;
+        active?: boolean;
+        displayOrder?: number;
+        courseType?: "dessert" | "main" | "starter";
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        included?: boolean;
+        supplementPrice?: number;
+        dietaryType?: "regular" | "vegan" | "vegetarian";
+        dietaryTags?: Array<string>;
+        allergenInformation?: LocalizedText;
+        internalNotes?: string;
+      }
+    | {
+        _id: string;
+        _type: "pageSeo";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
+        _type: "proposalExperience";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        internalTitle?: string;
+        name?: LocalizedString;
+        location?: LocalizedString;
+        badge?: LocalizedString;
+        slug?: Slug;
+        shortDescription?: LocalizedText;
+        longDescription?: LocalizedText;
+        basePrice?: number;
+        currency?: string;
+        priceLabel?: LocalizedString;
+        gallery?: Array<
+          {
+            _key: string;
+          } & ExperiencePhoto
+        >;
+        styles?: Array<
+          {
+            _key: string;
+          } & ProposalStyle
+        >;
+        inclusions?: Array<
+          {
+            _key: string;
+          } & ExperienceInclusion
+        >;
+        availableAddons?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "experienceAddon";
+        }>;
+        active?: boolean;
+        featured?: boolean;
+        displayOrder?: number;
+        seo?: ExperienceSeo;
+      }
+    | {
+        _id: string;
+        _type: "romanticDinnerExperience";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        internalTitle?: string;
+        name?: LocalizedString;
+        location?: LocalizedString;
+        badge?: LocalizedString;
+        slug?: Slug;
+        shortDescription?: LocalizedText;
+        longDescription?: LocalizedText;
+        basePrice?: number;
+        currency?: string;
+        priceLabel?: LocalizedString;
+        gallery?: Array<
+          {
+            _key: string;
+          } & ExperiencePhoto
+        >;
+        inclusions?: Array<
+          {
+            _key: string;
+          } & ExperienceInclusion
+        >;
+        availableAddons?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "experienceAddon";
+        }>;
+        active?: boolean;
+        featured?: boolean;
+        displayOrder?: number;
+        seo?: ExperienceSeo;
+        styles?: Array<
+          {
+            _key: string;
+          } & DinnerStyle
+        >;
+        occasions?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "dinnerOccasion";
+        }>;
+        menuItems?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "menuItem";
+        }>;
+        beverages?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "beverageOption";
+        }>;
+        includedGuests?: number;
+        minimumGuests?: number;
+        maximumGuests?: number;
+        additionalGuestPrice?: number;
+        includedDurationMinutes?: number;
+        maximumDurationMinutes?: number;
+      }
+    | {
+        _id: string;
+        _type: "sanity.fileAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        source?: SanityAssetSourceData;
+      }
+    | {
+        _id: string;
+        _type: "sanity.imageAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        metadata?: SanityImageMetadata;
+        source?: SanityAssetSourceData;
+      }
+    | {
+        _id: string;
+        _type: "storiesCtaStrip";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        eyebrow?: string;
+        heading?: string;
+        headingAccent?: string;
+        subheading?: string;
+        ctaLabel?: string;
+        ctaHref?: string;
+      }
+    | {
+        _id: string;
+        _type: "storiesHero";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        eyebrow?: string;
+        headingLine1?: string;
+        headingLine2?: string;
+        subheading?: string;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        featuredStory?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "story";
+        };
+      }
+    | {
+        _id: string;
+        _type: "story";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        slug?: Slug;
+        names?: string;
+        proposalType?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "storyType";
+        };
+        packageTag?: string;
+        date?: string;
+        location?: string;
+        heroPhoto?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+          _type: "image";
+          _key: string;
+        }>;
+        quote?: string;
+        body?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
+        _type: "storyType";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "translation.metadata";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        translations?: InternationalizedArrayReference;
+        schemaTypes?: Array<string>;
       }
     | null;
   homePhotos:
@@ -3579,32 +4628,12 @@ export type CatalogContentQueryResult = {
           alt?: LocalizedString;
           _type: "image";
         };
-        proposalHeroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: LocalizedString;
-          _type: "image";
-        };
-        dinnerHeroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: LocalizedString;
-          _type: "image";
-        };
+        eyebrow?: string;
+        headline?: string;
+        introduction?: string;
+        exploreProposals?: string;
+        exploreDinners?: string;
+        deposit?: string;
         proposalSelectorImage?: {
           asset?: {
             _ref: string;
@@ -3631,76 +4660,20 @@ export type CatalogContentQueryResult = {
           alt?: LocalizedString;
           _type: "image";
         };
-        copy?: {
-          eyebrow?: string;
-          headline?: string;
-          introduction?: string;
-          exploreProposals?: string;
-          exploreDinners?: string;
-          deposit?: string;
-          planningEyebrow?: string;
-          planning?: string;
-          proposalChoice?: string;
-          proposalDescription?: string;
-          dinnerChoice?: string;
-          dinnerDescription?: string;
-          trustLabel?: string;
-          trustPrivate?: string;
-          trustLocal?: string;
-          trustTransport?: string;
-          trustService?: string;
-          trustPhoto?: string;
-          trustDelivery?: string;
-          mediaNote?: string;
-          featured?: string;
-          customize?: string;
-          allProposals?: string;
-          journeyLabel?: string;
-          journeyTitle?: string;
-          journeyIntro?: string;
-          journeyOne?: string;
-          journeyOneText?: string;
-          journeyTwo?: string;
-          journeyTwoText?: string;
-          journeyThree?: string;
-          journeyThreeText?: string;
-          journeyFour?: string;
-          journeyFourText?: string;
-          journeyFive?: string;
-          journeyFiveText?: string;
-          transformation?: string;
-          transformationText?: string;
-          editorialNote?: string;
-          dinnerTitle?: string;
-          dinnerText?: string;
-          dinnerCelebrations?: string;
-          dinnerPrice?: string;
-          howTitle?: string;
-          stepOne?: string;
-          stepOneText?: string;
-          stepTwo?: string;
-          stepTwoText?: string;
-          stepThree?: string;
-          stepThreeText?: string;
-          stepFour?: string;
-          stepFourText?: string;
-          stepFive?: string;
-          stepFiveText?: string;
-          stepSix?: string;
-          stepSixText?: string;
-          stepSeven?: string;
-          stepSevenText?: string;
-          stepEight?: string;
-          stepEightText?: string;
-          howItWorksLink?: string;
-          realMoments?: string;
-          viewStories?: string;
-          galleryOpen?: string;
-          close?: string;
-          previous?: string;
-          next?: string;
-          startTitle?: string;
-        };
+        planningEyebrow?: string;
+        planning?: string;
+        proposalChoice?: string;
+        proposalDescription?: string;
+        dinnerChoice?: string;
+        dinnerDescription?: string;
+        trustLabel?: string;
+        trustPrivate?: string;
+        trustLocal?: string;
+        trustTransport?: string;
+        trustService?: string;
+        trustPhoto?: string;
+        trustDelivery?: string;
+        mediaNote?: string;
         featuredProposals?: Array<{
           _ref: string;
           _type: "reference";
@@ -3708,6 +4681,9 @@ export type CatalogContentQueryResult = {
           _key: string;
           [internalGroqTypeReferenceTo]?: "proposalExperience";
         }>;
+        featured?: string;
+        customize?: string;
+        allProposals?: string;
         journeyImages?: Array<{
           asset?: {
             _ref: string;
@@ -3722,6 +4698,19 @@ export type CatalogContentQueryResult = {
           _type: "photo";
           _key: string;
         }>;
+        journeyLabel?: string;
+        journeyTitle?: string;
+        journeyIntro?: string;
+        journeyOne?: string;
+        journeyOneText?: string;
+        journeyTwo?: string;
+        journeyTwoText?: string;
+        journeyThree?: string;
+        journeyThreeText?: string;
+        journeyFour?: string;
+        journeyFourText?: string;
+        journeyFive?: string;
+        journeyFiveText?: string;
         editorialImages?: Array<{
           asset?: {
             _ref: string;
@@ -3736,6 +4725,31 @@ export type CatalogContentQueryResult = {
           _type: "photo";
           _key: string;
         }>;
+        transformation?: string;
+        transformationText?: string;
+        editorialNote?: string;
+        dinnerTitle?: string;
+        dinnerText?: string;
+        dinnerCelebrations?: string;
+        dinnerPrice?: string;
+        howTitle?: string;
+        stepOne?: string;
+        stepOneText?: string;
+        stepTwo?: string;
+        stepTwoText?: string;
+        stepThree?: string;
+        stepThreeText?: string;
+        stepFour?: string;
+        stepFourText?: string;
+        stepFive?: string;
+        stepFiveText?: string;
+        stepSix?: string;
+        stepSixText?: string;
+        stepSeven?: string;
+        stepSevenText?: string;
+        stepEight?: string;
+        stepEightText?: string;
+        howItWorksLink?: string;
         moments?: Array<{
           asset?: {
             _ref: string;
@@ -3750,6 +4764,39 @@ export type CatalogContentQueryResult = {
           _type: "photo";
           _key: string;
         }>;
+        realMoments?: string;
+        viewStories?: string;
+        galleryOpen?: string;
+        close?: string;
+        previous?: string;
+        next?: string;
+        startTitle?: string;
+        proposalHeroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        dinnerHeroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
         contactHeading?: string;
       }
     | {
@@ -5813,7 +6860,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[\n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n]\n  | order(displayOrder asc, _id asc)\n  {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}\n': CatalogQueryResult;
     '*[_id == $id && \n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': ExperienceByIdQueryResult;
-    '{\n      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),\n      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,\n      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]) {\n        copy,\n        contactHeading\n      },\n      "homePhotos": *[_id == $homeEnId][0] {\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        proposalHeroImage {\n  "url": asset->url,\n  alt\n},\n        dinnerHeroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])\n    }': CatalogContentQueryResult;
+    '{\n      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),\n      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,\n      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),\n      "homePhotos": *[_id == $homeEnId][0] {\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        proposalHeroImage {\n  "url": asset->url,\n  alt\n},\n        dinnerHeroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])\n    }': CatalogContentQueryResult;
     '{\n      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref\n    }': HomePresentationQueryResult;
     '*[\n        _type == "proposalExperience"\n        && active == true\n        && slug.current in $featuredSlugs\n      ] | order(name.en asc)[0...3]._id': FeaturedFallbackQueryResult;
     '*[_id == $id][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': TemplatePreviewQueryResult;

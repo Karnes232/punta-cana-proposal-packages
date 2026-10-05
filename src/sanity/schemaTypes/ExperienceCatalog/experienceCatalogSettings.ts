@@ -404,21 +404,20 @@ const homeSections: [string, string, string[]][] = [
   ],
   ["final", bi("Llamada final", "Closing call to action"), ["startTitle"]],
 ];
-const homeSectionOf = (key: string) =>
-  homeSections.find(([, , keys]) => keys.includes(key))?.[0];
+// Home keys missing from homeSections still get a field, in the last section.
+const homeTextKeys = (section: string) => [
+  ...(homeSections.find(([name]) => name === section)?.[2] ?? []),
+  ...(section === "final"
+    ? Object.keys(homeCopy).filter(
+        (k) => !homeSections.some(([, , keys]) => keys.includes(k)),
+      )
+    : []),
+];
 
-export const catalogHome = defineType({
-  name: "catalogHome",
-  type: "document",
-  preview: { prepare: () => ({ title: bi("Página de inicio", "Home page") }) },
-  title: "Home",
-  groups: [
-    { name: "photos", title: bi("Fotos", "Photos"), default: true },
-    { name: "text", title: bi("Textos", "Text") },
-    { name: "featured", title: bi("Destacadas", "Featured") },
-  ],
-  fields: [
-    languageField,
+// Photos and the featured proposals, placed in the section of the page that
+// shows them. Shared by every language: edited on the English document only.
+const homePhotoFields: Record<string, FieldDefinition[]> = {
+  hero: [
     {
       ...image("heroImage"),
       group: "photos",
@@ -428,31 +427,20 @@ export const catalogHome = defineType({
         "Large photo at the top of the page. Empty = the first featured package's photo",
       ),
     },
-    { ...image("proposalHeroImage"), group: "photos", hidden: englishOnly },
-    { ...image("dinnerHeroImage"), group: "photos", hidden: englishOnly },
+  ],
+  selector: [
     { ...image("proposalSelectorImage"), group: "photos", hidden: englishOnly },
-    { ...image("dinnerSelectorImage"), group: "photos", hidden: englishOnly },
-    defineField({
-      name: "copy",
-      title: bi("Textos de la página", "Page text"),
-      type: "object",
-      group: "text",
-      fieldsets: homeSections.map(([name, title]) => ({
-        name,
-        title,
-        options: { collapsible: true, collapsed: true },
-      })),
-      // Ordered like the page (the Studio shows fieldsets in field order).
-      fields: homeSections
-        .flatMap(([, , keys]) => keys)
-        .concat(Object.keys(homeCopy).filter((k) => !homeSectionOf(k)))
-        .map((k) => [k, homeCopy[k]] as const)
-        .map(([k, defaults]) =>
-          siteText(k, "text", defaults, {
-            fieldset: homeSectionOf(k),
-          }),
-        ),
-    }),
+    {
+      ...image("dinnerSelectorImage"),
+      group: "photos",
+      hidden: englishOnly,
+      description: bi(
+        "También se muestra en la sección Cena privada",
+        "Also shown in the Private dinner section",
+      ),
+    },
+  ],
+  featured: [
     defineField({
       name: "featuredProposals",
       type: "array",
@@ -471,27 +459,82 @@ export const catalogHome = defineType({
       ],
       validation: (r) => r.max(3).unique(),
     }),
-    ...["journeyImages", "editorialImages", "moments"].map((name) =>
-      defineField({
-        name,
-        type: "array",
-        group: "photos",
-        hidden: englishOnly,
-        description:
-          name === "journeyImages"
-            ? bi("Una foto por paso, máximo 5", "One photo per step, up to 5")
-            : bi("Máximo 8 fotos", "Up to 8 photos"),
-        of: [image("photo")],
-        validation: (r) => r.max(name === "journeyImages" ? 5 : 8),
-      }),
-    ),
-    {
-      ...field("contactHeading", "string", "text"),
-      description: bi(
-        "Título encima del botón de contacto en Propuestas y Cenas",
-        "Heading above the contact button on Proposals and Dinners",
+  ],
+  ...Object.fromEntries(
+    [
+      ["journey", "journeyImages"],
+      ["editorial", "editorialImages"],
+      ["moments", "moments"],
+    ].map(([section, name]) => [
+      section,
+      [
+        defineField({
+          name,
+          type: "array",
+          group: "photos",
+          hidden: englishOnly,
+          description:
+            name === "journeyImages"
+              ? bi("Una foto por paso, máximo 5", "One photo per step, up to 5")
+              : bi("Máximo 8 fotos", "Up to 8 photos"),
+          of: [image("photo")],
+          validation: (r) => r.max(name === "journeyImages" ? 5 : 8),
+        }),
+      ],
+    ]),
+  ),
+  other: [
+    { ...image("proposalHeroImage"), group: "photos", hidden: englishOnly },
+    { ...image("dinnerHeroImage"), group: "photos", hidden: englishOnly },
+  ],
+};
+
+// The "All fields" tab reads like the home page: one section per part of the
+// page, each with its photos and then its texts. The Photos, Text and
+// Featured tabs still filter by kind.
+const homeFieldsets = [
+  ...homeSections.map(([name, title]) => ({ name, title })),
+  { name: "other", title: bi("Otras páginas", "Other pages") },
+].map(({ name, title }) => ({
+  name,
+  title,
+  options: { collapsible: true, collapsed: name !== "hero" },
+}));
+
+export const catalogHome = defineType({
+  name: "catalogHome",
+  type: "document",
+  preview: { prepare: () => ({ title: bi("Página de inicio", "Home page") }) },
+  title: "Home",
+  groups: [
+    { name: "photos", title: bi("Fotos", "Photos"), default: true },
+    { name: "text", title: bi("Textos", "Text") },
+    { name: "featured", title: bi("Destacadas", "Featured") },
+  ],
+  fieldsets: homeFieldsets,
+  fields: [
+    languageField,
+    ...homeFieldsets.flatMap(({ name: section }) => [
+      ...(homePhotoFields[section] ?? []).map((f) => ({
+        ...f,
+        fieldset: section,
+      })),
+      ...homeTextKeys(section).map((k) =>
+        siteText(k, "text", homeCopy[k], { group: "text", fieldset: section }),
       ),
-    },
+      ...(section === "other"
+        ? [
+            {
+              ...field("contactHeading", "string", "text"),
+              fieldset: "other",
+              description: bi(
+                "Título encima del botón de contacto en Propuestas y Cenas",
+                "Heading above the contact button on Proposals and Dinners",
+              ),
+            },
+          ]
+        : []),
+    ]),
   ],
 });
 export const catalogContact = defineType({

@@ -12,6 +12,8 @@ import {
   languageDocumentId,
 } from "@/sanity/constants";
 
+import { homeCopy } from "@/lib/experience/homeCopy";
+
 import { getExperience } from "./catalog";
 import { uncachedClient } from "./client";
 import { imageWithAlt } from "./fragments";
@@ -24,10 +26,7 @@ import { defineQuery } from "next-sanity";
 export const catalogContentQuery = defineQuery(`{
       "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),
       "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,
-      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]) {
-        copy,
-        contactHeading
-      },
+      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),
       "homePhotos": *[_id == $homeEnId][0] {
         heroImage ${imageWithAlt},
         proposalHeroImage ${imageWithAlt},
@@ -58,10 +57,24 @@ export type CatalogContent = {
   contact: Contact | null;
 };
 
+const textField = (value: unknown) =>
+  typeof value === "string" ? value : undefined;
+
+// The home texts (top-level fields named after the homeCopy keys), as the
+// `copy` record homeText() reads.
+const homeTextFields = (doc: Record<string, unknown> | null) =>
+  Object.fromEntries(
+    Object.keys(homeCopy).flatMap((key) => {
+      const value = textField(doc?.[key]);
+      return value ? [[key, value]] : [];
+    }),
+  );
+
 type CatalogContentRow = {
   settings: Settings | null;
   dinnerDepositAmount?: number;
-  homeText: Pick<Home, "copy" | "contactHeading"> | null;
+  // The home text document: one top-level field per homeCopy key.
+  homeText: Record<string, unknown> | null;
   homePhotos: Omit<Home, "copy" | "contactHeading"> | null;
   contact: Contact | null;
 };
@@ -90,7 +103,11 @@ export async function getCatalogContent(
       : null,
     home:
       row.homeText || row.homePhotos
-        ? { ...row.homePhotos, ...row.homeText }
+        ? {
+            ...row.homePhotos,
+            copy: homeTextFields(row.homeText),
+            contactHeading: textField(row.homeText?.contactHeading),
+          }
         : null,
     contact: row.contact,
   };
