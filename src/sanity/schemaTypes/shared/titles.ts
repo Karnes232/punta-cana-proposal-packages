@@ -27,11 +27,10 @@ export const typeTitles: Record<string, string> = {
   // Site-wide
   generalLayout: bi("Negocio y redes sociales", "Business & social links"),
   pageSeo: bi("SEO de página", "Page SEO"),
-  seo: "SEO",
   legalDocument: bi("Documento legal", "Legal document"),
-  localizedString: bi("Texto (EN/ES)", "Text (EN/ES)"),
-  localizedText: bi("Texto largo (EN/ES)", "Long text (EN/ES)"),
-  localizedBlock: bi("Contenido (EN/ES)", "Rich text (EN/ES)"),
+  localizedString: bi("Texto (EN/ES/FR/PT)", "Text (EN/ES/FR/PT)"),
+  localizedText: bi("Texto largo (EN/ES/FR/PT)", "Long text (EN/ES/FR/PT)"),
+  localizedBlock: bi("Contenido (EN/ES/FR/PT)", "Rich text (EN/ES/FR/PT)"),
   blogLocalizedString: bi("Texto (9 idiomas)", "Text (9 languages)"),
   blogLocalizedText: bi("Texto largo (9 idiomas)", "Long text (9 languages)"),
   // Stories
@@ -81,8 +80,6 @@ export const fieldTitles: Record<string, string> = {
   signature: bi("Firma", "Signature"),
   slug: bi("URL (slug)", "URL slug"),
   label: bi("Nombre visible", "Display name"),
-  labelEn: bi("Nombre en inglés", "English name"),
-  labelEs: bi("Nombre en español", "Spanish name"),
   value: bi("Identificador (no cambiar)", "Identifier (don't change)"),
   pageName: bi("Página", "Page"),
   language: bi("Idioma del artículo", "Post language"),

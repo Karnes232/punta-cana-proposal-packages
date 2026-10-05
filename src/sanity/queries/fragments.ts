@@ -43,20 +43,3 @@ export const documentSeoProjection = /* groq */ `seo {
   noIndex,
   noFollow
 }`;
-
-/** The bilingual `seo` object (meta, Open Graph, robots) used by pages and stories. */
-export const localizedSeoProjection = /* groq */ `
-  seo {
-    meta {
-      en { title, description, keywords },
-      es { title, description, keywords }
-    },
-    openGraph {
-      en { title, description },
-      es { title, description },
-      "image": { ${seoImageFields} }
-    },
-    noIndex,
-    noFollow
-  }
-`;
