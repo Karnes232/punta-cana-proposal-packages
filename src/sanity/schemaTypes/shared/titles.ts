@@ -19,6 +19,7 @@ export const typeTitles: Record<string, string> = {
   experienceCatalogSettings: bi("Textos del catálogo", "Catalog text"),
   catalogHome: bi("Página de inicio", "Home page"),
   catalogContact: bi("Página de contacto", "Contact page"),
+  proposalsPage: bi("Página de propuestas", "Proposals page"),
   proposalStyle: bi("Estilo de propuesta", "Proposal style"),
   dinnerStyle: bi("Montaje de cena", "Dinner setup"),
   experienceInclusion: bi("Incluye", "Inclusion"),
@@ -125,10 +126,6 @@ export const fieldTitles: Record<string, string> = {
   mainImage: bi("Imagen principal", "Main image"),
   heroImage: bi("Foto de portada", "Hero photo"),
   heroPhoto: bi("Foto de portada", "Hero photo"),
-  proposalHeroImage: bi(
-    "Foto de portada de Propuestas",
-    "Proposals page hero photo",
-  ),
   dinnerHeroImage: bi("Foto de portada de Cenas", "Dinners page hero photo"),
   proposalSelectorImage: bi(
     "Foto del selector: propuesta",

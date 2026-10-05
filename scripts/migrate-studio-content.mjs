@@ -395,6 +395,8 @@ const MOVED_COPIES = {
   storiesHero: "storiesPage",
   storiesCtaStrip: "storiesPage",
   "pageSeo-stories": "storiesPage",
+  // Phase 19: the proposals page's SEO lives in its proposalsPage documents.
+  "pageSeo-proposals": "proposalsPage",
   // Phase 13: the legal pages' SEO lives in their legalDocument documents.
   ...Object.fromEntries(
     LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
@@ -481,6 +483,7 @@ function siteDefaults() {
       "node_modules/typescript/bin/tsc",
       "src/lib/experience/labels.ts",
       "src/lib/experience/homeCopy.ts",
+      "src/lib/experience/proposalsPage.ts",
       "--outDir",
       out,
       "--rootDir",
@@ -498,6 +501,7 @@ function siteDefaults() {
   return {
     ui: load(resolve(out, "lib/experience/labels.js")).ui,
     homeCopy: load(resolve(out, "lib/experience/homeCopy.js")).homeCopy,
+    proposalsPage: load(resolve(out, "lib/experience/proposalsPage.js")),
   };
 }
 
@@ -1367,6 +1371,126 @@ async function storiesPagePhase() {
   ]);
 }
 
+// --- Proposals page as one document per language ---------------------------
+
+async function proposalsPagePhase() {
+  const { PROPOSALS_PAGE_SECTIONS, PROPOSALS_ONLY_KEYS } =
+    siteDefaults().proposalsPage;
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const settingsIds = languages.map((l) =>
+    languageDocumentId("experienceCatalogSettings", l),
+  );
+  const homeIds = languages.map((l) => languageDocumentId("catalogHome", l));
+  const seoIds = languages.map((l) =>
+    languageDocumentId("pageSeo-proposals", l),
+  );
+  const pageIds = languages.map((l) => languageDocumentId("proposalsPage", l));
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: [...settingsIds, ...homeIds, ...seoIds, ...pageIds].map(
+      (id) => `drafts.${id}`,
+    ),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          ...settingsIds,
+          ...homeIds,
+          ...seoIds,
+          ...pageIds,
+          "translations-pageSeo-proposals",
+          "translations-proposalsPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+
+  const creates = [];
+  const patches = [];
+  let copied = 0;
+  for (const language of languages) {
+    const settings =
+      docs[languageDocumentId("experienceCatalogSettings", language)];
+    const home = docs[languageDocumentId("catalogHome", language)];
+    const seo = docs[languageDocumentId("pageSeo-proposals", language)];
+    if (!settings)
+      problems.push(`experienceCatalogSettings-${language} not found`);
+    if (!home) problems.push(`catalogHome-${language} not found`);
+    if (!seo?.seo) problems.push(`No proposals SEO in ${language}`);
+    // Each text the page shows today: the contact heading from Home, the
+    // rest from Catalog text. Empty ones stay empty (the default text).
+    const textOf = (key) =>
+      key === "contactHeading" ? home?.contactHeading : settings?.[key];
+    const page = {
+      _id: languageDocumentId("proposalsPage", language),
+      _type: "proposalsPage",
+      language,
+    };
+    for (const [name, keys] of Object.entries(PROPOSALS_PAGE_SECTIONS)) {
+      const section = {};
+      for (const key of keys) {
+        const value = textOf(key);
+        if (typeof value === "string" && value) {
+          section[key] = value;
+          copied++;
+        }
+      }
+      if (name === "hero" && home?.proposalHeroImage)
+        section.image = home.proposalHeroImage;
+      if (Object.keys(section).length) page[name] = section;
+    }
+    if (seo?.seo) page.seo = seo.seo;
+    if (!docs[page._id]) {
+      checkAgainstSchema(page);
+      creates.push({ createIfNotExists: page });
+    }
+    // The moved texts and photo leave Catalog text and Home.
+    const settingsUnset = PROPOSALS_ONLY_KEYS.filter(
+      (key) => settings?.[key] !== undefined,
+    );
+    if (settingsUnset.length)
+      patches.push({ patch: { id: settings._id, unset: settingsUnset } });
+    if (home?.proposalHeroImage !== undefined)
+      patches.push({ patch: { id: home._id, unset: ["proposalHeroImage"] } });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-proposalsPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-proposalsPage",
+        _type: "translation.metadata",
+        schemaTypes: ["proposalsPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("proposalsPage", language),
+          },
+        })),
+      },
+    });
+  mutations.push(...patches);
+  // Metadata first: it references the documents deleted after it.
+  const deletes = ["translations-pageSeo-proposals", ...seoIds].filter(
+    (id) => docs[id],
+  );
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced proposals SEO document`);
+  step(19, "Make the proposals page one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist), ${copied} written texts copied`,
+    `${patches.length} settings/home documents lose the moved texts or photo`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
@@ -1384,6 +1508,7 @@ if (phases.has(15)) await howItWorksPhase();
 if (phases.has(16)) await faqPhase();
 if (phases.has(17)) await blogPagePhase();
 if (phases.has(18)) await storiesPagePhase();
+if (phases.has(19)) await proposalsPagePhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

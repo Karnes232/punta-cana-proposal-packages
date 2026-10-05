@@ -21,6 +21,7 @@ const SEO_IN_PAGE_DOCUMENT: Record<string, string> = {
   faq: "faqPage",
   blog: "blogPage",
   stories: "storiesPage",
+  proposals: "proposalsPage",
   "privacy-policy": legalDocumentId("privacy-policy"),
   "terms-of-service": legalDocumentId("terms-of-service"),
 };

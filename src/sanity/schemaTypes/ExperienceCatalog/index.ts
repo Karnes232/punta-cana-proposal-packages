@@ -12,6 +12,7 @@ import experienceCatalogSettings, {
   catalogHome,
   catalogContact,
 } from "./experienceCatalogSettings";
+import proposalsPage from "./proposalsPage";
 import { image, field, order } from "./shared";
 const experiencePhoto = defineType({
   name: "experiencePhoto",
@@ -47,6 +48,7 @@ export const experienceCatalogSchemas = [
   experienceCatalogSettings,
   catalogHome,
   catalogContact,
+  proposalsPage,
   experiencePhoto,
   experienceSeo,
 ];

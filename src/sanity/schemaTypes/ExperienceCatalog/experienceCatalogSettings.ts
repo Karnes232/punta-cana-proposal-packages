@@ -1,5 +1,6 @@
 import { homeCopy } from "@/lib/experience/homeCopy";
 import { introductionLabels } from "@/lib/experience/introduction";
+import { PROPOSALS_ONLY_KEYS } from "@/lib/experience/proposalsPage";
 import { dinnerPolicyLabels } from "@/lib/experience/dinnerPolicy";
 import { ui } from "@/lib/experience/labels";
 import type { DefaultText } from "@/lib/experience/types";
@@ -26,7 +27,7 @@ const short = (text: string) =>
  * (e.g. "Inicio / Home"), and the description repeats the full default, so
  * editors can see what an empty field means.
  */
-const siteText = (
+export const siteText = (
   name: string,
   type: "string" | "text",
   defaults: DefaultText | undefined,
@@ -85,7 +86,6 @@ export const labelKeys = [
   "selectStyleLabel",
   "addonsLabel",
   "contactUsLabel",
-  "emptyProposals",
   "emptyDinners",
   "fullName",
   "email",
@@ -131,9 +131,7 @@ export const labelKeys = [
   "dinnerInquiryNote",
   "heroEyebrow",
   "dinnerHeroText",
-  "proposalHeroText",
   "dinnerHeroCta",
-  "proposalHeroCta",
   "heroHowItWorks",
   "proposalDinnerEyebrow",
   "proposalDinnerTitle",
@@ -165,13 +163,10 @@ const settingsGroups: Record<string, string[]> = {
   ],
   heroes: [
     "heroEyebrow",
-    "proposalHeroText",
     "dinnerHeroText",
-    "proposalHeroCta",
     "dinnerHeroCta",
     "heroHowItWorks",
     "introStepsHeading",
-    "emptyProposals",
     "emptyDinners",
     "dinnerTemplatePreviewNote",
     "dinnerInquiryNote",
@@ -294,9 +289,12 @@ export default defineType({
     ...labelKeys.map((k) =>
       siteText(k, "string", ui[k], { group: settingsGroupOf(k) }),
     ),
-    ...Object.entries(introductionLabels).map(([k, defaults]) =>
-      siteText(k, "text", defaults, { group: "intro" }),
-    ),
+    // The Proposals page's introduction is edited on that page.
+    ...Object.entries(introductionLabels)
+      .filter(([k]) => !PROPOSALS_ONLY_KEYS.includes(k))
+      .map(([k, defaults]) =>
+        siteText(k, "text", defaults, { group: "intro" }),
+      ),
   ],
 });
 // Home page text, in the order the sections appear on the page.
@@ -481,10 +479,7 @@ const homePhotoFields: Record<string, FieldDefinition[]> = {
       ],
     ]),
   ),
-  other: [
-    { ...image("proposalHeroImage", "string"), group: "photos" },
-    { ...image("dinnerHeroImage", "string"), group: "photos" },
-  ],
+  other: [{ ...image("dinnerHeroImage", "string"), group: "photos" }],
 };
 
 // The "All fields" tab reads like the home page: one section per part of the
@@ -527,8 +522,8 @@ export const catalogHome = defineType({
               ...field("contactHeading", "string", "text"),
               fieldset: "other",
               description: bi(
-                "Título encima del botón de contacto en Propuestas y Cenas",
-                "Heading above the contact button on Proposals and Dinners",
+                "Título encima del botón de contacto en Cenas",
+                "Heading above the contact button on Dinners",
               ),
             },
           ]

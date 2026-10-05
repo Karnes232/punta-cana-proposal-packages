@@ -110,7 +110,6 @@ export type Home = {
   proposalSelectorImage?: Image;
   dinnerSelectorImage?: Image;
   heroImage?: Image;
-  proposalHeroImage?: Image;
   dinnerHeroImage?: Image;
   contactHeading?: string;
 };

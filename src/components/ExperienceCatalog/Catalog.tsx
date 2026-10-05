@@ -5,6 +5,8 @@ import {
   getDinnerPreview,
   getCatalogContent,
   getExperiences,
+  getProposalsPage,
+  withProposalsPage,
 } from "@/sanity/queries/ExperienceCatalog";
 import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
@@ -23,9 +25,10 @@ export default async function Catalog({
   locale: Locale;
   section: "proposals" | "romantic-dinners";
 }) {
-  const [experiences, content] = await Promise.all([
+  const [experiences, content, proposalsPage] = await Promise.all([
     getExperiences(),
     getCatalogContent(locale),
+    section === "proposals" ? getProposalsPage(locale) : null,
   ]);
   const requestHeaders = await headers();
   const showTemplate = isPreviewHost(getRequestHost(requestHeaders));
@@ -35,8 +38,15 @@ export default async function Catalog({
       !experiences.some((e) => e._type === "romanticDinnerExperience"))
       ? await getDinnerPreview()
       : null;
-  const settings = content.settings || {},
-    home = content.home;
+  // The Proposals page's texts, photo and contact heading are its own;
+  // Romantic dinners reads them from Catalog text and Home.
+  const settings = proposalsPage
+      ? withProposalsPage(content.settings || {}, proposalsPage)
+      : content.settings || {},
+    home = content.home,
+    contactHeading = proposalsPage
+      ? proposalsPage.contactHeading
+      : home?.contactHeading;
   const t = (key: string) => label(settings, locale, key),
     prefix = localePrefix(locale);
   return (
@@ -52,7 +62,7 @@ export default async function Catalog({
                 ?.gallery[0]?.image ||
               cmsDinnerPreview?.styles[1]?.mainImage ||
               cmsDinnerPreview?.gallery[0]?.image
-            : home?.proposalHeroImage ||
+            : proposalsPage?.image ||
               experiences.find(
                 (e) =>
                   e._type === "proposalExperience" &&
@@ -138,7 +148,7 @@ export default async function Catalog({
             );
           })}
         <section className="border-t border-t-(--ec-border) py-[45px]">
-          {home?.contactHeading && <h2>{home.contactHeading}</h2>}
+          {contactHeading && <h2>{contactHeading}</h2>}
           <Link
             className={buttonClass({ secondary: true })}
             href={`${prefix}/contact`}

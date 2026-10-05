@@ -168,8 +168,15 @@ export const structure: StructureResolver = (S) => {
         HomeIcon,
       ),
       folder(bi("Propuestas", "Proposals"), HeartIcon, [
+        // Opens the English proposals page (every text on the page, in its
+        // order, and its SEO); the Translations button switches language.
+        singleton(
+          bi("Página de propuestas", "Proposals page"),
+          "proposalsPage",
+          languageDocumentId("proposalsPage", "en"),
+          HeartIcon,
+        ),
         list(bi("Paquetes", "Packages"), "proposalExperience"),
-        pageSeo("proposals"),
       ]),
       folder(bi("Cenas románticas", "Romantic dinners"), SparklesIcon, [
         list(bi("Cenas", "Dinners"), "romanticDinnerExperience"),

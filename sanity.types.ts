@@ -601,6 +601,12 @@ export type InternationalizedArrayReferenceValue = {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "proposalsPage";
+      }
+    | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "faqPage";
       }
     | {
@@ -817,19 +823,6 @@ export type CatalogHome = {
   previous?: string;
   next?: string;
   startTitle?: string;
-  proposalHeroImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
   dinnerHeroImage?: {
     asset?: {
       _ref: string;
@@ -910,7 +903,6 @@ export type ExperienceCatalogSettings = {
   selectStyleLabel?: string;
   addonsLabel?: string;
   contactUsLabel?: string;
-  emptyProposals?: string;
   emptyDinners?: string;
   fullName?: string;
   email?: string;
@@ -956,25 +948,12 @@ export type ExperienceCatalogSettings = {
   dinnerInquiryNote?: string;
   heroEyebrow?: string;
   dinnerHeroText?: string;
-  proposalHeroText?: string;
   dinnerHeroCta?: string;
-  proposalHeroCta?: string;
   heroHowItWorks?: string;
   proposalDinnerEyebrow?: string;
   proposalDinnerTitle?: string;
   proposalDinnerIntro?: string;
   dietaryLegend?: string;
-  proposalIntroTitle?: string;
-  proposalIntroDescription?: string;
-  proposalIntroStep1Title?: string;
-  proposalIntroStep1?: string;
-  proposalIntroStep2Title?: string;
-  proposalIntroStep2?: string;
-  proposalIntroStep3Title?: string;
-  proposalIntroStep3?: string;
-  proposalIntroStep4Title?: string;
-  proposalIntroStep4?: string;
-  proposalIntroNote?: string;
   dinnerIntroTitle?: string;
   dinnerIntroDescription?: string;
   dinnerIntroStep1Title?: string;
@@ -1266,6 +1245,56 @@ export type FaqPage = {
   seo?: BlogPostSeo;
 };
 
+export type ProposalsPage = {
+  _id: string;
+  _type: "proposalsPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  hero?: {
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+    heroEyebrow?: string;
+    proposalIntroTitle?: string;
+    proposalHeroText?: string;
+    proposalHeroCta?: string;
+    heroHowItWorks?: string;
+  };
+  intro?: {
+    introStepsHeading?: string;
+    proposalIntroDescription?: string;
+    proposalIntroStep1Title?: string;
+    proposalIntroStep1?: string;
+    proposalIntroStep2Title?: string;
+    proposalIntroStep2?: string;
+    proposalIntroStep3Title?: string;
+    proposalIntroStep3?: string;
+    proposalIntroStep4Title?: string;
+    proposalIntroStep4?: string;
+    proposalIntroNote?: string;
+  };
+  packages?: {
+    emptyProposals?: string;
+  };
+  contact?: {
+    contactHeading?: string;
+    contactUsLabel?: string;
+  };
+  seo?: BlogPostSeo;
+};
+
 export type StoriesPage = {
   _id: string;
   _type: "storiesPage";
@@ -1528,6 +1557,7 @@ export type AllSanitySchemaTypes =
   | BlogCategory
   | HowItWorksPage
   | FaqPage
+  | ProposalsPage
   | StoriesPage
   | Story
   | StoryType
@@ -2029,7 +2059,7 @@ export type ExperienceByIdQueryResult =
 
 // Source: ./src/sanity/queries/ExperienceCatalog/content.ts
 // Variable: catalogContentQuery
-// Query: {      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),      "homePhotos": *[_id == $homeId][0] {        heroImage {  "url": asset->url,  alt},        proposalHeroImage {  "url": asset->url,  alt},        dinnerHeroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "homePhotosEn": *[_id == $homeEnId][0] {        heroImage {  "url": asset->url,  alt},        proposalHeroImage {  "url": asset->url,  alt},        dinnerHeroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])    }
+// Query: {      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),      "homePhotos": *[_id == $homeId][0] {        heroImage {  "url": asset->url,  alt},        dinnerHeroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "homePhotosEn": *[_id == $homeEnId][0] {        heroImage {  "url": asset->url,  alt},        dinnerHeroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])    }
 export type CatalogContentQueryResult = {
   settings:
     | {
@@ -2361,19 +2391,6 @@ export type CatalogContentQueryResult = {
         previous?: string;
         next?: string;
         startTitle?: string;
-        proposalHeroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
         dinnerHeroImage?: {
           asset?: {
             _ref: string;
@@ -2504,7 +2521,6 @@ export type CatalogContentQueryResult = {
         selectStyleLabel?: string;
         addonsLabel?: string;
         contactUsLabel?: string;
-        emptyProposals?: string;
         emptyDinners?: string;
         fullName?: string;
         email?: string;
@@ -2550,25 +2566,12 @@ export type CatalogContentQueryResult = {
         dinnerInquiryNote?: string;
         heroEyebrow?: string;
         dinnerHeroText?: string;
-        proposalHeroText?: string;
         dinnerHeroCta?: string;
-        proposalHeroCta?: string;
         heroHowItWorks?: string;
         proposalDinnerEyebrow?: string;
         proposalDinnerTitle?: string;
         proposalDinnerIntro?: string;
         dietaryLegend?: string;
-        proposalIntroTitle?: string;
-        proposalIntroDescription?: string;
-        proposalIntroStep1Title?: string;
-        proposalIntroStep1?: string;
-        proposalIntroStep2Title?: string;
-        proposalIntroStep2?: string;
-        proposalIntroStep3Title?: string;
-        proposalIntroStep3?: string;
-        proposalIntroStep4Title?: string;
-        proposalIntroStep4?: string;
-        proposalIntroNote?: string;
         dinnerIntroTitle?: string;
         dinnerIntroDescription?: string;
         dinnerIntroStep1Title?: string;
@@ -2875,6 +2878,55 @@ export type CatalogContentQueryResult = {
         featured?: boolean;
         displayOrder?: number;
         seo?: ExperienceSeo;
+      }
+    | {
+        _id: string;
+        _type: "proposalsPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+          heroEyebrow?: string;
+          proposalIntroTitle?: string;
+          proposalHeroText?: string;
+          proposalHeroCta?: string;
+          heroHowItWorks?: string;
+        };
+        intro?: {
+          introStepsHeading?: string;
+          proposalIntroDescription?: string;
+          proposalIntroStep1Title?: string;
+          proposalIntroStep1?: string;
+          proposalIntroStep2Title?: string;
+          proposalIntroStep2?: string;
+          proposalIntroStep3Title?: string;
+          proposalIntroStep3?: string;
+          proposalIntroStep4Title?: string;
+          proposalIntroStep4?: string;
+          proposalIntroNote?: string;
+        };
+        packages?: {
+          emptyProposals?: string;
+        };
+        contact?: {
+          contactHeading?: string;
+          contactUsLabel?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -3456,19 +3508,6 @@ export type CatalogContentQueryResult = {
         previous?: string;
         next?: string;
         startTitle?: string;
-        proposalHeroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
         dinnerHeroImage?: {
           asset?: {
             _ref: string;
@@ -3599,7 +3638,6 @@ export type CatalogContentQueryResult = {
         selectStyleLabel?: string;
         addonsLabel?: string;
         contactUsLabel?: string;
-        emptyProposals?: string;
         emptyDinners?: string;
         fullName?: string;
         email?: string;
@@ -3645,25 +3683,12 @@ export type CatalogContentQueryResult = {
         dinnerInquiryNote?: string;
         heroEyebrow?: string;
         dinnerHeroText?: string;
-        proposalHeroText?: string;
         dinnerHeroCta?: string;
-        proposalHeroCta?: string;
         heroHowItWorks?: string;
         proposalDinnerEyebrow?: string;
         proposalDinnerTitle?: string;
         proposalDinnerIntro?: string;
         dietaryLegend?: string;
-        proposalIntroTitle?: string;
-        proposalIntroDescription?: string;
-        proposalIntroStep1Title?: string;
-        proposalIntroStep1?: string;
-        proposalIntroStep2Title?: string;
-        proposalIntroStep2?: string;
-        proposalIntroStep3Title?: string;
-        proposalIntroStep3?: string;
-        proposalIntroStep4Title?: string;
-        proposalIntroStep4?: string;
-        proposalIntroNote?: string;
         dinnerIntroTitle?: string;
         dinnerIntroDescription?: string;
         dinnerIntroStep1Title?: string;
@@ -3973,6 +3998,55 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
+        _type: "proposalsPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+          heroEyebrow?: string;
+          proposalIntroTitle?: string;
+          proposalHeroText?: string;
+          proposalHeroCta?: string;
+          heroHowItWorks?: string;
+        };
+        intro?: {
+          introStepsHeading?: string;
+          proposalIntroDescription?: string;
+          proposalIntroStep1Title?: string;
+          proposalIntroStep1?: string;
+          proposalIntroStep2Title?: string;
+          proposalIntroStep2?: string;
+          proposalIntroStep3Title?: string;
+          proposalIntroStep3?: string;
+          proposalIntroStep4Title?: string;
+          proposalIntroStep4?: string;
+          proposalIntroNote?: string;
+        };
+        packages?: {
+          emptyProposals?: string;
+        };
+        contact?: {
+          contactHeading?: string;
+          contactUsLabel?: string;
+        };
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
         _type: "romanticDinnerExperience";
         _createdAt: string;
         _updatedAt: string;
@@ -4223,7 +4297,6 @@ export type CatalogContentQueryResult = {
   homePhotos:
     | {
         heroImage: null;
-        proposalHeroImage: null;
         dinnerHeroImage: null;
         proposalSelectorImage: null;
         dinnerSelectorImage: null;
@@ -4233,10 +4306,6 @@ export type CatalogContentQueryResult = {
       }
     | {
         heroImage: {
-          url: string | null;
-          alt: string | null;
-        } | null;
-        proposalHeroImage: {
           url: string | null;
           alt: string | null;
         } | null;
@@ -4269,7 +4338,6 @@ export type CatalogContentQueryResult = {
   homePhotosEn:
     | {
         heroImage: null;
-        proposalHeroImage: null;
         dinnerHeroImage: null;
         proposalSelectorImage: null;
         dinnerSelectorImage: null;
@@ -4279,10 +4347,6 @@ export type CatalogContentQueryResult = {
       }
     | {
         heroImage: {
-          url: string | null;
-          alt: string | null;
-        } | null;
-        proposalHeroImage: {
           url: string | null;
           alt: string | null;
         } | null;
@@ -4642,19 +4706,6 @@ export type CatalogContentQueryResult = {
         previous?: string;
         next?: string;
         startTitle?: string;
-        proposalHeroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
         dinnerHeroImage?: {
           asset?: {
             _ref: string;
@@ -4785,7 +4836,6 @@ export type CatalogContentQueryResult = {
         selectStyleLabel?: string;
         addonsLabel?: string;
         contactUsLabel?: string;
-        emptyProposals?: string;
         emptyDinners?: string;
         fullName?: string;
         email?: string;
@@ -4831,25 +4881,12 @@ export type CatalogContentQueryResult = {
         dinnerInquiryNote?: string;
         heroEyebrow?: string;
         dinnerHeroText?: string;
-        proposalHeroText?: string;
         dinnerHeroCta?: string;
-        proposalHeroCta?: string;
         heroHowItWorks?: string;
         proposalDinnerEyebrow?: string;
         proposalDinnerTitle?: string;
         proposalDinnerIntro?: string;
         dietaryLegend?: string;
-        proposalIntroTitle?: string;
-        proposalIntroDescription?: string;
-        proposalIntroStep1Title?: string;
-        proposalIntroStep1?: string;
-        proposalIntroStep2Title?: string;
-        proposalIntroStep2?: string;
-        proposalIntroStep3Title?: string;
-        proposalIntroStep3?: string;
-        proposalIntroStep4Title?: string;
-        proposalIntroStep4?: string;
-        proposalIntroNote?: string;
         dinnerIntroTitle?: string;
         dinnerIntroDescription?: string;
         dinnerIntroStep1Title?: string;
@@ -5156,6 +5193,55 @@ export type CatalogContentQueryResult = {
         featured?: boolean;
         displayOrder?: number;
         seo?: ExperienceSeo;
+      }
+    | {
+        _id: string;
+        _type: "proposalsPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+          heroEyebrow?: string;
+          proposalIntroTitle?: string;
+          proposalHeroText?: string;
+          proposalHeroCta?: string;
+          heroHowItWorks?: string;
+        };
+        intro?: {
+          introStepsHeading?: string;
+          proposalIntroDescription?: string;
+          proposalIntroStep1Title?: string;
+          proposalIntroStep1?: string;
+          proposalIntroStep2Title?: string;
+          proposalIntroStep2?: string;
+          proposalIntroStep3Title?: string;
+          proposalIntroStep3?: string;
+          proposalIntroStep4Title?: string;
+          proposalIntroStep4?: string;
+          proposalIntroNote?: string;
+        };
+        packages?: {
+          emptyProposals?: string;
+        };
+        contact?: {
+          contactHeading?: string;
+          contactUsLabel?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -6164,6 +6250,55 @@ export type TemplatePreviewQueryResult =
   | {
       _id: string;
       _key: null;
+      name: null;
+      description: null;
+      active: null;
+      displayOrder: null;
+      _type: "proposalsPage";
+      slug: null;
+      shortDescription: null;
+      longDescription: null;
+      basePrice: null;
+      currency: null;
+      priceLabel: null;
+      location: null;
+      badge: null;
+      includedGuests: null;
+      minimumGuests: null;
+      maximumGuests: null;
+      additionalGuestPrice: null;
+      includedDurationMinutes: null;
+      maximumDurationMinutes: null;
+      inclusions: null;
+      gallery: null;
+      styles: null;
+      availableAddons: null;
+      menuItems: null;
+      beverages: null;
+      occasions: null;
+      seo: {
+        _type: "blogPostSeo";
+        meta?: {
+          title?: string;
+          description?: string;
+          keywords?: Array<string>;
+        };
+        openGraph?: {
+          title?: string;
+          description?: string;
+        };
+        image: {
+          url: string | null;
+          alt: null;
+        } | null;
+        structuredData?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+      } | null;
+    }
+  | {
+      _id: string;
+      _key: null;
       name: LocalizedString | null;
       description: null;
       active: boolean | null;
@@ -6540,7 +6675,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[\n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n]\n  | order(displayOrder asc, _id asc)\n  {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}\n': CatalogQueryResult;
     '*[_id == $id && \n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': ExperienceByIdQueryResult;
-    '{\n      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),\n      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,\n      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),\n      "homePhotos": *[_id == $homeId][0] {\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        proposalHeroImage {\n  "url": asset->url,\n  alt\n},\n        dinnerHeroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "homePhotosEn": *[_id == $homeEnId][0] {\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        proposalHeroImage {\n  "url": asset->url,\n  alt\n},\n        dinnerHeroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])\n    }': CatalogContentQueryResult;
+    '{\n      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),\n      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,\n      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),\n      "homePhotos": *[_id == $homeId][0] {\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        dinnerHeroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "homePhotosEn": *[_id == $homeEnId][0] {\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        dinnerHeroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])\n    }': CatalogContentQueryResult;
     '{\n      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref\n    }': HomePresentationQueryResult;
     '*[\n        _type == "proposalExperience"\n        && active == true\n        && slug.current in $featuredSlugs\n      ] | order(name.en asc)[0...3]._id': FeaturedFallbackQueryResult;
     '*[_id == $id][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': TemplatePreviewQueryResult;
