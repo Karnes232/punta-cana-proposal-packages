@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 
 import { useState } from "react";
 import FaqCategoryPill from "./FaqCategoryPill";
-import { FaqsCategories } from "@/sanity/queries/FaqPage/Faqs";
+import { FaqsCategories } from "@/sanity/queries/FaqPage/FaqPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 

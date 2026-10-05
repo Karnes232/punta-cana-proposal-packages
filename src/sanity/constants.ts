@@ -29,22 +29,20 @@ export const PAGE_SINGLETONS = {
   storiesCtaStrip: "storiesCtaStrip",
   blogHero: "blogHero",
   blogCtaStrip: "blogCtaStrip",
-  faqHero: "faqHero",
-  faqContactStrip: "faqContactStrip",
+  faqPage: "faqPage",
   howItWorksPage: "howItWorksPage",
 } as const;
 
 /**
  * Pages with their own SEO document (pageSeo), and its ID. The home, contact,
- * How it works and legal pages keep their SEO in the `seo` field of their
- * own document instead (see getPageSeo).
+ * How it works, FAQ and legal pages keep their SEO in the `seo` field of
+ * their own document instead (see getPageSeo).
  */
 export const SEO_PAGES = [
   "proposals",
   "romantic-dinners",
   "stories",
   "blog",
-  "faq",
 ] as const;
 export const pageSeoId = (page: string) => `pageSeo-${page}`;
 
@@ -62,9 +60,7 @@ export const PER_LANGUAGE_TYPES: readonly string[] = [
   "storiesHero",
   "storiesCtaStrip",
   "story",
-  "faqHero",
-  "faqContactStrip",
-  "faq",
+  "faqPage",
   "howItWorksPage",
   "legalDocument",
   "experienceCatalogSettings",
@@ -96,8 +92,6 @@ export const CREATABLE_TYPES: ReadonlySet<string> = new Set([
   "blogCategory",
   "story",
   "storyType",
-  "faq",
-  "faqCategory",
 ]);
 
 /** Home page proposals when Catalog Home has none selected. */

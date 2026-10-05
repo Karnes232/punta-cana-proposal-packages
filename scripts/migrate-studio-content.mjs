@@ -385,17 +385,28 @@ const MOVED_COPIES = {
   howItWorksFaq: "howItWorksPage",
   howItWorksCta: "howItWorksPage",
   "pageSeo-how-it-works": "howItWorksPage",
+  // Phase 16: the FAQ page is one document per language.
+  faqHero: "faqPage",
+  faqContactStrip: "faqPage",
+  "pageSeo-faq": "faqPage",
   // Phase 13: the legal pages' SEO lives in their legalDocument documents.
   ...Object.fromEntries(
     LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
   ),
 };
 
+// Collections whose language copies were moved (phase 16: each FAQ question
+// is an item of its language's FAQ page).
+const MOVED_TYPES = { faq: "faqPage" };
+
 async function cleanupPhase() {
   const { sources } = await sourceDocuments();
   const expected = sources.flatMap((source) =>
     SOURCE_LANGUAGES.map((language) =>
-      languageDocumentId(MOVED_COPIES[source._id] ?? source._id, language),
+      languageDocumentId(
+        MOVED_COPIES[source._id] ?? MOVED_TYPES[source._type] ?? source._id,
+        language,
+      ),
     ),
   );
   const present = await exists(expected);
@@ -411,19 +422,10 @@ async function cleanupPhase() {
   for (const doc of blockers)
     problems.push(`${doc._id} (${doc._type}) still references an original`);
 
-  const unlabeled = await client.fetch(
-    `count(*[_type == "faqCategory" && !defined(label)])`,
-  );
-  if (unlabeled)
-    problems.push(`${unlabeled} FAQ categories have no label (run phase 6)`);
-  const oldLabels = await client.fetch(
-    `*[_type == "faqCategory" && (defined(labelEn) || defined(labelEs))]._id`,
-  );
-
-  // Phase 15 moved the How it works question categories into the page; the
-  // shared category documents go with the old How it works questions.
+  // Phases 15 and 16 moved the question categories into the How it works
+  // and FAQ pages; the shared category documents go with the old questions.
   const questionCategories = await client.fetch(
-    `*[_type == "howItWorksFaqCategory"]._id`,
+    `*[_type in ["howItWorksFaqCategory", "faqCategory"]]._id`,
   );
   step(
     7,
@@ -431,14 +433,10 @@ async function cleanupPhase() {
     [
       ...ids.map((id) => ({ delete: { id } })),
       ...questionCategories.map((id) => ({ delete: { id } })),
-      ...oldLabels.map((id) => ({
-        patch: { id, unset: ["labelEn", "labelEs"] },
-      })),
     ],
     [
       `${ids.length} originals deleted`,
-      `${questionCategories.length} How it works question categories deleted`,
-      `${oldLabels.length} FAQ categories lose labelEn/labelEs`,
+      `${questionCategories.length} question categories deleted (How it works and FAQ)`,
     ],
   );
 }
@@ -1018,6 +1016,135 @@ async function howItWorksPhase() {
   ]);
 }
 
+// --- FAQ as one document ----------------------------------------------------
+
+const FAQ_SECTIONS = { hero: "faqHero", contactStrip: "faqContactStrip" };
+
+async function faqPhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const sectionIds = Object.values(FAQ_SECTIONS).flatMap((type) =>
+    languages.map((l) => languageDocumentId(type, l)),
+  );
+  const seoIds = languages.map((l) => languageDocumentId("pageSeo-faq", l));
+  const pageIds = languages.map((l) => languageDocumentId("faqPage", l));
+  // Today's order: the site listed questions and categories by _id.
+  const questions = await client.fetch(
+    `*[_type == "faq" && defined(language) && !(_id in path("drafts.**"))]
+       | order(_id asc)`,
+  );
+  const questionMetadataIds = await client.fetch(
+    `*[_type == "translation.metadata" && "faq" in schemaTypes]._id`,
+  );
+  const metadataIds = [
+    ...questionMetadataIds,
+    ...Object.values(FAQ_SECTIONS).map((type) => `translations-${type}`),
+    "translations-pageSeo-faq",
+  ];
+  const drafts = await client.fetch(
+    `*[_id in $ids || (_id in path("drafts.**") && _type in ["faq", "faqCategory"])]._id`,
+    {
+      ids: [...sectionIds, ...seoIds, ...pageIds].map((id) => `drafts.${id}`),
+    },
+  );
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          ...sectionIds,
+          ...seoIds,
+          ...pageIds,
+          ...metadataIds,
+          "translations-faqPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+  const categories = await client.fetch(
+    `*[_type == "faqCategory" && !(_id in path("drafts.**"))]
+       | order(_id asc){_id, value, label}`,
+  );
+  const sectionOf = (doc) => {
+    const body = withoutSystemFields(doc);
+    for (const key of ["_id", "_type", "language"]) delete body[key];
+    return body;
+  };
+
+  const creates = [];
+  for (const language of languages) {
+    const id = languageDocumentId("faqPage", language);
+    if (docs[id]) continue;
+    const page = { _id: id, _type: "faqPage", language };
+    for (const [field, type] of Object.entries(FAQ_SECTIONS)) {
+      const doc = docs[languageDocumentId(type, language)];
+      if (!doc)
+        problems.push(`${languageDocumentId(type, language)} not found`);
+      else page[field] = sectionOf(doc);
+    }
+    page.faq = {
+      categories: categories.map((c) => ({
+        _key: c.value,
+        _type: "questionCategory",
+        name: c.label?.[language] ?? c.label?.en,
+      })),
+      faqs: questions
+        .filter((q) => q.language === language)
+        .map((q) => {
+          const category = categories.find((c) => c._id === q.category?._ref);
+          if (!category)
+            problems.push(`${q._id}: question "${q.question}" has no category`);
+          return {
+            _key: q._id.replace(/^faq-/, "").slice(0, -`-${language}`.length),
+            _type: "faq",
+            category: category?.value,
+            question: q.question,
+            answer: q.answer,
+          };
+        }),
+    };
+    const seo = docs[languageDocumentId("pageSeo-faq", language)];
+    if (seo?.seo) page.seo = seo.seo;
+    else problems.push(`No FAQ SEO in ${language}`);
+    checkAgainstSchema(page);
+    creates.push({ createIfNotExists: page });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-faqPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-faqPage",
+        _type: "translation.metadata",
+        schemaTypes: ["faqPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("faqPage", language),
+          },
+        })),
+      },
+    });
+  // Metadata first: it references the documents deleted after it.
+  const deletes = [
+    ...metadataIds.filter((id) => docs[id]),
+    ...[...sectionIds, ...seoIds].filter((id) => docs[id]),
+    ...questions.map((q) => q._id),
+  ];
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced FAQ document`);
+  step(16, "Make the FAQ page one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist), ${categories.length} question categories each, ${questions.length / languages.length} questions each`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
@@ -1032,6 +1159,7 @@ if (phases.has(13))
     await moveSeoIntoDocument(13, page, `legalDocument-${page}`);
 if (phases.has(14)) await moveSeoIntoDocument(14, "contact", "catalogContact");
 if (phases.has(15)) await howItWorksPhase();
+if (phases.has(16)) await faqPhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

@@ -1,5 +1,5 @@
 import FaqAccordionItem from "./FaqAccordionItem";
-import { Faqs } from "@/sanity/queries/FaqPage/Faqs";
+import { Faqs } from "@/sanity/queries/FaqPage/FaqPage";
 import { useTranslations } from "next-intl";
 
 interface FaqAccordionListProps {

@@ -731,19 +731,7 @@ export type InternationalizedArrayReferenceValue = {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "faqHero";
-      }
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "faqContactStrip";
-      }
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "faq";
+        [internalGroqTypeReferenceTo]?: "faqPage";
       }
     | {
         _ref: string;
@@ -1230,71 +1218,54 @@ export type HowItWorksPage = {
   seo?: BlogPostSeo;
 };
 
-export type Faq = {
+export type FaqPage = {
   _id: string;
-  _type: "faq";
+  _type: "faqPage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   language?: string;
-  category?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "faqCategory";
-  };
-  question?: string;
-  answer?: string;
-};
-
-export type FaqCategory = {
-  _id: string;
-  _type: "faqCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  value?: string;
-  label?: LocalizedString;
-};
-
-export type FaqContactStrip = {
-  _id: string;
-  _type: "faqContactStrip";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  eyebrow?: string;
-  line1?: string;
-  line2?: string;
-  body?: string;
-  cta?: string;
-};
-
-export type FaqHero = {
-  _id: string;
-  _type: "faqHero";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  eyebrow?: string;
-  headingLine1?: string;
-  headingLine2?: string;
-  subheading?: string;
-  heroImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  hero?: {
+    eyebrow?: string;
+    headingLine1?: string;
+    headingLine2?: string;
+    subheading?: string;
+    heroImage?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
     };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
   };
+  faq?: {
+    categories?: Array<{
+      name?: string;
+      _type: "questionCategory";
+      _key: string;
+    }>;
+    faqs?: Array<{
+      category?: string;
+      question?: string;
+      answer?: string;
+      _type: "faq";
+      _key: string;
+    }>;
+  };
+  contactStrip?: {
+    eyebrow?: string;
+    line1?: string;
+    line2?: string;
+    body?: string;
+    cta?: string;
+  };
+  seo?: BlogPostSeo;
 };
 
 export type StoriesCtaStrip = {
@@ -1563,10 +1534,7 @@ export type AllSanitySchemaTypes =
   | ExperienceCatalogSettings
   | LegalDocument
   | HowItWorksPage
-  | Faq
-  | FaqCategory
-  | FaqContactStrip
-  | FaqHero
+  | FaqPage
   | StoriesCtaStrip
   | StoriesHero
   | Story
@@ -2624,66 +2592,52 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "faq";
+        _type: "faqPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "faqCategory";
-        };
-        question?: string;
-        answer?: string;
-      }
-    | {
-        _id: string;
-        _type: "faqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "faqContactStrip";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        line1?: string;
-        line2?: string;
-        body?: string;
-        cta?: string;
-      }
-    | {
-        _id: string;
-        _type: "faqHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        heroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          heroImage?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
+        faq?: {
+          categories?: Array<{
+            name?: string;
+            _type: "questionCategory";
+            _key: string;
+          }>;
+          faqs?: Array<{
+            category?: string;
+            question?: string;
+            answer?: string;
+            _type: "faq";
+            _key: string;
+          }>;
+        };
+        contactStrip?: {
+          eyebrow?: string;
+          line1?: string;
+          line2?: string;
+          body?: string;
+          cta?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -3737,66 +3691,52 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "faq";
+        _type: "faqPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "faqCategory";
-        };
-        question?: string;
-        answer?: string;
-      }
-    | {
-        _id: string;
-        _type: "faqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "faqContactStrip";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        line1?: string;
-        line2?: string;
-        body?: string;
-        cta?: string;
-      }
-    | {
-        _id: string;
-        _type: "faqHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        heroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          heroImage?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
+        faq?: {
+          categories?: Array<{
+            name?: string;
+            _type: "questionCategory";
+            _key: string;
+          }>;
+          faqs?: Array<{
+            category?: string;
+            question?: string;
+            answer?: string;
+            _type: "faq";
+            _key: string;
+          }>;
+        };
+        contactStrip?: {
+          eyebrow?: string;
+          line1?: string;
+          line2?: string;
+          body?: string;
+          cta?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -4312,19 +4252,6 @@ export type CatalogContentQueryResult = {
           url: string | null;
           alt: string | null;
         } | null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        heroImage: {
-          url: string | null;
-          alt: string | null;
-        } | null;
         proposalHeroImage: {
           url: string | null;
           alt: string | null;
@@ -4358,19 +4285,6 @@ export type CatalogContentQueryResult = {
   homePhotosEn:
     | {
         heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        heroImage: {
-          url: string | null;
-          alt: string | null;
-        } | null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
         proposalSelectorImage: null;
@@ -4967,66 +4881,52 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "faq";
+        _type: "faqPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "faqCategory";
-        };
-        question?: string;
-        answer?: string;
-      }
-    | {
-        _id: string;
-        _type: "faqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "faqContactStrip";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        line1?: string;
-        line2?: string;
-        body?: string;
-        cta?: string;
-      }
-    | {
-        _id: string;
-        _type: "faqHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        heroImage?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          heroImage?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
+        faq?: {
+          categories?: Array<{
+            name?: string;
+            _type: "questionCategory";
+            _key: string;
+          }>;
+          faqs?: Array<{
+            category?: string;
+            question?: string;
+            answer?: string;
+            _type: "faq";
+            _key: string;
+          }>;
+        };
+        contactStrip?: {
+          eyebrow?: string;
+          line1?: string;
+          line2?: string;
+          body?: string;
+          cta?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -5917,7 +5817,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "faq";
+      _type: "faqPage";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -5939,100 +5839,25 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "faqCategory";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "faqContactStrip";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "faqHero";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
+      seo: {
+        _type: "blogPostSeo";
+        meta?: {
+          title?: string;
+          description?: string;
+          keywords?: Array<string>;
+        };
+        openGraph?: {
+          title?: string;
+          description?: string;
+        };
+        image: {
+          url: string | null;
+          alt: null;
+        } | null;
+        structuredData?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+      } | null;
     }
   | {
       _id: string;

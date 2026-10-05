@@ -45,10 +45,7 @@ export const typeTitles: Record<string, string> = {
   blogPostSeo: "SEO",
   blogCategory: bi("Categoría del blog", "Blog category"),
   // FAQ
-  faqHero: bi("Preguntas: portada", "FAQ: hero"),
-  faqContactStrip: bi("Preguntas: franja de contacto", "FAQ: contact banner"),
-  faq: bi("Pregunta frecuente", "FAQ"),
-  faqCategory: bi("Categoría de preguntas", "FAQ category"),
+  faqPage: bi("Preguntas frecuentes", "FAQ"),
   // How it works
   howItWorksPage: bi("Cómo funciona", "How it works"),
 };

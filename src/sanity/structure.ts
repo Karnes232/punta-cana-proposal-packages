@@ -167,8 +167,6 @@ export const structure: StructureResolver = (S) => {
     "storyType",
     "blogPost",
     "blogCategory",
-    "faq",
-    "faqCategory",
   ]);
 
   return S.list()
@@ -253,16 +251,14 @@ export const structure: StructureResolver = (S) => {
         pageSection(bi("Franja final", "Closing banner"), "blogCtaStrip"),
         pageSeo("blog"),
       ]),
-      folder(bi("Preguntas frecuentes", "FAQ"), HelpCircleIcon, [
-        pageSection(bi("Portada", "Hero"), "faqHero"),
-        languageList(bi("Preguntas", "Questions"), "faq"),
-        list(bi("Categorías", "Categories"), "faqCategory", TagIcon),
-        pageSection(
-          bi("Franja de contacto", "Contact banner"),
-          "faqContactStrip",
-        ),
-        pageSeo("faq"),
-      ]),
+      // Opens the English FAQ page (every section, its question categories
+      // and SEO); the Translations button switches language.
+      singleton(
+        bi("Preguntas frecuentes", "FAQ"),
+        "faqPage",
+        languageDocumentId("faqPage", "en"),
+        HelpCircleIcon,
+      ),
       // Opens the English How it works page (every section, its FAQ
       // categories and SEO); the Translations button switches language.
       singleton(

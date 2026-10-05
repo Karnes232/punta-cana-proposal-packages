@@ -1,38 +1,8 @@
-import { defineField, defineType, type FieldDefinition } from "sanity";
+import { defineField, defineType } from "sanity";
 import { ListIcon } from "@sanity/icons";
-import { PageCategoryInput } from "../../components/PageCategoryInput";
 import { bi } from "../shared/labels";
 import { languageField } from "../shared/languageField";
-
-const required = (
-  name: string,
-  type: "string" | "text",
-  title: string,
-): FieldDefinition =>
-  defineField({
-    name,
-    title,
-    type,
-    validation: (Rule) => Rule.required(),
-  });
-
-// A section of the page: a collapsible group of its fields.
-const section = (
-  name: string,
-  title: string,
-  fields: FieldDefinition[],
-  collapsed = true,
-) =>
-  defineField({
-    name,
-    title,
-    type: "object",
-    group: "content",
-    options: { collapsible: true, collapsed },
-    fields,
-  });
-
-type FaqDocument = { faq?: { categories?: { _key: string }[] } };
+import { questionFields, required, section } from "../shared/pageSections";
 
 /**
  * The How it works page in one language (howItWorksPage-<language>), its
@@ -132,60 +102,7 @@ export default defineType({
       required("heading", "string", "Heading"),
       required("headingAccent", "string", "Heading Accent"),
       required("subheading", "text", "Subheading"),
-      defineField({
-        name: "categories",
-        title: bi("Categorías de preguntas", "Question categories"),
-        description: bi(
-          "Los botones del filtro, en este orden",
-          "The filter buttons, in this order",
-        ),
-        type: "array",
-        of: [
-          {
-            name: "questionCategory",
-            title: bi("Categoría", "Category"),
-            type: "object",
-            fields: [required("name", "string", "Name")],
-            preview: { select: { title: "name" } },
-          },
-        ],
-      }),
-      defineField({
-        name: "faqs",
-        title: "FAQs",
-        type: "array",
-        of: [
-          {
-            name: "faq",
-            title: "FAQ",
-            type: "object",
-            fields: [
-              defineField({
-                name: "category",
-                title: bi("Categoría", "Category"),
-                type: "string",
-                components: { input: PageCategoryInput },
-                validation: (Rule) =>
-                  Rule.required().custom((key, context) => {
-                    const categories =
-                      (context.document as FaqDocument | undefined)?.faq
-                        ?.categories ?? [];
-                    return !key || categories.some((c) => c._key === key)
-                      ? true
-                      : bi(
-                          "Elige una de las categorías de esta página",
-                          "Choose one of this page's categories",
-                        );
-                  }),
-              }),
-              required("question", "string", "Question"),
-              required("answer", "text", "Answer"),
-            ],
-            preview: { select: { title: "question" } },
-          },
-        ],
-        validation: (Rule) => Rule.required(),
-      }),
+      ...questionFields(),
     ]),
     section("cta", bi("Llamada final", "Closing call to action"), [
       required("eyebrow", "string", "Eyebrow"),

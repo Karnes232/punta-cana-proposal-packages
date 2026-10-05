@@ -1,10 +1,7 @@
 import FaqContactStrip from "@/components/FaqPage/FaqContactStrip/FaqContactStrip";
 import FaqContent from "@/components/FaqPage/FaqContent";
 import FaqHero from "@/components/FaqPage/HeroComponent/FaqHero";
-import { getFaqContactStrip } from "@/sanity/queries/FaqPage/FaqContactStrip";
-import { getFaqPageHero } from "@/sanity/queries/FaqPage/HeroComponent";
-import { getFaqCategories } from "@/sanity/queries/FaqPage/Faqs";
-import { getFaqs } from "@/sanity/queries/FaqPage/Faqs";
+import { getFaqPage } from "@/sanity/queries/FaqPage/FaqPage";
 import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
@@ -24,14 +21,8 @@ export default async function FAQ({
   const { locale } = await params;
   requireLocale(locale);
   const lang = toSiteLocale(locale);
-  const [hero, contactStrip, faqsCategories, faqs, structuredData] =
-    await Promise.all([
-      getFaqPageHero(lang),
-      getFaqContactStrip(lang),
-      getFaqCategories(),
-      getFaqs(lang),
-      getStructuredData("faq", lang),
-    ]);
+  const [{ hero, faqsCategories, faqs, contactStrip }, structuredData] =
+    await Promise.all([getFaqPage(lang), getStructuredData("faq", lang)]);
 
   return (
     <main>

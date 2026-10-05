@@ -29,10 +29,7 @@ import BlogPageCtaStrip from "./BlogPage/CtaStrip";
 import HowItWorksPage from "./HowItWorksPage/HowItWorksPage";
 
 //FaqsPage
-import FaqsPageHeroComponent from "./FaqsPage/HeroComponent";
-import FaqsPageFaqContactStrip from "./FaqsPage/FaqContactStrip";
-import FaqsPageFaqsCategories from "./FaqsPage/FaqsCategories";
-import FaqsPageFaqs from "./FaqsPage/Faqs";
+import FaqPage from "./FaqsPage/FaqPage";
 import PageSeo from "./SEO/PageSeo";
 import { withTitles } from "./shared/titles";
 
@@ -69,9 +66,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HowItWorksPage,
 
     //FaqsPage
-    FaqsPageHeroComponent,
-    FaqsPageFaqContactStrip,
-    FaqsPageFaqsCategories,
-    FaqsPageFaqs,
+    FaqPage,
   ]),
 };
