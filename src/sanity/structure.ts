@@ -228,7 +228,14 @@ export const structure: StructureResolver = (S) => {
         pageSeo("stories"),
       ]),
       folder("Blog", ComposeIcon, [
-        pageSection(bi("Portada", "Hero"), "blogHero"),
+        // Opens the English blog page (hero, featured post, closing banner
+        // and SEO); the Translations button switches language.
+        singleton(
+          bi("Página del blog", "Blog page"),
+          "blogPage",
+          languageDocumentId("blogPage", "en"),
+          ComposeIcon,
+        ),
         S.listItem()
           .title(bi("Artículos", "Posts"))
           .child(
@@ -248,8 +255,6 @@ export const structure: StructureResolver = (S) => {
               ]),
           ),
         list(bi("Categorías", "Categories"), "blogCategory", TagIcon),
-        pageSection(bi("Franja final", "Closing banner"), "blogCtaStrip"),
-        pageSeo("blog"),
       ]),
       // Opens the English FAQ page (every section, its question categories
       // and SEO); the Translations button switches language.

@@ -19,6 +19,7 @@ const SEO_IN_PAGE_DOCUMENT: Record<string, string> = {
   contact: CATALOG_CONTACT_ID,
   "how-it-works": "howItWorksPage",
   faq: "faqPage",
+  blog: "blogPage",
   "privacy-policy": legalDocumentId("privacy-policy"),
   "terms-of-service": legalDocumentId("terms-of-service"),
 };

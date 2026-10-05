@@ -389,6 +389,8 @@ const MOVED_COPIES = {
   faqHero: "faqPage",
   faqContactStrip: "faqPage",
   "pageSeo-faq": "faqPage",
+  // Phase 17: the blog page's SEO lives in its blogPage documents.
+  "pageSeo-blog": "blogPage",
   // Phase 13: the legal pages' SEO lives in their legalDocument documents.
   ...Object.fromEntries(
     LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
@@ -427,16 +429,22 @@ async function cleanupPhase() {
   const questionCategories = await client.fetch(
     `*[_type in ["howItWorksFaqCategory", "faqCategory"]]._id`,
   );
+  // Phase 17 copied the shared blog hero and closing banner into blogPage.
+  const blogSections = await client.fetch(
+    `*[_id in ["blogHero", "blogCtaStrip"]]._id`,
+  );
   step(
     7,
     "Delete the two-language originals",
     [
       ...ids.map((id) => ({ delete: { id } })),
       ...questionCategories.map((id) => ({ delete: { id } })),
+      ...blogSections.map((id) => ({ delete: { id } })),
     ],
     [
       `${ids.length} originals deleted`,
       `${questionCategories.length} question categories deleted (How it works and FAQ)`,
+      `${blogSections.length} shared blog sections deleted (hero, closing banner)`,
     ],
   );
 }
@@ -1145,6 +1153,127 @@ async function faqPhase() {
   ]);
 }
 
+// --- Blog page as one document per language --------------------------------
+
+// The blog hero's and closing banner's text fields (one value per language).
+const BLOG_HERO_TEXT = [
+  "eyebrow",
+  "headingLine1",
+  "headingLine2",
+  "subheading",
+];
+const BLOG_CTA_TEXT = [
+  "eyebrow",
+  "heading",
+  "headingAccent",
+  "subheading",
+  "ctaLabel",
+];
+
+async function blogPagePhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const seoIds = languages.map((l) => languageDocumentId("pageSeo-blog", l));
+  const pageIds = languages.map((l) => languageDocumentId("blogPage", l));
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: ["blogHero", "blogCtaStrip", ...seoIds, ...pageIds].map(
+      (id) => `drafts.${id}`,
+    ),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          "blogHero",
+          "blogCtaStrip",
+          ...seoIds,
+          ...pageIds,
+          "translations-pageSeo-blog",
+          "translations-blogPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+  const hero = docs.blogHero;
+  const cta = docs.blogCtaStrip;
+  if (!hero) problems.push("blogHero not found");
+  if (!cta) problems.push("blogCtaStrip not found");
+  const featuredLanguage = hero?.featuredPost
+    ? await client.fetch(`*[_id == $id][0].language`, {
+        id: hero.featuredPost._ref,
+      })
+    : null;
+  // The site's fallback (pickBlogLocalized): the language, English, Spanish.
+  const inLanguageOf = (source, fields, language) =>
+    Object.fromEntries(
+      fields.map((field) => {
+        const value = source?.[field];
+        return [field, value?.[language] || value?.en || value?.es];
+      }),
+    );
+
+  const creates = [];
+  for (const language of languages) {
+    const id = languageDocumentId("blogPage", language);
+    if (docs[id]) continue;
+    const page = {
+      _id: id,
+      _type: "blogPage",
+      language,
+      hero: {
+        ...inLanguageOf(hero, BLOG_HERO_TEXT, language),
+        ...(hero?.image ? { image: hero.image } : {}),
+      },
+      ...(featuredLanguage === language
+        ? { featuredPost: hero.featuredPost }
+        : {}),
+      cta: {
+        ...inLanguageOf(cta, BLOG_CTA_TEXT, language),
+        ctaHref: cta?.ctaHref,
+      },
+    };
+    const seo = docs[languageDocumentId("pageSeo-blog", language)];
+    if (seo?.seo) page.seo = seo.seo;
+    else problems.push(`No blog SEO in ${language}`);
+    checkAgainstSchema(page);
+    creates.push({ createIfNotExists: page });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-blogPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-blogPage",
+        _type: "translation.metadata",
+        schemaTypes: ["blogPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("blogPage", language),
+          },
+        })),
+      },
+    });
+  // Metadata first: it references the documents deleted after it.
+  const deletes = ["translations-pageSeo-blog", ...seoIds].filter(
+    (id) => docs[id],
+  );
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced blog SEO document`);
+  step(17, "Make the blog page one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist)`,
+    `featured post kept in: ${featuredLanguage ?? "none"}`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
@@ -1160,6 +1289,7 @@ if (phases.has(13))
 if (phases.has(14)) await moveSeoIntoDocument(14, "contact", "catalogContact");
 if (phases.has(15)) await howItWorksPhase();
 if (phases.has(16)) await faqPhase();
+if (phases.has(17)) await blogPagePhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

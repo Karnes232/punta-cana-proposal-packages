@@ -13,46 +13,6 @@
  */
 
 // Source: schema.json
-export type BlogCtaStrip = {
-  _id: string;
-  _type: "blogCtaStrip";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  eyebrow?: BlogLocalizedString;
-  heading?: BlogLocalizedString;
-  headingAccent?: BlogLocalizedString;
-  subheading?: BlogLocalizedText;
-  ctaLabel?: BlogLocalizedString;
-  ctaHref?: string;
-};
-
-export type BlogLocalizedString = {
-  _type: "blogLocalizedString";
-  en?: string;
-  es?: string;
-  fr?: string;
-  de?: string;
-  it?: string;
-  pt?: string;
-  zh?: string;
-  ru?: string;
-  ar?: string;
-};
-
-export type BlogLocalizedText = {
-  _type: "blogLocalizedText";
-  en?: string;
-  es?: string;
-  fr?: string;
-  de?: string;
-  it?: string;
-  pt?: string;
-  zh?: string;
-  ru?: string;
-  ar?: string;
-};
-
 export type BlogPostSeo = {
   _type: "blogPostSeo";
   meta?: {
@@ -79,138 +39,6 @@ export type BlogPostSeo = {
   structuredData?: string;
   noIndex?: boolean;
   noFollow?: boolean;
-};
-
-export type BlogHero = {
-  _id: string;
-  _type: "blogHero";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  eyebrow?: BlogLocalizedString;
-  headingLine1?: BlogLocalizedString;
-  headingLine2?: BlogLocalizedString;
-  subheading?: BlogLocalizedText;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  featuredPost?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "blogPost";
-  };
-};
-
-export type BlogPost = {
-  _id: string;
-  _type: "blogPost";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: "en" | "es" | "fr" | "pt" | "de" | "it" | "zh" | "ru" | "ar";
-  translationGroup?: string;
-  slug?: Slug;
-  title?: string;
-  category?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "blogCategory";
-  };
-  categoryTag?: string;
-  publishedAt?: string;
-  readingTime?: number;
-  heroPhoto?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  gallery?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    caption?: string;
-    _type: "image";
-    _key: string;
-  }>;
-  excerpt?: string;
-  body?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  seo?: BlogPostSeo;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type BlogCategory = {
-  _id: string;
-  _type: "blogCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  value?: string;
-  label?: BlogLocalizedString;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
 };
 
 export type GeneralLayout = {
@@ -257,12 +85,54 @@ export type GeneralLayout = {
   };
 };
 
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
 export type LocalizedText = {
   _type: "localizedText";
   en?: string;
   es?: string;
   fr?: string;
   pt?: string;
+};
+
+export type BlogLocalizedText = {
+  _type: "blogLocalizedText";
+  en?: string;
+  es?: string;
+  fr?: string;
+  de?: string;
+  it?: string;
+  pt?: string;
+  zh?: string;
+  ru?: string;
+  ar?: string;
+};
+
+export type BlogLocalizedString = {
+  _type: "blogLocalizedString";
+  en?: string;
+  es?: string;
+  fr?: string;
+  de?: string;
+  it?: string;
+  pt?: string;
+  zh?: string;
+  ru?: string;
+  ar?: string;
 };
 
 export type LocalizedBlock = {
@@ -568,6 +438,12 @@ export type RomanticDinnerExperience = {
   maximumDurationMinutes?: number;
 };
 
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
 export type ExperienceAddon = {
   _id: string;
   _type: "experienceAddon";
@@ -738,6 +614,12 @@ export type InternationalizedArrayReferenceValue = {
         _type: "reference";
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "howItWorksPage";
+      }
+    | {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "blogPage";
       }
     | {
         _ref: string;
@@ -1140,6 +1022,128 @@ export type LegalDocument = {
   seo?: BlogPostSeo;
 };
 
+export type BlogPage = {
+  _id: string;
+  _type: "blogPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  hero?: {
+    eyebrow?: string;
+    headingLine1?: string;
+    headingLine2?: string;
+    subheading?: string;
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+  };
+  featuredPost?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "blogPost";
+  };
+  cta?: {
+    eyebrow?: string;
+    heading?: string;
+    headingAccent?: string;
+    subheading?: string;
+    ctaLabel?: string;
+    ctaHref?: string;
+  };
+  seo?: BlogPostSeo;
+};
+
+export type BlogPost = {
+  _id: string;
+  _type: "blogPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: "en" | "es" | "fr" | "pt" | "de" | "it" | "zh" | "ru" | "ar";
+  translationGroup?: string;
+  slug?: Slug;
+  title?: string;
+  category?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "blogCategory";
+  };
+  categoryTag?: string;
+  publishedAt?: string;
+  readingTime?: number;
+  heroPhoto?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  gallery?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  excerpt?: string;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  seo?: BlogPostSeo;
+};
+
+export type BlogCategory = {
+  _id: string;
+  _type: "blogCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  value?: string;
+  label?: BlogLocalizedString;
+};
+
 export type HowItWorksPage = {
   _id: string;
   _type: "howItWorksPage";
@@ -1500,18 +1504,13 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | BlogCtaStrip
-  | BlogLocalizedString
-  | BlogLocalizedText
   | BlogPostSeo
-  | BlogHero
-  | BlogPost
+  | GeneralLayout
   | SanityImageCrop
   | SanityImageHotspot
-  | BlogCategory
-  | Slug
-  | GeneralLayout
   | LocalizedText
+  | BlogLocalizedText
+  | BlogLocalizedString
   | LocalizedBlock
   | LocalizedString
   | ExperienceSeo
@@ -1522,6 +1521,7 @@ export type AllSanitySchemaTypes =
   | ExperienceInclusion
   | DinnerStyle
   | RomanticDinnerExperience
+  | Slug
   | ExperienceAddon
   | ProposalStyle
   | ProposalExperience
@@ -1533,6 +1533,9 @@ export type AllSanitySchemaTypes =
   | CatalogHome
   | ExperienceCatalogSettings
   | LegalDocument
+  | BlogPage
+  | BlogPost
+  | BlogCategory
   | HowItWorksPage
   | FaqPage
   | StoriesCtaStrip
@@ -2078,39 +2081,29 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "blogCtaStrip";
+        _type: "blogPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        eyebrow?: BlogLocalizedString;
-        heading?: BlogLocalizedString;
-        headingAccent?: BlogLocalizedString;
-        subheading?: BlogLocalizedText;
-        ctaLabel?: BlogLocalizedString;
-        ctaHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "blogHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: BlogLocalizedString;
-        headingLine1?: BlogLocalizedString;
-        headingLine2?: BlogLocalizedString;
-        subheading?: BlogLocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        language?: string;
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
         featuredPost?: {
           _ref: string;
@@ -2118,6 +2111,15 @@ export type CatalogContentQueryResult = {
           _weak?: boolean;
           [internalGroqTypeReferenceTo]?: "blogPost";
         };
+        cta?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          ctaLabel?: string;
+          ctaHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -3177,39 +3179,29 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "blogCtaStrip";
+        _type: "blogPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        eyebrow?: BlogLocalizedString;
-        heading?: BlogLocalizedString;
-        headingAccent?: BlogLocalizedString;
-        subheading?: BlogLocalizedText;
-        ctaLabel?: BlogLocalizedString;
-        ctaHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "blogHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: BlogLocalizedString;
-        headingLine1?: BlogLocalizedString;
-        headingLine2?: BlogLocalizedString;
-        subheading?: BlogLocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        language?: string;
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
         featuredPost?: {
           _ref: string;
@@ -3217,6 +3209,15 @@ export type CatalogContentQueryResult = {
           _weak?: boolean;
           [internalGroqTypeReferenceTo]?: "blogPost";
         };
+        cta?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          ctaLabel?: string;
+          ctaHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -4367,39 +4368,29 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "blogCtaStrip";
+        _type: "blogPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        eyebrow?: BlogLocalizedString;
-        heading?: BlogLocalizedString;
-        headingAccent?: BlogLocalizedString;
-        subheading?: BlogLocalizedText;
-        ctaLabel?: BlogLocalizedString;
-        ctaHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "blogHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: BlogLocalizedString;
-        headingLine1?: BlogLocalizedString;
-        headingLine2?: BlogLocalizedString;
-        subheading?: BlogLocalizedText;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        language?: string;
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
         featuredPost?: {
           _ref: string;
@@ -4407,6 +4398,15 @@ export type CatalogContentQueryResult = {
           _weak?: boolean;
           [internalGroqTypeReferenceTo]?: "blogPost";
         };
+        cta?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          ctaLabel?: string;
+          ctaHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -5509,7 +5509,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "blogCtaStrip";
+      _type: "blogPage";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -5531,38 +5531,25 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "blogHero";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
+      seo: {
+        _type: "blogPostSeo";
+        meta?: {
+          title?: string;
+          description?: string;
+          keywords?: Array<string>;
+        };
+        openGraph?: {
+          title?: string;
+          description?: string;
+        };
+        image: {
+          url: string | null;
+          alt: null;
+        } | null;
+        structuredData?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+      } | null;
     }
   | {
       _id: string;

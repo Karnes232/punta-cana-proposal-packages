@@ -39,8 +39,7 @@ export const typeTitles: Record<string, string> = {
   story: bi("Historia", "Story"),
   storyType: bi("Tipo de propuesta", "Proposal type"),
   // Blog
-  blogHero: bi("Blog: portada", "Blog: hero"),
-  blogCtaStrip: bi("Blog: franja final", "Blog: closing banner"),
+  blogPage: bi("Página del blog", "Blog page"),
   blogPost: bi("Artículo del blog", "Blog post"),
   blogPostSeo: "SEO",
   blogCategory: bi("Categoría del blog", "Blog category"),

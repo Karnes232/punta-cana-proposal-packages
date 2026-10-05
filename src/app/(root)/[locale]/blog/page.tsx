@@ -16,8 +16,7 @@ import {
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getBlogCategories } from "@/sanity/queries/BlogPage/BlogCategories";
 import { getBlogPostsByLanguage } from "@/sanity/queries/BlogPage/BlogPosts";
-import { getBlogPageCtaStrip } from "@/sanity/queries/BlogPage/CtaStrip";
-import { getBlogPageHero } from "@/sanity/queries/BlogPage/Hero";
+import { getBlogPage } from "@/sanity/queries/BlogPage/BlogPage";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
 
@@ -40,18 +39,18 @@ export default async function Blog({
   const chromeLocale = toSiteLocale(locale);
   const dateLocale = blogDateFormatLocale(locale);
 
-  const [structuredData, hero, categories, posts, ctaStrip] = await Promise.all(
-    [
-      getStructuredData("blog", chromeLocale),
-      getBlogPageHero(),
-      getBlogCategories(),
-      getBlogPostsByLanguage(locale),
-      getBlogPageCtaStrip(),
-    ],
-  );
+  const [structuredData, page, categories, posts] = await Promise.all([
+    getStructuredData("blog", chromeLocale),
+    getBlogPage(chromeLocale),
+    getBlogCategories(),
+    getBlogPostsByLanguage(locale),
+  ]);
+  const hero = page?.hero;
+  const cta = page?.cta;
 
+  // Only a post in the visitor's language is featured.
   const featuredPost =
-    hero?.featuredPost?.language === locale ? hero.featuredPost : null;
+    page?.featuredPost?.language === locale ? page.featuredPost : null;
 
   const categoriesForFilter = categories.map((c) => ({
     value: c.value,
@@ -65,10 +64,10 @@ export default async function Blog({
         data={parseJsonLd(structuredData?.seo?.structuredData)}
       />
       <BlogHero
-        eyebrow={pickBlogLocalized(hero?.eyebrow, locale)}
-        headingLine1={pickBlogLocalized(hero?.headingLine1, locale)}
-        headingLine2={pickBlogLocalized(hero?.headingLine2, locale)}
-        subheading={pickBlogLocalized(hero?.subheading, locale)}
+        eyebrow={hero?.eyebrow ?? ""}
+        headingLine1={hero?.headingLine1 ?? ""}
+        headingLine2={hero?.headingLine2 ?? ""}
+        subheading={hero?.subheading ?? ""}
         image={hero?.image}
       />
       <BlogFilteredSection
@@ -80,12 +79,12 @@ export default async function Blog({
       />
 
       <CtaStrip
-        eyebrow={pickBlogLocalized(ctaStrip.eyebrow, locale)}
-        heading={pickBlogLocalized(ctaStrip.heading, locale)}
-        headingAccent={pickBlogLocalized(ctaStrip.headingAccent, locale)}
-        subheading={pickBlogLocalized(ctaStrip.subheading, locale)}
-        ctaLabel={pickBlogLocalized(ctaStrip.ctaLabel, locale)}
-        ctaHref={ctaStrip.ctaHref}
+        eyebrow={cta?.eyebrow ?? ""}
+        heading={cta?.heading ?? ""}
+        headingAccent={cta?.headingAccent ?? ""}
+        subheading={cta?.subheading ?? ""}
+        ctaLabel={cta?.ctaLabel ?? ""}
+        ctaHref={cta?.ctaHref ?? ""}
       />
     </main>
   );

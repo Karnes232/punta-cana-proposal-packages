@@ -27,23 +27,17 @@ export const PAGE_SINGLETONS = {
   generalLayout: "generalLayout",
   storiesHero: "storiesHero",
   storiesCtaStrip: "storiesCtaStrip",
-  blogHero: "blogHero",
-  blogCtaStrip: "blogCtaStrip",
+  blogPage: "blogPage",
   faqPage: "faqPage",
   howItWorksPage: "howItWorksPage",
 } as const;
 
 /**
  * Pages with their own SEO document (pageSeo), and its ID. The home, contact,
- * How it works, FAQ and legal pages keep their SEO in the `seo` field of
- * their own document instead (see getPageSeo).
+ * How it works, FAQ, blog and legal pages keep their SEO in the `seo` field
+ * of their own document instead (see getPageSeo).
  */
-export const SEO_PAGES = [
-  "proposals",
-  "romantic-dinners",
-  "stories",
-  "blog",
-] as const;
+export const SEO_PAGES = ["proposals", "romantic-dinners", "stories"] as const;
 export const pageSeoId = (page: string) => `pageSeo-${page}`;
 
 /** Legal pages (legalDocument) and their document IDs. */
@@ -62,6 +56,7 @@ export const PER_LANGUAGE_TYPES: readonly string[] = [
   "story",
   "faqPage",
   "howItWorksPage",
+  "blogPage",
   "legalDocument",
   "experienceCatalogSettings",
   "catalogHome",

@@ -4,7 +4,7 @@ import { useState } from "react";
 import FeaturedPost from "@/components/BlogPage/FeaturedPost/FeaturedPost";
 import BlogFilterBar from "@/components/BlogPage/BlogFilterBar/BlogFilterBar";
 import BlogGrid from "@/components/BlogPage/BlogGrid/BlogGrid";
-import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/Hero";
+import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/BlogPage";
 import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
 interface BlogFilteredSectionProps {

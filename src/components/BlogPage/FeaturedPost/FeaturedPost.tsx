@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import FeaturedPostCopy from "./FeaturedPostCopy";
 import FeaturedPostPhoto from "./FeaturedPostPhoto";
-import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/Hero";
+import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/BlogPage";
 
 interface FeaturedPostProps {
   post: FeaturedPostType;
