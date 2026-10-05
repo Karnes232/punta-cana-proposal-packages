@@ -39,6 +39,7 @@
 //      the pageSeo-home-<lang> documents and their metadata are deleted.
 //  13. The same for the privacy policy and terms of service
 //      (legalDocument-<page>-<lang>.seo).
+//  14. The same for the contact page (catalogContact-<lang>.seo).
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -373,6 +374,7 @@ async function splitPhase() {
 // home and legal pages' SEO lives in their own documents).
 const MOVED_COPIES = {
   "pageSeo-home": "catalogHome",
+  "pageSeo-contact": "catalogContact",
   // Phase 13: the legal pages' SEO lives in their legalDocument documents.
   ...Object.fromEntries(
     LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
@@ -892,6 +894,7 @@ if (phases.has(12)) await moveSeoIntoDocument(12, "home", "catalogHome");
 if (phases.has(13))
   for (const page of LEGAL_PAGES)
     await moveSeoIntoDocument(13, page, `legalDocument-${page}`);
+if (phases.has(14)) await moveSeoIntoDocument(14, "contact", "catalogContact");
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

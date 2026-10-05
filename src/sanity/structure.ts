@@ -279,14 +279,14 @@ export const structure: StructureResolver = (S) => {
         ),
         pageSeo("how-it-works"),
       ]),
-      folder(bi("Contacto", "Contact"), EnvelopeIcon, [
-        languageSingleton(
-          bi("Página de contacto", "Contact page"),
-          CATALOG_CONTACT_ID,
-          CATALOG_CONTACT_ID,
-        ),
-        pageSeo("contact"),
-      ]),
+      // Opens the English contact page; the Translations button switches
+      // language. Its SEO is inside it (seo field).
+      singleton(
+        bi("Contacto", "Contact"),
+        CATALOG_CONTACT_ID,
+        languageDocumentId(CATALOG_CONTACT_ID, "en"),
+        EnvelopeIcon,
+      ),
       // Each legal page opens in English; the Translations button switches
       // language. Its SEO is inside it (seo field).
       folder("Legal", DocumentTextIcon, [

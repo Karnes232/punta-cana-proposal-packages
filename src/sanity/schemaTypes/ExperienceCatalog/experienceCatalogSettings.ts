@@ -550,10 +550,50 @@ export const catalogContact = defineType({
     prepare: () => ({ title: bi("Página de contacto", "Contact page") }),
   },
   title: "Contact",
+  groups: [
+    { name: "content", title: bi("Contenido", "Content"), default: true },
+    { name: "seo", title: "SEO" },
+  ],
+  // In the order of the contact page.
   fields: [
     languageField,
-    ...["heading", "description", "businessInformation"].map((k) =>
-      field(k, "text"),
-    ),
+    defineField({
+      name: "heading",
+      title: bi("Título", "Heading"),
+      type: "text",
+      rows: 2,
+      group: "content",
+      description: bi(
+        "Vacío = «Contáctanos» (Textos del catálogo)",
+        'Empty = "Contact us" (Catalog text)',
+      ),
+    }),
+    defineField({
+      name: "description",
+      title: bi("Texto de introducción", "Intro text"),
+      type: "text",
+      group: "content",
+      description: bi(
+        "Debajo del título, encima del formulario",
+        "Under the heading, above the form",
+      ),
+    }),
+    defineField({
+      name: "businessInformation",
+      title: bi("Información del negocio", "Business information"),
+      type: "text",
+      group: "content",
+      description: bi(
+        "Debajo del teléfono, el email y WhatsApp, que vienen de Ajustes del sitio → Negocio y redes sociales",
+        "Under the phone, email and WhatsApp, which come from Site settings → Business & social links",
+      ),
+    }),
+    // Last, like the bottom of the page: this language's SEO.
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "blogPostSeo",
+      group: "seo",
+    }),
   ],
 });

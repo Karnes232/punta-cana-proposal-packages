@@ -38,8 +38,8 @@ export const PAGE_SINGLETONS = {
 } as const;
 
 /**
- * Pages with their own SEO document (pageSeo), and its ID. The home and
- * legal pages keep their SEO in the `seo` field of their own document
+ * Pages with their own SEO document (pageSeo), and its ID. The home, contact
+ * and legal pages keep their SEO in the `seo` field of their own document
  * instead (see getPageSeo).
  */
 export const SEO_PAGES = [
@@ -49,7 +49,6 @@ export const SEO_PAGES = [
   "blog",
   "faq",
   "how-it-works",
-  "contact",
 ] as const;
 export const pageSeoId = (page: string) => `pageSeo-${page}`;
 

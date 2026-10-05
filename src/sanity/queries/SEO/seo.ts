@@ -1,5 +1,6 @@
 import { client } from "@/sanity/lib/client";
 import {
+  CATALOG_CONTACT_ID,
   CATALOG_HOME_ID,
   languageDocumentId,
   legalDocumentId,
@@ -15,6 +16,7 @@ interface PageSeo {
 // Pages whose SEO is the seo field of their own document.
 const SEO_IN_PAGE_DOCUMENT: Record<string, string> = {
   home: CATALOG_HOME_ID,
+  contact: CATALOG_CONTACT_ID,
   "privacy-policy": legalDocumentId("privacy-policy"),
   "terms-of-service": legalDocumentId("terms-of-service"),
 };

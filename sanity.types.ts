@@ -805,6 +805,7 @@ export type CatalogContact = {
   heading?: string;
   description?: string;
   businessInformation?: string;
+  seo?: BlogPostSeo;
 };
 
 export type CatalogHome = {
@@ -2285,6 +2286,7 @@ export type CatalogContentQueryResult = {
         heading?: string;
         description?: string;
         businessInformation?: string;
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -3420,6 +3422,7 @@ export type CatalogContentQueryResult = {
         heading?: string;
         description?: string;
         businessInformation?: string;
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -4672,6 +4675,7 @@ export type CatalogContentQueryResult = {
         heading?: string;
         description?: string;
         businessInformation?: string;
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -5862,7 +5866,25 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
+      seo: {
+        _type: "blogPostSeo";
+        meta?: {
+          title?: string;
+          description?: string;
+          keywords?: Array<string>;
+        };
+        openGraph?: {
+          title?: string;
+          description?: string;
+        };
+        image: {
+          url: string | null;
+          alt: null;
+        } | null;
+        structuredData?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+      } | null;
     }
   | {
       _id: string;
