@@ -115,6 +115,16 @@ const SITE_DEFAULTS: { en: SiteDefault } & Partial<
     description:
       "Experiencias de propuesta privadas y curadas en el corazón de Punta Cana.",
   },
+  fr: {
+    title: "Punta Cana Proposal Packages",
+    description:
+      "Des demandes en mariage privées et pensées sur mesure, au cœur de Punta Cana.",
+  },
+  pt: {
+    title: "Punta Cana Proposal Packages",
+    description:
+      "Experiências privativas e exclusivas de pedido de casamento no coração de Punta Cana.",
+  },
 };
 
 /** When PageSeo is missing in Sanity — still allow indexing. */

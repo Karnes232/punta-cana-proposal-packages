@@ -20,7 +20,22 @@
 //   7. Once the new code is live: deletes the originals and the old FAQ
 //      category label fields. It refuses while a copy is missing or anything
 //      else still references what it deletes.
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+//   8. Writes the French and Portuguese content: a <id>-fr / <id>-pt copy of
+//      every English page document with its text translated (catalog settings
+//      and home take the built-in default texts), linked in the translation
+//      metadata, and the fr/pt text of shared documents (packages, dinner,
+//      menu, categories…). Translations come from work/translations/out/*.json.
+//      Only creates documents and fills fields that don't exist yet.
+import { spawnSync } from "node:child_process";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { createRequire } from "node:module";
+import { resolve } from "node:path";
 import { createClient } from "@sanity/client";
 
 const args = process.argv.slice(2);
@@ -386,10 +401,220 @@ async function cleanupPhase() {
   );
 }
 
+// --- French and Portuguese ---------------------------------------------------------
+
+const TARGET_LANGUAGES = ["fr", "pt"];
+const TRANSLATIONS = "work/translations/out";
+const readTranslations = (names) =>
+  Object.assign(
+    {},
+    ...names.map((name) => {
+      const file = `${TRANSLATIONS}/${name}.json`;
+      if (!existsSync(file)) {
+        problems.push(`Missing ${file}`);
+        return {};
+      }
+      return JSON.parse(readFileSync(file, "utf8"));
+    }),
+  );
+
+// The site's default texts, compiled from the TypeScript files it uses, so
+// the catalog settings and home documents match the code's fallbacks.
+function siteDefaults() {
+  const out = "work/catalog-defaults";
+  rmSync(out, { recursive: true, force: true });
+  const run = spawnSync(
+    process.execPath,
+    [
+      "node_modules/typescript/bin/tsc",
+      "src/lib/experience/labels.ts",
+      "src/lib/experience/homeCopy.ts",
+      "--outDir",
+      out,
+      "--rootDir",
+      "src",
+      "--module",
+      "commonjs",
+      "--target",
+      "ES2020",
+      "--skipLibCheck",
+    ],
+    { stdio: "inherit" },
+  );
+  if (run.status !== 0) throw Error("Couldn't compile the default texts");
+  const load = createRequire(import.meta.url);
+  return {
+    ui: load(resolve(out, "lib/experience/labels.js")).ui,
+    homeCopy: load(resolve(out, "lib/experience/homeCopy.js")).homeCopy,
+  };
+}
+
+// Path segments like `body[_key=="a1"].children[_key=="b2"].text` or `steps[0]`.
+const segments = (path) =>
+  path.split(/\.(?![^[]*\])/).flatMap((part) => {
+    const m = part.match(/^([^[]+)((?:\[[^\]]+\])*)$/);
+    const keys = [...(m?.[2] ?? "").matchAll(/\[([^\]]+)\]/g)].map((x) => x[1]);
+    return [m ? m[1] : part, ...keys.map((k) => ({ selector: k }))];
+  });
+
+function setAtPath(target, path, value) {
+  let node = target;
+  const parts = segments(path);
+  parts.forEach((part, i) => {
+    const last = i === parts.length - 1;
+    let next;
+    if (typeof part === "string") {
+      if (last) return (node[part] = value);
+      next = node?.[part];
+    } else {
+      const key = part.selector.match(/^_key=="(.+)"$/)?.[1];
+      const index = key
+        ? node?.findIndex?.((item) => item?._key === key)
+        : Number(part.selector);
+      if (last) return (node[index] = value);
+      next = node?.[index];
+    }
+    if (next === undefined) throw Error(`No ${path} to translate`);
+    node = next;
+  });
+}
+
+const DEFAULT_BUILT = new Set(["experienceCatalogSettings", "catalogHome"]);
+
+function translatedCopy(english, language, text, defaults) {
+  const base = english._id.replace(/-en$/, "");
+  const copy = structuredClone(withoutSystemFields(english));
+  for (const field of SHARED_FIELDS[english._type] ?? []) delete copy[field];
+  if (english._type === "experienceCatalogSettings") {
+    for (const key of Object.keys(copy))
+      if (typeof copy[key] === "string" && key !== "language") {
+        const value = defaults.ui[key]?.[language];
+        if (value) copy[key] = value;
+        else problems.push(`No ${language} default for setting ${key}`);
+      }
+  } else if (english._type === "catalogHome") {
+    for (const key of Object.keys(copy.copy ?? {})) {
+      const value = defaults.homeCopy[key]?.[language];
+      if (value) copy.copy[key] = value;
+      else problems.push(`No ${language} default for home text ${key}`);
+    }
+  } else {
+    for (const [path, value] of Object.entries(text ?? {}))
+      try {
+        setAtPath(copy, path, value[language]);
+      } catch (error) {
+        problems.push(`${base}: ${error.message}`);
+      }
+  }
+  copy._id = languageDocumentId(base, language);
+  copy.language = language;
+  for (const field of SAME_LANGUAGE_REFS[english._type] ?? [])
+    if (copy[field]?._ref)
+      copy[field] = {
+        ...copy[field],
+        _ref: copy[field]._ref.replace(/-en$/, `-${language}`),
+      };
+  return copy;
+}
+
+async function translationPhase() {
+  const documents = readTranslations(["pages", "stories", "legal"]);
+  const fields = readTranslations(["packages-a", "packages-b"]);
+  const defaults = siteDefaults();
+  const types = [
+    ...new Set(SINGLE_SOURCES.map((s) => s.type)),
+    ...COLLECTION_TYPES,
+  ];
+  const english = await client.fetch(
+    `*[_type in $types && language == "en" && !(_id in path("drafts.**"))]`,
+    { types },
+  );
+  const copies = [];
+  for (const doc of english) {
+    const base = doc._id.replace(/-en$/, "");
+    const text = documents[base]?.text;
+    if (!text && !DEFAULT_BUILT.has(doc._type)) {
+      // Documents without visitor-facing text (none expected) are skipped.
+      problems.push(`${base}: no translation in ${TRANSLATIONS}`);
+      continue;
+    }
+    for (const language of TARGET_LANGUAGES)
+      copies.push(translatedCopy(doc, language, text, defaults));
+  }
+  copies.forEach(checkAgainstSchema);
+  const existing = await exists(copies.map((d) => d._id));
+  const toCreate = copies.filter((d) => !existing.has(d._id));
+
+  // Link the new languages in each document's translation metadata.
+  const metadata = await client.fetch(
+    `*[_type == "translation.metadata" && _id in $ids]{_id, "languages": translations[]._key}`,
+    { ids: english.map((d) => `translations-${d._id.replace(/-en$/, "")}`) },
+  );
+  const links = metadata.flatMap(({ _id, languages }) => {
+    const base = _id.replace(/^translations-/, "");
+    const missing = TARGET_LANGUAGES.filter((l) => !languages?.includes(l));
+    return missing.length
+      ? [
+          {
+            patch: {
+              id: _id,
+              insert: {
+                after: "translations[-1]",
+                items: missing.map((language) => ({
+                  _key: language,
+                  _type: "internationalizedArrayReferenceValue",
+                  value: {
+                    _type: "reference",
+                    _ref: languageDocumentId(base, language),
+                  },
+                })),
+              },
+            },
+          },
+        ]
+      : [];
+  });
+
+  // fr/pt text of shared documents, only where it's still blank.
+  const sharedIds = Object.keys(fields);
+  const present = await exists(sharedIds);
+  const fills = sharedIds
+    .filter((id) => present.has(id))
+    .map((id) => ({
+      patch: {
+        id,
+        setIfMissing: Object.fromEntries(
+          Object.entries(fields[id].text).flatMap(([path, value]) =>
+            TARGET_LANGUAGES.map((language) => [
+              `${path}.${language}`,
+              value[language],
+            ]),
+          ),
+        ),
+      },
+    }));
+  for (const id of sharedIds.filter((id) => !present.has(id)))
+    problems.push(`${id}: shared document not found`);
+
+  step(
+    8,
+    "Create the French and Portuguese page documents",
+    toCreate.map((doc) => ({ createIfNotExists: doc })),
+    [`${copies.length} documents (${existing.size} already exist)`],
+  );
+  step(8, "Link them in the translation metadata", links, [
+    `${links.length} metadata documents gain fr/pt`,
+  ]);
+  step(8, "Fill French and Portuguese text on shared documents", fills, [
+    `${fills.length} documents, ${fills.reduce((n, f) => n + Object.keys(f.patch.setIfMissing).length, 0)} fields (only blank ones are written)`,
+  ]);
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
 if (phases.has(7)) await cleanupPhase();
+if (phases.has(8)) await translationPhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

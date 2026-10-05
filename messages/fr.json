@@ -1,0 +1,79 @@
+{
+  "IndividualStoryPage": {
+    "allStories": "Toutes les histoires",
+    "package": "Forfait",
+    "date": "Date",
+    "location": "Lieu",
+    "proposed": "Demande",
+    "bookThisExperience": "Réserver cette expérience",
+    "more": "Plus d’histoires",
+    "moreHeading": "Même forfait,",
+    "moreAccent": "histoires différentes",
+    "readStory": "Lire l’histoire",
+    "galleryLabel": "La demande"
+  },
+  "FaqPage": {
+    "emptyLabel": "Aucune question dans cette catégorie pour le moment.",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page",
+    "of": "sur",
+    "filterLabel": "Filtrer par catégorie",
+    "all": "Toutes"
+  },
+  "NotFoundPage": {
+    "metaTitle": "Page introuvable",
+    "code": "404",
+    "heading": "Cette page n’existe pas",
+    "description": "Le lien est peut-être rompu, ou la page a peut-être été déplacée.",
+    "homeCta": "Retour à l’accueil",
+    "blogCta": "Lire notre blog"
+  },
+  "BlogPost": {
+    "category": "Catégorie",
+    "published": "Publié",
+    "readingTime": "Temps de lecture",
+    "minRead": "min de lecture",
+    "planCta": "Commencez à préparer votre demande",
+    "allPosts": "Tous les articles",
+    "more": "Plus d’articles",
+    "moreAccent": "Articles similaires",
+    "readMore": "Lire l’histoire",
+    "galleryLabel": "Galerie de l’article"
+  },
+  "StoriesPage": {
+    "more": "Plus d’histoires",
+    "readStory": "Lire l’histoire",
+    "loadMore": "Voir plus d’histoires",
+    "empty": "Aucune histoire pour ce type de forfait pour le moment.",
+    "all": "Toutes les histoires",
+    "featured": "Histoire à la une",
+    "readTheirStory": "Lire leur histoire"
+  },
+  "Carousel": {
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "Gallery": {
+    "viewAll": "Voir les {count} photos",
+    "close": "Fermer",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "HowItWorksPage": {
+    "whyChooseUs": "Pourquoi nous choisir"
+  },
+  "BlogPage": {
+    "featuredPost": "Article à la une",
+    "readArticle": "Lire l’article",
+    "loadMore": "Voir plus d’articles",
+    "latestPosts": "Derniers articles",
+    "minRead": "min de lecture",
+    "noPosts": "Aucun article dans cette catégorie pour le moment."
+  },
+  "LegalPage": {
+    "eyebrow": "Mentions légales",
+    "privacyTitle": "Politique de confidentialité",
+    "termsTitle": "Conditions d’utilisation"
+  }
+}

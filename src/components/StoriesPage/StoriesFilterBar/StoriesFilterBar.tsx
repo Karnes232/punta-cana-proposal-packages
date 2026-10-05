@@ -1,5 +1,7 @@
 "use client";
 import type { SiteLocale } from "@/i18n/locales";
+import { local } from "@/lib/experience/normalize";
+import type { Localized } from "@/lib/experience/types";
 import { useTranslations } from "next-intl";
 
 import { useState } from "react";
@@ -7,10 +9,7 @@ import { useState } from "react";
 interface StoriesFilterBarProps {
   content: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: Localized;
   }[];
   locale: SiteLocale;
   onChange?: (value: string) => void;
@@ -69,7 +68,7 @@ export default function StoriesFilterBar({
 
         {/* Package type tabs — from Sanity */}
         {content.map((tab) => {
-          const label = tab.label[locale];
+          const label = local(tab.label, locale);
           return renderTab(tab.value, label);
         })}
       </div>

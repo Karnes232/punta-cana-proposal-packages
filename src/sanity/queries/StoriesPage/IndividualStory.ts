@@ -1,4 +1,5 @@
 import type { PortableTextBlock } from "@portabletext/react";
+import type { Localized } from "@/lib/experience/types";
 import { client } from "@/sanity/lib/client";
 import type { DocumentSeo } from "../SEO/documentSeo";
 import { documentSeoProjection, imageWithDimensions } from "../fragments";
@@ -12,10 +13,7 @@ export interface IndividualStory {
   names: string;
   proposalType: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: Localized;
   };
   packageTag: string;
   date: string;
@@ -59,10 +57,7 @@ export interface StoryCard {
   names: string;
   proposalType: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: Localized;
   };
   packageTag: string;
   date: string;
@@ -159,10 +154,7 @@ export interface AllStoriesCard {
   packageTag: string;
   proposalType: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: Localized;
   };
   quote: string;
   heroPhoto: {
