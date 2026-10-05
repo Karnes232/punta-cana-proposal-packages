@@ -21,7 +21,7 @@ export default async function Page({
 }) {
   const { locale, slug } = await params;
   requireLocale(locale);
-  const [e, c] = await Promise.all([data(slug), getCatalogContent()]);
+  const [e, c] = await Promise.all([data(slug), getCatalogContent(locale)]);
   if (!e) notFound();
   const json = {
     "@context": "https://schema.org",

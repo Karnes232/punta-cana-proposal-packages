@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       if (dinner && !contact.desiredDate) throw Error("desiredDate");
       const result = calculate(e, body.selection, true, dinner);
       if (dinner) {
-        const content = await getCatalogContent();
+        const content = await getCatalogContent(body.locale);
         paymentPolicy = {
           depositAmount: dinnerDeposit(content.settings),
           currency: "USD",

@@ -11,8 +11,8 @@ export function moneyFormatter(
 ) {
   const format = new Intl.NumberFormat(locale, { style: "currency", currency });
   const customSymbol =
-    typeof settings.currencySymbol === "object"
-      ? settings.currencySymbol?.[locale]
+    typeof settings.currencySymbol === "string"
+      ? settings.currencySymbol
       : undefined;
   return (amount: number) =>
     format

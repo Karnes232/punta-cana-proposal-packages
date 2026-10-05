@@ -218,13 +218,9 @@ export function homeText(
   locale: Locale,
   key: string,
 ) {
-  const edited = home?.copy?.[key];
-  // The editor's text, then the built-in text, in `locale` then in English.
+  // The editor's text (one document per language), then the built-in text
+  // in `locale`, then in English.
   return (
-    edited?.[locale] ||
-    homeCopy[key]?.[locale] ||
-    edited?.en ||
-    homeCopy[key]?.en ||
-    ""
+    home?.copy?.[key] || homeCopy[key]?.[locale] || homeCopy[key]?.en || ""
   );
 }

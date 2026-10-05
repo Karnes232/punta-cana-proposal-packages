@@ -176,7 +176,11 @@ export const structure: StructureResolver = (S) => {
     .title(bi("Contenido", "Content"))
     .items([
       folder(bi("Inicio", "Home"), HomeIcon, [
-        singleton(bi("Página de inicio", "Home page"), CATALOG_HOME_ID),
+        languageSingleton(
+          bi("Página de inicio", "Home page"),
+          CATALOG_HOME_ID,
+          CATALOG_HOME_ID,
+        ),
         pageSeo("home"),
       ]),
       folder(bi("Propuestas", "Proposals"), HeartIcon, [
@@ -276,7 +280,11 @@ export const structure: StructureResolver = (S) => {
         pageSeo("how-it-works"),
       ]),
       folder(bi("Contacto", "Contact"), EnvelopeIcon, [
-        singleton(bi("Página de contacto", "Contact page"), CATALOG_CONTACT_ID),
+        languageSingleton(
+          bi("Página de contacto", "Contact page"),
+          CATALOG_CONTACT_ID,
+          CATALOG_CONTACT_ID,
+        ),
         pageSeo("contact"),
       ]),
       folder("Legal", DocumentTextIcon, [
@@ -300,8 +308,9 @@ export const structure: StructureResolver = (S) => {
           bi("Negocio y redes sociales", "Business & social links"),
           "generalLayout",
         ),
-        singleton(
+        languageSingleton(
           bi("Textos del catálogo", "Catalog text"),
+          CATALOG_SETTINGS_ID,
           CATALOG_SETTINGS_ID,
         ),
       ]),

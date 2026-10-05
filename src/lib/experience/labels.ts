@@ -176,10 +176,13 @@ export function label(
   locale: Locale,
   key: string,
 ) {
-  const custom = settings?.[key];
-  const edited = typeof custom === "object" ? custom : undefined;
-  // The editor's text, then the built-in text, in `locale` then in English.
+  const edited = settings?.[key];
+  // The editor's text (settings are one document per language), then the
+  // built-in text in `locale`, then in English.
   return (
-    edited?.[locale] || ui[key]?.[locale] || edited?.en || ui[key]?.en || ""
+    (typeof edited === "string" && edited) ||
+    ui[key]?.[locale] ||
+    ui[key]?.en ||
+    ""
   );
 }

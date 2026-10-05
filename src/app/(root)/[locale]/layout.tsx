@@ -36,7 +36,7 @@ export default async function RootLayout({
 
   const [generalLayout, catalog] = await Promise.all([
     getGeneralLayout(),
-    getCatalogContent(),
+    getCatalogContent(toSiteLocale(locale)),
   ]);
 
   return (

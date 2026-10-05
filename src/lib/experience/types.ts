@@ -100,9 +100,10 @@ export type Selection = {
   selectedOccasionId?: string;
   customOccasion?: string;
 };
-export type Settings = Record<string, Localized | number | undefined>;
+/** One language's Catalog Settings: text per label key, plus the deposit. */
+export type Settings = Record<string, string | number | undefined>;
 export type Home = {
-  copy?: Record<string, Localized>;
+  copy?: Record<string, string>;
   journeyImages?: Image[];
   moments?: Image[];
   editorialImages?: Image[];
@@ -111,10 +112,10 @@ export type Home = {
   heroImage?: Image;
   proposalHeroImage?: Image;
   dinnerHeroImage?: Image;
-  contactHeading?: Localized;
+  contactHeading?: string;
 };
 export type Contact = {
-  heading?: Localized;
-  description?: Localized;
-  businessInformation?: Localized;
+  heading?: string;
+  description?: string;
+  businessInformation?: string;
 };

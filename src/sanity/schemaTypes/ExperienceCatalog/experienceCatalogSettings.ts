@@ -3,9 +3,20 @@ import { introductionLabels } from "@/lib/experience/introduction";
 import { dinnerPolicyLabels } from "@/lib/experience/dinnerPolicy";
 import { ui } from "@/lib/experience/labels";
 import type { DefaultText } from "@/lib/experience/types";
-import { defineType, defineField, type FieldDefinition } from "sanity";
+import {
+  defineType,
+  defineField,
+  type ConditionalPropertyCallback,
+  type FieldDefinition,
+} from "sanity";
 import { bi } from "../shared/labels";
 import { field, image } from "./shared";
+import { languageField } from "../shared/languageField";
+
+// Photos, featured proposals and the deposit are shared by every language:
+// they're edited on the English document only (see getCatalogContent).
+const englishOnly: ConditionalPropertyCallback = ({ document }) =>
+  document?.language !== "en";
 
 const short = (text: string) =>
   text.length > 48 ? `${text.slice(0, 46).trimEnd()}…` : text;
@@ -17,7 +28,7 @@ const short = (text: string) =>
  */
 const siteText = (
   name: string,
-  type: "localizedString" | "localizedText",
+  type: "string" | "text",
   defaults: DefaultText | undefined,
   placement: { group?: string; fieldset?: string },
 ): FieldDefinition =>
@@ -261,18 +272,12 @@ export default defineType({
     { name: "policy", title: bi("Cenas: política", "Dinner policy") },
     { name: "other", title: bi("Otros textos", "Other text") },
   ],
-  initialValue: {
-    dinnerDepositAmount: 200,
-    ...Object.fromEntries(
-      Object.entries(dinnerPolicyLabels).map(([key, { en, es }]) => [
-        key,
-        { en, es },
-      ]),
-    ),
-  },
+  initialValue: { dinnerDepositAmount: 200 },
   fields: [
+    languageField,
     defineField({
       name: "dinnerDepositAmount",
+      hidden: englishOnly,
       title: bi("Depósito de la cena (USD)", "Dinner deposit (USD)"),
       group: "policy",
       type: "number",
@@ -284,13 +289,13 @@ export default defineType({
       ),
     }),
     ...Object.entries(dinnerPolicyLabels).map(([k, defaults]) =>
-      siteText(k, "localizedText", defaults, { group: "policy" }),
+      siteText(k, "text", defaults, { group: "policy" }),
     ),
     ...labelKeys.map((k) =>
-      siteText(k, "localizedString", ui[k], { group: settingsGroupOf(k) }),
+      siteText(k, "string", ui[k], { group: settingsGroupOf(k) }),
     ),
     ...Object.entries(introductionLabels).map(([k, defaults]) =>
-      siteText(k, "localizedText", defaults, { group: "intro" }),
+      siteText(k, "text", defaults, { group: "intro" }),
     ),
   ],
 });
@@ -412,24 +417,21 @@ export const catalogHome = defineType({
     { name: "text", title: bi("Textos", "Text") },
     { name: "featured", title: bi("Destacadas", "Featured") },
   ],
-  initialValue: {
-    copy: Object.fromEntries(
-      Object.entries(homeCopy).map(([key, { en, es }]) => [key, { en, es }]),
-    ),
-  },
   fields: [
+    languageField,
     {
       ...image("heroImage"),
       group: "photos",
+      hidden: englishOnly,
       description: bi(
         "Foto grande al inicio de la página. Vacío = la foto del primer paquete destacado",
         "Large photo at the top of the page. Empty = the first featured package's photo",
       ),
     },
-    { ...image("proposalHeroImage"), group: "photos" },
-    { ...image("dinnerHeroImage"), group: "photos" },
-    { ...image("proposalSelectorImage"), group: "photos" },
-    { ...image("dinnerSelectorImage"), group: "photos" },
+    { ...image("proposalHeroImage"), group: "photos", hidden: englishOnly },
+    { ...image("dinnerHeroImage"), group: "photos", hidden: englishOnly },
+    { ...image("proposalSelectorImage"), group: "photos", hidden: englishOnly },
+    { ...image("dinnerSelectorImage"), group: "photos", hidden: englishOnly },
     defineField({
       name: "copy",
       title: bi("Textos de la página", "Page text"),
@@ -446,7 +448,7 @@ export const catalogHome = defineType({
         .concat(Object.keys(homeCopy).filter((k) => !homeSectionOf(k)))
         .map((k) => [k, homeCopy[k]] as const)
         .map(([k, defaults]) =>
-          siteText(k, "localizedText", defaults, {
+          siteText(k, "text", defaults, {
             fieldset: homeSectionOf(k),
           }),
         ),
@@ -454,6 +456,7 @@ export const catalogHome = defineType({
     defineField({
       name: "featuredProposals",
       type: "array",
+      hidden: englishOnly,
       title: "Featured proposals (up to three, ordered)",
       group: "featured",
       description: bi(
@@ -473,6 +476,7 @@ export const catalogHome = defineType({
         name,
         type: "array",
         group: "photos",
+        hidden: englishOnly,
         description:
           name === "journeyImages"
             ? bi("Una foto por paso, máximo 5", "One photo per step, up to 5")
@@ -482,7 +486,7 @@ export const catalogHome = defineType({
       }),
     ),
     {
-      ...field("contactHeading", "localizedString", "text"),
+      ...field("contactHeading", "string", "text"),
       description: bi(
         "Título encima del botón de contacto en Propuestas y Cenas",
         "Heading above the contact button on Proposals and Dinners",
@@ -498,8 +502,9 @@ export const catalogContact = defineType({
   },
   title: "Contact",
   fields: [
+    languageField,
     ...["heading", "description", "businessInformation"].map((k) =>
-      field(k, "localizedText"),
+      field(k, "text"),
     ),
   ],
 });

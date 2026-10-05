@@ -20,7 +20,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const c = await getCatalogContent();
+  const c = await getCatalogContent(locale);
   return catalogPageMetadata(
     locale,
     "/proposals",

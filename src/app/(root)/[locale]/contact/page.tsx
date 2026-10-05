@@ -1,6 +1,5 @@
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import { getGeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
-import { local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
 import AvailabilityForm from "@/components/ExperienceCatalog/AvailabilityForm";
@@ -15,7 +14,7 @@ export default async function Page({
   const { locale } = await params;
   requireLocale(locale);
   const [content, company] = await Promise.all([
-    getCatalogContent(),
+    getCatalogContent(locale),
     getGeneralLayout(),
   ]);
   const c = content.contact,
@@ -23,11 +22,8 @@ export default async function Page({
   return (
     <main className={shellClass()}>
       <div className={wrapClass}>
-        <h1>
-          {local(c?.heading, locale) ||
-            label(settings, locale, "contactUsLabel")}
-        </h1>
-        <p>{local(c?.description, locale)}</p>
+        <h1>{c?.heading || label(settings, locale, "contactUsLabel")}</h1>
+        <p>{c?.description}</p>
         <div className="grid grid-cols-[2fr_1fr] gap-[50px] upto800:grid-cols-[1fr]">
           <AvailabilityForm locale={locale} settings={settings} />
           <aside>
@@ -50,7 +46,7 @@ export default async function Page({
                 </a>
               </p>
             )}
-            <p>{local(c?.businessInformation, locale)}</p>
+            <p>{c?.businessInformation}</p>
           </aside>
         </div>
       </div>
@@ -64,7 +60,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const c = await getCatalogContent();
+  const c = await getCatalogContent(locale);
   return catalogPageMetadata(
     locale,
     "/contact",

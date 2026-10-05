@@ -6,7 +6,6 @@ import {
   getCatalogContent,
   getExperiences,
 } from "@/sanity/queries/ExperienceCatalog";
-import { local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
 import CatalogHero from "./CatalogHero";
@@ -26,7 +25,7 @@ export default async function Catalog({
 }) {
   const [experiences, content] = await Promise.all([
     getExperiences(),
-    getCatalogContent(),
+    getCatalogContent(locale),
   ]);
   const requestHeaders = await headers();
   const showTemplate = isPreviewHost(getRequestHost(requestHeaders));
@@ -139,9 +138,7 @@ export default async function Catalog({
             );
           })}
         <section className="border-t border-t-(--ec-border) py-[45px]">
-          {local(home?.contactHeading, locale) && (
-            <h2>{local(home?.contactHeading, locale)}</h2>
-          )}
+          {home?.contactHeading && <h2>{home.contactHeading}</h2>}
           <Link
             className={buttonClass({ secondary: true })}
             href={`${prefix}/contact`}
