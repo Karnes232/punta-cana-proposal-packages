@@ -40,6 +40,10 @@
 //  13. The same for the privacy policy and terms of service
 //      (legalDocument-<page>-<lang>.seo).
 //  14. The same for the contact page (catalogContact-<lang>.seo).
+//  15. How it works becomes one document per language (howItWorksPage-<lang>):
+//      its hero, steps, questions and closing call to action, its SEO, and
+//      its question categories (listed in the page instead of shared
+//      documents). The per-language documents it replaces are deleted.
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -375,6 +379,12 @@ async function splitPhase() {
 const MOVED_COPIES = {
   "pageSeo-home": "catalogHome",
   "pageSeo-contact": "catalogContact",
+  // Phase 15: How it works is one document per language.
+  howItWorksHero: "howItWorksPage",
+  howItWorksSteps: "howItWorksPage",
+  howItWorksFaq: "howItWorksPage",
+  howItWorksCta: "howItWorksPage",
+  "pageSeo-how-it-works": "howItWorksPage",
   // Phase 13: the legal pages' SEO lives in their legalDocument documents.
   ...Object.fromEntries(
     LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
@@ -410,17 +420,24 @@ async function cleanupPhase() {
     `*[_type == "faqCategory" && (defined(labelEn) || defined(labelEs))]._id`,
   );
 
+  // Phase 15 moved the How it works question categories into the page; the
+  // shared category documents go with the old How it works questions.
+  const questionCategories = await client.fetch(
+    `*[_type == "howItWorksFaqCategory"]._id`,
+  );
   step(
     7,
     "Delete the two-language originals",
     [
       ...ids.map((id) => ({ delete: { id } })),
+      ...questionCategories.map((id) => ({ delete: { id } })),
       ...oldLabels.map((id) => ({
         patch: { id, unset: ["labelEn", "labelEs"] },
       })),
     ],
     [
       `${ids.length} originals deleted`,
+      `${questionCategories.length} How it works question categories deleted`,
       `${oldLabels.length} FAQ categories lose labelEn/labelEs`,
     ],
   );
@@ -882,6 +899,125 @@ async function moveSeoIntoDocument(phase, page, targetBase) {
   ]);
 }
 
+// --- How it works as one document --------------------------------------------
+
+const HOW_IT_WORKS_SECTIONS = {
+  hero: "howItWorksHero",
+  steps: "howItWorksSteps",
+  faq: "howItWorksFaq",
+  cta: "howItWorksCta",
+};
+
+async function howItWorksPhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const sectionIds = Object.values(HOW_IT_WORKS_SECTIONS).flatMap((type) =>
+    languages.map((l) => languageDocumentId(type, l)),
+  );
+  const seoIds = languages.map((l) =>
+    languageDocumentId("pageSeo-how-it-works", l),
+  );
+  const pageIds = languages.map((l) => languageDocumentId("howItWorksPage", l));
+  const metadataIds = [
+    ...Object.values(HOW_IT_WORKS_SECTIONS).map(
+      (type) => `translations-${type}`,
+    ),
+    "translations-pageSeo-how-it-works",
+  ];
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: [...sectionIds, ...seoIds, ...pageIds].map((id) => `drafts.${id}`),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          ...sectionIds,
+          ...seoIds,
+          ...pageIds,
+          ...metadataIds,
+          "translations-howItWorksPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+  // Today's filter order: the site listed the category documents by _id.
+  const categories = await client.fetch(
+    `*[_type == "howItWorksFaqCategory" && !(_id in path("drafts.**"))]
+       | order(_id asc){_id, name}`,
+  );
+  const categoryKey = (id) =>
+    id.replace(/^howItWorksFaqCategory-/, "").replace(/[^A-Za-z0-9_-]/g, "");
+  const sectionOf = (doc) => {
+    const body = withoutSystemFields(doc);
+    for (const key of ["_id", "_type", "language"]) delete body[key];
+    return body;
+  };
+
+  const creates = [];
+  for (const language of languages) {
+    const id = languageDocumentId("howItWorksPage", language);
+    if (docs[id]) continue;
+    const page = { _id: id, _type: "howItWorksPage", language };
+    for (const [field, type] of Object.entries(HOW_IT_WORKS_SECTIONS)) {
+      const doc = docs[languageDocumentId(type, language)];
+      if (!doc)
+        problems.push(`${languageDocumentId(type, language)} not found`);
+      else page[field] = sectionOf(doc);
+    }
+    if (page.faq) {
+      page.faq.categories = categories.map((c) => ({
+        _key: categoryKey(c._id),
+        _type: "questionCategory",
+        name: c.name?.[language] ?? c.name?.en,
+      }));
+      page.faq.faqs = (page.faq.faqs ?? []).map((item) => {
+        const ref = item.category?._ref;
+        if (!categories.some((c) => c._id === ref))
+          problems.push(`${id}: question "${item.question}" has no category`);
+        return { ...item, category: ref ? categoryKey(ref) : undefined };
+      });
+    }
+    const seo = docs[languageDocumentId("pageSeo-how-it-works", language)];
+    if (seo?.seo) page.seo = seo.seo;
+    else problems.push(`No How it works SEO in ${language}`);
+    checkAgainstSchema(page);
+    creates.push({ createIfNotExists: page });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-howItWorksPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-howItWorksPage",
+        _type: "translation.metadata",
+        schemaTypes: ["howItWorksPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("howItWorksPage", language),
+          },
+        })),
+      },
+    });
+  // Metadata first: it references the documents deleted after it.
+  const deletes = [...metadataIds, ...sectionIds, ...seoIds].filter(
+    (id) => docs[id],
+  );
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced How it works document`);
+  step(15, "Make How it works one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist), ${categories.length} question categories each`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
@@ -895,6 +1031,7 @@ if (phases.has(13))
   for (const page of LEGAL_PAGES)
     await moveSeoIntoDocument(13, page, `legalDocument-${page}`);
 if (phases.has(14)) await moveSeoIntoDocument(14, "contact", "catalogContact");
+if (phases.has(15)) await howItWorksPhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

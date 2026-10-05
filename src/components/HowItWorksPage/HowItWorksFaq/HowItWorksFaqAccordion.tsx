@@ -9,7 +9,7 @@ import { faqUIContent } from "./types";
 import {
   HowItWorksFaqs,
   HowItWorksFaqsCategories,
-} from "@/sanity/queries/HowItWorksPage/HowItWorksFaqs";
+} from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 

@@ -26,11 +26,7 @@ import BlogCategory from "./BlogPage/BlogCategory";
 import BlogPageCtaStrip from "./BlogPage/CtaStrip";
 
 //HowItWorksPage
-import HowItWorksPageHero from "./HowItWorksPage/Hero";
-import HowItWorksPageHowItWorksSteps from "./HowItWorksPage/HowItWorksSteps";
-import HowItWorksPageHowItWorksFAQ from "./HowItWorksPage/HowItWorksFAQ";
-import HowItWorksPageHowItWorksFaqCategory from "./HowItWorksPage/HowItWorksFaqCategory";
-import HowItWorksPageHowItWorksCTA from "./HowItWorksPage/HowItWorksCTA";
+import HowItWorksPage from "./HowItWorksPage/HowItWorksPage";
 
 //FaqsPage
 import FaqsPageHeroComponent from "./FaqsPage/HeroComponent";
@@ -70,11 +66,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     BlogPageCtaStrip,
 
     //HowItWorksPage
-    HowItWorksPageHero,
-    HowItWorksPageHowItWorksSteps,
-    HowItWorksPageHowItWorksFAQ,
-    HowItWorksPageHowItWorksFaqCategory,
-    HowItWorksPageHowItWorksCTA,
+    HowItWorksPage,
 
     //FaqsPage
     FaqsPageHeroComponent,

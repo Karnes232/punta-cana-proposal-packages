@@ -2,7 +2,7 @@ import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksStepsSectionHeader from "./HowItWorksStepsSectionHeader";
 import HowItWorksStepCard from "./HowItWorksStepCard";
 import HowItWorksStepConnector from "./HowItWorksStepConnector";
-import { HowItWorksStepsStep } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
+import { HowItWorksStepsStep } from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 

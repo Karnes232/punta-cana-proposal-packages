@@ -749,25 +749,7 @@ export type InternationalizedArrayReferenceValue = {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "howItWorksHero";
-      }
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "howItWorksSteps";
-      }
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "howItWorksFaq";
-      }
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "howItWorksCta";
+        [internalGroqTypeReferenceTo]?: "howItWorksPage";
       }
     | {
         _ref: string;
@@ -1170,109 +1152,82 @@ export type LegalDocument = {
   seo?: BlogPostSeo;
 };
 
-export type HowItWorksCta = {
+export type HowItWorksPage = {
   _id: string;
-  _type: "howItWorksCta";
+  _type: "howItWorksPage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   language?: string;
-  eyebrow?: string;
-  scriptLine?: string;
-  heading?: string;
-  headingAccent?: string;
-  subheading?: string;
-  primaryCTA?: string;
-  primaryCTAHref?: string;
-  secondaryCTA?: string;
-  secondaryCTAHref?: string;
-};
-
-export type HowItWorksFaq = {
-  _id: string;
-  _type: "howItWorksFaq";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  eyebrow?: string;
-  heading?: string;
-  headingAccent?: string;
-  subheading?: string;
-  faqs?: Array<{
-    category?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
+  hero?: {
+    eyebrow?: string;
+    headingLine1?: string;
+    headingLine2?: string;
+    subheading?: string;
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
     };
-    question?: string;
-    answer?: string;
-    _type: "faq";
-    _key: string;
-  }>;
-};
-
-export type HowItWorksFaqCategory = {
-  _id: string;
-  _type: "howItWorksFaqCategory";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: LocalizedString;
-};
-
-export type HowItWorksSteps = {
-  _id: string;
-  _type: "howItWorksSteps";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  eyebrow?: string;
-  heading?: string;
-  headingAccent?: string;
-  subheading?: string;
-  steps?: Array<{
-    label?: string;
-    title?: string;
-    description?: string;
-    _type: "step";
-    _key: string;
-  }>;
-  reassurance?: Array<{
-    id?: "private" | "team" | "inclusive" | "memories";
-    title?: string;
-    caption?: string;
-    _type: "reassuranceItem";
-    _key: string;
-  }>;
-};
-
-export type HowItWorksHero = {
-  _id: string;
-  _type: "howItWorksHero";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  eyebrow?: string;
-  headingLine1?: string;
-  headingLine2?: string;
-  subheading?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
   };
+  steps?: {
+    eyebrow?: string;
+    heading?: string;
+    headingAccent?: string;
+    subheading?: string;
+    steps?: Array<{
+      label?: string;
+      title?: string;
+      description?: string;
+      _type: "step";
+      _key: string;
+    }>;
+    reassurance?: Array<{
+      id?: "private" | "team" | "inclusive" | "memories";
+      title?: string;
+      caption?: string;
+      _type: "reassuranceItem";
+      _key: string;
+    }>;
+  };
+  faq?: {
+    eyebrow?: string;
+    heading?: string;
+    headingAccent?: string;
+    subheading?: string;
+    categories?: Array<{
+      name?: string;
+      _type: "questionCategory";
+      _key: string;
+    }>;
+    faqs?: Array<{
+      category?: string;
+      question?: string;
+      answer?: string;
+      _type: "faq";
+      _key: string;
+    }>;
+  };
+  cta?: {
+    eyebrow?: string;
+    scriptLine?: string;
+    heading?: string;
+    headingAccent?: string;
+    subheading?: string;
+    primaryCTA?: string;
+    primaryCTAHref?: string;
+    secondaryCTA?: string;
+    secondaryCTAHref?: string;
+  };
+  seo?: BlogPostSeo;
 };
 
 export type Faq = {
@@ -1607,11 +1562,7 @@ export type AllSanitySchemaTypes =
   | CatalogHome
   | ExperienceCatalogSettings
   | LegalDocument
-  | HowItWorksCta
-  | HowItWorksFaq
-  | HowItWorksFaqCategory
-  | HowItWorksSteps
-  | HowItWorksHero
+  | HowItWorksPage
   | Faq
   | FaqCategory
   | FaqContactStrip
@@ -2779,103 +2730,80 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "howItWorksCta";
+        _type: "howItWorksPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        eyebrow?: string;
-        scriptLine?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        primaryCTA?: string;
-        primaryCTAHref?: string;
-        secondaryCTA?: string;
-        secondaryCTAHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksFaq";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        faqs?: Array<{
-          category?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          question?: string;
-          answer?: string;
-          _type: "faq";
-          _key: string;
-        }>;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksFaqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        name?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
-      }
-    | {
-        _id: string;
-        _type: "howItWorksSteps";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        steps?: Array<{
-          label?: string;
-          title?: string;
-          description?: string;
-          _type: "step";
-          _key: string;
-        }>;
-        reassurance?: Array<{
-          id?: "inclusive" | "memories" | "private" | "team";
-          title?: string;
-          caption?: string;
-          _type: "reassuranceItem";
-          _key: string;
-        }>;
+        steps?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          steps?: Array<{
+            label?: string;
+            title?: string;
+            description?: string;
+            _type: "step";
+            _key: string;
+          }>;
+          reassurance?: Array<{
+            id?: "inclusive" | "memories" | "private" | "team";
+            title?: string;
+            caption?: string;
+            _type: "reassuranceItem";
+            _key: string;
+          }>;
+        };
+        faq?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          categories?: Array<{
+            name?: string;
+            _type: "questionCategory";
+            _key: string;
+          }>;
+          faqs?: Array<{
+            category?: string;
+            question?: string;
+            answer?: string;
+            _type: "faq";
+            _key: string;
+          }>;
+        };
+        cta?: {
+          eyebrow?: string;
+          scriptLine?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          primaryCTA?: string;
+          primaryCTAHref?: string;
+          secondaryCTA?: string;
+          secondaryCTAHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -3915,103 +3843,80 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "howItWorksCta";
+        _type: "howItWorksPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        eyebrow?: string;
-        scriptLine?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        primaryCTA?: string;
-        primaryCTAHref?: string;
-        secondaryCTA?: string;
-        secondaryCTAHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksFaq";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        faqs?: Array<{
-          category?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          question?: string;
-          answer?: string;
-          _type: "faq";
-          _key: string;
-        }>;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksFaqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        name?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
-      }
-    | {
-        _id: string;
-        _type: "howItWorksSteps";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        steps?: Array<{
-          label?: string;
-          title?: string;
-          description?: string;
-          _type: "step";
-          _key: string;
-        }>;
-        reassurance?: Array<{
-          id?: "inclusive" | "memories" | "private" | "team";
-          title?: string;
-          caption?: string;
-          _type: "reassuranceItem";
-          _key: string;
-        }>;
+        steps?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          steps?: Array<{
+            label?: string;
+            title?: string;
+            description?: string;
+            _type: "step";
+            _key: string;
+          }>;
+          reassurance?: Array<{
+            id?: "inclusive" | "memories" | "private" | "team";
+            title?: string;
+            caption?: string;
+            _type: "reassuranceItem";
+            _key: string;
+          }>;
+        };
+        faq?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          categories?: Array<{
+            name?: string;
+            _type: "questionCategory";
+            _key: string;
+          }>;
+          faqs?: Array<{
+            category?: string;
+            question?: string;
+            answer?: string;
+            _type: "faq";
+            _key: string;
+          }>;
+        };
+        cta?: {
+          eyebrow?: string;
+          scriptLine?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          primaryCTA?: string;
+          primaryCTAHref?: string;
+          secondaryCTA?: string;
+          secondaryCTAHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -5168,103 +5073,80 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "howItWorksCta";
+        _type: "howItWorksPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        eyebrow?: string;
-        scriptLine?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        primaryCTA?: string;
-        primaryCTAHref?: string;
-        secondaryCTA?: string;
-        secondaryCTAHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksFaq";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        faqs?: Array<{
-          category?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          question?: string;
-          answer?: string;
-          _type: "faq";
-          _key: string;
-        }>;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksFaqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        name?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "howItWorksHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
-      }
-    | {
-        _id: string;
-        _type: "howItWorksSteps";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        steps?: Array<{
-          label?: string;
-          title?: string;
-          description?: string;
-          _type: "step";
-          _key: string;
-        }>;
-        reassurance?: Array<{
-          id?: "inclusive" | "memories" | "private" | "team";
-          title?: string;
-          caption?: string;
-          _type: "reassuranceItem";
-          _key: string;
-        }>;
+        steps?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          steps?: Array<{
+            label?: string;
+            title?: string;
+            description?: string;
+            _type: "step";
+            _key: string;
+          }>;
+          reassurance?: Array<{
+            id?: "inclusive" | "memories" | "private" | "team";
+            title?: string;
+            caption?: string;
+            _type: "reassuranceItem";
+            _key: string;
+          }>;
+        };
+        faq?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          categories?: Array<{
+            name?: string;
+            _type: "questionCategory";
+            _key: string;
+          }>;
+          faqs?: Array<{
+            category?: string;
+            question?: string;
+            answer?: string;
+            _type: "faq";
+            _key: string;
+          }>;
+        };
+        cta?: {
+          eyebrow?: string;
+          scriptLine?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          primaryCTA?: string;
+          primaryCTAHref?: string;
+          secondaryCTA?: string;
+          secondaryCTAHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -6190,7 +6072,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "howItWorksCta";
+      _type: "howItWorksPage";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6212,131 +6094,25 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "howItWorksFaq";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: LocalizedString | null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "howItWorksFaqCategory";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "howItWorksHero";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "howItWorksSteps";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
+      seo: {
+        _type: "blogPostSeo";
+        meta?: {
+          title?: string;
+          description?: string;
+          keywords?: Array<string>;
+        };
+        openGraph?: {
+          title?: string;
+          description?: string;
+        };
+        image: {
+          url: string | null;
+          alt: null;
+        } | null;
+        structuredData?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+      } | null;
     }
   | {
       _id: string;

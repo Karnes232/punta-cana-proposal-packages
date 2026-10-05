@@ -169,7 +169,6 @@ export const structure: StructureResolver = (S) => {
     "blogCategory",
     "faq",
     "faqCategory",
-    "howItWorksFaqCategory",
   ]);
 
   return S.list()
@@ -264,21 +263,14 @@ export const structure: StructureResolver = (S) => {
         ),
         pageSeo("faq"),
       ]),
-      folder(bi("Cómo funciona", "How it works"), ListIcon, [
-        pageSection(bi("Portada", "Hero"), "howItWorksHero"),
-        pageSection(bi("Pasos", "Steps"), "howItWorksSteps"),
-        pageSection(bi("Preguntas", "Questions"), "howItWorksFaq"),
-        list(
-          bi("Categorías de preguntas", "Question categories"),
-          "howItWorksFaqCategory",
-          TagIcon,
-        ),
-        pageSection(
-          bi("Llamada final", "Closing call to action"),
-          "howItWorksCta",
-        ),
-        pageSeo("how-it-works"),
-      ]),
+      // Opens the English How it works page (every section, its FAQ
+      // categories and SEO); the Translations button switches language.
+      singleton(
+        bi("Cómo funciona", "How it works"),
+        "howItWorksPage",
+        languageDocumentId("howItWorksPage", "en"),
+        ListIcon,
+      ),
       // Opens the English contact page; the Translations button switches
       // language. Its SEO is inside it (seo field).
       singleton(

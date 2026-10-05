@@ -5,7 +5,7 @@ import HowItWorksFaqAccordion from "./HowItWorksFaqAccordion";
 import {
   HowItWorksFaqs,
   HowItWorksFaqsCategories,
-} from "@/sanity/queries/HowItWorksPage/HowItWorksFaqs";
+} from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 

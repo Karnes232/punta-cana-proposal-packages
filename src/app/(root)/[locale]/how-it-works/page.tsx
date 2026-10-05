@@ -10,13 +10,7 @@ import {
   seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
-import { getHowItWorksPageHero } from "@/sanity/queries/HowItWorksPage/Hero";
-import { getHowItWorksCta } from "@/sanity/queries/HowItWorksPage/HowItWorksCTA";
-import {
-  getHowItWorksFaqCategories,
-  getHowItWorksFaqs,
-} from "@/sanity/queries/HowItWorksPage/HowItWorksFaqs";
-import { getHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
+import { getHowItWorksPage } from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
 import { getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
@@ -30,15 +24,11 @@ export default async function HowItWorks({
   const { locale } = await params;
   requireLocale(locale);
   const lang = toSiteLocale(locale);
-  const [hero, steps, faqsCategories, faqsPage, ctaPage, structuredData] =
-    await Promise.all([
-      getHowItWorksPageHero(lang),
-      getHowItWorksSteps(lang),
-      getHowItWorksFaqCategories(),
-      getHowItWorksFaqs(lang),
-      getHowItWorksCta(lang),
-      getStructuredData("how-it-works", lang),
-    ]);
+  const [page, structuredData] = await Promise.all([
+    getHowItWorksPage(lang),
+    getStructuredData("how-it-works", lang),
+  ]);
+  const { hero, steps, faq: faqsPage, faqCategories, cta: ctaPage } = page;
 
   return (
     <main>
@@ -63,7 +53,7 @@ export default async function HowItWorks({
       <HowItWorksReassurance items={steps?.reassurance} />
       <HowItWorksFaq
         locale={lang}
-        faqsCategories={faqsCategories}
+        faqsCategories={faqCategories}
         eyebrow={faqsPage?.eyebrow}
         heading={faqsPage?.heading}
         headingAccent={faqsPage?.headingAccent}

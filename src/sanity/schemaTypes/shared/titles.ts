@@ -50,17 +50,7 @@ export const typeTitles: Record<string, string> = {
   faq: bi("Pregunta frecuente", "FAQ"),
   faqCategory: bi("Categoría de preguntas", "FAQ category"),
   // How it works
-  howItWorksHero: bi("Cómo funciona: portada", "How it works: hero"),
-  howItWorksSteps: bi("Cómo funciona: pasos", "How it works: steps"),
-  howItWorksFaq: bi("Cómo funciona: preguntas", "How it works: questions"),
-  howItWorksFaqCategory: bi(
-    "Cómo funciona: categoría de preguntas",
-    "How it works: question category",
-  ),
-  howItWorksCta: bi(
-    "Cómo funciona: llamada final",
-    "How it works: closing call to action",
-  ),
+  howItWorksPage: bi("Cómo funciona", "How it works"),
 };
 
 /** Fields, keyed by field name (the same meaning on every type). */

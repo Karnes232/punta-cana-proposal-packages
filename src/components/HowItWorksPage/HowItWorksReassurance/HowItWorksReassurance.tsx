@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksReassuranceItem from "./HowItWorksReassuranceItem";
-import { ReassuranceItem } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
+import { ReassuranceItem } from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
