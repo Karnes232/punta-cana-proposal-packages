@@ -175,12 +175,28 @@ const knownTypeValues = new Set([
   Object.values(node).forEach(collect);
 })(schema);
 
+// Top-level array fields whose items have one fixed _type (e.g. "photo").
+function arrayItemTypes(typeName) {
+  const attributes = schemaTypes.get(typeName)?.attributes ?? {};
+  return Object.fromEntries(
+    Object.entries(attributes)
+      .map(([key, a]) => [key, a.value?.of?.attributes?._type?.value?.value])
+      .filter(([, item]) => item && item !== "reference"),
+  );
+}
+
 function checkAgainstSchema(doc) {
   const type = schemaTypes.get(doc._type);
   if (!type) return problems.push(`${doc._id}: unknown type ${doc._type}`);
   for (const key of Object.keys(doc))
     if (!key.startsWith("_") && !(key in type.attributes))
       problems.push(`${doc._id}: field "${key}" isn't in ${doc._type}`);
+  for (const [key, item] of Object.entries(arrayItemTypes(doc._type)))
+    for (const member of doc[key] ?? [])
+      if (member?._type !== item)
+        problems.push(
+          `${doc._id}: ${key} item is ${member?._type}, not ${item}`,
+        );
   (function walk(value, path) {
     if (Array.isArray(value))
       return value.forEach((v, i) => walk(v, `${path}[${i}]`));
@@ -515,16 +531,17 @@ const activeByOrder = (items) =>
   byOrder(items).filter((x) => x.active === true);
 const hasPhoto = (image) => Boolean(image?.asset?._ref);
 
-const photo = (image, key) => ({
+const photo = (image, key, type = "image") => ({
   ...(key ? { _key: key } : {}),
-  _type: "image",
+  _type: type,
   asset: { _type: "reference", _ref: image.asset._ref },
   ...(image.hotspot ? { hotspot: image.hotspot } : {}),
   ...(image.crop ? { crop: image.crop } : {}),
   ...(image.alt ? { alt: image.alt } : {}),
 });
+// Items of the catalogHome photo lists are named "photo" in the schema.
 const photoList = (images, prefix) =>
-  images.map((image, i) => photo(image, `${prefix}-${i}`));
+  images.map((image, i) => photo(image, `${prefix}-${i}`, "photo"));
 
 const text = (type, [en, es]) => ({ _type: type, en, es });
 const attributeType = (type, name) =>
@@ -679,6 +696,28 @@ async function fillPhase() {
     if (!hasPhoto(image)) problems.push(`No photo found for ${name}`);
   if (featured.length !== 3)
     problems.push(`Expected 3 featured proposals, found ${featured.length}`);
+
+  // Repair list items written with the wrong _type (an earlier phase 5 run
+  // wrote "image" instead of "photo"; the Studio can't show those items).
+  const retype = Object.entries(arrayItemTypes("catalogHome")).flatMap(
+    ([key, item]) =>
+      (home?.[key] ?? [])
+        .filter((member) => member._type !== item)
+        .map((member) => [`${key}[_key=="${member._key}"]._type`, item]),
+  );
+  step(
+    5,
+    "Repair Catalog Home photo list items",
+    retype.length
+      ? [{ patch: { id: "catalogHome", set: Object.fromEntries(retype) } }]
+      : [],
+    [`${retype.length} item(s) retyped`],
+  );
+  if (home)
+    for (const [path, item] of retype) {
+      const [, key, itemKey] = path.match(/^(\w+)\[_key=="([^"]+)"\]/);
+      home[key].find((m) => m._key === itemKey)._type = item;
+    }
 
   fillStep(
     home,
