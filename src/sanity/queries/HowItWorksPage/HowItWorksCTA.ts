@@ -1,74 +1,33 @@
 import { client } from "@/sanity/lib/client";
-import { PAGE_SINGLETONS } from "@/sanity/constants";
+import { pageSectionDocument, pageSectionParams } from "../pageSection";
 
 export interface HowItWorksCTA {
-  eyebrow: {
-    en: string;
-    es: string;
-  };
-  scriptLine: {
-    en: string;
-    es: string;
-  };
-  heading: {
-    en: string;
-    es: string;
-  };
-  headingAccent: {
-    en: string;
-    es: string;
-  };
-  subheading: {
-    en: string;
-    es: string;
-  };
-  primaryCTA: {
-    en: string;
-    es: string;
-  };
+  eyebrow: string;
+  scriptLine: string;
+  heading: string;
+  headingAccent: string;
+  subheading: string;
+  primaryCTA: string;
   primaryCTAHref: string;
-  secondaryCTA: {
-    en: string;
-    es: string;
-  };
+  secondaryCTA: string;
   secondaryCTAHref: string;
 }
 
-export const howItWorksCTAQuery = `*[_type == "howItWorksCta" && _id == $id][0] {
-  eyebrow {
-    en,
-    es
-  },
-  scriptLine {
-    en,
-    es
-  },
-  heading {
-    en,
-    es
-  },
-  headingAccent {
-    en,
-    es
-  },
-  subheading {
-    en,
-    es
-  },
-  primaryCTA {
-    en,
-    es
-  },
+export const howItWorksCTAQuery = `${pageSectionDocument("howItWorksCta")} {
+  eyebrow,
+  scriptLine,
+  heading,
+  headingAccent,
+  subheading,
+  primaryCTA,
   primaryCTAHref,
-  secondaryCTA {
-    en,
-    es
-  },
+  secondaryCTA,
   secondaryCTAHref,
 }`;
 
-export async function getHowItWorksCta(): Promise<HowItWorksCTA> {
-  return await client.fetch(howItWorksCTAQuery, {
-    id: PAGE_SINGLETONS.howItWorksCta,
-  });
+export async function getHowItWorksCta(locale: string): Promise<HowItWorksCTA> {
+  return await client.fetch(
+    howItWorksCTAQuery,
+    pageSectionParams("howItWorksCta", locale),
+  );
 }

@@ -1,99 +1,48 @@
 import { client } from "@/sanity/lib/client";
-import { PAGE_SINGLETONS } from "@/sanity/constants";
+import { pageSectionDocument, pageSectionParams } from "../pageSection";
 
 export interface HowItWorksStepsStep {
-  label: {
-    en: string;
-    es: string;
-  };
-  title: {
-    en: string;
-    es: string;
-  };
-  description: {
-    en: string;
-    es: string;
-  };
+  label: string;
+  title: string;
+  description: string;
 }
 
 export interface ReassuranceItem {
   id: string;
-  title: {
-    en: string;
-    es: string;
-  };
-  caption: {
-    en: string;
-    es: string;
-  };
+  title: string;
+  caption: string;
 }
 export interface HowItWorksSteps {
-  eyebrow: {
-    en: string;
-    es: string;
-  };
-  heading: {
-    en: string;
-    es: string;
-  };
-  headingAccent: {
-    en: string;
-    es: string;
-  };
-  subheading: {
-    en: string;
-    es: string;
-  };
+  eyebrow: string;
+  heading: string;
+  headingAccent: string;
+  subheading: string;
   steps: HowItWorksStepsStep[];
   reassurance: ReassuranceItem[];
 }
 
-export const howItWorksPageHowItWorksStepsQuery = `*[_type == "howItWorksSteps" && _id == $id][0] {
-  eyebrow {
-    en,
-    es
-  },
-  heading {
-    en,
-    es
-  },
-  headingAccent {
-    en,
-    es
-  },
-  subheading {
-    en,
-    es
-  },
+export const howItWorksPageHowItWorksStepsQuery = `${pageSectionDocument("howItWorksSteps")} {
+  eyebrow,
+  heading,
+  headingAccent,
+  subheading,
   steps[] {
-    label {
-      en,
-      es
-    },
-    title {
-      en,
-      es
-    },
-    description {
-      en,
-      es
-    }
+    label,
+    title,
+    description
   },
   reassurance[] {
     id,
-    title {
-      en,
-      es
-    },
-    caption {
-      en,
-      es
-    }
+    title,
+    caption
   }
 }`;
 
-export const getHowItWorksSteps = async (): Promise<HowItWorksSteps> => {
-  return await client.fetch(howItWorksPageHowItWorksStepsQuery, {
-    id: PAGE_SINGLETONS.howItWorksSteps,
-  });
+export const getHowItWorksSteps = async (
+  locale: string,
+): Promise<HowItWorksSteps> => {
+  return await client.fetch(
+    howItWorksPageHowItWorksStepsQuery,
+    pageSectionParams("howItWorksSteps", locale),
+  );
 };

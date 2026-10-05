@@ -32,11 +32,11 @@ export default async function HowItWorks({
   const lang = toSiteLocale(locale);
   const [hero, steps, faqsCategories, faqsPage, ctaPage, structuredData] =
     await Promise.all([
-      getHowItWorksPageHero(),
-      getHowItWorksSteps(),
+      getHowItWorksPageHero(lang),
+      getHowItWorksSteps(lang),
       getHowItWorksFaqCategories(),
-      getHowItWorksFaqs(),
-      getHowItWorksCta(),
+      getHowItWorksFaqs(lang),
+      getHowItWorksCta(lang),
       getStructuredData("how-it-works", lang),
     ]);
 
@@ -48,38 +48,37 @@ export default async function HowItWorks({
       />
       <HowItWorksHero
         heroImage={hero?.image}
-        eyebrow={hero?.eyebrow[lang]}
-        headingLine1={hero?.headingLine1[lang]}
-        headingLine2={hero?.headingLine2[lang]}
-        subheading={hero?.subheading[lang]}
+        eyebrow={hero?.eyebrow}
+        headingLine1={hero?.headingLine1}
+        headingLine2={hero?.headingLine2}
+        subheading={hero?.subheading}
       />
       <HowItWorksSteps
-        eyebrow={steps?.eyebrow[lang]}
-        heading={steps?.heading[lang]}
-        headingAccent={steps?.headingAccent[lang]}
-        subheading={steps?.subheading[lang]}
+        eyebrow={steps?.eyebrow}
+        heading={steps?.heading}
+        headingAccent={steps?.headingAccent}
+        subheading={steps?.subheading}
         steps={steps?.steps}
-        locale={lang}
       />
-      <HowItWorksReassurance items={steps?.reassurance} locale={lang} />
+      <HowItWorksReassurance items={steps?.reassurance} />
       <HowItWorksFaq
         locale={lang}
         faqsCategories={faqsCategories}
-        eyebrow={faqsPage?.eyebrow[lang]}
-        heading={faqsPage?.heading[lang]}
-        headingAccent={faqsPage?.headingAccent[lang]}
-        subheading={faqsPage?.subheading[lang]}
+        eyebrow={faqsPage?.eyebrow}
+        heading={faqsPage?.heading}
+        headingAccent={faqsPage?.headingAccent}
+        subheading={faqsPage?.subheading}
         faqs={faqsPage?.faqs}
       />
       <HowItWorksCTA
-        eyebrow={ctaPage?.eyebrow[lang]}
-        scriptLine={ctaPage?.scriptLine[lang]}
-        heading={ctaPage?.heading[lang]}
-        headingAccent={ctaPage?.headingAccent[lang]}
-        subheading={ctaPage?.subheading[lang]}
-        primaryCTA={ctaPage?.primaryCTA[lang]}
+        eyebrow={ctaPage?.eyebrow}
+        scriptLine={ctaPage?.scriptLine}
+        heading={ctaPage?.heading}
+        headingAccent={ctaPage?.headingAccent}
+        subheading={ctaPage?.subheading}
+        primaryCTA={ctaPage?.primaryCTA}
         primaryHref={ctaPage?.primaryCTAHref}
-        secondaryCTA={ctaPage?.secondaryCTA[lang]}
+        secondaryCTA={ctaPage?.secondaryCTA}
         secondaryHref={ctaPage?.secondaryCTAHref}
       />
     </main>

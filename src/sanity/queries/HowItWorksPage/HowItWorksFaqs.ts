@@ -1,39 +1,37 @@
+import type { Localized } from "@/lib/experience/types";
 import { client } from "@/sanity/lib/client";
-import { PAGE_SINGLETONS } from "@/sanity/constants";
+import { pageSectionDocument, pageSectionParams } from "../pageSection";
 
 export interface HowItWorksFaqsCategories {
   _id: string;
-  name: { en: string; es: string };
+  name: Localized;
 }
 
 /** Expanded `category->` from howItWorksFaqsPageQuery */
 export interface HowItWorksFaqsCategory {
   _id: string;
-  name: { en: string; es: string };
+  name: Localized;
 }
 
 /** One FAQ row inside the page document’s `faqs` array (object, not a document — use `_key`). */
 export interface HowItWorksFaqs {
   _key: string;
-  question: { en: string; es: string };
-  answer: { en: string; es: string };
+  question: string;
+  answer: string;
   category: HowItWorksFaqsCategory | null;
 }
 
 export interface HowItWorksFaqsPage {
-  eyebrow: { en: string; es: string };
-  heading: { en: string; es: string };
-  headingAccent: { en: string; es: string };
-  subheading: { en: string; es: string };
+  eyebrow: string;
+  heading: string;
+  headingAccent: string;
+  subheading: string;
   faqs: HowItWorksFaqs[];
 }
 
 export const howItWorksFaqsCategoriesQuery = `*[_type == "howItWorksFaqCategory"] {
     _id,
-    name {
-        en,
-        es
-    }
+    name
 }`;
 
 export async function getHowItWorksFaqCategories(): Promise<
@@ -42,47 +40,29 @@ export async function getHowItWorksFaqCategories(): Promise<
   return await client.fetch(howItWorksFaqsCategoriesQuery);
 }
 
-export const howItWorksFaqsPageQuery = `*[_type == "howItWorksFaq" && _id == $id][0] {
+export const howItWorksFaqsPageQuery = `${pageSectionDocument("howItWorksFaq")} {
         _id,
-        eyebrow {
-            en,
-            es
-        },
-        heading {
-            en,
-            es
-        },
-        headingAccent {
-            en,
-            es
-        },
-        subheading {
-            en,
-            es
-        },
+        eyebrow,
+        heading,
+        headingAccent,
+        subheading,
         faqs[] {
             _key,
-            question {
-                en,
-                es
-            },
-            answer {
-                en,
-                es
-            },
+            question,
+            answer,
             category -> {
                 _id,
-                name {
-                    en,
-                    es
-                }
+                name
             }
         }
     }
 `;
 
-export async function getHowItWorksFaqs(): Promise<HowItWorksFaqsPage> {
-  return await client.fetch(howItWorksFaqsPageQuery, {
-    id: PAGE_SINGLETONS.howItWorksFaq,
-  });
+export async function getHowItWorksFaqs(
+  locale: string,
+): Promise<HowItWorksFaqsPage> {
+  return await client.fetch(
+    howItWorksFaqsPageQuery,
+    pageSectionParams("howItWorksFaq", locale),
+  );
 }
