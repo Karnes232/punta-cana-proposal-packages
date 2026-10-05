@@ -31,7 +31,9 @@ to `/proposals` (with the package slug as the `#hash`) in `src/proxy.ts`.
   (navigation, card text, hero lines, notes, footer…), the dinner deposit
   amount and policy messages. Defaults live in `src/lib/experience/labels.ts`,
   `introduction.ts` and `dinnerPolicy.ts`; `label()` uses the Sanity value
-  when it is filled in.
+  when it is filled in. The catalog documents hold the site's current text and
+  photos (filled by phase 5 of `scripts/migrate-studio-content.mjs`); the code
+  defaults are only a safety net for fields an editor leaves blank.
 - **Catalog Home** (`catalogHome`): home page text (`copy`, defaults in
   `homeCopy.ts`, read with `homeText()`), hero and selector photos, up to
   three featured proposals, journey/editorial/moments photos. Without featured
