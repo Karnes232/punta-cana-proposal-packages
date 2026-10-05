@@ -5015,8 +5015,7 @@
             "alt": {
               "type": "objectAttribute",
               "value": {
-                "type": "inline",
-                "name": "localizedString"
+                "type": "string"
               },
               "optional": true
             },
@@ -5134,8 +5133,7 @@
             "alt": {
               "type": "objectAttribute",
               "value": {
-                "type": "inline",
-                "name": "localizedString"
+                "type": "string"
               },
               "optional": true
             },
@@ -5211,8 +5209,7 @@
             "alt": {
               "type": "objectAttribute",
               "value": {
-                "type": "inline",
-                "name": "localizedString"
+                "type": "string"
               },
               "optional": true
             },
@@ -5453,8 +5450,7 @@
               "alt": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "inline",
-                  "name": "localizedString"
+                  "type": "string"
                 },
                 "optional": true
               },
@@ -5635,8 +5631,7 @@
               "alt": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "inline",
-                  "name": "localizedString"
+                  "type": "string"
                 },
                 "optional": true
               },
@@ -5901,8 +5896,7 @@
               "alt": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "inline",
-                  "name": "localizedString"
+                  "type": "string"
                 },
                 "optional": true
               },
@@ -6039,8 +6033,7 @@
             "alt": {
               "type": "objectAttribute",
               "value": {
-                "type": "inline",
-                "name": "localizedString"
+                "type": "string"
               },
               "optional": true
             },
@@ -6116,8 +6109,7 @@
             "alt": {
               "type": "objectAttribute",
               "value": {
-                "type": "inline",
-                "name": "localizedString"
+                "type": "string"
               },
               "optional": true
             },

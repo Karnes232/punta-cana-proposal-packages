@@ -32,6 +32,9 @@
 //      the exact old value, so later Studio edits are kept.
 //  10. Home page texts move from the `copy` object to top-level fields, so the
 //      Studio can show each home section's photos and texts together.
+//  11. Home page photos become per language: each language's home document
+//      gets its own copy of the English photos, with alt text in that
+//      language (the English document's alt becomes English only).
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -749,6 +752,66 @@ async function flattenHomePhase() {
   ]);
 }
 
+// --- Home photos per language ---------------------------------------------------
+
+const HOME_PHOTO_FIELDS = [
+  "heroImage",
+  "proposalHeroImage",
+  "dinnerHeroImage",
+  "proposalSelectorImage",
+  "dinnerSelectorImage",
+];
+const HOME_PHOTO_LISTS = ["journeyImages", "editorialImages", "moments"];
+
+// One photo with its alt text in `language` (from the four-language alt).
+const photoInLanguage = (photo, language) => {
+  if (!photo) return photo;
+  const alt = photo.alt;
+  const text =
+    typeof alt === "string" ? alt : (alt?.[language] ?? alt?.en ?? undefined);
+  const copy = { ...photo };
+  delete copy.alt;
+  return text ? { ...copy, alt: text } : copy;
+};
+
+async function homePhotosPhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const ids = languages.map((l) => languageDocumentId("catalogHome", l));
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: ids.map((id) => `drafts.${id}`),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (await client.fetch(`*[_id in $ids]`, { ids })).map((d) => [d._id, d]),
+  );
+  const english = docs[languageDocumentId("catalogHome", "en")];
+  if (!english) return problems.push("catalogHome-en not found");
+  // Still in the old shape: a photo whose alt is an object of languages.
+  const multilingual = (value) =>
+    [value].flat().some((p) => p?.alt && typeof p.alt === "object");
+  const patches = [];
+  for (const language of languages) {
+    const doc = docs[languageDocumentId("catalogHome", language)];
+    if (!doc) continue;
+    const set = {};
+    for (const field of [...HOME_PHOTO_FIELDS, ...HOME_PHOTO_LISTS]) {
+      const source = english[field];
+      if (source === undefined) continue;
+      if (doc[field] !== undefined && !multilingual(doc[field])) continue;
+      set[field] = Array.isArray(source)
+        ? source.map((p) => photoInLanguage(p, language))
+        : photoInLanguage(source, language);
+    }
+    if (!Object.keys(set).length) continue;
+    checkAgainstSchema({ ...withoutSystemFields(doc), ...set });
+    patches.push({ patch: { id: doc._id, ifRevisionID: doc._rev, set } });
+  }
+  step(11, "Give every language's home page its own photos", patches, [
+    `${patches.length} home documents updated (${Object.keys(docs).length - patches.length} already done)`,
+  ]);
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
@@ -756,6 +819,7 @@ if (phases.has(7)) await cleanupPhase();
 if (phases.has(8)) await translationPhase();
 if (phases.has(9)) await contentFixPhase();
 if (phases.has(10)) await flattenHomePhase();
+if (phases.has(11)) await homePhotosPhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

@@ -13,7 +13,7 @@ import { bi } from "../shared/labels";
 import { field, image } from "./shared";
 import { languageField } from "../shared/languageField";
 
-// Photos, featured proposals and the deposit are shared by every language:
+// The featured proposals and the dinner deposit are shared by every language:
 // they're edited on the English document only (see getCatalogContent).
 const englishOnly: ConditionalPropertyCallback = ({ document }) =>
   document?.language !== "en";
@@ -415,13 +415,13 @@ const homeTextKeys = (section: string) => [
 ];
 
 // Photos and the featured proposals, placed in the section of the page that
-// shows them. Shared by every language: edited on the English document only.
+// shows them. Each language's document has its own photos (alt text in that
+// language); the featured proposals are shared and edited on English only.
 const homePhotoFields: Record<string, FieldDefinition[]> = {
   hero: [
     {
-      ...image("heroImage"),
+      ...image("heroImage", "string"),
       group: "photos",
-      hidden: englishOnly,
       description: bi(
         "Foto grande al inicio de la página. Vacío = la foto del primer paquete destacado",
         "Large photo at the top of the page. Empty = the first featured package's photo",
@@ -429,11 +429,10 @@ const homePhotoFields: Record<string, FieldDefinition[]> = {
     },
   ],
   selector: [
-    { ...image("proposalSelectorImage"), group: "photos", hidden: englishOnly },
+    { ...image("proposalSelectorImage", "string"), group: "photos" },
     {
-      ...image("dinnerSelectorImage"),
+      ...image("dinnerSelectorImage", "string"),
       group: "photos",
-      hidden: englishOnly,
       description: bi(
         "También se muestra en la sección Cena privada",
         "Also shown in the Private dinner section",
@@ -472,20 +471,19 @@ const homePhotoFields: Record<string, FieldDefinition[]> = {
           name,
           type: "array",
           group: "photos",
-          hidden: englishOnly,
           description:
             name === "journeyImages"
               ? bi("Una foto por paso, máximo 5", "One photo per step, up to 5")
               : bi("Máximo 8 fotos", "Up to 8 photos"),
-          of: [image("photo")],
+          of: [image("photo", "string")],
           validation: (r) => r.max(name === "journeyImages" ? 5 : 8),
         }),
       ],
     ]),
   ),
   other: [
-    { ...image("proposalHeroImage"), group: "photos", hidden: englishOnly },
-    { ...image("dinnerHeroImage"), group: "photos", hidden: englishOnly },
+    { ...image("proposalHeroImage", "string"), group: "photos" },
+    { ...image("dinnerHeroImage", "string"), group: "photos" },
   ],
 };
 

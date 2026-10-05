@@ -2,6 +2,8 @@ import type {
   Contact,
   Experience,
   Home,
+  Image,
+  Localized,
   Settings,
 } from "@/lib/experience/types";
 import {
@@ -20,14 +22,24 @@ import { imageWithAlt } from "./fragments";
 import { defineQuery } from "next-sanity";
 
 // The catalog documents are one per language (e.g. catalogHome-fr), falling
-// back to English while a language isn't written yet. Photos, featured
-// proposals and the dinner deposit are shared: they live on the English
-// documents only.
+// back to English while a language isn't written yet; each home photo falls
+// back to the English one when it's empty. The featured proposals and the
+// dinner deposit are shared: they live on the English documents only.
 export const catalogContentQuery = defineQuery(`{
       "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),
       "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,
       "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),
-      "homePhotos": *[_id == $homeEnId][0] {
+      "homePhotos": *[_id == $homeId][0] {
+        heroImage ${imageWithAlt},
+        proposalHeroImage ${imageWithAlt},
+        dinnerHeroImage ${imageWithAlt},
+        proposalSelectorImage ${imageWithAlt},
+        dinnerSelectorImage ${imageWithAlt},
+        journeyImages[] ${imageWithAlt},
+        editorialImages[] ${imageWithAlt},
+        moments[] ${imageWithAlt}
+      },
+      "homePhotosEn": *[_id == $homeEnId][0] {
         heroImage ${imageWithAlt},
         proposalHeroImage ${imageWithAlt},
         dinnerHeroImage ${imageWithAlt},
@@ -70,12 +82,53 @@ const homeTextFields = (doc: Record<string, unknown> | null) =>
     }),
   );
 
+type HomePhotos = Omit<Home, "copy" | "contactHeading">;
+type PhotoWithAlt = { url?: string; alt?: Localized | string };
+const PHOTO_FIELDS = [
+  "heroImage",
+  "proposalHeroImage",
+  "dinnerHeroImage",
+  "proposalSelectorImage",
+  "dinnerSelectorImage",
+  "journeyImages",
+  "editorialImages",
+  "moments",
+] as const;
+
+// Home photos come from the language's document (alt text in that language),
+// or from the English document when the language left one empty.
+function homePhotosIn(
+  locale: string,
+  own: HomePhotos | null,
+  english: HomePhotos | null,
+): HomePhotos {
+  const inLocale = (photo?: PhotoWithAlt | null): Image | undefined =>
+    photo?.url
+      ? {
+          url: photo.url,
+          alt:
+            typeof photo.alt === "string" ? { [locale]: photo.alt } : photo.alt,
+        }
+      : undefined;
+  const has = (value: unknown) =>
+    Array.isArray(value) ? value.length > 0 : Boolean(value);
+  const photos: Record<string, Image | Image[] | undefined> = {};
+  for (const field of PHOTO_FIELDS) {
+    const value = has(own?.[field]) ? own?.[field] : english?.[field];
+    photos[field] = Array.isArray(value)
+      ? value.map((p) => inLocale(p)).filter((p): p is Image => !!p)
+      : inLocale(value);
+  }
+  return photos as HomePhotos;
+}
+
 type CatalogContentRow = {
   settings: Settings | null;
   dinnerDepositAmount?: number;
   // The home text document: one top-level field per homeCopy key.
   homeText: Record<string, unknown> | null;
-  homePhotos: Omit<Home, "copy" | "contactHeading"> | null;
+  homePhotos: HomePhotos | null;
+  homePhotosEn: HomePhotos | null;
   contact: Contact | null;
 };
 
@@ -102,9 +155,9 @@ export async function getCatalogContent(
       ? { ...row.settings, dinnerDepositAmount: row.dinnerDepositAmount }
       : null,
     home:
-      row.homeText || row.homePhotos
+      row.homeText || row.homePhotos || row.homePhotosEn
         ? {
-            ...row.homePhotos,
+            ...homePhotosIn(locale, row.homePhotos, row.homePhotosEn),
             copy: homeTextFields(row.homeText),
             contactHeading: textField(row.homeText?.contactHeading),
           }

@@ -41,14 +41,21 @@ export const named = [
   active,
   order,
 ];
-export const image = (name: string): FieldDefinition =>
+/**
+ * A photo with alt text. Shared documents keep the alt in every language
+ * (`localizedString`); per-language documents use one language (`string`).
+ */
+export const image = (
+  name: string,
+  alt: "localizedString" | "string" = "localizedString",
+): FieldDefinition =>
   defineField({
     name,
     type: "image",
     options: { hotspot: true },
     fields: [
       {
-        ...field("alt", "localizedString"),
+        ...field("alt", alt),
         description: bi(
           "Describe la foto para Google y lectores de pantalla",
           "Describe the photo for Google and screen readers",
