@@ -20,6 +20,7 @@ const SEO_IN_PAGE_DOCUMENT: Record<string, string> = {
   "how-it-works": "howItWorksPage",
   faq: "faqPage",
   blog: "blogPage",
+  stories: "storiesPage",
   "privacy-policy": legalDocumentId("privacy-policy"),
   "terms-of-service": legalDocumentId("terms-of-service"),
 };

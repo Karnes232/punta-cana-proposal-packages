@@ -391,6 +391,10 @@ const MOVED_COPIES = {
   "pageSeo-faq": "faqPage",
   // Phase 17: the blog page's SEO lives in its blogPage documents.
   "pageSeo-blog": "blogPage",
+  // Phase 18: the stories page is one document per language.
+  storiesHero: "storiesPage",
+  storiesCtaStrip: "storiesPage",
+  "pageSeo-stories": "storiesPage",
   // Phase 13: the legal pages' SEO lives in their legalDocument documents.
   ...Object.fromEntries(
     LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
@@ -1274,6 +1278,95 @@ async function blogPagePhase() {
   ]);
 }
 
+// --- Stories page as one document per language -----------------------------
+
+async function storiesPagePhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const sectionTypes = ["storiesHero", "storiesCtaStrip", "pageSeo-stories"];
+  const sectionIds = sectionTypes.flatMap((type) =>
+    languages.map((l) => languageDocumentId(type, l)),
+  );
+  const pageIds = languages.map((l) => languageDocumentId("storiesPage", l));
+  const metadataIds = sectionTypes.map((type) => `translations-${type}`);
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: [...sectionIds, ...pageIds].map((id) => `drafts.${id}`),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          ...sectionIds,
+          ...pageIds,
+          ...metadataIds,
+          "translations-storiesPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+  const sectionOf = (doc) => {
+    const body = withoutSystemFields(doc);
+    for (const key of ["_id", "_type", "language"]) delete body[key];
+    return body;
+  };
+
+  const creates = [];
+  for (const language of languages) {
+    const id = languageDocumentId("storiesPage", language);
+    if (docs[id]) continue;
+    const hero = docs[languageDocumentId("storiesHero", language)];
+    const cta = docs[languageDocumentId("storiesCtaStrip", language)];
+    const seo = docs[languageDocumentId("pageSeo-stories", language)];
+    if (!hero) problems.push(`storiesHero-${language} not found`);
+    if (!cta) problems.push(`storiesCtaStrip-${language} not found`);
+    if (!seo?.seo) problems.push(`No stories SEO in ${language}`);
+    // The featured story moves up beside the hero, as on the blog page.
+    const { featuredStory, ...heroFields } = hero ? sectionOf(hero) : {};
+    const page = {
+      _id: id,
+      _type: "storiesPage",
+      language,
+      hero: heroFields,
+      ...(featuredStory ? { featuredStory } : {}),
+      ...(cta ? { cta: sectionOf(cta) } : {}),
+      ...(seo?.seo ? { seo: seo.seo } : {}),
+    };
+    checkAgainstSchema(page);
+    creates.push({ createIfNotExists: page });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-storiesPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-storiesPage",
+        _type: "translation.metadata",
+        schemaTypes: ["storiesPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("storiesPage", language),
+          },
+        })),
+      },
+    });
+  // Metadata first: it references the documents deleted after it.
+  const deletes = [...metadataIds, ...sectionIds].filter((id) => docs[id]);
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced stories document`);
+  step(18, "Make the stories page one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist)`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
@@ -1290,6 +1383,7 @@ if (phases.has(14)) await moveSeoIntoDocument(14, "contact", "catalogContact");
 if (phases.has(15)) await howItWorksPhase();
 if (phases.has(16)) await faqPhase();
 if (phases.has(17)) await blogPagePhase();
+if (phases.has(18)) await storiesPagePhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

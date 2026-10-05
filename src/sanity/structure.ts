@@ -82,37 +82,24 @@ export const structure: StructureResolver = (S) => {
             ),
           ),
       );
-  // A per-language collection: one list per language, new documents created
-  // in that language.
-  const languageList = (
+  // A per-language collection, listed in English: new documents start in
+  // English and the Translations button opens or adds the other languages.
+  const englishList = (
     title: string,
     type: string,
-    icon?: Icon,
     ordering?: { field: string; direction: "asc" | "desc" },
   ) =>
     S.listItem()
       .title(title)
-      .icon(icon)
+      .schemaType(type)
       .child(
-        S.list()
+        S.documentList()
           .title(title)
-          .items(
-            CONTENT_LOCALES.map((language) =>
-              S.listItem()
-                .title(LANGUAGE_NAMES[language])
-                .child(
-                  S.documentList()
-                    .title(`${title}: ${LANGUAGE_NAMES[language]}`)
-                    .schemaType(type)
-                    .filter("_type == $type && language == $language")
-                    .params({ type, language })
-                    .initialValueTemplates([
-                      S.initialValueTemplateItem(`${type}-${language}`),
-                    ])
-                    .defaultOrdering(ordering ? [ordering] : []),
-                ),
-            ),
-          ),
+          .schemaType(type)
+          .filter("_type == $type && language == $language")
+          .params({ type, language: "en" })
+          .initialValueTemplates([S.initialValueTemplateItem(`${type}-en`)])
+          .defaultOrdering(ordering ? [ordering] : []),
       );
   // Documents of one type filtered by a field value (e.g. a page's SEO).
   const filtered = (
@@ -218,14 +205,19 @@ export const structure: StructureResolver = (S) => {
         pageSeo("romantic-dinners"),
       ]),
       folder(bi("Historias", "Stories"), StarIcon, [
-        pageSection(bi("Portada", "Hero"), "storiesHero"),
-        languageList(bi("Historias", "Stories"), "story", undefined, {
+        // Opens the English stories page (hero, featured story, closing
+        // banner and SEO); the Translations button switches language.
+        singleton(
+          bi("Página de historias", "Stories page"),
+          "storiesPage",
+          languageDocumentId("storiesPage", "en"),
+          StarIcon,
+        ),
+        englishList(bi("Historias", "Stories"), "story", {
           field: "date",
           direction: "desc",
         }),
         list(bi("Tipos de propuesta", "Proposal types"), "storyType"),
-        pageSection(bi("Franja final", "Closing banner"), "storiesCtaStrip"),
-        pageSeo("stories"),
       ]),
       folder("Blog", ComposeIcon, [
         // Opens the English blog page (hero, featured post, closing banner

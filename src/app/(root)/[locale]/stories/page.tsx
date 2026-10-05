@@ -1,6 +1,6 @@
 import StoriesHero from "@/components/StoriesPage/HeroComponent/StoriesHero";
 import StoriesFilteredSection from "@/components/StoriesPage/StoriesFilteredSection/StoriesFilteredSection";
-import { getStoriesPageHero } from "@/sanity/queries/StoriesPage/Hero";
+import { getStoriesPage } from "@/sanity/queries/StoriesPage/StoriesPage";
 import { getProposalTypes } from "@/sanity/queries/StoriesPage/ProposalTypes";
 //
 import CtaStrip from "@/components/ui/CtaStrip";
@@ -13,7 +13,6 @@ import {
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
-import { getStoriesPageCtaStrip } from "@/sanity/queries/StoriesPage/CtaStrip";
 import { requireLocale } from "@/i18n/requireLocale";
 import { toSiteLocale, type SiteLocale } from "@/i18n/locales";
 
@@ -25,14 +24,13 @@ export default async function Stories({
   const { locale } = await params;
   requireLocale(locale);
   const localeTyped = toSiteLocale(locale);
-  const [hero, proposalTypes, allStories, structuredData, ctaStrip] =
-    await Promise.all([
-      getStoriesPageHero(localeTyped),
-      getProposalTypes(),
-      getAllStories(localeTyped),
-      getStructuredData("stories", localeTyped),
-      getStoriesPageCtaStrip(localeTyped),
-    ]);
+  const [page, proposalTypes, allStories, structuredData] = await Promise.all([
+    getStoriesPage(localeTyped),
+    getProposalTypes(),
+    getAllStories(localeTyped),
+    getStructuredData("stories", localeTyped),
+  ]);
+  const { hero, featuredStory, cta: ctaStrip } = page;
 
   return (
     <main>
@@ -49,7 +47,7 @@ export default async function Stories({
       />
       {/* Need to add to Sanity CMS */}
       <StoriesFilteredSection
-        featuredStory={hero.featuredStory}
+        featuredStory={featuredStory}
         proposalTypes={proposalTypes}
         stories={allStories.map((story) => ({
           slug: story.slug.current,

@@ -34,8 +34,7 @@ export const typeTitles: Record<string, string> = {
   blogLocalizedString: bi("Texto (9 idiomas)", "Text (9 languages)"),
   blogLocalizedText: bi("Texto largo (9 idiomas)", "Long text (9 languages)"),
   // Stories
-  storiesHero: bi("Historias: portada", "Stories: hero"),
-  storiesCtaStrip: bi("Historias: franja final", "Stories: closing banner"),
+  storiesPage: bi("Página de historias", "Stories page"),
   story: bi("Historia", "Story"),
   storyType: bi("Tipo de propuesta", "Proposal type"),
   // Blog

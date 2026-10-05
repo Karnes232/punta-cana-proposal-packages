@@ -13,10 +13,9 @@ import {
 import { legalDocuments } from "./LegalDocuments/LegalDocuments";
 
 //StoriesPage
-import StoriesPageHero from "./StoriesPage/Hero";
+import StoriesPage from "./StoriesPage/StoriesPage";
 import ProposalType from "./StoriesPage/ProposalType";
 import IndividualStory from "./StoriesPage/IndividualStory";
-import StoriesPageCtaStrip from "./StoriesPage/CtaStrip";
 
 //BlogPage
 import BlogPage from "./BlogPage/BlogPage";
@@ -49,10 +48,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     legalDocuments,
 
     //StoriesPage
-    StoriesPageHero,
+    StoriesPage,
     ProposalType,
     IndividualStory,
-    StoriesPageCtaStrip,
 
     //BlogPage
     BlogPage,

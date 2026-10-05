@@ -25,8 +25,7 @@ export const CATALOG_SINGLETON_IDS = [
  */
 export const PAGE_SINGLETONS = {
   generalLayout: "generalLayout",
-  storiesHero: "storiesHero",
-  storiesCtaStrip: "storiesCtaStrip",
+  storiesPage: "storiesPage",
   blogPage: "blogPage",
   faqPage: "faqPage",
   howItWorksPage: "howItWorksPage",
@@ -34,10 +33,10 @@ export const PAGE_SINGLETONS = {
 
 /**
  * Pages with their own SEO document (pageSeo), and its ID. The home, contact,
- * How it works, FAQ, blog and legal pages keep their SEO in the `seo` field
- * of their own document instead (see getPageSeo).
+ * How it works, FAQ, blog, stories and legal pages keep their SEO in the
+ * `seo` field of their own document instead (see getPageSeo).
  */
-export const SEO_PAGES = ["proposals", "romantic-dinners", "stories"] as const;
+export const SEO_PAGES = ["proposals", "romantic-dinners"] as const;
 export const pageSeoId = (page: string) => `pageSeo-${page}`;
 
 /** Legal pages (legalDocument) and their document IDs. */
@@ -51,8 +50,7 @@ export const legalDocumentId = (page: string) => `legalDocument-${page}`;
  */
 export const PER_LANGUAGE_TYPES: readonly string[] = [
   "pageSeo",
-  "storiesHero",
-  "storiesCtaStrip",
+  "storiesPage",
   "story",
   "faqPage",
   "howItWorksPage",
@@ -63,7 +61,7 @@ export const PER_LANGUAGE_TYPES: readonly string[] = [
   "catalogContact",
 ];
 
-/** A page document's fixed ID in one language, e.g. "storiesHero-fr". */
+/** A page document's fixed ID in one language, e.g. "storiesPage-fr". */
 export const languageDocumentId = (base: string, language: string) =>
   `${base}-${language}`;
 

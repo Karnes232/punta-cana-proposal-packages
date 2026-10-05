@@ -589,13 +589,7 @@ export type InternationalizedArrayReferenceValue = {
         _ref: string;
         _type: "reference";
         _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "storiesHero";
-      }
-    | {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "storiesCtaStrip";
+        [internalGroqTypeReferenceTo]?: "storiesPage";
       }
     | {
         _ref: string;
@@ -1272,44 +1266,31 @@ export type FaqPage = {
   seo?: BlogPostSeo;
 };
 
-export type StoriesCtaStrip = {
+export type StoriesPage = {
   _id: string;
-  _type: "storiesCtaStrip";
+  _type: "storiesPage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   language?: string;
-  eyebrow?: string;
-  heading?: string;
-  headingAccent?: string;
-  subheading?: string;
-  ctaLabel?: string;
-  ctaHref?: string;
-};
-
-export type StoriesHero = {
-  _id: string;
-  _type: "storiesHero";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  eyebrow?: string;
-  headingLine1?: string;
-  headingLine2?: string;
-  subheading?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+  hero?: {
+    eyebrow?: string;
+    headingLine1?: string;
+    headingLine2?: string;
+    subheading?: string;
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
     };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
   };
   featuredStory?: {
     _ref: string;
@@ -1317,6 +1298,15 @@ export type StoriesHero = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "story";
   };
+  cta?: {
+    eyebrow?: string;
+    heading?: string;
+    headingAccent?: string;
+    subheading?: string;
+    ctaLabel?: string;
+    ctaHref?: string;
+  };
+  seo?: BlogPostSeo;
 };
 
 export type Story = {
@@ -1538,8 +1528,7 @@ export type AllSanitySchemaTypes =
   | BlogCategory
   | HowItWorksPage
   | FaqPage
-  | StoriesCtaStrip
-  | StoriesHero
+  | StoriesPage
   | Story
   | StoryType
   | PageSeo
@@ -3002,41 +2991,29 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "storiesCtaStrip";
+        _type: "storiesPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        ctaLabel?: string;
-        ctaHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "storiesHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
         featuredStory?: {
           _ref: string;
@@ -3044,6 +3021,15 @@ export type CatalogContentQueryResult = {
           _weak?: boolean;
           [internalGroqTypeReferenceTo]?: "story";
         };
+        cta?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          ctaLabel?: string;
+          ctaHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -4100,41 +4086,29 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "storiesCtaStrip";
+        _type: "storiesPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        ctaLabel?: string;
-        ctaHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "storiesHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
         featuredStory?: {
           _ref: string;
@@ -4142,6 +4116,15 @@ export type CatalogContentQueryResult = {
           _weak?: boolean;
           [internalGroqTypeReferenceTo]?: "story";
         };
+        cta?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          ctaLabel?: string;
+          ctaHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -5289,41 +5272,29 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "storiesCtaStrip";
+        _type: "storiesPage";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         language?: string;
-        eyebrow?: string;
-        heading?: string;
-        headingAccent?: string;
-        subheading?: string;
-        ctaLabel?: string;
-        ctaHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "storiesHero";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        language?: string;
-        eyebrow?: string;
-        headingLine1?: string;
-        headingLine2?: string;
-        subheading?: string;
-        image?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
           };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
         };
         featuredStory?: {
           _ref: string;
@@ -5331,6 +5302,15 @@ export type CatalogContentQueryResult = {
           _weak?: boolean;
           [internalGroqTypeReferenceTo]?: "story";
         };
+        cta?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          ctaLabel?: string;
+          ctaHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -6393,7 +6373,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "storiesCtaStrip";
+      _type: "storiesPage";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6415,38 +6395,25 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "storiesHero";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
+      seo: {
+        _type: "blogPostSeo";
+        meta?: {
+          title?: string;
+          description?: string;
+          keywords?: Array<string>;
+        };
+        openGraph?: {
+          title?: string;
+          description?: string;
+        };
+        image: {
+          url: string | null;
+          alt: null;
+        } | null;
+        structuredData?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+      } | null;
     }
   | {
       _id: string;
