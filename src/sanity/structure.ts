@@ -29,21 +29,6 @@ import { ALL_LOCALES } from "@/i18n/locales";
 
 type Icon = ComponentType;
 
-// Document types that are no longer shown on the website. They stay listed
-// (never hidden) until their documents are migrated or removed.
-const archivedTypes = [
-  "HomePageBrandStatement",
-  "HomePageCTABanner",
-  "HomePageFeatureStory",
-  "HomePageFeatureStorySection",
-  "HomePageHowItWorks",
-  "HomePageHowItWorksStep",
-  "HomePagePackageCategories",
-  "HomePagePackageCategory",
-  "trustIndicators",
-  "ContactPageContent",
-];
-
 const languageNames: Record<string, [string, string]> = {
   en: ["Inglés", "English"],
   es: ["Español", "Spanish"],
@@ -126,7 +111,6 @@ export const structure: StructureResolver = (S) => {
     "faq",
     "faqCategory",
     "howItWorksFaqCategory",
-    ...archivedTypes,
   ]);
 
   return S.list()
@@ -134,10 +118,6 @@ export const structure: StructureResolver = (S) => {
     .items([
       folder(bi("Inicio", "Home"), HomeIcon, [
         singleton(bi("Página de inicio", "Home page"), CATALOG_HOME_ID),
-        pageSection(
-          bi("Foto de portada actual", "Current hero photo"),
-          "HomePageHero",
-        ),
         pageSeo("home"),
       ]),
       folder(bi("Propuestas", "Proposals"), HeartIcon, [
@@ -270,17 +250,13 @@ export const structure: StructureResolver = (S) => {
         ),
       ]),
       S.divider(),
-      folder(
-        bi("Archivo (no se usa en el sitio)", "Archive (not on the website)"),
-        ArchiveIcon,
-        [
-          ...S.documentTypeListItems().filter((item) => {
-            const type = item.getId() ?? "";
-            // Plugin types (e.g. the media library's media.tag) aren't content.
-            if (type.includes(".")) return false;
-            return archivedTypes.includes(type) || !placedTypes.has(type);
-          }),
-        ],
-      ),
+      folder(bi("Otros tipos", "Other types"), ArchiveIcon, [
+        ...S.documentTypeListItems().filter((item) => {
+          const type = item.getId() ?? "";
+          // Plugin types (e.g. the media library's media.tag) aren't content.
+          if (type.includes(".")) return false;
+          return !placedTypes.has(type);
+        }),
+      ]),
     ]);
 };

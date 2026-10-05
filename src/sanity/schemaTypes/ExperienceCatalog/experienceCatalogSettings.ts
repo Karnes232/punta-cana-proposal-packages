@@ -421,8 +421,8 @@ export const catalogHome = defineType({
       ...image("heroImage"),
       group: "photos",
       description: bi(
-        "Vacío = se usa la Foto de portada actual (Inicio)",
-        "Empty = the Current hero photo (Home) is used",
+        "Foto grande al inicio de la página. Vacío = la foto del primer paquete destacado",
+        "Large photo at the top of the page. Empty = the first featured package's photo",
       ),
     },
     { ...image("proposalHeroImage"), group: "photos" },

@@ -78,7 +78,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
     home?.dinnerSelectorImage ||
     dinner?.styles[0]?.mainImage ||
     dinner?.gallery[0]?.image;
-  const hero = home?.heroImage || presentation.hero || proposalPhoto;
+  const hero = home?.heroImage || proposalPhoto;
   const realPhotos = proposals.flatMap((e) =>
     e.gallery.map((p) => p.image).filter((p): p is Image => !!p?.url),
   );

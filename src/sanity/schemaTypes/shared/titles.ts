@@ -34,33 +34,6 @@ export const typeTitles: Record<string, string> = {
   localizedBlock: bi("Contenido (EN/ES)", "Rich text (EN/ES)"),
   blogLocalizedString: bi("Texto (9 idiomas)", "Text (9 languages)"),
   blogLocalizedText: bi("Texto largo (9 idiomas)", "Long text (9 languages)"),
-  // Home (only the hero photo is still used)
-  HomePageHero: bi("Foto de portada actual", "Current hero photo"),
-  HomePageBrandStatement: bi(
-    "Inicio antiguo: frase de marca",
-    "Old home: brand statement",
-  ),
-  HomePagePackageCategories: bi(
-    "Inicio antiguo: categorías",
-    "Old home: package categories",
-  ),
-  HomePagePackageCategory: bi(
-    "Inicio antiguo: categoría",
-    "Old home: package category",
-  ),
-  HomePageHowItWorks: bi(
-    "Inicio antiguo: cómo funciona",
-    "Old home: how it works",
-  ),
-  HomePageHowItWorksStep: bi("Inicio antiguo: paso", "Old home: step"),
-  HomePageFeatureStory: bi("Inicio antiguo: historia", "Old home: story"),
-  HomePageFeatureStorySection: bi(
-    "Inicio antiguo: sección de historias",
-    "Old home: stories section",
-  ),
-  trustIndicators: bi("Inicio antiguo: confianza", "Old home: trust bar"),
-  HomePageCTABanner: bi("Inicio antiguo: llamada final", "Old home: CTA"),
-  ContactPageContent: bi("Contacto antiguo", "Old contact page"),
   // Stories
   storiesHero: bi("Historias: portada", "Stories: hero"),
   storiesCtaStrip: bi("Historias: franja final", "Stories: closing banner"),

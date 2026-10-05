@@ -25,7 +25,6 @@ export const CATALOG_SINGLETON_IDS = [
  */
 export const PAGE_SINGLETONS = {
   generalLayout: "generalLayout",
-  HomePageHero: "hero",
   storiesHero: "storiesHero",
   storiesCtaStrip: "storiesCtaStrip",
   blogHero: "blogHero",
