@@ -1,5 +1,4 @@
 import { defineField, defineType } from "sanity";
-import { languageField } from "../shared/languageField";
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
@@ -8,35 +7,34 @@ export default defineType({
   type: "document",
   icon: DocumentIcon,
   fields: [
-    languageField,
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
-      type: "string",
+      type: "blogLocalizedString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "heading",
       title: "Heading",
-      type: "string",
+      type: "blogLocalizedString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "headingAccent",
       title: "Heading Accent",
-      type: "string",
+      type: "blogLocalizedString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "subheading",
       title: "Subheading",
-      type: "text",
+      type: "blogLocalizedText",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "ctaLabel",
       title: "CTA Label",
-      type: "string",
+      type: "blogLocalizedString",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -48,8 +46,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "eyebrow",
-      subtitle: "heading",
+      title: "eyebrow.en",
+      subtitle: "heading.en",
     },
   },
 });
