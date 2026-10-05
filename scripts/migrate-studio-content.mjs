@@ -26,6 +26,10 @@
 //      metadata, and the fr/pt text of shared documents (packages, dinner,
 //      menu, categories…). Translations come from work/translations/out/*.json.
 //      Only creates documents and fills fields that don't exist yet.
+//   9. Content fixes approved by the owner (work/translations/out/
+//      content-fixes.json): Spanish typos and captions, story SEO in every
+//      language, Spanish keywords. Each field changes only if it still holds
+//      the exact old value, so later Studio edits are kept.
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -649,11 +653,71 @@ async function translationPhase() {
   ]);
 }
 
+// --- Content fixes -------------------------------------------------------------
+
+function getAtPath(target, path) {
+  let node = target;
+  for (const part of segments(path)) {
+    if (node === undefined || node === null) return undefined;
+    if (typeof part === "string") node = node[part];
+    else {
+      const key = part.selector.match(/^_key=="(.+)"$/)?.[1];
+      node = key
+        ? node.find?.((item) => item?._key === key)
+        : node[Number(part.selector)];
+    }
+  }
+  return node;
+}
+
+async function contentFixPhase() {
+  const fixes = readTranslations(["content-fixes"]);
+  const list = Array.isArray(fixes) ? fixes : Object.values(fixes);
+  const ids = [...new Set(list.map((f) => f.id))];
+  const docs = Object.fromEntries(
+    (await client.fetch(`*[_id in $ids]`, { ids })).map((d) => [d._id, d]),
+  );
+  const same = (a, b) =>
+    JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+  const sets = {};
+  const notes = { applied: 0, done: 0, changed: [], missing: new Set() };
+  for (const fix of list) {
+    const doc = docs[fix.id];
+    if (!doc) {
+      notes.missing.add(fix.id);
+      continue;
+    }
+    const current = getAtPath(doc, fix.path);
+    if (same(current, fix.to)) notes.done++;
+    else if (same(current, fix.from)) {
+      (sets[fix.id] ??= {})[fix.path] = fix.to;
+      notes.applied++;
+    } else notes.changed.push(`${fix.id} ${fix.path}`);
+  }
+  step(
+    9,
+    "Content fixes",
+    Object.entries(sets).map(([id, set]) => ({
+      patch: { id, ifRevisionID: docs[id]._rev, set },
+    })),
+    [
+      `${notes.applied} field(s) fixed, ${notes.done} already fixed`,
+      ...(notes.changed.length
+        ? [`left alone (edited since): ${notes.changed.join(", ")}`]
+        : []),
+      ...(notes.missing.size
+        ? [`documents not found: ${[...notes.missing].join(", ")}`]
+        : []),
+    ],
+  );
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
 if (phases.has(7)) await cleanupPhase();
 if (phases.has(8)) await translationPhase();
+if (phases.has(9)) await contentFixPhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;
