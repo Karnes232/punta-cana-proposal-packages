@@ -609,6 +609,41 @@ async function translationPhase() {
   step(8, "Link them in the translation metadata", links, [
     `${links.length} metadata documents gain fr/pt`,
   ]);
+  // SEO keywords: copied from English by the first run; translated here
+  // only while a document still holds the untouched English list.
+  const keywords = readTranslations(["keywords"]);
+  const seoDocs = await client.fetch(
+    `*[_type in ["pageSeo", "story"] && language in $languages
+       && !(_id in path("drafts.**"))]{
+       _id, _rev, language, "keywords": seo.meta.keywords,
+       "english": *[_id == string::split(^._id, "-" + ^.language)[0] + "-en"][0].seo.meta.keywords
+     }`,
+    { languages: TARGET_LANGUAGES },
+  );
+  const keywordPatches = seoDocs
+    .filter(
+      (d) =>
+        d.keywords?.length &&
+        JSON.stringify(d.keywords) === JSON.stringify(d.english),
+    )
+    .map((d) => ({
+      patch: {
+        id: d._id,
+        ifRevisionID: d._rev,
+        set: {
+          "seo.meta.keywords": d.keywords.map((k) =>
+            k === null ? k : (keywords[k]?.[d.language] ?? k),
+          ),
+        },
+      },
+    }));
+  for (const d of seoDocs)
+    for (const k of d.keywords ?? [])
+      if (k !== null && !keywords[k])
+        problems.push(`No keyword translation for "${k}" (${d._id})`);
+  step(8, "Translate SEO keywords", keywordPatches, [
+    `${keywordPatches.length} documents still had the English keywords`,
+  ]);
   step(8, "Fill French and Portuguese text on shared documents", fills, [
     `${fills.length} documents, ${fills.reduce((n, f) => n + Object.keys(f.patch.setIfMissing).length, 0)} fields (only blank ones are written)`,
   ]);
