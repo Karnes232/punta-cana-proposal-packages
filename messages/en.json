@@ -5,14 +5,21 @@
     "date": "Date",
     "location": "Location",
     "proposed": "Proposed",
-    "bookThisExperience": "Book This Experience"
+    "bookThisExperience": "Book This Experience",
+    "more": "More Stories",
+    "moreHeading": "Same Package,",
+    "moreAccent": "Different Stories",
+    "readStory": "Read Story",
+    "galleryLabel": "The Proposal"
   },
   "FaqPage": {
     "emptyLabel": "No questions in this category yet.",
     "previous": "Previous",
     "next": "Next",
     "page": "Page",
-    "of": "of"
+    "of": "of",
+    "filterLabel": "Filter by category",
+    "all": "All"
   },
   "NotFoundPage": {
     "metaTitle": "Page not found",
@@ -21,5 +28,39 @@
     "description": "The link may be broken, or the page may have moved.",
     "homeCta": "Back to home",
     "blogCta": "Read our blog"
+  },
+  "BlogPost": {
+    "category": "Category",
+    "published": "Published",
+    "readingTime": "Reading Time",
+    "minRead": "min read",
+    "planCta": "Start Planning Your Proposal",
+    "allPosts": "All Posts",
+    "more": "More Blogs",
+    "moreAccent": "Related Blogs",
+    "readMore": "Read Story",
+    "galleryLabel": "Blog Post Gallery"
+  },
+  "StoriesPage": {
+    "more": "More Stories",
+    "readStory": "Read Story",
+    "loadMore": "Load More Stories",
+    "empty": "No stories for this package type yet.",
+    "all": "All Stories",
+    "featured": "Featured Story",
+    "readTheirStory": "Read Their Story"
+  },
+  "Carousel": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "Gallery": {
+    "viewAll": "View all {count} photos",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "HowItWorksPage": {
+    "whyChooseUs": "Why choose us"
   }
 }

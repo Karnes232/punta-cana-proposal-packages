@@ -3,6 +3,7 @@ import { useId, useState } from "react";
 import type { Locale, Settings, Selection } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
 import { depositText } from "@/lib/experience/dinnerPolicy";
+import { buttonClass } from "./styles";
 export default function AvailabilityForm({
   locale,
   settings,
@@ -29,7 +30,7 @@ export default function AvailabilityForm({
     );
   return (
     <form
-      className="ec-form"
+      className="in-[.ec-proposal-card]:cursor-auto"
       onSubmit={async (e) => {
         e.preventDefault();
         if (demo || status === "sending" || status === "sent") return;
@@ -54,7 +55,7 @@ export default function AvailabilityForm({
       }}
     >
       {demo && <p role="note">{t("previewOnly")}</p>}
-      <div className="ec-form-grid">
+      <div className="grid grid-cols-[1fr_1fr] gap-x-4 gap-y-0 upto800:grid-cols-[1fr]">
         {(["fullName", "email", "phone", "hotel"] as const).map((key) => (
           <label key={key}>
             {t(key === "hotel" ? "hotelAccommodation" : key)}
@@ -91,8 +92,8 @@ export default function AvailabilityForm({
           <input name="alternativeDate" type="date" aria-describedby={noteId} />
         </label>
       </div>
-      <label className="ec-date-flexibility">
-        <input name="datesFlexible" type="checkbox" />
+      <label className="flex items-center">
+        <input name="datesFlexible" type="checkbox" className="h-5 w-5" />
         {t("datesFlexible")}
       </label>
       <p id={noteId}>{t("datePreferenceNote")}</p>
@@ -110,17 +111,20 @@ export default function AvailabilityForm({
         <input name="fragranceSensitivity" type="text" maxLength={500} />
       </label>
       {dinner && (
-        <div className="ec-request-policy">
+        <div className="my-6 border-y border-y-(--ec-border) py-2">
           <p>{t("dinnerRequestNote")}</p>
           <p>{t("dinnerPaymentNote")}</p>
         </div>
       )}
-      <label className="ec-honeypot" aria-hidden="true">
+      <label
+        className="absolute -left-[9999px] h-px w-px overflow-hidden"
+        aria-hidden="true"
+      >
         Website
         <input name="website" tabIndex={-1} autoComplete="off" />
       </label>
       <button
-        className="ec-button"
+        className={buttonClass()}
         disabled={demo || status === "sending" || status === "sent"}
       >
         {status === "sending" ? "…" : t("send")}

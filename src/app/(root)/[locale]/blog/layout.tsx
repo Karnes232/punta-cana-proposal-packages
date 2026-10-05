@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import RegisterBlogIndexAlternates from "@/components/LanguageSwitcher/RegisterBlogIndexAlternates";
+import RegisterBlogIndexAlternates from "@/components/BlogLanguageAlternates/RegisterBlogIndexAlternates";
 
 export default function BlogLayout({
   children,

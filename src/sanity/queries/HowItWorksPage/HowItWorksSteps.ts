@@ -91,7 +91,6 @@ export const howItWorksPageHowItWorksStepsQuery = `*[_type == "HowItWorksPageHow
   }
 }`;
 
-export const howItWorksPageHowItWorksSteps =
-  async (): Promise<HowItWorksSteps> => {
-    return await client.fetch(howItWorksPageHowItWorksStepsQuery);
-  };
+export const getHowItWorksSteps = async (): Promise<HowItWorksSteps> => {
+  return await client.fetch(howItWorksPageHowItWorksStepsQuery);
+};

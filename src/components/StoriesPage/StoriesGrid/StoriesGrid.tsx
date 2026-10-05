@@ -1,21 +1,16 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useState } from "react";
 import StoryCard from "./StoryCard";
-import StoriesGridDivider from "./StoriesGridDivider";
-import LoadMore from "./LoadMore";
-import {
-  // defaultStories,
-  // defaultStoriesGridContent,
-  type StoryCardData,
-  // type StoriesGridContent,
-} from "./types";
+import SectionLabelDivider from "@/components/ui/SectionLabelDivider";
+import LoadMore from "@/components/ui/LoadMore";
+import { type StoryCardData } from "./types";
 
 const PAGE_SIZE = 6;
 
 interface StoriesGridProps {
   stories: StoryCardData[];
-  // content?: StoriesGridContent;
   locale: "en" | "es";
   /** Active filter value passed down from the filter bar — "all" or a packageType slug */
   activeFilter?: string;
@@ -47,10 +42,10 @@ export default function StoriesGrid({
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
 
-  const sectionLabel = locale === "es" ? "Más Historias" : "More Stories";
-  const readMoreLabel = locale === "es" ? "Leer Historia" : "Read Story";
-  const loadMoreLabel =
-    locale === "es" ? "Ver Más Historias" : "Load More Stories";
+  const t = useTranslations("StoriesPage");
+  const sectionLabel = t("more");
+  const readMoreLabel = t("readStory");
+  const loadMoreLabel = t("loadMore");
 
   // Client-side filter
   const filtered =
@@ -74,9 +69,7 @@ export default function StoriesGrid({
     return (
       <div className="py-24 text-center">
         <p className="font-body font-light text-gray text-fluid-base">
-          {locale === "es"
-            ? "No hay historias para este tipo de propuesta todavía."
-            : "No stories for this package type yet."}
+          {t("empty")}
         </p>
       </div>
     );
@@ -84,7 +77,7 @@ export default function StoriesGrid({
 
   return (
     <section>
-      <StoriesGridDivider label={sectionLabel} />
+      <SectionLabelDivider label={sectionLabel} />
 
       {/*
         Asymmetric grid — two column base.

@@ -95,7 +95,10 @@ test("EN and ES: styles change image/price, keep extras, gallery keyboard and in
         }),
       ),
     );
-    assert.match(document.querySelector(".ec-total strong").textContent, /150/);
+    assert.match(
+      document.querySelector("[data-testid=total] strong").textContent,
+      /150/,
+    );
     await act(async () =>
       document.querySelector("input[type=checkbox]").click(),
     );
@@ -103,22 +106,28 @@ test("EN and ES: styles change image/price, keep extras, gallery keyboard and in
       document.querySelectorAll("input[type=radio]")[1].click(),
     );
     assert.match(
-      document.querySelector(".ec-gallery img").getAttribute("src"),
+      document.querySelector("[data-testid=gallery] img").getAttribute("src"),
       /b.jpg/,
     );
     assert.equal(document.querySelector("input[type=checkbox]").checked, true);
-    assert.match(document.querySelector(".ec-total strong").textContent, /210/);
+    assert.match(
+      document.querySelector("[data-testid=total] strong").textContent,
+      /210/,
+    );
     await act(async () =>
-      document.querySelector(".ec-gallery").dispatchEvent(
+      document.querySelector("[data-testid=gallery]").dispatchEvent(
         new window.KeyboardEvent("keydown", {
           key: "ArrowRight",
           bubbles: true,
         }),
       ),
     );
-    assert.match(document.querySelector(".ec-gallery img").src, /gallery/);
+    assert.match(
+      document.querySelector("[data-testid=gallery] img").src,
+      /gallery/,
+    );
     await act(async () =>
-      document.querySelector(".ec-purchase > button").click(),
+      document.querySelector("[data-testid=purchase] > button").click(),
     );
     assert.ok(document.querySelector("form"));
     assert.equal(document.querySelectorAll("form input[required]").length, 3);
@@ -165,19 +174,28 @@ test("dinner renders a menu for every guest and style does not affect price", as
       React.createElement(Card, { experience: e, locale: "en", settings: {} }),
     ),
   );
-  assert.equal(document.querySelectorAll(".ec-guest-menus select").length, 9);
+  assert.equal(
+    document.querySelectorAll("[data-testid=guest-menus] select").length,
+    9,
+  );
   await act(async () =>
     document.querySelectorAll("input[type=radio]")[1].click(),
   );
-  assert.match(document.querySelector(".ec-total strong").textContent, /849/);
-  const menus = document.querySelectorAll(".ec-guest-menus select");
+  assert.match(
+    document.querySelector("[data-testid=total] strong").textContent,
+    /849/,
+  );
+  const menus = document.querySelectorAll("[data-testid=guest-menus] select");
   await act(async () => {
     for (const el of menus) {
       el.value = el.options[1].value;
       el.dispatchEvent(new window.Event("change", { bubbles: true }));
     }
   });
-  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
+  assert.equal(
+    document.querySelector("[data-testid=purchase] > button").disabled,
+    false,
+  );
   await act(async () => root.unmount());
 });
 test("empty media/styles/addons render without false options", async () => {
@@ -198,7 +216,10 @@ test("empty media/styles/addons render without false options", async () => {
   );
   assert.equal(document.querySelectorAll("img").length, 0);
   assert.equal(document.querySelectorAll("input[type=radio]").length, 0);
-  assert.match(document.querySelector(".ec-total strong").textContent, /100/);
+  assert.match(
+    document.querySelector("[data-testid=total] strong").textContent,
+    /100/,
+  );
   await act(async () => root.unmount());
 });
 
@@ -216,9 +237,12 @@ test("dinner template has 3 setups, individual 3-course menus and quote-only ext
     ),
   );
   assert.equal(document.querySelectorAll("input[type=radio]").length, 3);
-  assert.equal(document.querySelectorAll(".ec-guest-menus select").length, 6);
+  assert.equal(
+    document.querySelectorAll("[data-testid=guest-menus] select").length,
+    6,
+  );
   assert.equal(document.querySelectorAll("input[type=checkbox]").length, 4);
-  const menus = document.querySelectorAll(".ec-guest-menus select");
+  const menus = document.querySelectorAll("[data-testid=guest-menus] select");
   await act(async () => {
     menus[0].value = menus[0].options[1].value;
     menus[0].dispatchEvent(new window.Event("change", { bubbles: true }));
@@ -227,8 +251,14 @@ test("dinner template has 3 setups, individual 3-course menus and quote-only ext
   });
   assert.equal(menus[3].value, "");
   assert.equal(document.querySelector("input[type=checkbox]").checked, true);
-  assert.match(document.querySelector(".ec-total").textContent, /cotización/);
-  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
+  assert.match(
+    document.querySelector("[data-testid=total]").textContent,
+    /cotización/,
+  );
+  assert.equal(
+    document.querySelector("[data-testid=purchase] > button").disabled,
+    false,
+  );
   await act(async () => root.unmount());
 });
 
@@ -250,20 +280,26 @@ test("proposal template keeps extras across styles, shows no invented price and 
   assert.equal(document.querySelectorAll("input[type=radio]").length, 3);
   assert.equal(document.querySelectorAll("input[type=checkbox]").length, 3);
   assert.match(
-    document.querySelector(".ec-card-heading").textContent,
+    document.querySelector("[data-testid=card-heading]").textContent,
     /Precio por definir/,
   );
-  assert.equal(document.querySelectorAll(".ec-guest-menus").length, 0);
+  assert.equal(
+    document.querySelectorAll("[data-testid=guest-menus]").length,
+    0,
+  );
   await act(async () => {
     document.querySelector("input[type=checkbox]").click();
     document.querySelectorAll("input[type=radio]")[1].click();
   });
   assert.equal(document.querySelector("input[type=checkbox]").checked, true);
   assert.match(
-    document.querySelector(".ec-template-media").textContent,
+    document.querySelector("[data-testid=template-media]").textContent,
     /Estilo B/,
   );
-  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
+  assert.equal(
+    document.querySelector("[data-testid=purchase] > button").disabled,
+    false,
+  );
   await act(async () => root.unmount());
 });
 
@@ -304,7 +340,7 @@ test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across c
       ),
     );
     assert.ok(
-      [...document.querySelectorAll(".ec-accordion > button")].every(
+      [...document.querySelectorAll("section > button[aria-expanded]")].every(
         (b) => b.getAttribute("aria-expanded") === "false",
       ),
     );
@@ -323,43 +359,55 @@ test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across c
       );
     await act(async () => add().click());
     assert.equal(
-      document.querySelectorAll(".ec-guest-menus select").length,
+      document.querySelectorAll("[data-testid=guest-menus] select").length,
       12,
     );
     await act(async () => {
-      for (const el of document.querySelectorAll(".ec-guest-menus select")) {
+      for (const el of document.querySelectorAll(
+        "[data-testid=guest-menus] select",
+      )) {
         el.value = el.options[1].value;
         el.dispatchEvent(new window.Event("change", { bubbles: true }));
       }
     });
     assert.equal(
-      document.querySelector(".ec-purchase > button").disabled,
+      document.querySelector("[data-testid=purchase] > button").disabled,
       false,
     );
-    assert.match(document.querySelector(".ec-total strong").textContent, /964/);
+    assert.match(
+      document.querySelector("[data-testid=total] strong").textContent,
+      /964/,
+    );
     await act(async () => minus().click());
-    assert.equal(document.querySelectorAll(".ec-guest-menus select").length, 8);
+    assert.equal(
+      document.querySelectorAll("[data-testid=guest-menus] select").length,
+      8,
+    );
     assert.ok(
-      [...document.querySelectorAll(".ec-guest-menus select")].every(
+      [...document.querySelectorAll("[data-testid=guest-menus] select")].every(
         (el) => !!el.value,
       ),
     );
     const accordion = document.querySelector(
-      ".ec-guest-menus .ec-accordion > button",
+      "[data-testid=guest-menus] section > button[aria-expanded]",
     );
     await act(async () => accordion.click());
     await act(async () => accordion.click());
     assert.ok(
-      [...document.querySelectorAll(".ec-guest-menus select")].every(
+      [...document.querySelectorAll("[data-testid=guest-menus] select")].every(
         (el) => !!el.value,
       ),
     );
     await act(async () => add().click());
     assert.equal(
-      document.querySelectorAll(".ec-guest-menus select")[8].value,
+      document.querySelectorAll("[data-testid=guest-menus] select")[8].value,
       "",
     );
-    assert.ok(document.querySelector(".ec-dietary").textContent.includes("Ve"));
+    assert.ok(
+      document
+        .querySelector("[data-testid=dietary]")
+        .textContent.includes("Ve"),
+    );
     await act(async () => root.unmount());
   }
 });
@@ -384,7 +432,7 @@ test("demo opens the real inline form but cannot transmit a request", async () =
       ),
     );
     await act(async () =>
-      document.querySelector(".ec-purchase > button").click(),
+      document.querySelector("[data-testid=purchase] > button").click(),
     );
     const form = document.querySelector("form");
     assert.ok(form);
@@ -421,24 +469,27 @@ test("proposal grid selects one package inline, preserves each configuration and
   assert.equal(cards.length, 2);
   assert.equal(document.querySelectorAll(".ec-proposal-card a").length, 0);
   assert.equal(
-    document.querySelectorAll(".ec-select-package[aria-pressed=true]").length,
+    document.querySelectorAll("button[aria-pressed][aria-pressed=true]").length,
     0,
   );
-  await act(async () => cards[0].querySelector(".ec-select-package").click());
+  await act(async () => cards[0].querySelector("button[aria-pressed]").click());
   await act(async () => cards[0].querySelector("input[type=checkbox]").click());
   await act(async () => {
     const select = cards[0].querySelector("select");
     select.value = "s2";
     select.dispatchEvent(new window.Event("change", { bubbles: true }));
   });
-  assert.match(cards[0].querySelector(".ec-total strong").textContent, /210/);
+  assert.match(
+    cards[0].querySelector("[data-testid=total] strong").textContent,
+    /210/,
+  );
   await act(async () => cards[1].querySelector("h2").click());
   assert.equal(
-    document.querySelectorAll(".ec-select-package[aria-pressed=true]").length,
+    document.querySelectorAll("button[aria-pressed][aria-pressed=true]").length,
     1,
   );
   assert.equal(cards[0].querySelector("[id^=configure-]").hidden, true);
-  await act(async () => cards[0].querySelector(".ec-select-package").click());
+  await act(async () => cards[0].querySelector("button[aria-pressed]").click());
   assert.equal(cards[0].querySelector("select").value, "s2");
   assert.equal(cards[0].querySelector("input[type=checkbox]").checked, true);
   assert.equal(window.location.pathname, "/");
@@ -549,38 +600,57 @@ test("proposal dinner opens two menus, retains choices across toggles and requir
     ),
   );
   const dinner = () =>
-    [...document.querySelectorAll(".ec-addon label")]
+    [...document.querySelectorAll("[data-testid=addon] label")]
       .find((el) => el.textContent.includes("Cena romántica"))
       .querySelector("input");
   await act(async () => dinner().click());
   assert.equal(
-    document.querySelectorAll(".ec-proposal-dinner select").length,
+    document.querySelectorAll("[data-testid=proposal-dinner] select").length,
     6,
   );
-  assert.equal(document.querySelector(".ec-purchase > button").disabled, true);
+  assert.equal(
+    document.querySelector("[data-testid=purchase] > button").disabled,
+    true,
+  );
   await act(async () => {
-    document.querySelectorAll(".ec-proposal-dinner select").forEach((el) => {
-      el.value = el.options[1].value;
-      el.dispatchEvent(new window.Event("change", { bubbles: true }));
-    });
+    document
+      .querySelectorAll("[data-testid=proposal-dinner] select")
+      .forEach((el) => {
+        el.value = el.options[1].value;
+        el.dispatchEvent(new window.Event("change", { bubbles: true }));
+      });
   });
   // Each event commits independently to model normal user input.
-  for (const el of document.querySelectorAll(".ec-proposal-dinner select")) {
+  for (const el of document.querySelectorAll(
+    "[data-testid=proposal-dinner] select",
+  )) {
     await act(async () => {
       el.value = el.options[1].value;
       el.dispatchEvent(new window.Event("change", { bubbles: true }));
     });
   }
-  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
-  assert.match(document.querySelector(".ec-total").textContent, /449/);
+  assert.equal(
+    document.querySelector("[data-testid=purchase] > button").disabled,
+    false,
+  );
+  assert.match(
+    document.querySelector("[data-testid=total]").textContent,
+    /449/,
+  );
   await act(async () => dinner().click());
-  assert.equal(document.querySelector(".ec-proposal-dinner"), null);
-  assert.match(document.querySelector(".ec-total").textContent, /150/);
+  assert.equal(document.querySelector("[data-testid=proposal-dinner]"), null);
+  assert.match(
+    document.querySelector("[data-testid=total]").textContent,
+    /150/,
+  );
   await act(async () => dinner().click());
   assert.equal(
-    document.querySelector(".ec-proposal-dinner select").value,
+    document.querySelector("[data-testid=proposal-dinner] select").value,
     "starter",
   );
-  assert.equal(document.querySelector(".ec-purchase > button").disabled, false);
+  assert.equal(
+    document.querySelector("[data-testid=purchase] > button").disabled,
+    false,
+  );
   await act(async () => root.unmount());
 });

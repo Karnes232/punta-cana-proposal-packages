@@ -1,46 +1,90 @@
-# Current implementation — September 29, 2026
+# Experience catalog
 
-This update reuses the Next.js 16 / React 19 application, EN/ES routes, Sanity production content, shared pricing and request storage. It does not migrate/delete existing CMS documents or replace the existing blog, stories, legal, FAQ or legacy detail routes. Adventure to Yes is intentionally excluded from public package queries and the sitemap.
+How the home page, proposal packages, romantic dinners and date requests work.
+Keep this file up to date when you change the catalog.
 
-## Home
+## Pages
 
-The home route uses ExperienceHome rather than the complete catalog. A full-height real Sanity photograph leads with proposals, followed by an interactive two-experience selector, trust benefits, up to three featured proposals, a five-step pickup journey, a real editorial photo sequence, a secondary private-dinner section, eight planning steps and a native-dialog photo gallery. There are no configurators/forms on Home. Featured links select the relevant card on /proposals via its hash; cards still never navigate to new detail pages.
+| Route                                           | Component(s)                                     |
+| ----------------------------------------------- | ------------------------------------------------ |
+| `/`                                             | `ExperienceHome` + `HomeWidgets`                 |
+| `/proposals`                                    | `Catalog section="proposals"` → `ProposalGrid`   |
+| `/romantic-dinners`                             | `Catalog section="romantic-dinners"`             |
+| `/proposals/[slug]`, `/romantic-dinners/[slug]` | single `ExperienceCard`                          |
+| `/contact`                                      | `AvailabilityForm` without a selected experience |
 
-The existing black/ivory/gold palette and Playfair/Inter fonts remain. Images use Next Image, lazy loading except the hero, responsive sizes and quality 80. Hero content enters once; motion and transitions respect reduced-motion preferences. The header is sticky, transparent over the home hero and solid after scrolling. The larger logo, active links, contextual proposal/celebration CTA, full navigation and EN/ES links are shared. The mobile menu expands in the header flow and closes with Escape. Blog language alternates reuse the existing translation context.
+Header and footer (`CatalogNavigation`, `CatalogFooter`) render on every page
+from `src/app/(root)/[locale]/layout.tsx`.
 
-Proposal forms use a native modal dialog on the same page to avoid stretching the grid. Package/style/extra state stays in the existing cards. Dialogs provide keyboard focus containment and Escape dismissal. Home photo galleries restore focus to the invoking thumbnail.
+The old category pages (`/classic-proposals`, `/modern-proposals`,
+`/dining-proposals`, `/adventure-proposals` and their detail URLs) redirect
+to `/proposals` (with the package slug as the `#hash`) in `src/proxy.ts`.
 
-## Sanity editing
+## Content in Sanity
 
-- Catalog Settings: bilingual navigation labels, exclusivity, one-couple-or-group-per-night message, date preference warning, deposit/remaining-balance policy and submission success text. `dinnerDepositAmount` defaults to USD200; policy messages use `{deposit}` so changes remain consistent.
-- Home: bilingual `copy` fields, hero/selector photographs, up to three ordered `featuredProposals` references (legacy or current packages), five ordered `journeyImages`, `editorialImages` and `moments`. Copy fields initialize with the approved business text on new documents; published overrides are read at runtime. No public driver identity is stored or displayed.
-- Proposal experiences gain optional location and badge fields. Missing durations and inclusions are not invented. Featured cards show only real supplied values, with a maximum of four inclusions.
-- Existing dinner/menu/style/extras documents remain editable through the existing Studio tools.
+- **Proposal experiences** (`proposalExperience`) and **romantic dinner
+  experiences** (`romanticDinnerExperience`): styles with prices and photos,
+  inclusions, extras, menus and drinks (dinners). Only active documents are
+  shown. The slug in `EXCLUDED_PROPOSAL_SLUG` ("Adventure to Yes") is kept
+  out of public lists and the sitemap.
+- **Catalog Settings** (`experienceCatalogSettings`): every editable label
+  (navigation, card text, hero lines, notes, footer…), the dinner deposit
+  amount and policy messages. Defaults live in `src/lib/experience/labels.ts`,
+  `introduction.ts` and `dinnerPolicy.ts`; `label()` uses the Sanity value
+  when it is filled in.
+- **Catalog Home** (`catalogHome`): home page text (`copy`, defaults in
+  `homeCopy.ts`, read with `homeText()`), hero and selector photos, up to
+  three featured proposals, journey/editorial/moments photos. Without featured
+  proposals, the slugs in `FEATURED_FALLBACK_SLUGS` are used.
+- **Studio tools** (`src/sanity/tools/`): the proposal and dinner template
+  tools fill a draft from the approved template content.
 
-No verified same-location before/after pair was supplied, so the website uses a real editorial sequence instead of a fabricated comparison. No verified driver/vehicle photos or short videos were supplied: transport steps use consistent line icons until actual journey photographs are assigned; the real proposal photograph is used for the hero. Existing gallery photographs come from Sanity, without invented testimonials or names. The master attachment ends in section 16; this implementation covers its supplied content.
+Named IDs and slugs are in `src/sanity/constants.ts`. Queries are in
+`src/sanity/queries/ExperienceCatalog/`.
 
-## Date requests, not automatic reservations
+## Cards and pricing
 
-Clients configure dinner style, guests, occasion, individual three-course menus, cocktails, shared wine and extras. They can supply preferred and alternative dates, date flexibility, accommodation, contact information, comments and optional fragrance sensitivity. Preferred date is required for a dinner inquiry. The published example can accept a manually reviewed request without being activated as a confirmed/bookable inventory item.
+`ExperienceCard` is one component with two modes:
 
-The server reloads the selected experience and price data from Sanity. It validates real calendar dates, input types, menu/style/extra identities and applicable prices. Unknown capacity may be requested, but is explicitly marked for quotation/manual review; a configured maximum is respected. Guest-menu counts are checked before iteration. No calendar, temporary hold, inventory decrement, payment or reservation is created.
+- **Selectable** (the `/proposals` grid): compact card; clicking selects it
+  and opens its configuration; the request form opens in a dialog.
+- **Full** (dinners and detail pages): everything visible; the form opens
+  inline.
 
-Every valid request receives its own UUID and UTC timestamp in private Netlify Blobs with `status: new`, contact data, date preferences, selected configuration, server-calculated estimate and payment-policy snapshot. Multiple clients may submit the same preferred date. The deposit status remains `not_requested`. Netlify preview requests use a separate store. Success appears only after a durable write, explicitly stating that the team will confirm availability and provide the next step for the deposit. No automatic email notification or checkout is configured.
+Selection state lives in `ExperienceCard/useExperienceSelection.ts`; each part
+of the card is a section component in `ExperienceCard/`. Prices are
+calculated by `src/lib/experience/pricing.ts`, the same code the request API
+uses. The approved proposal extras (drone, violinist, saxophonist, dinner for
+two) and their prices are in `src/lib/experience/proposalExtras.ts`.
 
-Operational flow: request → manual agenda/capacity review → availability communicated → USD200 deposit requested and received → reservation officially confirmed → remaining balance paid on dinner day. “One table / one group per evening” communicates exclusivity, not real-time availability.
+On localhost and Netlify deploy previews (`isPreviewHost` in
+`src/lib/requestHost.ts`), `/romantic-dinners` shows the editable dinner
+example from the template; its form is preview-only and sends nothing.
 
-## Verified
+## Date requests
 
-37 pricing, component and API tests pass, including duplicate-date requests with unique IDs, date validation, request-only capacity handling, preserved configuration, editable deposit amount and non-confirming success messages. TypeScript and scoped ESLint pass. Browser checks cover EN/ES Home, exactly three featured packages, no Home forms, selector changes, pickup steps, gallery navigation/Escape/focus restoration, mobile navigation, card selection from featured links and proposal request dialogs. Existing Blog link remains in the footer.
+The form posts to `src/app/api/experience-requests/route.ts`, which:
 
-## Deployment
+1. reloads the experience and prices from Sanity and validates dates, styles,
+   menus, extras and quantities;
+2. calculates the estimate on the server;
+3. stores the request (contact details, preferences, configuration, estimate,
+   policy snapshot, `status: "new"`) in Netlify Blobs under a new UUID.
 
-Work is on `feat/experience-catalog`. GitHub reports that the earlier PR #2 was merged separately. This Home/date-request expansion is delivered in a follow-up PR with its own preview. The connected account still reports `push: false` on Karnes232/punta-cana-proposal-packages, so a maintainer must merge the follow-up. Do not interpret a successful preview as a production release.
+Deploy previews (`deploy-preview-N--…`) write to the
+`experience-requests-preview` store; every other host writes to
+`experience-requests`. Nothing is reserved, held or charged: the team
+reviews requests, confirms availability, and asks for the deposit by hand.
+Plain `next dev` has no Blobs credentials, so the API returns 503 there.
 
-## Photographic section heroes and proposal extras
+## Styling
 
-Both catalog pages now have photographic heroes with one H1, package and explanation anchors, and responsive gold/ivory CTAs. `catalogHome.proposalHeroImage` and `dinnerHeroImage` override the real published Sanity catalog image fallbacks.
+Everything uses Tailwind classes. Shared class helpers are in
+`src/components/ExperienceCatalog/styles.ts`, the `upto*` breakpoints and
+catalog element defaults (scoped to `.ec-shell`) are in
+`src/app/globals.css`. See "Styling" in [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-All proposal catalogs and server request lookups share the approved extras: drone videographer USD399, violinist USD399, saxophonist USD399, and romantic dinner for two USD299. Matching legacy extras are replaced in the presentation layer without modifying Sanity documents; unrelated extras remain. Approved rates are centralized in `src/lib/experience/proposalExtras.ts`. Standalone dinner extras retain their existing rates.
+## Tests
 
-The dinner addon uses the existing published dinner's active menu items. Each of exactly two guests must choose a starter, main and dessert before submission. The server validates active dish IDs, course matching, quantity and supplements. Removing the addon excludes its menus and cost from the request while retaining local choices for reselection. Menus and estimates remain in the durable request snapshot. No booking or payment is made.
+`npm test` covers pricing, the request API (validation, storage, duplicate
+dates) and the card components in English and Spanish.

@@ -1,10 +1,19 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState } from "react";
-import { useBlogLanguageAlternates } from "@/components/LanguageSwitcher/BlogLanguageAlternatesContext";
+import { useBlogLanguageAlternates } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 import { usePathname } from "next/navigation";
 import type { Locale, Settings } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
+const languageLink = (inMenu: boolean, current: boolean, href: string) =>
+  inMenu
+    ? "upto1280:block upto1280:py-3"
+    : // On /contact these links end in "/contact" too, so the old contact-link
+      // rule also turned off their hover and current styling there; kept as-is.
+      href.endsWith("/contact")
+      ? "border-none"
+      : `[&:hover]:text-gold ${current ? "text-gold" : ""}`;
+
 export default function CatalogNavigation({
   locale,
   settings,
@@ -42,13 +51,25 @@ export default function CatalogNavigation({
     ["faq", "navFaq"],
     ["contact", "contactUsLabel"],
   ];
-  const items = (
+  const enHref = languagePath("en");
+  const esHref = `/es${languagePath("es") === "/" ? "" : languagePath("es")}`;
+  // The links render twice: in the desktop bar and in the mobile menu.
+  const items = (inMenu: boolean) => (
     <>
       {links.map(([href, key]) => (
         <a
           key={href}
           href={`${prefix}/${href}`}
           aria-current={path === `/${href}` ? "page" : undefined}
+          className={
+            inMenu
+              ? "upto1280:block upto1280:py-3"
+              : href === "contact"
+                ? // A later rule in the old stylesheet cancelled hover and
+                  // current-page styling for the contact link; kept as-is.
+                  "border-none whitespace-nowrap"
+                : `whitespace-nowrap [&:hover]:text-gold ${path === `/${href}` ? "border-b border-b-gold text-gold" : ""}`
+          }
           onClick={() => {
             if (mobile.current) mobile.current.open = false;
           }}
@@ -56,25 +77,30 @@ export default function CatalogNavigation({
           {t(key)}
         </a>
       ))}
-      <div className="ec-languages" aria-label="Language / Idioma">
+      <div
+        className={`whitespace-nowrap ${inMenu ? "upto1280:flex upto1280:items-center upto1280:gap-3" : ""}`}
+        aria-label="Language / Idioma"
+      >
         <a
-          href={languagePath("en")}
+          href={enHref}
           lang="en"
           aria-current={locale === "en" ? "true" : undefined}
+          className={languageLink(inMenu, locale === "en", enHref)}
         >
           EN
         </a>
         <span aria-hidden="true"> / </span>
         <a
-          href={`/es${languagePath("es") === "/" ? "" : languagePath("es")}`}
+          href={esHref}
           lang="es"
           aria-current={locale === "es" ? "true" : undefined}
+          className={languageLink(inMenu, locale === "es", esHref)}
         >
           ES
         </a>
       </div>
       <a
-        className="ec-nav-cta"
+        className={`border border-gold p-3 text-gold ${inMenu ? "upto1280:block" : "whitespace-nowrap"}`}
         href={`${prefix}/${dinner ? "romantic-dinners" : "proposals"}`}
       >
         {t(dinner ? "planCelebration" : "planProposal")}
@@ -83,11 +109,10 @@ export default function CatalogNavigation({
   );
   return (
     <header
-      className={`ec-header ${path === "/" ? "ec-header-home" : ""} ${path === "/" && !scrolled ? "ec-header-hero" : ""}`}
+      className={`sticky top-0 z-40 border-b text-ivory [transition:background_0.25s] motion-reduce:[animation:none] motion-reduce:[scroll-behavior:auto] motion-reduce:[transition:none] [&_:focus-visible]:[outline-offset:5px] [&_:focus-visible]:[outline:2px_solid_#cfae70] ${path === "/" ? "-mb-[104px] upto700:-mb-[88px]" : ""} ${path === "/" && !scrolled ? "border-[#ffffff18] bg-transparent bg-[linear-gradient(#0b0b0cbf,#0b0b0c40)]" : "border-[rgba(207,174,112,0.22)] bg-black"}`}
     >
-      <div className="ec-header-inner">
+      <div className="m-auto flex min-h-[104px] max-w-[1280px] items-center justify-between gap-6 px-6 py-2 upto1280:flex-wrap upto700:min-h-[88px] upto700:py-1">
         <a
-          className="ec-logo"
           href={prefix || "/"}
           aria-label={`${companyName || "Punta Cana Proposal Packages"} — ${t("navHome")}`}
         >
@@ -97,17 +122,21 @@ export default function CatalogNavigation({
               alt={companyName || "Punta Cana Proposal Packages"}
               width={88}
               height={88}
+              className="h-[88px] w-[88px] bg-[position:0_0] object-contain upto700:h-20 upto700:w-20"
             />
           ) : (
             <span>{companyName || "Punta Cana Proposal Packages"}</span>
           )}
         </a>
-        <nav className="ec-nav" aria-label={t("menu")}>
-          {items}
+        <nav
+          className="flex items-center gap-4 text-[14px] tracking-[0.07em] uppercase upto1280:hidden"
+          aria-label={t("menu")}
+        >
+          {items(false)}
         </nav>
         <details
           ref={mobile}
-          className="ec-mobile"
+          className="hidden upto1280:block upto1280:open:w-full"
           onKeyDown={(e) => {
             if (e.key === "Escape") {
               mobile.current!.open = false;
@@ -115,8 +144,15 @@ export default function CatalogNavigation({
             }
           }}
         >
-          <summary>{t("menu")}</summary>
-          <nav aria-label={t("menu")}>{items}</nav>
+          <summary className="upto1280:[[open]>&]:text-right">
+            {t("menu")}
+          </summary>
+          <nav
+            className="upto1280:static upto1280:bg-black upto1280:p-6 upto800:flex upto800:flex-col upto800:gap-5 upto800:border-b upto800:border-gold"
+            aria-label={t("menu")}
+          >
+            {items(true)}
+          </nav>
         </details>
       </div>
     </header>

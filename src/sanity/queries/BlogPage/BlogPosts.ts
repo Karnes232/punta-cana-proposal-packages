@@ -52,7 +52,7 @@ export const blogPostsByLanguageQuery = `*[_type == "blogPost" && language == $l
 heroPhoto { ${imageWithDimensions} },
 }`;
 
-export const blogPostsByLanguage = async (
+export const getBlogPostsByLanguage = async (
   lang: string,
 ): Promise<BlogPost[]> => {
   return await client.fetch(blogPostsByLanguageQuery, { lang });

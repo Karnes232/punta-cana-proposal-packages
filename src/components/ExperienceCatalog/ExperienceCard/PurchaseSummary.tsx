@@ -6,6 +6,10 @@ import Accordion from "../Accordion";
 import AvailabilityForm from "../AvailabilityForm";
 import RequestDialog from "../RequestDialog";
 import type { CardSectionProps } from "./types";
+import { buttonClass } from "../styles";
+
+const breakdownRow =
+  "flex justify-between gap-4 py-[3px] last:border-t last:border-t-(--ec-border) last:font-semibold";
 
 /** Price breakdown rows: label key and the price-line prefix they sum. */
 const BREAKDOWN = [
@@ -51,34 +55,45 @@ export default function PurchaseSummary({
 
   return (
     <>
-      <div className="ec-purchase">
-        <div className="ec-total" aria-live="polite">
+      <div
+        data-testid="purchase"
+        className="sticky bottom-0 z-10 mt-6 border-t border-t-gold bg-white pt-2.5 pb-[max(10px,env(safe-area-inset-bottom))] in-[.ec-proposal-card]:bg-[#141416]"
+      >
+        <div
+          className="m-0 grid grid-cols-[1fr_auto] items-center border-none bg-[position:0_0] p-0 upto800:text-[0.85rem] in-[.ec-proposal-card]:text-ivory"
+          aria-live="polite"
+          data-testid="total"
+        >
           <span>{t("estimatedTotalLabel")}</span>
-          <strong>{estimate ? money(estimate.estimatedTotal) : "—"}</strong>
-          {estimate?.quoteRequired && <small>{t("quotePending")}</small>}
+          <strong className="font-display text-[1.65rem] font-normal upto390:text-[1.4rem]">
+            {estimate ? money(estimate.estimatedTotal) : "—"}
+          </strong>
+          {estimate?.quoteRequired && (
+            <small className="col-span-full">{t("quotePending")}</small>
+          )}
           {dinner && (
-            <small>
+            <small className="col-span-full">
               {t("duration")}:{" "}
               {estimate?.durationMinutes ?? experience.includedDurationMinutes}{" "}
               {t("minutes")}
             </small>
           )}
         </div>
-        <Accordion title={t("priceDetails")}>
+        <Accordion compact title={t("priceDetails")}>
           {estimate && (
-            <dl className="ec-breakdown">
+            <dl className="m-0 text-[0.8rem]">
               {BREAKDOWN.map(([key, prefix]) => {
                 const amount = estimate.lines
                   .filter((line) => line.kind.startsWith(prefix))
                   .reduce((sum, line) => sum + line.amount, 0);
                 return amount > 0 ? (
-                  <div key={key}>
+                  <div key={key} className={breakdownRow}>
                     <dt>{t(key)}</dt>
                     <dd>{money(amount)}</dd>
                   </div>
                 ) : null;
               })}
-              <div>
+              <div className={breakdownRow}>
                 <dt>{t("estimatedTotalLabel")}</dt>
                 <dd>{money(estimate.estimatedTotal)}</dd>
               </div>
@@ -87,7 +102,7 @@ export default function PurchaseSummary({
         </Accordion>
         {!canRequest && <small>{t("completeHint")}</small>}
         <button
-          className="ec-button"
+          className={`${buttonClass()} w-full`}
           aria-expanded={formOpen}
           disabled={!canRequest}
           onClick={() => setFormOpen(!formOpen)}
@@ -100,7 +115,7 @@ export default function PurchaseSummary({
         (inDialog ? (
           <RequestDialog
             title={t("availabilityButtonLabel")}
-            closeLabel={locale === "es" ? "Cerrar" : "Close"}
+            closeLabel={t("close")}
             onClose={() => setFormOpen(false)}
           >
             {" "}

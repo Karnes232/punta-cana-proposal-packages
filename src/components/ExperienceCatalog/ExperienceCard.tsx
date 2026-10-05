@@ -55,9 +55,7 @@ export default function ExperienceCard({
     !dinner &&
     style?.price === undefined &&
     experience.basePrice === undefined
-      ? locale === "es"
-        ? "Precio por definir"
-        : "Price to be defined"
+      ? t("priceToBeDefined")
       : money(
           dinner
             ? experience.basePrice || 0
@@ -66,7 +64,12 @@ export default function ExperienceCard({
 
   return (
     <article
-      className={`ec-card ${selectable ? "ec-proposal-card" : ""} ${selected ? "is-selected" : ""}`}
+      className={
+        selectable
+          ? // ec-proposal-card is a marker for the dark-card variants of the sections inside.
+            `ec-proposal-card min-w-0 scroll-mt-[120px] cursor-pointer border bg-[#141416] text-ivory [transition:border-color_180ms] ${selected ? "border-gold" : "border-[#cfae7033] [&:hover]:border-gold"}`
+          : "scroll-mt-[100px] border-none bg-white"
+      }
       id={experience.slug?.current || experience._id}
       onClick={
         selectable
@@ -83,16 +86,17 @@ export default function ExperienceCard({
       }
     >
       {demo && !style?.mainImage?.url && (
-        <div className="ec-template-media">
-          <span>
-            {locale === "es" ? "Plantilla de montaje" : "Setup template"}
+        <div
+          data-testid="template-media"
+          className="grid min-h-[260px] place-content-center gap-3.5 border-b border-b-gold bg-[#151515] p-8 text-center text-ivory"
+        >
+          <span className="text-[0.7rem] tracking-[0.18em] text-gold uppercase">
+            {t("setupTemplate")}
           </span>
-          <strong>{local(style?.name, locale)}</strong>
-          <small>
-            {locale === "es"
-              ? "Fotografía real pendiente de cargar en Sanity"
-              : "Real photograph to be added in Sanity"}
-          </small>
+          <strong className="font-display text-[2.4rem] font-normal">
+            {local(style?.name, locale)}
+          </strong>
+          <small className="text-[#b7b1a6]">{t("photoPending")}</small>
         </div>
       )}
       <ExperienceGallery
@@ -102,10 +106,23 @@ export default function ExperienceCard({
         locale={locale}
         settings={settings}
       />
-      <div className="ec-card-body">
-        <div className="ec-card-heading">
-          <h2>{local(experience.name, locale)}</h2>
-          <span>
+      <div className="min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px]">
+        <div
+          data-testid="card-heading"
+          className={`flex [align-items:start] justify-between gap-5 ${selectable ? "" : "upto800:block"}`}
+        >
+          <h2
+            className={
+              selectable
+                ? "text-[clamp(1.5rem,2.2vw,2rem)] italic"
+                : "text-[1.8rem]"
+            }
+          >
+            {local(experience.name, locale)}
+          </h2>
+          <span
+            className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-gold" : "whitespace-nowrap text-[#8b672e]"}`}
+          >
             {selectable
               ? t("startingAtLabel")
               : local(experience.priceLabel, locale)}{" "}
@@ -114,9 +131,11 @@ export default function ExperienceCard({
         </div>
         {!selectable && <p>{local(experience.shortDescription, locale)}</p>}
         {selectable && (
-          <ul className="ec-proposal-inclusions">
+          <ul className="my-[22px] list-disc pl-[18px] text-[14px] text-[#cfcdca]">
             {experience.inclusions.map((inclusion) => (
-              <li key={id(inclusion)}>{local(inclusion.name, locale)}</li>
+              <li key={id(inclusion)} className="py-0.5">
+                {local(inclusion.name, locale)}
+              </li>
             ))}
           </ul>
         )}
@@ -126,10 +145,13 @@ export default function ExperienceCard({
           contactOnly={contactOnly}
         />
         {!selectable && experience.inclusions.length > 0 && (
-          <Accordion className="ec-inclusions" title={t("includedLabel")}>
-            <ul>
+          <Accordion title={t("includedLabel")}>
+            <ul className="flex list-none flex-wrap gap-x-7 gap-y-3.5 py-2">
               {experience.inclusions.map((inclusion) => (
-                <li key={id(inclusion)}>
+                <li
+                  key={id(inclusion)}
+                  className="before:mr-2 before:text-[#9b773d] before:content-['✓']"
+                >
                   {local(inclusion.name, locale)}{" "}
                   {local(inclusion.description, locale)}
                 </li>
@@ -149,7 +171,7 @@ export default function ExperienceCard({
         {selectable && (
           <button
             type="button"
-            className="ec-select-package"
+            className="flex min-h-12 w-full cursor-pointer justify-between pt-6 pb-2 text-left text-[14px] font-semibold tracking-[0.1em] text-gold uppercase"
             aria-pressed={selected}
             aria-controls={`configure-${experience._id}`}
             onClick={onSelect}

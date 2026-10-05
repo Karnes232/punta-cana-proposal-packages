@@ -25,9 +25,10 @@ export default function StylePicker({
 
   if (compact)
     return (
-      <label className="ec-compact-style">
+      <label className="mt-6">
         {t("selectStyleLabel")}
         <select
+          className="in-[.ec-proposal-card]:border-[#cfae7066] in-[.ec-proposal-card]:bg-[#1c1c20] in-[.ec-proposal-card]:text-ivory"
           value={selectedStyleId}
           onChange={(event) => setSelectedStyleId(event.target.value)}
         >
@@ -43,15 +44,15 @@ export default function StylePicker({
   return (
     <fieldset>
       <legend>{t("selectStyleLabel")}</legend>
-      <div className="ec-style-options">
+      <div className="flex flex-wrap gap-2.5 upto800:gap-2">
         {styles.map((option) => (
           <label
             key={id(option)}
-            className={id(option) === selectedStyleId ? "selected" : ""}
+            className={`min-w-[120px] flex-1 cursor-pointer flex-row flex-wrap [align-content:start] items-center rounded-none border px-3.5 py-2.5 upto800:min-w-[100px] ${id(option) === selectedStyleId ? "border-[#9b773d] bg-[#f3ecde]" : "border-(--ec-border)"}`}
           >
             {option.mainImage?.url && (
               <NextImage
-                className="ec-style-thumb"
+                className="mb-1.5 aspect-[3/2] h-auto w-full basis-full object-cover"
                 src={option.mainImage.url}
                 alt=""
                 width={240}

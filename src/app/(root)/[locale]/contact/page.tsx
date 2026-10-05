@@ -6,6 +6,7 @@ import type { Locale } from "@/lib/experience/types";
 import AvailabilityForm from "@/components/ExperienceCatalog/AvailabilityForm";
 import { catalogPageMetadata } from "@/lib/seo/catalogMetadata";
 import { requireLocale } from "@/i18n/requireLocale";
+import { shellClass, wrapClass } from "@/components/ExperienceCatalog/styles";
 export default async function Page({
   params,
 }: {
@@ -20,14 +21,14 @@ export default async function Page({
   const c = content.contact,
     settings = content.settings || {};
   return (
-    <main className="ec-shell">
-      <div className="ec-wrap">
+    <main className={shellClass()}>
+      <div className={wrapClass}>
         <h1>
           {local(c?.heading, locale) ||
             label(settings, locale, "contactUsLabel")}
         </h1>
         <p>{local(c?.description, locale)}</p>
-        <div className="ec-contact-grid">
+        <div className="grid grid-cols-[2fr_1fr] gap-[50px] upto800:grid-cols-[1fr]">
           <AvailabilityForm locale={locale} settings={settings} />
           <aside>
             {(c?.telephone || company?.telephone) && (

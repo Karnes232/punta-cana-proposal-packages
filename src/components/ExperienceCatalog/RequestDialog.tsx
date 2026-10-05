@@ -23,19 +23,21 @@ export default function RequestDialog({
   return (
     <dialog
       ref={ref}
-      className="ec-request-dialog"
+      className="m-auto max-h-[90svh] w-[min(760px,94vw)] overflow-y-auto border border-gold bg-[#141416] p-8 text-ivory backdrop:bg-[#000b] upto700:p-6 [&_form_:is(input,textarea)]:text-black"
       aria-label={title}
       onCancel={onClose}
     >
       <button
         type="button"
-        className="ec-dialog-close"
+        className="ml-auto grid h-11 w-11 cursor-pointer place-items-center text-gold"
         aria-label={closeLabel}
         onClick={onClose}
       >
         <FiX />
       </button>
-      <h2>{title}</h2>
+      <h2 className="text-[2rem] leading-[1.15] font-normal not-italic">
+        {title}
+      </h2>
       {children}
     </dialog>
   );

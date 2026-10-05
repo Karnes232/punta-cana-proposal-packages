@@ -5,12 +5,11 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { routing } from "@/i18n/routing";
-import Navbar from "@/components/ExperienceCatalog/CatalogNavigation";
+import { toSiteLocale } from "@/i18n/locales";
+import CatalogNavigation from "@/components/ExperienceCatalog/CatalogNavigation";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
-import type { Locale } from "@/lib/experience/types";
-import "@/components/ExperienceCatalog/catalog.css";
-import Footer from "@/components/ExperienceCatalog/CatalogFooter";
-import { BlogLanguageAlternatesProvider } from "@/components/LanguageSwitcher/BlogLanguageAlternatesContext";
+import CatalogFooter from "@/components/ExperienceCatalog/CatalogFooter";
+import { BlogLanguageAlternatesProvider } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -23,12 +22,6 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
-
-// export const metadata: Metadata = {
-//   title: "Punta Cana Proposal Packages",
-//   description:
-//     "Private, curated proposal experiences in the heart of Punta Cana.",
-// };
 
 export default async function RootLayout({
   children,
@@ -58,16 +51,16 @@ export default async function RootLayout({
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
           <BlogLanguageAlternatesProvider>
-            <Navbar
-              locale={(locale === "es" ? "es" : "en") as Locale}
+            <CatalogNavigation
+              locale={toSiteLocale(locale)}
               settings={catalog.settings || {}}
               logo={generalLayout?.companyLogo?.asset?.url}
               companyName={generalLayout?.companyName}
             />
             {children}
           </BlogLanguageAlternatesProvider>
-          <Footer
-            locale={(locale === "es" ? "es" : "en") as Locale}
+          <CatalogFooter
+            locale={toSiteLocale(locale)}
             settings={catalog.settings || {}}
             company={generalLayout}
           />

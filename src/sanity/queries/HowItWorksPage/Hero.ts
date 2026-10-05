@@ -54,6 +54,6 @@ export const howItWorksPageHeroQuery = `*[_type == "HowItWorksPageHero"][0] {
   }
 }`;
 
-export async function howItWorksPageHero(): Promise<HowItWorksPageHero> {
+export async function getHowItWorksPageHero(): Promise<HowItWorksPageHero> {
   return await client.fetch(howItWorksPageHeroQuery);
 }

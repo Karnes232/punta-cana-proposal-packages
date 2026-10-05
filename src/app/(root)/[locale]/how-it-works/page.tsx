@@ -1,6 +1,6 @@
 import HowItWorksHero from "@/components/HowItWorksPage/HeroComponent/HowItWorksHero";
 import HowItWorksCTA from "@/components/HowItWorksPage/HowItWorksCTA/HowItWorksCTA";
-import HowItWorksFAQ from "@/components/HowItWorksPage/HowItWorksFAQ/HowItWorksFAQ";
+import HowItWorksFaq from "@/components/HowItWorksPage/HowItWorksFaq/HowItWorksFaq";
 import HowItWorksReassurance from "@/components/HowItWorksPage/HowItWorksReassurance/HowItWorksReassurance";
 import HowItWorksSteps from "@/components/HowItWorksPage/HowItWorksSteps/HowItWorksSteps";
 import JsonLd from "@/components/seo/JsonLd";
@@ -10,17 +10,17 @@ import {
   localizedSeoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
-import { howItWorksPageHero } from "@/sanity/queries/HowItWorksPage/Hero";
-import { howItWorksCTA } from "@/sanity/queries/HowItWorksPage/HowItWorksCTA";
+import { getHowItWorksPageHero } from "@/sanity/queries/HowItWorksPage/Hero";
+import { getHowItWorksCta } from "@/sanity/queries/HowItWorksPage/HowItWorksCTA";
 import {
-  howItWorksFaqsCategories,
-  howItWorksFaqsPage,
+  getHowItWorksFaqCategories,
+  getHowItWorksFaqs,
 } from "@/sanity/queries/HowItWorksPage/HowItWorksFaqs";
-import { howItWorksPageHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
+import { getHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
 import { getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/blogLocales";
+import { toSiteLocale } from "@/i18n/locales";
 
 export default async function HowItWorks({
   params,
@@ -32,11 +32,11 @@ export default async function HowItWorks({
   const lang = toSiteLocale(locale);
   const [hero, steps, faqsCategories, faqsPage, ctaPage, structuredData] =
     await Promise.all([
-      howItWorksPageHero(),
-      howItWorksPageHowItWorksSteps(),
-      howItWorksFaqsCategories(),
-      howItWorksFaqsPage(),
-      howItWorksCTA(),
+      getHowItWorksPageHero(),
+      getHowItWorksSteps(),
+      getHowItWorksFaqCategories(),
+      getHowItWorksFaqs(),
+      getHowItWorksCta(),
       getStructuredData("how-it-works"),
     ]);
 
@@ -62,7 +62,7 @@ export default async function HowItWorks({
         locale={lang}
       />
       <HowItWorksReassurance items={steps?.reassurance} locale={lang} />
-      <HowItWorksFAQ
+      <HowItWorksFaq
         locale={lang}
         faqsCategories={faqsCategories}
         eyebrow={faqsPage?.eyebrow[lang]}

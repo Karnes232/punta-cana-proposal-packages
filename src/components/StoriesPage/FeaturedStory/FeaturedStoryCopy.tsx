@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { FeaturedStoryData } from "./types";
 
@@ -10,8 +11,8 @@ export default function FeaturedStoryCopy({
   story,
   locale,
 }: FeaturedStoryCopyProps) {
-  const ctaLabel = locale === "es" ? "Leer Su Historia" : "Read Their Story";
-  const proposedPrefix = locale === "es" ? "Propuesta" : "Proposed";
+  const ctaLabel = useTranslations("StoriesPage")("readTheirStory");
+  const proposedPrefix = useTranslations("IndividualStoryPage")("proposed");
 
   const dateStr = new Date(story.date).toLocaleDateString(locale, {
     month: "long",

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksReassuranceItem from "./HowItWorksReassuranceItem";
 import { ReassuranceItem } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
@@ -18,7 +19,7 @@ export default function HowItWorksReassurance({
   return (
     <section
       className="relative w-full bg-[#0B0B0C] py-16 md:py-20"
-      aria-label={locale === "es" ? "Por qué elegirnos" : "Why choose us"}
+      aria-label={useTranslations("HowItWorksPage")("whyChooseUs")}
     >
       {/* Top gold hairline */}
       <div

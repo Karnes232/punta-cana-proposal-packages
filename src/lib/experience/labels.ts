@@ -112,6 +112,52 @@ export const ui: Record<string, [string, string]> = {
   ],
   privacy: ["Privacy policy", "Política de privacidad"],
   terms: ["Terms of service", "Términos de servicio"],
+  rightsReserved: ["All rights reserved.", "Todos los derechos reservados."],
+  siteLinks: ["Site links", "Enlaces del sitio"],
+  close: ["Close", "Cerrar"],
+  introStepsHeading: [
+    "Your experience, step by step",
+    "Tu experiencia, paso a paso",
+  ],
+  priceToBeDefined: ["Price to be defined", "Precio por definir"],
+  setupTemplate: ["Setup template", "Plantilla de montaje"],
+  photoPending: [
+    "Real photograph to be added in Sanity",
+    "Fotografía real pendiente de cargar en Sanity",
+  ],
+  dinnerTemplatePreviewNote: [
+    "Editable example · Three setups with reference images from Sanity. Menu and prices configured; final capacity awaiting confirmation.",
+    "Ejemplo editable · Tres montajes con imágenes de referencia de Sanity. Menú y tarifas configurados; capacidad final pendiente de confirmar.",
+  ],
+  dinnerInquiryNote: [
+    "Personalize your dinner and send us your preferred date. Our team will personally confirm capacity and availability for your celebration.",
+    "Personaliza tu cena y envíanos tu fecha preferida. Nuestro equipo confirmará personalmente la capacidad y disponibilidad de tu celebración.",
+  ],
+  heroEyebrow: ["Extraordinary moments", "Momentos extraordinarios"],
+  dinnerHeroText: [
+    "By candlelight, beside the sea. A table to celebrate your way.",
+    "A la luz de las velas, frente al mar. Una mesa para celebrar a tu manera.",
+  ],
+  proposalHeroText: [
+    "An unforgettable setting for the beginning of your story. Every detail, chosen by you.",
+    "Un escenario inolvidable para el comienzo de su historia. Cada detalle, elegido por ti.",
+  ],
+  dinnerHeroCta: ["Choose your setting", "Elige tu montaje"],
+  proposalHeroCta: ["Explore the packages", "Descubre los paquetes"],
+  heroHowItWorks: ["How it works", "Cómo funciona"],
+  proposalDinnerEyebrow: [
+    "A table for two · Three courses",
+    "Una mesa para dos · Tres tiempos",
+  ],
+  proposalDinnerTitle: [
+    "The perfect ending to your proposal",
+    "El final perfecto para tu propuesta",
+  ],
+  proposalDinnerIntro: [
+    "Choose a starter, main course and dessert for each guest.",
+    "Elige una entrada, un plato principal y un postre para cada invitado.",
+  ],
+  dietaryLegend: ["V: vegetarian · Ve: vegan", "V: vegetariano · Ve: vegano"],
 };
 export function label(
   settings: Settings | null | undefined,

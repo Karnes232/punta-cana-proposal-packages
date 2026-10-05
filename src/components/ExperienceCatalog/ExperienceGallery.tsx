@@ -4,6 +4,9 @@ import { useRef, useState } from "react";
 import type { Image, Photo, Locale, Settings } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
+
+const controlClass = "min-h-8 min-w-8 cursor-pointer";
+
 export default function ExperienceGallery({
   selectedStyleImage,
   gallery,
@@ -34,7 +37,8 @@ export default function ExperienceGallery({
     setGalleryIndex((index + delta + slides.length) % slides.length);
   return (
     <div
-      className="ec-gallery"
+      className="relative touch-pan-y"
+      data-testid="gallery"
       tabIndex={0}
       aria-label={label(settings, locale, "photo")}
       onKeyDown={(e) => {
@@ -66,14 +70,18 @@ export default function ExperienceGallery({
         loading="lazy"
         width={1000}
         height={750}
+        className="aspect-[4/3] w-full animate-[ec-photo_180ms_ease] object-cover in-[.ec-proposal-card]:aspect-[3/2] in-[.ec-proposal-card]:h-auto"
       />
       {"caption" in slide && local(slide.caption, locale) && (
-        <p className="ec-caption">{local(slide.caption, locale)}</p>
+        <p className="px-[15px] text-[0.8rem]">
+          {local(slide.caption, locale)}
+        </p>
       )}
       {slides.length > 1 && (
-        <div className="ec-gallery-controls">
+        <div className="flex justify-between gap-2.5 bg-white px-4 py-2 in-[.ec-proposal-card]:bg-[#141416] in-[.ec-proposal-card]:px-3 in-[.ec-proposal-card]:py-0.5 in-[.ec-proposal-card]:text-gold">
           <button
             type="button"
+            className={controlClass}
             onClick={() => move(-1)}
             aria-label={label(settings, locale, "previous")}
           >
@@ -83,6 +91,7 @@ export default function ExperienceGallery({
             {slides.map((_, i) => (
               <button
                 type="button"
+                className={controlClass}
                 key={i}
                 aria-label={`${label(settings, locale, "photo")} ${i + 1}`}
                 aria-current={index === i ? "true" : undefined}
@@ -94,6 +103,7 @@ export default function ExperienceGallery({
           </div>
           <button
             type="button"
+            className={controlClass}
             onClick={() => move(1)}
             aria-label={label(settings, locale, "next")}
           >

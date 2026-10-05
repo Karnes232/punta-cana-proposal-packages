@@ -1,10 +1,10 @@
-import BlogCTAStrip from "@/components/BlogPage/BlogCTAStrip/BlogCTAStrip";
+import CtaStrip from "@/components/ui/CtaStrip";
 
 import BlogFilteredSection from "@/components/BlogPage/BlogFilteredSection/BlogFilteredSection";
 
 import BlogHero from "@/components/BlogPage/HeroComponent/BlogHero";
 import JsonLd from "@/components/seo/JsonLd";
-import { ALL_LOCALES, toSiteLocale } from "@/i18n/blogLocales";
+import { ALL_LOCALES, toSiteLocale } from "@/i18n/locales";
 import {
   blogDateFormatLocale,
   pickBlogLocalized,
@@ -14,10 +14,10 @@ import {
   fallbackSiteMetadata,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
-import { blogCategories } from "@/sanity/queries/BlogPage/BlogCategories";
-import { blogPostsByLanguage } from "@/sanity/queries/BlogPage/BlogPosts";
-import { blogPageCtaStrip } from "@/sanity/queries/BlogPage/CtaStripe";
-import { blogPageHero } from "@/sanity/queries/BlogPage/Hero";
+import { getBlogCategories } from "@/sanity/queries/BlogPage/BlogCategories";
+import { getBlogPostsByLanguage } from "@/sanity/queries/BlogPage/BlogPosts";
+import { getBlogPageCtaStrip } from "@/sanity/queries/BlogPage/CtaStrip";
+import { getBlogPageHero } from "@/sanity/queries/BlogPage/Hero";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
 
@@ -43,10 +43,10 @@ export default async function Blog({
   const [structuredData, hero, categories, posts, ctaStrip] = await Promise.all(
     [
       getStructuredData("blog"),
-      blogPageHero(),
-      blogCategories(),
-      blogPostsByLanguage(locale),
-      blogPageCtaStrip(),
+      getBlogPageHero(),
+      getBlogCategories(),
+      getBlogPostsByLanguage(locale),
+      getBlogPageCtaStrip(),
     ],
   );
 
@@ -80,7 +80,7 @@ export default async function Blog({
         locale={locale}
       />
 
-      <BlogCTAStrip
+      <CtaStrip
         eyebrow={pickBlogLocalized(ctaStrip.eyebrow, locale)}
         heading={pickBlogLocalized(ctaStrip.heading, locale)}
         headingAccent={pickBlogLocalized(ctaStrip.headingAccent, locale)}

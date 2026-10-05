@@ -8,6 +8,7 @@ import ExperienceCard from "@/components/ExperienceCatalog/ExperienceCard";
 import type { Locale } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";
 import { requireLocale } from "@/i18n/requireLocale";
+import { shellClass, wrapClass } from "@/components/ExperienceCatalog/styles";
 async function data(slug: string) {
   return (await getExperiences()).find(
     (e) => e._type === "proposalExperience" && e.slug?.current === slug,
@@ -30,8 +31,8 @@ export default async function Page({
     image: e.gallery[0]?.image?.url,
   };
   return (
-    <main className="ec-shell">
-      <div className="ec-wrap" style={{ maxWidth: 850 }}>
+    <main className={shellClass()}>
+      <div className={wrapClass} style={{ maxWidth: 850 }}>
         <h1>{local(e.name, locale)}</h1>
         <script
           type="application/ld+json"

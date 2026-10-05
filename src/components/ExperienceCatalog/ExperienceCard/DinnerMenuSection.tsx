@@ -26,7 +26,7 @@ export default function DinnerMenuSection({
       title={t("foodMenu")}
       summary={`${completedMenus} / ${guestCount} ${t("menusCompleted")}`}
     >
-      <div className="ec-guest-menus">
+      <div className="block pl-3" data-testid="guest-menus">
         {Array.from({ length: guestCount }, (_, guest) => (
           <Accordion
             key={guest}
@@ -72,8 +72,9 @@ export default function DinnerMenuSection({
                       {chosen.dietaryType &&
                         chosen.dietaryType !== "regular" && (
                           <span
-                            className="ec-dietary"
+                            className="mr-[5px] inline-block bg-[#f3ecde] px-1.5 py-0.5 text-[#534426]"
                             title={t(chosen.dietaryType)}
+                            data-testid="dietary"
                           >
                             {chosen.dietaryType === "vegan" ? "Ve" : "V"} ·{" "}
                             {t(chosen.dietaryType)}

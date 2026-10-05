@@ -3,6 +3,9 @@ import { id, local } from "@/lib/experience/normalize";
 import Accordion from "../Accordion";
 import type { CardSectionProps } from "./types";
 
+const stepperClass =
+  "h-[46px] w-[46px] cursor-pointer border border-(--ec-border) text-[1.3rem] disabled:cursor-default disabled:opacity-35";
+
 /** Romantic dinners: occasion and number of guests. */
 export default function DinnerGuestsSection({
   experience,
@@ -33,11 +36,16 @@ export default function DinnerGuestsSection({
         t("guests")
       }
     >
-      <div className="ec-guest-control" role="group" aria-label={t("guests")}>
+      <div
+        className="flex items-center justify-between gap-3"
+        role="group"
+        aria-label={t("guests")}
+      >
         <span>{t("guests")}</span>
-        <div>
+        <div className="flex items-center gap-4">
           <button
             type="button"
+            className={stepperClass}
             aria-label={t("removeGuest")}
             disabled={
               guestCount <=
@@ -47,9 +55,12 @@ export default function DinnerGuestsSection({
           >
             −
           </button>
-          <output aria-live="polite">{guestCount}</output>
+          <output aria-live="polite" className="min-w-5 text-center">
+            {guestCount}
+          </output>
           <button
             type="button"
+            className={stepperClass}
             aria-label={t("addGuest")}
             disabled={
               experience.additionalGuestPrice === undefined ||

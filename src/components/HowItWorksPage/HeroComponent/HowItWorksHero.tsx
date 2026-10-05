@@ -1,8 +1,8 @@
-import HowItWorksHeroEyebrow from "./HowItWorksHeroEyebrow";
+import HeroEyebrow from "@/components/ui/hero/HeroEyebrow";
 import HowItWorksHeroHeading from "./HowItWorksHeroHeading";
-import HowItWorksHeroDivider from "./HowItWorksHeroDivider";
+import HeroDivider from "@/components/ui/hero/HeroDivider";
 import HowItWorksHeroSubheading from "./HowItWorksHeroSubheading";
-import HowItWorksHeroBackground from "./HowItWorksHeroBackground";
+import DimHeroBackground from "@/components/ui/hero/DimHeroBackground";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -49,10 +49,7 @@ export default function HowItWorksHero({
       aria-labelledby="how-it-works-heading"
     >
       {heroImage ? (
-        <HowItWorksHeroBackground
-          photo={heroImage}
-          altFallback={imageAltFallback}
-        />
+        <DimHeroBackground photo={heroImage} altFallback={imageAltFallback} />
       ) : null}
 
       {/* Subtle radial glow behind heading */}
@@ -66,9 +63,9 @@ export default function HowItWorksHero({
       />
 
       <div className="relative z-10 flex flex-col items-center justify-center gap-6">
-        <HowItWorksHeroEyebrow label={eyebrow} />
+        <HeroEyebrow label={eyebrow} />
         <HowItWorksHeroHeading line1={headingLine1} line2={headingLine2} />
-        <HowItWorksHeroDivider />
+        <HeroDivider diamond="lg" />
         <HowItWorksHeroSubheading text={subheading} />
       </div>
     </section>

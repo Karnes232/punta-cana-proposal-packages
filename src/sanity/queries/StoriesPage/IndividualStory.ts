@@ -165,11 +165,6 @@ export const moreStoriesQuery = `
   }
 `;
 
-/** All slugs — used in generateStaticParams */
-export const allStorySlugsQuery = `
-  *[_type == "individualStory"] { "slug": slug.current }
-`;
-
 // ── Fetchers ──────────────────────────────────────────────────────────────────
 
 export const getIndividualStory = async (
@@ -183,10 +178,6 @@ export const getMoreStories = async (
   currentSlug: string,
 ): Promise<StoryCard[]> => {
   return client.fetch(moreStoriesQuery, { proposalTypeValue, currentSlug });
-};
-
-export const getAllStorySlugs = async (): Promise<{ slug: string }[]> => {
-  return client.fetch(allStorySlugsQuery);
 };
 
 export interface AllStoriesCard {
@@ -245,13 +236,13 @@ export const getAllStories = async (): Promise<AllStoriesCard[]> => {
   return client.fetch(allStoriesQuery);
 };
 
-export const individualStorySEOQueryString = `*[_type == "individualStory" && slug.current == $slug][0] {
+export const individualStorySeoQuery = `*[_type == "individualStory" && slug.current == $slug][0] {
   _id,
   ${localizedSeoProjection}
 }`;
 
-export const individualStorySEOQuery = async (
+export const getIndividualStorySeo = async (
   slug: string,
 ): Promise<EmbeddedLocalizedDocumentSeo | null> => {
-  return client.fetch(individualStorySEOQueryString, { slug });
+  return client.fetch(individualStorySeoQuery, { slug });
 };

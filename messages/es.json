@@ -5,14 +5,21 @@
     "date": "Fecha",
     "location": "Lugar",
     "proposed": "Propuesta",
-    "bookThisExperience": "Reserva Esta Experiencia"
+    "bookThisExperience": "Reserva Esta Experiencia",
+    "more": "Más Historias",
+    "moreHeading": "Mismo Paquete,",
+    "moreAccent": "Historias Diferentes",
+    "readStory": "Leer Historia",
+    "galleryLabel": "La Propuesta"
   },
   "FaqPage": {
     "emptyLabel": "No hay preguntas en esta categoría todavía.",
     "previous": "Anterior",
     "next": "Siguiente",
     "page": "Página",
-    "of": "de"
+    "of": "de",
+    "filterLabel": "Filtrar por categoría",
+    "all": "Todas"
   },
   "NotFoundPage": {
     "metaTitle": "Página no encontrada",
@@ -21,5 +28,39 @@
     "description": "El enlace puede estar roto o la página pudo haberse movido.",
     "homeCta": "Volver al inicio",
     "blogCta": "Ver el blog"
+  },
+  "BlogPost": {
+    "category": "Categoría",
+    "published": "Publicado",
+    "readingTime": "Tiempo de Lectura",
+    "minRead": "min de lectura",
+    "planCta": "Comienza a Planificar Tu Propuesta",
+    "allPosts": "Todos los Artículos",
+    "more": "Más Publicaciones",
+    "moreAccent": "Publicaciones Relacionadas",
+    "readMore": "Leer Historia",
+    "galleryLabel": "Galería de la publicación del blog"
+  },
+  "StoriesPage": {
+    "more": "Más Historias",
+    "readStory": "Leer Historia",
+    "loadMore": "Ver Más Historias",
+    "empty": "No hay historias para este tipo de propuesta todavía.",
+    "all": "Todas",
+    "featured": "Historia Destacada",
+    "readTheirStory": "Leer Su Historia"
+  },
+  "Carousel": {
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "Gallery": {
+    "viewAll": "Ver las {count} fotos",
+    "close": "Cerrar",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "HowItWorksPage": {
+    "whyChooseUs": "Por qué elegirnos"
   }
 }

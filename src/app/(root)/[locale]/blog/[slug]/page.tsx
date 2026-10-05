@@ -1,9 +1,10 @@
+import { getTranslations } from "next-intl/server";
 import type { PortableTextBlock } from "@portabletext/react";
-import PostHero from "@/components/IndividualBlogPost/HeroComponent/PostHero";
-import MoreBlogs from "@/components/IndividualBlogPost/MoreBlogs/MoreBlogs";
-import PostBody from "@/components/IndividualBlogPost/PostBody/PostBody";
-import PostMetaBar from "@/components/IndividualBlogPost/PostMetaBar/PostMetaBar";
-import StoryGallery from "@/components/IndividualStoryPage/StoryGallery/StoryGallery";
+import PostHero from "@/components/IndividualBlogPage/HeroComponent/PostHero";
+import MoreBlogs from "@/components/IndividualBlogPage/MoreBlogs/MoreBlogs";
+import PostBody from "@/components/IndividualBlogPage/PostBody/PostBody";
+import PostMetaBar from "@/components/IndividualBlogPage/PostMetaBar/PostMetaBar";
+import Gallery from "@/components/ui/Gallery/Gallery";
 import JsonLd from "@/components/seo/JsonLd";
 import { buildBlogHreflangMap } from "@/i18n/hreflang";
 import {
@@ -12,10 +13,10 @@ import {
 } from "@/lib/seo/buildMetadata";
 import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
 import {
-  findBlogPostLocaleBySlug,
+  getBlogPostLocaleBySlug,
   getMoreBlogs,
-  individualBlogMetadataQuery,
-  individualBlogQuery,
+  getIndividualBlogMetadata,
+  getIndividualBlog,
 } from "@/sanity/queries/BlogPage/IndividualBlog";
 import { notFound, permanentRedirect } from "next/navigation";
 import { requireLocale } from "@/i18n/requireLocale";
@@ -36,14 +37,15 @@ export default async function BlogPostPage({
 }) {
   const { slug, locale } = await params;
   requireLocale(locale);
+  const tBlog = await getTranslations("BlogPost");
 
-  const individualBlog = await individualBlogQuery(slug, locale);
+  const individualBlog = await getIndividualBlog(slug, locale);
   const moreBlogs = individualBlog
     ? await getMoreBlogs(slug, individualBlog.language)
     : [];
 
   if (!individualBlog) {
-    const existingPost = await findBlogPostLocaleBySlug(slug);
+    const existingPost = await getBlogPostLocaleBySlug(slug);
     if (existingPost) {
       const lang = existingPost.language;
       const path = lang === "en" ? `/blog/${slug}` : `/${lang}/blog/${slug}`;
@@ -98,19 +100,8 @@ export default async function BlogPostPage({
           body: individualBlog.body as PortableTextBlock[],
         }}
       />
-      <StoryGallery
-        content={{
-          sectionLabelEn: "Blog Post Gallery",
-          sectionLabelEs: "Galería de la publicación del blog",
-          viewAllLabelEn: "View all {count} photos",
-          viewAllLabelEs: "Ver las {count} fotos",
-          closeLabelEn: "Close",
-          closeLabelEs: "Cerrar",
-          prevLabelEn: "Previous",
-          prevLabelEs: "Anterior",
-          nextLabelEn: "Next",
-          nextLabelEs: "Siguiente",
-        }}
+      <Gallery
+        sectionLabel={tBlog("galleryLabel")}
         photos={
           // Gallery is optional in Sanity and comes back as null when empty.
           (individualBlog.gallery ?? []).map((photo) => ({
@@ -119,7 +110,6 @@ export default async function BlogPostPage({
             caption: photo.caption ?? "",
           }))
         }
-        locale={locale === "es" ? "es" : "en"}
       />
       {moreBlogs.length > 0 && (
         <MoreBlogs
@@ -132,7 +122,6 @@ export default async function BlogPostPage({
             excerpt: blog.excerpt,
             heroPhoto: blog.heroPhoto,
           }))}
-          locale={locale}
         />
       )}
     </main>
@@ -148,7 +137,7 @@ export async function generateMetadata({
   requireLocale(locale);
   const path = blogPostPath(slug);
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  const row = await individualBlogMetadataQuery(slug, locale);
+  const row = await getIndividualBlogMetadata(slug, locale);
   if (!row) {
     return fallbackMissingDocumentMetadata(locale, path, canonicalUrl);
   }

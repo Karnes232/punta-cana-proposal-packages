@@ -1,10 +1,10 @@
-import FaqContactStrip from "@/components/FaqsPage/FaqContactStrip/FaqContactStrip";
-import FaqsContent from "@/components/FaqsPage/FaqsContent";
-import FaqHero from "@/components/FaqsPage/HeroComponents/FaqHero";
-import { faqContactStrip } from "@/sanity/queries/FaqsPage/FaqContactStrip";
-import { faqsPageHeroComponent } from "@/sanity/queries/FaqsPage/HeroComponent";
-import { faqsPageFaqsCategories } from "@/sanity/queries/FaqsPage/Faqs";
-import { faqsPageFaqs } from "@/sanity/queries/FaqsPage/Faqs";
+import FaqContactStrip from "@/components/FaqPage/FaqContactStrip/FaqContactStrip";
+import FaqContent from "@/components/FaqPage/FaqContent";
+import FaqHero from "@/components/FaqPage/HeroComponent/FaqHero";
+import { getFaqContactStrip } from "@/sanity/queries/FaqPage/FaqContactStrip";
+import { getFaqPageHero } from "@/sanity/queries/FaqPage/HeroComponent";
+import { getFaqCategories } from "@/sanity/queries/FaqPage/Faqs";
+import { getFaqs } from "@/sanity/queries/FaqPage/Faqs";
 import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
@@ -14,7 +14,7 @@ import {
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/blogLocales";
+import { toSiteLocale } from "@/i18n/locales";
 
 export default async function FAQ({
   params,
@@ -26,10 +26,10 @@ export default async function FAQ({
   const lang = toSiteLocale(locale);
   const [hero, contactStrip, faqsCategories, faqs, structuredData] =
     await Promise.all([
-      faqsPageHeroComponent(),
-      faqContactStrip(),
-      faqsPageFaqsCategories(),
-      faqsPageFaqs(),
+      getFaqPageHero(),
+      getFaqContactStrip(),
+      getFaqCategories(),
+      getFaqs(),
       getStructuredData("faq"),
     ]);
 
@@ -46,7 +46,7 @@ export default async function FAQ({
         headingLine2={hero?.headingLine2[lang]}
         subheading={hero?.subheading[lang]}
       />
-      <FaqsContent locale={lang} faqsCategories={faqsCategories} faqs={faqs} />
+      <FaqContent locale={lang} faqsCategories={faqsCategories} faqs={faqs} />
       <FaqContactStrip
         eyebrow={contactStrip?.eyebrow[lang]}
         line1={contactStrip?.line1[lang]}

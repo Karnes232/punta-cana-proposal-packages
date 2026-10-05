@@ -53,7 +53,7 @@ export default function DinnerDrinksSection({
       )}
       {sharedDrinks.length > 0 && <p>{t("wineSelection")}</p>}
       {sharedDrinks.map((drink) => (
-        <label className="ec-check" key={id(drink)}>
+        <label className="flex-row items-center gap-3" key={id(drink)}>
           <input
             type="checkbox"
             checked={selectedBeverages.includes(id(drink))}

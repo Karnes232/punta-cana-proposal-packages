@@ -1,5 +1,5 @@
 // Relative path: tests compile this file without the "@/" alias.
-import type { SiteLocale } from "../../i18n/blogLocales";
+import type { SiteLocale } from "../../i18n/locales";
 
 export type Locale = SiteLocale;
 export type Localized = Partial<Record<Locale, string>>;

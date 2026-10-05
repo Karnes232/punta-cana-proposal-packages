@@ -21,6 +21,36 @@
   }
 }
 
+/* Experience catalog animations: photo swap, hero entrance and hero drift. */
+@keyframes ec-photo {
+  from {
+    opacity: 0.75;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lux-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lux-hero-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.025);
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #0b0b0c;
@@ -66,6 +96,18 @@
   --text-fluid-sm--line-height: 1.7;
 }
 
+/*
+ * Inclusive max-width breakpoints for the experience catalog: upto700: is
+ * (max-width: 700px), i.e. 700px and narrower. Tailwind's max-[700px]: is
+ * exclusive (narrower than 700px), so it would switch layouts 1px later.
+ * Declared widest first so that, where two apply, the narrower one wins.
+ */
+@custom-variant upto1280 (@media (max-width: 1280px));
+@custom-variant upto800 (@media (max-width: 800px));
+@custom-variant upto700 (@media (max-width: 700px));
+@custom-variant upto600 (@media (max-width: 600px));
+@custom-variant upto390 (@media (max-width: 390px));
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -79,4 +121,94 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
+}
+
+/*
+ * Element defaults inside experience-catalog pages (main uses shellClass(),
+ * which adds ec-shell). They sit in the base layer, so any Tailwind class on
+ * an element overrides them.
+ */
+@layer base {
+  .ec-shell h1,
+  .ec-shell h2 {
+    font-weight: 400;
+    line-height: 1.15;
+  }
+  .ec-shell h1 {
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    max-width: 850px;
+  }
+  .ec-shell h2 {
+    font-size: clamp(1.7rem, 3vw, 2.8rem);
+  }
+  .ec-shell h3 {
+    font-size: 1.3rem;
+  }
+  .ec-shell p {
+    color: var(--ec-muted);
+    margin: 16px 0;
+  }
+  .ec-shell fieldset,
+  .ec-shell details {
+    border: 0;
+    border-top: 1px solid var(--ec-border);
+    padding: 18px 0;
+    margin-top: 14px;
+  }
+  .ec-shell legend,
+  .ec-shell summary {
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+  .ec-shell summary {
+    cursor: pointer;
+  }
+  .ec-shell label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.85rem;
+    margin: 12px 0;
+  }
+  .ec-shell input:not([type="checkbox"]):not([type="radio"]),
+  .ec-shell select,
+  .ec-shell textarea {
+    width: 100%;
+    padding: 11px;
+    background: #fff;
+    border: 1px solid #d8cebd;
+    border-radius: 3px;
+    font: inherit;
+    color: #0b0b0c;
+  }
+  .ec-shell select {
+    min-width: 0;
+    text-overflow: ellipsis;
+  }
+  .ec-shell input[type="checkbox"],
+  .ec-shell input[type="radio"] {
+    accent-color: #cfae70;
+    min-width: 18px;
+    min-height: 18px;
+  }
+  .ec-shell small {
+    display: block;
+    font-size: 14px;
+    color: var(--ec-muted);
+  }
+  /* Dark proposal cards (ExperienceCard marks them with ec-proposal-card). */
+  .ec-proposal-card small {
+    color: #b9b7b5;
+  }
+  .ec-shell :focus-visible {
+    outline: 2px solid #cfae70;
+    outline-offset: 5px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ec-shell * {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }

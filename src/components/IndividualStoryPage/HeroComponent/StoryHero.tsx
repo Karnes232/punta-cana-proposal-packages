@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
-import StoryHeroBackground from "./StoryHeroBackground";
-import StoryHeroBackLink from "./StoryHeroBackLink";
+import PhotoHeroBackground from "@/components/ui/hero/PhotoHeroBackground";
+import HeroBackLink from "@/components/ui/HeroBackLink";
 import StoryHeroCopy from "./StoryHeroCopy";
 
 interface StoryHeroProps {
@@ -35,7 +35,10 @@ export default function StoryHero({
   return (
     <section className="relative w-full min-h-[70svh] md:min-h-[80svh] flex flex-col justify-between overflow-hidden bg-black">
       {/* ── Background photo + scrim ── */}
-      <StoryHeroBackground photo={heroImage} names={names} />
+      <PhotoHeroBackground
+        photo={heroImage}
+        alt={heroImage?.alt ?? `${names} proposal photo`}
+      />
 
       {/* ── Gold corner accents ── */}
       <div
@@ -49,7 +52,7 @@ export default function StoryHero({
 
       {/* ── Top: back link ── */}
       <div className="relative z-10 px-8 pt-8 md:px-12 md:pt-10">
-        <StoryHeroBackLink label={t("allStories") as string} />
+        <HeroBackLink label={t("allStories") as string} href="/stories" />
       </div>
 
       {/* ── Bottom: names + meta ── */}
