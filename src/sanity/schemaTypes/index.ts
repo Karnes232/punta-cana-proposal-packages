@@ -53,10 +53,12 @@ import FaqsPageFaqContactStrip from "./FaqsPage/FaqContactStrip";
 import FaqsPageFaqsCategories from "./FaqsPage/FaqsCategories";
 import FaqsPageFaqs from "./FaqsPage/Faqs";
 import PageSeo from "./SEO/PageSeo";
+import { withTitles } from "./shared/titles";
 import Seo from "./SEO/seo";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [
+  // Bilingual Studio titles: see shared/titles.ts.
+  types: withTitles([
     ...experienceCatalogSchemas,
     //Localized
     localizedString,
@@ -110,5 +112,5 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FaqsPageFaqContactStrip,
     FaqsPageFaqsCategories,
     FaqsPageFaqs,
-  ],
+  ]),
 };
