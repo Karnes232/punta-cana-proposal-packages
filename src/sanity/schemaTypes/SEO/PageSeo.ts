@@ -25,4 +25,11 @@ export default defineType({
     }),
     defineField({ name: "seo", type: "seo" }),
   ],
+  preview: {
+    select: { page: "pageName", metaTitle: "seo.meta.es.title" },
+    prepare: ({ page, metaTitle }) => ({
+      title: `SEO: ${page || "—"}`,
+      subtitle: metaTitle,
+    }),
+  },
 });

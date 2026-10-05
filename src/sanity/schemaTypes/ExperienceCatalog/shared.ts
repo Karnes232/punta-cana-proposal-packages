@@ -87,7 +87,7 @@ export const preview = {
   prepare(v: Record<string, unknown>) {
     return {
       title: String(v.name || v.internal || "Untitled"),
-      subtitle: `${v.price ?? ""} · ${v.active ? "Active" : "Inactive"}`,
+      subtitle: `${v.price ?? ""} · ${v.active ? bi("Activo", "Active") : bi("Inactivo", "Inactive")}`,
       media: v.media as PreviewValue["media"],
     };
   },

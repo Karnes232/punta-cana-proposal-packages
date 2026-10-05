@@ -243,6 +243,9 @@ const settingsGroupOf = (key: string) =>
 export default defineType({
   name: "experienceCatalogSettings",
   type: "document",
+  preview: {
+    prepare: () => ({ title: bi("Textos del catálogo", "Catalog text") }),
+  },
   title: "Catalog Settings",
   groups: [
     {
@@ -401,6 +404,7 @@ const homeSectionOf = (key: string) =>
 export const catalogHome = defineType({
   name: "catalogHome",
   type: "document",
+  preview: { prepare: () => ({ title: bi("Página de inicio", "Home page") }) },
   title: "Home",
   groups: [
     { name: "photos", title: bi("Fotos", "Photos"), default: true },
@@ -504,6 +508,9 @@ export const catalogHome = defineType({
 export const catalogContact = defineType({
   name: "catalogContact",
   type: "document",
+  preview: {
+    prepare: () => ({ title: bi("Página de contacto", "Contact page") }),
+  },
   title: "Contact",
   fields: [
     ...["heading", "description", "businessInformation"].map((k) =>

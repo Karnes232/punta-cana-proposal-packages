@@ -89,19 +89,29 @@ export const structure: StructureResolver = (S) => {
     filter: string,
     params: Record<string, unknown>,
     icon?: Icon,
+    // One document per page (SEO, legal): no "+" that would add a second.
+    canCreate = true,
   ) =>
     S.listItem()
       .title(title)
       .icon(icon)
-      .child(
-        S.documentList()
+      .child(() => {
+        const list = S.documentList()
           .title(title)
           .schemaType(type)
           .filter(`_type == $type && ${filter}`)
-          .params({ type, ...params }),
-      );
+          .params({ type, ...params });
+        return canCreate ? list : list.initialValueTemplates([]);
+      });
   const pageSeo = (page: string) =>
-    filtered("SEO", "PageSeo", "pageName == $page", { page }, SearchIcon);
+    filtered(
+      "SEO",
+      "PageSeo",
+      "pageName == $page",
+      { page },
+      SearchIcon,
+      false,
+    );
   const folder = (
     title: string,
     icon: Icon,
@@ -261,6 +271,8 @@ export const structure: StructureResolver = (S) => {
           "legalDocuments",
           "pageName == $page",
           { page: "privacy-policy" },
+          undefined,
+          false,
         ),
         filtered(
           bi("SEO: privacidad", "SEO: privacy"),
@@ -268,12 +280,15 @@ export const structure: StructureResolver = (S) => {
           "pageName == $page",
           { page: "privacy-policy" },
           SearchIcon,
+          false,
         ),
         filtered(
           bi("Términos de servicio", "Terms of service"),
           "legalDocuments",
           "pageName == $page",
           { page: "terms-of-service" },
+          undefined,
+          false,
         ),
         filtered(
           bi("SEO: términos", "SEO: terms"),
@@ -281,6 +296,7 @@ export const structure: StructureResolver = (S) => {
           "pageName == $page",
           { page: "terms-of-service" },
           SearchIcon,
+          false,
         ),
       ]),
       S.divider(),
@@ -312,6 +328,7 @@ export const structure: StructureResolver = (S) => {
             "!(pageName in $pages)",
             { pages: seoPages },
             BookIcon,
+            false,
           ),
         ],
       ),

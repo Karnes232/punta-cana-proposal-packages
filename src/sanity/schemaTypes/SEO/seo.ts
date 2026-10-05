@@ -324,7 +324,7 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "pageName",
+      title: "meta.en.title",
       metaTitleEn: "meta.en.title",
       metaTitleEs: "meta.es.title",
     },

@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { bi } from "../shared/labels";
 
 export default defineType({
   name: "individualStory",
@@ -153,13 +154,17 @@ export default defineType({
   preview: {
     select: {
       title: "names",
-      subtitle: "proposalType.title",
+      typeEs: "proposalType.label.es",
+      typeEn: "proposalType.label.en",
+      date: "date",
       media: "heroPhoto",
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ title, typeEs, typeEn, date, media }) {
       return {
         title,
-        subtitle,
+        subtitle: [typeEs && typeEn ? bi(typeEs, typeEn) : "", date]
+          .filter(Boolean)
+          .join(" · "),
         media,
       };
     },
@@ -167,9 +172,9 @@ export default defineType({
 
   orderings: [
     {
-      title: "Newest First",
-      name: "publishedAtDesc",
-      by: [{ field: "publishedAt", direction: "desc" }],
+      title: bi("Más recientes", "Newest first"),
+      name: "dateDesc",
+      by: [{ field: "date", direction: "desc" }],
     },
   ],
 });
