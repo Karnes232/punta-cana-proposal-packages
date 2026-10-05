@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { languageField } from "../shared/languageField";
+import { isUniqueInLanguage, languageField } from "../shared/languageField";
 import { bi } from "../shared/labels";
 
 export default defineType({
@@ -28,7 +28,7 @@ export default defineType({
       title: "Slug",
       type: "slug",
       group: "basic",
-      options: { source: "names" },
+      options: { source: "names", isUnique: isUniqueInLanguage },
       validation: (R) => R.required(),
     }),
 
