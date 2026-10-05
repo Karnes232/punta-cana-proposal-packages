@@ -6098,6 +6098,14 @@
               },
               "optional": true
             },
+            "planningEyebrow": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
             "planning": {
               "type": "objectAttribute",
               "value": {
@@ -6131,6 +6139,14 @@
               "optional": true
             },
             "dinnerDescription": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
+            "trustLabel": {
               "type": "objectAttribute",
               "value": {
                 "type": "inline",
@@ -6187,6 +6203,38 @@
               "optional": true
             },
             "mediaNote": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
+            "featured": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
+            "customize": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
+            "allProposals": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
+            "journeyLabel": {
               "type": "objectAttribute",
               "value": {
                 "type": "inline",
@@ -6307,30 +6355,6 @@
               "optional": true
             },
             "editorialNote": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "localizedText"
-              },
-              "optional": true
-            },
-            "featured": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "localizedText"
-              },
-              "optional": true
-            },
-            "customize": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "localizedText"
-              },
-              "optional": true
-            },
-            "allProposals": {
               "type": "objectAttribute",
               "value": {
                 "type": "inline",
@@ -6506,6 +6530,14 @@
               },
               "optional": true
             },
+            "howItWorksLink": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "localizedText"
+              },
+              "optional": true
+            },
             "realMoments": {
               "type": "objectAttribute",
               "value": {
@@ -6555,38 +6587,6 @@
               "optional": true
             },
             "startTitle": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "localizedText"
-              },
-              "optional": true
-            },
-            "planningEyebrow": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "localizedText"
-              },
-              "optional": true
-            },
-            "trustLabel": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "localizedText"
-              },
-              "optional": true
-            },
-            "journeyLabel": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "localizedText"
-              },
-              "optional": true
-            },
-            "howItWorksLink": {
               "type": "objectAttribute",
               "value": {
                 "type": "inline",

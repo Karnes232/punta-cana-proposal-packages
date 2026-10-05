@@ -1007,11 +1007,13 @@ export type CatalogHome = {
     exploreProposals?: LocalizedText;
     exploreDinners?: LocalizedText;
     deposit?: LocalizedText;
+    planningEyebrow?: LocalizedText;
     planning?: LocalizedText;
     proposalChoice?: LocalizedText;
     proposalDescription?: LocalizedText;
     dinnerChoice?: LocalizedText;
     dinnerDescription?: LocalizedText;
+    trustLabel?: LocalizedText;
     trustPrivate?: LocalizedText;
     trustLocal?: LocalizedText;
     trustTransport?: LocalizedText;
@@ -1019,6 +1021,10 @@ export type CatalogHome = {
     trustPhoto?: LocalizedText;
     trustDelivery?: LocalizedText;
     mediaNote?: LocalizedText;
+    featured?: LocalizedText;
+    customize?: LocalizedText;
+    allProposals?: LocalizedText;
+    journeyLabel?: LocalizedText;
     journeyTitle?: LocalizedText;
     journeyIntro?: LocalizedText;
     journeyOne?: LocalizedText;
@@ -1034,9 +1040,6 @@ export type CatalogHome = {
     transformation?: LocalizedText;
     transformationText?: LocalizedText;
     editorialNote?: LocalizedText;
-    featured?: LocalizedText;
-    customize?: LocalizedText;
-    allProposals?: LocalizedText;
     dinnerTitle?: LocalizedText;
     dinnerText?: LocalizedText;
     dinnerCelebrations?: LocalizedText;
@@ -1058,6 +1061,7 @@ export type CatalogHome = {
     stepSevenText?: LocalizedText;
     stepEight?: LocalizedText;
     stepEightText?: LocalizedText;
+    howItWorksLink?: LocalizedText;
     realMoments?: LocalizedText;
     viewStories?: LocalizedText;
     galleryOpen?: LocalizedText;
@@ -1065,10 +1069,6 @@ export type CatalogHome = {
     previous?: LocalizedText;
     next?: LocalizedText;
     startTitle?: LocalizedText;
-    planningEyebrow?: LocalizedText;
-    trustLabel?: LocalizedText;
-    journeyLabel?: LocalizedText;
-    howItWorksLink?: LocalizedText;
   };
   featuredProposals?: Array<{
     _ref: string;
@@ -2463,11 +2463,13 @@ export type CatalogContentQueryResult = {
           exploreProposals?: LocalizedText;
           exploreDinners?: LocalizedText;
           deposit?: LocalizedText;
+          planningEyebrow?: LocalizedText;
           planning?: LocalizedText;
           proposalChoice?: LocalizedText;
           proposalDescription?: LocalizedText;
           dinnerChoice?: LocalizedText;
           dinnerDescription?: LocalizedText;
+          trustLabel?: LocalizedText;
           trustPrivate?: LocalizedText;
           trustLocal?: LocalizedText;
           trustTransport?: LocalizedText;
@@ -2475,6 +2477,10 @@ export type CatalogContentQueryResult = {
           trustPhoto?: LocalizedText;
           trustDelivery?: LocalizedText;
           mediaNote?: LocalizedText;
+          featured?: LocalizedText;
+          customize?: LocalizedText;
+          allProposals?: LocalizedText;
+          journeyLabel?: LocalizedText;
           journeyTitle?: LocalizedText;
           journeyIntro?: LocalizedText;
           journeyOne?: LocalizedText;
@@ -2490,9 +2496,6 @@ export type CatalogContentQueryResult = {
           transformation?: LocalizedText;
           transformationText?: LocalizedText;
           editorialNote?: LocalizedText;
-          featured?: LocalizedText;
-          customize?: LocalizedText;
-          allProposals?: LocalizedText;
           dinnerTitle?: LocalizedText;
           dinnerText?: LocalizedText;
           dinnerCelebrations?: LocalizedText;
@@ -2514,6 +2517,7 @@ export type CatalogContentQueryResult = {
           stepSevenText?: LocalizedText;
           stepEight?: LocalizedText;
           stepEightText?: LocalizedText;
+          howItWorksLink?: LocalizedText;
           realMoments?: LocalizedText;
           viewStories?: LocalizedText;
           galleryOpen?: LocalizedText;
@@ -2521,10 +2525,6 @@ export type CatalogContentQueryResult = {
           previous?: LocalizedText;
           next?: LocalizedText;
           startTitle?: LocalizedText;
-          planningEyebrow?: LocalizedText;
-          trustLabel?: LocalizedText;
-          journeyLabel?: LocalizedText;
-          howItWorksLink?: LocalizedText;
         };
         featuredProposals?: Array<{
           _ref: string;
@@ -3832,11 +3832,13 @@ export type CatalogContentQueryResult = {
           exploreProposals?: LocalizedText;
           exploreDinners?: LocalizedText;
           deposit?: LocalizedText;
+          planningEyebrow?: LocalizedText;
           planning?: LocalizedText;
           proposalChoice?: LocalizedText;
           proposalDescription?: LocalizedText;
           dinnerChoice?: LocalizedText;
           dinnerDescription?: LocalizedText;
+          trustLabel?: LocalizedText;
           trustPrivate?: LocalizedText;
           trustLocal?: LocalizedText;
           trustTransport?: LocalizedText;
@@ -3844,6 +3846,10 @@ export type CatalogContentQueryResult = {
           trustPhoto?: LocalizedText;
           trustDelivery?: LocalizedText;
           mediaNote?: LocalizedText;
+          featured?: LocalizedText;
+          customize?: LocalizedText;
+          allProposals?: LocalizedText;
+          journeyLabel?: LocalizedText;
           journeyTitle?: LocalizedText;
           journeyIntro?: LocalizedText;
           journeyOne?: LocalizedText;
@@ -3859,9 +3865,6 @@ export type CatalogContentQueryResult = {
           transformation?: LocalizedText;
           transformationText?: LocalizedText;
           editorialNote?: LocalizedText;
-          featured?: LocalizedText;
-          customize?: LocalizedText;
-          allProposals?: LocalizedText;
           dinnerTitle?: LocalizedText;
           dinnerText?: LocalizedText;
           dinnerCelebrations?: LocalizedText;
@@ -3883,6 +3886,7 @@ export type CatalogContentQueryResult = {
           stepSevenText?: LocalizedText;
           stepEight?: LocalizedText;
           stepEightText?: LocalizedText;
+          howItWorksLink?: LocalizedText;
           realMoments?: LocalizedText;
           viewStories?: LocalizedText;
           galleryOpen?: LocalizedText;
@@ -3890,10 +3894,6 @@ export type CatalogContentQueryResult = {
           previous?: LocalizedText;
           next?: LocalizedText;
           startTitle?: LocalizedText;
-          planningEyebrow?: LocalizedText;
-          trustLabel?: LocalizedText;
-          journeyLabel?: LocalizedText;
-          howItWorksLink?: LocalizedText;
         };
         featuredProposals?: Array<{
           _ref: string;
@@ -5504,11 +5504,13 @@ export type CatalogContentQueryResult = {
           exploreProposals?: LocalizedText;
           exploreDinners?: LocalizedText;
           deposit?: LocalizedText;
+          planningEyebrow?: LocalizedText;
           planning?: LocalizedText;
           proposalChoice?: LocalizedText;
           proposalDescription?: LocalizedText;
           dinnerChoice?: LocalizedText;
           dinnerDescription?: LocalizedText;
+          trustLabel?: LocalizedText;
           trustPrivate?: LocalizedText;
           trustLocal?: LocalizedText;
           trustTransport?: LocalizedText;
@@ -5516,6 +5518,10 @@ export type CatalogContentQueryResult = {
           trustPhoto?: LocalizedText;
           trustDelivery?: LocalizedText;
           mediaNote?: LocalizedText;
+          featured?: LocalizedText;
+          customize?: LocalizedText;
+          allProposals?: LocalizedText;
+          journeyLabel?: LocalizedText;
           journeyTitle?: LocalizedText;
           journeyIntro?: LocalizedText;
           journeyOne?: LocalizedText;
@@ -5531,9 +5537,6 @@ export type CatalogContentQueryResult = {
           transformation?: LocalizedText;
           transformationText?: LocalizedText;
           editorialNote?: LocalizedText;
-          featured?: LocalizedText;
-          customize?: LocalizedText;
-          allProposals?: LocalizedText;
           dinnerTitle?: LocalizedText;
           dinnerText?: LocalizedText;
           dinnerCelebrations?: LocalizedText;
@@ -5555,6 +5558,7 @@ export type CatalogContentQueryResult = {
           stepSevenText?: LocalizedText;
           stepEight?: LocalizedText;
           stepEightText?: LocalizedText;
+          howItWorksLink?: LocalizedText;
           realMoments?: LocalizedText;
           viewStories?: LocalizedText;
           galleryOpen?: LocalizedText;
@@ -5562,10 +5566,6 @@ export type CatalogContentQueryResult = {
           previous?: LocalizedText;
           next?: LocalizedText;
           startTitle?: LocalizedText;
-          planningEyebrow?: LocalizedText;
-          trustLabel?: LocalizedText;
-          journeyLabel?: LocalizedText;
-          howItWorksLink?: LocalizedText;
         };
         featuredProposals?: Array<{
           _ref: string;
