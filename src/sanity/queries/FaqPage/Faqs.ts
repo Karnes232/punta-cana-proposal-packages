@@ -14,7 +14,7 @@ export interface Faqs {
   category: FaqsCategories;
 }
 
-export const faqsPageFaqsCategoriesQuery = `*[_type == "FaqsPageFaqsCategories"] {
+export const faqsPageFaqsCategoriesQuery = `*[_type == "faqCategory"] {
     _id,
     value,
     labelEn,
@@ -22,7 +22,7 @@ export const faqsPageFaqsCategoriesQuery = `*[_type == "FaqsPageFaqsCategories"]
 }
 `;
 
-export const faqsPageFaqsQuery = `*[_type == "FaqsPageFaqs"] {
+export const faqsPageFaqsQuery = `*[_type == "faq"] {
     _id,
     question {
         en,

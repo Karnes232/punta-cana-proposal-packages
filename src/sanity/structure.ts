@@ -3,7 +3,6 @@ import type { StructureBuilder, StructureResolver } from "sanity/structure";
 import {
   ArchiveIcon,
   BasketIcon,
-  BookIcon,
   CogIcon,
   ComposeIcon,
   DocumentTextIcon,
@@ -21,7 +20,9 @@ import {
   CATALOG_CONTACT_ID,
   CATALOG_HOME_ID,
   CATALOG_SETTINGS_ID,
+  legalDocumentId,
   PAGE_SINGLETONS,
+  pageSeoId,
 } from "@/sanity/constants";
 import { bi } from "@/sanity/schemaTypes/shared/labels";
 import { ALL_LOCALES } from "@/i18n/locales";
@@ -41,19 +42,6 @@ const archivedTypes = [
   "HomePagePackageCategory",
   "trustIndicators",
   "ContactPageContent",
-  "seo",
-];
-
-// Pages that have a PageSeo document (PageSeo.pageName).
-const seoPages = [
-  "home",
-  "stories",
-  "how-it-works",
-  "faq",
-  "contact",
-  "blog",
-  "privacy-policy",
-  "terms-of-service",
 ];
 
 const languageNames: Record<string, [string, string]> = {
@@ -103,15 +91,9 @@ export const structure: StructureResolver = (S) => {
           .params({ type, ...params });
         return canCreate ? list : list.initialValueTemplates([]);
       });
-  const pageSeo = (page: string) =>
-    filtered(
-      "SEO",
-      "PageSeo",
-      "pageName == $page",
-      { page },
-      SearchIcon,
-      false,
-    );
+  // Each page's SEO is one fixed document (pageSeo-<page>).
+  const pageSeo = (page: string, title = "SEO") =>
+    singleton(title, "pageSeo", pageSeoId(page), SearchIcon);
   const folder = (
     title: string,
     icon: Icon,
@@ -129,21 +111,21 @@ export const structure: StructureResolver = (S) => {
     CATALOG_CONTACT_ID,
     CATALOG_SETTINGS_ID,
     ...Object.keys(PAGE_SINGLETONS),
-    "PageSeo",
-    "legalDocuments",
+    "pageSeo",
+    "legalDocument",
     "proposalExperience",
     "romanticDinnerExperience",
     "menuItem",
     "beverageOption",
     "dinnerOccasion",
     "experienceAddon",
-    "individualStory",
-    "ProposalType",
+    "story",
+    "storyType",
     "blogPost",
-    "BlogCategory",
-    "FaqsPageFaqs",
-    "FaqsPageFaqsCategories",
-    "HowItWorksPageHowItWorksFaqCategory",
+    "blogCategory",
+    "faq",
+    "faqCategory",
+    "howItWorksFaqCategory",
     ...archivedTypes,
   ]);
 
@@ -160,6 +142,7 @@ export const structure: StructureResolver = (S) => {
       ]),
       folder(bi("Propuestas", "Proposals"), HeartIcon, [
         list(bi("Paquetes", "Packages"), "proposalExperience"),
+        pageSeo("proposals"),
       ]),
       folder(bi("Cenas románticas", "Romantic dinners"), SparklesIcon, [
         list(bi("Cenas", "Dinners"), "romanticDinnerExperience"),
@@ -192,25 +175,23 @@ export const structure: StructureResolver = (S) => {
           ),
         list(bi("Bebidas", "Drinks"), "beverageOption"),
         list(bi("Ocasiones", "Occasions"), "dinnerOccasion"),
+        pageSeo("romantic-dinners"),
       ]),
       folder(bi("Historias", "Stories"), StarIcon, [
-        pageSection(bi("Portada", "Hero"), "StoriesPageHero"),
+        pageSection(bi("Portada", "Hero"), "storiesHero"),
         S.listItem()
           .title(bi("Historias", "Stories"))
           .child(
-            S.documentTypeList("individualStory")
+            S.documentTypeList("story")
               .title(bi("Historias", "Stories"))
               .defaultOrdering([{ field: "date", direction: "desc" }]),
           ),
-        list(bi("Tipos de propuesta", "Proposal types"), "ProposalType"),
-        pageSection(
-          bi("Franja final", "Closing banner"),
-          "StoriesPageCtaStrip",
-        ),
+        list(bi("Tipos de propuesta", "Proposal types"), "storyType"),
+        pageSection(bi("Franja final", "Closing banner"), "storiesCtaStrip"),
         pageSeo("stories"),
       ]),
       folder("Blog", ComposeIcon, [
-        pageSection(bi("Portada", "Hero"), "BlogPageHero"),
+        pageSection(bi("Portada", "Hero"), "blogHero"),
         S.listItem()
           .title(bi("Artículos", "Posts"))
           .child(
@@ -229,35 +210,32 @@ export const structure: StructureResolver = (S) => {
                 ),
               ]),
           ),
-        list(bi("Categorías", "Categories"), "BlogCategory", TagIcon),
-        pageSection(bi("Franja final", "Closing banner"), "BlogPageCtaStrip"),
+        list(bi("Categorías", "Categories"), "blogCategory", TagIcon),
+        pageSection(bi("Franja final", "Closing banner"), "blogCtaStrip"),
         pageSeo("blog"),
       ]),
       folder(bi("Preguntas frecuentes", "FAQ"), HelpCircleIcon, [
-        pageSection(bi("Portada", "Hero"), "FaqsPageHeroComponent"),
-        list(bi("Preguntas", "Questions"), "FaqsPageFaqs"),
-        list(bi("Categorías", "Categories"), "FaqsPageFaqsCategories", TagIcon),
+        pageSection(bi("Portada", "Hero"), "faqHero"),
+        list(bi("Preguntas", "Questions"), "faq"),
+        list(bi("Categorías", "Categories"), "faqCategory", TagIcon),
         pageSection(
           bi("Franja de contacto", "Contact banner"),
-          "FaqsPageFaqContactStrip",
+          "faqContactStrip",
         ),
         pageSeo("faq"),
       ]),
       folder(bi("Cómo funciona", "How it works"), ListIcon, [
-        pageSection(bi("Portada", "Hero"), "HowItWorksPageHero"),
-        pageSection(bi("Pasos", "Steps"), "HowItWorksPageHowItWorksSteps"),
-        pageSection(
-          bi("Preguntas", "Questions"),
-          "HowItWorksPageHowItWorksFAQ",
-        ),
+        pageSection(bi("Portada", "Hero"), "howItWorksHero"),
+        pageSection(bi("Pasos", "Steps"), "howItWorksSteps"),
+        pageSection(bi("Preguntas", "Questions"), "howItWorksFaq"),
         list(
           bi("Categorías de preguntas", "Question categories"),
-          "HowItWorksPageHowItWorksFaqCategory",
+          "howItWorksFaqCategory",
           TagIcon,
         ),
         pageSection(
           bi("Llamada final", "Closing call to action"),
-          "HowItWorksPageHowItWorksCTA",
+          "howItWorksCta",
         ),
         pageSeo("how-it-works"),
       ]),
@@ -266,38 +244,18 @@ export const structure: StructureResolver = (S) => {
         pageSeo("contact"),
       ]),
       folder("Legal", DocumentTextIcon, [
-        filtered(
+        singleton(
           bi("Política de privacidad", "Privacy policy"),
-          "legalDocuments",
-          "pageName == $page",
-          { page: "privacy-policy" },
-          undefined,
-          false,
+          "legalDocument",
+          legalDocumentId("privacy-policy"),
         ),
-        filtered(
-          bi("SEO: privacidad", "SEO: privacy"),
-          "PageSeo",
-          "pageName == $page",
-          { page: "privacy-policy" },
-          SearchIcon,
-          false,
-        ),
-        filtered(
+        pageSeo("privacy-policy", bi("SEO: privacidad", "SEO: privacy")),
+        singleton(
           bi("Términos de servicio", "Terms of service"),
-          "legalDocuments",
-          "pageName == $page",
-          { page: "terms-of-service" },
-          undefined,
-          false,
+          "legalDocument",
+          legalDocumentId("terms-of-service"),
         ),
-        filtered(
-          bi("SEO: términos", "SEO: terms"),
-          "PageSeo",
-          "pageName == $page",
-          { page: "terms-of-service" },
-          SearchIcon,
-          false,
-        ),
+        pageSeo("terms-of-service", bi("SEO: términos", "SEO: terms")),
       ]),
       S.divider(),
       list(bi("Extras", "Add-ons"), "experienceAddon", BasketIcon),
@@ -322,14 +280,6 @@ export const structure: StructureResolver = (S) => {
             if (type.includes(".")) return false;
             return archivedTypes.includes(type) || !placedTypes.has(type);
           }),
-          filtered(
-            bi("SEO de páginas antiguas", "SEO of old pages"),
-            "PageSeo",
-            "!(pageName in $pages)",
-            { pages: seoPages },
-            BookIcon,
-            false,
-          ),
         ],
       ),
     ]);

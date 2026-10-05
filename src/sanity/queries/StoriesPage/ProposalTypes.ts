@@ -8,7 +8,7 @@ export interface ProposalTypes {
   };
 }
 
-export const proposalTypesQuery = `*[_type == "ProposalType"] {
+export const proposalTypesQuery = `*[_type == "storyType"] {
   value,
   label {
     en,

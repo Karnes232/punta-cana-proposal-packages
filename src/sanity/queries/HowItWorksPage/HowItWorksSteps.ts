@@ -47,7 +47,7 @@ export interface HowItWorksSteps {
   reassurance: ReassuranceItem[];
 }
 
-export const howItWorksPageHowItWorksStepsQuery = `*[_type == "HowItWorksPageHowItWorksSteps"][0] {
+export const howItWorksPageHowItWorksStepsQuery = `*[_type == "howItWorksSteps"][0] {
   eyebrow {
     en,
     es

@@ -23,7 +23,7 @@ export interface FaqContactStrip {
   };
 }
 
-export const faqContactStripQuery = `*[_type == "FaqsPageFaqContactStrip"][0] {
+export const faqContactStripQuery = `*[_type == "faqContactStrip"][0] {
   eyebrow {
     en,
     es

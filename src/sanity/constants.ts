@@ -18,29 +18,51 @@ export const CATALOG_SINGLETON_IDS = [
 ] as const;
 
 /**
- * Page sections the site reads as "the one document of this type"
- * (`*[_type == X][0]`). The Studio opens exactly this document for each type,
- * so a second copy can't be created by accident. Schema type → document ID.
+ * Page sections the site reads as "the one document of this type". The
+ * Studio opens exactly this document for each type, so a second copy can't be
+ * created by accident. Schema type → document ID (the ID matches the type,
+ * like the catalog singletons above).
  */
 export const PAGE_SINGLETONS = {
   generalLayout: "generalLayout",
   HomePageHero: "hero",
-  StoriesPageHero: "storiesPageHero",
-  StoriesPageCtaStrip: "storiesPageCtaStrip",
-  BlogPageHero: "blogPageHero",
-  BlogPageCtaStrip: "blogPageCtaStrip",
-  FaqsPageHeroComponent: "faqsPageHeroComponent",
-  FaqsPageFaqContactStrip: "faqsPageFaqContactStrip",
-  HowItWorksPageHero: "howItWorksPageHero",
-  HowItWorksPageHowItWorksSteps: "howItWorksPageHowItWorksSteps",
-  HowItWorksPageHowItWorksFAQ: "howItWorksPageHowItWorksFAQ",
-  HowItWorksPageHowItWorksCTA: "howItWorksPageHowItWorksCTA",
+  storiesHero: "storiesHero",
+  storiesCtaStrip: "storiesCtaStrip",
+  blogHero: "blogHero",
+  blogCtaStrip: "blogCtaStrip",
+  faqHero: "faqHero",
+  faqContactStrip: "faqContactStrip",
+  howItWorksHero: "howItWorksHero",
+  howItWorksSteps: "howItWorksSteps",
+  howItWorksFaq: "howItWorksFaq",
+  howItWorksCta: "howItWorksCta",
 } as const;
 
-/** Every schema type that has exactly one document (catalog and page sections). */
+/** Pages with an SEO entry (pageSeo), and their document IDs. */
+export const SEO_PAGES = [
+  "home",
+  "proposals",
+  "romantic-dinners",
+  "stories",
+  "blog",
+  "faq",
+  "how-it-works",
+  "contact",
+  "privacy-policy",
+  "terms-of-service",
+] as const;
+export const pageSeoId = (page: string) => `pageSeo-${page}`;
+
+/** Legal pages (legalDocument) and their document IDs. */
+export const LEGAL_PAGES = ["privacy-policy", "terms-of-service"] as const;
+export const legalDocumentId = (page: string) => `legalDocument-${page}`;
+
+/** Every schema type whose documents can't be created, deleted or duplicated. */
 export const SINGLETON_TYPES: ReadonlySet<string> = new Set([
   ...CATALOG_SINGLETON_IDS,
   ...Object.keys(PAGE_SINGLETONS),
+  "pageSeo",
+  "legalDocument",
 ]);
 
 /** Document types editors may add from the Studio's "Create" menu. */
@@ -52,12 +74,12 @@ export const CREATABLE_TYPES: ReadonlySet<string> = new Set([
   "beverageOption",
   "dinnerOccasion",
   "blogPost",
-  "BlogCategory",
-  "individualStory",
-  "ProposalType",
-  "FaqsPageFaqs",
-  "FaqsPageFaqsCategories",
-  "HowItWorksPageHowItWorksFaqCategory",
+  "blogCategory",
+  "story",
+  "storyType",
+  "faq",
+  "faqCategory",
+  "howItWorksFaqCategory",
 ]);
 
 /** Kept out of every public listing on purpose (see docs/experience-catalog.md). */

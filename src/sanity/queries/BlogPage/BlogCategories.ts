@@ -8,7 +8,7 @@ export interface BlogCategory {
   value: string;
 }
 
-export const blogCategoriesQuery = `*[_type == "BlogCategory"] {
+export const blogCategoriesQuery = `*[_type == "blogCategory"] {
   _id,
   label ${blogLocalizedStringGroq},
   value

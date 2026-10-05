@@ -60,7 +60,7 @@ export default defineType({
       title: "Category",
       group: "basic",
       type: "reference",
-      to: [{ type: "BlogCategory" }],
+      to: [{ type: "blogCategory" }],
       options: { disableNew: true },
       validation: (R) => R.required(),
     }),

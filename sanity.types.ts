@@ -13,9 +13,9 @@
  */
 
 // Source: schema.json
-export type FaqsPageFaqs = {
+export type Faq = {
   _id: string;
-  _type: "FaqsPageFaqs";
+  _type: "faq";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -23,7 +23,7 @@ export type FaqsPageFaqs = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "FaqsPageFaqsCategories";
+    [internalGroqTypeReferenceTo]?: "faqCategory";
   };
   question?: LocalizedString;
   answer?: LocalizedText;
@@ -41,9 +41,9 @@ export type LocalizedString = {
   es?: string;
 };
 
-export type FaqsPageFaqsCategories = {
+export type FaqCategory = {
   _id: string;
-  _type: "FaqsPageFaqsCategories";
+  _type: "faqCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -52,9 +52,9 @@ export type FaqsPageFaqsCategories = {
   labelEs?: string;
 };
 
-export type FaqsPageFaqContactStrip = {
+export type FaqContactStrip = {
   _id: string;
-  _type: "FaqsPageFaqContactStrip";
+  _type: "faqContactStrip";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -65,9 +65,9 @@ export type FaqsPageFaqContactStrip = {
   cta?: LocalizedString;
 };
 
-export type FaqsPageHeroComponent = {
+export type FaqHero = {
   _id: string;
-  _type: "FaqsPageHeroComponent";
+  _type: "faqHero";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -106,9 +106,9 @@ export type SanityImageHotspot = {
   width?: number;
 };
 
-export type HowItWorksPageHowItWorksCTA = {
+export type HowItWorksCta = {
   _id: string;
-  _type: "HowItWorksPageHowItWorksCTA";
+  _type: "howItWorksCta";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -123,9 +123,9 @@ export type HowItWorksPageHowItWorksCTA = {
   secondaryCTAHref?: string;
 };
 
-export type HowItWorksPageHowItWorksFAQ = {
+export type HowItWorksFaq = {
   _id: string;
-  _type: "HowItWorksPageHowItWorksFAQ";
+  _type: "howItWorksFaq";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -138,7 +138,7 @@ export type HowItWorksPageHowItWorksFAQ = {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "HowItWorksPageHowItWorksFaqCategory";
+      [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
     };
     question?: LocalizedString;
     answer?: LocalizedText;
@@ -147,18 +147,18 @@ export type HowItWorksPageHowItWorksFAQ = {
   }>;
 };
 
-export type HowItWorksPageHowItWorksFaqCategory = {
+export type HowItWorksFaqCategory = {
   _id: string;
-  _type: "HowItWorksPageHowItWorksFaqCategory";
+  _type: "howItWorksFaqCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   name?: LocalizedString;
 };
 
-export type HowItWorksPageHowItWorksSteps = {
+export type HowItWorksSteps = {
   _id: string;
-  _type: "HowItWorksPageHowItWorksSteps";
+  _type: "howItWorksSteps";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -182,9 +182,9 @@ export type HowItWorksPageHowItWorksSteps = {
   }>;
 };
 
-export type HowItWorksPageHero = {
+export type HowItWorksHero = {
   _id: string;
-  _type: "HowItWorksPageHero";
+  _type: "howItWorksHero";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -240,9 +240,9 @@ export type ContactPageContent = {
   }>;
 };
 
-export type BlogPageCtaStrip = {
+export type BlogCtaStrip = {
   _id: string;
-  _type: "BlogPageCtaStrip";
+  _type: "blogCtaStrip";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -308,9 +308,9 @@ export type BlogPostSeo = {
   noFollow?: boolean;
 };
 
-export type BlogPageHero = {
+export type BlogHero = {
   _id: string;
-  _type: "BlogPageHero";
+  _type: "blogHero";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -353,7 +353,7 @@ export type BlogPost = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "BlogCategory";
+    [internalGroqTypeReferenceTo]?: "blogCategory";
   };
   categoryTag?: string;
   publishedAt?: string;
@@ -410,7 +410,7 @@ export type BlogPost = {
 
 export type BlogCategory = {
   _id: string;
-  _type: "BlogCategory";
+  _type: "blogCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -424,9 +424,9 @@ export type Slug = {
   source?: string;
 };
 
-export type StoriesPageCtaStrip = {
+export type StoriesCtaStrip = {
   _id: string;
-  _type: "StoriesPageCtaStrip";
+  _type: "storiesCtaStrip";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -438,9 +438,9 @@ export type StoriesPageCtaStrip = {
   ctaHref?: string;
 };
 
-export type StoriesPageHero = {
+export type StoriesHero = {
   _id: string;
-  _type: "StoriesPageHero";
+  _type: "storiesHero";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -465,13 +465,13 @@ export type StoriesPageHero = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "individualStory";
+    [internalGroqTypeReferenceTo]?: "story";
   };
 };
 
-export type IndividualStory = {
+export type Story = {
   _id: string;
-  _type: "individualStory";
+  _type: "story";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -481,7 +481,7 @@ export type IndividualStory = {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "ProposalType";
+    [internalGroqTypeReferenceTo]?: "storyType";
   };
   packageTag?: LocalizedString;
   date?: string;
@@ -517,6 +517,50 @@ export type IndividualStory = {
   quote?: LocalizedString;
   body?: LocalizedBlock;
   seo?: Seo;
+};
+
+export type Seo = {
+  _type: "seo";
+  meta?: {
+    en?: {
+      title?: string;
+      description?: string;
+      keywords?: Array<string>;
+    };
+    es?: {
+      title?: string;
+      description?: string;
+      keywords?: Array<string>;
+    };
+  };
+  openGraph?: {
+    en?: {
+      title?: string;
+      description?: string;
+    };
+    es?: {
+      title?: string;
+      description?: string;
+    };
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  };
+  structuredData?: {
+    en?: string;
+    es?: string;
+  };
+  noIndex?: boolean;
+  noFollow?: boolean;
 };
 
 export type LocalizedBlock = {
@@ -559,9 +603,9 @@ export type LocalizedBlock = {
   }>;
 };
 
-export type ProposalType = {
+export type StoryType = {
   _id: string;
-  _type: "ProposalType";
+  _type: "storyType";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -755,81 +799,21 @@ export type HomePageHero = {
   secondaryHref?: string;
 };
 
-export type LegalDocuments = {
+export type LegalDocument = {
   _id: string;
-  _type: "legalDocuments";
+  _type: "legalDocument";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  pageName?: "privacy-policy" | "terms-of-service";
   content?: LocalizedBlock;
-};
-
-export type Seo = {
-  _id: string;
-  _type: "seo";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  meta?: {
-    en?: {
-      title?: string;
-      description?: string;
-      keywords?: Array<string>;
-    };
-    es?: {
-      title?: string;
-      description?: string;
-      keywords?: Array<string>;
-    };
-  };
-  openGraph?: {
-    en?: {
-      title?: string;
-      description?: string;
-    };
-    es?: {
-      title?: string;
-      description?: string;
-    };
-    image?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-  };
-  structuredData?: {
-    en?: string;
-    es?: string;
-  };
-  noIndex?: boolean;
-  noFollow?: boolean;
 };
 
 export type PageSeo = {
   _id: string;
-  _type: "PageSeo";
+  _type: "pageSeo";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  pageName?:
-    | "home"
-    | "proposals"
-    | "romantic-dinners"
-    | "stories"
-    | "how-it-works"
-    | "faq"
-    | "contact"
-    | "blog"
-    | "privacy-policy"
-    | "terms-of-service";
   seo?: Seo;
 };
 
@@ -1653,33 +1637,34 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | FaqsPageFaqs
+  | Faq
   | LocalizedText
   | LocalizedString
-  | FaqsPageFaqsCategories
-  | FaqsPageFaqContactStrip
-  | FaqsPageHeroComponent
+  | FaqCategory
+  | FaqContactStrip
+  | FaqHero
   | SanityImageCrop
   | SanityImageHotspot
-  | HowItWorksPageHowItWorksCTA
-  | HowItWorksPageHowItWorksFAQ
-  | HowItWorksPageHowItWorksFaqCategory
-  | HowItWorksPageHowItWorksSteps
-  | HowItWorksPageHero
+  | HowItWorksCta
+  | HowItWorksFaq
+  | HowItWorksFaqCategory
+  | HowItWorksSteps
+  | HowItWorksHero
   | ContactPageContent
-  | BlogPageCtaStrip
+  | BlogCtaStrip
   | BlogLocalizedString
   | BlogLocalizedText
   | BlogPostSeo
-  | BlogPageHero
+  | BlogHero
   | BlogPost
   | BlogCategory
   | Slug
-  | StoriesPageCtaStrip
-  | StoriesPageHero
-  | IndividualStory
+  | StoriesCtaStrip
+  | StoriesHero
+  | Story
+  | Seo
   | LocalizedBlock
-  | ProposalType
+  | StoryType
   | HomePageCTABanner
   | TrustIndicators
   | HomePageFeatureStorySection
@@ -1690,8 +1675,7 @@ export type AllSanitySchemaTypes =
   | HomePagePackageCategories
   | HomePageBrandStatement
   | HomePageHero
-  | LegalDocuments
-  | Seo
+  | LegalDocument
   | PageSeo
   | GeneralLayout
   | ExperienceSeo
@@ -2238,7 +2222,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogCategory";
+        _type: "blogCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2247,7 +2231,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogPageCtaStrip";
+        _type: "blogCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2260,7 +2244,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogPageHero";
+        _type: "blogHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2302,7 +2286,7 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "BlogCategory";
+          [internalGroqTypeReferenceTo]?: "blogCategory";
         };
         categoryTag?: string;
         publishedAt?: string;
@@ -2790,7 +2774,32 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqContactStrip";
+        _type: "faq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "faqCategory";
+        };
+        question?: LocalizedString;
+        answer?: LocalizedText;
+      }
+    | {
+        _id: string;
+        _type: "faqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        labelEn?: string;
+        labelEs?: string;
+      }
+    | {
+        _id: string;
+        _type: "faqContactStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -2802,32 +2811,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqs";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "FaqsPageFaqsCategories";
-        };
-        question?: LocalizedString;
-        answer?: LocalizedText;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageFaqsCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        labelEn?: string;
-        labelEs?: string;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageHeroComponent";
+        _type: "faqHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3056,7 +3040,54 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHero";
+        _type: "howItWorksCta";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        scriptLine?: LocalizedString;
+        heading?: LocalizedString;
+        headingAccent?: LocalizedString;
+        subheading?: LocalizedText;
+        primaryCTA?: LocalizedString;
+        primaryCTAHref?: string;
+        secondaryCTA?: LocalizedString;
+        secondaryCTAHref?: string;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksFaq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        heading?: LocalizedString;
+        headingAccent?: LocalizedString;
+        subheading?: LocalizedText;
+        faqs?: Array<{
+          category?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
+          };
+          question?: LocalizedString;
+          answer?: LocalizedText;
+          _type: "faq";
+          _key: string;
+        }>;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksFaqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3080,54 +3111,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksCTA";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        scriptLine?: LocalizedString;
-        heading?: LocalizedString;
-        headingAccent?: LocalizedString;
-        subheading?: LocalizedText;
-        primaryCTA?: LocalizedString;
-        primaryCTAHref?: string;
-        secondaryCTA?: LocalizedString;
-        secondaryCTAHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksFAQ";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        heading?: LocalizedString;
-        headingAccent?: LocalizedString;
-        subheading?: LocalizedText;
-        faqs?: Array<{
-          category?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "HowItWorksPageHowItWorksFaqCategory";
-          };
-          question?: LocalizedString;
-          answer?: LocalizedText;
-          _type: "faq";
-          _key: string;
-        }>;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksFaqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        name?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksSteps";
+        _type: "howItWorksSteps";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3152,60 +3136,10 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "individualStory";
+        _type: "legalDocument";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        slug?: Slug;
-        names?: string;
-        proposalType?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "ProposalType";
-        };
-        packageTag?: LocalizedString;
-        date?: string;
-        location?: LocalizedString;
-        heroPhoto?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        quote?: LocalizedString;
-        body?: LocalizedBlock;
-        seo?: Seo;
-      }
-    | {
-        _id: string;
-        _type: "legalDocuments";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        pageName?: "privacy-policy" | "terms-of-service";
         content?: LocalizedBlock;
       }
     | {
@@ -3249,21 +3183,10 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "PageSeo";
+        _type: "pageSeo";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        pageName?:
-          | "blog"
-          | "contact"
-          | "faq"
-          | "home"
-          | "how-it-works"
-          | "privacy-policy"
-          | "proposals"
-          | "romantic-dinners"
-          | "stories"
-          | "terms-of-service";
         seo?: Seo;
       }
     | {
@@ -3308,15 +3231,6 @@ export type CatalogContentQueryResult = {
         featured?: boolean;
         displayOrder?: number;
         seo?: ExperienceSeo;
-      }
-    | {
-        _id: string;
-        _type: "ProposalType";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
       }
     | {
         _id: string;
@@ -3433,54 +3347,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "seo";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        meta?: {
-          en?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-        };
-        openGraph?: {
-          en?: {
-            title?: string;
-            description?: string;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-          };
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: "image";
-          };
-        };
-        structuredData?: {
-          en?: string;
-          es?: string;
-        };
-        noIndex?: boolean;
-        noFollow?: boolean;
-      }
-    | {
-        _id: string;
-        _type: "StoriesPageCtaStrip";
+        _type: "storiesCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3493,7 +3360,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "StoriesPageHero";
+        _type: "storiesHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3518,8 +3385,66 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "individualStory";
+          [internalGroqTypeReferenceTo]?: "story";
         };
+      }
+    | {
+        _id: string;
+        _type: "story";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        slug?: Slug;
+        names?: string;
+        proposalType?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "storyType";
+        };
+        packageTag?: LocalizedString;
+        date?: string;
+        location?: LocalizedString;
+        heroPhoto?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: LocalizedString;
+          _type: "image";
+          _key: string;
+        }>;
+        quote?: LocalizedString;
+        body?: LocalizedBlock;
+        seo?: Seo;
+      }
+    | {
+        _id: string;
+        _type: "storyType";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
       }
     | {
         _id: string;
@@ -3574,7 +3499,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogCategory";
+        _type: "blogCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3591,7 +3516,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogPageCtaStrip";
+        _type: "blogCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3612,7 +3537,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogPageHero";
+        _type: "blogHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -3662,7 +3587,7 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "BlogCategory";
+          [internalGroqTypeReferenceTo]?: "blogCategory";
         };
         categoryTag?: string;
         publishedAt?: string;
@@ -4113,7 +4038,48 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqContactStrip";
+        _type: "faq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "faqCategory";
+        };
+        question?: LocalizedString;
+        answer?: LocalizedText;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "faqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        labelEn?: string;
+        labelEs?: string;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "faqContactStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4133,48 +4099,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqs";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "FaqsPageFaqsCategories";
-        };
-        question?: LocalizedString;
-        answer?: LocalizedText;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageFaqsCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        labelEn?: string;
-        labelEs?: string;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageHeroComponent";
+        _type: "faqHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4481,7 +4406,78 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHero";
+        _type: "howItWorksCta";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        scriptLine?: LocalizedString;
+        heading?: LocalizedString;
+        headingAccent?: LocalizedString;
+        subheading?: LocalizedText;
+        primaryCTA?: LocalizedString;
+        primaryCTAHref?: string;
+        secondaryCTA?: LocalizedString;
+        secondaryCTAHref?: string;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksFaq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        heading?: LocalizedString;
+        headingAccent?: LocalizedString;
+        subheading?: LocalizedText;
+        faqs?: Array<{
+          category?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
+          };
+          question?: LocalizedString;
+          answer?: LocalizedText;
+          _type: "faq";
+          _key: string;
+        }>;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksFaqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4513,78 +4509,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksCTA";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        scriptLine?: LocalizedString;
-        heading?: LocalizedString;
-        headingAccent?: LocalizedString;
-        subheading?: LocalizedText;
-        primaryCTA?: LocalizedString;
-        primaryCTAHref?: string;
-        secondaryCTA?: LocalizedString;
-        secondaryCTAHref?: string;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksFAQ";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        heading?: LocalizedString;
-        headingAccent?: LocalizedString;
-        subheading?: LocalizedText;
-        faqs?: Array<{
-          category?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "HowItWorksPageHowItWorksFaqCategory";
-          };
-          question?: LocalizedString;
-          answer?: LocalizedText;
-          _type: "faq";
-          _key: string;
-        }>;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksFaqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        name?: LocalizedString;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksSteps";
+        _type: "howItWorksSteps";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -4617,68 +4542,10 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "individualStory";
+        _type: "legalDocument";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        slug?: Slug;
-        names?: string;
-        proposalType?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "ProposalType";
-        };
-        packageTag?: LocalizedString;
-        date?: string;
-        location?: LocalizedString;
-        heroPhoto?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        quote?: LocalizedString;
-        body?: LocalizedBlock;
-        seo?: Seo;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "legalDocuments";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        pageName?: "privacy-policy" | "terms-of-service";
         content?: LocalizedBlock;
         heroImage: null;
         proposalHeroImage: null;
@@ -4746,21 +4613,10 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "PageSeo";
+        _type: "pageSeo";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        pageName?:
-          | "blog"
-          | "contact"
-          | "faq"
-          | "home"
-          | "how-it-works"
-          | "privacy-policy"
-          | "proposals"
-          | "romantic-dinners"
-          | "stories"
-          | "terms-of-service";
         seo?: Seo;
         heroImage: null;
         proposalHeroImage: null;
@@ -4813,23 +4669,6 @@ export type CatalogContentQueryResult = {
         featured?: boolean;
         displayOrder?: number;
         seo?: ExperienceSeo;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "ProposalType";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
         heroImage: null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
@@ -4978,62 +4817,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "seo";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        meta?: {
-          en?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-        };
-        openGraph?: {
-          en?: {
-            title?: string;
-            description?: string;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-          };
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: "image";
-          };
-        };
-        structuredData?: {
-          en?: string;
-          es?: string;
-        };
-        noIndex?: boolean;
-        noFollow?: boolean;
-        heroImage: null;
-        proposalHeroImage: null;
-        dinnerHeroImage: null;
-        proposalSelectorImage: null;
-        dinnerSelectorImage: null;
-        journeyImages: null;
-        editorialImages: null;
-        moments: null;
-      }
-    | {
-        _id: string;
-        _type: "StoriesPageCtaStrip";
+        _type: "storiesCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5054,7 +4838,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "StoriesPageHero";
+        _type: "storiesHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5079,8 +4863,82 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "individualStory";
+          [internalGroqTypeReferenceTo]?: "story";
         };
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "story";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        slug?: Slug;
+        names?: string;
+        proposalType?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "storyType";
+        };
+        packageTag?: LocalizedString;
+        date?: string;
+        location?: LocalizedString;
+        heroPhoto?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: LocalizedString;
+          _type: "image";
+          _key: string;
+        }>;
+        quote?: LocalizedString;
+        body?: LocalizedBlock;
+        seo?: Seo;
+        heroImage: null;
+        proposalHeroImage: null;
+        dinnerHeroImage: null;
+        proposalSelectorImage: null;
+        dinnerSelectorImage: null;
+        journeyImages: null;
+        editorialImages: null;
+        moments: null;
+      }
+    | {
+        _id: string;
+        _type: "storyType";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
         heroImage: null;
         proposalHeroImage: null;
         dinnerHeroImage: null;
@@ -5143,7 +5001,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogCategory";
+        _type: "blogCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5152,7 +5010,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogPageCtaStrip";
+        _type: "blogCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5165,7 +5023,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "BlogPageHero";
+        _type: "blogHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5207,7 +5065,7 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "BlogCategory";
+          [internalGroqTypeReferenceTo]?: "blogCategory";
         };
         categoryTag?: string;
         publishedAt?: string;
@@ -5695,7 +5553,32 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqContactStrip";
+        _type: "faq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "faqCategory";
+        };
+        question?: LocalizedString;
+        answer?: LocalizedText;
+      }
+    | {
+        _id: string;
+        _type: "faqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        labelEn?: string;
+        labelEs?: string;
+      }
+    | {
+        _id: string;
+        _type: "faqContactStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5707,32 +5590,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "FaqsPageFaqs";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        category?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "FaqsPageFaqsCategories";
-        };
-        question?: LocalizedString;
-        answer?: LocalizedText;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageFaqsCategories";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        labelEn?: string;
-        labelEs?: string;
-      }
-    | {
-        _id: string;
-        _type: "FaqsPageHeroComponent";
+        _type: "faqHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5961,7 +5819,54 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHero";
+        _type: "howItWorksCta";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        scriptLine?: LocalizedString;
+        heading?: LocalizedString;
+        headingAccent?: LocalizedString;
+        subheading?: LocalizedText;
+        primaryCTA?: LocalizedString;
+        primaryCTAHref?: string;
+        secondaryCTA?: LocalizedString;
+        secondaryCTAHref?: string;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksFaq";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        eyebrow?: LocalizedString;
+        heading?: LocalizedString;
+        headingAccent?: LocalizedString;
+        subheading?: LocalizedText;
+        faqs?: Array<{
+          category?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "howItWorksFaqCategory";
+          };
+          question?: LocalizedString;
+          answer?: LocalizedText;
+          _type: "faq";
+          _key: string;
+        }>;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksFaqCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "howItWorksHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -5985,54 +5890,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "HowItWorksPageHowItWorksCTA";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        scriptLine?: LocalizedString;
-        heading?: LocalizedString;
-        headingAccent?: LocalizedString;
-        subheading?: LocalizedText;
-        primaryCTA?: LocalizedString;
-        primaryCTAHref?: string;
-        secondaryCTA?: LocalizedString;
-        secondaryCTAHref?: string;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksFAQ";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        eyebrow?: LocalizedString;
-        heading?: LocalizedString;
-        headingAccent?: LocalizedString;
-        subheading?: LocalizedText;
-        faqs?: Array<{
-          category?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "HowItWorksPageHowItWorksFaqCategory";
-          };
-          question?: LocalizedString;
-          answer?: LocalizedText;
-          _type: "faq";
-          _key: string;
-        }>;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksFaqCategory";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        name?: LocalizedString;
-      }
-    | {
-        _id: string;
-        _type: "HowItWorksPageHowItWorksSteps";
+        _type: "howItWorksSteps";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -6057,60 +5915,10 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "individualStory";
+        _type: "legalDocument";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        slug?: Slug;
-        names?: string;
-        proposalType?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "ProposalType";
-        };
-        packageTag?: LocalizedString;
-        date?: string;
-        location?: LocalizedString;
-        heroPhoto?: {
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-        gallery?: Array<{
-          asset?: {
-            _ref: string;
-            _type: "reference";
-            _weak?: boolean;
-            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-          };
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          caption?: LocalizedString;
-          _type: "image";
-          _key: string;
-        }>;
-        quote?: LocalizedString;
-        body?: LocalizedBlock;
-        seo?: Seo;
-      }
-    | {
-        _id: string;
-        _type: "legalDocuments";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        pageName?: "privacy-policy" | "terms-of-service";
         content?: LocalizedBlock;
       }
     | {
@@ -6154,21 +5962,10 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "PageSeo";
+        _type: "pageSeo";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
-        pageName?:
-          | "blog"
-          | "contact"
-          | "faq"
-          | "home"
-          | "how-it-works"
-          | "privacy-policy"
-          | "proposals"
-          | "romantic-dinners"
-          | "stories"
-          | "terms-of-service";
         seo?: Seo;
       }
     | {
@@ -6213,15 +6010,6 @@ export type CatalogContentQueryResult = {
         featured?: boolean;
         displayOrder?: number;
         seo?: ExperienceSeo;
-      }
-    | {
-        _id: string;
-        _type: "ProposalType";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        value?: string;
-        label?: LocalizedString;
       }
     | {
         _id: string;
@@ -6338,54 +6126,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "seo";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        meta?: {
-          en?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-            keywords?: Array<string>;
-          };
-        };
-        openGraph?: {
-          en?: {
-            title?: string;
-            description?: string;
-          };
-          es?: {
-            title?: string;
-            description?: string;
-          };
-          image?: {
-            asset?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-            };
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            _type: "image";
-          };
-        };
-        structuredData?: {
-          en?: string;
-          es?: string;
-        };
-        noIndex?: boolean;
-        noFollow?: boolean;
-      }
-    | {
-        _id: string;
-        _type: "StoriesPageCtaStrip";
+        _type: "storiesCtaStrip";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -6398,7 +6139,7 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
-        _type: "StoriesPageHero";
+        _type: "storiesHero";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
@@ -6423,8 +6164,66 @@ export type CatalogContentQueryResult = {
           _ref: string;
           _type: "reference";
           _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "individualStory";
+          [internalGroqTypeReferenceTo]?: "story";
         };
+      }
+    | {
+        _id: string;
+        _type: "story";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        slug?: Slug;
+        names?: string;
+        proposalType?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "storyType";
+        };
+        packageTag?: LocalizedString;
+        date?: string;
+        location?: LocalizedString;
+        heroPhoto?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: LocalizedString;
+          _type: "image";
+          _key: string;
+        }>;
+        quote?: LocalizedString;
+        body?: LocalizedBlock;
+        seo?: Seo;
+      }
+    | {
+        _id: string;
+        _type: "storyType";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
       }
     | {
         _id: string;
@@ -6500,7 +6299,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "BlogCategory";
+      _type: "blogCategory";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6531,7 +6330,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "BlogPageCtaStrip";
+      _type: "blogCtaStrip";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6562,7 +6361,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "BlogPageHero";
+      _type: "blogHero";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6834,7 +6633,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "FaqsPageFaqContactStrip";
+      _type: "faq";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6865,7 +6664,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "FaqsPageFaqs";
+      _type: "faqCategory";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6896,7 +6695,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "FaqsPageFaqsCategories";
+      _type: "faqContactStrip";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -6927,7 +6726,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "FaqsPageHeroComponent";
+      _type: "faqHero";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7268,7 +7067,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "HowItWorksPageHero";
+      _type: "howItWorksCta";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7299,38 +7098,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "HowItWorksPageHowItWorksCTA";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "HowItWorksPageHowItWorksFAQ";
+      _type: "howItWorksFaq";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7361,7 +7129,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "HowItWorksPageHowItWorksFaqCategory";
+      _type: "howItWorksFaqCategory";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7392,7 +7160,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "HowItWorksPageHowItWorksSteps";
+      _type: "howItWorksHero";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7423,14 +7191,14 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "individualStory";
-      slug: Slug | null;
+      _type: "howItWorksSteps";
+      slug: null;
       shortDescription: null;
       longDescription: null;
       basePrice: null;
       currency: null;
       priceLabel: null;
-      location: LocalizedString | null;
+      location: null;
       badge: null;
       includedGuests: null;
       minimumGuests: null;
@@ -7439,13 +7207,7 @@ export type TemplatePreviewQueryResult =
       includedDurationMinutes: null;
       maximumDurationMinutes: null;
       inclusions: null;
-      gallery: Array<{
-        _key: string;
-        alt: string | null;
-        caption: LocalizedString | null;
-        displayOrder: null;
-        image: null;
-      }> | null;
+      gallery: null;
       styles: null;
       availableAddons: null;
       menuItems: null;
@@ -7460,7 +7222,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "legalDocuments";
+      _type: "legalDocument";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7553,7 +7315,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "PageSeo";
+      _type: "pageSeo";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7575,7 +7337,50 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
+      seo: {
+        _type: "seo";
+        meta?: {
+          en?: {
+            title?: string;
+            description?: string;
+            keywords?: Array<string>;
+          };
+          es?: {
+            title?: string;
+            description?: string;
+            keywords?: Array<string>;
+          };
+        };
+        openGraph?: {
+          en?: {
+            title?: string;
+            description?: string;
+          };
+          es?: {
+            title?: string;
+            description?: string;
+          };
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: "image";
+          };
+        };
+        structuredData?: {
+          en?: string;
+          es?: string;
+        };
+        noIndex?: boolean;
+        noFollow?: boolean;
+        image: null;
+      } | null;
     }
   | {
       _id: string;
@@ -7671,37 +7476,6 @@ export type TemplatePreviewQueryResult =
         } | null;
         noIndex?: boolean;
       } | null;
-    }
-  | {
-      _id: string;
-      _key: null;
-      name: null;
-      description: null;
-      active: null;
-      displayOrder: null;
-      _type: "ProposalType";
-      slug: null;
-      shortDescription: null;
-      longDescription: null;
-      basePrice: null;
-      currency: null;
-      priceLabel: null;
-      location: null;
-      badge: null;
-      includedGuests: null;
-      minimumGuests: null;
-      maximumGuests: null;
-      additionalGuestPrice: null;
-      includedDurationMinutes: null;
-      maximumDurationMinutes: null;
-      inclusions: null;
-      gallery: null;
-      styles: null;
-      availableAddons: null;
-      menuItems: null;
-      beverages: null;
-      occasions: null;
-      seo: null;
     }
   | {
       _id: string;
@@ -7915,7 +7689,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "seo";
+      _type: "storiesCtaStrip";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7946,7 +7720,7 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "StoriesPageCtaStrip";
+      _type: "storiesHero";
       slug: null;
       shortDescription: null;
       longDescription: null;
@@ -7977,7 +7751,87 @@ export type TemplatePreviewQueryResult =
       description: null;
       active: null;
       displayOrder: null;
-      _type: "StoriesPageHero";
+      _type: "story";
+      slug: Slug | null;
+      shortDescription: null;
+      longDescription: null;
+      basePrice: null;
+      currency: null;
+      priceLabel: null;
+      location: LocalizedString | null;
+      badge: null;
+      includedGuests: null;
+      minimumGuests: null;
+      maximumGuests: null;
+      additionalGuestPrice: null;
+      includedDurationMinutes: null;
+      maximumDurationMinutes: null;
+      inclusions: null;
+      gallery: Array<{
+        _key: string;
+        alt: string | null;
+        caption: LocalizedString | null;
+        displayOrder: null;
+        image: null;
+      }> | null;
+      styles: null;
+      availableAddons: null;
+      menuItems: null;
+      beverages: null;
+      occasions: null;
+      seo: {
+        _type: "seo";
+        meta?: {
+          en?: {
+            title?: string;
+            description?: string;
+            keywords?: Array<string>;
+          };
+          es?: {
+            title?: string;
+            description?: string;
+            keywords?: Array<string>;
+          };
+        };
+        openGraph?: {
+          en?: {
+            title?: string;
+            description?: string;
+          };
+          es?: {
+            title?: string;
+            description?: string;
+          };
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            _type: "image";
+          };
+        };
+        structuredData?: {
+          en?: string;
+          es?: string;
+        };
+        noIndex?: boolean;
+        noFollow?: boolean;
+        image: null;
+      } | null;
+    }
+  | {
+      _id: string;
+      _key: null;
+      name: null;
+      description: null;
+      active: null;
+      displayOrder: null;
+      _type: "storyType";
       slug: null;
       shortDescription: null;
       longDescription: null;

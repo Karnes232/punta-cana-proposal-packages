@@ -1,22 +1,10 @@
 import { defineField, defineType } from "sanity";
 
 export const legalDocuments = defineType({
-  name: "legalDocuments",
+  name: "legalDocument",
   title: "Legal Documents",
   type: "document",
   fields: [
-    defineField({
-      name: "pageName",
-      title: "Page Name",
-      type: "string",
-      options: {
-        list: [
-          { title: "Privacy Policy", value: "privacy-policy" },
-          { title: "Terms of Service", value: "terms-of-service" },
-        ],
-      },
-      validation: (Rule) => Rule.required(),
-    }),
     defineField({
       name: "content",
       title: "Content",
@@ -25,8 +13,9 @@ export const legalDocuments = defineType({
     }),
   ],
   preview: {
-    select: {
-      title: "pageName",
-    },
+    select: { id: "_id" },
+    prepare: ({ id }) => ({
+      title: String(id ?? "").replace(/^(drafts\.)?legalDocument-/, ""),
+    }),
   },
 });

@@ -11,7 +11,7 @@ export interface BlogPageCtaStrip {
   ctaHref: string;
 }
 
-export const blogPageCtaStripQuery = `*[_type == "BlogPageCtaStrip"][0] {
+export const blogPageCtaStripQuery = `*[_type == "blogCtaStrip"][0] {
   eyebrow ${blogLocalizedStringGroq},
   heading ${blogLocalizedStringGroq},
   headingAccent ${blogLocalizedStringGroq},

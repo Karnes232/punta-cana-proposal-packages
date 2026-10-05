@@ -1,6 +1,6 @@
 [
   {
-    "name": "FaqsPageFaqs",
+    "name": "faq",
     "type": "document",
     "attributes": {
       "_id": {
@@ -13,7 +13,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "FaqsPageFaqs"
+          "value": "faq"
         }
       },
       "_createdAt": {
@@ -60,7 +60,7 @@
               "optional": true
             }
           },
-          "dereferencesTo": "FaqsPageFaqsCategories"
+          "dereferencesTo": "faqCategory"
         },
         "optional": true
       },
@@ -143,7 +143,7 @@
     }
   },
   {
-    "name": "FaqsPageFaqsCategories",
+    "name": "faqCategory",
     "type": "document",
     "attributes": {
       "_id": {
@@ -156,7 +156,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "FaqsPageFaqsCategories"
+          "value": "faqCategory"
         }
       },
       "_createdAt": {
@@ -201,7 +201,7 @@
     }
   },
   {
-    "name": "FaqsPageFaqContactStrip",
+    "name": "faqContactStrip",
     "type": "document",
     "attributes": {
       "_id": {
@@ -214,7 +214,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "FaqsPageFaqContactStrip"
+          "value": "faqContactStrip"
         }
       },
       "_createdAt": {
@@ -278,7 +278,7 @@
     }
   },
   {
-    "name": "FaqsPageHeroComponent",
+    "name": "faqHero",
     "type": "document",
     "attributes": {
       "_id": {
@@ -291,7 +291,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "FaqsPageHeroComponent"
+          "value": "faqHero"
         }
       },
       "_createdAt": {
@@ -511,7 +511,7 @@
     }
   },
   {
-    "name": "HowItWorksPageHowItWorksCTA",
+    "name": "howItWorksCta",
     "type": "document",
     "attributes": {
       "_id": {
@@ -524,7 +524,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "HowItWorksPageHowItWorksCTA"
+          "value": "howItWorksCta"
         }
       },
       "_createdAt": {
@@ -618,7 +618,7 @@
     }
   },
   {
-    "name": "HowItWorksPageHowItWorksFAQ",
+    "name": "howItWorksFaq",
     "type": "document",
     "attributes": {
       "_id": {
@@ -631,7 +631,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "HowItWorksPageHowItWorksFAQ"
+          "value": "howItWorksFaq"
         }
       },
       "_createdAt": {
@@ -717,7 +717,7 @@
                       "optional": true
                     }
                   },
-                  "dereferencesTo": "HowItWorksPageHowItWorksFaqCategory"
+                  "dereferencesTo": "howItWorksFaqCategory"
                 },
                 "optional": true
               },
@@ -763,7 +763,7 @@
     }
   },
   {
-    "name": "HowItWorksPageHowItWorksFaqCategory",
+    "name": "howItWorksFaqCategory",
     "type": "document",
     "attributes": {
       "_id": {
@@ -776,7 +776,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "HowItWorksPageHowItWorksFaqCategory"
+          "value": "howItWorksFaqCategory"
         }
       },
       "_createdAt": {
@@ -808,7 +808,7 @@
     }
   },
   {
-    "name": "HowItWorksPageHowItWorksSteps",
+    "name": "howItWorksSteps",
     "type": "document",
     "attributes": {
       "_id": {
@@ -821,7 +821,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "HowItWorksPageHowItWorksSteps"
+          "value": "howItWorksSteps"
         }
       },
       "_createdAt": {
@@ -1002,7 +1002,7 @@
     }
   },
   {
-    "name": "HowItWorksPageHero",
+    "name": "howItWorksHero",
     "type": "document",
     "attributes": {
       "_id": {
@@ -1015,7 +1015,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "HowItWorksPageHero"
+          "value": "howItWorksHero"
         }
       },
       "_createdAt": {
@@ -1355,7 +1355,7 @@
     }
   },
   {
-    "name": "BlogPageCtaStrip",
+    "name": "blogCtaStrip",
     "type": "document",
     "attributes": {
       "_id": {
@@ -1368,7 +1368,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "BlogPageCtaStrip"
+          "value": "blogCtaStrip"
         }
       },
       "_createdAt": {
@@ -1759,7 +1759,7 @@
     }
   },
   {
-    "name": "BlogPageHero",
+    "name": "blogHero",
     "type": "document",
     "attributes": {
       "_id": {
@@ -1772,7 +1772,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "BlogPageHero"
+          "value": "blogHero"
         }
       },
       "_createdAt": {
@@ -2061,7 +2061,7 @@
               "optional": true
             }
           },
-          "dereferencesTo": "BlogCategory"
+          "dereferencesTo": "blogCategory"
         },
         "optional": true
       },
@@ -2456,7 +2456,7 @@
     }
   },
   {
-    "name": "BlogCategory",
+    "name": "blogCategory",
     "type": "document",
     "attributes": {
       "_id": {
@@ -2469,7 +2469,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "BlogCategory"
+          "value": "blogCategory"
         }
       },
       "_createdAt": {
@@ -2538,7 +2538,7 @@
     }
   },
   {
-    "name": "StoriesPageCtaStrip",
+    "name": "storiesCtaStrip",
     "type": "document",
     "attributes": {
       "_id": {
@@ -2551,7 +2551,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "StoriesPageCtaStrip"
+          "value": "storiesCtaStrip"
         }
       },
       "_createdAt": {
@@ -2622,7 +2622,7 @@
     }
   },
   {
-    "name": "StoriesPageHero",
+    "name": "storiesHero",
     "type": "document",
     "attributes": {
       "_id": {
@@ -2635,7 +2635,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "StoriesPageHero"
+          "value": "storiesHero"
         }
       },
       "_createdAt": {
@@ -2790,14 +2790,14 @@
               "optional": true
             }
           },
-          "dereferencesTo": "individualStory"
+          "dereferencesTo": "story"
         },
         "optional": true
       }
     }
   },
   {
-    "name": "individualStory",
+    "name": "story",
     "type": "document",
     "attributes": {
       "_id": {
@@ -2810,7 +2810,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "individualStory"
+          "value": "story"
         }
       },
       "_createdAt": {
@@ -2872,7 +2872,7 @@
               "optional": true
             }
           },
-          "dereferencesTo": "ProposalType"
+          "dereferencesTo": "storyType"
         },
         "optional": true
       },
@@ -3096,6 +3096,258 @@
           "name": "seo"
         },
         "optional": true
+      }
+    }
+  },
+  {
+    "name": "seo",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "seo"
+          }
+        },
+        "meta": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "object",
+            "attributes": {
+              "en": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "object",
+                  "attributes": {
+                    "title": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "description": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "keywords": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "array",
+                        "of": {
+                          "type": "string"
+                        }
+                      },
+                      "optional": true
+                    }
+                  }
+                },
+                "optional": true
+              },
+              "es": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "object",
+                  "attributes": {
+                    "title": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "description": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "keywords": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "array",
+                        "of": {
+                          "type": "string"
+                        }
+                      },
+                      "optional": true
+                    }
+                  }
+                },
+                "optional": true
+              }
+            }
+          },
+          "optional": true
+        },
+        "openGraph": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "object",
+            "attributes": {
+              "en": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "object",
+                  "attributes": {
+                    "title": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "description": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    }
+                  }
+                },
+                "optional": true
+              },
+              "es": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "object",
+                  "attributes": {
+                    "title": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "description": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    }
+                  }
+                },
+                "optional": true
+              },
+              "image": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "object",
+                  "attributes": {
+                    "asset": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "object",
+                        "attributes": {
+                          "_ref": {
+                            "type": "objectAttribute",
+                            "value": {
+                              "type": "string"
+                            }
+                          },
+                          "_type": {
+                            "type": "objectAttribute",
+                            "value": {
+                              "type": "string",
+                              "value": "reference"
+                            }
+                          },
+                          "_weak": {
+                            "type": "objectAttribute",
+                            "value": {
+                              "type": "boolean"
+                            },
+                            "optional": true
+                          }
+                        },
+                        "dereferencesTo": "sanity.imageAsset"
+                      },
+                      "optional": true
+                    },
+                    "media": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "unknown"
+                      },
+                      "optional": true
+                    },
+                    "hotspot": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "inline",
+                        "name": "sanity.imageHotspot"
+                      },
+                      "optional": true
+                    },
+                    "crop": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "inline",
+                        "name": "sanity.imageCrop"
+                      },
+                      "optional": true
+                    },
+                    "_type": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string",
+                        "value": "image"
+                      }
+                    }
+                  }
+                },
+                "optional": true
+              }
+            }
+          },
+          "optional": true
+        },
+        "structuredData": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "object",
+            "attributes": {
+              "en": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "es": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              }
+            }
+          },
+          "optional": true
+        },
+        "noIndex": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
+        "noFollow": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
       }
     }
   },
@@ -3474,7 +3726,7 @@
     }
   },
   {
-    "name": "ProposalType",
+    "name": "storyType",
     "type": "document",
     "attributes": {
       "_id": {
@@ -3487,7 +3739,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "ProposalType"
+          "value": "storyType"
         }
       },
       "_createdAt": {
@@ -4635,7 +4887,7 @@
     }
   },
   {
-    "name": "legalDocuments",
+    "name": "legalDocument",
     "type": "document",
     "attributes": {
       "_id": {
@@ -4648,7 +4900,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "legalDocuments"
+          "value": "legalDocument"
         }
       },
       "_createdAt": {
@@ -4668,23 +4920,6 @@
         "value": {
           "type": "string"
         }
-      },
-      "pageName": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "union",
-          "of": [
-            {
-              "type": "string",
-              "value": "privacy-policy"
-            },
-            {
-              "type": "string",
-              "value": "terms-of-service"
-            }
-          ]
-        },
-        "optional": true
       },
       "content": {
         "type": "objectAttribute",
@@ -4697,7 +4932,7 @@
     }
   },
   {
-    "name": "seo",
+    "name": "pageSeo",
     "type": "document",
     "attributes": {
       "_id": {
@@ -4710,7 +4945,7 @@
         "type": "objectAttribute",
         "value": {
           "type": "string",
-          "value": "seo"
+          "value": "pageSeo"
         }
       },
       "_createdAt": {
@@ -4730,328 +4965,6 @@
         "value": {
           "type": "string"
         }
-      },
-      "meta": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "object",
-          "attributes": {
-            "en": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "object",
-                "attributes": {
-                  "title": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "description": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "keywords": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "array",
-                      "of": {
-                        "type": "string"
-                      }
-                    },
-                    "optional": true
-                  }
-                }
-              },
-              "optional": true
-            },
-            "es": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "object",
-                "attributes": {
-                  "title": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "description": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "keywords": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "array",
-                      "of": {
-                        "type": "string"
-                      }
-                    },
-                    "optional": true
-                  }
-                }
-              },
-              "optional": true
-            }
-          }
-        },
-        "optional": true
-      },
-      "openGraph": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "object",
-          "attributes": {
-            "en": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "object",
-                "attributes": {
-                  "title": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "description": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  }
-                }
-              },
-              "optional": true
-            },
-            "es": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "object",
-                "attributes": {
-                  "title": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  },
-                  "description": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    },
-                    "optional": true
-                  }
-                }
-              },
-              "optional": true
-            },
-            "image": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "object",
-                "attributes": {
-                  "asset": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "object",
-                      "attributes": {
-                        "_ref": {
-                          "type": "objectAttribute",
-                          "value": {
-                            "type": "string"
-                          }
-                        },
-                        "_type": {
-                          "type": "objectAttribute",
-                          "value": {
-                            "type": "string",
-                            "value": "reference"
-                          }
-                        },
-                        "_weak": {
-                          "type": "objectAttribute",
-                          "value": {
-                            "type": "boolean"
-                          },
-                          "optional": true
-                        }
-                      },
-                      "dereferencesTo": "sanity.imageAsset"
-                    },
-                    "optional": true
-                  },
-                  "media": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "unknown"
-                    },
-                    "optional": true
-                  },
-                  "hotspot": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "inline",
-                      "name": "sanity.imageHotspot"
-                    },
-                    "optional": true
-                  },
-                  "crop": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "inline",
-                      "name": "sanity.imageCrop"
-                    },
-                    "optional": true
-                  },
-                  "_type": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string",
-                      "value": "image"
-                    }
-                  }
-                }
-              },
-              "optional": true
-            }
-          }
-        },
-        "optional": true
-      },
-      "structuredData": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "object",
-          "attributes": {
-            "en": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": true
-            },
-            "es": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": true
-            }
-          }
-        },
-        "optional": true
-      },
-      "noIndex": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      },
-      "noFollow": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      }
-    }
-  },
-  {
-    "name": "PageSeo",
-    "type": "document",
-    "attributes": {
-      "_id": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_type": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string",
-          "value": "PageSeo"
-        }
-      },
-      "_createdAt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_updatedAt": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "_rev": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        }
-      },
-      "pageName": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "union",
-          "of": [
-            {
-              "type": "string",
-              "value": "home"
-            },
-            {
-              "type": "string",
-              "value": "proposals"
-            },
-            {
-              "type": "string",
-              "value": "romantic-dinners"
-            },
-            {
-              "type": "string",
-              "value": "stories"
-            },
-            {
-              "type": "string",
-              "value": "how-it-works"
-            },
-            {
-              "type": "string",
-              "value": "faq"
-            },
-            {
-              "type": "string",
-              "value": "contact"
-            },
-            {
-              "type": "string",
-              "value": "blog"
-            },
-            {
-              "type": "string",
-              "value": "privacy-policy"
-            },
-            {
-              "type": "string",
-              "value": "terms-of-service"
-            }
-          ]
-        },
-        "optional": true
       },
       "seo": {
         "type": "objectAttribute",

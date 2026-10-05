@@ -1,8 +1,8 @@
 import type { PortableTextBlock } from "@portabletext/react";
+import { legalDocumentId } from "@/sanity/constants";
 import { client } from "@/sanity/lib/client";
 
 export interface LegalDocuments {
-  pageName: string;
   content: {
     _type: string;
     en: PortableTextBlock[];
@@ -10,13 +10,14 @@ export interface LegalDocuments {
   };
 }
 
-export const legalDocumentsQuery = `*[_type == "legalDocuments" && pageName == $pageName][0] {
-  pageName,
+export const legalDocumentsQuery = `*[_type == "legalDocument" && _id == $id][0] {
   content
 }`;
 
 export async function getLegalDocuments(
   pageName: string,
 ): Promise<LegalDocuments> {
-  return await client.fetch<LegalDocuments>(legalDocumentsQuery, { pageName });
+  return await client.fetch<LegalDocuments>(legalDocumentsQuery, {
+    id: legalDocumentId(pageName),
+  });
 }

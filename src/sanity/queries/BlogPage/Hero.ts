@@ -47,7 +47,7 @@ export interface BlogPageHero {
   featuredPost: FeaturedPost;
 }
 
-export const blogPageHeroQuery = `*[_type == "BlogPageHero"][0] {
+export const blogPageHeroQuery = `*[_type == "blogHero"][0] {
   eyebrow ${blogLocalizedStringGroq},
   headingLine1 ${blogLocalizedStringGroq},
   headingLine2 ${blogLocalizedStringGroq},

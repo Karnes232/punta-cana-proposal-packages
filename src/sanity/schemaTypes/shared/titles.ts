@@ -26,9 +26,9 @@ export const typeTitles: Record<string, string> = {
   experienceSeo: "SEO",
   // Site-wide
   generalLayout: bi("Negocio y redes sociales", "Business & social links"),
-  PageSeo: bi("SEO de página", "Page SEO"),
+  pageSeo: bi("SEO de página", "Page SEO"),
   seo: "SEO",
-  legalDocuments: bi("Documento legal", "Legal document"),
+  legalDocument: bi("Documento legal", "Legal document"),
   localizedString: bi("Texto (EN/ES)", "Text (EN/ES)"),
   localizedText: bi("Texto largo (EN/ES)", "Long text (EN/ES)"),
   localizedBlock: bi("Contenido (EN/ES)", "Rich text (EN/ES)"),
@@ -62,39 +62,30 @@ export const typeTitles: Record<string, string> = {
   HomePageCTABanner: bi("Inicio antiguo: llamada final", "Old home: CTA"),
   ContactPageContent: bi("Contacto antiguo", "Old contact page"),
   // Stories
-  StoriesPageHero: bi("Historias: portada", "Stories: hero"),
-  StoriesPageCtaStrip: bi("Historias: franja final", "Stories: closing banner"),
-  individualStory: bi("Historia", "Story"),
-  ProposalType: bi("Tipo de propuesta", "Proposal type"),
+  storiesHero: bi("Historias: portada", "Stories: hero"),
+  storiesCtaStrip: bi("Historias: franja final", "Stories: closing banner"),
+  story: bi("Historia", "Story"),
+  storyType: bi("Tipo de propuesta", "Proposal type"),
   // Blog
-  BlogPageHero: bi("Blog: portada", "Blog: hero"),
-  BlogPageCtaStrip: bi("Blog: franja final", "Blog: closing banner"),
+  blogHero: bi("Blog: portada", "Blog: hero"),
+  blogCtaStrip: bi("Blog: franja final", "Blog: closing banner"),
   blogPost: bi("Artículo del blog", "Blog post"),
   blogPostSeo: "SEO",
-  BlogCategory: bi("Categoría del blog", "Blog category"),
+  blogCategory: bi("Categoría del blog", "Blog category"),
   // FAQ
-  FaqsPageHeroComponent: bi("Preguntas: portada", "FAQ: hero"),
-  FaqsPageFaqContactStrip: bi(
-    "Preguntas: franja de contacto",
-    "FAQ: contact banner",
-  ),
-  FaqsPageFaqs: bi("Pregunta frecuente", "FAQ"),
-  FaqsPageFaqsCategories: bi("Categoría de preguntas", "FAQ category"),
+  faqHero: bi("Preguntas: portada", "FAQ: hero"),
+  faqContactStrip: bi("Preguntas: franja de contacto", "FAQ: contact banner"),
+  faq: bi("Pregunta frecuente", "FAQ"),
+  faqCategory: bi("Categoría de preguntas", "FAQ category"),
   // How it works
-  HowItWorksPageHero: bi("Cómo funciona: portada", "How it works: hero"),
-  HowItWorksPageHowItWorksSteps: bi(
-    "Cómo funciona: pasos",
-    "How it works: steps",
-  ),
-  HowItWorksPageHowItWorksFAQ: bi(
-    "Cómo funciona: preguntas",
-    "How it works: questions",
-  ),
-  HowItWorksPageHowItWorksFaqCategory: bi(
+  howItWorksHero: bi("Cómo funciona: portada", "How it works: hero"),
+  howItWorksSteps: bi("Cómo funciona: pasos", "How it works: steps"),
+  howItWorksFaq: bi("Cómo funciona: preguntas", "How it works: questions"),
+  howItWorksFaqCategory: bi(
     "Cómo funciona: categoría de preguntas",
     "How it works: question category",
   ),
-  HowItWorksPageHowItWorksCTA: bi(
+  howItWorksCta: bi(
     "Cómo funciona: llamada final",
     "How it works: closing call to action",
   ),

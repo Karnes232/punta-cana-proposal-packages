@@ -63,7 +63,7 @@ export interface StoriesPageHero {
   };
 }
 
-export const storiesPageHeroQuery = `*[_type == "StoriesPageHero"][0] {
+export const storiesPageHeroQuery = `*[_type == "storiesHero"][0] {
   eyebrow {
     en,
     es

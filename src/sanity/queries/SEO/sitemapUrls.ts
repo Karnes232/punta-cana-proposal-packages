@@ -7,7 +7,7 @@ const sitemapBlogEntriesQuery = `*[_type == "blogPost" && defined(slug.current) 
   "slug": slug.current
 }`;
 
-const sitemapStorySlugsQuery = `*[_type == "individualStory" && defined(slug.current)] {
+const sitemapStorySlugsQuery = `*[_type == "story" && defined(slug.current)] {
   "slug": slug.current
 }`;
 

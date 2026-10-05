@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
-  name: "HowItWorksPageHero",
+  name: "howItWorksHero",
   title: "How It Works Page Hero",
   type: "document",
   icon: DocumentIcon,

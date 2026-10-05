@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 import { bi } from "../shared/labels";
 
 export default defineType({
-  name: "individualStory",
+  name: "story",
   title: "Individual Story",
   type: "document",
   groups: [
@@ -45,7 +45,7 @@ export default defineType({
       title: "Proposal Type",
       group: "basic",
       type: "reference",
-      to: [{ type: "ProposalType" }],
+      to: [{ type: "storyType" }],
       options: { disableNew: true },
       validation: (R) => R.required(),
     }),
