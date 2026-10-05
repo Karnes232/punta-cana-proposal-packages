@@ -78,6 +78,18 @@ test("contact is acknowledged only after durable persistence", async () => {
   assert.equal(stored.value.contact.email, body.contact.email);
   assert.equal(stored.value.snapshot, null);
 });
+test("requests are accepted in every site language and nothing else", async () => {
+  for (const locale of ["en", "es", "fr", "pt"]) {
+    const response = await POST(request({ ...body, locale }));
+    assert.equal(response.status, 201, locale);
+    assert.equal(stored.value.locale, locale);
+  }
+  stored = null;
+  // Blog-only languages have no request form.
+  for (const locale of ["de", "zz", ""])
+    assert.equal((await POST(request({ ...body, locale }))).status, 400);
+  assert.equal(stored, null);
+});
 test("failed or unmodified writes never report success", async () => {
   for (mode of ["fail", "unmodified"])
     assert.equal((await POST(request())).status, 503);

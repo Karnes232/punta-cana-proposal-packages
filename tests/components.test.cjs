@@ -44,6 +44,7 @@ const { act } = React;
 const { createRoot } = require("react-dom/client");
 const Card =
   require("../src/components/ExperienceCatalog/ExperienceCard.tsx").default;
+const { ui } = require("../src/lib/experience/labels.ts");
 const fixture = {
   _id: "fixture",
   _type: "proposalExperience",
@@ -83,8 +84,8 @@ const fixture = {
   beverages: [],
   occasions: [],
 };
-test("EN and ES: styles change image/price, keep extras, gallery keyboard and inline form work", async () => {
-  for (const locale of ["en", "es"]) {
+test("Every site language: styles change image/price, keep extras, gallery keyboard and inline form work", async () => {
+  for (const locale of ["en", "es", "fr", "pt"]) {
     const root = createRoot(document.getElementById("root"));
     await act(async () =>
       root.render(
@@ -303,8 +304,8 @@ test("proposal template keeps extras across styles, shows no invented price and 
   await act(async () => root.unmount());
 });
 
-test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across collapse", async () => {
-  for (const locale of ["en", "es"]) {
+test("Every site language: progressive menus preserve guests 1-N, cocktails and extras across collapse", async () => {
+  for (const locale of ["en", "es", "fr", "pt"]) {
     const e = {
       ...fixture,
       _type: "romanticDinnerExperience",
@@ -347,15 +348,11 @@ test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across c
     const buttons = () => [...document.querySelectorAll("button")];
     const add = () =>
       buttons().find(
-        (b) =>
-          b.getAttribute("aria-label") ===
-          (locale === "es" ? "Añadir invitado" : "Add guest"),
+        (b) => b.getAttribute("aria-label") === ui.addGuest[locale],
       );
     const minus = () =>
       buttons().find(
-        (b) =>
-          b.getAttribute("aria-label") ===
-          (locale === "es" ? "Quitar invitado" : "Remove guest"),
+        (b) => b.getAttribute("aria-label") === ui.removeGuest[locale],
       );
     await act(async () => add().click());
     assert.equal(
@@ -508,7 +505,7 @@ test("date request form sends preferences and uses the editable deposit without 
     return { ok: true };
   };
   try {
-    for (const locale of ["en", "es"]) {
+    for (const locale of ["en", "es", "fr", "pt"]) {
       const root = createRoot(document.getElementById("root"));
       await act(async () =>
         root.render(
@@ -553,9 +550,8 @@ test("date request form sends preferences and uses the editable deposit without 
       assert.match(form.querySelector("[role=status]").textContent, /250/);
       assert.match(
         form.querySelector("[role=status]").textContent,
-        locale === "es"
-          ? /confirmar la disponibilidad/
-          : /confirm availability/,
+        // The dinner success message, up to its {deposit} placeholder.
+        new RegExp(ui.dinnerRequestSuccess[locale].split("{")[0].slice(-40)),
       );
       assert.doesNotMatch(
         form.querySelector("[role=status]").textContent,
