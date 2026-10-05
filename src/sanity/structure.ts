@@ -252,7 +252,7 @@ export const structure: StructureResolver = (S) => {
       ]),
       folder(bi("Preguntas frecuentes", "FAQ"), HelpCircleIcon, [
         pageSection(bi("Portada", "Hero"), "faqHero"),
-        list(bi("Preguntas", "Questions"), "faq"),
+        languageList(bi("Preguntas", "Questions"), "faq"),
         list(bi("Categorías", "Categories"), "faqCategory", TagIcon),
         pageSection(
           bi("Franja de contacto", "Contact banner"),

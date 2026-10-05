@@ -66,6 +66,9 @@ export const PER_LANGUAGE_TYPES: readonly string[] = [
   "storiesHero",
   "storiesCtaStrip",
   "story",
+  "faqHero",
+  "faqContactStrip",
+  "faq",
 ];
 
 /** A page document's fixed ID in one language, e.g. "storiesHero-fr". */

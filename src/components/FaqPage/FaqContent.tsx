@@ -25,7 +25,6 @@ const FaqContent = ({ locale, faqsCategories, faqs }: FaqContentProps) => {
       <FaqAccordion
         key={activeCategory}
         activeCategory={activeCategory}
-        locale={locale}
         faqs={faqs}
       />
     </>

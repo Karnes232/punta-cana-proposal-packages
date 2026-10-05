@@ -1,4 +1,5 @@
 "use client";
+import { local } from "@/lib/experience/normalize";
 import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 
@@ -84,7 +85,7 @@ export default function FaqCategoryFilter({
             <FaqCategoryPill
               key={cat.value}
               value={cat.value}
-              label={locale === "es" ? cat.labelEs : cat.labelEn}
+              label={local(cat.label, locale)}
               isActive={active === cat.value}
               onClick={handleSelect}
             />

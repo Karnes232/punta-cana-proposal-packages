@@ -1,5 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import { PAGE_SINGLETONS } from "@/sanity/constants";
+import { pageSectionDocument, pageSectionParams } from "../pageSection";
 import { imageWithDimensions } from "../fragments";
 
 export interface FaqsPageHeroComponent {
@@ -15,48 +15,25 @@ export interface FaqsPageHeroComponent {
     };
     alt: string;
   };
-  eyebrow: {
-    en: string;
-    es: string;
-  };
-  headingLine1: {
-    en: string;
-    es: string;
-  };
-  headingLine2: {
-    en: string;
-    es: string;
-  };
-  subheading: {
-    en: string;
-    es: string;
-  };
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  subheading: string;
 }
 
-export const faqsPageHeroComponentQuery = `*[_type == "faqHero" && _id == $id][0] {
+export const faqsPageHeroComponentQuery = `${pageSectionDocument("faqHero")} {
   heroImage {
     ${imageWithDimensions}
   },
-  eyebrow {
-    en,
-    es
-  },
-  headingLine1 {
-    en,
-    es
-  },
-  headingLine2 {
-    en,
-    es
-  },
-  subheading {
-    en,
-    es
-  }
+  eyebrow,
+  headingLine1,
+  headingLine2,
+  subheading
 }`;
 
-export const getFaqPageHero = async () => {
-  return await client.fetch(faqsPageHeroComponentQuery, {
-    id: PAGE_SINGLETONS.faqHero,
-  });
+export const getFaqPageHero = async (locale: string) => {
+  return await client.fetch(
+    faqsPageHeroComponentQuery,
+    pageSectionParams("faqHero", locale),
+  );
 };

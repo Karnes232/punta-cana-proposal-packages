@@ -26,10 +26,10 @@ export default async function FAQ({
   const lang = toSiteLocale(locale);
   const [hero, contactStrip, faqsCategories, faqs, structuredData] =
     await Promise.all([
-      getFaqPageHero(),
-      getFaqContactStrip(),
+      getFaqPageHero(lang),
+      getFaqContactStrip(lang),
       getFaqCategories(),
-      getFaqs(),
+      getFaqs(lang),
       getStructuredData("faq", lang),
     ]);
 
@@ -41,18 +41,18 @@ export default async function FAQ({
       />
       <FaqHero
         heroImage={hero?.heroImage}
-        eyebrow={hero?.eyebrow[lang]}
-        headingLine1={hero?.headingLine1[lang]}
-        headingLine2={hero?.headingLine2[lang]}
-        subheading={hero?.subheading[lang]}
+        eyebrow={hero?.eyebrow}
+        headingLine1={hero?.headingLine1}
+        headingLine2={hero?.headingLine2}
+        subheading={hero?.subheading}
       />
       <FaqContent locale={lang} faqsCategories={faqsCategories} faqs={faqs} />
       <FaqContactStrip
-        eyebrow={contactStrip?.eyebrow[lang]}
-        line1={contactStrip?.line1[lang]}
-        line2={contactStrip?.line2[lang]}
-        body={contactStrip?.body[lang]}
-        cta={contactStrip?.cta[lang]}
+        eyebrow={contactStrip?.eyebrow}
+        line1={contactStrip?.line1}
+        line2={contactStrip?.line2}
+        body={contactStrip?.body}
+        cta={contactStrip?.cta}
       />
     </main>
   );

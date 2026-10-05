@@ -1,18 +1,15 @@
-import type { SiteLocale } from "@/i18n/locales";
 import FaqAccordionItem from "./FaqAccordionItem";
 import { Faqs } from "@/sanity/queries/FaqPage/Faqs";
 import { useTranslations } from "next-intl";
 
 interface FaqAccordionListProps {
   items: Faqs[];
-  locale: SiteLocale;
   openId: string | null;
   onToggle: (id: string) => void;
 }
 
 export default function FaqAccordionList({
   items,
-  locale,
   openId,
   onToggle,
 }: FaqAccordionListProps) {
@@ -31,7 +28,6 @@ export default function FaqAccordionList({
         <FaqAccordionItem
           key={item._id}
           item={item}
-          locale={locale}
           isOpen={openId === item._id}
           onToggle={() => onToggle(item._id)}
         />
