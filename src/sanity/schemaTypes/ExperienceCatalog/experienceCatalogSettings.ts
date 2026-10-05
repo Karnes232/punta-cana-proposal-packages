@@ -410,7 +410,6 @@ export const catalogHome = defineType({
     { name: "photos", title: bi("Fotos", "Photos"), default: true },
     { name: "text", title: bi("Textos", "Text") },
     { name: "featured", title: bi("Destacadas", "Featured") },
-    { name: "seo", title: "SEO" },
   ],
   initialValue: {
     copy: Object.fromEntries(
@@ -481,20 +480,6 @@ export const catalogHome = defineType({
         validation: (r) => r.max(name === "journeyImages" ? 5 : 8),
       }),
     ),
-    ...["eyebrow", "headline", "subheadline"].map((k) => ({
-      ...field(k, "localizedString", "text"),
-      description: bi(
-        "Si lo llenas, reemplaza el mismo texto en Textos de la página › Portada",
-        "If filled, replaces the same text in Page text › Hero",
-      ),
-    })),
-    ...["primaryCTA", "secondaryCTA"].map((k) => ({
-      ...field(k, "localizedString", "text"),
-      description: bi(
-        "No se muestra en el sitio (los botones usan Textos de la página)",
-        "Not shown on the site (the buttons use Page text)",
-      ),
-    })),
     {
       ...field("contactHeading", "localizedString", "text"),
       description: bi(
@@ -502,7 +487,6 @@ export const catalogHome = defineType({
         "Heading above the contact button on Proposals and Dinners",
       ),
     },
-    field("seo", "experienceSeo", "seo"),
   ],
 });
 export const catalogContact = defineType({
@@ -516,9 +500,5 @@ export const catalogContact = defineType({
     ...["heading", "description", "businessInformation"].map((k) =>
       field(k, "localizedText"),
     ),
-    field("telephone"),
-    field("email"),
-    field("whatsapp"),
-    field("seo", "experienceSeo"),
   ],
 });

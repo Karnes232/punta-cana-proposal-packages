@@ -1,5 +1,5 @@
 import Catalog from "@/components/ExperienceCatalog/Catalog";
-import { catalogMetadata } from "@/lib/seo/catalogMetadata";
+import { catalogPageMetadata } from "@/lib/seo/catalogMetadata";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
@@ -21,10 +21,10 @@ export async function generateMetadata({
   const { locale } = await params;
   requireLocale(locale);
   const c = await getCatalogContent();
-  return catalogMetadata(
+  return catalogPageMetadata(
     locale,
     "/romantic-dinners",
-    undefined,
+    "romantic-dinners",
     label(c.settings, locale, "dinnerSectionTitle"),
   );
 }

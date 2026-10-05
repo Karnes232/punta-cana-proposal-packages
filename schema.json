@@ -5015,6 +5015,14 @@
             },
             {
               "type": "string",
+              "value": "proposals"
+            },
+            {
+              "type": "string",
+              "value": "romantic-dinners"
+            },
+            {
+              "type": "string",
               "value": "stories"
             },
             {
@@ -5258,6 +5266,13 @@
         "optional": true
       },
       "telephone": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "whatsapp": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
@@ -5591,35 +5606,6 @@
         "value": {
           "type": "inline",
           "name": "localizedText"
-        },
-        "optional": true
-      },
-      "telephone": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "email": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "whatsapp": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "seo": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "experienceSeo"
         },
         "optional": true
       }
@@ -6915,59 +6901,11 @@
         },
         "optional": true
       },
-      "eyebrow": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "localizedString"
-        },
-        "optional": true
-      },
-      "headline": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "localizedString"
-        },
-        "optional": true
-      },
-      "subheadline": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "localizedString"
-        },
-        "optional": true
-      },
-      "primaryCTA": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "localizedString"
-        },
-        "optional": true
-      },
-      "secondaryCTA": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "localizedString"
-        },
-        "optional": true
-      },
       "contactHeading": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",
           "name": "localizedString"
-        },
-        "optional": true
-      },
-      "seo": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "experienceSeo"
         },
         "optional": true
       }

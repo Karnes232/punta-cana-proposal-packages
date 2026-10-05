@@ -12,6 +12,8 @@ export default defineType({
       options: {
         list: [
           { title: "Home", value: "home" },
+          { title: "Proposals", value: "proposals" },
+          { title: "Romantic dinners", value: "romantic-dinners" },
           { title: "Stories", value: "stories" },
           { title: "How It Works", value: "how-it-works" },
           { title: "FAQ", value: "faq" },

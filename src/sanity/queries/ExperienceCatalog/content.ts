@@ -28,13 +28,9 @@ export const catalogContentQuery = defineQuery(`{
         dinnerSelectorImage ${imageWithAlt},
         journeyImages[] ${imageWithAlt},
         editorialImages[] ${imageWithAlt},
-        moments[] ${imageWithAlt},
-        seo { ..., image ${imageWithAlt} }
+        moments[] ${imageWithAlt}
       },
-      "contact": *[_id == $contactId][0] {
-        ...,
-        seo { ..., image ${imageWithAlt} }
-      }
+      "contact": *[_id == $contactId][0]
     }`);
 
 export const homePresentationQuery = defineQuery(`{
