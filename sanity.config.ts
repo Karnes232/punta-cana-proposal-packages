@@ -15,7 +15,11 @@ import { structure } from "./src/sanity/structure";
 import ProposalTemplateTool from "./src/sanity/tools/ProposalTemplateTool";
 import DinnerTemplateTool from "./src/sanity/tools/DinnerTemplateTool";
 import { media } from "sanity-plugin-media";
-import { CATALOG_SINGLETON_IDS } from "./src/sanity/constants";
+import { CREATABLE_TYPES, SINGLETON_TYPES } from "./src/sanity/constants";
+
+// Actions allowed on single-document page sections: no delete, duplicate or
+// unpublish, so the site never loses (or doubles) one of them.
+const SINGLETON_ACTIONS = new Set(["publish", "discardChanges", "restore"]);
 const catalogConfig = defineConfig({
   name: "catalog",
   title: "Website",
@@ -27,10 +31,20 @@ const catalogConfig = defineConfig({
     ...schema,
     templates: (templates) =>
       templates.filter(
-        (t) =>
-          // Singletons are opened from the structure, never created as new docs.
-          !(CATALOG_SINGLETON_IDS as readonly string[]).includes(t.schemaType),
+        // Singletons are opened from the structure, never created as new docs.
+        (t) => !SINGLETON_TYPES.has(t.schemaType),
       ),
+  },
+  document: {
+    // The global "Create" menu only offers types editors should add to.
+    newDocumentOptions: (prev, { creationContext }) =>
+      creationContext.type === "global"
+        ? prev.filter((item) => CREATABLE_TYPES.has(item.templateId))
+        : prev,
+    actions: (prev, { schemaType }) =>
+      SINGLETON_TYPES.has(schemaType)
+        ? prev.filter((action) => SINGLETON_ACTIONS.has(action.action ?? ""))
+        : prev,
   },
   tools: [
     {

@@ -17,6 +17,49 @@ export const CATALOG_SINGLETON_IDS = [
   CATALOG_CONTACT_ID,
 ] as const;
 
+/**
+ * Page sections the site reads as "the one document of this type"
+ * (`*[_type == X][0]`). The Studio opens exactly this document for each type,
+ * so a second copy can't be created by accident. Schema type → document ID.
+ */
+export const PAGE_SINGLETONS = {
+  generalLayout: "generalLayout",
+  HomePageHero: "hero",
+  StoriesPageHero: "storiesPageHero",
+  StoriesPageCtaStrip: "storiesPageCtaStrip",
+  BlogPageHero: "blogPageHero",
+  BlogPageCtaStrip: "blogPageCtaStrip",
+  FaqsPageHeroComponent: "faqsPageHeroComponent",
+  FaqsPageFaqContactStrip: "faqsPageFaqContactStrip",
+  HowItWorksPageHero: "howItWorksPageHero",
+  HowItWorksPageHowItWorksSteps: "howItWorksPageHowItWorksSteps",
+  HowItWorksPageHowItWorksFAQ: "howItWorksPageHowItWorksFAQ",
+  HowItWorksPageHowItWorksCTA: "howItWorksPageHowItWorksCTA",
+} as const;
+
+/** Every schema type that has exactly one document (catalog and page sections). */
+export const SINGLETON_TYPES: ReadonlySet<string> = new Set([
+  ...CATALOG_SINGLETON_IDS,
+  ...Object.keys(PAGE_SINGLETONS),
+]);
+
+/** Document types editors may add from the Studio's "Create" menu. */
+export const CREATABLE_TYPES: ReadonlySet<string> = new Set([
+  "proposalExperience",
+  "romanticDinnerExperience",
+  "experienceAddon",
+  "menuItem",
+  "beverageOption",
+  "dinnerOccasion",
+  "blogPost",
+  "BlogCategory",
+  "individualStory",
+  "ProposalType",
+  "FaqsPageFaqs",
+  "FaqsPageFaqsCategories",
+  "HowItWorksPageHowItWorksFaqCategory",
+]);
+
 /** Kept out of every public listing on purpose (see docs/experience-catalog.md). */
 export const EXCLUDED_PROPOSAL_SLUG = "adventure-to-yes";
 
