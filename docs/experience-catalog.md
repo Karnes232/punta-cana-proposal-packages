@@ -25,8 +25,8 @@ to `/proposals` (with the package slug as the `#hash`) in `src/proxy.ts`.
 - **Proposal experiences** (`proposalExperience`) and **romantic dinner
   experiences** (`romanticDinnerExperience`): styles with prices and photos,
   inclusions, extras, menus and drinks (dinners). Only active documents are
-  shown. The slug in `EXCLUDED_PROPOSAL_SLUG` ("Adventure to Yes") is kept
-  out of public lists and the sitemap.
+  shown; inactive ones (such as "Adventure to Yes") stay out of public lists
+  and the sitemap until an editor turns them on.
 - **Catalog Settings** (`experienceCatalogSettings`): every editable label
   (navigation, card text, hero lines, notes, footer…), the dinner deposit
   amount and policy messages. Defaults live in `src/lib/experience/labels.ts`,

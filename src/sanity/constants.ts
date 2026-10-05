@@ -81,9 +81,6 @@ export const CREATABLE_TYPES: ReadonlySet<string> = new Set([
   "howItWorksFaqCategory",
 ]);
 
-/** Kept out of every public listing on purpose (see docs/experience-catalog.md). */
-export const EXCLUDED_PROPOSAL_SLUG = "adventure-to-yes";
-
 /** Home page proposals when Catalog Home has none selected. */
 export const FEATURED_FALLBACK_SLUGS = [
   "love-signature",

@@ -1,7 +1,7 @@
 import { normalizeExperience } from "@/lib/experience/normalize";
 import { withProposalExtras } from "@/lib/experience/proposalExtras";
 import type { Experience } from "@/lib/experience/types";
-import { DINNER_TEMPLATE_ID, EXCLUDED_PROPOSAL_SLUG } from "@/sanity/constants";
+import { DINNER_TEMPLATE_ID } from "@/sanity/constants";
 
 import { uncachedClient } from "./client";
 import { activeExperienceFilter, experienceProjection } from "./fragments";
@@ -29,7 +29,7 @@ async function proposalDinnerMenu(experiences: Experience[]) {
 export async function getExperiences() {
   const rows = await uncachedClient.fetch<Experience[]>(
     catalogQuery,
-    { excludedSlug: EXCLUDED_PROPOSAL_SLUG },
+    {},
     { next: { revalidate: 60 } },
   );
   const menu = await proposalDinnerMenu(rows);
@@ -42,7 +42,7 @@ export async function getExperiences() {
 export async function getExperience(id: string) {
   const experience = await uncachedClient.fetch<Experience | null>(
     experienceByIdQuery,
-    { id, excludedSlug: EXCLUDED_PROPOSAL_SLUG },
+    { id },
     { cache: "no-store" },
   );
   if (!experience) return null;
