@@ -997,6 +997,7 @@ export type CatalogHome = {
     _type: "image";
   };
   contactHeading?: string;
+  seo?: BlogPostSeo;
 };
 
 export type ExperienceCatalogSettings = {
@@ -2474,6 +2475,7 @@ export type CatalogContentQueryResult = {
           _type: "image";
         };
         contactHeading?: string;
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -3607,6 +3609,7 @@ export type CatalogContentQueryResult = {
           _type: "image";
         };
         contactHeading?: string;
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -4857,6 +4860,7 @@ export type CatalogContentQueryResult = {
           _type: "image";
         };
         contactHeading?: string;
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -5885,7 +5889,25 @@ export type TemplatePreviewQueryResult =
       menuItems: null;
       beverages: null;
       occasions: null;
-      seo: null;
+      seo: {
+        _type: "blogPostSeo";
+        meta?: {
+          title?: string;
+          description?: string;
+          keywords?: Array<string>;
+        };
+        openGraph?: {
+          title?: string;
+          description?: string;
+        };
+        image: {
+          url: string | null;
+          alt: null;
+        } | null;
+        structuredData?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+      } | null;
     }
   | {
       _id: string;

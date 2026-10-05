@@ -175,14 +175,13 @@ export const structure: StructureResolver = (S) => {
   return S.list()
     .title(bi("Contenido", "Content"))
     .items([
-      folder(bi("Inicio", "Home"), HomeIcon, [
-        languageSingleton(
-          bi("Página de inicio", "Home page"),
-          CATALOG_HOME_ID,
-          CATALOG_HOME_ID,
-        ),
-        pageSeo("home"),
-      ]),
+      // The home page's SEO is inside its document (seo field).
+      languageSingleton(
+        bi("Inicio", "Home"),
+        CATALOG_HOME_ID,
+        CATALOG_HOME_ID,
+        HomeIcon,
+      ),
       folder(bi("Propuestas", "Proposals"), HeartIcon, [
         list(bi("Paquetes", "Packages"), "proposalExperience"),
         pageSeo("proposals"),

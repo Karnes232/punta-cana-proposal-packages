@@ -37,9 +37,11 @@ export const PAGE_SINGLETONS = {
   howItWorksCta: "howItWorksCta",
 } as const;
 
-/** Pages with an SEO entry (pageSeo), and their document IDs. */
+/**
+ * Pages with their own SEO document (pageSeo), and its ID. The home page's
+ * SEO is the `seo` field of its catalogHome document instead.
+ */
 export const SEO_PAGES = [
-  "home",
   "proposals",
   "romantic-dinners",
   "stories",

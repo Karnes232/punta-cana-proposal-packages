@@ -508,6 +508,7 @@ export const catalogHome = defineType({
     { name: "photos", title: bi("Fotos", "Photos"), default: true },
     { name: "text", title: bi("Textos", "Text") },
     { name: "featured", title: bi("Destacadas", "Featured") },
+    { name: "seo", title: "SEO" },
   ],
   fieldsets: homeFieldsets,
   fields: [
@@ -533,6 +534,13 @@ export const catalogHome = defineType({
           ]
         : []),
     ]),
+    // Last, like the bottom of the page: this language's SEO.
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "blogPostSeo",
+      group: "seo",
+    }),
   ],
 });
 export const catalogContact = defineType({

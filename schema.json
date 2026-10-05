@@ -6130,6 +6130,14 @@
           "type": "string"
         },
         "optional": true
+      },
+      "seo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "blogPostSeo"
+        },
+        "optional": true
       }
     }
   },
