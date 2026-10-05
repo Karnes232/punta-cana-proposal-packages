@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 
-import { isBlogOnlyLocale } from "./i18n/locales";
+import { isBlogOnlyLocale, localePrefix, SITE_LOCALES } from "./i18n/locales";
 import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
@@ -11,15 +11,18 @@ const intlMiddleware = createMiddleware(routing);
 // /proposals. These redirects live here rather than in next.config.ts: on
 // Netlify this middleware runs first and rewrites /x to /en/x, so config
 // redirects never saw the unprefixed (English) URLs.
-const LEGACY_CATEGORY_URL =
-  /^(?:\/(en|es))?\/(?:classic|modern|dining|adventure)-proposals(?:\/([^/]+))?\/?$/;
+const LEGACY_CATEGORY_URL = new RegExp(
+  `^(?:/(${SITE_LOCALES.join("|")}))?/(?:classic|modern|dining|adventure)-proposals(?:/([^/]+))?/?$`,
+);
 
 function legacyCategoryRedirect(request: NextRequest) {
   const match = request.nextUrl.pathname.match(LEGACY_CATEGORY_URL);
   if (!match) return null;
   const [, locale, slug] = match;
-  const prefix = locale === "es" ? "/es" : "";
-  const target = new URL(`${prefix}/proposals`, request.url);
+  const target = new URL(
+    `${localePrefix(locale ?? "en")}/proposals`,
+    request.url,
+  );
   if (slug) target.hash = slug;
   return NextResponse.redirect(target, 308);
 }

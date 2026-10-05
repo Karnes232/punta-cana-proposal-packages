@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
-import { local } from "@/lib/experience/normalize";
 import type { Locale, Seo } from "@/lib/experience/types";
+import { SITE_LOCALES } from "@/i18n/locales";
+import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
 
@@ -17,15 +18,13 @@ export function catalogMetadata(
   title?: string,
 ): Metadata {
   return {
-    title: local(seo?.title, locale) || title,
-    description: local(seo?.description, locale) || undefined,
+    // This language only: an untranslated SEO title falls back to the
+    // page's own title in this language, not to the English SEO title.
+    title: seo?.title?.[locale] || title,
+    description: seo?.description?.[locale] || undefined,
     alternates: {
       canonical: siteCanonicalUrl(locale, path),
-      languages: {
-        en: siteCanonicalUrl("en", path),
-        es: siteCanonicalUrl("es", path),
-        "x-default": siteCanonicalUrl("en", path),
-      },
+      ...generateHreflangAlternates(path),
     },
     robots: seo?.noIndex ? { index: false, follow: true } : undefined,
     openGraph: seo?.image?.url ? { images: [seo.image.url] } : undefined,
@@ -46,11 +45,12 @@ export async function catalogPageMetadata(
     locale,
     path,
     {
-      title: { en: page?.meta?.en?.title, es: page?.meta?.es?.title },
-      description: {
-        en: page?.meta?.en?.description,
-        es: page?.meta?.es?.description,
-      },
+      title: Object.fromEntries(
+        SITE_LOCALES.map((l) => [l, page?.meta?.[l]?.title]),
+      ),
+      description: Object.fromEntries(
+        SITE_LOCALES.map((l) => [l, page?.meta?.[l]?.description]),
+      ),
       image: page?.openGraph?.image
         ? { url: page.openGraph.image.url }
         : undefined,

@@ -1,5 +1,6 @@
 "use client";
 
+import type { SiteLocale } from "@/i18n/locales";
 import { useState } from "react";
 import FaqAccordionList from "./FaqAccordionList";
 import { Faqs } from "@/sanity/queries/FaqPage/Faqs";
@@ -8,7 +9,7 @@ import { useTranslations } from "next-intl";
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface FaqAccordionProps {
-  locale: "en" | "es";
+  locale: SiteLocale;
   activeCategory: string;
   faqs: Faqs[];
 }

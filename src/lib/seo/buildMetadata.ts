@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { generateHreflangAlternates } from "@/i18n/hreflang";
-import type { SiteLocale } from "@/i18n/locales";
+import { isSiteLocale, type SiteLocale } from "@/i18n/locales";
 
 export type SeoLocale = SiteLocale;
 
@@ -45,7 +45,7 @@ export function localizedSeoFields(
     image?: OgImageInput | null;
   };
 } {
-  const lang: SeoLocale = locale === "es" ? "es" : "en";
+  const lang: SeoLocale = isSiteLocale(locale) ? locale : "en";
   const meta = seo?.meta?.[lang] ?? seo?.meta?.en ?? null;
   const og = seo?.openGraph?.[lang] ?? seo?.openGraph?.en ?? null;
   const title = meta?.title ?? og?.title ?? "";
@@ -62,8 +62,6 @@ export function localizedSeoFields(
 }
 
 export function buildSeoMetadata(opts: {
-  /** Used for default hreflang when hreflangLanguages is omitted; may be any routing locale. */
-  locale: string;
   path: string;
   canonicalUrl: string;
   meta: { title: string; description: string; keywords: string[] };
@@ -74,11 +72,10 @@ export function buildSeoMetadata(opts: {
   };
   noIndex?: boolean;
   noFollow?: boolean;
-  /** When set (e.g. blog translations), replaces fixed en/es hreflang alternates. */
+  /** When set (e.g. blog translations), replaces the every-language hreflang alternates. */
   hreflangLanguages?: Record<string, string>;
 }): Metadata {
   const {
-    locale,
     path,
     canonicalUrl,
     meta,
@@ -125,12 +122,16 @@ export function buildSeoMetadata(opts: {
       canonical: canonicalUrl,
       ...(hreflangLanguages
         ? { languages: hreflangLanguages }
-        : generateHreflangAlternates(locale as SeoLocale, path)),
+        : generateHreflangAlternates(path)),
     },
   };
 }
 
-const SITE_DEFAULTS = {
+type SiteDefault = { title: string; description: string };
+
+const SITE_DEFAULTS: { en: SiteDefault } & Partial<
+  Record<SeoLocale, SiteDefault>
+> = {
   en: {
     title: "Punta Cana Proposal Packages",
     description:
@@ -141,7 +142,7 @@ const SITE_DEFAULTS = {
     description:
       "Experiencias de propuesta privadas y curadas en el corazón de Punta Cana.",
   },
-} as const;
+};
 
 /** When PageSeo is missing in Sanity — still allow indexing. */
 export function fallbackSiteMetadata(
@@ -151,7 +152,6 @@ export function fallbackSiteMetadata(
 ): Metadata {
   const d = SITE_DEFAULTS[locale as SeoLocale] ?? SITE_DEFAULTS.en;
   return buildSeoMetadata({
-    locale: locale as SeoLocale,
     path,
     canonicalUrl,
     meta: { title: d.title, description: d.description, keywords: [] },
@@ -167,7 +167,6 @@ export function fallbackMissingDocumentMetadata(
 ): Metadata {
   const d = SITE_DEFAULTS[locale as SeoLocale] ?? SITE_DEFAULTS.en;
   return buildSeoMetadata({
-    locale: locale as SeoLocale,
     path,
     canonicalUrl,
     meta: { title: d.title, description: d.description, keywords: [] },

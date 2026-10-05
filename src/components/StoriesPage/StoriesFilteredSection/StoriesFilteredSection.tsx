@@ -1,5 +1,6 @@
 "use client";
 
+import type { SiteLocale } from "@/i18n/locales";
 import { useState } from "react";
 import StoriesFilterBar from "@/components/StoriesPage/StoriesFilterBar/StoriesFilterBar";
 import FeaturedStory from "@/components/StoriesPage/FeaturedStory/FeaturedStory";
@@ -12,7 +13,7 @@ interface StoriesFilteredSectionProps {
   featuredStory: FeaturedStoryData;
   proposalTypes: ProposalTypes[];
   stories: StoryCardData[];
-  locale: "en" | "es";
+  locale: SiteLocale;
 }
 
 export default function StoriesFilteredSection({

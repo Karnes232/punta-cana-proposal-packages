@@ -75,7 +75,6 @@ export default async function Blog({
         featuredPost={featuredPost}
         categories={categoriesForFilter}
         posts={posts}
-        chromeLocale={chromeLocale}
         dateLocale={dateLocale}
         locale={locale}
       />
@@ -113,7 +112,6 @@ export async function generateMetadata({
   hreflangLanguages["x-default"] = siteCanonicalUrl("en", path);
 
   return buildSeoMetadata({
-    locale: seoLocale,
     path,
     canonicalUrl,
     meta: pageSeo.seo.meta[seoLocale],

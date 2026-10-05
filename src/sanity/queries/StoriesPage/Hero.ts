@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { PAGE_SINGLETONS } from "@/sanity/constants";
 import { imageWithDimensions } from "../fragments";
 
 export interface StoriesPageHero {
@@ -63,7 +64,7 @@ export interface StoriesPageHero {
   };
 }
 
-export const storiesPageHeroQuery = `*[_type == "storiesHero"][0] {
+export const storiesPageHeroQuery = `*[_type == "storiesHero" && _id == $id][0] {
   eyebrow {
     en,
     es
@@ -106,5 +107,7 @@ export const storiesPageHeroQuery = `*[_type == "storiesHero"][0] {
 }`;
 
 export async function getStoriesPageHero(): Promise<StoriesPageHero> {
-  return await client.fetch<StoriesPageHero>(storiesPageHeroQuery);
+  return await client.fetch<StoriesPageHero>(storiesPageHeroQuery, {
+    id: PAGE_SINGLETONS.storiesHero,
+  });
 }

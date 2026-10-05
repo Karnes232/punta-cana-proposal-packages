@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { PAGE_SINGLETONS } from "@/sanity/constants";
 
 export interface FaqContactStrip {
   eyebrow: {
@@ -23,7 +24,7 @@ export interface FaqContactStrip {
   };
 }
 
-export const faqContactStripQuery = `*[_type == "faqContactStrip"][0] {
+export const faqContactStripQuery = `*[_type == "faqContactStrip" && _id == $id][0] {
   eyebrow {
     en,
     es
@@ -47,6 +48,8 @@ export const faqContactStripQuery = `*[_type == "faqContactStrip"][0] {
 }`;
 
 export const getFaqContactStrip = async (): Promise<FaqContactStrip> => {
-  const query = await client.fetch(faqContactStripQuery);
+  const query = await client.fetch(faqContactStripQuery, {
+    id: PAGE_SINGLETONS.faqContactStrip,
+  });
   return query;
 };

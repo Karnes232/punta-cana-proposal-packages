@@ -1,3 +1,4 @@
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 import FeaturedStoryPhoto from "./FeaturedStoryPhoto";
 import FeaturedStoryCopy from "./FeaturedStoryCopy";
@@ -5,7 +6,7 @@ import { type FeaturedStoryData } from "./types";
 
 interface FeaturedStoryProps {
   story: FeaturedStoryData;
-  locale: "en" | "es";
+  locale: SiteLocale;
 }
 
 export default function FeaturedStory({ story, locale }: FeaturedStoryProps) {

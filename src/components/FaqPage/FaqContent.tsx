@@ -1,11 +1,12 @@
 "use client";
+import type { SiteLocale } from "@/i18n/locales";
 import React, { useState } from "react";
 import FaqAccordion from "@/components/FaqPage/FaqAccordion/FaqAccordion";
 import FaqCategoryFilter from "@/components/FaqPage/FaqCategoryFilter/FaqCategoryFilter";
 import { Faqs, FaqsCategories } from "@/sanity/queries/FaqPage/Faqs";
 
 interface FaqContentProps {
-  locale: "en" | "es";
+  locale: SiteLocale;
   faqsCategories: FaqsCategories[];
   faqs: Faqs[];
 }

@@ -1,18 +1,17 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/Hero";
 
 interface FeaturedPostCopyProps {
   post: FeaturedPostType;
-  chromeLocale: "en" | "es";
   dateLocale: string;
 }
 
 export default function FeaturedPostCopy({
   post,
-  chromeLocale,
   dateLocale,
 }: FeaturedPostCopyProps) {
-  const ctaLabel = chromeLocale === "es" ? "Leer Artículo" : "Read Article";
+  const ctaLabel = useTranslations("BlogPage")("readArticle");
 
   const dateStr = new Date(post.publishedAt).toLocaleDateString(dateLocale, {
     month: "long",

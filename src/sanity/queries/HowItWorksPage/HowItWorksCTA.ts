@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { PAGE_SINGLETONS } from "@/sanity/constants";
 
 export interface HowItWorksCTA {
   eyebrow: {
@@ -33,7 +34,7 @@ export interface HowItWorksCTA {
   secondaryCTAHref: string;
 }
 
-export const howItWorksCTAQuery = `*[_type == "howItWorksCta"][0] {
+export const howItWorksCTAQuery = `*[_type == "howItWorksCta" && _id == $id][0] {
   eyebrow {
     en,
     es
@@ -67,5 +68,7 @@ export const howItWorksCTAQuery = `*[_type == "howItWorksCta"][0] {
 }`;
 
 export async function getHowItWorksCta(): Promise<HowItWorksCTA> {
-  return await client.fetch(howItWorksCTAQuery);
+  return await client.fetch(howItWorksCTAQuery, {
+    id: PAGE_SINGLETONS.howItWorksCta,
+  });
 }

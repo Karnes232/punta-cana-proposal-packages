@@ -1,4 +1,5 @@
 "use client";
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 
 import { useState } from "react";
@@ -11,7 +12,7 @@ const PAGE_SIZE = 6;
 
 interface StoriesGridProps {
   stories: StoryCardData[];
-  locale: "en" | "es";
+  locale: SiteLocale;
   /** Active filter value passed down from the filter bar — "all" or a packageType slug */
   activeFilter?: string;
 }

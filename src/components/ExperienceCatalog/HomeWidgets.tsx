@@ -22,6 +22,7 @@ import {
   homeH3,
   homeIcon,
 } from "./styles";
+import { localePrefix } from "@/i18n/locales";
 export function HomePhoto({
   photo,
   locale,
@@ -55,7 +56,7 @@ export function ExperienceSelector({
   images: (Image | undefined)[];
 }) {
   const [selected, setSelected] = useState(0);
-  const prefix = locale === "es" ? "/es" : "";
+  const prefix = localePrefix(locale);
   return (
     <div className="grid grid-cols-[1fr_1.2fr] gap-6 upto700:grid-cols-[1fr]">
       <div className="grid gap-4">

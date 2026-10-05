@@ -1,3 +1,4 @@
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksReassuranceItem from "./HowItWorksReassuranceItem";
@@ -7,7 +8,7 @@ import { ReassuranceItem } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps
 
 interface HowItWorksReassuranceProps {
   items?: ReassuranceItem[];
-  locale: "en" | "es";
+  locale: SiteLocale;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────

@@ -62,5 +62,18 @@
   },
   "HowItWorksPage": {
     "whyChooseUs": "Why choose us"
+  },
+  "BlogPage": {
+    "featuredPost": "Featured Post",
+    "readArticle": "Read Article",
+    "loadMore": "Load More Posts",
+    "latestPosts": "Latest Posts",
+    "minRead": "min read",
+    "noPosts": "No posts for this category yet."
+  },
+  "LegalPage": {
+    "eyebrow": "Legal",
+    "privacyTitle": "Privacy Policy",
+    "termsTitle": "Terms of Service"
   }
 }

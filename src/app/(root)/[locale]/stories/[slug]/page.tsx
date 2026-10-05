@@ -18,7 +18,7 @@ import {
 } from "@/sanity/queries/StoriesPage/IndividualStory";
 import { notFound } from "next/navigation";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/locales";
+import { toSiteLocale, type SiteLocale } from "@/i18n/locales";
 
 export default async function StoryPage({
   params,
@@ -99,7 +99,7 @@ export default async function StoryPage({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string; locale: "en" | "es" }>;
+  params: Promise<{ slug: string; locale: SiteLocale }>;
 }) {
   const { slug, locale } = await params;
   requireLocale(locale);
@@ -111,7 +111,6 @@ export async function generateMetadata({
   }
 
   return buildSeoMetadata({
-    locale,
     path,
     canonicalUrl,
     ...localizedSeoFields(individualStory.seo, locale),

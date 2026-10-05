@@ -543,7 +543,7 @@ const photo = (image, key, type = "image") => ({
 const photoList = (images, prefix) =>
   images.map((image, i) => photo(image, `${prefix}-${i}`, "photo"));
 
-const text = (type, [en, es]) => ({ _type: type, en, es });
+const text = (type, { en, es }) => ({ _type: type, en, es });
 const attributeType = (type, name) =>
   schemaTypes.get(type).attributes[name]?.value?.name;
 const isBlank = (value) =>
@@ -767,7 +767,7 @@ async function fillPhase() {
       {
         seo: {
           _type: "seo",
-          meta: { en: { title: ui[key][0] }, es: { title: ui[key][1] } },
+          meta: { en: { title: ui[key].en }, es: { title: ui[key].es } },
         },
       },
       `SEO: ${page}`,

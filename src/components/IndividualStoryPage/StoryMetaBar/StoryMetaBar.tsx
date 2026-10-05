@@ -1,10 +1,11 @@
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 import { type StoryMetaBarData } from "./types";
 import { MetaDivider, MetaItem } from "@/components/ui/MetaItem";
 
 interface StoryMetaBarProps {
   data: StoryMetaBarData;
-  locale: "en" | "es";
+  locale: SiteLocale;
 }
 
 export default function StoryMetaBar({ data, locale }: StoryMetaBarProps) {

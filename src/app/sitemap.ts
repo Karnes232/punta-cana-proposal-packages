@@ -1,7 +1,8 @@
 import { getExperiences } from "@/sanity/queries/ExperienceCatalog";
 import type { MetadataRoute } from "next";
 
-import { SITE_URL } from "@/lib/seo/constants";
+import { SITE_LOCALES } from "@/i18n/locales";
+import { siteCanonicalUrl } from "@/lib/seo/constants";
 import {
   STATIC_SITEMAP_PATHS,
   absoluteBlogUrl,
@@ -14,18 +15,6 @@ export const revalidate = 3600;
 function normalizePath(path: string): string {
   if (path === "" || path === "/") return "";
   return path.startsWith("/") ? path : `/${path}`;
-}
-
-function absoluteEn(path: string): string {
-  const p = normalizePath(path);
-  if (p === "") return SITE_URL;
-  return `${SITE_URL}${p}`;
-}
-
-function absoluteEs(path: string): string {
-  const p = normalizePath(path);
-  if (p === "") return `${SITE_URL}/es`;
-  return `${SITE_URL}/es${p}`;
 }
 
 function changeFrequency(
@@ -67,7 +56,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const raw of pathSet) {
     const path = normalizePath(raw);
-    for (const url of [absoluteEn(path), absoluteEs(path)]) {
+    // Every page exists in every site language.
+    const languages = Object.fromEntries(
+      SITE_LOCALES.map((locale) => [locale, siteCanonicalUrl(locale, path)]),
+    );
+    for (const url of Object.values(languages)) {
       if (urlSeen.has(url)) continue;
       urlSeen.add(url);
       entries.push({
@@ -75,9 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: now,
         changeFrequency: changeFrequency(path),
         priority: priority(path),
-        alternates: {
-          languages: { en: absoluteEn(path), es: absoluteEs(path) },
-        },
+        alternates: { languages },
       });
     }
   }

@@ -5,6 +5,7 @@ import {
   getRequestExperience,
   getCatalogContent,
 } from "@/sanity/queries/ExperienceCatalog";
+import { isSiteLocale } from "@/i18n/locales";
 import { calculate } from "@/lib/experience/pricing";
 import { dinnerDeposit } from "@/lib/experience/dinnerPolicy";
 import { getRequestHost, isDeployPreviewHost } from "@/lib/requestHost";
@@ -89,7 +90,7 @@ export async function POST(request: NextRequest) {
           new Date(date).toISOString().slice(0, 10) !== date)
       )
         throw Error("date");
-    if (!["en", "es"].includes(body.locale)) throw Error("locale");
+    if (!isSiteLocale(body.locale)) throw Error("locale");
     if (c.datesFlexible !== undefined && typeof c.datesFlexible !== "boolean")
       throw Error("datesFlexible");
     let snapshot: unknown = null;

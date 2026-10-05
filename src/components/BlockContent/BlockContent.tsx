@@ -2,6 +2,7 @@
 // PortableText renderer for Sanity block content.
 // Supports bilingual content via { en: [], es: [] } shape.
 
+import type { SiteLocale } from "@/i18n/locales";
 import { client } from "@/sanity/lib/client";
 import {
   PortableText,
@@ -26,7 +27,7 @@ type ImageBlock = SanityImageSource & { alt?: string; caption?: string };
 
 interface Props {
   content: LocaleBlockContent;
-  language?: "en" | "es";
+  language?: SiteLocale;
 }
 
 const builder = imageUrlBuilder(client);

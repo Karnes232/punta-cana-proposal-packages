@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { PAGE_SINGLETONS } from "@/sanity/constants";
 
 export interface StoriesPageCtaStrip {
   eyebrow: {
@@ -24,7 +25,7 @@ export interface StoriesPageCtaStrip {
   ctaHref: string;
 }
 
-export const storiesPageCtaStripQuery = `*[_type == "storiesCtaStrip"][0] {
+export const storiesPageCtaStripQuery = `*[_type == "storiesCtaStrip" && _id == $id][0] {
   eyebrow {
     en,
     es
@@ -50,5 +51,7 @@ export const storiesPageCtaStripQuery = `*[_type == "storiesCtaStrip"][0] {
 
 export const getStoriesPageCtaStrip =
   async (): Promise<StoriesPageCtaStrip> => {
-    return await client.fetch<StoriesPageCtaStrip>(storiesPageCtaStripQuery);
+    return await client.fetch<StoriesPageCtaStrip>(storiesPageCtaStripQuery, {
+      id: PAGE_SINGLETONS.storiesCtaStrip,
+    });
   };

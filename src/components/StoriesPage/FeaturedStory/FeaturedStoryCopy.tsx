@@ -1,10 +1,11 @@
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { FeaturedStoryData } from "./types";
 
 interface FeaturedStoryCopyProps {
   story: FeaturedStoryData;
-  locale: "en" | "es";
+  locale: SiteLocale;
 }
 
 export default function FeaturedStoryCopy({

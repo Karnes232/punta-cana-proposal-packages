@@ -14,7 +14,7 @@ import {
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/locales";
+import { toSiteLocale, type SiteLocale } from "@/i18n/locales";
 
 export default async function FAQ({
   params,
@@ -61,7 +61,7 @@ export default async function FAQ({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: "en" | "es" }>;
+  params: Promise<{ locale: SiteLocale }>;
 }) {
   const { locale } = await params;
   requireLocale(locale);
@@ -73,7 +73,6 @@ export async function generateMetadata({
   }
 
   return buildSeoMetadata({
-    locale,
     path,
     canonicalUrl,
     ...localizedSeoFields(pageSeo.seo, locale),

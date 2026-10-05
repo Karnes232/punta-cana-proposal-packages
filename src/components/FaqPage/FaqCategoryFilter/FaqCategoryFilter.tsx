@@ -1,4 +1,5 @@
 "use client";
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 
 import { useState } from "react";
@@ -8,7 +9,7 @@ import { FaqsCategories } from "@/sanity/queries/FaqPage/Faqs";
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface FaqCategoryFilterProps {
-  locale: "en" | "es";
+  locale: SiteLocale;
   faqsCategories: FaqsCategories[];
   /** Called whenever the user selects a different category. */
   onCategoryChange: (category: string) => void;

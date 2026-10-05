@@ -1,10 +1,11 @@
+import type { SiteLocale } from "@/i18n/locales";
 import FaqAccordionItem from "./FaqAccordionItem";
 import { Faqs } from "@/sanity/queries/FaqPage/Faqs";
 import { useTranslations } from "next-intl";
 
 interface FaqAccordionListProps {
   items: Faqs[];
-  locale: "en" | "es";
+  locale: SiteLocale;
   openId: string | null;
   onToggle: (id: string) => void;
 }

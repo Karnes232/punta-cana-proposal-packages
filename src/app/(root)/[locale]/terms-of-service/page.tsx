@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import BlockContent from "@/components/BlockContent/BlockContent";
 import JsonLd from "@/components/seo/JsonLd";
 import {
@@ -9,7 +10,7 @@ import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/locales";
+import { toSiteLocale, type SiteLocale } from "@/i18n/locales";
 
 export default async function Terms({
   params,
@@ -17,6 +18,7 @@ export default async function Terms({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "LegalPage" });
   requireLocale(locale);
   const lang = toSiteLocale(locale);
   const [legalDocuments, structuredData] = await Promise.all([
@@ -42,14 +44,14 @@ export default async function Terms({
           <div className="flex items-center gap-3">
             <span className="block w-6 h-px bg-gold/50" aria-hidden="true" />
             <p className="text-[10px] font-light tracking-[0.28em] uppercase text-gold">
-              Legal
+              {t("eyebrow")}
             </p>
             <span className="block w-6 h-px bg-gold/50" aria-hidden="true" />
           </div>
 
           {/* Title */}
           <h1 className="font-display italic font-normal text-white text-center text-[clamp(28px,4vw,52px)] leading-tight">
-            {locale === "en" ? "Terms of Service" : "Términos de Servicio"}
+            {t("termsTitle")}
           </h1>
         </div>
       </div>
@@ -82,7 +84,7 @@ export default async function Terms({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: "en" | "es" }>;
+  params: Promise<{ locale: SiteLocale }>;
 }) {
   const { locale } = await params;
   requireLocale(locale);
@@ -94,7 +96,6 @@ export async function generateMetadata({
   }
 
   return buildSeoMetadata({
-    locale,
     path,
     canonicalUrl,
     ...localizedSeoFields(pageSeo.seo, locale),

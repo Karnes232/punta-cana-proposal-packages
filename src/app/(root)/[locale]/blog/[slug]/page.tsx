@@ -150,7 +150,6 @@ export async function generateMetadata({
   const hreflangLanguages = buildBlogHreflangMap(row.hreflangSiblings);
 
   return buildSeoMetadata({
-    locale,
     path,
     canonicalUrl,
     meta: {

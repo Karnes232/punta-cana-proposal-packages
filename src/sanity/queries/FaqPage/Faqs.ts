@@ -22,7 +22,7 @@ export const faqsPageFaqsCategoriesQuery = `*[_type == "faqCategory"] {
 }
 `;
 
-export const faqsPageFaqsQuery = `*[_type == "faq"] {
+export const faqsPageFaqsQuery = `*[_type == "faq" && !defined(language)] {
     _id,
     question {
         en,
