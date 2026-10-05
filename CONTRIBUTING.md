@@ -42,7 +42,7 @@ Never commit minified or one-line code.
   Studio sidebar mirrors the website (one folder per page). Adding a document
   type means:
   - placing it in its page folder in `src/sanity/structure.ts` (any type
-    that isn't placed falls into the Archive's catch-all, so nothing is ever
+    that isn't placed falls into the "Other types" catch-all, so nothing is ever
     hidden, but it won't be where the client looks);
   - if the site reads it as "the one document of this type", adding it to
     `PAGE_SINGLETONS` in `src/sanity/constants.ts` (no create, delete or
@@ -54,7 +54,9 @@ Never commit minified or one-line code.
   Edit the structure; never rewrite it wholesale.
 
 - **Don't rename a Sanity `_type`** without a data migration. Existing
-  documents keep the old name.
+  documents keep the old name, and `_type` and `_id` can't be changed: copy
+  each document to the new type and ID, point references at the copy, then
+  delete the original (see `scripts/migrate-studio-content.mjs`).
 - **No hard-coded document IDs or slugs** scattered through the code. Put them
   in one named constant and import it.
 - **No `any`.** Type query results. Lint runs with `--max-warnings=0`.
