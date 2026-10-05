@@ -1,3 +1,4 @@
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 import PhotoHeroBackground from "@/components/ui/hero/PhotoHeroBackground";
 import HeroBackLink from "@/components/ui/HeroBackLink";
@@ -20,7 +21,7 @@ interface StoryHeroProps {
   packageTag: string;
   date: string;
   location: string;
-  locale: "en" | "es";
+  locale: SiteLocale;
 }
 
 export default function StoryHero({

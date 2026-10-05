@@ -40,6 +40,7 @@ import {
   homeSection,
   homeTextLink,
 } from "./styles";
+import { localePrefix } from "@/i18n/locales";
 const featuredText = "text-[16px] text-[#d3cec6]";
 
 export default async function ExperienceHome({ locale }: { locale: Locale }) {
@@ -50,7 +51,7 @@ export default async function ExperienceHome({ locale }: { locale: Locale }) {
   ]);
   const home = content.home,
     settings = content.settings || {},
-    prefix = locale === "es" ? "/es" : "";
+    prefix = localePrefix(locale);
   const dinnerMoney = (value: number) =>
     new Intl.NumberFormat(locale, {
       style: "currency",

@@ -1,6 +1,7 @@
 import type { Entry, Experience, Localized, Locale } from "./types";
+/** The text in `locale`, falling back to English when it isn't translated. */
 export const local = (value: Localized | undefined, locale: Locale) =>
-  value?.[locale] || "";
+  value?.[locale] || value?.en || "";
 export const id = (value: Entry) => value._id || value._key || "";
 export const sorted = <T extends { displayOrder?: number }>(
   items: T[] | undefined | null,

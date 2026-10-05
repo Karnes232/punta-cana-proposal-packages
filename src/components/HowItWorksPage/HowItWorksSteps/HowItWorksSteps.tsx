@@ -1,3 +1,4 @@
+import type { SiteLocale } from "@/i18n/locales";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksStepsSectionHeader from "./HowItWorksStepsSectionHeader";
 import HowItWorksStepCard from "./HowItWorksStepCard";
@@ -7,7 +8,7 @@ import { HowItWorksStepsStep } from "@/sanity/queries/HowItWorksPage/HowItWorksS
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksStepsProps {
-  locale: "en" | "es";
+  locale: SiteLocale;
   eyebrow: string;
   heading: string;
   headingAccent: string;

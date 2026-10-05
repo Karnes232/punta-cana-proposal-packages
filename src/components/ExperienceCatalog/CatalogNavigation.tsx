@@ -1,10 +1,13 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useBlogLanguageAlternates } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 import { usePathname } from "next/navigation";
 import type { Locale, Settings } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
+import { ALL_LOCALES, localePrefix, SITE_LOCALES } from "@/i18n/locales";
+
+const LOCALE_SEGMENT = new RegExp(`^/(${ALL_LOCALES.join("|")})(?=/|$)`);
 const languageLink = (inMenu: boolean, current: boolean, href: string) =>
   inMenu
     ? "upto1280:block upto1280:py-3"
@@ -26,8 +29,8 @@ export default function CatalogNavigation({
   companyName?: string;
 }) {
   const pathname = usePathname() || "/",
-    path = pathname.replace(/^\/(en|es)(?=\/|$)/, "") || "/",
-    prefix = locale === "es" ? "/es" : "";
+    path = pathname.replace(LOCALE_SEGMENT, "") || "/",
+    prefix = localePrefix(locale);
   const { alternates } = useBlogLanguageAlternates();
   const languagePath = (language: string) =>
     path.startsWith("/blog/")
@@ -51,8 +54,13 @@ export default function CatalogNavigation({
     ["faq", "navFaq"],
     ["contact", "contactUsLabel"],
   ];
-  const enHref = languagePath("en");
-  const esHref = `/es${languagePath("es") === "/" ? "" : languagePath("es")}`;
+  const languageHref = (language: string) => {
+    const target = languagePath(language);
+    const languagePrefix = localePrefix(language);
+    return languagePrefix
+      ? `${languagePrefix}${target === "/" ? "" : target}`
+      : target;
+  };
   // The links render twice: in the desktop bar and in the mobile menu.
   const items = (inMenu: boolean) => (
     <>
@@ -81,23 +89,23 @@ export default function CatalogNavigation({
         className={`whitespace-nowrap ${inMenu ? "upto1280:flex upto1280:items-center upto1280:gap-3" : ""}`}
         aria-label="Language / Idioma"
       >
-        <a
-          href={enHref}
-          lang="en"
-          aria-current={locale === "en" ? "true" : undefined}
-          className={languageLink(inMenu, locale === "en", enHref)}
-        >
-          EN
-        </a>
-        <span aria-hidden="true"> / </span>
-        <a
-          href={esHref}
-          lang="es"
-          aria-current={locale === "es" ? "true" : undefined}
-          className={languageLink(inMenu, locale === "es", esHref)}
-        >
-          ES
-        </a>
+        {SITE_LOCALES.map((language, i) => (
+          <Fragment key={language}>
+            {i > 0 && <span aria-hidden="true"> / </span>}
+            <a
+              href={languageHref(language)}
+              lang={language}
+              aria-current={locale === language ? "true" : undefined}
+              className={languageLink(
+                inMenu,
+                locale === language,
+                languageHref(language),
+              )}
+            >
+              {language.toUpperCase()}
+            </a>
+          </Fragment>
+        ))}
       </div>
       <a
         className={`border border-gold p-3 text-gold ${inMenu ? "upto1280:block" : "whitespace-nowrap"}`}

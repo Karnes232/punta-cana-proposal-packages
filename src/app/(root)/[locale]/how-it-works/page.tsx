@@ -20,7 +20,7 @@ import { getHowItWorksSteps } from "@/sanity/queries/HowItWorksPage/HowItWorksSt
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
 import { getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale } from "@/i18n/locales";
+import { toSiteLocale, type SiteLocale } from "@/i18n/locales";
 
 export default async function HowItWorks({
   params,
@@ -89,7 +89,7 @@ export default async function HowItWorks({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: "en" | "es" }>;
+  params: Promise<{ locale: SiteLocale }>;
 }) {
   const { locale } = await params;
   requireLocale(locale);
@@ -101,7 +101,6 @@ export async function generateMetadata({
   }
 
   return buildSeoMetadata({
-    locale,
     path,
     canonicalUrl,
     ...localizedSeoFields(pageSeo.seo, locale),

@@ -1,4 +1,5 @@
 "use client";
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 
 import { useState } from "react";
@@ -11,7 +12,7 @@ interface StoriesFilterBarProps {
       es: string;
     };
   }[];
-  locale: "en" | "es";
+  locale: SiteLocale;
   onChange?: (value: string) => void;
 }
 

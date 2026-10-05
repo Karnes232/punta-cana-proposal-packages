@@ -1,5 +1,6 @@
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
+import { PAGE_SINGLETONS } from "@/sanity/constants";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
 import { imageWithDimensions } from "../fragments";
 
@@ -47,7 +48,7 @@ export interface BlogPageHero {
   featuredPost: FeaturedPost;
 }
 
-export const blogPageHeroQuery = `*[_type == "blogHero"][0] {
+export const blogPageHeroQuery = `*[_type == "blogHero" && _id == $id][0] {
   eyebrow ${blogLocalizedStringGroq},
   headingLine1 ${blogLocalizedStringGroq},
   headingLine2 ${blogLocalizedStringGroq},
@@ -70,5 +71,7 @@ export const blogPageHeroQuery = `*[_type == "blogHero"][0] {
 }`;
 
 export const getBlogPageHero = async (): Promise<BlogPageHero> => {
-  return await client.fetch(blogPageHeroQuery);
+  return await client.fetch(blogPageHeroQuery, {
+    id: PAGE_SINGLETONS.blogHero,
+  });
 };

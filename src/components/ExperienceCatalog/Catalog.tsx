@@ -16,6 +16,7 @@ import ExperienceCard from "./ExperienceCard";
 import { PROPOSALS_HERO_SLUG } from "@/sanity/constants";
 import { getRequestHost, isPreviewHost } from "@/lib/requestHost";
 import { buttonClass, shellClass, wrapClass } from "./styles";
+import { localePrefix } from "@/i18n/locales";
 export default async function Catalog({
   locale,
   section,
@@ -38,7 +39,7 @@ export default async function Catalog({
   const settings = content.settings || {},
     home = content.home;
   const t = (key: string) => label(settings, locale, key),
-    prefix = locale === "es" ? "/es" : "";
+    prefix = localePrefix(locale);
   return (
     <main className={shellClass(section === "proposals")}>
       <CatalogHero

@@ -1,5 +1,6 @@
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
+import { PAGE_SINGLETONS } from "@/sanity/constants";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
 
 export interface BlogPageCtaStrip {
@@ -11,7 +12,7 @@ export interface BlogPageCtaStrip {
   ctaHref: string;
 }
 
-export const blogPageCtaStripQuery = `*[_type == "blogCtaStrip"][0] {
+export const blogPageCtaStripQuery = `*[_type == "blogCtaStrip" && _id == $id][0] {
   eyebrow ${blogLocalizedStringGroq},
   heading ${blogLocalizedStringGroq},
   headingAccent ${blogLocalizedStringGroq},
@@ -21,5 +22,7 @@ export const blogPageCtaStripQuery = `*[_type == "blogCtaStrip"][0] {
 }`;
 
 export const getBlogPageCtaStrip = async () => {
-  return await client.fetch<BlogPageCtaStrip>(blogPageCtaStripQuery);
+  return await client.fetch<BlogPageCtaStrip>(blogPageCtaStripQuery, {
+    id: PAGE_SINGLETONS.blogCtaStrip,
+  });
 };

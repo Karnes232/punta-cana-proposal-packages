@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { PAGE_SINGLETONS } from "@/sanity/constants";
 
 export interface HowItWorksStepsStep {
   label: {
@@ -47,7 +48,7 @@ export interface HowItWorksSteps {
   reassurance: ReassuranceItem[];
 }
 
-export const howItWorksPageHowItWorksStepsQuery = `*[_type == "howItWorksSteps"][0] {
+export const howItWorksPageHowItWorksStepsQuery = `*[_type == "howItWorksSteps" && _id == $id][0] {
   eyebrow {
     en,
     es
@@ -92,5 +93,7 @@ export const howItWorksPageHowItWorksStepsQuery = `*[_type == "howItWorksSteps"]
 }`;
 
 export const getHowItWorksSteps = async (): Promise<HowItWorksSteps> => {
-  return await client.fetch(howItWorksPageHowItWorksStepsQuery);
+  return await client.fetch(howItWorksPageHowItWorksStepsQuery, {
+    id: PAGE_SINGLETONS.howItWorksSteps,
+  });
 };

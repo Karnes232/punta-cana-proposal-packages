@@ -1,9 +1,10 @@
+import type { SiteLocale } from "@/i18n/locales";
 interface StoryHeroCopyProps {
   names: string;
   packageTag: string;
   date: string;
   location: string;
-  locale: "en" | "es";
+  locale: SiteLocale;
 }
 
 export default function StoryHeroCopy({

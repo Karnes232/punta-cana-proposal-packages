@@ -47,7 +47,12 @@ export function isSiteLocale(locale: string): locale is SiteLocale {
   return (SITE_LOCALES as readonly string[]).includes(locale);
 }
 
-/** The site UI's language for a route locale: Spanish, otherwise English. */
+/** The site UI's language for a route locale (English when it has no UI). */
 export function toSiteLocale(locale: string): SiteLocale {
   return isSiteLocale(locale) ? locale : "en";
+}
+
+/** URL prefix of a site language: "" for English (as-needed), "/es" etc. */
+export function localePrefix(locale: string): string {
+  return isSiteLocale(locale) && locale !== "en" ? `/${locale}` : "";
 }

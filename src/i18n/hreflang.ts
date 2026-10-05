@@ -1,4 +1,5 @@
-import { SITE_URL, blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
+import { SITE_LOCALES } from "@/i18n/locales";
+import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
 
 export type HreflangSibling = { language: string; slug: string };
 
@@ -23,42 +24,16 @@ export function buildBlogHreflangMap(
 }
 
 /**
- * Utility function to generate hreflang URLs for a given path
- * Ensures reciprocal hreflang tags (both en and es versions)
+ * hreflang alternates for a page that exists in every site language: one URL
+ * per language plus x-default (English).
  */
-export function generateHreflangUrls(
-  path: string,
-  baseUrl: string = SITE_URL,
-): { en: string; es: string } {
-  // Remove leading slash if present
-  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
-
-  // For English, path without locale prefix
-  const enPath = cleanPath;
-  // For Spanish, add /es prefix (avoid trailing slash when path is empty)
-  const esPath = cleanPath ? `es/${cleanPath}` : "es";
-
-  return {
-    en: enPath ? `${baseUrl}/${enPath}` : baseUrl,
-    es: `${baseUrl}/${esPath}`,
-  };
-}
-
-/**
- * Generate alternates object with hreflang tags for Next.js metadata
- */
-export function generateHreflangAlternates(
-  currentLocale: "en" | "es",
-  path: string,
-  baseUrl: string = SITE_URL,
-) {
-  const urls = generateHreflangUrls(path, baseUrl);
-
+export function generateHreflangAlternates(path: string) {
   return {
     languages: {
-      en: urls.en,
-      es: urls.es,
-      "x-default": urls.en, // Default to English
+      ...Object.fromEntries(
+        SITE_LOCALES.map((locale) => [locale, siteCanonicalUrl(locale, path)]),
+      ),
+      "x-default": siteCanonicalUrl("en", path),
     },
   };
 }

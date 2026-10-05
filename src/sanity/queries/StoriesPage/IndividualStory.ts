@@ -114,7 +114,7 @@ export interface StoryCard {
 // ── Queries ───────────────────────────────────────────────────────────────────
 
 export const individualStoryQuery = `
-  *[_type == "story" && slug.current == $slug][0] {
+  *[_type == "story" && !defined(language) && slug.current == $slug][0] {
     slug,
     names,
     proposalType-> {
@@ -147,7 +147,7 @@ structuredData {
  */
 export const moreStoriesQuery = `
   *[
-    _type == "story"
+    _type == "story" && !defined(language)
     && proposalType->value == $proposalTypeValue
     && slug.current != $currentSlug
   ] | order(publishedAt desc) {
@@ -220,7 +220,7 @@ export interface AllStoriesCard {
 }
 
 export const allStoriesQuery = `
-  *[_type == "story"] {
+  *[_type == "story" && !defined(language)] {
     slug,
     names,
     date,
@@ -236,7 +236,7 @@ export const getAllStories = async (): Promise<AllStoriesCard[]> => {
   return client.fetch(allStoriesQuery);
 };
 
-export const individualStorySeoQuery = `*[_type == "story" && slug.current == $slug][0] {
+export const individualStorySeoQuery = `*[_type == "story" && !defined(language) && slug.current == $slug][0] {
   _id,
   ${localizedSeoProjection}
 }`;

@@ -3,6 +3,8 @@ import type { SiteLocale } from "../../i18n/locales";
 
 export type Locale = SiteLocale;
 export type Localized = Partial<Record<Locale, string>>;
+/** Built-in default text: English always, other languages when translated. */
+export type DefaultText = { en: string } & Localized;
 export type Image = { url?: string; alt?: Localized };
 export type Entry = {
   _id?: string;

@@ -1,3 +1,4 @@
+import type { SiteLocale } from "@/i18n/locales";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksFaqHeader from "./HowItWorksFaqHeader";
 import HowItWorksFaqAccordion from "./HowItWorksFaqAccordion";
@@ -9,7 +10,7 @@ import {
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksFaqProps {
-  locale: "en" | "es";
+  locale: SiteLocale;
   faqsCategories: HowItWorksFaqsCategories[];
   eyebrow: string;
   heading: string;

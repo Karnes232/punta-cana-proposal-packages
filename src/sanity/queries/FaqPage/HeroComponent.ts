@@ -1,4 +1,5 @@
 import { client } from "@/sanity/lib/client";
+import { PAGE_SINGLETONS } from "@/sanity/constants";
 import { imageWithDimensions } from "../fragments";
 
 export interface FaqsPageHeroComponent {
@@ -32,7 +33,7 @@ export interface FaqsPageHeroComponent {
   };
 }
 
-export const faqsPageHeroComponentQuery = `*[_type == "faqHero"][0] {
+export const faqsPageHeroComponentQuery = `*[_type == "faqHero" && _id == $id][0] {
   heroImage {
     ${imageWithDimensions}
   },
@@ -55,5 +56,7 @@ export const faqsPageHeroComponentQuery = `*[_type == "faqHero"][0] {
 }`;
 
 export const getFaqPageHero = async () => {
-  return await client.fetch(faqsPageHeroComponentQuery);
+  return await client.fetch(faqsPageHeroComponentQuery, {
+    id: PAGE_SINGLETONS.faqHero,
+  });
 };

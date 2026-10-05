@@ -2,6 +2,7 @@ import { homeCopy } from "@/lib/experience/homeCopy";
 import { introductionLabels } from "@/lib/experience/introduction";
 import { dinnerPolicyLabels } from "@/lib/experience/dinnerPolicy";
 import { ui } from "@/lib/experience/labels";
+import type { DefaultText } from "@/lib/experience/types";
 import { defineType, defineField, type FieldDefinition } from "sanity";
 import { bi } from "../shared/labels";
 import { field, image } from "./shared";
@@ -17,16 +18,16 @@ const short = (text: string) =>
 const siteText = (
   name: string,
   type: "localizedString" | "localizedText",
-  defaults: [string, string] | undefined,
+  defaults: DefaultText | undefined,
   placement: { group?: string; fieldset?: string },
 ): FieldDefinition =>
   defineField({
     name,
     type,
     ...placement,
-    title: defaults ? bi(short(defaults[1]), short(defaults[0])) : name,
+    title: defaults ? bi(short(defaults.es ?? ""), short(defaults.en)) : name,
     description: defaults
-      ? `Vacío = texto actual / Empty = current text: "${defaults[1]}" · "${defaults[0]}"`
+      ? `Vacío = texto actual / Empty = current text: "${defaults.es}" · "${defaults.en}"`
       : undefined,
   });
 export const labelKeys = [
@@ -263,7 +264,7 @@ export default defineType({
   initialValue: {
     dinnerDepositAmount: 200,
     ...Object.fromEntries(
-      Object.entries(dinnerPolicyLabels).map(([key, [en, es]]) => [
+      Object.entries(dinnerPolicyLabels).map(([key, { en, es }]) => [
         key,
         { en, es },
       ]),
@@ -413,7 +414,7 @@ export const catalogHome = defineType({
   ],
   initialValue: {
     copy: Object.fromEntries(
-      Object.entries(homeCopy).map(([key, [en, es]]) => [key, { en, es }]),
+      Object.entries(homeCopy).map(([key, { en, es }]) => [key, { en, es }]),
     ),
   },
   fields: [

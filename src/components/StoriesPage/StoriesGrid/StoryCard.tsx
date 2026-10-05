@@ -1,3 +1,4 @@
+import type { SiteLocale } from "@/i18n/locales";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import type { StoryCardData } from "./types";
@@ -7,7 +8,7 @@ interface StoryCardProps {
   readMoreLabel: string;
   /** Controls photo aspect ratio in the asymmetric grid */
   variant: "tall" | "wide" | "standard";
-  locale: "en" | "es";
+  locale: SiteLocale;
 }
 
 const photoHeights: Record<StoryCardProps["variant"], string> = {

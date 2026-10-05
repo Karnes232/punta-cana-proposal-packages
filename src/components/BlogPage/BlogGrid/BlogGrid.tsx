@@ -1,18 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import BlogCard from "./BlogCard";
 import SectionLabelDivider from "@/components/ui/SectionLabelDivider";
 import LoadMore from "@/components/ui/LoadMore";
-import { defaultBlogGridContent, type BlogGridContent } from "./types";
 import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 
 const PAGE_SIZE = 6;
 
 interface BlogGridProps {
   posts: BlogPost[];
-  content?: BlogGridContent;
-  chromeLocale: "en" | "es";
   dateLocale: string;
   /** Active filter value passed down from the filter bar — "all" or a categoryType slug */
   activeFilter?: string;
@@ -38,22 +36,17 @@ const variantPattern: Variant[] = [
 
 export default function BlogGrid({
   posts,
-  content = defaultBlogGridContent,
-  chromeLocale,
   dateLocale,
   activeFilter = "all",
 }: BlogGridProps) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
 
-  const sectionLabel =
-    chromeLocale === "es" ? content.sectionEyebrowEs : content.sectionEyebrowEn;
-  const readMoreLabel =
-    chromeLocale === "es" ? content.readMoreLabelEs : content.readMoreLabelEn;
-  const loadMoreLabel =
-    chromeLocale === "es" ? content.loadMoreLabelEs : content.loadMoreLabelEn;
-  const readTimeSuffix =
-    chromeLocale === "es" ? content.readTimeSuffixEs : content.readTimeSuffixEn;
+  const t = useTranslations("BlogPage");
+  const sectionLabel = t("latestPosts");
+  const readMoreLabel = t("readArticle");
+  const loadMoreLabel = t("loadMore");
+  const readTimeSuffix = t("minRead");
 
   // Client-side filter
   const filtered =
@@ -77,9 +70,7 @@ export default function BlogGrid({
     return (
       <div className="py-24 text-center">
         <p className="font-body font-light text-gray text-fluid-base">
-          {chromeLocale === "es"
-            ? "No hay artículos para esta categoría todavía."
-            : "No posts for this category yet."}
+          {t("noPosts")}
         </p>
       </div>
     );

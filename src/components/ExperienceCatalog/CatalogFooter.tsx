@@ -1,6 +1,7 @@
 import type { Locale, Settings } from "@/lib/experience/types";
 import type { GeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
 import { label } from "@/lib/experience/labels";
+import { localePrefix } from "@/i18n/locales";
 
 const footerLink =
   "my-[5px] mr-3 ml-0 inline-block text-[0.85rem] [&:hover]:text-gold";
@@ -13,7 +14,7 @@ export default function CatalogFooter({
   settings: Settings;
   company: GeneralLayout | null;
 }) {
-  const prefix = locale === "es" ? "/es" : "";
+  const prefix = localePrefix(locale);
   return (
     <footer className="border-t border-t-[rgba(207,174,112,0.25)] bg-black px-7 py-[60px] text-ivory">
       <div className="m-auto flex max-w-[1180px] flex-wrap justify-between gap-5">

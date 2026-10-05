@@ -14,8 +14,6 @@ interface BlogFilteredSectionProps {
     label: string;
   }[];
   posts: BlogPost[];
-  /** EN/ES labels for filter bar, grid chrome, featured ribbon (blog-only URLs use English). */
-  chromeLocale: "en" | "es";
   /** Locale string for date formatting on cards (matches URL locale). */
   dateLocale: string;
   /** App route locale for filter chrome (e.g. “All posts” tab). */
@@ -26,7 +24,6 @@ export default function BlogFilteredSection({
   featuredPost,
   categories,
   posts,
-  chromeLocale,
   dateLocale,
   locale,
 }: BlogFilteredSectionProps) {
@@ -36,11 +33,7 @@ export default function BlogFilteredSection({
     <>
       {featuredPost ? (
         <section className="bg-ivory">
-          <FeaturedPost
-            post={featuredPost}
-            chromeLocale={chromeLocale}
-            dateLocale={dateLocale}
-          />
+          <FeaturedPost post={featuredPost} dateLocale={dateLocale} />
         </section>
       ) : null}
 
@@ -53,7 +46,6 @@ export default function BlogFilteredSection({
       <section className="bg-ivory">
         <BlogGrid
           posts={posts}
-          chromeLocale={chromeLocale}
           dateLocale={dateLocale}
           activeFilter={activeFilter}
         />
