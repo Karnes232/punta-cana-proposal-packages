@@ -118,7 +118,7 @@ export type BlogPost = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  language?: "en" | "es" | "fr" | "de" | "it" | "pt" | "zh" | "ru" | "ar";
+  language?: "en" | "es" | "fr" | "pt" | "de" | "it" | "zh" | "ru" | "ar";
   translationGroup?: string;
   slug?: Slug;
   title?: string;

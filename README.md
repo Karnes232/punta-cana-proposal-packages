@@ -15,8 +15,8 @@ Tailwind CSS v4, hosted on Netlify.
   nothing is reserved or charged automatically.
 - **Stories, blog, FAQ, how it works and legal pages**, all edited in Sanity.
 - **Embedded Sanity Studio** at `/studio`.
-- **Languages:** the whole site in English and Spanish; blog posts also in
-  French, German, Italian, Portuguese, Chinese, Russian and Arabic.
+- **Languages:** the whole site in English, Spanish, French and Portuguese;
+  blog posts also in German, Italian, Chinese, Russian and Arabic.
 - **SEO:** per-page metadata from Sanity, hreflang alternates, JSON-LD,
   `sitemap.xml` and `robots.txt`.
 
@@ -111,12 +111,20 @@ src/
 
 ## Localization
 
-- `/…` is English and `/es/…` is Spanish.
-- Blog-only languages live under `/fr/blog/…`, `/de/blog/…` and so on. Any
+- `/…` is English; `/es/…`, `/fr/…` and `/pt/…` are Spanish, French and
+  Portuguese (`SITE_LOCALES` in `src/i18n/locales.ts`). Everything that
+  depends on the languages (links, switcher, hreflang, sitemap, request form)
+  loops over that list.
+- Blog-only languages live under `/de/blog/…`, `/it/blog/…` and so on. Any
   other path in those languages redirects to the English page (`src/proxy.ts`).
-- Short UI text lives in `messages/{en,es}.json`. Catalog text that editors
-  may want to change lives in Sanity (Catalog Settings and Catalog Home), with
-  the current wording as the default in `src/lib/experience/`.
+- Short UI text lives in `messages/{en,es,fr,pt}.json`. Catalog text that
+  editors may want to change lives in Sanity (Catalog Settings and Catalog
+  Home), with the current wording as the default in `src/lib/experience/`.
+- Sanity content uses two models (see `docs/experience-catalog.md`): page and
+  editorial documents are **one document per language**, linked by
+  `@sanity/document-internationalization`; packages, dinners, menu, drinks,
+  add-ons and categories are **shared**, with every language in their fields.
+  The blog keeps its own per-language posts in nine languages.
 
 ## Deployment
 

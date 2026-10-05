@@ -632,15 +632,15 @@
             },
             {
               "type": "string",
+              "value": "pt"
+            },
+            {
+              "type": "string",
               "value": "de"
             },
             {
               "type": "string",
               "value": "it"
-            },
-            {
-              "type": "string",
-              "value": "pt"
             },
             {
               "type": "string",

@@ -487,7 +487,11 @@ function translatedCopy(english, language, text, defaults) {
   for (const field of SHARED_FIELDS[english._type] ?? []) delete copy[field];
   if (english._type === "experienceCatalogSettings") {
     for (const key of Object.keys(copy))
-      if (typeof copy[key] === "string" && key !== "language") {
+      if (
+        typeof copy[key] === "string" &&
+        !key.startsWith("_") &&
+        key !== "language"
+      ) {
         const value = defaults.ui[key]?.[language];
         if (value) copy[key] = value;
         else problems.push(`No ${language} default for setting ${key}`);
