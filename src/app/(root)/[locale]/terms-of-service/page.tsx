@@ -4,7 +4,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
-  localizedSeoFields,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
@@ -23,13 +23,13 @@ export default async function Terms({
   const lang = toSiteLocale(locale);
   const [legalDocuments, structuredData] = await Promise.all([
     getLegalDocuments("terms-of-service"),
-    getStructuredData("terms-of-service"),
+    getStructuredData("terms-of-service", lang),
   ]);
   return (
     <div className="min-h-screen bg-ivory">
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[lang]}
+        data={structuredData?.seo?.structuredData}
       />
       {/* Page header */}
       <div className="relative bg-black border-b border-gold/15 overflow-hidden">
@@ -88,7 +88,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const pageSeo = await getPageSeo("terms-of-service");
+  const pageSeo = await getPageSeo("terms-of-service", locale);
   const path = "/terms-of-service";
   const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
@@ -98,8 +98,6 @@ export async function generateMetadata({
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    ...localizedSeoFields(pageSeo.seo, locale),
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
+    ...seoFields(pageSeo.seo),
   });
 }

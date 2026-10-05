@@ -9,7 +9,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
-  localizedSeoFields,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
@@ -24,28 +24,28 @@ export default async function Stories({
 }) {
   const { locale } = await params;
   requireLocale(locale);
+  const localeTyped = toSiteLocale(locale);
   const [hero, proposalTypes, allStories, structuredData, ctaStrip] =
     await Promise.all([
-      getStoriesPageHero(),
+      getStoriesPageHero(localeTyped),
       getProposalTypes(),
-      getAllStories(),
-      getStructuredData("stories"),
-      getStoriesPageCtaStrip(),
+      getAllStories(localeTyped),
+      getStructuredData("stories", localeTyped),
+      getStoriesPageCtaStrip(localeTyped),
     ]);
-  const localeTyped = toSiteLocale(locale);
 
   return (
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[localeTyped]}
+        data={structuredData?.seo?.structuredData}
       />
       <StoriesHero
         image={hero?.image}
-        eyebrow={hero?.eyebrow?.[localeTyped]}
-        headingLine1={hero?.headingLine1?.[localeTyped]}
-        headingLine2={hero?.headingLine2?.[localeTyped]}
-        subheading={hero?.subheading?.[localeTyped]}
+        eyebrow={hero?.eyebrow}
+        headingLine1={hero?.headingLine1}
+        headingLine2={hero?.headingLine2}
+        subheading={hero?.subheading}
       />
       {/* Need to add to Sanity CMS */}
       <StoriesFilteredSection
@@ -55,20 +55,20 @@ export default async function Stories({
           slug: story.slug.current,
           names: story.names,
           date: story.date,
-          location: story.location[localeTyped] ?? "",
-          packageTag: story.packageTag[localeTyped] ?? "",
+          location: story.location ?? "",
+          packageTag: story.packageTag ?? "",
           packageType: story.proposalType.value,
-          quote: story.quote[localeTyped] ?? "",
+          quote: story.quote ?? "",
           photo: story.heroPhoto,
         }))}
         locale={localeTyped}
       />
       <CtaStrip
-        eyebrow={ctaStrip.eyebrow[localeTyped]}
-        heading={ctaStrip.heading[localeTyped]}
-        headingAccent={ctaStrip.headingAccent[localeTyped]}
-        subheading={ctaStrip.subheading[localeTyped]}
-        ctaLabel={ctaStrip.ctaLabel[localeTyped]}
+        eyebrow={ctaStrip.eyebrow}
+        heading={ctaStrip.heading}
+        headingAccent={ctaStrip.headingAccent}
+        subheading={ctaStrip.subheading}
+        ctaLabel={ctaStrip.ctaLabel}
         ctaHref={ctaStrip.ctaHref}
       />
     </main>
@@ -82,7 +82,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const pageSeo = await getPageSeo("stories");
+  const pageSeo = await getPageSeo("stories", locale);
   const path = "/stories";
   const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
@@ -92,8 +92,6 @@ export async function generateMetadata({
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    ...localizedSeoFields(pageSeo.seo, locale),
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
+    ...seoFields(pageSeo.seo),
   });
 }

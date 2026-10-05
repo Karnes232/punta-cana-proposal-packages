@@ -2,30 +2,10 @@ import type { AppLocale } from "@/i18n/locales";
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
-import { imageWithDimensions, seoImageFields } from "../fragments";
+import { documentSeoProjection, imageWithDimensions } from "../fragments";
+import type { DocumentSeo } from "../SEO/documentSeo";
 
 export type HreflangSibling = { language: string; slug: string };
-
-export interface BlogPostSeoResolved {
-  meta: {
-    title: string;
-    description: string;
-    keywords: string[];
-  };
-  openGraph: {
-    title: string;
-    description: string;
-  };
-  image: {
-    url: string;
-    alt: string;
-    width: number;
-    height: number;
-  } | null;
-  structuredData?: string | null;
-  noIndex?: boolean;
-  noFollow?: boolean;
-}
 
 export interface IndividualBlog {
   _id: string;
@@ -72,29 +52,9 @@ export interface IndividualBlog {
       }[]
     | null;
   body: unknown[];
-  seo: BlogPostSeoResolved;
+  seo: DocumentSeo;
   hreflangSiblings: HreflangSibling[];
 }
-
-const seoProjection = `seo {
-  meta {
-    title,
-    description,
-    keywords
-  },
-  openGraph {
-    title,
-    description
-  },
-  "image": select(
-    defined(image.asset._ref) => {
-      ${seoImageFields}
-    }
-  ),
-  structuredData,
-  noIndex,
-  noFollow
-}`;
 
 export const individualBlogQuery = `*[_type == "blogPost" && slug.current == $slug && language == $lang][0] {
   _id,
@@ -121,7 +81,7 @@ export const individualBlogQuery = `*[_type == "blogPost" && slug.current == $sl
     caption
   },
   body,
-  ${seoProjection},
+  ${documentSeoProjection},
   "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup] {
     language,
     "slug": slug.current
@@ -139,7 +99,7 @@ export interface IndividualBlogMetadata {
   language: AppLocale;
   slug: string;
   translationGroup: string;
-  seo: BlogPostSeoResolved;
+  seo: DocumentSeo;
   hreflangSiblings: HreflangSibling[];
 }
 
@@ -147,7 +107,7 @@ export const individualBlogMetadataQuery = `*[_type == "blogPost" && slug.curren
   language,
   "slug": slug.current,
   translationGroup,
-  ${seoProjection},
+  ${documentSeoProjection},
   "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup] {
     language,
     "slug": slug.current

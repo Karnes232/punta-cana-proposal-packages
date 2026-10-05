@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { languageField } from "../shared/languageField";
 import { DocumentIcon } from "@sanity/icons";
 export default defineType({
   name: "howItWorksCta",
@@ -6,40 +7,41 @@ export default defineType({
   type: "document",
   icon: DocumentIcon,
   fields: [
+    languageField,
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "scriptLine",
       title: "Script Line",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "heading",
       title: "Heading",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "headingAccent",
       title: "Heading Accent",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "subheading",
       title: "Subheading",
-      type: "localizedText",
+      type: "text",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "primaryCTA",
       title: "Primary CTA",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -51,7 +53,7 @@ export default defineType({
     defineField({
       name: "secondaryCTA",
       title: "Secondary CTA",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -63,8 +65,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "eyebrow.en",
-      subtitle: "heading.en",
+      title: "eyebrow",
+      subtitle: "heading",
     },
   },
 });

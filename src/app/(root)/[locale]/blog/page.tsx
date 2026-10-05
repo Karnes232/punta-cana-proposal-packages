@@ -42,7 +42,7 @@ export default async function Blog({
 
   const [structuredData, hero, categories, posts, ctaStrip] = await Promise.all(
     [
-      getStructuredData("blog"),
+      getStructuredData("blog", chromeLocale),
       getBlogPageHero(),
       getBlogCategories(),
       getBlogPostsByLanguage(locale),
@@ -62,7 +62,7 @@ export default async function Blog({
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={parseJsonLd(structuredData?.seo?.structuredData[chromeLocale])}
+        data={parseJsonLd(structuredData?.seo?.structuredData)}
       />
       <BlogHero
         eyebrow={pickBlogLocalized(hero?.eyebrow, locale)}
@@ -99,7 +99,7 @@ export async function generateMetadata({
   const { locale } = await params;
   requireLocale(locale);
   const seoLocale = toSiteLocale(locale);
-  const pageSeo = await getPageSeo("blog");
+  const pageSeo = await getPageSeo("blog", seoLocale);
   const path = "/blog";
   const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
@@ -114,12 +114,8 @@ export async function generateMetadata({
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    meta: pageSeo.seo.meta[seoLocale],
-    openGraph: {
-      title: pageSeo.seo.openGraph[seoLocale].title,
-      description: pageSeo.seo.openGraph[seoLocale].description,
-      image: pageSeo.seo.openGraph.image,
-    },
+    meta: pageSeo.seo.meta,
+    openGraph: { ...pageSeo.seo.openGraph, image: pageSeo.seo.image },
     noIndex: pageSeo.seo.noIndex,
     noFollow: pageSeo.seo.noFollow,
     hreflangLanguages,

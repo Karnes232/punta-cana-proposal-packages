@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { isSiteLocale, type SiteLocale } from "@/i18n/locales";
+import type { DocumentSeo } from "@/sanity/queries/SEO/documentSeo";
 
 export type SeoLocale = SiteLocale;
 
@@ -58,6 +59,27 @@ export function localizedSeoFields(
       description: og?.description ?? description,
       image: seo?.openGraph?.image,
     },
+  };
+}
+
+/**
+ * Metadata fields from a per-language document's SEO (see DocumentSeo), with
+ * the same fallbacks as localizedSeoFields: Open Graph text falls back to the
+ * meta text, and the meta text to the Open Graph text.
+ */
+export function seoFields(seo: DocumentSeo | null | undefined) {
+  const title = seo?.meta?.title ?? seo?.openGraph?.title ?? "";
+  const description =
+    seo?.meta?.description ?? seo?.openGraph?.description ?? "";
+  return {
+    meta: { title, description, keywords: seo?.meta?.keywords ?? [] },
+    openGraph: {
+      title: seo?.openGraph?.title ?? title,
+      description: seo?.openGraph?.description ?? description,
+      image: seo?.image,
+    },
+    noIndex: seo?.noIndex,
+    noFollow: seo?.noFollow,
   };
 }
 

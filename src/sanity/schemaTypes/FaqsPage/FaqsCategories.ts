@@ -13,22 +13,18 @@ export default defineType({
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
+    // Categories are shared by every language's FAQs, so the label holds
+    // each language side by side.
     defineField({
-      name: "labelEn",
-      title: "Label English",
-      type: "string",
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "labelEs",
-      title: "Label Spanish",
-      type: "string",
+      name: "label",
+      title: "Label",
+      type: "localizedString",
       validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
     select: {
-      title: "labelEn",
+      title: "label.en",
     },
   },
 });

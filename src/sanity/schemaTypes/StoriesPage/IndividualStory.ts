@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { languageField } from "../shared/languageField";
 import { bi } from "../shared/labels";
 
 export default defineType({
@@ -20,6 +21,7 @@ export default defineType({
     },
   ],
   fields: [
+    languageField,
     // ── Identity ──────────────────────────────────────────────
     defineField({
       name: "slug",
@@ -56,7 +58,7 @@ export default defineType({
       description:
         'Display label shown on cards — e.g. "Classic Beach Package"',
       group: "basic",
-      type: "localizedString",
+      type: "string",
       validation: (R) => R.required(),
     }),
 
@@ -73,7 +75,7 @@ export default defineType({
       title: "Location",
       description: 'e.g. "Playa Bávaro, Punta Cana"',
       group: "basic",
-      type: "localizedString",
+      type: "string",
       validation: (R) => R.required(),
     }),
 
@@ -115,7 +117,7 @@ export default defineType({
             defineField({
               name: "caption",
               title: "Caption",
-              type: "localizedString",
+              type: "string",
             }),
           ],
         },
@@ -129,7 +131,7 @@ export default defineType({
       description:
         "Short 1–2 sentence quote shown on cards and at the top of the story page.",
       group: "basic",
-      type: "localizedString",
+      type: "string",
       validation: (R) => R.required(),
     }),
 
@@ -137,14 +139,15 @@ export default defineType({
       name: "body",
       title: "Story Body",
       description: "Full story — supports rich text in both languages.",
-      type: "localizedBlock",
+      type: "array",
+      of: [{ type: "block" }],
       group: "story",
       validation: (R) => R.required(),
     }),
     defineField({
       name: "seo",
       title: "SEO",
-      type: "seo",
+      type: "blogPostSeo",
       group: "seo",
       validation: (R) => R.required(),
     }),

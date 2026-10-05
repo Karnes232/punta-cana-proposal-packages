@@ -9,7 +9,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
-  localizedSeoFields,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
@@ -30,14 +30,14 @@ export default async function FAQ({
       getFaqContactStrip(),
       getFaqCategories(),
       getFaqs(),
-      getStructuredData("faq"),
+      getStructuredData("faq", lang),
     ]);
 
   return (
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[lang]}
+        data={structuredData?.seo?.structuredData}
       />
       <FaqHero
         heroImage={hero?.heroImage}
@@ -65,7 +65,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const pageSeo = await getPageSeo("faq");
+  const pageSeo = await getPageSeo("faq", locale);
   const path = "/faq";
   const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
@@ -75,8 +75,6 @@ export async function generateMetadata({
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    ...localizedSeoFields(pageSeo.seo, locale),
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
+    ...seoFields(pageSeo.seo),
   });
 }

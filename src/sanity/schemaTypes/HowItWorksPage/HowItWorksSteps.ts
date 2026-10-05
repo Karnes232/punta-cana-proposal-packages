@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { languageField } from "../shared/languageField";
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
@@ -17,31 +18,32 @@ export default defineType({
     },
   ],
   fields: [
+    languageField,
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
       group: "steps",
     }),
     defineField({
       name: "heading",
       title: "Heading",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
       group: "steps",
     }),
     defineField({
       name: "headingAccent",
       title: "Heading Accent",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
       group: "steps",
     }),
     defineField({
       name: "subheading",
       title: "Subheading",
-      type: "localizedText",
+      type: "text",
       validation: (Rule) => Rule.required(),
       group: "steps",
     }),
@@ -59,26 +61,26 @@ export default defineType({
             defineField({
               name: "label",
               title: "Label",
-              type: "localizedString",
+              type: "string",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "title",
               title: "Title",
-              type: "localizedString",
+              type: "string",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "description",
               title: "Description",
-              type: "localizedText",
+              type: "text",
               validation: (Rule) => Rule.required(),
             }),
           ],
           preview: {
             select: {
-              title: "label.en",
-              subtitle: "title.en",
+              title: "label",
+              subtitle: "title",
             },
           },
         },
@@ -108,20 +110,20 @@ export default defineType({
             defineField({
               name: "title",
               title: "Title",
-              type: "localizedString",
+              type: "string",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "caption",
               title: "Caption",
-              type: "localizedText",
+              type: "text",
               validation: (Rule) => Rule.required(),
             }),
           ],
           preview: {
             select: {
-              title: "title.en",
-              subtitle: "caption.en",
+              title: "title",
+              subtitle: "caption",
             },
           },
         },
@@ -131,8 +133,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "eyebrow.en",
-      subtitle: "heading.en",
+      title: "eyebrow",
+      subtitle: "heading",
     },
   },
 });

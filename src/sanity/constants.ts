@@ -56,6 +56,22 @@ export const pageSeoId = (page: string) => `pageSeo-${page}`;
 export const LEGAL_PAGES = ["privacy-policy", "terms-of-service"] as const;
 export const legalDocumentId = (page: string) => `legalDocument-${page}`;
 
+/**
+ * Document types with one document per language, linked by the
+ * @sanity/document-internationalization plugin (translation.metadata).
+ * Everything else keeps every language side by side in its fields.
+ */
+export const PER_LANGUAGE_TYPES: readonly string[] = [
+  "pageSeo",
+  "storiesHero",
+  "storiesCtaStrip",
+  "story",
+];
+
+/** A page document's fixed ID in one language, e.g. "storiesHero-fr". */
+export const languageDocumentId = (base: string, language: string) =>
+  `${base}-${language}`;
+
 /** Every schema type whose documents can't be created, deleted or duplicated. */
 export const SINGLETON_TYPES: ReadonlySet<string> = new Set([
   ...CATALOG_SINGLETON_IDS,

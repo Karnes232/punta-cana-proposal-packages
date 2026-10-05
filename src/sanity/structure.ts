@@ -17,15 +17,17 @@ import {
   TagIcon,
 } from "@sanity/icons";
 import {
+  languageDocumentId,
   CATALOG_CONTACT_ID,
   CATALOG_HOME_ID,
   CATALOG_SETTINGS_ID,
   legalDocumentId,
   PAGE_SINGLETONS,
+  PER_LANGUAGE_TYPES,
   pageSeoId,
 } from "@/sanity/constants";
 import { bi } from "@/sanity/schemaTypes/shared/labels";
-import { ALL_LOCALES } from "@/i18n/locales";
+import { ALL_LOCALES, CONTENT_LOCALES, LANGUAGE_NAMES } from "@/i18n/locales";
 
 type Icon = ComponentType;
 
@@ -54,7 +56,64 @@ export const structure: StructureResolver = (S) => {
       .icon(icon)
       .child(S.document().schemaType(type).documentId(id).title(title));
   const pageSection = (title: string, type: keyof typeof PAGE_SINGLETONS) =>
-    singleton(title, type, PAGE_SINGLETONS[type]);
+    PER_LANGUAGE_TYPES.includes(type)
+      ? languageSingleton(title, type, PAGE_SINGLETONS[type])
+      : singleton(title, type, PAGE_SINGLETONS[type]);
+  // One fixed document per language, e.g. storiesHero-en … storiesHero-pt.
+  const languageSingleton = (
+    title: string,
+    type: string,
+    base: string,
+    icon?: Icon,
+  ) =>
+    S.listItem()
+      .title(title)
+      .icon(icon)
+      .child(
+        S.list()
+          .title(title)
+          .items(
+            CONTENT_LOCALES.map((language) =>
+              singleton(
+                LANGUAGE_NAMES[language],
+                type,
+                languageDocumentId(base, language),
+              ),
+            ),
+          ),
+      );
+  // A per-language collection: one list per language, new documents created
+  // in that language.
+  const languageList = (
+    title: string,
+    type: string,
+    icon?: Icon,
+    ordering?: { field: string; direction: "asc" | "desc" },
+  ) =>
+    S.listItem()
+      .title(title)
+      .icon(icon)
+      .child(
+        S.list()
+          .title(title)
+          .items(
+            CONTENT_LOCALES.map((language) =>
+              S.listItem()
+                .title(LANGUAGE_NAMES[language])
+                .child(
+                  S.documentList()
+                    .title(`${title}: ${LANGUAGE_NAMES[language]}`)
+                    .schemaType(type)
+                    .filter("_type == $type && language == $language")
+                    .params({ type, language })
+                    .initialValueTemplates([
+                      S.initialValueTemplateItem(`${type}-${language}`),
+                    ])
+                    .defaultOrdering(ordering ? [ordering] : []),
+                ),
+            ),
+          ),
+      );
   // Documents of one type filtered by a field value (e.g. a page's SEO).
   const filtered = (
     title: string,
@@ -76,9 +135,9 @@ export const structure: StructureResolver = (S) => {
           .params({ type, ...params });
         return canCreate ? list : list.initialValueTemplates([]);
       });
-  // Each page's SEO is one fixed document (pageSeo-<page>).
+  // Each page's SEO is one fixed document per language (pageSeo-<page>-<lang>).
   const pageSeo = (page: string, title = "SEO") =>
-    singleton(title, "pageSeo", pageSeoId(page), SearchIcon);
+    languageSingleton(title, "pageSeo", pageSeoId(page), SearchIcon);
   const folder = (
     title: string,
     icon: Icon,
@@ -159,13 +218,10 @@ export const structure: StructureResolver = (S) => {
       ]),
       folder(bi("Historias", "Stories"), StarIcon, [
         pageSection(bi("Portada", "Hero"), "storiesHero"),
-        S.listItem()
-          .title(bi("Historias", "Stories"))
-          .child(
-            S.documentTypeList("story")
-              .title(bi("Historias", "Stories"))
-              .defaultOrdering([{ field: "date", direction: "desc" }]),
-          ),
+        languageList(bi("Historias", "Stories"), "story", undefined, {
+          field: "date",
+          direction: "desc",
+        }),
         list(bi("Tipos de propuesta", "Proposal types"), "storyType"),
         pageSection(bi("Franja final", "Closing banner"), "storiesCtaStrip"),
         pageSeo("stories"),

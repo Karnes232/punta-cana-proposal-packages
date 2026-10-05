@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { languageField } from "../shared/languageField";
 import { DocumentIcon } from "@sanity/icons";
 export default defineType({
   name: "howItWorksFaq",
@@ -16,31 +17,32 @@ export default defineType({
     },
   ],
   fields: [
+    languageField,
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
       group: "content",
     }),
     defineField({
       name: "heading",
       title: "Heading",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
       group: "content",
     }),
     defineField({
       name: "headingAccent",
       title: "Heading Accent",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
       group: "content",
     }),
     defineField({
       name: "subheading",
       title: "Subheading",
-      type: "localizedText",
+      type: "text",
       validation: (Rule) => Rule.required(),
       group: "content",
     }),
@@ -68,19 +70,19 @@ export default defineType({
             defineField({
               name: "question",
               title: "Question",
-              type: "localizedString",
+              type: "string",
               validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: "answer",
               title: "Answer",
-              type: "localizedText",
+              type: "text",
               validation: (Rule) => Rule.required(),
             }),
           ],
           preview: {
             select: {
-              title: "question.en",
+              title: "question",
               subtitle: "category.name.en",
             },
           },
@@ -91,8 +93,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "eyebrow.en",
-      subtitle: "heading.en",
+      title: "eyebrow",
+      subtitle: "heading",
     },
   },
 });

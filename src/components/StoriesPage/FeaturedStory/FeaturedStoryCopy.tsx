@@ -25,7 +25,7 @@ export default function FeaturedStoryCopy({
     <div className="flex flex-col justify-center gap-7 px-8 py-12 md:px-12 md:py-16 bg-white">
       {/* Package type tag */}
       <span className="text-[10.5px] font-body font-medium tracking-[0.18em] uppercase text-gold">
-        {story.packageTag[locale]}
+        {story.packageTag}
       </span>
 
       {/* Names + date */}
@@ -44,7 +44,7 @@ export default function FeaturedStoryCopy({
       {/* Pull quote */}
       <blockquote className="border-l border-gold/40 pl-5">
         <p className="font-display font-normal italic text-fluid-lg text-black/80 leading-relaxed">
-          &quot;{story.quote[locale]}&quot;
+          &quot;{story.quote}&quot;
         </p>
       </blockquote>
 

@@ -5,6 +5,19 @@
 export const SITE_LOCALES = ["en", "es"] as const;
 export type SiteLocale = (typeof SITE_LOCALES)[number];
 
+/**
+ * Languages content is written in, in the Studio. The site shows the
+ * SITE_LOCALES among them; the others can be prepared before going live.
+ */
+export const CONTENT_LOCALES = ["en", "es", "fr", "pt"] as const;
+export type ContentLocale = (typeof CONTENT_LOCALES)[number];
+export const LANGUAGE_NAMES: Record<ContentLocale, string> = {
+  en: "English",
+  es: "Español",
+  fr: "Français",
+  pt: "Português",
+};
+
 export const BLOG_ONLY_LOCALES = [
   "fr",
   "de",

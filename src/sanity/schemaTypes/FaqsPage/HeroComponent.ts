@@ -1,32 +1,34 @@
 import { defineField, defineType } from "sanity";
+import { languageField } from "../shared/languageField";
 
 export default defineType({
   name: "faqHero",
   title: "Faqs Page Hero Component",
   type: "document",
   fields: [
+    languageField,
     defineField({
       name: "eyebrow",
       title: "Eyebrow",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "headingLine1",
       title: "Heading Line 1",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "headingLine2",
       title: "Heading Line 2",
-      type: "localizedString",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "subheading",
       title: "Subheading",
-      type: "localizedText",
+      type: "text",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -46,8 +48,8 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "eyebrow.en",
-      subtitle: "headingLine1.en",
+      title: "eyebrow",
+      subtitle: "headingLine1",
     },
   },
 });

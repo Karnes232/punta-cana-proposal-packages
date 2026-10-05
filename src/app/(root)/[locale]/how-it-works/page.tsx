@@ -7,7 +7,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
-  localizedSeoFields,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getHowItWorksPageHero } from "@/sanity/queries/HowItWorksPage/Hero";
@@ -37,14 +37,14 @@ export default async function HowItWorks({
       getHowItWorksFaqCategories(),
       getHowItWorksFaqs(),
       getHowItWorksCta(),
-      getStructuredData("how-it-works"),
+      getStructuredData("how-it-works", lang),
     ]);
 
   return (
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[lang]}
+        data={structuredData?.seo?.structuredData}
       />
       <HowItWorksHero
         heroImage={hero?.image}
@@ -93,7 +93,7 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const pageSeo = await getPageSeo("how-it-works");
+  const pageSeo = await getPageSeo("how-it-works", locale);
   const path = "/how-it-works";
   const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!pageSeo) {
@@ -103,8 +103,6 @@ export async function generateMetadata({
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    ...localizedSeoFields(pageSeo.seo, locale),
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
+    ...seoFields(pageSeo.seo),
   });
 }

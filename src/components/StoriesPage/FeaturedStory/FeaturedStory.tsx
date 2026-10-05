@@ -18,7 +18,7 @@ export default function FeaturedStory({ story, locale }: FeaturedStoryProps) {
         photo={story.heroPhoto}
         names={story.names}
         eyebrow={eyebrow}
-        location={story.location[locale]}
+        location={story.location}
       />
       <FeaturedStoryCopy story={story} locale={locale} />
     </article>

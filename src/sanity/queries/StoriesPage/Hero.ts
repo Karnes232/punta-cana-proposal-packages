@@ -1,24 +1,12 @@
 import { client } from "@/sanity/lib/client";
-import { PAGE_SINGLETONS } from "@/sanity/constants";
+import { pageSectionDocument, pageSectionParams } from "../pageSection";
 import { imageWithDimensions } from "../fragments";
 
 export interface StoriesPageHero {
-  eyebrow?: {
-    en: string;
-    es: string;
-  };
-  headingLine1?: {
-    en: string;
-    es: string;
-  };
-  headingLine2?: {
-    en: string;
-    es: string;
-  };
-  subheading?: {
-    en: string;
-    es: string;
-  };
+  eyebrow?: string;
+  headingLine1?: string;
+  headingLine2?: string;
+  subheading?: string;
   image?: {
     asset: {
       url: string;
@@ -37,14 +25,8 @@ export interface StoriesPageHero {
     };
     names: string;
     date: string;
-    location: {
-      en: string;
-      es: string;
-    };
-    packageTag: {
-      en: string;
-      es: string;
-    };
+    location: string;
+    packageTag: string;
     heroPhoto: {
       asset: {
         url: string;
@@ -57,30 +39,15 @@ export interface StoriesPageHero {
         alt: string;
       };
     };
-    quote: {
-      en: string;
-      es: string;
-    };
+    quote: string;
   };
 }
 
-export const storiesPageHeroQuery = `*[_type == "storiesHero" && _id == $id][0] {
-  eyebrow {
-    en,
-    es
-  },
-  headingLine1 {
-    en,
-    es
-  },
-  headingLine2 {
-    en,
-    es
-  },
-  subheading {
-    en,
-    es
-  },
+export const storiesPageHeroQuery = `${pageSectionDocument("storiesHero")} {
+  eyebrow,
+  headingLine1,
+  headingLine2,
+  subheading,
   image {
     ${imageWithDimensions}
   },
@@ -88,26 +55,20 @@ export const storiesPageHeroQuery = `*[_type == "storiesHero" && _id == $id][0] 
     slug,
     names,
     date,
-    location {
-      en,
-      es
-    },
-    packageTag {
-      en,
-      es
-    },
+    location,
+    packageTag,
     heroPhoto {
       ${imageWithDimensions}
     },
-    quote {
-      en,
-      es
-    }
+    quote
   } 
 }`;
 
-export async function getStoriesPageHero(): Promise<StoriesPageHero> {
-  return await client.fetch<StoriesPageHero>(storiesPageHeroQuery, {
-    id: PAGE_SINGLETONS.storiesHero,
-  });
+export async function getStoriesPageHero(
+  locale: string,
+): Promise<StoriesPageHero> {
+  return await client.fetch<StoriesPageHero>(
+    storiesPageHeroQuery,
+    pageSectionParams("storiesHero", locale),
+  );
 }

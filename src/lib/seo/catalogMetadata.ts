@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import type { Locale, Seo } from "@/lib/experience/types";
-import { SITE_LOCALES } from "@/i18n/locales";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo } from "@/sanity/queries/SEO/seo";
@@ -40,20 +39,14 @@ export async function catalogPageMetadata(
   pageName: string,
   title?: string,
 ): Promise<Metadata> {
-  const page = (await getPageSeo(pageName))?.seo;
+  const page = (await getPageSeo(pageName, locale))?.seo;
   return catalogMetadata(
     locale,
     path,
     {
-      title: Object.fromEntries(
-        SITE_LOCALES.map((l) => [l, page?.meta?.[l]?.title]),
-      ),
-      description: Object.fromEntries(
-        SITE_LOCALES.map((l) => [l, page?.meta?.[l]?.description]),
-      ),
-      image: page?.openGraph?.image
-        ? { url: page.openGraph.image.url }
-        : undefined,
+      title: { [locale]: page?.meta?.title },
+      description: { [locale]: page?.meta?.description },
+      image: page?.image ? { url: page.image.url } : undefined,
       noIndex: page?.noIndex,
     },
     title,

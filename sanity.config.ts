@@ -15,11 +15,29 @@ import { structure } from "./src/sanity/structure";
 import ProposalTemplateTool from "./src/sanity/tools/ProposalTemplateTool";
 import DinnerTemplateTool from "./src/sanity/tools/DinnerTemplateTool";
 import { media } from "sanity-plugin-media";
-import { CREATABLE_TYPES, SINGLETON_TYPES } from "./src/sanity/constants";
+import { documentInternationalization } from "@sanity/document-internationalization";
+import {
+  CREATABLE_TYPES,
+  PER_LANGUAGE_TYPES,
+  SINGLETON_TYPES,
+} from "./src/sanity/constants";
+import { CONTENT_LOCALES, LANGUAGE_NAMES } from "./src/i18n/locales";
 
 // Actions allowed on single-document page sections: no delete, duplicate or
 // unpublish, so the site never loses (or doubles) one of them.
 const SINGLETON_ACTIONS = new Set(["publish", "discardChanges", "restore"]);
+
+// The plugin's "<type> in <language>" templates (e.g. "story-fr").
+const languageTemplates = new Set(
+  PER_LANGUAGE_TYPES.flatMap((type) =>
+    CONTENT_LOCALES.map((language) => `${type}-${language}`),
+  ),
+);
+// Editors may create a document from this template in the global menu.
+const creatable = (templateId: string) =>
+  CREATABLE_TYPES.has(templateId) ||
+  (languageTemplates.has(templateId) &&
+    CREATABLE_TYPES.has(templateId.replace(/-[a-z]{2}$/, "")));
 const catalogConfig = defineConfig({
   name: "catalog",
   title: "Website",
@@ -31,15 +49,18 @@ const catalogConfig = defineConfig({
     ...schema,
     templates: (templates) =>
       templates.filter(
-        // Singletons are opened from the structure, never created as new docs.
-        (t) => !SINGLETON_TYPES.has(t.schemaType),
+        (t) =>
+          // Singletons are opened from the structure, never created as new docs.
+          !SINGLETON_TYPES.has(t.schemaType) &&
+          // A per-language document is always created in a language.
+          !(PER_LANGUAGE_TYPES.includes(t.schemaType) && t.id === t.schemaType),
       ),
   },
   document: {
     // The global "Create" menu only offers types editors should add to.
     newDocumentOptions: (prev, { creationContext }) =>
       creationContext.type === "global"
-        ? prev.filter((item) => CREATABLE_TYPES.has(item.templateId))
+        ? prev.filter((item) => creatable(item.templateId))
         : prev,
     actions: (prev, { schemaType }) =>
       SINGLETON_TYPES.has(schemaType)
@@ -60,6 +81,13 @@ const catalogConfig = defineConfig({
   ],
   plugins: [
     structureTool({ structure }),
+    documentInternationalization({
+      supportedLanguages: CONTENT_LOCALES.map((id) => ({
+        id,
+        title: LANGUAGE_NAMES[id],
+      })),
+      schemaTypes: [...PER_LANGUAGE_TYPES],
+    }),
     media(),
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin

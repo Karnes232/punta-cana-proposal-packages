@@ -23,6 +23,27 @@ export const seoImageFields = /* groq */ `
   "height": image.asset->metadata.dimensions.height
 `;
 
+/** A per-language document's `seo` object (see ./SEO/documentSeo.ts). */
+export const documentSeoProjection = /* groq */ `seo {
+  meta {
+    title,
+    description,
+    keywords
+  },
+  openGraph {
+    title,
+    description
+  },
+  "image": select(
+    defined(image.asset._ref) => {
+      ${seoImageFields}
+    }
+  ),
+  structuredData,
+  noIndex,
+  noFollow
+}`;
+
 /** The bilingual `seo` object (meta, Open Graph, robots) used by pages and stories. */
 export const localizedSeoProjection = /* groq */ `
   seo {
