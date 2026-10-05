@@ -287,19 +287,19 @@ export const structure: StructureResolver = (S) => {
         ),
         pageSeo("contact"),
       ]),
+      // Each legal page opens in English; the Translations button switches
+      // language. Its SEO is inside it (seo field).
       folder("Legal", DocumentTextIcon, [
-        languageSingleton(
+        singleton(
           bi("Política de privacidad", "Privacy policy"),
           "legalDocument",
-          legalDocumentId("privacy-policy"),
+          languageDocumentId(legalDocumentId("privacy-policy"), "en"),
         ),
-        pageSeo("privacy-policy", bi("SEO: privacidad", "SEO: privacy")),
-        languageSingleton(
+        singleton(
           bi("Términos de servicio", "Terms of service"),
           "legalDocument",
-          legalDocumentId("terms-of-service"),
+          languageDocumentId(legalDocumentId("terms-of-service"), "en"),
         ),
-        pageSeo("terms-of-service", bi("SEO: términos", "SEO: terms")),
       ]),
       S.divider(),
       list(bi("Extras", "Add-ons"), "experienceAddon", BasketIcon),

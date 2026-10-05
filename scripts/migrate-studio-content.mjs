@@ -37,6 +37,8 @@
 //      language (the English document's alt becomes English only).
 //  12. The home page's SEO moves into its document (catalogHome-<lang>.seo);
 //      the pageSeo-home-<lang> documents and their metadata are deleted.
+//  13. The same for the privacy policy and terms of service
+//      (legalDocument-<page>-<lang>.seo).
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -367,9 +369,15 @@ async function splitPhase() {
   );
 }
 
-// Originals whose language copies were later moved (phase 12: the home
-// page's SEO lives in its catalogHome document).
-const MOVED_COPIES = { "pageSeo-home": "catalogHome" };
+// Originals whose language copies were later moved (phases 12 and 13: the
+// home and legal pages' SEO lives in their own documents).
+const MOVED_COPIES = {
+  "pageSeo-home": "catalogHome",
+  // Phase 13: the legal pages' SEO lives in their legalDocument documents.
+  ...Object.fromEntries(
+    LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
+  ),
+};
 
 async function cleanupPhase() {
   const { sources } = await sourceDocuments();
@@ -820,37 +828,40 @@ async function homePhotosPhase() {
 
 // --- Home SEO inside the home document ------------------------------------------
 
-async function homeSeoPhase() {
+// Moves a page's SEO from its pageSeo-<page>-<lang> documents into the seo
+// field of the page's own document (<targetBase>-<lang>), then deletes the
+// pageSeo documents and their translation metadata.
+async function moveSeoIntoDocument(phase, page, targetBase) {
   const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
-  const homeIds = languages.map((l) => languageDocumentId("catalogHome", l));
-  const seoIds = languages.map((l) => languageDocumentId("pageSeo-home", l));
-  const metadataId = "translations-pageSeo-home";
+  const targetIds = languages.map((l) => languageDocumentId(targetBase, l));
+  const seoIds = languages.map((l) => languageDocumentId(`pageSeo-${page}`, l));
+  const metadataId = `translations-pageSeo-${page}`;
   const drafts = await client.fetch(`*[_id in $ids]._id`, {
-    ids: [...homeIds, ...seoIds].map((id) => `drafts.${id}`),
+    ids: [...targetIds, ...seoIds].map((id) => `drafts.${id}`),
   });
   for (const id of drafts)
     problems.push(`${id} exists: publish or discard it in the Studio first`);
   const docs = Object.fromEntries(
     (
       await client.fetch(`*[_id in $ids]`, {
-        ids: [...homeIds, ...seoIds, metadataId],
+        ids: [...targetIds, ...seoIds, metadataId],
       })
     ).map((d) => [d._id, d]),
   );
   const mutations = [];
   for (const language of languages) {
-    const home = docs[languageDocumentId("catalogHome", language)];
-    const page = docs[languageDocumentId("pageSeo-home", language)];
-    if (!home) {
-      problems.push(`catalogHome-${language} not found`);
+    const target = docs[languageDocumentId(targetBase, language)];
+    const source = docs[languageDocumentId(`pageSeo-${page}`, language)];
+    if (!target) {
+      problems.push(`${languageDocumentId(targetBase, language)} not found`);
       continue;
     }
-    if (!home.seo && !page?.seo)
-      problems.push(`No SEO found for the ${language} home page`);
-    if (!home.seo && page?.seo) {
-      checkAgainstSchema({ ...withoutSystemFields(home), seo: page.seo });
+    if (!target.seo && !source?.seo)
+      problems.push(`No SEO found for ${page} in ${language}`);
+    if (!target.seo && source?.seo) {
+      checkAgainstSchema({ ...withoutSystemFields(target), seo: source.seo });
       mutations.push({
-        patch: { id: home._id, setIfMissing: { seo: page.seo } },
+        patch: { id: target._id, setIfMissing: { seo: source.seo } },
       });
     }
   }
@@ -862,10 +873,10 @@ async function homeSeoPhase() {
     { ids: seoIds, metadataId },
   );
   for (const id of blockers)
-    problems.push(`${id} still references a home SEO document`);
-  step(12, "Move the home page's SEO into its document", mutations, [
-    `${mutations.filter((m) => m.patch).length} home documents get their SEO`,
-    `${mutations.filter((m) => m.delete).length} documents deleted (home SEO and its translation metadata)`,
+    problems.push(`${id} still references an SEO document of ${page}`);
+  step(phase, `Move the ${page} SEO into its document`, mutations, [
+    `${mutations.filter((m) => m.patch).length} documents get their SEO`,
+    `${mutations.filter((m) => m.delete).length} documents deleted (SEO and its translation metadata)`,
   ]);
 }
 
@@ -877,7 +888,10 @@ if (phases.has(8)) await translationPhase();
 if (phases.has(9)) await contentFixPhase();
 if (phases.has(10)) await flattenHomePhase();
 if (phases.has(11)) await homePhotosPhase();
-if (phases.has(12)) await homeSeoPhase();
+if (phases.has(12)) await moveSeoIntoDocument(12, "home", "catalogHome");
+if (phases.has(13))
+  for (const page of LEGAL_PAGES)
+    await moveSeoIntoDocument(13, page, `legalDocument-${page}`);
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

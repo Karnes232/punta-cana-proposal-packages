@@ -2,6 +2,7 @@ import { client } from "@/sanity/lib/client";
 import {
   CATALOG_HOME_ID,
   languageDocumentId,
+  legalDocumentId,
   pageSeoId,
 } from "@/sanity/constants";
 import { documentSeoProjection } from "../fragments";
@@ -11,13 +12,19 @@ interface PageSeo {
   seo: DocumentSeo;
 }
 
-// One pageSeo document per page and language (pageSeo-<page>-<language>);
-// the home page's SEO is the seo field of its own document (catalogHome-<lang>).
-// No fallback to another language: a page without SEO in its language uses
-// its own default title instead.
+// Pages whose SEO is the seo field of their own document.
+const SEO_IN_PAGE_DOCUMENT: Record<string, string> = {
+  home: CATALOG_HOME_ID,
+  "privacy-policy": legalDocumentId("privacy-policy"),
+  "terms-of-service": legalDocumentId("terms-of-service"),
+};
+
+// Every other page has one pageSeo document per language
+// (pageSeo-<page>-<language>). No fallback to another language: a page
+// without SEO in its language uses its own default title instead.
 const pageSeoDocumentId = (pageName: string, locale: string) =>
   languageDocumentId(
-    pageName === "home" ? CATALOG_HOME_ID : pageSeoId(pageName),
+    SEO_IN_PAGE_DOCUMENT[pageName] ?? pageSeoId(pageName),
     locale,
   );
 
