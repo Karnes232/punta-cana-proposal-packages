@@ -322,10 +322,13 @@ function titleFields(
 ): FieldLike[] | undefined {
   return fields?.map((f) => ({
     ...f,
-    title:
-      (f.name && fieldTitleOverrides[typeName]?.[f.name]) ||
-      (f.name && fieldTitles[f.name]) ||
-      f.title,
+    // A title that is already bilingual was chosen on purpose (e.g. a site
+    // text titled with the words it shows); keep it.
+    title: f.title?.includes(" / ")
+      ? f.title
+      : (f.name && fieldTitleOverrides[typeName]?.[f.name]) ||
+        (f.name && fieldTitles[f.name]) ||
+        f.title,
     ...(f.fields ? { fields: titleFields(f.fields, typeName) } : {}),
     ...(f.of
       ? {

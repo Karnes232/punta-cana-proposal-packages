@@ -1,4 +1,5 @@
 import { defineField, type FieldDefinition, type PreviewValue } from "sanity";
+import { bi } from "../shared/labels";
 export const field = (
   name: string,
   type = "string",
@@ -22,8 +23,18 @@ export const active = defineField({
   name: "active",
   type: "boolean",
   initialValue: false,
+  description: bi(
+    "Apágalo para ocultarlo del sitio sin borrarlo",
+    "Turn off to hide it from the site without deleting it",
+  ),
 });
-export const order = number("displayOrder");
+export const order: FieldDefinition = {
+  ...number("displayOrder"),
+  description: bi(
+    "Número menor = aparece primero",
+    "Lower number = shown first",
+  ),
+};
 export const named = [
   field("name", "localizedString"),
   field("description", "localizedText"),
@@ -35,7 +46,15 @@ export const image = (name: string): FieldDefinition =>
     name,
     type: "image",
     options: { hotspot: true },
-    fields: [field("alt", "localizedString")],
+    fields: [
+      {
+        ...field("alt", "localizedString"),
+        description: bi(
+          "Describe la foto para Google y lectores de pantalla",
+          "Describe the photo for Google and screen readers",
+        ),
+      },
+    ],
   });
 export const refs = (
   name: string,
