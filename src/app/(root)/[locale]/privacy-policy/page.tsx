@@ -26,7 +26,7 @@ export default async function Privacy({
   requireLocale(locale);
   const lang = toSiteLocale(locale);
   const [legalDocuments, structuredData] = await Promise.all([
-    getLegalDocuments("privacy-policy"),
+    getLegalDocuments("privacy-policy", lang),
     getStructuredData("privacy-policy", lang),
   ]);
   return (
@@ -78,7 +78,7 @@ export default async function Privacy({
 
         {/* Content */}
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-12 py-10 lg:py-14">
-          <BlockContent content={legalDocuments.content} language={lang} />
+          <BlockContent content={legalDocuments?.content} />
         </div>
       </div>
     </div>

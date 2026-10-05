@@ -280,13 +280,13 @@ export const structure: StructureResolver = (S) => {
         pageSeo("contact"),
       ]),
       folder("Legal", DocumentTextIcon, [
-        singleton(
+        languageSingleton(
           bi("Política de privacidad", "Privacy policy"),
           "legalDocument",
           legalDocumentId("privacy-policy"),
         ),
         pageSeo("privacy-policy", bi("SEO: privacidad", "SEO: privacy")),
-        singleton(
+        languageSingleton(
           bi("Términos de servicio", "Terms of service"),
           "legalDocument",
           legalDocumentId("terms-of-service"),

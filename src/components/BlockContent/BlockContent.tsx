@@ -1,8 +1,7 @@
 // Server Component
 // PortableText renderer for Sanity block content.
-// Supports bilingual content via { en: [], es: [] } shape.
+// Renders one language's content (legal documents are one per language).
 
-import type { SiteLocale } from "@/i18n/locales";
 import { client } from "@/sanity/lib/client";
 import {
   PortableText,
@@ -17,17 +16,10 @@ import TextComponentParagraph from "./TextComponentParagraph";
 import TextComponentHeading from "./TextComponentHeading";
 import TextComponentList from "./TextComponentList";
 
-interface LocaleBlockContent {
-  _type: string;
-  en: PortableTextBlock[];
-  es: PortableTextBlock[];
-}
-
 type ImageBlock = SanityImageSource & { alt?: string; caption?: string };
 
 interface Props {
-  content: LocaleBlockContent;
-  language?: SiteLocale;
+  content?: PortableTextBlock[] | null;
 }
 
 const builder = imageUrlBuilder(client);
@@ -160,12 +152,12 @@ const components: PortableTextComponents = {
   },
 };
 
-const BlockContent: React.FC<Props> = ({ content, language = "en" }) => {
-  if (!content || !content[language]) return null;
+const BlockContent: React.FC<Props> = ({ content }) => {
+  if (!content) return null;
 
   return (
     <div className="max-w-[720px] mx-auto">
-      <PortableText value={content[language]} components={components} />
+      <PortableText value={content} components={components} />
     </div>
   );
 };

@@ -73,6 +73,7 @@ export const PER_LANGUAGE_TYPES: readonly string[] = [
   "howItWorksSteps",
   "howItWorksFaq",
   "howItWorksCta",
+  "legalDocument",
 ];
 
 /** A page document's fixed ID in one language, e.g. "storiesHero-fr". */

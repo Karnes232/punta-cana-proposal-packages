@@ -22,7 +22,7 @@ export default async function Terms({
   requireLocale(locale);
   const lang = toSiteLocale(locale);
   const [legalDocuments, structuredData] = await Promise.all([
-    getLegalDocuments("terms-of-service"),
+    getLegalDocuments("terms-of-service", lang),
     getStructuredData("terms-of-service", lang),
   ]);
   return (
@@ -74,7 +74,7 @@ export default async function Terms({
 
         {/* Content */}
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-12 py-10 lg:py-14">
-          <BlockContent content={legalDocuments.content} language={lang} />
+          <BlockContent content={legalDocuments?.content} />
         </div>
       </div>
     </div>
