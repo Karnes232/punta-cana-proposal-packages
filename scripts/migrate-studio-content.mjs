@@ -1525,6 +1525,45 @@ async function catalogPagePhase(phase) {
   ]);
 }
 
+// --- Unused template add-ons ------------------------------------------------
+
+// Add-ons the Proposal template tool made for a template that no longer
+// exists. Nothing references them; the tool makes them again if it's run.
+async function unusedTemplateAddonsPhase() {
+  const addons = await client.fetch(
+    `*[_type == "experienceAddon" && _id match "proposal-template-reference-addon-*"]`,
+  );
+  const ids = addons.map((a) => a._id);
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a template add-on`);
+  for (const a of addons)
+    if (a._id.startsWith("drafts."))
+      problems.push(
+        `${a._id} exists: publish or discard it in the Studio first`,
+      );
+  // A copy of every deleted add-on, in case one is wanted back.
+  if (ids.length)
+    writeFileSync(
+      `work/backup-phase21-${dataset}.json`,
+      JSON.stringify(addons, null, 2),
+    );
+  step(
+    21,
+    "Delete the unused template add-ons",
+    ids.map((id) => ({ delete: { id } })),
+    [
+      `${ids.length} add-ons deleted: ${addons.map((a) => a.name?.en).join(", ")}`,
+      ids.length
+        ? `backup: work/backup-phase21-${dataset}.json`
+        : "nothing to back up",
+    ],
+  );
+}
+
 // --- Run ---------------------------------------------------------------------
 
 if (phases.has(6)) await splitPhase();
@@ -1544,6 +1583,7 @@ if (phases.has(17)) await blogPagePhase();
 if (phases.has(18)) await storiesPagePhase();
 for (const phase of [19, 20])
   if (phases.has(phase)) await catalogPagePhase(phase);
+if (phases.has(21)) await unusedTemplateAddonsPhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

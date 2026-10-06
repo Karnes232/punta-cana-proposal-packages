@@ -1,4 +1,6 @@
 import { defineType, defineField } from "sanity";
+import { replacedByProposalExtra } from "@/lib/experience/proposalExtras";
+import { bi } from "../shared/labels";
 import {
   field,
   named,
@@ -11,6 +13,10 @@ import {
 export default defineType({
   name: "experienceAddon",
   type: "document",
+  description: bi(
+    "Las propuestas siempre ofrecen cuatro extras fijos (videógrafo con drone, violinista, saxofonista y cena para dos); un extra parecido de aquí no se muestra en las propuestas",
+    "Proposals always offer four fixed extras (drone videographer, violinist, saxophonist and dinner for two); a look-alike add-on here isn't shown on proposals",
+  ),
   fields: [
     field("internalTitle"),
     ...named,
@@ -53,10 +59,23 @@ export default defineType({
       return true;
     }),
   preview: {
-    select: { title: "name.en", price: "price", kind: "applicableTo" },
+    select: {
+      _id: "_id",
+      title: "name.en",
+      es: "name.es",
+      price: "price",
+      kind: "applicableTo",
+    },
     prepare: (v) => ({
       title: v.title,
-      subtitle: `${v.price ?? "Quote"} · ${(v.kind || []).join(", ")}`,
+      subtitle:
+        (v.kind || []).includes("proposal") &&
+        replacedByProposalExtra({ _id: v._id, name: { en: v.title, es: v.es } })
+          ? bi(
+              "No se muestra · lo reemplaza el extra fijo",
+              "Not shown · replaced by the fixed extra",
+            )
+          : `${v.price ?? "Quote"} · ${(v.kind || []).join(", ")}`,
     }),
   },
 });

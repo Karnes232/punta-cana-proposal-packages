@@ -332,6 +332,20 @@ test("inquiry pricing permits unconfirmed capacity without pretending it is conf
   );
 });
 
+test("CMS add-ons that duplicate a fixed proposal extra are hidden", () => {
+  const {
+    replacedByProposalExtra,
+  } = require("../work/pricing-tests/lib/experience/proposalExtras.js");
+  for (const en of ["Live Violinist", "Drone Photography", "Live Saxophonist"])
+    assert.equal(replacedByProposalExtra({ name: { en } }), true, en);
+  for (const en of ["Elaborate 50-Rose Bouquet", "Extra Hour", "cheers"])
+    assert.equal(replacedByProposalExtra({ name: { en } }), false, en);
+  assert.equal(
+    replacedByProposalExtra({ _id: "x", name: { en: "Wine", es: "Cena" } }),
+    true,
+  );
+});
+
 test("proposal premium extras cost 399/399/399/299 and require two complete dinner menus", () => {
   const {
     withProposalExtras,

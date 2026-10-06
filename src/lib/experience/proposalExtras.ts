@@ -48,6 +48,20 @@ export const proposalExtras: Addon[] = (
   applicableTo: ["proposal"],
 }));
 
+/**
+ * Whether a CMS add-on duplicates one of the fixed proposal extras above
+ * (video or drone, violin, sax, dinner). Proposal cards hide it and show the
+ * fixed extra instead.
+ */
+export const replacedByProposalExtra = (addon: {
+  _id?: string;
+  _key?: string;
+  name?: { en?: string; es?: string };
+}) =>
+  /video|drone|violin|violín|sax|dinner|cena/i.test(
+    `${addon._id || addon._key} ${addon.name?.en} ${addon.name?.es}`,
+  );
+
 export function withProposalExtras(
   e: Experience,
   menu: MenuItem[],
@@ -57,12 +71,7 @@ export function withProposalExtras(
     ...e,
     menuItems: menu,
     availableAddons: [
-      ...e.availableAddons.filter(
-        (a) =>
-          !/video|drone|violin|violín|sax|dinner|cena/i.test(
-            `${a._id || a._key} ${a.name?.en} ${a.name?.es}`,
-          ),
-      ),
+      ...e.availableAddons.filter((a) => !replacedByProposalExtra(a)),
       ...proposalExtras,
     ],
   };
