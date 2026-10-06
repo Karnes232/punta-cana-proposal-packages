@@ -93,3 +93,10 @@ test("a Sanity date shows the calendar day it is, in any timezone", () => {
   assert.equal(formatSanityDate(null, "en", day), "");
   assert.equal(formatSanityDate("not a date", "en", day), "");
 });
+
+test("the proxy runs for every language's URLs", () => {
+  const { ALL_LOCALES } = require(`${out}/i18n/locales.js`);
+  const proxy = require("node:fs").readFileSync("src/proxy.ts", "utf8");
+  const listed = proxy.match(/"\/\(([a-z|]+)\)\/:path\*"/)[1].split("|");
+  assert.deepEqual([...listed].sort(), [...ALL_LOCALES].sort());
+});

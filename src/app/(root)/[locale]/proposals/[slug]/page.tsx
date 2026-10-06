@@ -8,7 +8,7 @@ import { catalogMetadata } from "@/lib/seo/catalogMetadata";
 import ExperienceCard from "@/components/ExperienceCatalog/ExperienceCard";
 import type { Locale } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";
-import { requireLocale } from "@/i18n/requireLocale";
+import { requireSiteLocale } from "@/i18n/requireLocale";
 import { shellClass, wrapClass } from "@/components/ExperienceCatalog/styles";
 async function data(slug: string) {
   return (await getExperiences()).find(
@@ -21,7 +21,7 @@ export default async function Page({
   params: Promise<{ locale: Locale; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  requireLocale(locale);
+  requireSiteLocale(locale);
   const [e, c] = await Promise.all([data(slug), getCatalogContent(locale)]);
   if (!e) notFound();
   const json = {
@@ -51,7 +51,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  requireLocale(locale);
+  requireSiteLocale(locale);
   const e = await data(slug);
   if (!e) notFound();
   return catalogMetadata(

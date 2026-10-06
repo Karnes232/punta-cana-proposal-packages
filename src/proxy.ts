@@ -48,10 +48,12 @@ export default function middleware(request: NextRequest) {
   return intlMiddleware(request);
 }
 
+// Next reads the matcher at build time, so it must be literal: list every
+// locale in ALL_LOCALES (a test checks they match).
 export const config = {
   matcher: [
     "/",
-    "/(en|es|fr|de|it|pt)/:path*",
+    "/(en|es|fr|pt|de|it|zh|ru|ar)/:path*",
     "/((?!api|trpc|_next|_vercel|studio|.*\\..*).*)",
   ],
 };

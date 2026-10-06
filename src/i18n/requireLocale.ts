@@ -1,7 +1,7 @@
 import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 
-import type { AppLocale } from "./locales";
+import { isSiteLocale, type AppLocale, type SiteLocale } from "./locales";
 import { routing } from "./routing";
 
 /**
@@ -14,4 +14,16 @@ import { routing } from "./routing";
  */
 export function requireLocale(locale: string): asserts locale is AppLocale {
   if (!hasLocale(routing.locales, locale)) notFound();
+}
+
+/**
+ * 404 for a language without the full site (the blog-only languages) on a
+ * page that has a request form: the API only takes requests in site
+ * languages. The proxy already redirects these URLs; this covers paths it
+ * skips.
+ */
+export function requireSiteLocale(
+  locale: string,
+): asserts locale is SiteLocale {
+  if (!isSiteLocale(locale)) notFound();
 }
