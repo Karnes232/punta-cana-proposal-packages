@@ -17,7 +17,7 @@ const link =
 const smallLink =
   "inline-flex min-h-11 items-center transition-colors duration-200 [&:hover]:text-gold";
 const columnHeading =
-  "mb-3 font-body text-[0.72rem] font-semibold tracking-[0.2em] text-gold uppercase";
+  "mb-3 text-[0.72rem] font-semibold tracking-[0.2em] text-gold uppercase";
 const rule = "border-t-[rgba(207,174,112,0.2)]";
 
 // The developer's credit. Kept here, not in Catalog text, so it isn't
@@ -90,8 +90,8 @@ export default function CatalogFooter({
 
   return (
     <footer className="border-t border-t-[rgba(207,174,112,0.25)] bg-black px-6 pt-16 pb-8 text-ivory md:px-7 md:pt-20 [&_:focus-visible]:rounded-sm [&_:focus-visible]:[outline:2px_solid_#cfae70] [&_:focus-visible]:[outline-offset:4px]">
-      <div className="m-auto grid max-w-[1180px] grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-[1.5fr_1fr_1fr]">
-        <div className="col-span-2 lg:col-span-1">
+      <div className="m-auto grid max-w-[1180px] grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
+        <div className="sm:col-span-2 lg:col-span-1">
           <a
             href={prefix || "/"}
             className="inline-flex items-center gap-4"
@@ -101,9 +101,9 @@ export default function CatalogFooter({
               <Image
                 src={logo}
                 alt=""
-                width={56}
-                height={56}
-                className="h-14 w-14 object-contain"
+                width={64}
+                height={64}
+                className="h-16 w-16 object-contain"
               />
             )}
             <span className="font-display text-xl leading-tight">{name}</span>
@@ -116,7 +116,7 @@ export default function CatalogFooter({
         </div>
 
         <nav aria-label={t("siteLinks")}>
-          <h2 className={columnHeading}>{t("footerExplore")}</h2>
+          <p className={columnHeading}>{t("footerExplore")}</p>
           <ul>
             {[
               ["proposals", "proposalSectionTitle"],
@@ -135,7 +135,7 @@ export default function CatalogFooter({
         </nav>
 
         <div>
-          <h2 className={columnHeading}>{t("footerContact")}</h2>
+          <p className={columnHeading}>{t("footerContact")}</p>
           <ul>
             {company?.telephone && (
               <li>
@@ -149,7 +149,7 @@ export default function CatalogFooter({
               <li>
                 <a
                   href={`mailto:${company.email}`}
-                  className={`${link} break-all`}
+                  className={`${link} break-words`}
                 >
                   <FiMail aria-hidden className="shrink-0 text-gold" />
                   {company.email}
