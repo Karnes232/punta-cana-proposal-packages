@@ -244,7 +244,7 @@
                 },
                 "dereferencesTo": "sanity.imageAsset"
               },
-              "optional": true
+              "optional": false
             },
             "media": {
               "type": "objectAttribute",
@@ -2494,7 +2494,13 @@
       "currency": {
         "type": "objectAttribute",
         "value": {
-          "type": "string"
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "USD"
+            }
+          ]
         },
         "optional": true
       },
@@ -3324,7 +3330,13 @@
       "currency": {
         "type": "objectAttribute",
         "value": {
-          "type": "string"
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "USD"
+            }
+          ]
         },
         "optional": true
       },

@@ -50,7 +50,7 @@ export type GeneralLayout = {
   companyName?: string;
   companyDescription?: LocalizedText;
   companyLogo?: {
-    asset?: {
+    asset: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
@@ -381,7 +381,7 @@ export type RomanticDinnerExperience = {
   shortDescription?: LocalizedText;
   longDescription?: LocalizedText;
   basePrice?: number;
-  currency?: string;
+  currency?: "USD";
   priceLabel?: LocalizedString;
   gallery?: Array<
     {
@@ -521,7 +521,7 @@ export type ProposalExperience = {
   shortDescription?: LocalizedText;
   longDescription?: LocalizedText;
   basePrice?: number;
-  currency?: string;
+  currency?: "USD";
   priceLabel?: LocalizedString;
   gallery?: Array<
     {
@@ -1592,7 +1592,7 @@ export type CatalogQueryResult = Array<
       shortDescription: LocalizedText | null;
       longDescription: LocalizedText | null;
       basePrice: number | null;
-      currency: string | null;
+      currency: "USD" | null;
       priceLabel: LocalizedString | null;
       location: LocalizedString | null;
       badge: LocalizedString | null;
@@ -1687,7 +1687,7 @@ export type CatalogQueryResult = Array<
       shortDescription: LocalizedText | null;
       longDescription: LocalizedText | null;
       basePrice: number | null;
-      currency: string | null;
+      currency: "USD" | null;
       priceLabel: LocalizedString | null;
       location: LocalizedString | null;
       badge: LocalizedString | null;
@@ -1834,7 +1834,7 @@ export type ExperienceByIdQueryResult =
       shortDescription: LocalizedText | null;
       longDescription: LocalizedText | null;
       basePrice: number | null;
-      currency: string | null;
+      currency: "USD" | null;
       priceLabel: LocalizedString | null;
       location: LocalizedString | null;
       badge: LocalizedString | null;
@@ -1929,7 +1929,7 @@ export type ExperienceByIdQueryResult =
       shortDescription: LocalizedText | null;
       longDescription: LocalizedText | null;
       basePrice: number | null;
-      currency: string | null;
+      currency: "USD" | null;
       priceLabel: LocalizedString | null;
       location: LocalizedString | null;
       badge: LocalizedString | null;
@@ -2096,12 +2096,90 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
+        _type: "beverageOption";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+        description?: LocalizedText;
+        active?: boolean;
+        displayOrder?: number;
+        type?: "other" | "sparkling" | "welcomeDrink" | "wine";
+        included?: boolean;
+        supplementPrice?: number;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+      }
+    | {
+        _id: string;
         _type: "blogCategory";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         value?: string;
         label?: BlogLocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "blogCategory";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: BlogLocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "blogPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+        };
+        featuredPost?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "blogPost";
+        };
+        cta?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          ctaLabel?: string;
+          ctaHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -2219,6 +2297,94 @@ export type CatalogContentQueryResult = {
           _type: "block";
           _key: string;
         }>;
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
+        _type: "blogPost";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: "ar" | "de" | "en" | "es" | "fr" | "it" | "pt" | "ru" | "zh";
+        translationGroup?: string;
+        slug?: Slug;
+        title?: string;
+        category?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "blogCategory";
+        };
+        categoryTag?: string;
+        publishedAt?: string;
+        readingTime?: number;
+        heroPhoto?: {
+          asset: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+          _type: "image";
+          _key: string;
+        }>;
+        excerpt?: string;
+        body?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
+        _type: "catalogContact";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        heading?: string;
+        description?: string;
+        businessInformation?: string;
         seo?: BlogPostSeo;
       }
     | {
@@ -2400,6 +2566,183 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
+        _type: "catalogHome";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        heroImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        eyebrow?: string;
+        headline?: string;
+        introduction?: string;
+        exploreProposals?: string;
+        exploreDinners?: string;
+        deposit?: string;
+        proposalSelectorImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        dinnerSelectorImage?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        planningEyebrow?: string;
+        planning?: string;
+        proposalChoice?: string;
+        proposalDescription?: string;
+        dinnerChoice?: string;
+        dinnerDescription?: string;
+        trustLabel?: string;
+        trustPrivate?: string;
+        trustLocal?: string;
+        trustTransport?: string;
+        trustService?: string;
+        trustPhoto?: string;
+        trustDelivery?: string;
+        mediaNote?: string;
+        featuredProposals?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "proposalExperience";
+        }>;
+        featured?: string;
+        customize?: string;
+        allProposals?: string;
+        journeyImages?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "photo";
+          _key: string;
+        }>;
+        journeyLabel?: string;
+        journeyTitle?: string;
+        journeyIntro?: string;
+        journeyOne?: string;
+        journeyOneText?: string;
+        journeyTwo?: string;
+        journeyTwoText?: string;
+        journeyThree?: string;
+        journeyThreeText?: string;
+        journeyFour?: string;
+        journeyFourText?: string;
+        journeyFive?: string;
+        journeyFiveText?: string;
+        editorialImages?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "photo";
+          _key: string;
+        }>;
+        transformation?: string;
+        transformationText?: string;
+        editorialNote?: string;
+        dinnerTitle?: string;
+        dinnerText?: string;
+        dinnerCelebrations?: string;
+        dinnerPrice?: string;
+        howTitle?: string;
+        stepOne?: string;
+        stepOneText?: string;
+        stepTwo?: string;
+        stepTwoText?: string;
+        stepThree?: string;
+        stepThreeText?: string;
+        stepFour?: string;
+        stepFourText?: string;
+        stepFive?: string;
+        stepFiveText?: string;
+        stepSix?: string;
+        stepSixText?: string;
+        stepSeven?: string;
+        stepSevenText?: string;
+        stepEight?: string;
+        stepEightText?: string;
+        howItWorksLink?: string;
+        moments?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "photo";
+          _key: string;
+        }>;
+        realMoments?: string;
+        viewStories?: string;
+        galleryOpen?: string;
+        close?: string;
+        previous?: string;
+        next?: string;
+        startTitle?: string;
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
+        _type: "dinnerOccasion";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+        description?: LocalizedText;
+        active?: boolean;
+        displayOrder?: number;
+        allowCustomMessage?: boolean;
+      }
+    | {
+        _id: string;
         _type: "dinnerOccasion";
         _createdAt: string;
         _updatedAt: string;
@@ -2448,6 +2791,147 @@ export type CatalogContentQueryResult = {
         maximumQuantity?: number;
         durationMinutesPerUnit?: number;
         internalNotes?: string;
+      }
+    | {
+        _id: string;
+        _type: "experienceAddon";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        internalTitle?: string;
+        name?: LocalizedString;
+        description?: LocalizedText;
+        active?: boolean;
+        displayOrder?: number;
+        price?: number;
+        pricingType?:
+          | "fixed"
+          | "per30Minutes"
+          | "perHour"
+          | "perPerson"
+          | "perUnit"
+          | "quoteOnly";
+        applicableTo?: Array<string>;
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        icon?: string;
+        minimumQuantity?: number;
+        maximumQuantity?: number;
+        durationMinutesPerUnit?: number;
+        internalNotes?: string;
+      }
+    | {
+        _id: string;
+        _type: "experienceCatalogSettings";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        navHome?: string;
+        navProposals?: string;
+        navDinners?: string;
+        navHow?: string;
+        navFaq?: string;
+        planProposal?: string;
+        planCelebration?: string;
+        contactUsLabel?: string;
+        menu?: string;
+        proposalSectionTitle?: string;
+        dinnerSectionTitle?: string;
+        footerExplore?: string;
+        footerContact?: string;
+        blog?: string;
+        faq?: string;
+        privacy?: string;
+        terms?: string;
+        rightsReserved?: string;
+        startingAtLabel?: string;
+        selectStyleLabel?: string;
+        selectPackage?: string;
+        selectedPackage?: string;
+        includedLabel?: string;
+        currencySymbol?: string;
+        extras?: string;
+        noExtras?: string;
+        quantity?: string;
+        quotePending?: string;
+        estimatedTotalLabel?: string;
+        priceDetails?: string;
+        baseExperience?: string;
+        additionalGuests?: string;
+        menuSupplements?: string;
+        drinkSupplements?: string;
+        duration?: string;
+        minutes?: string;
+        completeHint?: string;
+        availabilityButtonLabel?: string;
+        requestDinnerDate?: string;
+        occasionGuests?: string;
+        guests?: string;
+        occasion?: string;
+        customOccasion?: string;
+        capacityPending?: string;
+        foodMenu?: string;
+        menusCompleted?: string;
+        guest?: string;
+        chooseMenu?: string;
+        menuSelected?: string;
+        starter?: string;
+        main?: string;
+        dessert?: string;
+        select?: string;
+        vegan?: string;
+        vegetarian?: string;
+        welcomeCocktail?: string;
+        drinksWine?: string;
+        cocktails?: string;
+        cocktailHint?: string;
+        wineSelection?: string;
+        proposalDinnerEyebrow?: string;
+        proposalDinnerTitle?: string;
+        proposalDinnerIntro?: string;
+        dietaryLegend?: string;
+        fullName?: string;
+        email?: string;
+        phone?: string;
+        hotelAccommodation?: string;
+        preferredDate?: string;
+        alternativeDate?: string;
+        datesFlexible?: string;
+        datePreferenceNote?: string;
+        requestComments?: string;
+        fragranceSensitivity?: string;
+        send?: string;
+        success?: string;
+        error?: string;
+        dinnerDepositAmount?: number;
+        dinnerExclusivity?: string;
+        dinnerRequestNote?: string;
+        dinnerPaymentNote?: string;
+        dinnerRequestSuccess?: string;
+        photo?: string;
+        previous?: string;
+        next?: string;
+        close?: string;
+        siteLinks?: string;
+        addGuest?: string;
+        languageLabel?: string;
+        removeGuest?: string;
+        previewOnly?: string;
+        setupTemplate?: string;
+        photoPending?: string;
+        priceToBeDefined?: string;
       }
     | {
         _id: string;
@@ -2602,6 +3086,55 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
+        _type: "faqPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          heroImage?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+        };
+        faq?: {
+          categories?: Array<{
+            name?: string;
+            _type: "questionCategory";
+            _key: string;
+          }>;
+          faqs?: Array<{
+            category?: string;
+            question?: string;
+            answer?: string;
+            _type: "faq";
+            _key: string;
+          }>;
+        };
+        contactStrip?: {
+          eyebrow?: string;
+          line1?: string;
+          line2?: string;
+          body?: string;
+          cta?: string;
+        };
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
         _type: "generalLayout";
         _createdAt: string;
         _updatedAt: string;
@@ -2609,7 +3142,7 @@ export type CatalogContentQueryResult = {
         companyName?: string;
         companyDescription?: LocalizedText;
         companyLogo?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
@@ -2642,6 +3175,126 @@ export type CatalogContentQueryResult = {
           xURL?: string;
           MessengerURL?: string;
         };
+      }
+    | {
+        _id: string;
+        _type: "generalLayout";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        companyName?: string;
+        companyDescription?: LocalizedText;
+        companyLogo?: {
+          asset: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        favicon?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        };
+        email?: string;
+        telephone?: string;
+        whatsapp?: string;
+        socialLinks?: {
+          facebook?: string;
+          instagram?: string;
+          xURL?: string;
+          MessengerURL?: string;
+        };
+      }
+    | {
+        _id: string;
+        _type: "howItWorksPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+        };
+        steps?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          steps?: Array<{
+            label?: string;
+            title?: string;
+            description?: string;
+            _type: "step";
+            _key: string;
+          }>;
+          reassurance?: Array<{
+            id?: "inclusive" | "memories" | "private" | "team";
+            title?: string;
+            caption?: string;
+            _type: "reassuranceItem";
+            _key: string;
+          }>;
+        };
+        faq?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          categories?: Array<{
+            name?: string;
+            _type: "questionCategory";
+            _key: string;
+          }>;
+          faqs?: Array<{
+            category?: string;
+            question?: string;
+            answer?: string;
+            _type: "faq";
+            _key: string;
+          }>;
+        };
+        cta?: {
+          eyebrow?: string;
+          scriptLine?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          primaryCTA?: string;
+          primaryCTAHref?: string;
+          secondaryCTA?: string;
+          secondaryCTAHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -2757,11 +3410,85 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
+        _type: "legalDocument";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        content?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
         _type: "media.tag";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         name?: Slug;
+      }
+    | {
+        _id: string;
+        _type: "media.tag";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: Slug;
+      }
+    | {
+        _id: string;
+        _type: "menuItem";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        name?: LocalizedString;
+        description?: LocalizedText;
+        active?: boolean;
+        displayOrder?: number;
+        courseType?: "dessert" | "main" | "starter";
+        image?: {
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: LocalizedString;
+          _type: "image";
+        };
+        included?: boolean;
+        supplementPrice?: number;
+        dietaryType?: "regular" | "vegan" | "vegetarian";
+        dietaryTags?: Array<string>;
+        allergenInformation?: LocalizedText;
+        internalNotes?: string;
       }
     | {
         _id: string;
@@ -2808,7 +3535,50 @@ export type CatalogContentQueryResult = {
         shortDescription?: LocalizedText;
         longDescription?: LocalizedText;
         basePrice?: number;
-        currency?: string;
+        currency?: "USD";
+        priceLabel?: LocalizedString;
+        gallery?: Array<
+          {
+            _key: string;
+          } & ExperiencePhoto
+        >;
+        styles?: Array<
+          {
+            _key: string;
+          } & ProposalStyle
+        >;
+        inclusions?: Array<
+          {
+            _key: string;
+          } & ExperienceInclusion
+        >;
+        availableAddons?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "experienceAddon";
+        }>;
+        active?: boolean;
+        featured?: boolean;
+        displayOrder?: number;
+        seo?: ExperienceSeo;
+      }
+    | {
+        _id: string;
+        _type: "proposalExperience";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        internalTitle?: string;
+        name?: LocalizedString;
+        location?: LocalizedString;
+        badge?: LocalizedString;
+        slug?: Slug;
+        shortDescription?: LocalizedText;
+        longDescription?: LocalizedText;
+        basePrice?: number;
+        currency?: "USD";
         priceLabel?: LocalizedString;
         gallery?: Array<
           {
@@ -2888,6 +3658,55 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
+        _type: "proposalsPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+          heroEyebrow?: string;
+          proposalIntroTitle?: string;
+          proposalHeroText?: string;
+          proposalHeroCta?: string;
+          heroHowItWorks?: string;
+        };
+        intro?: {
+          introStepsHeading?: string;
+          proposalIntroDescription?: string;
+          proposalIntroStep1Title?: string;
+          proposalIntroStep1?: string;
+          proposalIntroStep2Title?: string;
+          proposalIntroStep2?: string;
+          proposalIntroStep3Title?: string;
+          proposalIntroStep3?: string;
+          proposalIntroStep4Title?: string;
+          proposalIntroStep4?: string;
+          proposalIntroNote?: string;
+        };
+        packages?: {
+          emptyProposals?: string;
+        };
+        contact?: {
+          contactHeading?: string;
+          contactUsLabel?: string;
+        };
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
         _type: "romanticDinnerExperience";
         _createdAt: string;
         _updatedAt: string;
@@ -2900,7 +3719,77 @@ export type CatalogContentQueryResult = {
         shortDescription?: LocalizedText;
         longDescription?: LocalizedText;
         basePrice?: number;
-        currency?: string;
+        currency?: "USD";
+        priceLabel?: LocalizedString;
+        gallery?: Array<
+          {
+            _key: string;
+          } & ExperiencePhoto
+        >;
+        inclusions?: Array<
+          {
+            _key: string;
+          } & ExperienceInclusion
+        >;
+        availableAddons?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "experienceAddon";
+        }>;
+        active?: boolean;
+        featured?: boolean;
+        displayOrder?: number;
+        seo?: ExperienceSeo;
+        styles?: Array<
+          {
+            _key: string;
+          } & DinnerStyle
+        >;
+        occasions?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "dinnerOccasion";
+        }>;
+        menuItems?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "menuItem";
+        }>;
+        beverages?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "beverageOption";
+        }>;
+        includedGuests?: number;
+        minimumGuests?: number;
+        maximumGuests?: number;
+        additionalGuestPrice?: number;
+        includedDurationMinutes?: number;
+        maximumDurationMinutes?: number;
+      }
+    | {
+        _id: string;
+        _type: "romanticDinnerExperience";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        internalTitle?: string;
+        name?: LocalizedString;
+        location?: LocalizedString;
+        badge?: LocalizedString;
+        slug?: Slug;
+        shortDescription?: LocalizedText;
+        longDescription?: LocalizedText;
+        basePrice?: number;
+        currency?: "USD";
         priceLabel?: LocalizedString;
         gallery?: Array<
           {
@@ -3010,6 +3899,79 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
+        _type: "romanticDinnersPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+          heroEyebrow?: string;
+          dinnerIntroTitle?: string;
+          dinnerHeroText?: string;
+          dinnerHeroCta?: string;
+          heroHowItWorks?: string;
+        };
+        intro?: {
+          introStepsHeading?: string;
+          dinnerIntroDescription?: string;
+          dinnerPrivacyTagline?: string;
+          dinnerIntroStep1Title?: string;
+          dinnerIntroStep1?: string;
+          dinnerIntroStep2Title?: string;
+          dinnerIntroStep2?: string;
+          dinnerIntroStep3Title?: string;
+          dinnerIntroStep3?: string;
+          dinnerIntroStep4Title?: string;
+          dinnerIntroStep4?: string;
+          dinnerIntroNote?: string;
+        };
+        dinners?: {
+          dinnerInquiryNote?: string;
+          emptyDinners?: string;
+          dinnerTemplatePreviewNote?: string;
+        };
+        contact?: {
+          contactHeading?: string;
+          contactUsLabel?: string;
+        };
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
+        _type: "sanity.fileAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        source?: SanityAssetSourceData;
+      }
+    | {
+        _id: string;
         _type: "sanity.fileAsset";
         _createdAt: string;
         _updatedAt: string;
@@ -3050,6 +4012,70 @@ export type CatalogContentQueryResult = {
         url?: string;
         metadata?: SanityImageMetadata;
         source?: SanityAssetSourceData;
+      }
+    | {
+        _id: string;
+        _type: "sanity.imageAsset";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        originalFilename?: string;
+        label?: string;
+        title?: string;
+        description?: string;
+        altText?: string;
+        sha1hash?: string;
+        extension?: string;
+        mimeType?: string;
+        size?: number;
+        assetId?: string;
+        uploadId?: string;
+        path?: string;
+        url?: string;
+        metadata?: SanityImageMetadata;
+        source?: SanityAssetSourceData;
+      }
+    | {
+        _id: string;
+        _type: "storiesPage";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        hero?: {
+          eyebrow?: string;
+          headingLine1?: string;
+          headingLine2?: string;
+          subheading?: string;
+          image?: {
+            asset?: {
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+              [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+            };
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          };
+        };
+        featuredStory?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "story";
+        };
+        cta?: {
+          eyebrow?: string;
+          heading?: string;
+          headingAccent?: string;
+          subheading?: string;
+          ctaLabel?: string;
+          ctaHref?: string;
+        };
+        seo?: BlogPostSeo;
       }
     | {
         _id: string;
@@ -3170,12 +4196,105 @@ export type CatalogContentQueryResult = {
       }
     | {
         _id: string;
+        _type: "story";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        language?: string;
+        slug?: Slug;
+        names?: string;
+        proposalType?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "storyType";
+        };
+        packageTag?: string;
+        date?: string;
+        location?: string;
+        heroPhoto?: {
+          asset: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+        gallery?: Array<{
+          asset?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+          };
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          caption?: string;
+          _type: "image";
+          _key: string;
+        }>;
+        quote?: string;
+        body?: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }>;
+        seo?: BlogPostSeo;
+      }
+    | {
+        _id: string;
         _type: "storyType";
         _createdAt: string;
         _updatedAt: string;
         _rev: string;
         value?: string;
         label?: LocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "storyType";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        value?: string;
+        label?: LocalizedString;
+      }
+    | {
+        _id: string;
+        _type: "translation.metadata";
+        _createdAt: string;
+        _updatedAt: string;
+        _rev: string;
+        translations?: InternationalizedArrayReference;
+        schemaTypes?: Array<string>;
       }
     | {
         _id: string;
@@ -3731,7 +4850,7 @@ export type CatalogContentQueryResult = {
         companyName?: string;
         companyDescription?: LocalizedText;
         companyLogo?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
@@ -3930,7 +5049,7 @@ export type CatalogContentQueryResult = {
         shortDescription?: LocalizedText;
         longDescription?: LocalizedText;
         basePrice?: number;
-        currency?: string;
+        currency?: "USD";
         priceLabel?: LocalizedString;
         gallery?: Array<
           {
@@ -4022,7 +5141,7 @@ export type CatalogContentQueryResult = {
         shortDescription?: LocalizedText;
         longDescription?: LocalizedText;
         basePrice?: number;
-        currency?: string;
+        currency?: "USD";
         priceLabel?: LocalizedString;
         gallery?: Array<
           {
@@ -4924,7 +6043,7 @@ export type CatalogContentQueryResult = {
         companyName?: string;
         companyDescription?: LocalizedText;
         companyLogo?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
@@ -5123,7 +6242,7 @@ export type CatalogContentQueryResult = {
         shortDescription?: LocalizedText;
         longDescription?: LocalizedText;
         basePrice?: number;
-        currency?: string;
+        currency?: "USD";
         priceLabel?: LocalizedString;
         gallery?: Array<
           {
@@ -5215,7 +6334,7 @@ export type CatalogContentQueryResult = {
         shortDescription?: LocalizedText;
         longDescription?: LocalizedText;
         basePrice?: number;
-        currency?: string;
+        currency?: "USD";
         priceLabel?: LocalizedString;
         gallery?: Array<
           {
@@ -6125,7 +7244,7 @@ export type TemplatePreviewQueryResult =
       shortDescription: LocalizedText | null;
       longDescription: LocalizedText | null;
       basePrice: number | null;
-      currency: string | null;
+      currency: "USD" | null;
       priceLabel: LocalizedString | null;
       location: LocalizedString | null;
       badge: LocalizedString | null;
@@ -6269,7 +7388,7 @@ export type TemplatePreviewQueryResult =
       shortDescription: LocalizedText | null;
       longDescription: LocalizedText | null;
       basePrice: number | null;
-      currency: string | null;
+      currency: "USD" | null;
       priceLabel: LocalizedString | null;
       location: LocalizedString | null;
       badge: LocalizedString | null;

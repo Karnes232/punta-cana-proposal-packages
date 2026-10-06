@@ -7,6 +7,7 @@ import {
   number,
   preview,
   validExperience,
+  dinnerMenuComplete,
 } from "./shared";
 export default defineType({
   name: "romanticDinnerExperience",
@@ -31,9 +32,9 @@ export default defineType({
   fields: [
     ...experienceFields.filter((f) => f.name !== "styles"),
     objects("styles", "dinnerStyle", "styles"),
-    refs("occasions", "dinnerOccasion", "occasions"),
-    refs("menuItems", "menuItem", "menu"),
-    refs("beverages", "beverageOption", "beverages"),
+    refs("occasions", "dinnerOccasion", "occasions", "active == true"),
+    refs("menuItems", "menuItem", "menu", "active == true"),
+    refs("beverages", "beverageOption", "beverages", "active == true"),
     number("includedGuests", "capacity"),
     number("minimumGuests", "capacity"),
     number("maximumGuests", "capacity"),
@@ -41,6 +42,6 @@ export default defineType({
     number("includedDurationMinutes", "capacity"),
     number("maximumDurationMinutes", "capacity"),
   ],
-  validation: (r) => r.custom(validExperience),
+  validation: (r) => [r.custom(validExperience), r.custom(dinnerMenuComplete)],
   preview,
 });

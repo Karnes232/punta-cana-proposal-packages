@@ -271,9 +271,24 @@ const homePhotoFields: Record<string, FieldDefinition[]> = {
         {
           type: "reference",
           to: [{ type: "proposalExperience" }],
+          // Inactive proposals aren't on the site, so Home would skip them.
+          options: { filter: "active == true", disableNew: true },
         },
       ],
-      validation: (r) => r.max(3).unique(),
+      validation: (r) => [
+        r.max(3).unique(),
+        // An emptied list (not removed) shows no featured proposals at all.
+        r
+          .custom((list?: unknown[]) =>
+            Array.isArray(list) && list.length === 0
+              ? bi(
+                  "Lista vacía: Inicio no mostrará propuestas destacadas",
+                  "Empty list: Home will show no featured proposals",
+                )
+              : true,
+          )
+          .warning(),
+      ],
     }),
   ],
   ...Object.fromEntries(

@@ -1,4 +1,5 @@
 import { defineType } from "sanity";
+import { bi } from "../shared/labels";
 import { named, image, money, field, validActive, hasImage } from "./shared";
 export default defineType({
   name: "proposalStyle",
@@ -13,8 +14,16 @@ export default defineType({
     r.custom((v) => {
       const result = validActive(v);
       if (result !== true) return result;
-      if (v?.active && (!hasImage(v.mainImage) || typeof v.price !== "number"))
-        return "Active styles require an image and complete variant price";
+      if (!v?.active) return true;
+      if (!hasImage(v.mainImage))
+        return bi("Añade la foto principal", "Add the main photo");
+      if (!(v.mainImage as { alt?: { en?: string } }).alt?.en?.trim())
+        return bi(
+          "Describe la foto principal en inglés (texto alternativo)",
+          "Describe the main photo in English (alt text)",
+        );
+      if (typeof v.price !== "number")
+        return bi("Indica el precio del estilo", "Enter the style's price");
       return true;
     }),
   preview: {
