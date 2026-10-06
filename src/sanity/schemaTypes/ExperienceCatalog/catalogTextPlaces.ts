@@ -443,7 +443,7 @@ export const CATALOG_TEXT_SECTIONS: CatalogTextSection[] = [
     ],
   },
   {
-    name: "form",
+    name: "requestForm",
     title: bi("Formulario de solicitud", "Request form"),
     description: bi(
       "En la página Contacto, en la ventana de solicitud de Propuestas y bajo el precio en la página de cada paquete y en las cenas",
