@@ -13,33 +13,22 @@ import {
 import { legalDocuments } from "./LegalDocuments/LegalDocuments";
 
 //StoriesPage
-import StoriesPageHero from "./StoriesPage/Hero";
+import StoriesPage from "./StoriesPage/StoriesPage";
 import ProposalType from "./StoriesPage/ProposalType";
 import IndividualStory from "./StoriesPage/IndividualStory";
-import StoriesPageCtaStrip from "./StoriesPage/CtaStrip";
 
 //BlogPage
-import BlogPageHero from "./BlogPage/BlogPageHero";
+import BlogPage from "./BlogPage/BlogPage";
 import BlogPost from "./BlogPage/BlogPost";
 import BlogPostSeo from "./BlogPage/BlogPostSeo";
 import BlogCategory from "./BlogPage/BlogCategory";
-import BlogPageCtaStrip from "./BlogPage/CtaStrip";
 
 //HowItWorksPage
-import HowItWorksPageHero from "./HowItWorksPage/Hero";
-import HowItWorksPageHowItWorksSteps from "./HowItWorksPage/HowItWorksSteps";
-import HowItWorksPageHowItWorksFAQ from "./HowItWorksPage/HowItWorksFAQ";
-import HowItWorksPageHowItWorksFaqCategory from "./HowItWorksPage/HowItWorksFaqCategory";
-import HowItWorksPageHowItWorksCTA from "./HowItWorksPage/HowItWorksCTA";
+import HowItWorksPage from "./HowItWorksPage/HowItWorksPage";
 
 //FaqsPage
-import FaqsPageHeroComponent from "./FaqsPage/HeroComponent";
-import FaqsPageFaqContactStrip from "./FaqsPage/FaqContactStrip";
-import FaqsPageFaqsCategories from "./FaqsPage/FaqsCategories";
-import FaqsPageFaqs from "./FaqsPage/Faqs";
-import PageSeo from "./SEO/PageSeo";
+import FaqPage from "./FaqsPage/FaqPage";
 import { withTitles } from "./shared/titles";
-import Seo from "./SEO/seo";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   // Bilingual Studio titles: see shared/titles.ts.
@@ -53,35 +42,24 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     blogLocalizedText,
     //GeneralLayout
     GeneralLayout,
-    PageSeo,
-    Seo,
     //LegalDocuments
     legalDocuments,
 
     //StoriesPage
-    StoriesPageHero,
+    StoriesPage,
     ProposalType,
     IndividualStory,
-    StoriesPageCtaStrip,
 
     //BlogPage
-    BlogPageHero,
+    BlogPage,
     BlogPostSeo,
     BlogPost,
     BlogCategory,
-    BlogPageCtaStrip,
 
     //HowItWorksPage
-    HowItWorksPageHero,
-    HowItWorksPageHowItWorksSteps,
-    HowItWorksPageHowItWorksFAQ,
-    HowItWorksPageHowItWorksFaqCategory,
-    HowItWorksPageHowItWorksCTA,
+    HowItWorksPage,
 
     //FaqsPage
-    FaqsPageHeroComponent,
-    FaqsPageFaqContactStrip,
-    FaqsPageFaqsCategories,
-    FaqsPageFaqs,
+    FaqPage,
   ]),
 };

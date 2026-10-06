@@ -10,7 +10,7 @@ import type { ProposalTypes } from "@/sanity/queries/StoriesPage/ProposalTypes";
 import type { FeaturedStoryData } from "@/components/StoriesPage/FeaturedStory/types";
 
 interface StoriesFilteredSectionProps {
-  featuredStory: FeaturedStoryData;
+  featuredStory: FeaturedStoryData | null;
   proposalTypes: ProposalTypes[];
   stories: StoryCardData[];
   locale: SiteLocale;
@@ -31,7 +31,9 @@ export default function StoriesFilteredSection({
         locale={locale}
         onChange={setActiveFilter}
       />
-      <FeaturedStory locale={locale} story={featuredStory} />
+      {featuredStory?.slug?.current && (
+        <FeaturedStory locale={locale} story={featuredStory} />
+      )}
       <StoriesGrid
         activeFilter={activeFilter}
         stories={stories}

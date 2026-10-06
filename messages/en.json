@@ -75,5 +75,23 @@
     "eyebrow": "Legal",
     "privacyTitle": "Privacy Policy",
     "termsTitle": "Terms of Service"
+  },
+  "ErrorPage": {
+    "heading": "Something went wrong",
+    "description": "This page couldn't be shown right now. Please try again, or contact us and we'll help you.",
+    "retry": "Try again",
+    "homeCta": "Back to home",
+    "contactCta": "Contact us"
+  },
+  "RequestForm": {
+    "required": "Please fill in this field.",
+    "invalid": "Please check this field.",
+    "email": "Please enter a valid email address.",
+    "phone": "Enter a phone number with 7 to 20 digits, using only digits, spaces and + ( ) - .",
+    "dateWindow": "Choose a date from today up to two years ahead.",
+    "dateOrder": "The alternative date must be after the preferred date.",
+    "selection": "Something in your selection is no longer available. Please review it and send again.",
+    "tooMany": "Too many requests in a short time. Please wait a minute and try again.",
+    "tooLarge": "Your request is too long. Please shorten your comments and try again."
   }
 }

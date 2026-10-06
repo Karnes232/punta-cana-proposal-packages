@@ -25,42 +25,45 @@ export const CATALOG_SINGLETON_IDS = [
  */
 export const PAGE_SINGLETONS = {
   generalLayout: "generalLayout",
-  storiesHero: "storiesHero",
-  storiesCtaStrip: "storiesCtaStrip",
-  blogHero: "blogHero",
-  blogCtaStrip: "blogCtaStrip",
-  faqHero: "faqHero",
-  faqContactStrip: "faqContactStrip",
-  howItWorksHero: "howItWorksHero",
-  howItWorksSteps: "howItWorksSteps",
-  howItWorksFaq: "howItWorksFaq",
-  howItWorksCta: "howItWorksCta",
+  storiesPage: "storiesPage",
+  proposalsPage: "proposalsPage",
+  romanticDinnersPage: "romanticDinnersPage",
+  blogPage: "blogPage",
+  faqPage: "faqPage",
+  howItWorksPage: "howItWorksPage",
 } as const;
-
-/** Pages with an SEO entry (pageSeo), and their document IDs. */
-export const SEO_PAGES = [
-  "home",
-  "proposals",
-  "romantic-dinners",
-  "stories",
-  "blog",
-  "faq",
-  "how-it-works",
-  "contact",
-  "privacy-policy",
-  "terms-of-service",
-] as const;
-export const pageSeoId = (page: string) => `pageSeo-${page}`;
 
 /** Legal pages (legalDocument) and their document IDs. */
 export const LEGAL_PAGES = ["privacy-policy", "terms-of-service"] as const;
 export const legalDocumentId = (page: string) => `legalDocument-${page}`;
 
+/**
+ * Document types with one document per language, linked by the
+ * @sanity/document-internationalization plugin (translation.metadata).
+ * Everything else keeps every language side by side in its fields.
+ */
+export const PER_LANGUAGE_TYPES: readonly string[] = [
+  "storiesPage",
+  "story",
+  "proposalsPage",
+  "romanticDinnersPage",
+  "faqPage",
+  "howItWorksPage",
+  "blogPage",
+  "legalDocument",
+  "experienceCatalogSettings",
+  "catalogHome",
+  "catalogContact",
+];
+
+/** A page document's fixed ID in one language, e.g. "storiesPage-fr". */
+export const languageDocumentId = (base: string, language: string) =>
+  `${base}-${language}`;
+
 /** Every schema type whose documents can't be created, deleted or duplicated. */
 export const SINGLETON_TYPES: ReadonlySet<string> = new Set([
   ...CATALOG_SINGLETON_IDS,
   ...Object.keys(PAGE_SINGLETONS),
-  "pageSeo",
   "legalDocument",
 ]);
 
@@ -76,9 +79,6 @@ export const CREATABLE_TYPES: ReadonlySet<string> = new Set([
   "blogCategory",
   "story",
   "storyType",
-  "faq",
-  "faqCategory",
-  "howItWorksFaqCategory",
 ]);
 
 /** Home page proposals when Catalog Home has none selected. */

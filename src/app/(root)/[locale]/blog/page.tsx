@@ -12,23 +12,14 @@ import {
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getBlogCategories } from "@/sanity/queries/BlogPage/BlogCategories";
 import { getBlogPostsByLanguage } from "@/sanity/queries/BlogPage/BlogPosts";
-import { getBlogPageCtaStrip } from "@/sanity/queries/BlogPage/CtaStrip";
-import { getBlogPageHero } from "@/sanity/queries/BlogPage/Hero";
+import { getBlogPage } from "@/sanity/queries/BlogPage/BlogPage";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
-
-function parseJsonLd(raw: string | null | undefined): unknown {
-  if (raw == null || raw === "") return null;
-  try {
-    return JSON.parse(raw) as unknown;
-  } catch {
-    return null;
-  }
-}
 
 export default async function Blog({
   params,
@@ -40,18 +31,18 @@ export default async function Blog({
   const chromeLocale = toSiteLocale(locale);
   const dateLocale = blogDateFormatLocale(locale);
 
-  const [structuredData, hero, categories, posts, ctaStrip] = await Promise.all(
-    [
-      getStructuredData("blog"),
-      getBlogPageHero(),
-      getBlogCategories(),
-      getBlogPostsByLanguage(locale),
-      getBlogPageCtaStrip(),
-    ],
-  );
+  const [structuredData, page, categories, posts] = await Promise.all([
+    getStructuredData("blog", chromeLocale),
+    getBlogPage(chromeLocale),
+    getBlogCategories(),
+    getBlogPostsByLanguage(locale),
+  ]);
+  const hero = page?.hero;
+  const cta = page?.cta;
 
+  // Only a post in the visitor's language is featured.
   const featuredPost =
-    hero?.featuredPost?.language === locale ? hero.featuredPost : null;
+    page?.featuredPost?.language === locale ? page.featuredPost : null;
 
   const categoriesForFilter = categories.map((c) => ({
     value: c.value,
@@ -62,13 +53,13 @@ export default async function Blog({
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={parseJsonLd(structuredData?.seo?.structuredData[chromeLocale])}
+        data={structuredData?.seo?.structuredData}
       />
       <BlogHero
-        eyebrow={pickBlogLocalized(hero?.eyebrow, locale)}
-        headingLine1={pickBlogLocalized(hero?.headingLine1, locale)}
-        headingLine2={pickBlogLocalized(hero?.headingLine2, locale)}
-        subheading={pickBlogLocalized(hero?.subheading, locale)}
+        eyebrow={hero?.eyebrow ?? ""}
+        headingLine1={hero?.headingLine1 ?? ""}
+        headingLine2={hero?.headingLine2 ?? ""}
+        subheading={hero?.subheading ?? ""}
         image={hero?.image}
       />
       <BlogFilteredSection
@@ -80,12 +71,12 @@ export default async function Blog({
       />
 
       <CtaStrip
-        eyebrow={pickBlogLocalized(ctaStrip.eyebrow, locale)}
-        heading={pickBlogLocalized(ctaStrip.heading, locale)}
-        headingAccent={pickBlogLocalized(ctaStrip.headingAccent, locale)}
-        subheading={pickBlogLocalized(ctaStrip.subheading, locale)}
-        ctaLabel={pickBlogLocalized(ctaStrip.ctaLabel, locale)}
-        ctaHref={ctaStrip.ctaHref}
+        eyebrow={cta?.eyebrow ?? ""}
+        heading={cta?.heading ?? ""}
+        headingAccent={cta?.headingAccent ?? ""}
+        subheading={cta?.subheading ?? ""}
+        ctaLabel={cta?.ctaLabel ?? ""}
+        ctaHref={cta?.ctaHref ?? ""}
       />
     </main>
   );
@@ -99,10 +90,10 @@ export async function generateMetadata({
   const { locale } = await params;
   requireLocale(locale);
   const seoLocale = toSiteLocale(locale);
-  const pageSeo = await getPageSeo("blog");
+  const pageSeo = await getPageSeo("blog", seoLocale);
   const path = "/blog";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(seoLocale, path, canonicalUrl);
   }
 
@@ -114,14 +105,7 @@ export async function generateMetadata({
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    meta: pageSeo.seo.meta[seoLocale],
-    openGraph: {
-      title: pageSeo.seo.openGraph[seoLocale].title,
-      description: pageSeo.seo.openGraph[seoLocale].description,
-      image: pageSeo.seo.openGraph.image,
-    },
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
+    ...seoFields(pageSeo.seo),
     hreflangLanguages,
   });
 }

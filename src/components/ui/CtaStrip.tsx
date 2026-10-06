@@ -17,6 +17,8 @@ export default function CtaStrip({
   ctaLabel,
   ctaHref,
 }: CtaStripProps) {
+  // A banner without a link would point at the current page.
+  if (!ctaHref) return null;
   return (
     <section className="relative w-full bg-black overflow-hidden">
       {/* Top fade from ivory into black */}

@@ -49,7 +49,12 @@ Never commit minified or one-line code.
     duplicate);
   - if editors may add documents of it, adding it to `CREATABLE_TYPES`;
   - giving it bilingual titles ("Español / English") in
-    `src/sanity/schemaTypes/shared/titles.ts`.
+    `src/sanity/schemaTypes/shared/titles.ts`;
+  - deciding how it's translated. Page and editorial text: one document per
+    language (add `languageField`, list it in `PER_LANGUAGE_TYPES`, give
+    fixed IDs `<base>-<language>` for singletons). Anything with prices,
+    photos or IDs other documents rely on: shared, with `localizedString` /
+    `localizedText` fields.
 
   Edit the structure; never rewrite it wholesale.
 
@@ -93,10 +98,13 @@ Never commit minified or one-line code.
   Adding a key there and to `labelKeys` (or `homeCopy`) gives editors a field
   in Catalog Settings / Catalog Home; `label()` and `homeText()` fall back to
   the default when the field is empty.
-- **Other UI text** (blog, stories, FAQ, gallery, 404): `messages/en.json`
-  and `messages/es.json`, read with `useTranslations` / `getTranslations`.
+- **Other UI text** (blog, stories, FAQ, gallery, 404, legal titles):
+  `messages/{en,es,fr,pt}.json`, read with `useTranslations` /
+  `getTranslations`. Every language's file has the same keys.
 - Page content itself (headings, paragraphs, images) comes from Sanity.
-- Don't write `locale === "es" ? "…" : "…"` in components.
+- Don't write `locale === "es" ? "…" : "…"` in components, and don't type
+  locales as `"en" | "es"`: use `SiteLocale`, `localePrefix()` and `local()`
+  (which falls back to English).
 
 ## Constants, tools and redirects
 

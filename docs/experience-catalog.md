@@ -22,6 +22,28 @@ to `/proposals` (with the package slug as the `#hash`) in `src/proxy.ts`.
 
 ## Content in Sanity
 
+The site is in English, Spanish, French and Portuguese. Content follows two
+models:
+
+- **One document per language** (`PER_LANGUAGE_TYPES` in
+  `src/sanity/constants.ts`): Catalog Settings, Home and Contact, page SEO,
+  legal pages, page sections, stories and FAQs. Each language is its own
+  document, `<base>-<language>` for the fixed ones (e.g. `catalogHome-fr`),
+  linked by a `translation.metadata` document (the
+  `@sanity/document-internationalization` plugin; its Translations menu
+  creates and opens the other languages). The site reads the visitor's
+  language and falls back to English while a language isn't written yet
+  (SEO never falls back). Photos, featured proposals and the dinner deposit
+  are shared and live on the English documents only.
+- **Shared, with every language in its fields** (`localizedString`,
+  `localizedText`): packages, dinners, add-ons, menu, drinks, occasions,
+  categories and business info, so prices, styles, photos and the IDs that
+  requests rely on exist once.
+
+The blog stays outside the plugin: its posts are one document per language in
+nine languages (`language` + `translationGroup`), and its hero, banner and
+categories hold the nine languages in their fields.
+
 - **Proposal experiences** (`proposalExperience`) and **romantic dinner
   experiences** (`romanticDinnerExperience`): styles with prices and photos,
   inclusions, extras, menus and drinks (dinners). Only active documents are
@@ -31,9 +53,9 @@ to `/proposals` (with the package slug as the `#hash`) in `src/proxy.ts`.
   (navigation, card text, hero lines, notes, footer…), the dinner deposit
   amount and policy messages. Defaults live in `src/lib/experience/labels.ts`,
   `introduction.ts` and `dinnerPolicy.ts`; `label()` uses the Sanity value
-  when it is filled in. The catalog documents hold the site's current text and
-  photos (filled by phase 5 of `scripts/migrate-studio-content.mjs`); the code
-  defaults are only a safety net for fields an editor leaves blank.
+  when it is filled in. The catalog documents hold the site's current text
+  and photos; the code defaults (in all four languages) are only a safety net
+  for fields an editor leaves blank.
 - **Catalog Home** (`catalogHome`): home page text (`copy`, defaults in
   `homeCopy.ts`, read with `homeText()`), hero and selector photos, up to
   three featured proposals, journey/editorial/moments photos. Without featured
@@ -43,8 +65,8 @@ to `/proposals` (with the package slug as the `#hash`) in `src/proxy.ts`.
   business information. Phone, email and WhatsApp come from **Business &
   social links** (`generalLayout`), the same values the footer shows.
 - **SEO**: each page's title, description and sharing image are one `pageSeo`
-  document with the ID `pageSeo-<page>` (`SEO_PAGES`, `pageSeoId()`), shown
-  as "SEO" inside the page's Studio folder. `catalogPageMetadata()` reads it
+  document per language with the ID `pageSeo-<page>-<language>` (`SEO_PAGES`,
+  `pageSeoId()`), shown as "SEO" inside the page's Studio folder. `catalogPageMetadata()` reads it
   for home, proposals, romantic dinners and contact, and falls back to the
   page's default title. Each package's own SEO is its `seo` field.
 - **Studio tools** (`src/sanity/tools/`): the proposal and dinner template

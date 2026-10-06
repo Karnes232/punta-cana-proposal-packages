@@ -8,6 +8,7 @@ import {
   preview,
   validExperience,
 } from "./shared";
+import { slugFormat } from "../shared/validation";
 export const experienceFields = [
   field("internalTitle", "string", "general"),
   field("name", "localizedString", "general"),
@@ -18,6 +19,7 @@ export const experienceFields = [
     type: "slug",
     group: "general",
     options: { source: "name.en" },
+    validation: (r) => r.custom(slugFormat),
   }),
   field("shortDescription", "localizedText", "general"),
   field("longDescription", "localizedText", "general"),
@@ -27,12 +29,24 @@ export const experienceFields = [
     type: "string",
     group: "general",
     initialValue: "USD",
+    // Every price, deposit and payment note on the site is in US dollars.
+    options: { list: ["USD"] },
+    validation: (r) => r.required(),
   }),
   field("priceLabel", "localizedString", "general"),
   objects("gallery", "experiencePhoto", "media"),
   objects("styles", "proposalStyle", "styles"),
   objects("inclusions", "experienceInclusion", "inclusions"),
-  refs("availableAddons", "experienceAddon", "addons"),
+  // Only active extras for this kind of experience (the site drops others).
+  refs("availableAddons", "experienceAddon", "addons", ({ document }) => ({
+    filter: "active == true && $kind in applicableTo",
+    params: {
+      kind:
+        document._type === "romanticDinnerExperience"
+          ? "romanticDinner"
+          : "proposal",
+    },
+  })),
   defineField({
     name: "active",
     type: "boolean",

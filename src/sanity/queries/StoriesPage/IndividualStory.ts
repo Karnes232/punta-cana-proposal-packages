@@ -1,7 +1,12 @@
 import type { PortableTextBlock } from "@portabletext/react";
+import type { Localized } from "@/lib/experience/types";
 import { client } from "@/sanity/lib/client";
-import type { EmbeddedLocalizedDocumentSeo } from "../SEO/embeddedLocalizedSeo";
-import { imageWithDimensions, localizedSeoProjection } from "../fragments";
+import type { DocumentSeo } from "../SEO/documentSeo";
+import {
+  documentSeoProjection,
+  imageWithDimensions,
+  listable,
+} from "../fragments";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -12,20 +17,11 @@ export interface IndividualStory {
   names: string;
   proposalType: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: Localized;
   };
-  packageTag: {
-    en: string;
-    es: string;
-  };
+  packageTag: string;
   date: string;
-  location: {
-    en: string;
-    es: string;
-  };
+  location: string;
   heroPhoto: {
     asset: {
       url: string;
@@ -50,26 +46,12 @@ export interface IndividualStory {
           };
         };
         alt: string;
-        caption: {
-          en: string;
-          es: string;
-        };
+        caption?: string;
       }[]
     | null;
-  quote: {
-    en: string;
-    es: string;
-  };
-  body: {
-    en: PortableTextBlock[];
-    es: PortableTextBlock[];
-  };
-  seo: {
-    structuredData: {
-      en: string;
-      es: string;
-    };
-  };
+  quote: string;
+  body: PortableTextBlock[];
+  seo?: { structuredData?: string | null };
 }
 
 export interface StoryCard {
@@ -79,20 +61,11 @@ export interface StoryCard {
   names: string;
   proposalType: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: Localized;
   };
-  packageTag: {
-    en: string;
-    es: string;
-  };
+  packageTag: string;
   date: string;
-  location: {
-    en: string;
-    es: string;
-  };
+  location: string;
   heroPhoto: {
     asset: {
       url: string;
@@ -105,38 +78,30 @@ export interface StoryCard {
     };
     alt: string;
   };
-  quote: {
-    en: string;
-    es: string;
-  };
+  quote: string;
 }
 
 // ── Queries ───────────────────────────────────────────────────────────────────
 
 export const individualStoryQuery = `
-  *[_type == "story" && !defined(language) && slug.current == $slug][0] {
+  coalesce(
+    *[_type == "story" && slug.current == $slug && language == $language][0],
+    *[_type == "story" && slug.current == $slug && language == "en"][0]
+  ) {
     slug,
     names,
-    proposalType-> {
-      value,
-      label { en, es }
-    },
-    packageTag { en, es },
+    proposalType-> { value, label },
+    packageTag,
     date,
-    location { en, es },
+    location,
     heroPhoto { ${imageWithDimensions} },
-    gallery[] {
+    gallery[defined(asset)] {
       ${imageWithDimensions},
-      caption { en, es }
+      caption
     },
-    quote { en, es },
-    body { en, es },
-    seo {
-structuredData {
-  en,
-  es
-}
-  }
+    quote,
+    body,
+    seo { structuredData }
   }
 `;
 
@@ -147,21 +112,19 @@ structuredData {
  */
 export const moreStoriesQuery = `
   *[
-    _type == "story" && !defined(language)
+    _type == "story" && language == $language
     && proposalType->value == $proposalTypeValue
     && slug.current != $currentSlug
-  ] | order(publishedAt desc) {
+    && ${listable}
+  ] | order(date desc) {
     slug,
     names,
-    proposalType-> {
-      value,
-      label { en, es }
-    },
-    packageTag { en, es },
+    proposalType-> { value, label },
+    packageTag,
     date,
-    location { en, es },
+    location,
     heroPhoto { ${imageWithDimensions} },
-    quote { en, es }
+    quote
   }
 `;
 
@@ -169,15 +132,21 @@ export const moreStoriesQuery = `
 
 export const getIndividualStory = async (
   slug: string,
+  language: string,
 ): Promise<IndividualStory | null> => {
-  return client.fetch(individualStoryQuery, { slug });
+  return client.fetch(individualStoryQuery, { slug, language });
 };
 
 export const getMoreStories = async (
   proposalTypeValue: string,
   currentSlug: string,
+  language: string,
 ): Promise<StoryCard[]> => {
-  return client.fetch(moreStoriesQuery, { proposalTypeValue, currentSlug });
+  return client.fetch(moreStoriesQuery, {
+    proposalTypeValue,
+    currentSlug,
+    language,
+  });
 };
 
 export interface AllStoriesCard {
@@ -186,25 +155,13 @@ export interface AllStoriesCard {
   };
   names: string;
   date: string;
-  location: {
-    en: string;
-    es: string;
-  };
-  packageTag: {
-    en: string;
-    es: string;
-  };
+  location: string;
+  packageTag: string;
   proposalType: {
     value: string;
-    label: {
-      en: string;
-      es: string;
-    };
+    label: Localized;
   };
-  quote: {
-    en: string;
-    es: string;
-  };
+  quote: string;
   heroPhoto: {
     asset: {
       url: string;
@@ -220,29 +177,35 @@ export interface AllStoriesCard {
 }
 
 export const allStoriesQuery = `
-  *[_type == "story" && !defined(language)] {
+  *[_type == "story" && language == $language && ${listable}]
+    | order(date desc) {
     slug,
     names,
     date,
-    location { en, es },
-    packageTag { en, es },
-    proposalType-> { value, label { en, es } },
-    quote { en, es },
+    location,
+    packageTag,
+    proposalType-> { value, label },
+    quote,
     heroPhoto { ${imageWithDimensions} }
   }
 `;
 
-export const getAllStories = async (): Promise<AllStoriesCard[]> => {
-  return client.fetch(allStoriesQuery);
+export const getAllStories = async (
+  language: string,
+): Promise<AllStoriesCard[]> => {
+  return client.fetch(allStoriesQuery, { language });
 };
 
-export const individualStorySeoQuery = `*[_type == "story" && !defined(language) && slug.current == $slug][0] {
+// No fallback to English here: a story without SEO in a language gets the
+// "missing document" metadata, like a missing story.
+export const individualStorySeoQuery = `*[_type == "story" && slug.current == $slug && language == $language][0] {
   _id,
-  ${localizedSeoProjection}
+  ${documentSeoProjection}
 }`;
 
 export const getIndividualStorySeo = async (
   slug: string,
-): Promise<EmbeddedLocalizedDocumentSeo | null> => {
-  return client.fetch(individualStorySeoQuery, { slug });
+  language: string,
+): Promise<{ _id: string; seo: DocumentSeo } | null> => {
+  return client.fetch(individualStorySeoQuery, { slug, language });
 };

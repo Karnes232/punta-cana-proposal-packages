@@ -1,15 +1,12 @@
 import FaqContactStrip from "@/components/FaqPage/FaqContactStrip/FaqContactStrip";
 import FaqContent from "@/components/FaqPage/FaqContent";
 import FaqHero from "@/components/FaqPage/HeroComponent/FaqHero";
-import { getFaqContactStrip } from "@/sanity/queries/FaqPage/FaqContactStrip";
-import { getFaqPageHero } from "@/sanity/queries/FaqPage/HeroComponent";
-import { getFaqCategories } from "@/sanity/queries/FaqPage/Faqs";
-import { getFaqs } from "@/sanity/queries/FaqPage/Faqs";
+import { getFaqPage } from "@/sanity/queries/FaqPage/FaqPage";
 import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
-  localizedSeoFields,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
@@ -24,35 +21,29 @@ export default async function FAQ({
   const { locale } = await params;
   requireLocale(locale);
   const lang = toSiteLocale(locale);
-  const [hero, contactStrip, faqsCategories, faqs, structuredData] =
-    await Promise.all([
-      getFaqPageHero(),
-      getFaqContactStrip(),
-      getFaqCategories(),
-      getFaqs(),
-      getStructuredData("faq"),
-    ]);
+  const [{ hero, faqsCategories, faqs, contactStrip }, structuredData] =
+    await Promise.all([getFaqPage(lang), getStructuredData("faq", lang)]);
 
   return (
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[lang]}
+        data={structuredData?.seo?.structuredData}
       />
       <FaqHero
         heroImage={hero?.heroImage}
-        eyebrow={hero?.eyebrow[lang]}
-        headingLine1={hero?.headingLine1[lang]}
-        headingLine2={hero?.headingLine2[lang]}
-        subheading={hero?.subheading[lang]}
+        eyebrow={hero?.eyebrow ?? ""}
+        headingLine1={hero?.headingLine1 ?? ""}
+        headingLine2={hero?.headingLine2 ?? ""}
+        subheading={hero?.subheading ?? ""}
       />
       <FaqContent locale={lang} faqsCategories={faqsCategories} faqs={faqs} />
       <FaqContactStrip
-        eyebrow={contactStrip?.eyebrow[lang]}
-        line1={contactStrip?.line1[lang]}
-        line2={contactStrip?.line2[lang]}
-        body={contactStrip?.body[lang]}
-        cta={contactStrip?.cta[lang]}
+        eyebrow={contactStrip?.eyebrow ?? ""}
+        line1={contactStrip?.line1 ?? ""}
+        line2={contactStrip?.line2 ?? ""}
+        body={contactStrip?.body ?? ""}
+        cta={contactStrip?.cta ?? ""}
       />
     </main>
   );
@@ -65,18 +56,17 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const pageSeo = await getPageSeo("faq");
+  const pageSeo = await getPageSeo("faq", locale);
   const path = "/faq";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  // No SEO title: the site default, rather than an empty <title>.
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    ...localizedSeoFields(pageSeo.seo, locale),
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
+    ...seoFields(pageSeo.seo),
   });
 }

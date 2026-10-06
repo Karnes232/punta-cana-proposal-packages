@@ -30,6 +30,36 @@ export const faqUIContent = {
     },
     noQuestions: "No hay preguntas en esta categoría.",
   },
+  fr: {
+    eyebrow: "Questions",
+    heading: "Tout ce qu’il",
+    headingAccent: "faut savoir",
+    subheading:
+      "Toutes les réponses aux questions que vous pourriez vous poser avant de nous écrire.",
+    categories: {
+      all: "Tout",
+      booking: "Réservation",
+      packages: "Forfaits",
+      logistics: "Logistique",
+      photography: "Photographie",
+    },
+    noQuestions: "Aucune question dans cette catégorie.",
+  },
+  pt: {
+    eyebrow: "Perguntas",
+    heading: "Tudo o que",
+    headingAccent: "Você Precisa Saber",
+    subheading:
+      "Respostas para tudo o que você pode estar se perguntando antes de falar com a gente.",
+    categories: {
+      all: "Todas",
+      booking: "Reservas",
+      packages: "Pacotes",
+      logistics: "Logística",
+      photography: "Fotografia",
+    },
+    noQuestions: "Não há perguntas nesta categoria.",
+  },
 } as const;
 
 export type FAQLocale = keyof typeof faqUIContent;

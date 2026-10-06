@@ -1,9 +1,10 @@
 import type { Experience, Selection, Course } from "./types";
 import { proposalDinnerId } from "./proposalExtras";
+import { RequestValidationError } from "./requestRules";
 const courses: Course[] = ["starter", "main", "dessert"];
 const identity = (v: { _id?: string; _key?: string }) => v._id || v._key;
 function assert(condition: unknown, message: string): asserts condition {
-  if (!condition) throw new Error(message);
+  if (!condition) throw new RequestValidationError(message);
 }
 function cents(value: unknown) {
   assert(

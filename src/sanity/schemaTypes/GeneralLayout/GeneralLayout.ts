@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { DocumentIcon } from "@sanity/icons";
+import { bi } from "../shared/labels";
+import { missingLanguages } from "../shared/validation";
 
 export default defineType({
   name: "generalLayout",
@@ -17,7 +19,18 @@ export default defineType({
       name: "companyDescription",
       title: "Company Description",
       type: "localizedText",
-      validation: (Rule) => Rule.required(),
+      // Shown in the footer in the visitor's language (no fallback).
+      validation: (Rule) => [
+        Rule.required().custom((text?: { en?: string; es?: string }) =>
+          text?.en?.trim() && text?.es?.trim()
+            ? true
+            : bi(
+                "Escribe la descripción en inglés y en español",
+                "Write the description in English and Spanish",
+              ),
+        ),
+        Rule.custom(missingLanguages(["fr", "pt"])).warning(),
+      ],
     }),
     defineField({
       name: "companyLogo",
@@ -35,7 +48,7 @@ export default defineType({
           validation: (Rule) => Rule.required(),
         }),
       ],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().assetRequired(),
     }),
     defineField({
       name: "favicon",
@@ -55,16 +68,29 @@ export default defineType({
       title: "Telephone",
       type: "string",
       validation: (Rule) =>
-        Rule.required()
-          .regex(/^\d+$/, "Telephone number must contain only digits")
-          .min(11)
-          .max(11),
+        Rule.required().custom((phone?: string) =>
+          !phone || /^\d{11}$/.test(phone)
+            ? true
+            : bi(
+                "11 dígitos con el código de país, sin espacios: 18091234567",
+                "11 digits with the country code, no spaces: 18091234567",
+              ),
+        ),
     }),
     defineField({
       name: "whatsapp",
       title: "WhatsApp",
       type: "string",
       description: "Número con código de país / Number with country code",
+      validation: (Rule) =>
+        Rule.custom((number?: string) =>
+          !number || /^\+?\d{10,15}$/.test(number)
+            ? true
+            : bi(
+                "Solo dígitos con el código de país (opcional «+»)",
+                "Digits only with the country code (optional «+»)",
+              ),
+        ),
     }),
     defineField({
       name: "socialLinks",
@@ -93,7 +119,7 @@ export default defineType({
         {
           name: "MessengerURL",
           title: "Messenger URL",
-          type: "string",
+          type: "url",
           initialValue: "https://m.me/",
         },
       ],

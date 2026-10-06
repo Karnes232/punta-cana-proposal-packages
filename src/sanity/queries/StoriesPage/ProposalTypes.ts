@@ -1,19 +1,15 @@
+import type { Localized } from "@/lib/experience/types";
 import { client } from "@/sanity/lib/client";
 
 export interface ProposalTypes {
   value: string;
-  label: {
-    en: string;
-    es: string;
-  };
+  /** Story types are shared by every language. */
+  label: Localized;
 }
 
 export const proposalTypesQuery = `*[_type == "storyType"] {
   value,
-  label {
-    en,
-    es
-  }
+  label
 }`;
 
 export const getProposalTypes = async (): Promise<ProposalTypes[]> => {

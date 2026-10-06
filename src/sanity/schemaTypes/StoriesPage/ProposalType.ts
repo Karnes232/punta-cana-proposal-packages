@@ -1,4 +1,11 @@
 import { defineField, defineType } from "sanity";
+import {
+  englishRequired,
+  identifierFormat,
+  missingLanguages,
+  notReserved,
+  uniqueValue,
+} from "../shared/validation";
 import { DocumentIcon } from "@sanity/icons";
 
 export default defineType({
@@ -11,13 +18,22 @@ export default defineType({
       name: "value",
       title: "Value",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      // The filter's key on the site; "all" is its "show everything" button.
+      validation: (Rule) =>
+        Rule.required()
+          .custom(identifierFormat)
+          .custom(notReserved)
+          .custom(uniqueValue("value")),
     }),
     defineField({
       name: "label",
       title: "Label",
       type: "localizedString",
-      validation: (Rule) => Rule.required(),
+      // English is the fallback for every language.
+      validation: (Rule) => [
+        Rule.required().custom(englishRequired),
+        Rule.custom(missingLanguages(["es", "fr", "pt"])).warning(),
+      ],
     }),
   ],
   preview: {

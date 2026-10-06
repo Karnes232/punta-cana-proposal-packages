@@ -2,30 +2,14 @@ import type { AppLocale } from "@/i18n/locales";
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
-import { imageWithDimensions, seoImageFields } from "../fragments";
+import {
+  documentSeoProjection,
+  imageWithDimensions,
+  listable,
+} from "../fragments";
+import type { DocumentSeo } from "../SEO/documentSeo";
 
 export type HreflangSibling = { language: string; slug: string };
-
-export interface BlogPostSeoResolved {
-  meta: {
-    title: string;
-    description: string;
-    keywords: string[];
-  };
-  openGraph: {
-    title: string;
-    description: string;
-  };
-  image: {
-    url: string;
-    alt: string;
-    width: number;
-    height: number;
-  } | null;
-  structuredData?: string | null;
-  noIndex?: boolean;
-  noFollow?: boolean;
-}
 
 export interface IndividualBlog {
   _id: string;
@@ -72,29 +56,9 @@ export interface IndividualBlog {
       }[]
     | null;
   body: unknown[];
-  seo: BlogPostSeoResolved;
+  seo: DocumentSeo;
   hreflangSiblings: HreflangSibling[];
 }
-
-const seoProjection = `seo {
-  meta {
-    title,
-    description,
-    keywords
-  },
-  openGraph {
-    title,
-    description
-  },
-  "image": select(
-    defined(image.asset._ref) => {
-      ${seoImageFields}
-    }
-  ),
-  structuredData,
-  noIndex,
-  noFollow
-}`;
 
 export const individualBlogQuery = `*[_type == "blogPost" && slug.current == $slug && language == $lang][0] {
   _id,
@@ -116,13 +80,14 @@ export const individualBlogQuery = `*[_type == "blogPost" && slug.current == $sl
   heroPhoto {
     ${imageWithDimensions}
   },
-  gallery[] {
+  gallery[defined(asset)] {
     ${imageWithDimensions},
     caption
   },
   body,
-  ${seoProjection},
-  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup] {
+  ${documentSeoProjection},
+  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup
+    && defined(slug.current) && defined(language)] {
     language,
     "slug": slug.current
   }
@@ -139,7 +104,7 @@ export interface IndividualBlogMetadata {
   language: AppLocale;
   slug: string;
   translationGroup: string;
-  seo: BlogPostSeoResolved;
+  seo: DocumentSeo;
   hreflangSiblings: HreflangSibling[];
 }
 
@@ -147,8 +112,9 @@ export const individualBlogMetadataQuery = `*[_type == "blogPost" && slug.curren
   language,
   "slug": slug.current,
   translationGroup,
-  ${seoProjection},
-  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup] {
+  ${documentSeoProjection},
+  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup
+    && defined(slug.current) && defined(language)] {
     language,
     "slug": slug.current
   }
@@ -161,7 +127,7 @@ export const getIndividualBlogMetadata = async (
   return await client.fetch(individualBlogMetadataQuery, { slug, lang });
 };
 
-export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug && language == $lang] | order(publishedAt desc) {
+export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug && language == $lang && ${listable}] | order(publishedAt desc) {
   slug {
     current
   },
@@ -175,7 +141,7 @@ export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug &&
   },
 }`;
 
-export const findBlogPostLocaleBySlugQuery = `*[_type == "blogPost" && slug.current == $slug] | order(_updatedAt desc) [0] { language, "slug": slug.current }`;
+export const findBlogPostLocaleBySlugQuery = `*[_type == "blogPost" && slug.current == $slug && defined(language)] | order(_updatedAt desc) [0] { language, "slug": slug.current }`;
 
 export const getBlogPostLocaleBySlug = async (
   slug: string,

@@ -1,0 +1,97 @@
+{
+  "IndividualStoryPage": {
+    "allStories": "Todas as Histórias",
+    "package": "Pacote",
+    "date": "Data",
+    "location": "Local",
+    "proposed": "Pedido",
+    "bookThisExperience": "Reserve Esta Experiência",
+    "more": "Mais Histórias",
+    "moreHeading": "Mesmo Pacote,",
+    "moreAccent": "Histórias Diferentes",
+    "readStory": "Ler a História",
+    "galleryLabel": "O Pedido"
+  },
+  "FaqPage": {
+    "emptyLabel": "Ainda não há perguntas nesta categoria.",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "page": "Página",
+    "of": "de",
+    "filterLabel": "Filtrar por categoria",
+    "all": "Todas"
+  },
+  "NotFoundPage": {
+    "metaTitle": "Página não encontrada",
+    "code": "404",
+    "heading": "Esta página não existe",
+    "description": "O link pode estar quebrado ou a página pode ter sido movida.",
+    "homeCta": "Voltar ao início",
+    "blogCta": "Leia nosso blog"
+  },
+  "BlogPost": {
+    "category": "Categoria",
+    "published": "Publicado",
+    "readingTime": "Tempo de Leitura",
+    "minRead": "min de leitura",
+    "planCta": "Comece a Planejar Seu Pedido",
+    "allPosts": "Todos os Artigos",
+    "more": "Mais Artigos",
+    "moreAccent": "Artigos Relacionados",
+    "readMore": "Ler a História",
+    "galleryLabel": "Galeria do artigo"
+  },
+  "StoriesPage": {
+    "more": "Mais Histórias",
+    "readStory": "Ler a História",
+    "loadMore": "Ver Mais Histórias",
+    "empty": "Ainda não há histórias para este tipo de pacote.",
+    "all": "Todas as Histórias",
+    "featured": "História em Destaque",
+    "readTheirStory": "Ler a História Deles"
+  },
+  "Carousel": {
+    "previous": "Anterior",
+    "next": "Próximo"
+  },
+  "Gallery": {
+    "viewAll": "Ver as {count} fotos",
+    "close": "Fechar",
+    "previous": "Anterior",
+    "next": "Próximo"
+  },
+  "HowItWorksPage": {
+    "whyChooseUs": "Por que nos escolher"
+  },
+  "BlogPage": {
+    "featuredPost": "Artigo em Destaque",
+    "readArticle": "Ler o Artigo",
+    "loadMore": "Ver Mais Artigos",
+    "latestPosts": "Últimos Artigos",
+    "minRead": "min de leitura",
+    "noPosts": "Ainda não há artigos nesta categoria."
+  },
+  "LegalPage": {
+    "eyebrow": "Jurídico",
+    "privacyTitle": "Política de Privacidade",
+    "termsTitle": "Termos de Serviço"
+  },
+  "ErrorPage": {
+    "heading": "Algo deu errado",
+    "description": "Não foi possível mostrar esta página agora. Tente novamente ou fale conosco e nós ajudaremos.",
+    "retry": "Tentar novamente",
+    "homeCta": "Voltar ao início",
+    "contactCta": "Fale conosco"
+  },
+  "RequestForm": {
+    "required": "Preencha este campo.",
+    "invalid": "Verifique este campo.",
+    "email": "Insira um endereço de e-mail válido.",
+    "phone": "Insira um telefone com 7 a 20 dígitos, usando apenas dígitos, espaços e + ( ) - .",
+    "dateWindow": "Escolha uma data a partir de hoje até dois anos à frente.",
+    "dateOrder": "A data alternativa deve ser posterior à data preferida.",
+    "selection": "Algo na sua seleção não está mais disponível. Revise-a e envie novamente.",
+    "tooMany": "Muitos pedidos em pouco tempo. Aguarde um minuto e tente novamente.",
+    "tooLarge": "Seu pedido é longo demais. Encurte seus comentários e tente novamente."
+  }
+}

@@ -7,6 +7,8 @@ export const localizedString = defineType({
   fields: [
     defineField({ name: "en", title: "English", type: "string" }),
     defineField({ name: "es", title: "Español", type: "string" }),
+    defineField({ name: "fr", title: "Français", type: "string" }),
+    defineField({ name: "pt", title: "Português", type: "string" }),
   ],
 });
 
@@ -17,6 +19,8 @@ export const localizedText = defineType({
   fields: [
     defineField({ name: "en", title: "English", type: "text" }),
     defineField({ name: "es", title: "Español", type: "text" }),
+    defineField({ name: "fr", title: "Français", type: "text" }),
+    defineField({ name: "pt", title: "Português", type: "text" }),
   ],
 });
 
@@ -69,6 +73,18 @@ export const localizedBlock = defineType({
     defineField({
       name: "es",
       title: "Español",
+      type: "array",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "fr",
+      title: "Français",
+      type: "array",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "pt",
+      title: "Português",
       type: "array",
       of: [{ type: "block" }],
     }),

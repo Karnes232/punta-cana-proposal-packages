@@ -4,7 +4,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
-  localizedSeoFields,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
@@ -22,14 +22,14 @@ export default async function Terms({
   requireLocale(locale);
   const lang = toSiteLocale(locale);
   const [legalDocuments, structuredData] = await Promise.all([
-    getLegalDocuments("terms-of-service"),
-    getStructuredData("terms-of-service"),
+    getLegalDocuments("terms-of-service", lang),
+    getStructuredData("terms-of-service", lang),
   ]);
   return (
     <div className="min-h-screen bg-ivory">
       <JsonLd
         id="structured-data-schema"
-        data={structuredData?.seo?.structuredData[lang]}
+        data={structuredData?.seo?.structuredData}
       />
       {/* Page header */}
       <div className="relative bg-black border-b border-gold/15 overflow-hidden">
@@ -74,7 +74,7 @@ export default async function Terms({
 
         {/* Content */}
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-12 py-10 lg:py-14">
-          <BlockContent content={legalDocuments.content} language={lang} />
+          <BlockContent content={legalDocuments?.content} />
         </div>
       </div>
     </div>
@@ -88,18 +88,17 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const pageSeo = await getPageSeo("terms-of-service");
+  const pageSeo = await getPageSeo("terms-of-service", locale);
   const path = "/terms-of-service";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  // No SEO title: the site default, rather than an empty <title>.
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    ...localizedSeoFields(pageSeo.seo, locale),
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
+    ...seoFields(pageSeo.seo),
   });
 }

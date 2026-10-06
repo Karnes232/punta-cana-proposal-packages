@@ -1,7 +1,7 @@
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
-import { imageWithDimensions } from "../fragments";
+import { imageWithDimensions, listable } from "../fragments";
 
 export interface BlogPost {
   _id: string;
@@ -33,7 +33,7 @@ export interface BlogPost {
   };
 }
 
-export const blogPostsByLanguageQuery = `*[_type == "blogPost" && language == $lang] | order(publishedAt desc) {
+export const blogPostsByLanguageQuery = `*[_type == "blogPost" && language == $lang && ${listable}] | order(publishedAt desc) {
   _id,
   language,
   slug {

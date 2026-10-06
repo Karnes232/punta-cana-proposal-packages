@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
+import { altIfImage, imageFileIfSet, slugFormat } from "../shared/validation";
 import { ComposeIcon } from "@sanity/icons";
+import { bi } from "../shared/labels";
 import { ALL_LOCALES } from "../../../i18n/locales";
 
 const languageOptions = ALL_LOCALES.map((code) => ({
@@ -38,7 +40,29 @@ export default defineType({
         "Same ID on all language versions of this article (any short unique string, e.g. proposal-tips-2025).",
       type: "string",
       group: "basic",
-      validation: (R) => R.required(),
+      // Posts that are translations of each other share a group; one per
+      // language, or the language links point at the wrong one.
+      validation: (R) => [
+        R.required(),
+        R.custom(async (group: string | undefined, context) => {
+          const { document, getClient } = context;
+          if (!group || !document?.language) return true;
+          const id = document._id.replace(/^drafts\./, "");
+          const other = await getClient({ apiVersion: "2026-03-07" }).fetch<
+            string | null
+          >(
+            `*[_type == "blogPost" && translationGroup == $group
+              && language == $language && !(_id in [$id, $draft])][0].slug.current`,
+            { group, language: document.language, id, draft: `drafts.${id}` },
+          );
+          return other
+            ? bi(
+                `Ya hay otro artículo en este idioma en el grupo («${other}»)`,
+                `Another post in this language is in the group («${other}»)`,
+              )
+            : true;
+        }).warning(),
+      ],
     }),
     defineField({
       name: "slug",
@@ -46,7 +70,7 @@ export default defineType({
       type: "slug",
       group: "basic",
       options: { source: "title" },
-      validation: (R) => R.required(),
+      validation: (R) => [R.required(), R.custom(slugFormat)],
     }),
     defineField({
       name: "title",
@@ -84,7 +108,7 @@ export default defineType({
       title: "Reading time (minutes)",
       type: "number",
       group: "basic",
-      validation: (R) => R.required().min(1).max(60),
+      validation: (R) => R.required().integer().min(1).max(60),
     }),
     defineField({
       name: "heroPhoto",
@@ -99,7 +123,10 @@ export default defineType({
           type: "string",
         }),
       ],
-      validation: (R) => R.required(),
+      validation: (R) => [
+        R.required().assetRequired(),
+        R.custom(altIfImage).warning(),
+      ],
     }),
     defineField({
       name: "gallery",
@@ -118,6 +145,10 @@ export default defineType({
               type: "string",
             }),
           ],
+          validation: (R) => [
+            R.custom(imageFileIfSet),
+            R.custom(altIfImage).warning(),
+          ],
         },
       ],
     }),
@@ -135,7 +166,7 @@ export default defineType({
       type: "array",
       of: [{ type: "block" }],
       group: "blogPost",
-      validation: (R) => R.required(),
+      validation: (R) => R.required().min(1),
     }),
     defineField({
       name: "seo",

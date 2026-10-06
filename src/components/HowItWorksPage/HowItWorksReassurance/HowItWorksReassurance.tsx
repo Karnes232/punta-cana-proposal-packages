@@ -1,21 +1,18 @@
-import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksReassuranceItem from "./HowItWorksReassuranceItem";
-import { ReassuranceItem } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
+import { ReassuranceItem } from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksReassuranceProps {
   items?: ReassuranceItem[];
-  locale: SiteLocale;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HowItWorksReassurance({
   items = [],
-  locale,
 }: HowItWorksReassuranceProps) {
   return (
     <section
@@ -37,8 +34,8 @@ export default function HowItWorksReassurance({
                 key={item.id}
                 item={{
                   id: item.id,
-                  title: item.title[locale],
-                  caption: item.caption[locale],
+                  title: item.title,
+                  caption: item.caption,
                 }}
                 index={index}
               />

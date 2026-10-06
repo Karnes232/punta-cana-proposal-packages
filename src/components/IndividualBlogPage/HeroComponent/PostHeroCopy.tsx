@@ -1,3 +1,5 @@
+import { formatSanityDate } from "@/lib/formatDate";
+
 interface PostHeroCopyProps {
   title: string;
   categoryTag: string;
@@ -15,12 +17,11 @@ export default function PostHeroCopy({
   readTimeSuffix,
   locale,
 }: PostHeroCopyProps) {
-  const dateStr = new Date(publishedAt).toLocaleDateString(locale, {
+  const capitalizedDate = formatSanityDate(publishedAt, locale, {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <div className="flex flex-col gap-4">

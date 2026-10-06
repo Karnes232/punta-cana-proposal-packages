@@ -2,18 +2,29 @@
  * Site UI is localized to SITE_LOCALES only (nav, footer copy, switcher).
  * BLOG_ONLY_LOCALES may appear in URLs under /blog only (see `src/proxy.ts`).
  */
-export const SITE_LOCALES = ["en", "es"] as const;
+export const SITE_LOCALES = ["en", "es", "fr", "pt"] as const;
 export type SiteLocale = (typeof SITE_LOCALES)[number];
 
-export const BLOG_ONLY_LOCALES = [
-  "fr",
-  "de",
-  "it",
-  "pt",
-  "zh",
-  "ru",
-  "ar",
-] as const;
+/**
+ * Languages content is written in, in the Studio. The site shows the
+ * SITE_LOCALES among them; the others can be prepared before going live.
+ */
+export const CONTENT_LOCALES = ["en", "es", "fr", "pt"] as const;
+export type ContentLocale = (typeof CONTENT_LOCALES)[number];
+/** Each language's own name for itself (the header language switcher). */
+export const LANGUAGE_NAMES: Record<AppLocale, string> = {
+  en: "English",
+  es: "Español",
+  fr: "Français",
+  pt: "Português",
+  de: "Deutsch",
+  it: "Italiano",
+  zh: "中文",
+  ru: "Русский",
+  ar: "العربية",
+};
+
+export const BLOG_ONLY_LOCALES = ["de", "it", "zh", "ru", "ar"] as const;
 export type BlogOnlyLocale = (typeof BLOG_ONLY_LOCALES)[number];
 
 export const ALL_LOCALES = [...SITE_LOCALES, ...BLOG_ONLY_LOCALES] as const;

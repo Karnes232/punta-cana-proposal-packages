@@ -11,18 +11,17 @@ import {
   HelpCircleIcon,
   HomeIcon,
   ListIcon,
-  SearchIcon,
   SparklesIcon,
   StarIcon,
   TagIcon,
 } from "@sanity/icons";
 import {
+  languageDocumentId,
   CATALOG_CONTACT_ID,
   CATALOG_HOME_ID,
   CATALOG_SETTINGS_ID,
   legalDocumentId,
   PAGE_SINGLETONS,
-  pageSeoId,
 } from "@/sanity/constants";
 import { bi } from "@/sanity/schemaTypes/shared/labels";
 import { ALL_LOCALES } from "@/i18n/locales";
@@ -53,8 +52,25 @@ export const structure: StructureResolver = (S) => {
       .title(title)
       .icon(icon)
       .child(S.document().schemaType(type).documentId(id).title(title));
-  const pageSection = (title: string, type: keyof typeof PAGE_SINGLETONS) =>
-    singleton(title, type, PAGE_SINGLETONS[type]);
+  // A per-language collection, listed in English: new documents start in
+  // English and the Translations button opens or adds the other languages.
+  const englishList = (
+    title: string,
+    type: string,
+    ordering?: { field: string; direction: "asc" | "desc" },
+  ) =>
+    S.listItem()
+      .title(title)
+      .schemaType(type)
+      .child(
+        S.documentList()
+          .title(title)
+          .schemaType(type)
+          .filter("_type == $type && language == $language")
+          .params({ type, language: "en" })
+          .initialValueTemplates([S.initialValueTemplateItem(`${type}-en`)])
+          .defaultOrdering(ordering ? [ordering] : []),
+      );
   // Documents of one type filtered by a field value (e.g. a page's SEO).
   const filtered = (
     title: string,
@@ -76,9 +92,6 @@ export const structure: StructureResolver = (S) => {
           .params({ type, ...params });
         return canCreate ? list : list.initialValueTemplates([]);
       });
-  // Each page's SEO is one fixed document (pageSeo-<page>).
-  const pageSeo = (page: string, title = "SEO") =>
-    singleton(title, "pageSeo", pageSeoId(page), SearchIcon);
   const folder = (
     title: string,
     icon: Icon,
@@ -96,7 +109,6 @@ export const structure: StructureResolver = (S) => {
     CATALOG_CONTACT_ID,
     CATALOG_SETTINGS_ID,
     ...Object.keys(PAGE_SINGLETONS),
-    "pageSeo",
     "legalDocument",
     "proposalExperience",
     "romanticDinnerExperience",
@@ -108,23 +120,40 @@ export const structure: StructureResolver = (S) => {
     "storyType",
     "blogPost",
     "blogCategory",
-    "faq",
-    "faqCategory",
-    "howItWorksFaqCategory",
   ]);
 
   return S.list()
     .title(bi("Contenido", "Content"))
     .items([
-      folder(bi("Inicio", "Home"), HomeIcon, [
-        singleton(bi("Página de inicio", "Home page"), CATALOG_HOME_ID),
-        pageSeo("home"),
-      ]),
+      // Opens the English home page; the Translations button at the top of
+      // the document switches language. Its SEO is inside it (seo field).
+      singleton(
+        bi("Inicio", "Home"),
+        CATALOG_HOME_ID,
+        languageDocumentId(CATALOG_HOME_ID, "en"),
+        HomeIcon,
+      ),
       folder(bi("Propuestas", "Proposals"), HeartIcon, [
+        // Opens the English proposals page (every text on the page, in its
+        // order, and its SEO); the Translations button switches language.
+        singleton(
+          bi("Página de propuestas", "Proposals page"),
+          "proposalsPage",
+          languageDocumentId("proposalsPage", "en"),
+          HeartIcon,
+        ),
         list(bi("Paquetes", "Packages"), "proposalExperience"),
-        pageSeo("proposals"),
       ]),
       folder(bi("Cenas románticas", "Romantic dinners"), SparklesIcon, [
+        // Opens the English romantic dinners page (every text on the page,
+        // in its order, and its SEO); the Translations button switches
+        // language.
+        singleton(
+          bi("Página de cenas románticas", "Romantic dinners page"),
+          "romanticDinnersPage",
+          languageDocumentId("romanticDinnersPage", "en"),
+          SparklesIcon,
+        ),
         list(bi("Cenas", "Dinners"), "romanticDinnerExperience"),
         S.listItem()
           .title(bi("Menú", "Menu"))
@@ -155,23 +184,31 @@ export const structure: StructureResolver = (S) => {
           ),
         list(bi("Bebidas", "Drinks"), "beverageOption"),
         list(bi("Ocasiones", "Occasions"), "dinnerOccasion"),
-        pageSeo("romantic-dinners"),
       ]),
       folder(bi("Historias", "Stories"), StarIcon, [
-        pageSection(bi("Portada", "Hero"), "storiesHero"),
-        S.listItem()
-          .title(bi("Historias", "Stories"))
-          .child(
-            S.documentTypeList("story")
-              .title(bi("Historias", "Stories"))
-              .defaultOrdering([{ field: "date", direction: "desc" }]),
-          ),
+        // Opens the English stories page (hero, featured story, closing
+        // banner and SEO); the Translations button switches language.
+        singleton(
+          bi("Página de historias", "Stories page"),
+          "storiesPage",
+          languageDocumentId("storiesPage", "en"),
+          StarIcon,
+        ),
+        englishList(bi("Historias", "Stories"), "story", {
+          field: "date",
+          direction: "desc",
+        }),
         list(bi("Tipos de propuesta", "Proposal types"), "storyType"),
-        pageSection(bi("Franja final", "Closing banner"), "storiesCtaStrip"),
-        pageSeo("stories"),
       ]),
       folder("Blog", ComposeIcon, [
-        pageSection(bi("Portada", "Hero"), "blogHero"),
+        // Opens the English blog page (hero, featured post, closing banner
+        // and SEO); the Translations button switches language.
+        singleton(
+          bi("Página del blog", "Blog page"),
+          "blogPage",
+          languageDocumentId("blogPage", "en"),
+          ComposeIcon,
+        ),
         S.listItem()
           .title(bi("Artículos", "Posts"))
           .child(
@@ -191,62 +228,58 @@ export const structure: StructureResolver = (S) => {
               ]),
           ),
         list(bi("Categorías", "Categories"), "blogCategory", TagIcon),
-        pageSection(bi("Franja final", "Closing banner"), "blogCtaStrip"),
-        pageSeo("blog"),
       ]),
-      folder(bi("Preguntas frecuentes", "FAQ"), HelpCircleIcon, [
-        pageSection(bi("Portada", "Hero"), "faqHero"),
-        list(bi("Preguntas", "Questions"), "faq"),
-        list(bi("Categorías", "Categories"), "faqCategory", TagIcon),
-        pageSection(
-          bi("Franja de contacto", "Contact banner"),
-          "faqContactStrip",
-        ),
-        pageSeo("faq"),
-      ]),
-      folder(bi("Cómo funciona", "How it works"), ListIcon, [
-        pageSection(bi("Portada", "Hero"), "howItWorksHero"),
-        pageSection(bi("Pasos", "Steps"), "howItWorksSteps"),
-        pageSection(bi("Preguntas", "Questions"), "howItWorksFaq"),
-        list(
-          bi("Categorías de preguntas", "Question categories"),
-          "howItWorksFaqCategory",
-          TagIcon,
-        ),
-        pageSection(
-          bi("Llamada final", "Closing call to action"),
-          "howItWorksCta",
-        ),
-        pageSeo("how-it-works"),
-      ]),
-      folder(bi("Contacto", "Contact"), EnvelopeIcon, [
-        singleton(bi("Página de contacto", "Contact page"), CATALOG_CONTACT_ID),
-        pageSeo("contact"),
-      ]),
+      // Opens the English FAQ page (every section, its question categories
+      // and SEO); the Translations button switches language.
+      singleton(
+        bi("Preguntas frecuentes", "FAQ"),
+        "faqPage",
+        languageDocumentId("faqPage", "en"),
+        HelpCircleIcon,
+      ),
+      // Opens the English How it works page (every section, its FAQ
+      // categories and SEO); the Translations button switches language.
+      singleton(
+        bi("Cómo funciona", "How it works"),
+        "howItWorksPage",
+        languageDocumentId("howItWorksPage", "en"),
+        ListIcon,
+      ),
+      // Opens the English contact page; the Translations button switches
+      // language. Its SEO is inside it (seo field).
+      singleton(
+        bi("Contacto", "Contact"),
+        CATALOG_CONTACT_ID,
+        languageDocumentId(CATALOG_CONTACT_ID, "en"),
+        EnvelopeIcon,
+      ),
+      // Each legal page opens in English; the Translations button switches
+      // language. Its SEO is inside it (seo field).
       folder("Legal", DocumentTextIcon, [
         singleton(
           bi("Política de privacidad", "Privacy policy"),
           "legalDocument",
-          legalDocumentId("privacy-policy"),
+          languageDocumentId(legalDocumentId("privacy-policy"), "en"),
         ),
-        pageSeo("privacy-policy", bi("SEO: privacidad", "SEO: privacy")),
         singleton(
           bi("Términos de servicio", "Terms of service"),
           "legalDocument",
-          legalDocumentId("terms-of-service"),
+          languageDocumentId(legalDocumentId("terms-of-service"), "en"),
         ),
-        pageSeo("terms-of-service", bi("SEO: términos", "SEO: terms")),
       ]),
       S.divider(),
       list(bi("Extras", "Add-ons"), "experienceAddon", BasketIcon),
       folder(bi("Ajustes del sitio", "Site settings"), CogIcon, [
-        pageSection(
+        singleton(
           bi("Negocio y redes sociales", "Business & social links"),
           "generalLayout",
         ),
+        // Opens the English catalog text; the Translations button at the top
+        // of the document switches language.
         singleton(
           bi("Textos del catálogo", "Catalog text"),
           CATALOG_SETTINGS_ID,
+          languageDocumentId(CATALOG_SETTINGS_ID, "en"),
         ),
       ]),
       S.divider(),

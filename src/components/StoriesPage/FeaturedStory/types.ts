@@ -1,4 +1,3 @@
-import type { SiteLocale } from "@/i18n/locales";
 export interface FeaturedStoryImage {
   asset: {
     url: string;
@@ -23,13 +22,13 @@ export interface FeaturedStoryData {
   date: string;
 
   /** e.g. "Playa Bávaro, Punta Cana" */
-  location: Record<SiteLocale, string>;
+  location: string;
 
   /** e.g. "Classic Beach Package" — from the package type reference */
-  packageTag: Record<SiteLocale, string>;
+  packageTag: string;
 
   /** Short pull quote — 1–2 sentences max */
-  quote: Record<SiteLocale, string>;
+  quote: string;
 
   heroPhoto: FeaturedStoryImage;
 }

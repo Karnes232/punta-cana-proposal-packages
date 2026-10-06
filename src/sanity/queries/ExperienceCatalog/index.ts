@@ -12,3 +12,4 @@ export {
   getHomePresentation,
   type CatalogContent,
 } from "./content";
+export { getCatalogPage, withCatalogPage } from "./catalogPage";

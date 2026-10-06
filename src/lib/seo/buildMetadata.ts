@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 import { generateHreflangAlternates } from "@/i18n/hreflang";
-import { isSiteLocale, type SiteLocale } from "@/i18n/locales";
+import type { SiteLocale } from "@/i18n/locales";
+import type { DocumentSeo } from "@/sanity/queries/SEO/documentSeo";
 
 export type SeoLocale = SiteLocale;
 
@@ -12,52 +13,30 @@ type OgImageInput = {
   height?: number | null;
 };
 
-type LocalizedSeoText = {
-  title?: string | null;
-  description?: string | null;
-  keywords?: string[] | null;
-} | null;
-
-/** The per-locale `seo` object returned by Sanity SEO projections. */
-type LocalizedSeoInput = {
-  meta?: Partial<Record<SeoLocale, LocalizedSeoText>> | null;
-  openGraph?:
-    | (Partial<Record<SeoLocale, LocalizedSeoText>> & {
-        image?: OgImageInput | null;
-      })
-    | null;
-};
-
 /**
- * Picks the `meta` and `openGraph` fields for `locale`, falling back when an
- * editor left a translation empty: Open Graph falls back to the page's meta
- * text, and a missing locale falls back to English. A missing field never
- * throws, so one untranslated document can't take its page down.
+ * Metadata fields from a per-language document's SEO (see DocumentSeo), with
+ * fallbacks: Open Graph text falls back to the meta text, and the meta text
+ * to the Open Graph text.
  */
-export function localizedSeoFields(
-  seo: LocalizedSeoInput | null | undefined,
-  locale: string,
-): {
-  meta: { title: string; description: string; keywords: string[] };
-  openGraph: {
-    title: string;
-    description: string;
-    image?: OgImageInput | null;
-  };
-} {
-  const lang: SeoLocale = isSiteLocale(locale) ? locale : "en";
-  const meta = seo?.meta?.[lang] ?? seo?.meta?.en ?? null;
-  const og = seo?.openGraph?.[lang] ?? seo?.openGraph?.en ?? null;
-  const title = meta?.title ?? og?.title ?? "";
-  const description = meta?.description ?? og?.description ?? "";
-
+export function seoFields(seo: DocumentSeo | null | undefined) {
+  // Empty strings count as missing, like absent fields.
+  const title = seo?.meta?.title || seo?.openGraph?.title || "";
+  const description =
+    seo?.meta?.description || seo?.openGraph?.description || "";
+  const keywords = seo?.meta?.keywords;
   return {
-    meta: { title, description, keywords: meta?.keywords ?? [] },
-    openGraph: {
-      title: og?.title ?? title,
-      description: og?.description ?? description,
-      image: seo?.openGraph?.image,
+    meta: {
+      title,
+      description,
+      keywords: Array.isArray(keywords) ? keywords : [],
     },
+    openGraph: {
+      title: seo?.openGraph?.title || title,
+      description: seo?.openGraph?.description || description,
+      image: seo?.image,
+    },
+    noIndex: seo?.noIndex,
+    noFollow: seo?.noFollow,
   };
 }
 
@@ -100,7 +79,7 @@ export function buildSeoMetadata(opts: {
   return {
     title: meta.title,
     description: meta.description,
-    ...(meta.keywords.length > 0 ? { keywords: meta.keywords.join(", ") } : {}),
+    ...(meta.keywords?.length ? { keywords: meta.keywords.join(", ") } : {}),
     openGraph: {
       title: openGraph.title,
       description: openGraph.description,
@@ -141,6 +120,16 @@ const SITE_DEFAULTS: { en: SiteDefault } & Partial<
     title: "Punta Cana Proposal Packages",
     description:
       "Experiencias de propuesta privadas y curadas en el corazón de Punta Cana.",
+  },
+  fr: {
+    title: "Punta Cana Proposal Packages",
+    description:
+      "Des demandes en mariage privées et pensées sur mesure, au cœur de Punta Cana.",
+  },
+  pt: {
+    title: "Punta Cana Proposal Packages",
+    description:
+      "Experiências privativas e exclusivas de pedido de casamento no coração de Punta Cana.",
   },
 };
 

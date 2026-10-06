@@ -23,19 +23,30 @@ export const seoImageFields = /* groq */ `
   "height": image.asset->metadata.dimensions.height
 `;
 
-/** The bilingual `seo` object (meta, Open Graph, robots) used by pages and stories. */
-export const localizedSeoProjection = /* groq */ `
-  seo {
-    meta {
-      en { title, description, keywords },
-      es { title, description, keywords }
-    },
-    openGraph {
-      en { title, description },
-      es { title, description },
-      "image": { ${seoImageFields} }
-    },
-    noIndex,
-    noFollow
-  }
-`;
+/** A per-language document's `seo` object (see ./SEO/documentSeo.ts). */
+export const documentSeoProjection = /* groq */ `seo {
+  meta {
+    title,
+    description,
+    keywords
+  },
+  openGraph {
+    title,
+    description
+  },
+  "image": select(
+    defined(image.asset._ref) => {
+      ${seoImageFields}
+    }
+  ),
+  structuredData,
+  noIndex,
+  noFollow
+}`;
+
+/**
+ * A post or story a list can show: it has a URL and a hero photo file.
+ * Documents created outside the Studio can lack either; lists skip them
+ * instead of breaking the page.
+ */
+export const listable = /* groq */ `defined(slug.current) && defined(heroPhoto.asset)`;

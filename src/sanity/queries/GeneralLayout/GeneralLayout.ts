@@ -2,10 +2,7 @@ import { client } from "@/sanity/lib/client";
 
 export interface GeneralLayout {
   companyName: string;
-  companyDescription: {
-    en: string;
-    es: string;
-  };
+  companyDescription?: Partial<Record<"en" | "es" | "fr" | "pt", string>>;
   companyLogo: {
     asset: {
       url: string;
@@ -33,7 +30,9 @@ export const generalLayoutQuery = `*[_type == "generalLayout"][0] {
   companyName,
   companyDescription {
     en,
-    es
+    es,
+    fr,
+    pt
   },
   companyLogo {
     asset-> {

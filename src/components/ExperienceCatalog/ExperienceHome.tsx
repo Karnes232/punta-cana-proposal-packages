@@ -45,7 +45,7 @@ const featuredText = "text-[16px] text-[#d3cec6]";
 
 export default async function ExperienceHome({ locale }: { locale: Locale }) {
   const [content, presentation, dinner] = await Promise.all([
-    getCatalogContent(),
+    getCatalogContent(locale),
     getHomePresentation(),
     getDinnerPreview(),
   ]);

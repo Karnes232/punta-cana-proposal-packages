@@ -1,21 +1,20 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useBlogLanguageAlternates } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 import { usePathname } from "next/navigation";
 import type { Locale, Settings } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
-import { ALL_LOCALES, localePrefix, SITE_LOCALES } from "@/i18n/locales";
+import {
+  ALL_LOCALES,
+  isSiteLocale,
+  localePrefix,
+  SITE_LOCALES,
+  type AppLocale,
+} from "@/i18n/locales";
+import LanguageMenu from "./LanguageMenu";
 
 const LOCALE_SEGMENT = new RegExp(`^/(${ALL_LOCALES.join("|")})(?=/|$)`);
-const languageLink = (inMenu: boolean, current: boolean, href: string) =>
-  inMenu
-    ? "upto1280:block upto1280:py-3"
-    : // On /contact these links end in "/contact" too, so the old contact-link
-      // rule also turned off their hover and current styling there; kept as-is.
-      href.endsWith("/contact")
-      ? "border-none"
-      : `[&:hover]:text-gold ${current ? "text-gold" : ""}`;
 
 export default function CatalogNavigation({
   locale,
@@ -31,6 +30,11 @@ export default function CatalogNavigation({
   const pathname = usePathname() || "/",
     path = pathname.replace(LOCALE_SEGMENT, "") || "/",
     prefix = localePrefix(locale);
+  // The page's language from its URL: blog pages can be in a blog-only
+  // language (e.g. /de/blog) while the menu itself is in English.
+  const urlLanguage = (pathname.match(LOCALE_SEGMENT)?.[1] ??
+    "en") as AppLocale;
+  const blog = path === "/blog" || path.startsWith("/blog/");
   const { alternates } = useBlogLanguageAlternates();
   const languagePath = (language: string) =>
     path.startsWith("/blog/")
@@ -54,13 +58,25 @@ export default function CatalogNavigation({
     ["faq", "navFaq"],
     ["contact", "contactUsLabel"],
   ];
-  const languageHref = (language: string) => {
+  const languageHref = (language: AppLocale) => {
     const target = languagePath(language);
-    const languagePrefix = localePrefix(language);
+    // Blog-only languages always have their prefix (localePrefix is for
+    // site languages, where English has none).
+    const languagePrefix = isSiteLocale(language)
+      ? localePrefix(language)
+      : `/${language}`;
     return languagePrefix
       ? `${languagePrefix}${target === "/" ? "" : target}`
       : target;
   };
+  const languageMenu = (
+    <LanguageMenu
+      current={urlLanguage}
+      languages={blog ? ALL_LOCALES : SITE_LOCALES}
+      hrefFor={languageHref}
+      label={t("languageLabel")}
+    />
+  );
   // The links render twice: in the desktop bar and in the mobile menu.
   const items = (inMenu: boolean) => (
     <>
@@ -85,28 +101,8 @@ export default function CatalogNavigation({
           {t(key)}
         </a>
       ))}
-      <div
-        className={`whitespace-nowrap ${inMenu ? "upto1280:flex upto1280:items-center upto1280:gap-3" : ""}`}
-        aria-label="Language / Idioma"
-      >
-        {SITE_LOCALES.map((language, i) => (
-          <Fragment key={language}>
-            {i > 0 && <span aria-hidden="true"> / </span>}
-            <a
-              href={languageHref(language)}
-              lang={language}
-              aria-current={locale === language ? "true" : undefined}
-              className={languageLink(
-                inMenu,
-                locale === language,
-                languageHref(language),
-              )}
-            >
-              {language.toUpperCase()}
-            </a>
-          </Fragment>
-        ))}
-      </div>
+      {/* On narrow screens the language menu sits in the header bar. */}
+      {!inMenu && languageMenu}
       <a
         className={`border border-gold p-3 text-gold ${inMenu ? "upto1280:block" : "whitespace-nowrap"}`}
         href={`${prefix}/${dinner ? "romantic-dinners" : "proposals"}`}
@@ -142,6 +138,9 @@ export default function CatalogNavigation({
         >
           {items(false)}
         </nav>
+        <div className="hidden upto1280:ml-auto upto1280:block">
+          {languageMenu}
+        </div>
         <details
           ref={mobile}
           className="hidden upto1280:block upto1280:open:w-full"

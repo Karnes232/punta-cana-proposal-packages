@@ -3,7 +3,7 @@ import type { SiteLocale } from "@/i18n/locales";
 import React, { useState } from "react";
 import FaqAccordion from "@/components/FaqPage/FaqAccordion/FaqAccordion";
 import FaqCategoryFilter from "@/components/FaqPage/FaqCategoryFilter/FaqCategoryFilter";
-import { Faqs, FaqsCategories } from "@/sanity/queries/FaqPage/Faqs";
+import { Faqs, FaqsCategories } from "@/sanity/queries/FaqPage/FaqPage";
 
 interface FaqContentProps {
   locale: SiteLocale;
@@ -25,7 +25,6 @@ const FaqContent = ({ locale, faqsCategories, faqs }: FaqContentProps) => {
       <FaqAccordion
         key={activeCategory}
         activeCategory={activeCategory}
-        locale={locale}
         faqs={faqs}
       />
     </>

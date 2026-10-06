@@ -1,4 +1,5 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { formatSanityDate } from "@/lib/formatDate";
 import type { MoreBlogsPost } from "./types";
 import Image from "next/image";
 import React from "react";
@@ -11,6 +12,7 @@ const MoreBlogsCard = ({
   readMoreLabel: string;
 }) => {
   const readTimeSuffix = useTranslations("BlogPost")("minRead");
+  const locale = useLocale();
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">
       {/* Photo */}
@@ -54,7 +56,11 @@ const MoreBlogsCard = ({
         {/* Footer */}
         <div className="flex items-center justify-between pt-4 mt-auto border-t border-gold/20">
           <span className="text-[10.5px] font-body font-light tracking-[0.04em] text-gray">
-            {blog.publishedAt}
+            {formatSanityDate(blog.publishedAt, locale, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
           </span>
           <Link
             href={`/blog/${blog.slug}`}

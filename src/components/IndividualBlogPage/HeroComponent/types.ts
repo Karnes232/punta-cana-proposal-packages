@@ -16,5 +16,5 @@ export interface PostHeroData {
   publishedAt: string;
   categoryTag: string;
   readingTime: number;
-  photo: PostHeroImage;
+  photo: PostHeroImage | null;
 }

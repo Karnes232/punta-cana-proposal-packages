@@ -14,7 +14,7 @@ export default function PhotoHeroBackground({
   return (
     <>
       {/* Photo — full visibility, no opacity reduction */}
-      {photo && (
+      {photo?.asset?.url && (
         <Image
           src={photo.asset.url}
           alt={alt}

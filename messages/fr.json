@@ -1,0 +1,97 @@
+{
+  "IndividualStoryPage": {
+    "allStories": "Toutes les histoires",
+    "package": "Forfait",
+    "date": "Date",
+    "location": "Lieu",
+    "proposed": "Demande",
+    "bookThisExperience": "Réserver cette expérience",
+    "more": "Plus d’histoires",
+    "moreHeading": "Même forfait,",
+    "moreAccent": "histoires différentes",
+    "readStory": "Lire l’histoire",
+    "galleryLabel": "La demande"
+  },
+  "FaqPage": {
+    "emptyLabel": "Aucune question dans cette catégorie pour le moment.",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page",
+    "of": "sur",
+    "filterLabel": "Filtrer par catégorie",
+    "all": "Toutes"
+  },
+  "NotFoundPage": {
+    "metaTitle": "Page introuvable",
+    "code": "404",
+    "heading": "Cette page n’existe pas",
+    "description": "Le lien est peut-être rompu, ou la page a peut-être été déplacée.",
+    "homeCta": "Retour à l’accueil",
+    "blogCta": "Lire notre blog"
+  },
+  "BlogPost": {
+    "category": "Catégorie",
+    "published": "Publié",
+    "readingTime": "Temps de lecture",
+    "minRead": "min de lecture",
+    "planCta": "Commencez à préparer votre demande",
+    "allPosts": "Tous les articles",
+    "more": "Plus d’articles",
+    "moreAccent": "Articles similaires",
+    "readMore": "Lire l’histoire",
+    "galleryLabel": "Galerie de l’article"
+  },
+  "StoriesPage": {
+    "more": "Plus d’histoires",
+    "readStory": "Lire l’histoire",
+    "loadMore": "Voir plus d’histoires",
+    "empty": "Aucune histoire pour ce type de forfait pour le moment.",
+    "all": "Toutes les histoires",
+    "featured": "Histoire à la une",
+    "readTheirStory": "Lire leur histoire"
+  },
+  "Carousel": {
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "Gallery": {
+    "viewAll": "Voir les {count} photos",
+    "close": "Fermer",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "HowItWorksPage": {
+    "whyChooseUs": "Pourquoi nous choisir"
+  },
+  "BlogPage": {
+    "featuredPost": "Article à la une",
+    "readArticle": "Lire l’article",
+    "loadMore": "Voir plus d’articles",
+    "latestPosts": "Derniers articles",
+    "minRead": "min de lecture",
+    "noPosts": "Aucun article dans cette catégorie pour le moment."
+  },
+  "LegalPage": {
+    "eyebrow": "Mentions légales",
+    "privacyTitle": "Politique de confidentialité",
+    "termsTitle": "Conditions d’utilisation"
+  },
+  "ErrorPage": {
+    "heading": "Un problème est survenu",
+    "description": "Cette page ne peut pas s’afficher pour le moment. Réessayez, ou contactez-nous et nous vous aiderons.",
+    "retry": "Réessayer",
+    "homeCta": "Retour à l’accueil",
+    "contactCta": "Contactez-nous"
+  },
+  "RequestForm": {
+    "required": "Veuillez remplir ce champ.",
+    "invalid": "Veuillez vérifier ce champ.",
+    "email": "Veuillez saisir une adresse e-mail valide.",
+    "phone": "Saisissez un numéro de 7 à 20 chiffres, avec uniquement des chiffres, des espaces et + ( ) - .",
+    "dateWindow": "Choisissez une date entre aujourd'hui et dans deux ans.",
+    "dateOrder": "La date alternative doit être postérieure à la date préférée.",
+    "selection": "Un élément de votre sélection n'est plus disponible. Vérifiez-la et envoyez-la à nouveau.",
+    "tooMany": "Trop de demandes en peu de temps. Patientez une minute et réessayez.",
+    "tooLarge": "Votre demande est trop longue. Raccourcissez vos commentaires et réessayez."
+  }
+}

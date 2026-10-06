@@ -63,7 +63,7 @@ export default function DinnerGuestsSection({
             className={stepperClass}
             aria-label={t("addGuest")}
             disabled={
-              experience.additionalGuestPrice === undefined ||
+              experience.additionalGuestPrice == null ||
               (experience.maximumGuests != null &&
                 guestCount >= experience.maximumGuests)
             }

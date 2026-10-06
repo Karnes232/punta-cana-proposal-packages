@@ -1,14 +1,12 @@
-import type { SiteLocale } from "@/i18n/locales";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HowItWorksStepsSectionHeader from "./HowItWorksStepsSectionHeader";
 import HowItWorksStepCard from "./HowItWorksStepCard";
 import HowItWorksStepConnector from "./HowItWorksStepConnector";
-import { HowItWorksStepsStep } from "@/sanity/queries/HowItWorksPage/HowItWorksSteps";
+import { HowItWorksStepsStep } from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksStepsProps {
-  locale: SiteLocale;
   eyebrow: string;
   heading: string;
   headingAccent: string;
@@ -24,7 +22,6 @@ export default function HowItWorksSteps({
   headingAccent,
   subheading,
   steps,
-  locale,
 }: HowItWorksStepsProps) {
   return (
     <section
@@ -47,14 +44,14 @@ export default function HowItWorksSteps({
           {steps.map((step, index) => {
             const isLast = index === steps.length - 1;
             return (
-              <div key={step.label[locale]}>
+              <div key={step.label}>
                 <RevealOnScroll delay={index * 80}>
                   <HowItWorksStepCard
                     step={{
                       number: (index + 1).toString().padStart(2, "0"),
-                      label: step.label[locale],
-                      title: step.title[locale],
-                      description: step.description[locale],
+                      label: step.label,
+                      title: step.title,
+                      description: step.description,
                     }}
                     index={index}
                     isLast={isLast}

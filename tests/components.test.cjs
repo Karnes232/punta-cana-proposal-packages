@@ -13,7 +13,18 @@ global.cancelAnimationFrame = clearTimeout;
 global.IS_REACT_ACT_ENVIRONMENT = true;
 const Module = require("node:module"),
   ts = require("typescript");
-const resolve = Module._resolveFilename;
+const resolve = Module._resolveFilename,
+  load = Module._load;
+// The site's message files stand in for next-intl's provider.
+const messages = require("../messages/en.json");
+Module._load = function (request, ...rest) {
+  const loaded = load.call(this, request, ...rest);
+  if (request !== "next-intl") return loaded;
+  return {
+    ...loaded,
+    useTranslations: (namespace) => (key) => messages[namespace][key],
+  };
+};
 Module._resolveFilename = function (request, parent, ...rest) {
   return resolve.call(
     this,
@@ -44,6 +55,7 @@ const { act } = React;
 const { createRoot } = require("react-dom/client");
 const Card =
   require("../src/components/ExperienceCatalog/ExperienceCard.tsx").default;
+const { ui } = require("../src/lib/experience/labels.ts");
 const fixture = {
   _id: "fixture",
   _type: "proposalExperience",
@@ -83,8 +95,8 @@ const fixture = {
   beverages: [],
   occasions: [],
 };
-test("EN and ES: styles change image/price, keep extras, gallery keyboard and inline form work", async () => {
-  for (const locale of ["en", "es"]) {
+test("Every site language: styles change image/price, keep extras, gallery keyboard and inline form work", async () => {
+  for (const locale of ["en", "es", "fr", "pt"]) {
     const root = createRoot(document.getElementById("root"));
     await act(async () =>
       root.render(
@@ -303,8 +315,8 @@ test("proposal template keeps extras across styles, shows no invented price and 
   await act(async () => root.unmount());
 });
 
-test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across collapse", async () => {
-  for (const locale of ["en", "es"]) {
+test("Every site language: progressive menus preserve guests 1-N, cocktails and extras across collapse", async () => {
+  for (const locale of ["en", "es", "fr", "pt"]) {
     const e = {
       ...fixture,
       _type: "romanticDinnerExperience",
@@ -347,15 +359,11 @@ test("EN/ES progressive menus preserve guests 1-N, cocktails and extras across c
     const buttons = () => [...document.querySelectorAll("button")];
     const add = () =>
       buttons().find(
-        (b) =>
-          b.getAttribute("aria-label") ===
-          (locale === "es" ? "Añadir invitado" : "Add guest"),
+        (b) => b.getAttribute("aria-label") === ui.addGuest[locale],
       );
     const minus = () =>
       buttons().find(
-        (b) =>
-          b.getAttribute("aria-label") ===
-          (locale === "es" ? "Quitar invitado" : "Remove guest"),
+        (b) => b.getAttribute("aria-label") === ui.removeGuest[locale],
       );
     await act(async () => add().click());
     assert.equal(
@@ -507,8 +515,17 @@ test("date request form sends preferences and uses the editable deposit without 
     sent = JSON.parse(options.body);
     return { ok: true };
   };
+  const {
+    requestDateWindow,
+  } = require("../src/lib/experience/requestRules.ts");
+  const { first, last } = requestDateWindow();
+  const day = (offset) => {
+    const date = new Date(`${first}T00:00:00Z`);
+    date.setUTCDate(date.getUTCDate() + offset);
+    return date.toISOString().slice(0, 10);
+  };
   try {
-    for (const locale of ["en", "es"]) {
+    for (const locale of ["en", "es", "fr", "pt"]) {
       const root = createRoot(document.getElementById("root"));
       await act(async () =>
         root.render(
@@ -535,9 +552,9 @@ test("date request form sends preferences and uses the editable deposit without 
       for (const [name, value] of Object.entries({
         fullName: "Test",
         email: "test@example.invalid",
-        phone: "000",
-        desiredDate: "2026-12-12",
-        alternativeDate: "2026-12-14",
+        phone: "+1 809 555 0100",
+        desiredDate: day(30),
+        alternativeDate: day(32),
         hotel: "Test hotel",
         fragranceSensitivity: "No fragrance",
       }))
@@ -549,22 +566,24 @@ test("date request form sends preferences and uses the editable deposit without 
         ),
       );
       assert.equal(sent.contact.datesFlexible, true);
-      assert.equal(sent.contact.alternativeDate, "2026-12-14");
+      assert.equal(sent.contact.alternativeDate, day(32));
+      assert.match(sent.requestId, /^[0-9a-f-]{36}$/);
+      assert.equal(typeof sent.fillMs, "number");
       assert.match(form.querySelector("[role=status]").textContent, /250/);
       assert.match(
         form.querySelector("[role=status]").textContent,
-        locale === "es"
-          ? /confirmar la disponibilidad/
-          : /confirm availability/,
+        // The dinner success message, up to its {deposit} placeholder.
+        new RegExp(ui.dinnerRequestSuccess[locale].split("{")[0].slice(-40)),
       );
       assert.doesNotMatch(
         form.querySelector("[role=status]").textContent,
         /reservation is confirmed|reserva confirmada/,
       );
-      assert.equal(
-        form.querySelector("[name=desiredDate]").value,
-        "2026-12-12",
-      );
+      assert.equal(form.querySelector("[name=desiredDate]").value, day(30));
+      // Dates run from today in Punta Cana; the alternative follows the
+      // preferred date.
+      assert.equal(form.querySelector("[name=desiredDate]").min, first);
+      assert.equal(form.querySelector("[name=desiredDate]").max, last);
       await act(async () => root.unmount());
     }
   } finally {
@@ -653,4 +672,71 @@ test("proposal dinner opens two menus, retains choices across toggles and requir
     false,
   );
   await act(async () => root.unmount());
+});
+
+test("request form points at the field the server rejected and explains limits", async () => {
+  const Form =
+    require("../src/components/ExperienceCatalog/AvailabilityForm.tsx").default;
+  const oldFetch = global.fetch,
+    oldFormData = global.FormData;
+  global.FormData = window.FormData;
+  let answer;
+  const ids = [];
+  global.fetch = async (url, options) => {
+    ids.push(JSON.parse(options.body).requestId);
+    return answer;
+  };
+  const respond = (status, body = {}) => ({
+    ok: false,
+    status,
+    json: async () => body,
+  });
+  const root = createRoot(document.getElementById("root"));
+  try {
+    await act(async () =>
+      root.render(
+        React.createElement(Form, {
+          locale: "en",
+          settings: {},
+          experienceId: "proposal",
+          selection: {
+            guestCount: 1,
+            guestMenus: [],
+            addons: {},
+            beverages: [],
+          },
+        }),
+      ),
+    );
+    const form = document.querySelector("form");
+    const phone = form.querySelector("[name=phone]");
+    assert.equal(phone.maxLength, 80);
+    assert.ok(phone.pattern);
+    const submit = () =>
+      act(async () =>
+        form.dispatchEvent(
+          new window.Event("submit", { bubbles: true, cancelable: true }),
+        ),
+      );
+    answer = respond(400, { error: "phone", field: "phone" });
+    await submit();
+    assert.equal(phone.getAttribute("aria-invalid"), "true");
+    assert.equal(document.activeElement, phone);
+    const alert = form.querySelector("[role=alert]");
+    assert.equal(alert.textContent, messages.RequestForm.phone);
+    assert.ok(phone.getAttribute("aria-describedby").includes(alert.id));
+    answer = respond(429);
+    await submit();
+    assert.equal(phone.getAttribute("aria-invalid"), null);
+    assert.equal(
+      form.querySelector("[role=status]").textContent,
+      messages.RequestForm.tooMany,
+    );
+    // Every try of the same request carries the same id.
+    assert.equal(new Set(ids).size, 1);
+  } finally {
+    await act(async () => root.unmount());
+    global.fetch = oldFetch;
+    global.FormData = oldFormData;
+  }
 });

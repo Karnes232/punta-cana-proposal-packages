@@ -53,8 +53,9 @@ export default function ExperienceCard({
   const price =
     demo &&
     !dinner &&
-    style?.price === undefined &&
-    experience.basePrice === undefined
+    // Missing values come back from Sanity as null, not undefined.
+    style?.price == null &&
+    experience.basePrice == null
       ? t("priceToBeDefined")
       : money(
           dinner

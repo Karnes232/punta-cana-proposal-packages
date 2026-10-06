@@ -1,25 +1,22 @@
-import type { SiteLocale } from "@/i18n/locales";
 import { useRef, useEffect, useState } from "react";
-import { Faqs } from "@/sanity/queries/FaqPage/Faqs";
+import { Faqs } from "@/sanity/queries/FaqPage/FaqPage";
 
 interface FaqAccordionItemProps {
   item: Faqs;
-  locale: SiteLocale;
   isOpen: boolean;
   onToggle: () => void;
 }
 
 export default function FaqAccordionItem({
   item,
-  locale,
   isOpen,
   onToggle,
 }: FaqAccordionItemProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
 
-  const question = item.question[locale] || item.question.en;
-  const answer = item.answer[locale] || item.answer.en;
+  const question = item.question;
+  const answer = item.answer;
 
   // Measure real content height so CSS can transition 0 → exact px.
   // Re-measures whenever isOpen toggles (fonts may have shifted layout).

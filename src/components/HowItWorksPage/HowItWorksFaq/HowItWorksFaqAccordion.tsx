@@ -1,5 +1,6 @@
 "use client";
 
+import { local } from "@/lib/experience/normalize";
 import { useState } from "react";
 import HowItWorksFaqFilters from "./HowItWorksFaqFilters";
 import HowItWorksFaqItem from "./HowItWorksFaqItem";
@@ -8,7 +9,7 @@ import { faqUIContent } from "./types";
 import {
   HowItWorksFaqs,
   HowItWorksFaqsCategories,
-} from "@/sanity/queries/HowItWorksPage/HowItWorksFaqs";
+} from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -29,8 +30,8 @@ export default function HowItWorksFaqAccordion({
   const filterOptions = [
     { id: "all", label: t.categories.all },
     ...faqsCategories.map((c) => ({
-      id: c.name[locale],
-      label: c.name[locale],
+      id: c._id,
+      label: local(c.name, locale),
     })),
   ];
   const [activeCategory, setActiveCategory] = useState<string>("all");
@@ -40,7 +41,7 @@ export default function HowItWorksFaqAccordion({
   const filtered =
     activeCategory === "all"
       ? items
-      : items.filter((item) => item.category?.name[locale] === activeCategory);
+      : items.filter((item) => item.category?._id === activeCategory);
 
   // ── Handlers ───────────────────────────────────────────────────────────────
   function handleCategoryChange(cat: string) {
@@ -78,8 +79,8 @@ export default function HowItWorksFaqAccordion({
           filtered.map((item) => (
             <div key={item._key} className="relative">
               <HowItWorksFaqItem
-                question={item.question[locale]}
-                answer={item.answer[locale]}
+                question={item.question}
+                answer={item.answer}
                 isOpen={openKey === item._key}
                 onToggle={() => handleToggle(item._key)}
               />

@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import type { PostMetaBarData } from "./types";
 import { MetaDivider, MetaItem } from "@/components/ui/MetaItem";
+import { formatSanityDate } from "@/lib/formatDate";
 
 interface PostMetaBarProps {
   data: PostMetaBarData;
@@ -14,12 +15,11 @@ export default function PostMetaBar({ data, locale }: PostMetaBarProps) {
   const readTimeLabel = t("readingTime");
   const readTimeSuffix = t("minRead");
 
-  const dateStr = new Date(data.publishedAt).toLocaleDateString(locale, {
+  const capitalizedDate = formatSanityDate(data.publishedAt, locale, {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <div className="w-full bg-white border-b border-gold/20">

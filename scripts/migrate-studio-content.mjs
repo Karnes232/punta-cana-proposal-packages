@@ -1,38 +1,60 @@
-// Moves Studio content onto the renamed schemas (Studio step 2).
+// Studio content migrations, run in phases with a dry run by default.
 //
-// Dry run (default; writes nothing, saves the plan to work/):
-//   node --env-file=.env.local scripts/migrate-studio-content.mjs --dataset migration-test
-// Apply phases 1-3 (copies only; the live site keeps reading the originals):
-//   node --env-file=.env.local scripts/migrate-studio-content.mjs --dataset production --apply
-// Once the new code is live, delete the originals:
-//   node --env-file=.env.local scripts/migrate-studio-content.mjs --dataset production --phases 4 --apply
+// Dry run (writes nothing, saves the plan to work/):
+//   node --env-file=.env.local scripts/migrate-studio-content.mjs --dataset migration-test --phases 6
+// Apply:
+//   node --env-file=.env.local scripts/migrate-studio-content.mjs --dataset production --phases 6 --apply
 //
-// Phases:
-//   1. "Adventure to Yes" (legacy package) becomes an inactive proposalExperience.
-//   2. Catalog Settings, Home and Contact get real documents; Catalog Home's
-//      hero photo is filled from the legacy HomePageHero image.
-//   3. Every document of a renamed type is copied to its new type and ID, and
-//      references to it (copies, blog posts…) are pointed at the copy. One
-//      transaction, so the dataset never holds half a rename.
-//   4. Deletes the originals, the legacy proposal documents, the dead old-home
-//      documents, the retired category SEO entries and the legacy hero, in one
-//      transaction. It checks first that every copy exists and that nothing
+// Phases 1-5 (Studio step 2: renamed types, legacy clean-up, catalog fill)
+// ran on production on 2026-10-05; see this file's git history.
+//
+// Per-language documents (French and Portuguese, with
+// @sanity/document-internationalization):
+//   6. Splits every two-language page document (catalog settings, home and
+//      contact, page sections, page SEO, legal pages, stories, FAQs) into an
+//      English and a Spanish document (<id>-en, <id>-es) linked by a
+//      translation.metadata document, and gives FAQ categories a label in
+//      every language. The originals stay, so the live site keeps working.
+//      Shared fields (home photos, featured proposals, the dinner deposit)
+//      go on the English document only. Only creates what doesn't exist yet.
+//   7. Once the new code is live: deletes the originals and the old FAQ
+//      category label fields. It refuses while a copy is missing or anything
 //      else still references what it deletes.
-//   5. Fills the empty catalog documents (Settings, Home, Contact) and the
-//      Proposals / Romantic dinners SEO titles with exactly what the site shows
-//      today: the default texts from src/lib/experience/ and the photos and
-//      featured proposals the site picks automatically. Only blank fields are
-//      written, so the website doesn't change and Studio edits are kept.
-//      Run it on its own: --phases 5
-//
-// Phases 1-3 only create documents that don't exist yet (createIfNotExists),
-// so re-running never overwrites edits made in the Studio since.
+//   8. Writes the French and Portuguese content: a <id>-fr / <id>-pt copy of
+//      every English page document with its text translated (catalog settings
+//      and home take the built-in default texts), linked in the translation
+//      metadata, and the fr/pt text of shared documents (packages, dinner,
+//      menu, categories…). Translations come from work/translations/out/*.json.
+//      Only creates documents and fills fields that don't exist yet.
+//   9. Content fixes approved by the owner (work/translations/out/
+//      content-fixes.json): Spanish typos and captions, story SEO in every
+//      language, Spanish keywords. Each field changes only if it still holds
+//      the exact old value, so later Studio edits are kept.
+//  10. Home page texts move from the `copy` object to top-level fields, so the
+//      Studio can show each home section's photos and texts together.
+//  11. Home page photos become per language: each language's home document
+//      gets its own copy of the English photos, with alt text in that
+//      language (the English document's alt becomes English only).
+//  12. The home page's SEO moves into its document (catalogHome-<lang>.seo);
+//      the pageSeo-home-<lang> documents and their metadata are deleted.
+//  13. The same for the privacy policy and terms of service
+//      (legalDocument-<page>-<lang>.seo).
+//  14. The same for the contact page (catalogContact-<lang>.seo).
+//  15. How it works becomes one document per language (howItWorksPage-<lang>):
+//      its hero, steps, questions and closing call to action, its SEO, and
+//      its question categories (listed in the page instead of shared
+//      documents). The per-language documents it replaces are deleted.
 import { spawnSync } from "node:child_process";
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { createClient } from "@sanity/client";
-import { mapLegacyProposal } from "./lib/legacyProposal.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(name);
@@ -42,7 +64,8 @@ const option = (name) => {
 };
 
 const apply = flag("--apply");
-const phases = new Set((option("--phases") ?? "1,2,3").split(",").map(Number));
+if (!option("--phases")) throw Error("Pass --phases (e.g. --phases 6)");
+const phases = new Set(option("--phases").split(",").map(Number));
 const dataset = option("--dataset") || process.env.NEXT_PUBLIC_SANITY_DATASET;
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const token = process.env.SANITY_API_WRITE_TOKEN;
@@ -63,76 +86,24 @@ const SEO_PAGES = [
   "privacy-policy",
   "terms-of-service",
 ];
+const LEGAL_PAGES = ["privacy-policy", "terms-of-service"];
 const CATALOG_SINGLETONS = [
   "experienceCatalogSettings",
   "catalogHome",
   "catalogContact",
 ];
-
-const DINNER_TEMPLATE_ID = "8d9e1e5f-d981-4276-ab95-8d88a3ebd429";
-const FEATURED_FALLBACK_SLUGS = [
-  "love-signature",
-  "path-of-love",
-  "marry-me-sign",
+// Page sections that became per-language (the blog's stay in 9 languages).
+const PAGE_SECTIONS = [
+  "storiesHero",
+  "storiesCtaStrip",
+  "faqHero",
+  "faqContactStrip",
+  "howItWorksHero",
+  "howItWorksSteps",
+  "howItWorksFaq",
+  "howItWorksCta",
 ];
-const PROPOSALS_HERO_SLUG = "love-signature";
-
-const ADVENTURE_ID = "b861ebcd-1ba0-43a9-b699-8a11c2ef2e93";
-const ADVENTURE_NEW_ID = "proposal-adventure-to-yes";
-const LEGACY_HERO_ID = "hero";
-
-// Old type → new type and how the new document ID is chosen:
-//   "singleton"  → the new type name (like the catalog singletons)
-//   "collection" → `${newType}-${oldId}` (keeps today's ID order)
-//   a function   → from the document; null means "not copied"
-const RENAMES = {
-  PageSeo: {
-    type: "pageSeo",
-    id: (doc) =>
-      SEO_PAGES.includes(doc.pageName) ? `pageSeo-${doc.pageName}` : null,
-  },
-  legalDocuments: {
-    type: "legalDocument",
-    id: (doc) => `legalDocument-${doc.pageName}`,
-  },
-  StoriesPageHero: { type: "storiesHero", id: "singleton" },
-  StoriesPageCtaStrip: { type: "storiesCtaStrip", id: "singleton" },
-  ProposalType: { type: "storyType", id: "collection" },
-  individualStory: { type: "story", id: "collection" },
-  BlogPageHero: { type: "blogHero", id: "singleton" },
-  BlogPageCtaStrip: { type: "blogCtaStrip", id: "singleton" },
-  BlogCategory: { type: "blogCategory", id: "collection" },
-  FaqsPageHeroComponent: { type: "faqHero", id: "singleton" },
-  FaqsPageFaqContactStrip: { type: "faqContactStrip", id: "singleton" },
-  FaqsPageFaqs: { type: "faq", id: "collection" },
-  FaqsPageFaqsCategories: { type: "faqCategory", id: "collection" },
-  HowItWorksPageHero: { type: "howItWorksHero", id: "singleton" },
-  HowItWorksPageHowItWorksSteps: { type: "howItWorksSteps", id: "singleton" },
-  HowItWorksPageHowItWorksFAQ: { type: "howItWorksFaq", id: "singleton" },
-  HowItWorksPageHowItWorksFaqCategory: {
-    type: "howItWorksFaqCategory",
-    id: "collection",
-  },
-  HowItWorksPageHowItWorksCTA: { type: "howItWorksCta", id: "singleton" },
-};
-// The page is now the document ID, so the field has no schema anymore.
-const DROPPED_FIELDS = ["pageName"];
-
-const LEGACY_PROPOSAL_TYPES = [
-  "IndividualProposalPackage",
-  "ProposalPackages",
-  "ProposalPackageHeader",
-];
-const DEAD_TYPES = [
-  "HomePageBrandStatement",
-  "HomePageCTABanner",
-  "HomePageFeatureStory",
-  "HomePageFeatureStorySection",
-  "HomePageHowItWorks",
-  "HomePagePackageCategories",
-  "trustIndicators",
-  "ContactPageContent",
-];
+const languageDocumentId = (base, language) => `${base}-${language}`;
 
 const client = createClient({
   projectId,
@@ -210,39 +181,6 @@ function checkAgainstSchema(doc) {
   })(doc, "");
 }
 
-// --- References ---------------------------------------------------------------
-
-// [patch path, referenced ID] for every reference in a value. Array items are
-// addressed by _key when they have one, like the Studio does.
-function refPaths(value, path = "", out = []) {
-  if (Array.isArray(value))
-    value.forEach((item, i) =>
-      refPaths(
-        item,
-        `${path}[${item?._key ? `_key=="${item._key}"` : i}]`,
-        out,
-      ),
-    );
-  else if (value && typeof value === "object")
-    for (const [key, v] of Object.entries(value)) {
-      const p = path ? `${path}.${key}` : key;
-      if (key === "_ref" && typeof v === "string") out.push([p, v]);
-      else refPaths(v, p, out);
-    }
-  return out;
-}
-
-function rewriteRefs(value, idMap) {
-  if (Array.isArray(value)) return value.map((v) => rewriteRefs(v, idMap));
-  if (!value || typeof value !== "object") return value;
-  return Object.fromEntries(
-    Object.entries(value).map(([key, v]) => [
-      key,
-      key === "_ref" && idMap.has(v) ? idMap.get(v) : rewriteRefs(v, idMap),
-    ]),
-  );
-}
-
 const withoutSystemFields = (doc) => {
   const copy = { ...doc };
   for (const key of ["_rev", "_createdAt", "_updatedAt", "_system"])
@@ -250,249 +188,294 @@ const withoutSystemFields = (doc) => {
   return copy;
 };
 
-// --- Phase 1: Adventure to Yes -----------------------------------------------
+// --- Per-language documents -----------------------------------------------------
 
-async function adventurePhase() {
-  const legacy = await client.fetch(`*[_id == $id][0]`, { id: ADVENTURE_ID });
-  if (!legacy) {
-    const done = await exists([ADVENTURE_NEW_ID]);
-    if (!done.has(ADVENTURE_NEW_ID))
-      problems.push(`Neither ${ADVENTURE_ID} nor ${ADVENTURE_NEW_ID} exists`);
-    return step(1, "Adventure to Yes", [], ["legacy document already gone"]);
-  }
-  const maxOrder = await client.fetch(
-    `math::max(*[_type == "proposalExperience"].displayOrder)`,
+// Documents with one fixed ID that become one document per language.
+const SINGLE_SOURCES = [
+  ...CATALOG_SINGLETONS.map((id) => ({ id, type: id })),
+  ...PAGE_SECTIONS.map((id) => ({ id, type: id })),
+  ...SEO_PAGES.map((page) => ({ id: `pageSeo-${page}`, type: "pageSeo" })),
+  ...LEGAL_PAGES.map((page) => ({
+    id: `legalDocument-${page}`,
+    type: "legalDocument",
+  })),
+];
+// Collections whose two-language documents become one per language.
+const COLLECTION_TYPES = ["story", "faq"];
+// The languages the two-language documents hold.
+const SOURCE_LANGUAGES = ["en", "es"];
+// Fields shared by every language: kept on the English document only.
+const SHARED_FIELDS = {
+  experienceCatalogSettings: ["dinnerDepositAmount"],
+  catalogHome: [
+    "heroImage",
+    "proposalHeroImage",
+    "dinnerHeroImage",
+    "proposalSelectorImage",
+    "dinnerSelectorImage",
+    "featuredProposals",
+    "journeyImages",
+    "editorialImages",
+    "moments",
+  ],
+};
+// References that point at another per-language document: each language's
+// copy points at the same language's copy.
+const SAME_LANGUAGE_REFS = { storiesHero: ["featuredStory"] };
+
+const LOCALE_KEYS = new Set(["en", "es", "fr", "pt"]);
+// A field-level translation: { en, es, … } (with an optional _type).
+const isLocalized = (value) =>
+  value &&
+  typeof value === "object" &&
+  !Array.isArray(value) &&
+  Object.keys(value).some((k) => LOCALE_KEYS.has(k)) &&
+  Object.keys(value).every((k) => LOCALE_KEYS.has(k) || k === "_type");
+
+const compact = (object) =>
+  Object.fromEntries(
+    Object.entries(object).filter(([, v]) => v !== undefined && v !== null),
   );
-  const { proposal, addons, report } = mapLegacyProposal(
-    legacy,
-    (maxOrder ?? 0) + 1,
-    { active: false },
-  );
-  [...addons, proposal].forEach(checkAgainstSchema);
-  step(
-    1,
-    "Adventure to Yes → inactive proposalExperience",
-    [...addons, proposal].map((doc) => ({ createIfNotExists: doc })),
-    [
-      `${proposal._id}: ${report.styles} styles, ${report.photos} photos, ${report.addons} add-ons, active: false`,
-      ...report.notes,
-    ],
+
+// The two-language `seo` object becomes the single-language blogPostSeo.
+const seoInLanguage = (seo, language) => {
+  const meta = seo.meta?.[language] ?? {};
+  const og = seo.openGraph?.[language] ?? {};
+  return compact({
+    _type: "blogPostSeo",
+    meta: compact({
+      title: meta.title,
+      description: meta.description,
+      keywords: meta.keywords,
+    }),
+    openGraph: compact({ title: og.title, description: og.description }),
+    image: seo.openGraph?.image?.asset ? seo.openGraph.image : undefined,
+    structuredData: seo.structuredData?.[language],
+    noIndex: seo.noIndex,
+    noFollow: seo.noFollow,
+  });
+};
+
+// One language's version of a value: every { en, es } becomes its `language`
+// text, recursively.
+function inLanguage(value, language) {
+  if (Array.isArray(value)) return value.map((v) => inLanguage(v, language));
+  if (!value || typeof value !== "object") return value;
+  if (value._type === "seo") return seoInLanguage(value, language);
+  if (isLocalized(value)) return value[language];
+  return compact(
+    Object.fromEntries(
+      Object.entries(value).map(([k, v]) => [k, inLanguage(v, language)]),
+    ),
   );
 }
 
-// --- Phase 2: catalog documents ----------------------------------------------
+function languageCopy(source, language) {
+  const shared = SHARED_FIELDS[source._type] ?? [];
+  const body = withoutSystemFields(source);
+  for (const field of shared) delete body[field];
+  const copy = {
+    ...inLanguage(body, language),
+    _id: languageDocumentId(source._id, language),
+    _type: source._type,
+    language,
+  };
+  if (language === "en")
+    for (const field of shared)
+      if (source[field] !== undefined) copy[field] = source[field];
+  for (const field of SAME_LANGUAGE_REFS[source._type] ?? [])
+    if (copy[field]?._ref)
+      copy[field] = {
+        ...copy[field],
+        _ref: languageDocumentId(copy[field]._ref, language),
+      };
+  return copy;
+}
 
-async function catalogPhase() {
-  const hero = await client.fetch(`*[_id == $id][0].image`, {
-    id: LEGACY_HERO_ID,
+const translationMetadata = (source) => ({
+  _id: `translations-${source._id}`,
+  _type: "translation.metadata",
+  schemaTypes: [source._type],
+  translations: SOURCE_LANGUAGES.map((language) => ({
+    _key: language,
+    _type: "internationalizedArrayReferenceValue",
+    value: {
+      _type: "reference",
+      _ref: languageDocumentId(source._id, language),
+    },
+  })),
+});
+
+async function sourceDocuments() {
+  const singles = await client.fetch(`*[_id in $ids]`, {
+    ids: SINGLE_SOURCES.map((s) => s.id),
   });
-  const home = await client.fetch(`*[_id == "catalogHome"][0]{heroImage}`);
-  const mutations = CATALOG_SINGLETONS.map((id) => ({
-    createIfNotExists: { _id: id, _type: id },
+  const collections = await client.fetch(
+    `*[_type in $types && !defined(language) && !(_id in path("drafts.**"))]`,
+    { types: COLLECTION_TYPES },
+  );
+  const drafts = await client.fetch(
+    `*[_id in path("drafts.**") && (_id in $ids || (_type in $types && !defined(language)))]._id`,
+    {
+      ids: SINGLE_SOURCES.map((s) => `drafts.${s.id}`),
+      types: COLLECTION_TYPES,
+    },
+  );
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const missing = SINGLE_SOURCES.filter(
+    (s) => !singles.some((d) => d._id === s.id),
+  );
+  return { sources: [...singles, ...collections], missing };
+}
+
+async function splitPhase() {
+  const { sources, missing } = await sourceDocuments();
+  const copies = sources.flatMap((source) =>
+    SOURCE_LANGUAGES.map((language) => languageCopy(source, language)),
+  );
+  copies.forEach(checkAgainstSchema);
+  const metadata = sources.map(translationMetadata);
+  const existing = await exists([
+    ...copies.map((d) => d._id),
+    ...metadata.map((d) => d._id),
+  ]);
+  const toCreate = [...copies, ...metadata].filter((d) => !existing.has(d._id));
+
+  const categories = await client.fetch(
+    `*[_type == "faqCategory" && !defined(label)]{_id, labelEn, labelEs}`,
+  );
+  const labels = categories.map((c) => ({
+    patch: {
+      id: c._id,
+      setIfMissing: {
+        label: { _type: "localizedString", en: c.labelEn, es: c.labelEs },
+      },
+    },
   }));
-  const notes = [];
-  if (hero?.asset && !home?.heroImage?.asset) {
-    const heroImage = {
-      _type: "image",
-      asset: { _type: "reference", _ref: hero.asset._ref },
-      ...(hero.hotspot ? { hotspot: hero.hotspot } : {}),
-      ...(hero.crop ? { crop: hero.crop } : {}),
-      alt: { _type: "localizedString", en: hero.alt ?? "", es: hero.alt ?? "" },
-    };
-    checkAgainstSchema({ _id: "catalogHome", _type: "catalogHome", heroImage });
-    mutations.push({
-      patch: { id: "catalogHome", setIfMissing: { heroImage } },
-    });
-    notes.push(`catalogHome.heroImage ← ${hero.asset._ref}`);
-  } else notes.push("catalogHome.heroImage already set (or no legacy hero)");
-  step(2, "Catalog documents", mutations, notes);
-}
 
-// --- Phase 3: copy renamed types ---------------------------------------------
-
-async function renamePhase() {
-  const oldTypes = Object.keys(RENAMES);
-  const originals = await client.fetch(`*[_type in $types]`, {
-    types: oldTypes,
-  });
-  const unpublished = originals.filter((d) => d._id.includes("."));
-  for (const doc of unpublished)
-    problems.push(
-      `${doc._id} (${doc._type}) is a draft or version: publish or discard it first`,
-    );
-
-  const idMap = new Map();
-  const copies = [];
-  const notes = [];
-  for (const doc of originals.filter((d) => !d._id.includes("."))) {
-    const rename = RENAMES[doc._type];
-    const newId =
-      rename.id === "singleton"
-        ? rename.type
-        : rename.id === "collection"
-          ? `${rename.type}-${doc._id}`
-          : rename.id(doc);
-    if (!newId) {
-      notes.push(`${doc._id} (${doc._type} ${doc.pageName}) not copied`);
-      continue;
-    }
-    if ([...idMap.values()].includes(newId))
-      problems.push(`Two documents map to ${newId}`);
-    idMap.set(doc._id, newId);
-    copies.push({
-      ...withoutSystemFields(doc),
-      _id: newId,
-      _type: rename.type,
-    });
-  }
-
-  const existing = await client.fetch(`*[_id in $ids]{_id, _type}`, {
-    ids: [...idMap.values()],
-  });
-  for (const doc of existing) {
-    const copy = copies.find((c) => c._id === doc._id);
-    if (doc._type !== copy._type)
-      problems.push(`${doc._id} already exists as ${doc._type}`);
-  }
-  const existingIds = new Set(existing.map((d) => d._id));
-
-  const docsToCreate = copies
-    .filter((copy) => !existingIds.has(copy._id))
-    .map((copy) => {
-      const doc = rewriteRefs(copy, idMap);
-      for (const field of DROPPED_FIELDS) delete doc[field];
-      checkAgainstSchema(doc);
-      return doc;
-    });
-  if (existingIds.size)
-    notes.push(`${existingIds.size} copies already exist (left as they are)`);
-
-  // Documents that stay (blog posts and their drafts, mostly) but point at an
-  // original: point them at the copy instead.
-  const deleted = [...oldTypes, ...LEGACY_PROPOSAL_TYPES, ...DEAD_TYPES];
-  const referrers = await client.fetch(
-    `*[references($ids) && !(_type in $deleted)]`,
-    { ids: [...idMap.keys()], deleted },
-  );
-  const patches = referrers.flatMap((doc) => {
-    const set = Object.fromEntries(
-      refPaths(withoutSystemFields(doc))
-        .filter(([, ref]) => idMap.has(ref))
-        .map(([path, ref]) => [path, idMap.get(ref)]),
-    );
-    return Object.keys(set).length
-      ? [{ patch: { id: doc._id, ifRevisionID: doc._rev, set } }]
-      : [];
-  });
   const byType = {};
-  for (const doc of referrers) byType[doc._type] = (byType[doc._type] ?? 0) + 1;
-
+  for (const d of copies) byType[d._type] = (byType[d._type] ?? 0) + 1;
   step(
-    3,
-    "Copy renamed types and re-point references",
-    [...docsToCreate.map((doc) => ({ createIfNotExists: doc })), ...patches],
+    6,
+    "Split two-language documents into English and Spanish documents",
+    [...toCreate.map((doc) => ({ createIfNotExists: doc })), ...labels],
     [
-      `${docsToCreate.length} copies: ${Object.entries(
-        Object.groupBy(docsToCreate, (d) => d._type),
-      )
-        .map(([type, docs]) => `${type} ${docs.length}`)
-        .join(", ")}`,
-      `${patches.length} referencing documents re-pointed: ${Object.entries(
+      `${sources.length} two-language documents → ${copies.length} per-language documents (${Object.entries(
         byType,
       )
         .map(([type, n]) => `${type} ${n}`)
-        .join(", ")}`,
-      ...notes,
+        .join(", ")})`,
+      `${metadata.length} translation.metadata documents`,
+      `${existing.size} already exist (left as they are)`,
+      `${labels.length} FAQ categories get a localized label`,
+      ...missing.map((s) => `${s.id} doesn't exist (nothing to split)`),
     ],
   );
-  plan.idMap = Object.fromEntries(idMap);
 }
 
-// --- Phase 4: delete ---------------------------------------------------------
+// Originals whose language copies were later moved (phases 12 and 13: the
+// home and legal pages' SEO lives in their own documents).
+const MOVED_COPIES = {
+  "pageSeo-home": "catalogHome",
+  "pageSeo-contact": "catalogContact",
+  // Phase 15: How it works is one document per language.
+  howItWorksHero: "howItWorksPage",
+  howItWorksSteps: "howItWorksPage",
+  howItWorksFaq: "howItWorksPage",
+  howItWorksCta: "howItWorksPage",
+  "pageSeo-how-it-works": "howItWorksPage",
+  // Phase 16: the FAQ page is one document per language.
+  faqHero: "faqPage",
+  faqContactStrip: "faqPage",
+  "pageSeo-faq": "faqPage",
+  // Phase 17: the blog page's SEO lives in its blogPage documents.
+  "pageSeo-blog": "blogPage",
+  // Phase 18: the stories page is one document per language.
+  storiesHero: "storiesPage",
+  storiesCtaStrip: "storiesPage",
+  "pageSeo-stories": "storiesPage",
+  // Phase 19: the proposals page's SEO lives in its proposalsPage documents.
+  "pageSeo-proposals": "proposalsPage",
+  // Phase 20: the romantic dinners page's SEO lives in its own documents.
+  "pageSeo-romantic-dinners": "romanticDinnersPage",
+  // Phase 13: the legal pages' SEO lives in their legalDocument documents.
+  ...Object.fromEntries(
+    LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
+  ),
+};
 
-async function deletePhase() {
-  const ids = async (filter, params = {}) =>
-    client.fetch(`*[${filter}]._id`, params);
-  const groups = [];
+// Collections whose language copies were moved (phase 16: each FAQ question
+// is an item of its language's FAQ page).
+const MOVED_TYPES = { faq: "faqPage" };
 
-  const originals = await client.fetch(
-    `*[_type in $types]{_id, _type, pageName}`,
-    { types: Object.keys(RENAMES) },
+async function cleanupPhase() {
+  const { sources } = await sourceDocuments();
+  const expected = sources.flatMap((source) =>
+    SOURCE_LANGUAGES.map((language) =>
+      languageDocumentId(
+        MOVED_COPIES[source._id] ?? MOVED_TYPES[source._type] ?? source._id,
+        language,
+      ),
+    ),
   );
-  const expectedCopies = originals.flatMap((doc) => {
-    const rename = RENAMES[doc._type];
-    const base = doc._id.replace(/^(drafts|versions\.[^.]+)\./, "");
-    if (rename.id === "singleton") return [rename.type];
-    if (rename.id === "collection") return [`${rename.type}-${base}`];
-    const id = rename.id(doc);
-    return id ? [id] : [];
-  });
-  const present = await exists(expectedCopies);
-  const missing = expectedCopies.filter((id) => !present.has(id));
+  const present = await exists(expected);
+  const missing = expected.filter((id) => !present.has(id));
   if (missing.length)
-    problems.push(`Copies missing (run phase 3 first): ${missing.join(", ")}`);
-  groups.push(["Originals of renamed types", originals.map((d) => d._id)]);
+    problems.push(`Copies missing (run phase 6 first): ${missing.join(", ")}`);
 
-  const legacy = await ids(`_type in $types`, { types: LEGACY_PROPOSAL_TYPES });
-  if (legacy.includes(ADVENTURE_ID) && !(await exists([ADVENTURE_NEW_ID])).size)
-    problems.push(`${ADVENTURE_NEW_ID} missing (run phase 1 first)`);
-  groups.push(["Legacy proposal documents", legacy]);
-
-  groups.push([
-    "Dead old-home and contact documents",
-    await ids(`_type in $types`, { types: DEAD_TYPES }),
-  ]);
-
-  const heroSet = await client.fetch(
-    `defined(*[_id == "catalogHome"][0].heroImage.asset)`,
-  );
-  const legacyHero = await ids(`_type == "HomePageHero"`);
-  if (legacyHero.length && !heroSet)
-    problems.push("catalogHome.heroImage is empty (run phase 2 first)");
-  groups.push(["Legacy home hero", legacyHero]);
-
-  const all = groups.flatMap(([, list]) => list);
+  const ids = sources.map((s) => s._id);
   const blockers = await client.fetch(
     `*[references($ids) && !(_id in $ids)]{_id, _type}`,
-    { ids: all },
+    { ids },
   );
-  for (const [type, docs] of Object.entries(
-    Object.groupBy(blockers, (d) => d._type),
-  ))
-    problems.push(
-      `${docs.length} ${type} document(s) still reference a deleted document (run phase 3 first): ${docs
-        .slice(0, 5)
-        .map((d) => d._id)
-        .join(", ")}${docs.length > 5 ? ", …" : ""}`,
-    );
+  for (const doc of blockers)
+    problems.push(`${doc._id} (${doc._type}) still references an original`);
 
-  // One transaction: the groups reference each other (old FAQs → old
-  // categories, packages → package categories), so they go together.
+  // Phases 15 and 16 moved the question categories into the How it works
+  // and FAQ pages; the shared category documents go with the old questions.
+  const questionCategories = await client.fetch(
+    `*[_type in ["howItWorksFaqCategory", "faqCategory"]]._id`,
+  );
+  // Phase 17 copied the shared blog hero and closing banner into blogPage.
+  const blogSections = await client.fetch(
+    `*[_id in ["blogHero", "blogCtaStrip"]]._id`,
+  );
   step(
-    4,
-    "Delete originals and legacy documents",
-    all.map((id) => ({ delete: { id } })),
-    groups.map(([title, list]) => `${title}: ${list.length}`),
+    7,
+    "Delete the two-language originals",
+    [
+      ...ids.map((id) => ({ delete: { id } })),
+      ...questionCategories.map((id) => ({ delete: { id } })),
+      ...blogSections.map((id) => ({ delete: { id } })),
+    ],
+    [
+      `${ids.length} originals deleted`,
+      `${questionCategories.length} question categories deleted (How it works and FAQ)`,
+      `${blogSections.length} shared blog sections deleted (hero, closing banner)`,
+    ],
   );
 }
 
-// --- Phase 5: fill the catalog documents -------------------------------------
+// --- French and Portuguese ---------------------------------------------------------
 
-// Catalog Settings texts the site never shows: left empty for the field
-// cleanup, so the Studio doesn't offer text that changes nothing.
-const UNUSED_SETTINGS = [
-  "addonsLabel",
-  "beverages",
-  "hotel",
-  "desiredDate",
-  "notes",
-  "proposalSectionDescription",
-  "dinnerSectionDescription",
-];
+const TARGET_LANGUAGES = ["fr", "pt"];
+const TRANSLATIONS = "work/translations/out";
+const readTranslations = (names) =>
+  Object.assign(
+    {},
+    ...names.map((name) => {
+      const file = `${TRANSLATIONS}/${name}.json`;
+      if (!existsSync(file)) {
+        problems.push(`Missing ${file}`);
+        return {};
+      }
+      return JSON.parse(readFileSync(file, "utf8"));
+    }),
+  );
 
-// The site's default texts, compiled from the TypeScript files it uses (like
-// scripts/run-tests.cjs), so the values can't drift from what visitors see.
-// `ui` already includes the introduction and dinner policy texts.
+// The site's default texts, compiled from the TypeScript files it uses, so
+// the catalog settings and home documents match the code's fallbacks.
 function siteDefaults() {
   const out = "work/catalog-defaults";
   rmSync(out, { recursive: true, force: true });
@@ -502,6 +485,7 @@ function siteDefaults() {
       "node_modules/typescript/bin/tsc",
       "src/lib/experience/labels.ts",
       "src/lib/experience/homeCopy.ts",
+      "src/lib/experience/catalogPages.ts",
       "--outDir",
       out,
       "--rootDir",
@@ -519,268 +503,1087 @@ function siteDefaults() {
   return {
     ui: load(resolve(out, "lib/experience/labels.js")).ui,
     homeCopy: load(resolve(out, "lib/experience/homeCopy.js")).homeCopy,
+    catalogPages: load(resolve(out, "lib/experience/catalogPages.js")),
   };
 }
 
-// Same order as normalizeExperience(): by displayOrder, stable.
-const byOrder = (items) =>
-  [...(items ?? [])]
-    .filter(Boolean)
-    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
-const activeByOrder = (items) =>
-  byOrder(items).filter((x) => x.active === true);
-const hasPhoto = (image) => Boolean(image?.asset?._ref);
+// Path segments like `body[_key=="a1"].children[_key=="b2"].text` or `steps[0]`.
+const segments = (path) =>
+  path.split(/\.(?![^[]*\])/).flatMap((part) => {
+    const m = part.match(/^([^[]+)((?:\[[^\]]+\])*)$/);
+    const keys = [...(m?.[2] ?? "").matchAll(/\[([^\]]+)\]/g)].map((x) => x[1]);
+    return [m ? m[1] : part, ...keys.map((k) => ({ selector: k }))];
+  });
 
-const photo = (image, key, type = "image") => ({
-  ...(key ? { _key: key } : {}),
-  _type: type,
-  asset: { _type: "reference", _ref: image.asset._ref },
-  ...(image.hotspot ? { hotspot: image.hotspot } : {}),
-  ...(image.crop ? { crop: image.crop } : {}),
-  ...(image.alt ? { alt: image.alt } : {}),
-});
-// Items of the catalogHome photo lists are named "photo" in the schema.
-const photoList = (images, prefix) =>
-  images.map((image, i) => photo(image, `${prefix}-${i}`, "photo"));
+function setAtPath(target, path, value) {
+  let node = target;
+  const parts = segments(path);
+  parts.forEach((part, i) => {
+    const last = i === parts.length - 1;
+    let next;
+    if (typeof part === "string") {
+      if (last) return (node[part] = value);
+      next = node?.[part];
+    } else {
+      const key = part.selector.match(/^_key=="(.+)"$/)?.[1];
+      const index = key
+        ? node?.findIndex?.((item) => item?._key === key)
+        : Number(part.selector);
+      if (last) return (node[index] = value);
+      next = node?.[index];
+    }
+    if (next === undefined) throw Error(`No ${path} to translate`);
+    node = next;
+  });
+}
 
-const text = (type, { en, es }) => ({ _type: type, en, es });
-const attributeType = (type, name) =>
-  schemaTypes.get(type).attributes[name]?.value?.name;
-const isBlank = (value) =>
-  value === undefined ||
-  value === null ||
-  (Array.isArray(value) && !value.length) ||
-  (typeof value === "object" &&
-    !Array.isArray(value) &&
-    !Object.keys(value).some((k) => !k.startsWith("_")));
+const DEFAULT_BUILT = new Set(["experienceCatalogSettings", "catalogHome"]);
 
-// Fills each blank field of one document (creating it if missing) in one
-// transaction, and checks the result against the schema.
-function fillStep(current, id, type, values, label) {
-  const missing = Object.entries(values).filter(
-    ([path, value]) =>
-      value !== undefined &&
-      isBlank(path.split(".").reduce((v, k) => v?.[k], current)),
-  );
-  const fill = Object.fromEntries(missing);
-  const merged = structuredClone(current ?? { _id: id, _type: type });
-  for (const [path, value] of missing) {
-    const keys = path.split(".");
-    const last = keys.pop();
-    keys.reduce((v, k) => (v[k] ??= {}), merged)[last] = value;
+function translatedCopy(english, language, text, defaults) {
+  const base = english._id.replace(/-en$/, "");
+  const copy = structuredClone(withoutSystemFields(english));
+  for (const field of SHARED_FIELDS[english._type] ?? []) delete copy[field];
+  if (english._type === "experienceCatalogSettings") {
+    for (const key of Object.keys(copy))
+      if (
+        typeof copy[key] === "string" &&
+        !key.startsWith("_") &&
+        key !== "language"
+      ) {
+        const value = defaults.ui[key]?.[language];
+        if (value) copy[key] = value;
+        else problems.push(`No ${language} default for setting ${key}`);
+      }
+  } else if (english._type === "catalogHome") {
+    // Home texts are top-level fields (phase 10); older documents still
+    // hold them in a `copy` object.
+    const texts = copy.copy ?? copy;
+    for (const key of Object.keys(defaults.homeCopy))
+      if (typeof texts[key] === "string") {
+        const value = defaults.homeCopy[key][language];
+        if (value) texts[key] = value;
+        else problems.push(`No ${language} default for home text ${key}`);
+      }
+  } else {
+    for (const [path, value] of Object.entries(text ?? {}))
+      try {
+        setAtPath(copy, path, value[language]);
+      } catch (error) {
+        problems.push(`${base}: ${error.message}`);
+      }
   }
-  checkAgainstSchema(merged);
-  const photos = missing
-    .filter(([, v]) => v?._type === "image" || v?.[0]?._type === "image")
-    .map(
-      ([path, v]) =>
-        `${path}: ${[v]
-          .flat()
-          .map((i) => i.asset._ref.split("-")[1].slice(0, 8))
-          .join(", ")}`,
-    );
-  step(
-    5,
-    `Fill ${label}`,
-    missing.length
+  copy._id = languageDocumentId(base, language);
+  copy.language = language;
+  for (const field of SAME_LANGUAGE_REFS[english._type] ?? [])
+    if (copy[field]?._ref)
+      copy[field] = {
+        ...copy[field],
+        _ref: copy[field]._ref.replace(/-en$/, `-${language}`),
+      };
+  return copy;
+}
+
+async function translationPhase() {
+  const documents = readTranslations(["pages", "stories", "legal"]);
+  const fields = readTranslations(["packages-a", "packages-b"]);
+  const defaults = siteDefaults();
+  const types = [
+    ...new Set(SINGLE_SOURCES.map((s) => s.type)),
+    ...COLLECTION_TYPES,
+  ];
+  const english = await client.fetch(
+    `*[_type in $types && language == "en" && !(_id in path("drafts.**"))]`,
+    { types },
+  );
+  const copies = [];
+  for (const doc of english) {
+    const base = doc._id.replace(/-en$/, "");
+    const text = documents[base]?.text;
+    if (!text && !DEFAULT_BUILT.has(doc._type)) {
+      // Documents without visitor-facing text (none expected) are skipped.
+      problems.push(`${base}: no translation in ${TRANSLATIONS}`);
+      continue;
+    }
+    for (const language of TARGET_LANGUAGES)
+      copies.push(translatedCopy(doc, language, text, defaults));
+  }
+  copies.forEach(checkAgainstSchema);
+  const existing = await exists(copies.map((d) => d._id));
+  const toCreate = copies.filter((d) => !existing.has(d._id));
+
+  // Link the new languages in each document's translation metadata.
+  const metadata = await client.fetch(
+    `*[_type == "translation.metadata" && _id in $ids]{_id, "languages": translations[]._key}`,
+    { ids: english.map((d) => `translations-${d._id.replace(/-en$/, "")}`) },
+  );
+  const links = metadata.flatMap(({ _id, languages }) => {
+    const base = _id.replace(/^translations-/, "");
+    const missing = TARGET_LANGUAGES.filter((l) => !languages?.includes(l));
+    return missing.length
       ? [
-          { createIfNotExists: { _id: id, _type: type } },
-          // Parents first (e.g. copy, seo), so nested fields have a place.
-          ...[...new Set(missing.map(([p]) => p.split(".")[0]))]
-            .filter((top) => missing.some(([p]) => p.startsWith(`${top}.`)))
-            .map((top) => ({ patch: { id, setIfMissing: { [top]: {} } } })),
-          { patch: { id, setIfMissing: fill } },
+          {
+            patch: {
+              id: _id,
+              insert: {
+                after: "translations[-1]",
+                items: missing.map((language) => ({
+                  _key: language,
+                  _type: "internationalizedArrayReferenceValue",
+                  value: {
+                    _type: "reference",
+                    _ref: languageDocumentId(base, language),
+                  },
+                })),
+              },
+            },
+          },
         ]
-      : [],
-    [`${missing.length} blank field(s) filled`, ...photos],
+      : [];
+  });
+
+  // fr/pt text of shared documents, only where it's still blank.
+  const sharedIds = Object.keys(fields);
+  const present = await exists(sharedIds);
+  const fills = sharedIds
+    .filter((id) => present.has(id))
+    .map((id) => ({
+      patch: {
+        id,
+        setIfMissing: Object.fromEntries(
+          Object.entries(fields[id].text).flatMap(([path, value]) =>
+            TARGET_LANGUAGES.map((language) => [
+              `${path}.${language}`,
+              value[language],
+            ]),
+          ),
+        ),
+      },
+    }));
+  for (const id of sharedIds.filter((id) => !present.has(id)))
+    problems.push(`${id}: shared document not found`);
+
+  step(
+    8,
+    "Create the French and Portuguese page documents",
+    toCreate.map((doc) => ({ createIfNotExists: doc })),
+    [`${copies.length} documents (${existing.size} already exist)`],
+  );
+  step(8, "Link them in the translation metadata", links, [
+    `${links.length} metadata documents gain fr/pt`,
+  ]);
+  // SEO keywords: copied from English by the first run; translated here
+  // only while a document still holds the untouched English list.
+  const keywords = readTranslations(["keywords"]);
+  const seoDocs = await client.fetch(
+    `*[_type in ["pageSeo", "story"] && language in $languages
+       && !(_id in path("drafts.**"))]{
+       _id, _rev, language, "keywords": seo.meta.keywords,
+       "english": *[_id == string::split(^._id, "-" + ^.language)[0] + "-en"][0].seo.meta.keywords
+     }`,
+    { languages: TARGET_LANGUAGES },
+  );
+  const keywordPatches = seoDocs
+    .filter(
+      (d) =>
+        d.keywords?.length &&
+        JSON.stringify(d.keywords) === JSON.stringify(d.english),
+    )
+    .map((d) => ({
+      patch: {
+        id: d._id,
+        ifRevisionID: d._rev,
+        set: {
+          "seo.meta.keywords": d.keywords.map((k) =>
+            k === null ? k : (keywords[k]?.[d.language] ?? k),
+          ),
+        },
+      },
+    }));
+  for (const d of seoDocs)
+    for (const k of d.keywords ?? [])
+      if (k !== null && !keywords[k])
+        problems.push(`No keyword translation for "${k}" (${d._id})`);
+  step(8, "Translate SEO keywords", keywordPatches, [
+    `${keywordPatches.length} documents still had the English keywords`,
+  ]);
+  step(8, "Fill French and Portuguese text on shared documents", fills, [
+    `${fills.length} documents, ${fills.reduce((n, f) => n + Object.keys(f.patch.setIfMissing).length, 0)} fields (only blank ones are written)`,
+  ]);
+}
+
+// --- Content fixes -------------------------------------------------------------
+
+function getAtPath(target, path) {
+  let node = target;
+  for (const part of segments(path)) {
+    if (node === undefined || node === null) return undefined;
+    if (typeof part === "string") node = node[part];
+    else {
+      const key = part.selector.match(/^_key=="(.+)"$/)?.[1];
+      node = key
+        ? node.find?.((item) => item?._key === key)
+        : node[Number(part.selector)];
+    }
+  }
+  return node;
+}
+
+async function contentFixPhase() {
+  const fixes = readTranslations(["content-fixes"]);
+  const list = Array.isArray(fixes) ? fixes : Object.values(fixes);
+  const ids = [...new Set(list.map((f) => f.id))];
+  const docs = Object.fromEntries(
+    (await client.fetch(`*[_id in $ids]`, { ids })).map((d) => [d._id, d]),
+  );
+  const same = (a, b) =>
+    JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+  const sets = {};
+  const notes = { applied: 0, done: 0, changed: [], missing: new Set() };
+  for (const fix of list) {
+    const doc = docs[fix.id];
+    if (!doc) {
+      notes.missing.add(fix.id);
+      continue;
+    }
+    const current = getAtPath(doc, fix.path);
+    if (same(current, fix.to)) notes.done++;
+    else if (same(current, fix.from)) {
+      (sets[fix.id] ??= {})[fix.path] = fix.to;
+      notes.applied++;
+    } else notes.changed.push(`${fix.id} ${fix.path}`);
+  }
+  step(
+    9,
+    "Content fixes",
+    Object.entries(sets).map(([id, set]) => ({
+      patch: { id, ifRevisionID: docs[id]._rev, set },
+    })),
+    [
+      `${notes.applied} field(s) fixed, ${notes.done} already fixed`,
+      ...(notes.changed.length
+        ? [`left alone (edited since): ${notes.changed.join(", ")}`]
+        : []),
+      ...(notes.missing.size
+        ? [`documents not found: ${[...notes.missing].join(", ")}`]
+        : []),
+    ],
   );
 }
 
-async function fillPhase() {
-  const { ui, homeCopy } = siteDefaults();
-  const ids = [
-    ...CATALOG_SINGLETONS,
-    "pageSeo-proposals",
-    "pageSeo-romantic-dinners",
-  ];
+// --- Home texts as top-level fields ------------------------------------------
+
+async function flattenHomePhase() {
+  const ids = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES].map((language) =>
+    languageDocumentId("catalogHome", language),
+  );
   const drafts = await client.fetch(`*[_id in $ids]._id`, {
-    ids: ids.flatMap((id) => [`drafts.${id}`]),
+    ids: ids.map((id) => `drafts.${id}`),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = await client.fetch(`*[_id in $ids && defined(copy)]`, { ids });
+  const patches = docs.map((doc) => {
+    const set = Object.fromEntries(
+      Object.entries(doc.copy).filter(
+        ([key, value]) =>
+          !key.startsWith("_") && doc[key] === undefined && value,
+      ),
+    );
+    const flattened = { ...withoutSystemFields(doc), ...set };
+    delete flattened.copy;
+    checkAgainstSchema(flattened);
+    return {
+      patch: { id: doc._id, ifRevisionID: doc._rev, set, unset: ["copy"] },
+    };
+  });
+  step(10, "Move the home page texts to top-level fields", patches, [
+    `${patches.length} home documents (${ids.length - patches.length} already done)`,
+  ]);
+}
+
+// --- Home photos per language ---------------------------------------------------
+
+const HOME_PHOTO_FIELDS = [
+  "heroImage",
+  "proposalHeroImage",
+  "dinnerHeroImage",
+  "proposalSelectorImage",
+  "dinnerSelectorImage",
+];
+const HOME_PHOTO_LISTS = ["journeyImages", "editorialImages", "moments"];
+
+// One photo with its alt text in `language` (from the four-language alt).
+const photoInLanguage = (photo, language) => {
+  if (!photo) return photo;
+  const alt = photo.alt;
+  const text =
+    typeof alt === "string" ? alt : (alt?.[language] ?? alt?.en ?? undefined);
+  const copy = { ...photo };
+  delete copy.alt;
+  return text ? { ...copy, alt: text } : copy;
+};
+
+async function homePhotosPhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const ids = languages.map((l) => languageDocumentId("catalogHome", l));
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: ids.map((id) => `drafts.${id}`),
   });
   for (const id of drafts)
     problems.push(`${id} exists: publish or discard it in the Studio first`);
   const docs = Object.fromEntries(
     (await client.fetch(`*[_id in $ids]`, { ids })).map((d) => [d._id, d]),
   );
-
-  // Catalog Settings: every text field the site shows, plus the deposit.
-  const settingsFields = Object.keys(
-    schemaTypes.get("experienceCatalogSettings").attributes,
-  ).filter((k) => !k.startsWith("_") && ui[k] && !UNUSED_SETTINGS.includes(k));
-  fillStep(
-    docs.experienceCatalogSettings,
-    "experienceCatalogSettings",
-    "experienceCatalogSettings",
-    {
-      dinnerDepositAmount: 200,
-      ...Object.fromEntries(
-        settingsFields.map((k) => [
-          k,
-          text(attributeType("experienceCatalogSettings", k), ui[k]),
-        ]),
-      ),
-    },
-    "Catalog Settings",
-  );
-
-  // Catalog Home: the texts, and the proposals and photos the site picks
-  // when these fields are empty (ExperienceHome.tsx, Catalog.tsx).
-  const home = docs.catalogHome;
-  const featuredIds = home?.featuredProposals?.length
-    ? home.featuredProposals.map((r) => r._ref)
-    : await client.fetch(
-        `*[_type == "proposalExperience" && active == true
-           && slug.current in $slugs] | order(name.en asc)[0...3]._id`,
-        { slugs: FEATURED_FALLBACK_SLUGS },
-      );
-  const featuredDocs = await client.fetch(
-    `*[_id in $ids && active == true]{_id, styles, gallery}`,
-    { ids: featuredIds },
-  );
-  const featured = featuredIds
-    .map((id) => featuredDocs.find((d) => d._id === id))
-    .filter(Boolean);
-  const catalog = await client.fetch(
-    `*[_type in ["proposalExperience", "romanticDinnerExperience"]
-       && active == true] | order(displayOrder asc, _id asc)
-       {_type, "slug": slug.current, gallery}`,
-  );
-  const dinner = await client.fetch(`*[_id == $id][0]{styles, gallery}`, {
-    id: DINNER_TEMPLATE_ID,
-  });
-  const dinnerStyles = byOrder(dinner?.styles);
-  const firstPhoto = (e) => byOrder(e?.gallery)[0]?.image;
-
-  const proposalSelector =
-    activeByOrder(featured[0]?.styles)[0]?.mainImage ?? firstPhoto(featured[0]);
-  const dinnerSelector = dinnerStyles[0]?.mainImage ?? firstPhoto(dinner);
-  const proposalHero =
-    firstPhoto(
-      catalog.find(
-        (e) =>
-          e._type === "proposalExperience" && e.slug === PROPOSALS_HERO_SLUG,
-      ),
-    ) ?? firstPhoto(catalog.find((e) => e._type === "proposalExperience"));
-  const activeDinner = catalog.find(
-    (e) => e._type === "romanticDinnerExperience",
-  );
-  const dinnerHero = activeDinner
-    ? firstPhoto(activeDinner)
-    : (dinnerStyles[1]?.mainImage ?? firstPhoto(dinner));
-  const moments = home?.moments?.length
-    ? home.moments
-    : featured
-        .flatMap((e) => byOrder(e.gallery).map((p) => p.image))
-        .filter(hasPhoto)
-        .filter(
-          (p, i, all) =>
-            all.findIndex((q) => q.asset._ref === p.asset._ref) === i,
-        )
-        .slice(0, 8);
-  const picked = {
-    proposalSelectorImage: proposalSelector,
-    dinnerSelectorImage: dinnerSelector,
-    proposalHeroImage: proposalHero,
-    dinnerHeroImage: dinnerHero,
-  };
-  for (const [name, image] of Object.entries(picked))
-    if (!hasPhoto(image)) problems.push(`No photo found for ${name}`);
-  if (featured.length !== 3)
-    problems.push(`Expected 3 featured proposals, found ${featured.length}`);
-
-  // Repair list items written with the wrong _type (an earlier phase 5 run
-  // wrote "image" instead of "photo"; the Studio can't show those items).
-  const retype = Object.entries(arrayItemTypes("catalogHome")).flatMap(
-    ([key, item]) =>
-      (home?.[key] ?? [])
-        .filter((member) => member._type !== item)
-        .map((member) => [`${key}[_key=="${member._key}"]._type`, item]),
-  );
-  step(
-    5,
-    "Repair Catalog Home photo list items",
-    retype.length
-      ? [{ patch: { id: "catalogHome", set: Object.fromEntries(retype) } }]
-      : [],
-    [`${retype.length} item(s) retyped`],
-  );
-  if (home)
-    for (const [path, item] of retype) {
-      const [, key, itemKey] = path.match(/^(\w+)\[_key=="([^"]+)"\]/);
-      home[key].find((m) => m._key === itemKey)._type = item;
+  const english = docs[languageDocumentId("catalogHome", "en")];
+  if (!english) return problems.push("catalogHome-en not found");
+  // Still in the old shape: a photo whose alt is an object of languages.
+  const multilingual = (value) =>
+    [value].flat().some((p) => p?.alt && typeof p.alt === "object");
+  const patches = [];
+  for (const language of languages) {
+    const doc = docs[languageDocumentId("catalogHome", language)];
+    if (!doc) continue;
+    const set = {};
+    for (const field of [...HOME_PHOTO_FIELDS, ...HOME_PHOTO_LISTS]) {
+      const source = english[field];
+      if (source === undefined) continue;
+      if (doc[field] !== undefined && !multilingual(doc[field])) continue;
+      set[field] = Array.isArray(source)
+        ? source.map((p) => photoInLanguage(p, language))
+        : photoInLanguage(source, language);
     }
+    if (!Object.keys(set).length) continue;
+    checkAgainstSchema({ ...withoutSystemFields(doc), ...set });
+    patches.push({ patch: { id: doc._id, ifRevisionID: doc._rev, set } });
+  }
+  step(11, "Give every language's home page its own photos", patches, [
+    `${patches.length} home documents updated (${Object.keys(docs).length - patches.length} already done)`,
+  ]);
+}
 
-  fillStep(
-    home,
-    "catalogHome",
-    "catalogHome",
-    {
-      ...Object.fromEntries(
-        Object.entries(picked)
-          .filter(([, image]) => hasPhoto(image))
-          .map(([name, image]) => [name, photo(image)]),
-      ),
-      ...Object.fromEntries(
-        Object.entries(homeCopy).map(([k, value]) => [
-          `copy.${k}`,
-          text("localizedText", value),
-        ]),
-      ),
-      featuredProposals: featured.map((e) => ({
-        _key: e._id,
-        _type: "reference",
-        _ref: e._id,
-      })),
-      moments: photoList(moments, "moment"),
-      editorialImages: photoList(moments.slice(0, 3), "editorial"),
-    },
-    "Catalog Home",
+// --- Home SEO inside the home document ------------------------------------------
+
+// Moves a page's SEO from its pageSeo-<page>-<lang> documents into the seo
+// field of the page's own document (<targetBase>-<lang>), then deletes the
+// pageSeo documents and their translation metadata.
+async function moveSeoIntoDocument(phase, page, targetBase) {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const targetIds = languages.map((l) => languageDocumentId(targetBase, l));
+  const seoIds = languages.map((l) => languageDocumentId(`pageSeo-${page}`, l));
+  const metadataId = `translations-pageSeo-${page}`;
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: [...targetIds, ...seoIds].map((id) => `drafts.${id}`),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [...targetIds, ...seoIds, metadataId],
+      })
+    ).map((d) => [d._id, d]),
   );
-
-  // Catalog Contact: the heading the page falls back to.
-  fillStep(
-    docs.catalogContact,
-    "catalogContact",
-    "catalogContact",
-    { heading: text("localizedText", ui.contactUsLabel) },
-    "Catalog Contact",
+  const mutations = [];
+  for (const language of languages) {
+    const target = docs[languageDocumentId(targetBase, language)];
+    const source = docs[languageDocumentId(`pageSeo-${page}`, language)];
+    if (!target) {
+      problems.push(`${languageDocumentId(targetBase, language)} not found`);
+      continue;
+    }
+    if (!target.seo && !source?.seo)
+      problems.push(`No SEO found for ${page} in ${language}`);
+    if (!target.seo && source?.seo) {
+      checkAgainstSchema({ ...withoutSystemFields(target), seo: source.seo });
+      mutations.push({
+        patch: { id: target._id, setIfMissing: { seo: source.seo } },
+      });
+    }
+  }
+  // The metadata references the SEO documents, so it goes first.
+  if (docs[metadataId]) mutations.push({ delete: { id: metadataId } });
+  for (const id of seoIds) if (docs[id]) mutations.push({ delete: { id } });
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids) && _id != $metadataId]._id`,
+    { ids: seoIds, metadataId },
   );
+  for (const id of blockers)
+    problems.push(`${id} still references an SEO document of ${page}`);
+  step(phase, `Move the ${page} SEO into its document`, mutations, [
+    `${mutations.filter((m) => m.patch).length} documents get their SEO`,
+    `${mutations.filter((m) => m.delete).length} documents deleted (SEO and its translation metadata)`,
+  ]);
+}
 
-  // SEO titles of the two listing pages (the titles they use today).
-  for (const [page, key] of [
-    ["proposals", "proposalSectionTitle"],
-    ["romantic-dinners", "dinnerSectionTitle"],
-  ])
-    fillStep(
-      docs[`pageSeo-${page}`],
-      `pageSeo-${page}`,
-      "pageSeo",
-      {
-        seo: {
-          _type: "seo",
-          meta: { en: { title: ui[key].en }, es: { title: ui[key].es } },
-        },
+// --- How it works as one document --------------------------------------------
+
+const HOW_IT_WORKS_SECTIONS = {
+  hero: "howItWorksHero",
+  steps: "howItWorksSteps",
+  faq: "howItWorksFaq",
+  cta: "howItWorksCta",
+};
+
+async function howItWorksPhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const sectionIds = Object.values(HOW_IT_WORKS_SECTIONS).flatMap((type) =>
+    languages.map((l) => languageDocumentId(type, l)),
+  );
+  const seoIds = languages.map((l) =>
+    languageDocumentId("pageSeo-how-it-works", l),
+  );
+  const pageIds = languages.map((l) => languageDocumentId("howItWorksPage", l));
+  const metadataIds = [
+    ...Object.values(HOW_IT_WORKS_SECTIONS).map(
+      (type) => `translations-${type}`,
+    ),
+    "translations-pageSeo-how-it-works",
+  ];
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: [...sectionIds, ...seoIds, ...pageIds].map((id) => `drafts.${id}`),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          ...sectionIds,
+          ...seoIds,
+          ...pageIds,
+          ...metadataIds,
+          "translations-howItWorksPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+  // Today's filter order: the site listed the category documents by _id.
+  const categories = await client.fetch(
+    `*[_type == "howItWorksFaqCategory" && !(_id in path("drafts.**"))]
+       | order(_id asc){_id, name}`,
+  );
+  const categoryKey = (id) =>
+    id.replace(/^howItWorksFaqCategory-/, "").replace(/[^A-Za-z0-9_-]/g, "");
+  const sectionOf = (doc) => {
+    const body = withoutSystemFields(doc);
+    for (const key of ["_id", "_type", "language"]) delete body[key];
+    return body;
+  };
+
+  const creates = [];
+  for (const language of languages) {
+    const id = languageDocumentId("howItWorksPage", language);
+    if (docs[id]) continue;
+    const page = { _id: id, _type: "howItWorksPage", language };
+    for (const [field, type] of Object.entries(HOW_IT_WORKS_SECTIONS)) {
+      const doc = docs[languageDocumentId(type, language)];
+      if (!doc)
+        problems.push(`${languageDocumentId(type, language)} not found`);
+      else page[field] = sectionOf(doc);
+    }
+    if (page.faq) {
+      page.faq.categories = categories.map((c) => ({
+        _key: categoryKey(c._id),
+        _type: "questionCategory",
+        name: c.name?.[language] ?? c.name?.en,
+      }));
+      page.faq.faqs = (page.faq.faqs ?? []).map((item) => {
+        const ref = item.category?._ref;
+        if (!categories.some((c) => c._id === ref))
+          problems.push(`${id}: question "${item.question}" has no category`);
+        return { ...item, category: ref ? categoryKey(ref) : undefined };
+      });
+    }
+    const seo = docs[languageDocumentId("pageSeo-how-it-works", language)];
+    if (seo?.seo) page.seo = seo.seo;
+    else problems.push(`No How it works SEO in ${language}`);
+    checkAgainstSchema(page);
+    creates.push({ createIfNotExists: page });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-howItWorksPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-howItWorksPage",
+        _type: "translation.metadata",
+        schemaTypes: ["howItWorksPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("howItWorksPage", language),
+          },
+        })),
       },
-      `SEO: ${page}`,
+    });
+  // Metadata first: it references the documents deleted after it.
+  const deletes = [...metadataIds, ...sectionIds, ...seoIds].filter(
+    (id) => docs[id],
+  );
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced How it works document`);
+  step(15, "Make How it works one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist), ${categories.length} question categories each`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
+// --- FAQ as one document ----------------------------------------------------
+
+const FAQ_SECTIONS = { hero: "faqHero", contactStrip: "faqContactStrip" };
+
+async function faqPhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const sectionIds = Object.values(FAQ_SECTIONS).flatMap((type) =>
+    languages.map((l) => languageDocumentId(type, l)),
+  );
+  const seoIds = languages.map((l) => languageDocumentId("pageSeo-faq", l));
+  const pageIds = languages.map((l) => languageDocumentId("faqPage", l));
+  // Today's order: the site listed questions and categories by _id.
+  const questions = await client.fetch(
+    `*[_type == "faq" && defined(language) && !(_id in path("drafts.**"))]
+       | order(_id asc)`,
+  );
+  const questionMetadataIds = await client.fetch(
+    `*[_type == "translation.metadata" && "faq" in schemaTypes]._id`,
+  );
+  const metadataIds = [
+    ...questionMetadataIds,
+    ...Object.values(FAQ_SECTIONS).map((type) => `translations-${type}`),
+    "translations-pageSeo-faq",
+  ];
+  const drafts = await client.fetch(
+    `*[_id in $ids || (_id in path("drafts.**") && _type in ["faq", "faqCategory"])]._id`,
+    {
+      ids: [...sectionIds, ...seoIds, ...pageIds].map((id) => `drafts.${id}`),
+    },
+  );
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          ...sectionIds,
+          ...seoIds,
+          ...pageIds,
+          ...metadataIds,
+          "translations-faqPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+  const categories = await client.fetch(
+    `*[_type == "faqCategory" && !(_id in path("drafts.**"))]
+       | order(_id asc){_id, value, label}`,
+  );
+  const sectionOf = (doc) => {
+    const body = withoutSystemFields(doc);
+    for (const key of ["_id", "_type", "language"]) delete body[key];
+    return body;
+  };
+
+  const creates = [];
+  for (const language of languages) {
+    const id = languageDocumentId("faqPage", language);
+    if (docs[id]) continue;
+    const page = { _id: id, _type: "faqPage", language };
+    for (const [field, type] of Object.entries(FAQ_SECTIONS)) {
+      const doc = docs[languageDocumentId(type, language)];
+      if (!doc)
+        problems.push(`${languageDocumentId(type, language)} not found`);
+      else page[field] = sectionOf(doc);
+    }
+    page.faq = {
+      categories: categories.map((c) => ({
+        _key: c.value,
+        _type: "questionCategory",
+        name: c.label?.[language] ?? c.label?.en,
+      })),
+      faqs: questions
+        .filter((q) => q.language === language)
+        .map((q) => {
+          const category = categories.find((c) => c._id === q.category?._ref);
+          if (!category)
+            problems.push(`${q._id}: question "${q.question}" has no category`);
+          return {
+            _key: q._id.replace(/^faq-/, "").slice(0, -`-${language}`.length),
+            _type: "faq",
+            category: category?.value,
+            question: q.question,
+            answer: q.answer,
+          };
+        }),
+    };
+    const seo = docs[languageDocumentId("pageSeo-faq", language)];
+    if (seo?.seo) page.seo = seo.seo;
+    else problems.push(`No FAQ SEO in ${language}`);
+    checkAgainstSchema(page);
+    creates.push({ createIfNotExists: page });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-faqPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-faqPage",
+        _type: "translation.metadata",
+        schemaTypes: ["faqPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("faqPage", language),
+          },
+        })),
+      },
+    });
+  // Metadata first: it references the documents deleted after it.
+  const deletes = [
+    ...metadataIds.filter((id) => docs[id]),
+    ...[...sectionIds, ...seoIds].filter((id) => docs[id]),
+    ...questions.map((q) => q._id),
+  ];
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced FAQ document`);
+  step(16, "Make the FAQ page one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist), ${categories.length} question categories each, ${questions.length / languages.length} questions each`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
+// --- Blog page as one document per language --------------------------------
+
+// The blog hero's and closing banner's text fields (one value per language).
+const BLOG_HERO_TEXT = [
+  "eyebrow",
+  "headingLine1",
+  "headingLine2",
+  "subheading",
+];
+const BLOG_CTA_TEXT = [
+  "eyebrow",
+  "heading",
+  "headingAccent",
+  "subheading",
+  "ctaLabel",
+];
+
+async function blogPagePhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const seoIds = languages.map((l) => languageDocumentId("pageSeo-blog", l));
+  const pageIds = languages.map((l) => languageDocumentId("blogPage", l));
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: ["blogHero", "blogCtaStrip", ...seoIds, ...pageIds].map(
+      (id) => `drafts.${id}`,
+    ),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          "blogHero",
+          "blogCtaStrip",
+          ...seoIds,
+          ...pageIds,
+          "translations-pageSeo-blog",
+          "translations-blogPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+  const hero = docs.blogHero;
+  const cta = docs.blogCtaStrip;
+  if (!hero) problems.push("blogHero not found");
+  if (!cta) problems.push("blogCtaStrip not found");
+  const featuredLanguage = hero?.featuredPost
+    ? await client.fetch(`*[_id == $id][0].language`, {
+        id: hero.featuredPost._ref,
+      })
+    : null;
+  // The site's fallback (pickBlogLocalized): the language, English, Spanish.
+  const inLanguageOf = (source, fields, language) =>
+    Object.fromEntries(
+      fields.map((field) => {
+        const value = source?.[field];
+        return [field, value?.[language] || value?.en || value?.es];
+      }),
     );
+
+  const creates = [];
+  for (const language of languages) {
+    const id = languageDocumentId("blogPage", language);
+    if (docs[id]) continue;
+    const page = {
+      _id: id,
+      _type: "blogPage",
+      language,
+      hero: {
+        ...inLanguageOf(hero, BLOG_HERO_TEXT, language),
+        ...(hero?.image ? { image: hero.image } : {}),
+      },
+      ...(featuredLanguage === language
+        ? { featuredPost: hero.featuredPost }
+        : {}),
+      cta: {
+        ...inLanguageOf(cta, BLOG_CTA_TEXT, language),
+        ctaHref: cta?.ctaHref,
+      },
+    };
+    const seo = docs[languageDocumentId("pageSeo-blog", language)];
+    if (seo?.seo) page.seo = seo.seo;
+    else problems.push(`No blog SEO in ${language}`);
+    checkAgainstSchema(page);
+    creates.push({ createIfNotExists: page });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-blogPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-blogPage",
+        _type: "translation.metadata",
+        schemaTypes: ["blogPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("blogPage", language),
+          },
+        })),
+      },
+    });
+  // Metadata first: it references the documents deleted after it.
+  const deletes = ["translations-pageSeo-blog", ...seoIds].filter(
+    (id) => docs[id],
+  );
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced blog SEO document`);
+  step(17, "Make the blog page one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist)`,
+    `featured post kept in: ${featuredLanguage ?? "none"}`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
+// --- Stories page as one document per language -----------------------------
+
+async function storiesPagePhase() {
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const sectionTypes = ["storiesHero", "storiesCtaStrip", "pageSeo-stories"];
+  const sectionIds = sectionTypes.flatMap((type) =>
+    languages.map((l) => languageDocumentId(type, l)),
+  );
+  const pageIds = languages.map((l) => languageDocumentId("storiesPage", l));
+  const metadataIds = sectionTypes.map((type) => `translations-${type}`);
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: [...sectionIds, ...pageIds].map((id) => `drafts.${id}`),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          ...sectionIds,
+          ...pageIds,
+          ...metadataIds,
+          "translations-storiesPage",
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+  const sectionOf = (doc) => {
+    const body = withoutSystemFields(doc);
+    for (const key of ["_id", "_type", "language"]) delete body[key];
+    return body;
+  };
+
+  const creates = [];
+  for (const language of languages) {
+    const id = languageDocumentId("storiesPage", language);
+    if (docs[id]) continue;
+    const hero = docs[languageDocumentId("storiesHero", language)];
+    const cta = docs[languageDocumentId("storiesCtaStrip", language)];
+    const seo = docs[languageDocumentId("pageSeo-stories", language)];
+    if (!hero) problems.push(`storiesHero-${language} not found`);
+    if (!cta) problems.push(`storiesCtaStrip-${language} not found`);
+    if (!seo?.seo) problems.push(`No stories SEO in ${language}`);
+    // The featured story moves up beside the hero, as on the blog page.
+    const { featuredStory, ...heroFields } = hero ? sectionOf(hero) : {};
+    const page = {
+      _id: id,
+      _type: "storiesPage",
+      language,
+      hero: heroFields,
+      ...(featuredStory ? { featuredStory } : {}),
+      ...(cta ? { cta: sectionOf(cta) } : {}),
+      ...(seo?.seo ? { seo: seo.seo } : {}),
+    };
+    checkAgainstSchema(page);
+    creates.push({ createIfNotExists: page });
+  }
+  const mutations = [...creates];
+  if (!docs["translations-storiesPage"])
+    mutations.push({
+      createIfNotExists: {
+        _id: "translations-storiesPage",
+        _type: "translation.metadata",
+        schemaTypes: ["storiesPage"],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId("storiesPage", language),
+          },
+        })),
+      },
+    });
+  // Metadata first: it references the documents deleted after it.
+  const deletes = [...metadataIds, ...sectionIds].filter((id) => docs[id]);
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced stories document`);
+  step(18, "Make the stories page one document per language", mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist)`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
+// --- Proposals and romantic dinners pages, one document per language --------
+
+// Phase 19 moved the proposal-only texts out of Catalog text; phase 20 moves
+// the dinner texts and the ones both pages shared, which are now in both.
+const CATALOG_PAGE_PHASES = {
+  19: {
+    type: "proposalsPage",
+    title: "Make the proposals page one document per language",
+    seoPage: "proposals",
+    photo: "proposalHeroImage",
+    removedFromHome: ["proposalHeroImage"],
+    removedFromSettings: ({ CATALOG_PAGES }) =>
+      Object.values(CATALOG_PAGES.proposalsPage)
+        .flat()
+        .filter(
+          (key) => key.startsWith("proposal") || key === "emptyProposals",
+        ),
+  },
+  20: {
+    type: "romanticDinnersPage",
+    title: "Make the romantic dinners page one document per language",
+    seoPage: "romantic-dinners",
+    photo: "dinnerHeroImage",
+    removedFromHome: ["dinnerHeroImage", "contactHeading"],
+    removedFromSettings: ({ MOVED_FROM_CATALOG_TEXT }) =>
+      MOVED_FROM_CATALOG_TEXT,
+  },
+};
+
+async function catalogPagePhase(phase) {
+  const { type, title, seoPage, photo, removedFromHome, removedFromSettings } =
+    CATALOG_PAGE_PHASES[phase];
+  const catalogPages = siteDefaults().catalogPages;
+  const sections = catalogPages.CATALOG_PAGES[type];
+  const removedKeys = removedFromSettings(catalogPages);
+  const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
+  const settingsIds = languages.map((l) =>
+    languageDocumentId("experienceCatalogSettings", l),
+  );
+  const homeIds = languages.map((l) => languageDocumentId("catalogHome", l));
+  const seoIds = languages.map((l) =>
+    languageDocumentId(`pageSeo-${seoPage}`, l),
+  );
+  const pageIds = languages.map((l) => languageDocumentId(type, l));
+  const drafts = await client.fetch(`*[_id in $ids]._id`, {
+    ids: [...settingsIds, ...homeIds, ...seoIds, ...pageIds].map(
+      (id) => `drafts.${id}`,
+    ),
+  });
+  for (const id of drafts)
+    problems.push(`${id} exists: publish or discard it in the Studio first`);
+  const docs = Object.fromEntries(
+    (
+      await client.fetch(`*[_id in $ids]`, {
+        ids: [
+          ...settingsIds,
+          ...homeIds,
+          ...seoIds,
+          ...pageIds,
+          `translations-pageSeo-${seoPage}`,
+          `translations-${type}`,
+        ],
+      })
+    ).map((d) => [d._id, d]),
+  );
+
+  const creates = [];
+  const patches = [];
+  let copied = 0;
+  for (const language of languages) {
+    const settings =
+      docs[languageDocumentId("experienceCatalogSettings", language)];
+    const home = docs[languageDocumentId("catalogHome", language)];
+    const seo = docs[languageDocumentId(`pageSeo-${seoPage}`, language)];
+    const page = {
+      _id: languageDocumentId(type, language),
+      _type: type,
+      language,
+    };
+    if (!docs[page._id]) {
+      if (!settings)
+        problems.push(`experienceCatalogSettings-${language} not found`);
+      if (!home) problems.push(`catalogHome-${language} not found`);
+      if (!seo?.seo) problems.push(`No ${seoPage} SEO in ${language}`);
+      // Each text the page shows today: the contact heading from Home, the
+      // rest from Catalog text. Empty ones stay empty (the default text).
+      const textOf = (key) =>
+        key === "contactHeading" ? home?.contactHeading : settings?.[key];
+      for (const [name, keys] of Object.entries(sections)) {
+        const section = {};
+        for (const key of keys) {
+          const value = textOf(key);
+          if (typeof value === "string" && value) {
+            section[key] = value;
+            copied++;
+          }
+        }
+        if (name === "hero" && home?.[photo]) section.image = home[photo];
+        if (Object.keys(section).length) page[name] = section;
+      }
+      if (seo?.seo) page.seo = seo.seo;
+      checkAgainstSchema(page);
+      creates.push({ createIfNotExists: page });
+    }
+    // The moved texts and photo leave Catalog text and Home.
+    const settingsUnset = removedKeys.filter(
+      (key) => settings?.[key] !== undefined,
+    );
+    if (settingsUnset.length)
+      patches.push({ patch: { id: settings._id, unset: settingsUnset } });
+    const homeUnset = removedFromHome.filter(
+      (key) => home?.[key] !== undefined,
+    );
+    if (homeUnset.length)
+      patches.push({ patch: { id: home._id, unset: homeUnset } });
+  }
+  const mutations = [...creates];
+  if (!docs[`translations-${type}`])
+    mutations.push({
+      createIfNotExists: {
+        _id: `translations-${type}`,
+        _type: "translation.metadata",
+        schemaTypes: [type],
+        translations: languages.map((language) => ({
+          _key: language,
+          _type: "internationalizedArrayReferenceValue",
+          value: {
+            _type: "reference",
+            _ref: languageDocumentId(type, language),
+          },
+        })),
+      },
+    });
+  mutations.push(...patches);
+  // Metadata first: it references the documents deleted after it.
+  const deletes = [`translations-pageSeo-${seoPage}`, ...seoIds].filter(
+    (id) => docs[id],
+  );
+  mutations.push(...deletes.map((id) => ({ delete: { id } })));
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids: deletes },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a replaced ${seoPage} SEO document`);
+  step(phase, title, mutations, [
+    `${creates.length} page documents (${languages.length - creates.length} already exist), ${copied} written texts copied`,
+    `${patches.length} settings/home documents lose the moved texts or photo`,
+    `${deletes.length} replaced documents deleted`,
+  ]);
+}
+
+// --- Unused template add-ons ------------------------------------------------
+
+// Add-ons the Proposal template tool made for a template that no longer
+// exists. Nothing references them; the tool makes them again if it's run.
+async function unusedTemplateAddonsPhase() {
+  const addons = await client.fetch(
+    `*[_type == "experienceAddon" && _id match "proposal-template-reference-addon-*"]`,
+  );
+  const ids = addons.map((a) => a._id);
+  const blockers = await client.fetch(
+    `*[references($ids) && !(_id in $ids)]._id`,
+    { ids },
+  );
+  for (const id of blockers)
+    problems.push(`${id} still references a template add-on`);
+  for (const a of addons)
+    if (a._id.startsWith("drafts."))
+      problems.push(
+        `${a._id} exists: publish or discard it in the Studio first`,
+      );
+  // A copy of every deleted add-on, in case one is wanted back.
+  if (ids.length)
+    writeFileSync(
+      `work/backup-phase21-${dataset}.json`,
+      JSON.stringify(addons, null, 2),
+    );
+  step(
+    21,
+    "Delete the unused template add-ons",
+    ids.map((id) => ({ delete: { id } })),
+    [
+      `${ids.length} add-ons deleted: ${addons.map((a) => a.name?.en).join(", ")}`,
+      ids.length
+        ? `backup: work/backup-phase21-${dataset}.json`
+        : "nothing to back up",
+    ],
+  );
 }
 
 // --- Run ---------------------------------------------------------------------
 
-if (phases.has(1)) await adventurePhase();
-if (phases.has(2)) await catalogPhase();
-if (phases.has(3)) await renamePhase();
-if (phases.has(4)) await deletePhase();
-if (phases.has(5)) await fillPhase();
+if (phases.has(6)) await splitPhase();
+if (phases.has(7)) await cleanupPhase();
+if (phases.has(8)) await translationPhase();
+if (phases.has(9)) await contentFixPhase();
+if (phases.has(10)) await flattenHomePhase();
+if (phases.has(11)) await homePhotosPhase();
+if (phases.has(12)) await moveSeoIntoDocument(12, "home", "catalogHome");
+if (phases.has(13))
+  for (const page of LEGAL_PAGES)
+    await moveSeoIntoDocument(13, page, `legalDocument-${page}`);
+if (phases.has(14)) await moveSeoIntoDocument(14, "contact", "catalogContact");
+if (phases.has(15)) await howItWorksPhase();
+if (phases.has(16)) await faqPhase();
+if (phases.has(17)) await blogPagePhase();
+if (phases.has(18)) await storiesPagePhase();
+for (const phase of [19, 20])
+  if (phases.has(phase)) await catalogPagePhase(phase);
+if (phases.has(21)) await unusedTemplateAddonsPhase();
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

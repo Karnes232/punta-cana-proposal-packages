@@ -8,7 +8,7 @@ import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
   fallbackMissingDocumentMetadata,
-  localizedSeoFields,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import {
@@ -29,34 +29,32 @@ export default async function StoryPage({
   requireLocale(locale);
   const tStory = await getTranslations("IndividualStoryPage");
   const localeTyped = toSiteLocale(locale);
-  const [story] = await Promise.all([getIndividualStory(slug)]);
+  const [story] = await Promise.all([getIndividualStory(slug, localeTyped)]);
   if (!story) {
     notFound();
   }
   const moreStories = await getMoreStories(
     story.proposalType?.value ?? "",
     story.slug?.current ?? "",
+    localeTyped,
   );
 
   return (
     <main>
-      <JsonLd
-        id="structured-data-schema"
-        data={story.seo?.structuredData[localeTyped]}
-      />
+      <JsonLd id="structured-data-schema" data={story.seo?.structuredData} />
       <StoryHero
         heroImage={story.heroPhoto || null}
         names={story.names ?? ""}
-        packageTag={story.packageTag[localeTyped] ?? ""}
+        packageTag={story.packageTag ?? ""}
         date={story.date ?? ""}
-        location={story.location[localeTyped] ?? ""}
+        location={story.location ?? ""}
         locale={localeTyped}
       />
       <StoryMetaBar
         data={{
-          packageTag: story.packageTag[localeTyped] ?? "",
+          packageTag: story.packageTag ?? "",
           date: story.date ?? "",
-          location: story.location[localeTyped] ?? "",
+          location: story.location ?? "",
         }}
         locale={localeTyped}
       />
@@ -64,10 +62,10 @@ export default async function StoryPage({
         data={{
           names: story.names ?? "",
           date: story.date ?? "",
-          location: story.location[localeTyped] ?? "",
-          packageTag: story.packageTag[localeTyped] ?? "",
-          quote: story.quote[localeTyped] ?? "",
-          body: story.body[localeTyped] ?? [],
+          location: story.location ?? "",
+          packageTag: story.packageTag ?? "",
+          quote: story.quote ?? "",
+          body: story.body ?? [],
         }}
       />
       <Gallery
@@ -77,7 +75,7 @@ export default async function StoryPage({
           (story.gallery ?? []).map((photo) => ({
             asset: photo.asset,
             alt: photo.alt,
-            caption: photo.caption?.[localeTyped] ?? "",
+            caption: photo.caption ?? "",
           }))
         }
       />
@@ -86,9 +84,9 @@ export default async function StoryPage({
           slug: story.slug.current,
           names: story.names,
           date: story.date,
-          location: story.location[localeTyped] ?? "",
-          packageTag: story.packageTag[localeTyped] ?? "",
-          quote: story.quote[localeTyped] ?? "",
+          location: story.location ?? "",
+          packageTag: story.packageTag ?? "",
+          quote: story.quote ?? "",
           heroPhoto: story.heroPhoto,
         }))}
       />
@@ -103,7 +101,7 @@ export async function generateMetadata({
 }) {
   const { slug, locale } = await params;
   requireLocale(locale);
-  const individualStory = await getIndividualStorySeo(slug);
+  const individualStory = await getIndividualStorySeo(slug, locale);
   const path = `/stories/${slug}`;
   const canonicalUrl = siteCanonicalUrl(locale, path);
   if (!individualStory) {
@@ -113,8 +111,6 @@ export async function generateMetadata({
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    ...localizedSeoFields(individualStory.seo, locale),
-    noIndex: individualStory.seo.noIndex,
-    noFollow: individualStory.seo.noFollow,
+    ...seoFields(individualStory.seo),
   });
 }

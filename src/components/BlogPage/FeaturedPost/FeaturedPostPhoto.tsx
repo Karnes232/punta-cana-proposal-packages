@@ -29,13 +29,15 @@ export default function FeaturedPostPhoto({
   return (
     <div className="relative min-h-[420px] md:min-h-[500px] bg-black overflow-hidden">
       {/* Post hero photo */}
-      <Image
-        src={photo.asset.url}
-        alt={photo.alt ?? `${title} hero photo`}
-        fill
-        className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
-        sizes="(max-width: 768px) 100vw, 50vw"
-      />
+      {photo?.asset?.url && (
+        <Image
+          src={photo.asset.url}
+          alt={photo.alt ?? `${title} hero photo`}
+          fill
+          className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+      )}
 
       {/* Dark scrim so overlays stay readable */}
       <div

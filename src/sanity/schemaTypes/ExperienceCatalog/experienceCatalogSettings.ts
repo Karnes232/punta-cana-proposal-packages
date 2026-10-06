@@ -1,245 +1,92 @@
 import { homeCopy } from "@/lib/experience/homeCopy";
-import { introductionLabels } from "@/lib/experience/introduction";
 import { dinnerPolicyLabels } from "@/lib/experience/dinnerPolicy";
 import { ui } from "@/lib/experience/labels";
 import type { DefaultText } from "@/lib/experience/types";
-import { defineType, defineField, type FieldDefinition } from "sanity";
+import {
+  defineType,
+  defineField,
+  type ConditionalPropertyCallback,
+  type FieldDefinition,
+} from "sanity";
 import { bi } from "../shared/labels";
-import { field, image } from "./shared";
+import { pageSeo } from "../shared/pageSections";
+import { image } from "./shared";
+import { languageField } from "../shared/languageField";
+import { CATALOG_TEXT_SECTIONS } from "./catalogTextPlaces";
+
+// The featured proposals and the dinner deposit are shared by every language:
+// they're edited on the English document only (see getCatalogContent).
+const englishOnly: ConditionalPropertyCallback = ({ document }) =>
+  document?.language !== "en";
 
 const short = (text: string) =>
   text.length > 48 ? `${text.slice(0, 46).trimEnd()}…` : text;
 
 /**
  * An editable site text. Its Studio title is the text it currently shows
- * (e.g. "Inicio / Home"), and the description repeats the full default, so
- * editors can see what an empty field means.
+ * (e.g. "Inicio / Home"), and the description says where it appears (when
+ * given) and repeats the full default, so editors can see what an empty
+ * field means.
  */
-const siteText = (
+export const siteText = (
   name: string,
-  type: "localizedString" | "localizedText",
+  type: "string" | "text",
   defaults: DefaultText | undefined,
   placement: { group?: string; fieldset?: string },
+  where?: string,
 ): FieldDefinition =>
   defineField({
     name,
     type,
     ...placement,
     title: defaults ? bi(short(defaults.es ?? ""), short(defaults.en)) : name,
-    description: defaults
-      ? `Vacío = texto actual / Empty = current text: "${defaults.es}" · "${defaults.en}"`
-      : undefined,
+    description:
+      [
+        where && `Dónde / Where: ${where}`,
+        defaults &&
+          `Vacío = texto actual / Empty = current text: "${defaults.es}" · "${defaults.en}"`,
+      ]
+        .filter(Boolean)
+        .join(" — ") || undefined,
   });
-export const labelKeys = [
-  "navHome",
-  "navProposals",
-  "navDinners",
-  "navHow",
-  "navFaq",
-  "planProposal",
-  "planCelebration",
-  "fragranceSensitivity",
-  "occasionGuests",
-  "foodMenu",
-  "drinksWine",
-  "welcomeCocktail",
-  "wineSelection",
-  "menusCompleted",
-  "chooseMenu",
-  "menuSelected",
-  "priceDetails",
-  "baseExperience",
-  "additionalGuests",
-  "menuSupplements",
-  "drinkSupplements",
-  "extras",
-  "addGuest",
-  "removeGuest",
-  "noExtras",
-  "cocktails",
-  "cocktailHint",
-  "completeHint",
-  "capacityPending",
-  "vegan",
-  "vegetarian",
-  "proposalSectionTitle",
-  "proposalSectionDescription",
-  "dinnerSectionTitle",
-  "dinnerSectionDescription",
-  "currencySymbol",
-  "estimatedTotalLabel",
-  "availabilityButtonLabel",
-  "includedLabel",
-  "startingAtLabel",
-  "selectStyleLabel",
-  "addonsLabel",
-  "contactUsLabel",
-  "emptyProposals",
-  "emptyDinners",
-  "fullName",
-  "email",
-  "phone",
-  "hotel",
-  "desiredDate",
-  "notes",
-  "send",
-  "success",
-  "error",
-  "guests",
-  "guest",
-  "occasion",
-  "customOccasion",
-  "starter",
-  "main",
-  "dessert",
-  "beverages",
-  "duration",
-  "minutes",
-  "quantity",
-  "quotePending",
-  "select",
-  "menu",
-  "previous",
-  "next",
-  "photo",
-  "selectPackage",
-  "selectedPackage",
-  "blog",
-  "faq",
-  "previewOnly",
-  "privacy",
-  "terms",
-  "rightsReserved",
-  "siteLinks",
-  "close",
-  "introStepsHeading",
-  "priceToBeDefined",
-  "setupTemplate",
-  "photoPending",
-  "dinnerTemplatePreviewNote",
-  "dinnerInquiryNote",
-  "heroEyebrow",
-  "dinnerHeroText",
-  "proposalHeroText",
-  "dinnerHeroCta",
-  "proposalHeroCta",
-  "heroHowItWorks",
-  "proposalDinnerEyebrow",
-  "proposalDinnerTitle",
-  "proposalDinnerIntro",
-  "dietaryLegend",
-];
-// Catalog Settings tabs. Labels not listed land in "other".
-const settingsGroups: Record<string, string[]> = {
-  navigation: [
-    "navHome",
-    "navProposals",
-    "navDinners",
-    "navHow",
-    "navFaq",
-    "planProposal",
-    "planCelebration",
-    "contactUsLabel",
-    "menu",
-    "blog",
-    "faq",
-    "privacy",
-    "terms",
-    "rightsReserved",
-    "siteLinks",
-    "proposalSectionTitle",
-    "dinnerSectionTitle",
-    "proposalSectionDescription",
-    "dinnerSectionDescription",
-  ],
-  heroes: [
-    "heroEyebrow",
-    "proposalHeroText",
-    "dinnerHeroText",
-    "proposalHeroCta",
-    "dinnerHeroCta",
-    "heroHowItWorks",
-    "introStepsHeading",
-    "emptyProposals",
-    "emptyDinners",
-    "dinnerTemplatePreviewNote",
-    "dinnerInquiryNote",
-  ],
-  forms: [
-    "fullName",
-    "email",
-    "phone",
-    "hotel",
-    "desiredDate",
-    "notes",
-    "send",
-    "success",
-    "error",
-    "previewOnly",
-    "fragranceSensitivity",
-    "availabilityButtonLabel",
-  ],
-  cards: [
-    "startingAtLabel",
-    "selectStyleLabel",
-    "selectPackage",
-    "selectedPackage",
-    "includedLabel",
-    "addonsLabel",
-    "extras",
-    "noExtras",
-    "priceToBeDefined",
-    "setupTemplate",
-    "photoPending",
-    "estimatedTotalLabel",
-    "priceDetails",
-    "baseExperience",
-    "additionalGuests",
-    "menuSupplements",
-    "drinkSupplements",
-    "quotePending",
-    "quantity",
-    "minutes",
-    "duration",
-    "currencySymbol",
-    "photo",
-    "previous",
-    "next",
-    "close",
-    "occasionGuests",
-    "foodMenu",
-    "drinksWine",
-    "welcomeCocktail",
-    "wineSelection",
-    "menusCompleted",
-    "chooseMenu",
-    "menuSelected",
-    "addGuest",
-    "removeGuest",
-    "cocktails",
-    "cocktailHint",
-    "completeHint",
-    "capacityPending",
-    "vegan",
-    "vegetarian",
-    "guests",
-    "guest",
-    "occasion",
-    "customOccasion",
-    "starter",
-    "main",
-    "dessert",
-    "beverages",
-    "select",
-    "proposalDinnerEyebrow",
-    "proposalDinnerTitle",
-    "proposalDinnerIntro",
-    "dietaryLegend",
-  ],
-};
-const settingsGroupOf = (key: string) =>
-  Object.keys(settingsGroups).find((g) => settingsGroups[g].includes(key)) ??
-  "other";
+
+// One Catalog text field: its tab and fieldset are its section, and its
+// description says where it appears. Longer policy notes get a text box.
+const catalogTextField = (
+  section: string,
+  key: string,
+  where: string,
+): FieldDefinition =>
+  key === "dinnerDepositAmount"
+    ? defineField({
+        name: "dinnerDepositAmount",
+        hidden: englishOnly,
+        title: bi("Depósito de la cena (USD)", "Dinner deposit (USD)"),
+        group: section,
+        fieldset: section,
+        type: "number",
+        initialValue: 200,
+        validation: (rule) => rule.positive().precision(2),
+        description: `Dónde / Where: ${where} — ${bi(
+          "Se pide a mano después de confirmar disponibilidad",
+          "Requested manually after availability is confirmed",
+        )}`,
+      })
+    : dinnerPolicyLabels[key]
+      ? siteText(
+          key,
+          "text",
+          dinnerPolicyLabels[key],
+          { group: section, fieldset: section },
+          where,
+        )
+      : siteText(
+          key,
+          "string",
+          ui[key],
+          { group: section, fieldset: section },
+          where,
+        );
 
 export default defineType({
   name: "experienceCatalogSettings",
@@ -248,49 +95,24 @@ export default defineType({
     prepare: () => ({ title: bi("Textos del catálogo", "Catalog text") }),
   },
   title: "Catalog Settings",
-  groups: [
-    {
-      name: "navigation",
-      title: bi("Menú y pie de página", "Navigation & footer"),
-      default: true,
-    },
-    { name: "heroes", title: bi("Portadas y avisos", "Page heroes & notes") },
-    { name: "intro", title: bi("Introducciones", "Introductions") },
-    { name: "cards", title: bi("Tarjetas", "Cards") },
-    { name: "forms", title: bi("Formularios", "Forms") },
-    { name: "policy", title: bi("Cenas: política", "Dinner policy") },
-    { name: "other", title: bi("Otros textos", "Other text") },
-  ],
-  initialValue: {
-    dinnerDepositAmount: 200,
-    ...Object.fromEntries(
-      Object.entries(dinnerPolicyLabels).map(([key, { en, es }]) => [
-        key,
-        { en, es },
-      ]),
-    ),
-  },
+  // A tab per part of the website, in the order a visitor meets them; the
+  // "All fields" tab shows the same parts as collapsible sections.
+  groups: CATALOG_TEXT_SECTIONS.map(({ name, title }, index) => ({
+    name,
+    title,
+    ...(index === 0 ? { default: true } : {}),
+  })),
+  fieldsets: CATALOG_TEXT_SECTIONS.map(({ name, title, description }) => ({
+    name,
+    title,
+    description,
+    options: { collapsible: true, collapsed: false },
+  })),
+  initialValue: { dinnerDepositAmount: 200 },
   fields: [
-    defineField({
-      name: "dinnerDepositAmount",
-      title: bi("Depósito de la cena (USD)", "Dinner deposit (USD)"),
-      group: "policy",
-      type: "number",
-      initialValue: 200,
-      validation: (rule) => rule.positive().precision(2),
-      description: bi(
-        "Se pide a mano después de confirmar disponibilidad. Escribe {deposit} en los mensajes para mostrar este monto",
-        "Requested manually after availability is confirmed. Write {deposit} in the messages to show this amount",
-      ),
-    }),
-    ...Object.entries(dinnerPolicyLabels).map(([k, defaults]) =>
-      siteText(k, "localizedText", defaults, { group: "policy" }),
-    ),
-    ...labelKeys.map((k) =>
-      siteText(k, "localizedString", ui[k], { group: settingsGroupOf(k) }),
-    ),
-    ...Object.entries(introductionLabels).map(([k, defaults]) =>
-      siteText(k, "localizedText", defaults, { group: "intro" }),
+    languageField,
+    ...CATALOG_TEXT_SECTIONS.flatMap(({ name, fields }) =>
+      fields.map(([key, where]) => catalogTextField(name, key, where)),
     ),
   ],
 });
@@ -399,61 +221,46 @@ const homeSections: [string, string, string[]][] = [
   ],
   ["final", bi("Llamada final", "Closing call to action"), ["startTitle"]],
 ];
-const homeSectionOf = (key: string) =>
-  homeSections.find(([, , keys]) => keys.includes(key))?.[0];
+// Home keys missing from homeSections still get a field, in the last section.
+const homeTextKeys = (section: string) => [
+  ...(homeSections.find(([name]) => name === section)?.[2] ?? []),
+  ...(section === "final"
+    ? Object.keys(homeCopy).filter(
+        (k) => !homeSections.some(([, , keys]) => keys.includes(k)),
+      )
+    : []),
+];
 
-export const catalogHome = defineType({
-  name: "catalogHome",
-  type: "document",
-  preview: { prepare: () => ({ title: bi("Página de inicio", "Home page") }) },
-  title: "Home",
-  groups: [
-    { name: "photos", title: bi("Fotos", "Photos"), default: true },
-    { name: "text", title: bi("Textos", "Text") },
-    { name: "featured", title: bi("Destacadas", "Featured") },
-  ],
-  initialValue: {
-    copy: Object.fromEntries(
-      Object.entries(homeCopy).map(([key, { en, es }]) => [key, { en, es }]),
-    ),
-  },
-  fields: [
+// Photos and the featured proposals, placed in the section of the page that
+// shows them. Each language's document has its own photos (alt text in that
+// language); the featured proposals are shared and edited on English only.
+const homePhotoFields: Record<string, FieldDefinition[]> = {
+  hero: [
     {
-      ...image("heroImage"),
+      ...image("heroImage", "string"),
       group: "photos",
       description: bi(
         "Foto grande al inicio de la página. Vacío = la foto del primer paquete destacado",
         "Large photo at the top of the page. Empty = the first featured package's photo",
       ),
     },
-    { ...image("proposalHeroImage"), group: "photos" },
-    { ...image("dinnerHeroImage"), group: "photos" },
-    { ...image("proposalSelectorImage"), group: "photos" },
-    { ...image("dinnerSelectorImage"), group: "photos" },
-    defineField({
-      name: "copy",
-      title: bi("Textos de la página", "Page text"),
-      type: "object",
-      group: "text",
-      fieldsets: homeSections.map(([name, title]) => ({
-        name,
-        title,
-        options: { collapsible: true, collapsed: true },
-      })),
-      // Ordered like the page (the Studio shows fieldsets in field order).
-      fields: homeSections
-        .flatMap(([, , keys]) => keys)
-        .concat(Object.keys(homeCopy).filter((k) => !homeSectionOf(k)))
-        .map((k) => [k, homeCopy[k]] as const)
-        .map(([k, defaults]) =>
-          siteText(k, "localizedText", defaults, {
-            fieldset: homeSectionOf(k),
-          }),
-        ),
-    }),
+  ],
+  selector: [
+    { ...image("proposalSelectorImage", "string"), group: "photos" },
+    {
+      ...image("dinnerSelectorImage", "string"),
+      group: "photos",
+      description: bi(
+        "También se muestra en la sección Cena privada",
+        "Also shown in the Private dinner section",
+      ),
+    },
+  ],
+  featured: [
     defineField({
       name: "featuredProposals",
       type: "array",
+      hidden: englishOnly,
       title: "Featured proposals (up to three, ordered)",
       group: "featured",
       description: bi(
@@ -464,30 +271,84 @@ export const catalogHome = defineType({
         {
           type: "reference",
           to: [{ type: "proposalExperience" }],
+          // Inactive proposals aren't on the site, so Home would skip them.
+          options: { filter: "active == true", disableNew: true },
         },
       ],
-      validation: (r) => r.max(3).unique(),
+      validation: (r) => [
+        r.max(3).unique(),
+        // An emptied list (not removed) shows no featured proposals at all.
+        r
+          .custom((list?: unknown[]) =>
+            Array.isArray(list) && list.length === 0
+              ? bi(
+                  "Lista vacía: Inicio no mostrará propuestas destacadas",
+                  "Empty list: Home will show no featured proposals",
+                )
+              : true,
+          )
+          .warning(),
+      ],
     }),
-    ...["journeyImages", "editorialImages", "moments"].map((name) =>
-      defineField({
-        name,
-        type: "array",
-        group: "photos",
-        description:
-          name === "journeyImages"
-            ? bi("Una foto por paso, máximo 5", "One photo per step, up to 5")
-            : bi("Máximo 8 fotos", "Up to 8 photos"),
-        of: [image("photo")],
-        validation: (r) => r.max(name === "journeyImages" ? 5 : 8),
-      }),
-    ),
-    {
-      ...field("contactHeading", "localizedString", "text"),
-      description: bi(
-        "Título encima del botón de contacto en Propuestas y Cenas",
-        "Heading above the contact button on Proposals and Dinners",
+  ],
+  ...Object.fromEntries(
+    [
+      ["journey", "journeyImages"],
+      ["editorial", "editorialImages"],
+      ["moments", "moments"],
+    ].map(([section, name]) => [
+      section,
+      [
+        defineField({
+          name,
+          type: "array",
+          group: "photos",
+          description:
+            name === "journeyImages"
+              ? bi("Una foto por paso, máximo 5", "One photo per step, up to 5")
+              : bi("Máximo 8 fotos", "Up to 8 photos"),
+          of: [image("photo", "string")],
+          validation: (r) => r.max(name === "journeyImages" ? 5 : 8),
+        }),
+      ],
+    ]),
+  ),
+};
+
+// The "All fields" tab reads like the home page: one section per part of the
+// page, each with its photos and then its texts. The Photos, Text and
+// Featured tabs still filter by kind.
+const homeFieldsets = homeSections.map(([name, title]) => ({
+  name,
+  title,
+  options: { collapsible: true, collapsed: name !== "hero" },
+}));
+
+export const catalogHome = defineType({
+  name: "catalogHome",
+  type: "document",
+  preview: { prepare: () => ({ title: bi("Página de inicio", "Home page") }) },
+  title: "Home",
+  groups: [
+    { name: "photos", title: bi("Fotos", "Photos"), default: true },
+    { name: "text", title: bi("Textos", "Text") },
+    { name: "featured", title: bi("Destacadas", "Featured") },
+    { name: "seo", title: "SEO" },
+  ],
+  fieldsets: homeFieldsets,
+  fields: [
+    languageField,
+    ...homeFieldsets.flatMap(({ name: section }) => [
+      ...(homePhotoFields[section] ?? []).map((f) => ({
+        ...f,
+        fieldset: section,
+      })),
+      ...homeTextKeys(section).map((k) =>
+        siteText(k, "text", homeCopy[k], { group: "text", fieldset: section }),
       ),
-    },
+    ]),
+    // Last, like the bottom of the page: this language's SEO.
+    pageSeo(),
   ],
 });
 export const catalogContact = defineType({
@@ -497,9 +358,45 @@ export const catalogContact = defineType({
     prepare: () => ({ title: bi("Página de contacto", "Contact page") }),
   },
   title: "Contact",
+  groups: [
+    { name: "content", title: bi("Contenido", "Content"), default: true },
+    { name: "seo", title: "SEO" },
+  ],
+  // In the order of the contact page.
   fields: [
-    ...["heading", "description", "businessInformation"].map((k) =>
-      field(k, "localizedText"),
-    ),
+    languageField,
+    defineField({
+      name: "heading",
+      title: bi("Título", "Heading"),
+      type: "text",
+      rows: 2,
+      group: "content",
+      description: bi(
+        "Vacío = «Contáctanos» (Textos del catálogo)",
+        'Empty = "Contact us" (Catalog text)',
+      ),
+    }),
+    defineField({
+      name: "description",
+      title: bi("Texto de introducción", "Intro text"),
+      type: "text",
+      group: "content",
+      description: bi(
+        "Debajo del título, encima del formulario",
+        "Under the heading, above the form",
+      ),
+    }),
+    defineField({
+      name: "businessInformation",
+      title: bi("Información del negocio", "Business information"),
+      type: "text",
+      group: "content",
+      description: bi(
+        "Debajo del teléfono, el email y WhatsApp, que vienen de Ajustes del sitio → Negocio y redes sociales",
+        "Under the phone, email and WhatsApp, which come from Site settings → Business & social links",
+      ),
+    }),
+    // Last, like the bottom of the page: this language's SEO.
+    pageSeo(),
   ],
 });

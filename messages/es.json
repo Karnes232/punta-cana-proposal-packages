@@ -75,5 +75,23 @@
     "eyebrow": "Legal",
     "privacyTitle": "Política de Privacidad",
     "termsTitle": "Términos de Servicio"
+  },
+  "ErrorPage": {
+    "heading": "Algo salió mal",
+    "description": "No pudimos mostrar esta página en este momento. Inténtalo de nuevo o contáctanos y te ayudaremos.",
+    "retry": "Intentar de nuevo",
+    "homeCta": "Volver al inicio",
+    "contactCta": "Contáctanos"
+  },
+  "RequestForm": {
+    "required": "Completa este campo.",
+    "invalid": "Revisa este campo.",
+    "email": "Escribe un correo electrónico válido.",
+    "phone": "Escribe un teléfono de 7 a 20 dígitos, usando solo dígitos, espacios y + ( ) - .",
+    "dateWindow": "Elige una fecha desde hoy hasta dentro de dos años.",
+    "dateOrder": "La fecha alternativa debe ser posterior a la fecha preferida.",
+    "selection": "Algo de tu selección ya no está disponible. Revísala y envíala de nuevo.",
+    "tooMany": "Demasiadas solicitudes en poco tiempo. Espera un minuto e inténtalo de nuevo.",
+    "tooLarge": "Tu solicitud es demasiado larga. Acorta tus comentarios e inténtalo de nuevo."
   }
 }

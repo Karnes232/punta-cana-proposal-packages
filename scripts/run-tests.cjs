@@ -10,7 +10,15 @@ for (const args of [
   [
     "node_modules/typescript/bin/tsc",
     "src/lib/experience/pricing.ts",
+    "src/lib/experience/requestRules.ts",
     "src/lib/experience/types.ts",
+    "src/lib/experience/labels.ts",
+    "src/lib/experience/catalogPages.ts",
+    "src/sanity/schemaTypes/ExperienceCatalog/catalogTextPlaces.ts",
+    "src/sanity/schemaTypes/shared/validation.ts",
+    "src/lib/seo/structuredData.ts",
+    "src/lib/formatDate.ts",
+    "src/i18n/locales.ts",
     "--outDir",
     out,
     // Keep src/ paths in the output (lib/experience/pricing.js, …).
@@ -28,6 +36,7 @@ for (const args of [
     "tests/pricing.test.cjs",
     "tests/components.test.cjs",
     "tests/requests.test.cjs",
+    "tests/validation.test.cjs",
   ],
 ]) {
   const run = spawnSync(process.execPath, args, { stdio: "inherit" });

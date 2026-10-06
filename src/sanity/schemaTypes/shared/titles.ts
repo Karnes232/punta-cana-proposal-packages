@@ -19,6 +19,11 @@ export const typeTitles: Record<string, string> = {
   experienceCatalogSettings: bi("Textos del catálogo", "Catalog text"),
   catalogHome: bi("Página de inicio", "Home page"),
   catalogContact: bi("Página de contacto", "Contact page"),
+  proposalsPage: bi("Página de propuestas", "Proposals page"),
+  romanticDinnersPage: bi(
+    "Página de cenas románticas",
+    "Romantic dinners page",
+  ),
   proposalStyle: bi("Estilo de propuesta", "Proposal style"),
   dinnerStyle: bi("Montaje de cena", "Dinner setup"),
   experienceInclusion: bi("Incluye", "Inclusion"),
@@ -26,42 +31,25 @@ export const typeTitles: Record<string, string> = {
   experienceSeo: "SEO",
   // Site-wide
   generalLayout: bi("Negocio y redes sociales", "Business & social links"),
-  pageSeo: bi("SEO de página", "Page SEO"),
-  seo: "SEO",
   legalDocument: bi("Documento legal", "Legal document"),
-  localizedString: bi("Texto (EN/ES)", "Text (EN/ES)"),
-  localizedText: bi("Texto largo (EN/ES)", "Long text (EN/ES)"),
-  localizedBlock: bi("Contenido (EN/ES)", "Rich text (EN/ES)"),
+  localizedString: bi("Texto (EN/ES/FR/PT)", "Text (EN/ES/FR/PT)"),
+  localizedText: bi("Texto largo (EN/ES/FR/PT)", "Long text (EN/ES/FR/PT)"),
+  localizedBlock: bi("Contenido (EN/ES/FR/PT)", "Rich text (EN/ES/FR/PT)"),
   blogLocalizedString: bi("Texto (9 idiomas)", "Text (9 languages)"),
   blogLocalizedText: bi("Texto largo (9 idiomas)", "Long text (9 languages)"),
   // Stories
-  storiesHero: bi("Historias: portada", "Stories: hero"),
-  storiesCtaStrip: bi("Historias: franja final", "Stories: closing banner"),
+  storiesPage: bi("Página de historias", "Stories page"),
   story: bi("Historia", "Story"),
   storyType: bi("Tipo de propuesta", "Proposal type"),
   // Blog
-  blogHero: bi("Blog: portada", "Blog: hero"),
-  blogCtaStrip: bi("Blog: franja final", "Blog: closing banner"),
+  blogPage: bi("Página del blog", "Blog page"),
   blogPost: bi("Artículo del blog", "Blog post"),
   blogPostSeo: "SEO",
   blogCategory: bi("Categoría del blog", "Blog category"),
   // FAQ
-  faqHero: bi("Preguntas: portada", "FAQ: hero"),
-  faqContactStrip: bi("Preguntas: franja de contacto", "FAQ: contact banner"),
-  faq: bi("Pregunta frecuente", "FAQ"),
-  faqCategory: bi("Categoría de preguntas", "FAQ category"),
+  faqPage: bi("Preguntas frecuentes", "FAQ"),
   // How it works
-  howItWorksHero: bi("Cómo funciona: portada", "How it works: hero"),
-  howItWorksSteps: bi("Cómo funciona: pasos", "How it works: steps"),
-  howItWorksFaq: bi("Cómo funciona: preguntas", "How it works: questions"),
-  howItWorksFaqCategory: bi(
-    "Cómo funciona: categoría de preguntas",
-    "How it works: question category",
-  ),
-  howItWorksCta: bi(
-    "Cómo funciona: llamada final",
-    "How it works: closing call to action",
-  ),
+  howItWorksPage: bi("Cómo funciona", "How it works"),
 };
 
 /** Fields, keyed by field name (the same meaning on every type). */
@@ -81,8 +69,6 @@ export const fieldTitles: Record<string, string> = {
   signature: bi("Firma", "Signature"),
   slug: bi("URL (slug)", "URL slug"),
   label: bi("Nombre visible", "Display name"),
-  labelEn: bi("Nombre en inglés", "English name"),
-  labelEs: bi("Nombre en español", "Spanish name"),
   value: bi("Identificador (no cambiar)", "Identifier (don't change)"),
   pageName: bi("Página", "Page"),
   language: bi("Idioma del artículo", "Post language"),
@@ -143,11 +129,6 @@ export const fieldTitles: Record<string, string> = {
   mainImage: bi("Imagen principal", "Main image"),
   heroImage: bi("Foto de portada", "Hero photo"),
   heroPhoto: bi("Foto de portada", "Hero photo"),
-  proposalHeroImage: bi(
-    "Foto de portada de Propuestas",
-    "Proposals page hero photo",
-  ),
-  dinnerHeroImage: bi("Foto de portada de Cenas", "Dinners page hero photo"),
   proposalSelectorImage: bi(
     "Foto del selector: propuesta",
     "Selector photo: proposal",
