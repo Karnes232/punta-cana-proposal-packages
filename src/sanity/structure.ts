@@ -11,7 +11,6 @@ import {
   HelpCircleIcon,
   HomeIcon,
   ListIcon,
-  SearchIcon,
   SparklesIcon,
   StarIcon,
   TagIcon,
@@ -24,7 +23,6 @@ import {
   legalDocumentId,
   PAGE_SINGLETONS,
   PER_LANGUAGE_TYPES,
-  pageSeoId,
 } from "@/sanity/constants";
 import { bi } from "@/sanity/schemaTypes/shared/labels";
 import { ALL_LOCALES, CONTENT_LOCALES, LANGUAGE_NAMES } from "@/i18n/locales";
@@ -122,9 +120,6 @@ export const structure: StructureResolver = (S) => {
           .params({ type, ...params });
         return canCreate ? list : list.initialValueTemplates([]);
       });
-  // Each page's SEO is one fixed document per language (pageSeo-<page>-<lang>).
-  const pageSeo = (page: string, title = "SEO") =>
-    languageSingleton(title, "pageSeo", pageSeoId(page), SearchIcon);
   const folder = (
     title: string,
     icon: Icon,
@@ -142,7 +137,6 @@ export const structure: StructureResolver = (S) => {
     CATALOG_CONTACT_ID,
     CATALOG_SETTINGS_ID,
     ...Object.keys(PAGE_SINGLETONS),
-    "pageSeo",
     "legalDocument",
     "proposalExperience",
     "romanticDinnerExperience",
@@ -179,6 +173,15 @@ export const structure: StructureResolver = (S) => {
         list(bi("Paquetes", "Packages"), "proposalExperience"),
       ]),
       folder(bi("Cenas románticas", "Romantic dinners"), SparklesIcon, [
+        // Opens the English romantic dinners page (every text on the page,
+        // in its order, and its SEO); the Translations button switches
+        // language.
+        singleton(
+          bi("Página de cenas románticas", "Romantic dinners page"),
+          "romanticDinnersPage",
+          languageDocumentId("romanticDinnersPage", "en"),
+          SparklesIcon,
+        ),
         list(bi("Cenas", "Dinners"), "romanticDinnerExperience"),
         S.listItem()
           .title(bi("Menú", "Menu"))
@@ -209,7 +212,6 @@ export const structure: StructureResolver = (S) => {
           ),
         list(bi("Bebidas", "Drinks"), "beverageOption"),
         list(bi("Ocasiones", "Occasions"), "dinnerOccasion"),
-        pageSeo("romantic-dinners"),
       ]),
       folder(bi("Historias", "Stories"), StarIcon, [
         // Opens the English stories page (hero, featured story, closing

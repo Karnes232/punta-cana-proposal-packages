@@ -20,6 +20,10 @@ export const typeTitles: Record<string, string> = {
   catalogHome: bi("Página de inicio", "Home page"),
   catalogContact: bi("Página de contacto", "Contact page"),
   proposalsPage: bi("Página de propuestas", "Proposals page"),
+  romanticDinnersPage: bi(
+    "Página de cenas románticas",
+    "Romantic dinners page",
+  ),
   proposalStyle: bi("Estilo de propuesta", "Proposal style"),
   dinnerStyle: bi("Montaje de cena", "Dinner setup"),
   experienceInclusion: bi("Incluye", "Inclusion"),
@@ -27,7 +31,6 @@ export const typeTitles: Record<string, string> = {
   experienceSeo: "SEO",
   // Site-wide
   generalLayout: bi("Negocio y redes sociales", "Business & social links"),
-  pageSeo: bi("SEO de página", "Page SEO"),
   legalDocument: bi("Documento legal", "Legal document"),
   localizedString: bi("Texto (EN/ES/FR/PT)", "Text (EN/ES/FR/PT)"),
   localizedText: bi("Texto largo (EN/ES/FR/PT)", "Long text (EN/ES/FR/PT)"),
@@ -126,7 +129,6 @@ export const fieldTitles: Record<string, string> = {
   mainImage: bi("Imagen principal", "Main image"),
   heroImage: bi("Foto de portada", "Hero photo"),
   heroPhoto: bi("Foto de portada", "Hero photo"),
-  dinnerHeroImage: bi("Foto de portada de Cenas", "Dinners page hero photo"),
   proposalSelectorImage: bi(
     "Foto del selector: propuesta",
     "Selector photo: proposal",

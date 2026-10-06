@@ -31,7 +31,6 @@ export const catalogContentQuery = defineQuery(`{
       "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),
       "homePhotos": *[_id == $homeId][0] {
         heroImage ${imageWithAlt},
-        dinnerHeroImage ${imageWithAlt},
         proposalSelectorImage ${imageWithAlt},
         dinnerSelectorImage ${imageWithAlt},
         journeyImages[] ${imageWithAlt},
@@ -40,7 +39,6 @@ export const catalogContentQuery = defineQuery(`{
       },
       "homePhotosEn": *[_id == $homeEnId][0] {
         heroImage ${imageWithAlt},
-        dinnerHeroImage ${imageWithAlt},
         proposalSelectorImage ${imageWithAlt},
         dinnerSelectorImage ${imageWithAlt},
         journeyImages[] ${imageWithAlt},
@@ -80,11 +78,10 @@ const homeTextFields = (doc: Record<string, unknown> | null) =>
     }),
   );
 
-type HomePhotos = Omit<Home, "copy" | "contactHeading">;
+type HomePhotos = Omit<Home, "copy">;
 type PhotoWithAlt = { url?: string; alt?: Localized | string };
 const PHOTO_FIELDS = [
   "heroImage",
-  "dinnerHeroImage",
   "proposalSelectorImage",
   "dinnerSelectorImage",
   "journeyImages",
@@ -156,7 +153,6 @@ export async function getCatalogContent(
         ? {
             ...homePhotosIn(locale, row.homePhotos, row.homePhotosEn),
             copy: homeTextFields(row.homeText),
-            contactHeading: textField(row.homeText?.contactHeading),
           }
         : null,
     contact: row.contact,

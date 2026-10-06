@@ -1,6 +1,5 @@
 import { homeCopy } from "@/lib/experience/homeCopy";
-import { introductionLabels } from "@/lib/experience/introduction";
-import { PROPOSALS_ONLY_KEYS } from "@/lib/experience/proposalsPage";
+import { MOVED_FROM_CATALOG_TEXT } from "@/lib/experience/catalogPages";
 import { dinnerPolicyLabels } from "@/lib/experience/dinnerPolicy";
 import { ui } from "@/lib/experience/labels";
 import type { DefaultText } from "@/lib/experience/types";
@@ -11,7 +10,7 @@ import {
   type FieldDefinition,
 } from "sanity";
 import { bi } from "../shared/labels";
-import { field, image } from "./shared";
+import { image } from "./shared";
 import { languageField } from "../shared/languageField";
 
 // The featured proposals and the dinner deposit are shared by every language:
@@ -86,7 +85,6 @@ export const labelKeys = [
   "selectStyleLabel",
   "addonsLabel",
   "contactUsLabel",
-  "emptyDinners",
   "fullName",
   "email",
   "phone",
@@ -123,16 +121,9 @@ export const labelKeys = [
   "rightsReserved",
   "siteLinks",
   "close",
-  "introStepsHeading",
   "priceToBeDefined",
   "setupTemplate",
   "photoPending",
-  "dinnerTemplatePreviewNote",
-  "dinnerInquiryNote",
-  "heroEyebrow",
-  "dinnerHeroText",
-  "dinnerHeroCta",
-  "heroHowItWorks",
   "proposalDinnerEyebrow",
   "proposalDinnerTitle",
   "proposalDinnerIntro",
@@ -160,16 +151,6 @@ const settingsGroups: Record<string, string[]> = {
     "dinnerSectionTitle",
     "proposalSectionDescription",
     "dinnerSectionDescription",
-  ],
-  heroes: [
-    "heroEyebrow",
-    "dinnerHeroText",
-    "dinnerHeroCta",
-    "heroHowItWorks",
-    "introStepsHeading",
-    "emptyDinners",
-    "dinnerTemplatePreviewNote",
-    "dinnerInquiryNote",
   ],
   forms: [
     "fullName",
@@ -260,8 +241,6 @@ export default defineType({
       title: bi("Menú y pie de página", "Navigation & footer"),
       default: true,
     },
-    { name: "heroes", title: bi("Portadas y avisos", "Page heroes & notes") },
-    { name: "intro", title: bi("Introducciones", "Introductions") },
     { name: "cards", title: bi("Tarjetas", "Cards") },
     { name: "forms", title: bi("Formularios", "Forms") },
     { name: "policy", title: bi("Cenas: política", "Dinner policy") },
@@ -283,18 +262,15 @@ export default defineType({
         "Requested manually after availability is confirmed. Write {deposit} in the messages to show this amount",
       ),
     }),
-    ...Object.entries(dinnerPolicyLabels).map(([k, defaults]) =>
-      siteText(k, "text", defaults, { group: "policy" }),
-    ),
+    // Texts on the Proposals and Romantic dinners pages are edited there.
+    ...Object.entries(dinnerPolicyLabels)
+      .filter(([k]) => !MOVED_FROM_CATALOG_TEXT.includes(k))
+      .map(([k, defaults]) =>
+        siteText(k, "text", defaults, { group: "policy" }),
+      ),
     ...labelKeys.map((k) =>
       siteText(k, "string", ui[k], { group: settingsGroupOf(k) }),
     ),
-    // The Proposals page's introduction is edited on that page.
-    ...Object.entries(introductionLabels)
-      .filter(([k]) => !PROPOSALS_ONLY_KEYS.includes(k))
-      .map(([k, defaults]) =>
-        siteText(k, "text", defaults, { group: "intro" }),
-      ),
   ],
 });
 // Home page text, in the order the sections appear on the page.
@@ -479,16 +455,12 @@ const homePhotoFields: Record<string, FieldDefinition[]> = {
       ],
     ]),
   ),
-  other: [{ ...image("dinnerHeroImage", "string"), group: "photos" }],
 };
 
 // The "All fields" tab reads like the home page: one section per part of the
 // page, each with its photos and then its texts. The Photos, Text and
 // Featured tabs still filter by kind.
-const homeFieldsets = [
-  ...homeSections.map(([name, title]) => ({ name, title })),
-  { name: "other", title: bi("Otras páginas", "Other pages") },
-].map(({ name, title }) => ({
+const homeFieldsets = homeSections.map(([name, title]) => ({
   name,
   title,
   options: { collapsible: true, collapsed: name !== "hero" },
@@ -516,18 +488,6 @@ export const catalogHome = defineType({
       ...homeTextKeys(section).map((k) =>
         siteText(k, "text", homeCopy[k], { group: "text", fieldset: section }),
       ),
-      ...(section === "other"
-        ? [
-            {
-              ...field("contactHeading", "string", "text"),
-              fieldset: "other",
-              description: bi(
-                "Título encima del botón de contacto en Cenas",
-                "Heading above the contact button on Dinners",
-              ),
-            },
-          ]
-        : []),
     ]),
     // Last, like the bottom of the page: this language's SEO.
     defineField({

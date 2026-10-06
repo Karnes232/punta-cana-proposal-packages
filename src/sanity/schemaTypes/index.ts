@@ -28,7 +28,6 @@ import HowItWorksPage from "./HowItWorksPage/HowItWorksPage";
 
 //FaqsPage
 import FaqPage from "./FaqsPage/FaqPage";
-import PageSeo from "./SEO/PageSeo";
 import { withTitles } from "./shared/titles";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -43,7 +42,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     blogLocalizedText,
     //GeneralLayout
     GeneralLayout,
-    PageSeo,
     //LegalDocuments
     legalDocuments,
 

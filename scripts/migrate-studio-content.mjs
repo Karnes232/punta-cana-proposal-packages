@@ -397,6 +397,8 @@ const MOVED_COPIES = {
   "pageSeo-stories": "storiesPage",
   // Phase 19: the proposals page's SEO lives in its proposalsPage documents.
   "pageSeo-proposals": "proposalsPage",
+  // Phase 20: the romantic dinners page's SEO lives in its own documents.
+  "pageSeo-romantic-dinners": "romanticDinnersPage",
   // Phase 13: the legal pages' SEO lives in their legalDocument documents.
   ...Object.fromEntries(
     LEGAL_PAGES.map((page) => [`pageSeo-${page}`, `legalDocument-${page}`]),
@@ -483,7 +485,7 @@ function siteDefaults() {
       "node_modules/typescript/bin/tsc",
       "src/lib/experience/labels.ts",
       "src/lib/experience/homeCopy.ts",
-      "src/lib/experience/proposalsPage.ts",
+      "src/lib/experience/catalogPages.ts",
       "--outDir",
       out,
       "--rootDir",
@@ -501,7 +503,7 @@ function siteDefaults() {
   return {
     ui: load(resolve(out, "lib/experience/labels.js")).ui,
     homeCopy: load(resolve(out, "lib/experience/homeCopy.js")).homeCopy,
-    proposalsPage: load(resolve(out, "lib/experience/proposalsPage.js")),
+    catalogPages: load(resolve(out, "lib/experience/catalogPages.js")),
   };
 }
 
@@ -1371,20 +1373,50 @@ async function storiesPagePhase() {
   ]);
 }
 
-// --- Proposals page as one document per language ---------------------------
+// --- Proposals and romantic dinners pages, one document per language --------
 
-async function proposalsPagePhase() {
-  const { PROPOSALS_PAGE_SECTIONS, PROPOSALS_ONLY_KEYS } =
-    siteDefaults().proposalsPage;
+// Phase 19 moved the proposal-only texts out of Catalog text; phase 20 moves
+// the dinner texts and the ones both pages shared, which are now in both.
+const CATALOG_PAGE_PHASES = {
+  19: {
+    type: "proposalsPage",
+    title: "Make the proposals page one document per language",
+    seoPage: "proposals",
+    photo: "proposalHeroImage",
+    removedFromHome: ["proposalHeroImage"],
+    removedFromSettings: ({ CATALOG_PAGES }) =>
+      Object.values(CATALOG_PAGES.proposalsPage)
+        .flat()
+        .filter(
+          (key) => key.startsWith("proposal") || key === "emptyProposals",
+        ),
+  },
+  20: {
+    type: "romanticDinnersPage",
+    title: "Make the romantic dinners page one document per language",
+    seoPage: "romantic-dinners",
+    photo: "dinnerHeroImage",
+    removedFromHome: ["dinnerHeroImage", "contactHeading"],
+    removedFromSettings: ({ MOVED_FROM_CATALOG_TEXT }) =>
+      MOVED_FROM_CATALOG_TEXT,
+  },
+};
+
+async function catalogPagePhase(phase) {
+  const { type, title, seoPage, photo, removedFromHome, removedFromSettings } =
+    CATALOG_PAGE_PHASES[phase];
+  const catalogPages = siteDefaults().catalogPages;
+  const sections = catalogPages.CATALOG_PAGES[type];
+  const removedKeys = removedFromSettings(catalogPages);
   const languages = [...SOURCE_LANGUAGES, ...TARGET_LANGUAGES];
   const settingsIds = languages.map((l) =>
     languageDocumentId("experienceCatalogSettings", l),
   );
   const homeIds = languages.map((l) => languageDocumentId("catalogHome", l));
   const seoIds = languages.map((l) =>
-    languageDocumentId("pageSeo-proposals", l),
+    languageDocumentId(`pageSeo-${seoPage}`, l),
   );
-  const pageIds = languages.map((l) => languageDocumentId("proposalsPage", l));
+  const pageIds = languages.map((l) => languageDocumentId(type, l));
   const drafts = await client.fetch(`*[_id in $ids]._id`, {
     ids: [...settingsIds, ...homeIds, ...seoIds, ...pageIds].map(
       (id) => `drafts.${id}`,
@@ -1400,8 +1432,8 @@ async function proposalsPagePhase() {
           ...homeIds,
           ...seoIds,
           ...pageIds,
-          "translations-pageSeo-proposals",
-          "translations-proposalsPage",
+          `translations-pageSeo-${seoPage}`,
+          `translations-${type}`,
         ],
       })
     ).map((d) => [d._id, d]),
@@ -1414,67 +1446,69 @@ async function proposalsPagePhase() {
     const settings =
       docs[languageDocumentId("experienceCatalogSettings", language)];
     const home = docs[languageDocumentId("catalogHome", language)];
-    const seo = docs[languageDocumentId("pageSeo-proposals", language)];
-    if (!settings)
-      problems.push(`experienceCatalogSettings-${language} not found`);
-    if (!home) problems.push(`catalogHome-${language} not found`);
-    if (!seo?.seo) problems.push(`No proposals SEO in ${language}`);
-    // Each text the page shows today: the contact heading from Home, the
-    // rest from Catalog text. Empty ones stay empty (the default text).
-    const textOf = (key) =>
-      key === "contactHeading" ? home?.contactHeading : settings?.[key];
+    const seo = docs[languageDocumentId(`pageSeo-${seoPage}`, language)];
     const page = {
-      _id: languageDocumentId("proposalsPage", language),
-      _type: "proposalsPage",
+      _id: languageDocumentId(type, language),
+      _type: type,
       language,
     };
-    for (const [name, keys] of Object.entries(PROPOSALS_PAGE_SECTIONS)) {
-      const section = {};
-      for (const key of keys) {
-        const value = textOf(key);
-        if (typeof value === "string" && value) {
-          section[key] = value;
-          copied++;
-        }
-      }
-      if (name === "hero" && home?.proposalHeroImage)
-        section.image = home.proposalHeroImage;
-      if (Object.keys(section).length) page[name] = section;
-    }
-    if (seo?.seo) page.seo = seo.seo;
     if (!docs[page._id]) {
+      if (!settings)
+        problems.push(`experienceCatalogSettings-${language} not found`);
+      if (!home) problems.push(`catalogHome-${language} not found`);
+      if (!seo?.seo) problems.push(`No ${seoPage} SEO in ${language}`);
+      // Each text the page shows today: the contact heading from Home, the
+      // rest from Catalog text. Empty ones stay empty (the default text).
+      const textOf = (key) =>
+        key === "contactHeading" ? home?.contactHeading : settings?.[key];
+      for (const [name, keys] of Object.entries(sections)) {
+        const section = {};
+        for (const key of keys) {
+          const value = textOf(key);
+          if (typeof value === "string" && value) {
+            section[key] = value;
+            copied++;
+          }
+        }
+        if (name === "hero" && home?.[photo]) section.image = home[photo];
+        if (Object.keys(section).length) page[name] = section;
+      }
+      if (seo?.seo) page.seo = seo.seo;
       checkAgainstSchema(page);
       creates.push({ createIfNotExists: page });
     }
     // The moved texts and photo leave Catalog text and Home.
-    const settingsUnset = PROPOSALS_ONLY_KEYS.filter(
+    const settingsUnset = removedKeys.filter(
       (key) => settings?.[key] !== undefined,
     );
     if (settingsUnset.length)
       patches.push({ patch: { id: settings._id, unset: settingsUnset } });
-    if (home?.proposalHeroImage !== undefined)
-      patches.push({ patch: { id: home._id, unset: ["proposalHeroImage"] } });
+    const homeUnset = removedFromHome.filter(
+      (key) => home?.[key] !== undefined,
+    );
+    if (homeUnset.length)
+      patches.push({ patch: { id: home._id, unset: homeUnset } });
   }
   const mutations = [...creates];
-  if (!docs["translations-proposalsPage"])
+  if (!docs[`translations-${type}`])
     mutations.push({
       createIfNotExists: {
-        _id: "translations-proposalsPage",
+        _id: `translations-${type}`,
         _type: "translation.metadata",
-        schemaTypes: ["proposalsPage"],
+        schemaTypes: [type],
         translations: languages.map((language) => ({
           _key: language,
           _type: "internationalizedArrayReferenceValue",
           value: {
             _type: "reference",
-            _ref: languageDocumentId("proposalsPage", language),
+            _ref: languageDocumentId(type, language),
           },
         })),
       },
     });
   mutations.push(...patches);
   // Metadata first: it references the documents deleted after it.
-  const deletes = ["translations-pageSeo-proposals", ...seoIds].filter(
+  const deletes = [`translations-pageSeo-${seoPage}`, ...seoIds].filter(
     (id) => docs[id],
   );
   mutations.push(...deletes.map((id) => ({ delete: { id } })));
@@ -1483,8 +1517,8 @@ async function proposalsPagePhase() {
     { ids: deletes },
   );
   for (const id of blockers)
-    problems.push(`${id} still references a replaced proposals SEO document`);
-  step(19, "Make the proposals page one document per language", mutations, [
+    problems.push(`${id} still references a replaced ${seoPage} SEO document`);
+  step(phase, title, mutations, [
     `${creates.length} page documents (${languages.length - creates.length} already exist), ${copied} written texts copied`,
     `${patches.length} settings/home documents lose the moved texts or photo`,
     `${deletes.length} replaced documents deleted`,
@@ -1508,7 +1542,8 @@ if (phases.has(15)) await howItWorksPhase();
 if (phases.has(16)) await faqPhase();
 if (phases.has(17)) await blogPagePhase();
 if (phases.has(18)) await storiesPagePhase();
-if (phases.has(19)) await proposalsPagePhase();
+for (const phase of [19, 20])
+  if (phases.has(phase)) await catalogPagePhase(phase);
 
 mkdirSync("work", { recursive: true });
 const outFile = `work/studio-migration-${dataset}.json`;

@@ -5,8 +5,8 @@ import {
   getDinnerPreview,
   getCatalogContent,
   getExperiences,
-  getProposalsPage,
-  withProposalsPage,
+  getCatalogPage,
+  withCatalogPage,
 } from "@/sanity/queries/ExperienceCatalog";
 import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
@@ -25,10 +25,13 @@ export default async function Catalog({
   locale: Locale;
   section: "proposals" | "romantic-dinners";
 }) {
-  const [experiences, content, proposalsPage] = await Promise.all([
+  const [experiences, content, page] = await Promise.all([
     getExperiences(),
     getCatalogContent(locale),
-    section === "proposals" ? getProposalsPage(locale) : null,
+    getCatalogPage(
+      section === "proposals" ? "proposalsPage" : "romanticDinnersPage",
+      locale,
+    ),
   ]);
   const requestHeaders = await headers();
   const showTemplate = isPreviewHost(getRequestHost(requestHeaders));
@@ -38,15 +41,8 @@ export default async function Catalog({
       !experiences.some((e) => e._type === "romanticDinnerExperience"))
       ? await getDinnerPreview()
       : null;
-  // The Proposals page's texts, photo and contact heading are its own;
-  // Romantic dinners reads them from Catalog text and Home.
-  const settings = proposalsPage
-      ? withProposalsPage(content.settings || {}, proposalsPage)
-      : content.settings || {},
-    home = content.home,
-    contactHeading = proposalsPage
-      ? proposalsPage.contactHeading
-      : home?.contactHeading;
+  // The page's own texts, photo and contact heading (its page document).
+  const settings = withCatalogPage(content.settings || {}, page);
   const t = (key: string) => label(settings, locale, key),
     prefix = localePrefix(locale);
   return (
@@ -57,12 +53,12 @@ export default async function Catalog({
         settings={settings}
         image={
           section === "romantic-dinners"
-            ? home?.dinnerHeroImage ||
+            ? page.image ||
               experiences.find((e) => e._type === "romanticDinnerExperience")
                 ?.gallery[0]?.image ||
               cmsDinnerPreview?.styles[1]?.mainImage ||
               cmsDinnerPreview?.gallery[0]?.image
-            : proposalsPage?.image ||
+            : page.image ||
               experiences.find(
                 (e) =>
                   e._type === "proposalExperience" &&
@@ -148,7 +144,7 @@ export default async function Catalog({
             );
           })}
         <section className="border-t border-t-(--ec-border) py-[45px]">
-          {contactHeading && <h2>{contactHeading}</h2>}
+          {page.contactHeading && <h2>{page.contactHeading}</h2>}
           <Link
             className={buttonClass({ secondary: true })}
             href={`${prefix}/contact`}

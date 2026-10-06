@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { Locale, Seo } from "@/lib/experience/types";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
-import { getPageSeo } from "@/sanity/queries/SEO/seo";
+import { getPageSeo, type SeoPage } from "@/sanity/queries/SEO/seo";
 
 // Metadata for the experience catalog pages (home, proposals, romantic
 // dinners, contact). Simpler than buildSeoMetadata in ./buildMetadata.ts:
@@ -31,12 +31,12 @@ export function catalogMetadata(
 }
 /**
  * Metadata for a catalog page (home, proposals, romantic dinners, contact)
- * from its Page SEO entry in the Studio; `title` is used when it has none.
+ * from the SEO tab of its page document; `title` is used when it has none.
  */
 export async function catalogPageMetadata(
   locale: Locale,
   path: string,
-  pageName: string,
+  pageName: SeoPage,
   title?: string,
 ): Promise<Metadata> {
   const page = (await getPageSeo(pageName, locale))?.seo;

@@ -12,4 +12,4 @@ export {
   getHomePresentation,
   type CatalogContent,
 } from "./content";
-export { getProposalsPage, withProposalsPage } from "./proposalsPage";
+export { getCatalogPage, withCatalogPage } from "./catalogPage";
