@@ -61,12 +61,22 @@ const isProfileLink = (url: string) => {
   }
 };
 
+// A North American number with its country code, e.g. "18094929868".
+const isNanp = (digits: string) =>
+  digits.length === 11 && digits.startsWith("1");
+
 /** "18094929868" → "+1 (809) 492-9868"; other numbers are shown as stored. */
 const formatPhone = (phone: string) => {
   const digits = phone.replace(/\D/g, "");
-  return digits.length === 11 && digits.startsWith("1")
+  return isNanp(digits)
     ? `+1 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`
     : phone;
+};
+
+/** The tel: number, with "+" so it dials from abroad too. */
+const dialNumber = (phone: string) => {
+  const digits = phone.replace(/\D/g, "");
+  return isNanp(digits) ? `+${digits}` : phone.replace(/[^\d+]/g, "");
 };
 
 export default function CatalogFooter({
@@ -83,7 +93,6 @@ export default function CatalogFooter({
   const name = company?.companyName || "Punta Cana Proposal Packages";
   const description = company?.companyDescription?.[locale];
   const logo = company?.companyLogo?.asset?.url;
-  const phoneDigits = company?.telephone?.replace(/[^\d+]/g, "");
   const socials = Object.entries(company?.socialLinks || {}).filter(
     ([network, url]) => socialNetworks[network] && isProfileLink(url),
   );
@@ -139,7 +148,10 @@ export default function CatalogFooter({
           <ul>
             {company?.telephone && (
               <li>
-                <a href={`tel:${phoneDigits}`} className={link}>
+                <a
+                  href={`tel:${dialNumber(company.telephone)}`}
+                  className={link}
+                >
                   <FiPhone aria-hidden className="shrink-0 text-gold" />
                   {formatPhone(company.telephone)}
                 </a>
