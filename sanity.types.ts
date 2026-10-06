@@ -1020,7 +1020,7 @@ export type BlogPost = {
   publishedAt?: string;
   readingTime?: number;
   heroPhoto?: {
-    asset?: {
+    asset: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
@@ -1372,7 +1372,7 @@ export type Story = {
   date?: string;
   location?: string;
   heroPhoto?: {
-    asset?: {
+    asset: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
@@ -2165,7 +2165,7 @@ export type CatalogContentQueryResult = {
         publishedAt?: string;
         readingTime?: number;
         heroPhoto?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
@@ -3112,7 +3112,7 @@ export type CatalogContentQueryResult = {
         date?: string;
         location?: string;
         heroPhoto?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
@@ -3287,7 +3287,7 @@ export type CatalogContentQueryResult = {
         publishedAt?: string;
         readingTime?: number;
         heroPhoto?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
@@ -4234,7 +4234,7 @@ export type CatalogContentQueryResult = {
         date?: string;
         location?: string;
         heroPhoto?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
@@ -4480,7 +4480,7 @@ export type CatalogContentQueryResult = {
         publishedAt?: string;
         readingTime?: number;
         heroPhoto?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;
@@ -5427,7 +5427,7 @@ export type CatalogContentQueryResult = {
         date?: string;
         location?: string;
         heroPhoto?: {
-          asset?: {
+          asset: {
             _ref: string;
             _type: "reference";
             _weak?: boolean;

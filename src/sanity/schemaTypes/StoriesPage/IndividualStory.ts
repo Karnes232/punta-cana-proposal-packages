@@ -1,4 +1,5 @@
-import { defineField, defineType } from "sanity";
+import { defineField, defineType, type SlugValue } from "sanity";
+import { altIfImage, imageFileIfSet, slugFormat } from "../shared/validation";
 import { isUniqueInLanguage, languageField } from "../shared/languageField";
 import { bi } from "../shared/labels";
 
@@ -29,7 +30,30 @@ export default defineType({
       type: "slug",
       group: "basic",
       options: { source: "names", isUnique: isUniqueInLanguage },
-      validation: (R) => R.required(),
+      // Every language uses the English story's slug (/fr/stories/<slug>).
+      validation: (R) => [
+        R.required(),
+        R.custom(slugFormat),
+        R.custom(async (slug: SlugValue | undefined, context) => {
+          const { document, getClient } = context;
+          if (!slug?.current || !document || document.language === "en")
+            return true;
+          const id = document._id.replace(/^drafts\./, "");
+          const english = await getClient({ apiVersion: "2026-03-07" }).fetch<
+            string | null
+          >(
+            `*[_type == "translation.metadata" && references($id)][0]
+              .translations[_key == "en"][0].value->slug.current`,
+            { id },
+          );
+          return !english || english === slug.current
+            ? true
+            : bi(
+                `La versión en inglés usa «${english}»`,
+                `The English version uses «${english}»`,
+              );
+        }).warning(),
+      ],
     }),
 
     defineField({
@@ -94,7 +118,10 @@ export default defineType({
           type: "string",
         }),
       ],
-      validation: (R) => R.required(),
+      validation: (R) => [
+        R.required().assetRequired(),
+        R.custom(altIfImage).warning(),
+      ],
     }),
 
     defineField({
@@ -120,6 +147,10 @@ export default defineType({
               type: "string",
             }),
           ],
+          validation: (R) => [
+            R.custom(imageFileIfSet),
+            R.custom(altIfImage).warning(),
+          ],
         },
       ],
     }),
@@ -132,7 +163,15 @@ export default defineType({
         "Short 1–2 sentence quote shown on cards and at the top of the story page.",
       group: "basic",
       type: "string",
-      validation: (R) => R.required(),
+      validation: (R) => [
+        R.required(),
+        R.max(200).warning(
+          bi(
+            "Mejor 1 o 2 frases (máx. 200)",
+            "Better 1 or 2 sentences (max 200)",
+          ),
+        ),
+      ],
     }),
 
     defineField({
@@ -142,7 +181,7 @@ export default defineType({
       type: "array",
       of: [{ type: "block" }],
       group: "story",
-      validation: (R) => R.required(),
+      validation: (R) => R.required().min(1),
     }),
     defineField({
       name: "seo",

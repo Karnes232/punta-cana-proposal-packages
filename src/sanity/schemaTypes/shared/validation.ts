@@ -17,6 +17,15 @@ export const slugFormat = (slug?: SlugValue) =>
         "Only lowercase letters, numbers and hyphens (max 96), e.g. «my-page»",
       );
 
+/** An identifier kept in code and URLs (a filter value): slug-shaped text. */
+export const identifierFormat = (value?: string) =>
+  !value || SLUG.test(value)
+    ? true
+    : bi(
+        "Solo minúsculas, números y guiones, p. ej. «playa»",
+        "Only lowercase letters, numbers and hyphens, e.g. «beach»",
+      );
+
 /** A link the site can follow: a page path or a full https/mailto/tel link. */
 export const linkFormat = (link?: string) =>
   !link || /^(\/|https:\/\/|mailto:|tel:)\S*$/.test(link)

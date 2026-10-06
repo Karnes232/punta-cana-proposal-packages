@@ -6418,7 +6418,7 @@
                 },
                 "dereferencesTo": "sanity.imageAsset"
               },
-              "optional": true
+              "optional": false
             },
             "media": {
               "type": "objectAttribute",
@@ -8633,7 +8633,7 @@
                 },
                 "dereferencesTo": "sanity.imageAsset"
               },
-              "optional": true
+              "optional": false
             },
             "media": {
               "type": "objectAttribute",

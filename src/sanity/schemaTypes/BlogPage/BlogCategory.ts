@@ -1,4 +1,11 @@
 import { defineField, defineType } from "sanity";
+import {
+  englishRequired,
+  identifierFormat,
+  missingLanguages,
+  notReserved,
+  uniqueValue,
+} from "../shared/validation";
 import { TagIcon } from "@sanity/icons";
 
 export default defineType({
@@ -13,7 +20,12 @@ export default defineType({
       description:
         "URL-safe slug used for filtering — e.g. 'tips', 'destinations'",
       type: "string",
-      validation: (Rule) => Rule.required(),
+      // The filter's key on the site; "all" is its "show everything" button.
+      validation: (Rule) =>
+        Rule.required()
+          .custom(identifierFormat)
+          .custom(notReserved)
+          .custom(uniqueValue("value")),
     }),
     defineField({
       name: "label",
@@ -21,7 +33,11 @@ export default defineType({
       description:
         "Display label — e.g. 'Proposal Tips' / 'Consejos de Propuesta'",
       type: "blogLocalizedString",
-      validation: (Rule) => Rule.required(),
+      // English is the fallback for every language.
+      validation: (Rule) => [
+        Rule.required().custom(englishRequired),
+        Rule.custom(missingLanguages(["es", "fr", "pt", "de", "it"])).warning(),
+      ],
     }),
   ],
   preview: {
