@@ -11,11 +11,17 @@ export type SiteLocale = (typeof SITE_LOCALES)[number];
  */
 export const CONTENT_LOCALES = ["en", "es", "fr", "pt"] as const;
 export type ContentLocale = (typeof CONTENT_LOCALES)[number];
-export const LANGUAGE_NAMES: Record<ContentLocale, string> = {
+/** Each language's own name for itself (the header language switcher). */
+export const LANGUAGE_NAMES: Record<AppLocale, string> = {
   en: "English",
   es: "Español",
   fr: "Français",
   pt: "Português",
+  de: "Deutsch",
+  it: "Italiano",
+  zh: "中文",
+  ru: "Русский",
+  ar: "العربية",
 };
 
 export const BLOG_ONLY_LOCALES = ["de", "it", "zh", "ru", "ar"] as const;

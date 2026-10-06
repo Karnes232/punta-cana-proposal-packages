@@ -921,6 +921,7 @@ export type ExperienceCatalogSettings = {
   close?: string;
   siteLinks?: string;
   addGuest?: string;
+  languageLabel?: string;
   removeGuest?: string;
   previewOnly?: string;
   setupTemplate?: string;
@@ -2543,6 +2544,7 @@ export type CatalogContentQueryResult = {
         close?: string;
         siteLinks?: string;
         addGuest?: string;
+        languageLabel?: string;
         removeGuest?: string;
         previewOnly?: string;
         setupTemplate?: string;
@@ -3664,6 +3666,7 @@ export type CatalogContentQueryResult = {
         close?: string;
         siteLinks?: string;
         addGuest?: string;
+        languageLabel?: string;
         removeGuest?: string;
         previewOnly?: string;
         setupTemplate?: string;
@@ -4856,6 +4859,7 @@ export type CatalogContentQueryResult = {
         close?: string;
         siteLinks?: string;
         addGuest?: string;
+        languageLabel?: string;
         removeGuest?: string;
         previewOnly?: string;
         setupTemplate?: string;

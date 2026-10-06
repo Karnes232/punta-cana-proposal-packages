@@ -577,6 +577,13 @@ export const CATALOG_TEXT_SECTIONS: CatalogTextSection[] = [
         bi("Lista de enlaces del pie de página", "Footer link list"),
       ],
       ["addGuest", bi("Botón «+» de invitados", "Guest «+» button")],
+      [
+        "languageLabel",
+        bi(
+          "Nombre del botón de idioma en el menú de arriba",
+          "Name of the language button in the top menu",
+        ),
+      ],
       ["removeGuest", bi("Botón «−» de invitados", "Guest «−» button")],
     ],
   },
