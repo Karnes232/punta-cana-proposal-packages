@@ -212,12 +212,6 @@ export const ui: Record<string, DefaultText> = {
     fr: "Choisissez votre style",
     pt: "Escolha seu estilo",
   },
-  addonsLabel: {
-    en: "Add extras",
-    es: "Añadir extras",
-    fr: "Ajouter des extras",
-    pt: "Adicionar extras",
-  },
   contactUsLabel: {
     en: "Contact us",
     es: "Contáctanos",
@@ -249,19 +243,6 @@ export const ui: Record<string, DefaultText> = {
     fr: "Téléphone / WhatsApp",
     pt: "Telefone / WhatsApp",
   },
-  hotel: {
-    en: "Hotel (optional)",
-    es: "Hotel (opcional)",
-    fr: "Hôtel (facultatif)",
-    pt: "Hotel (opcional)",
-  },
-  desiredDate: {
-    en: "Date (optional)",
-    es: "Fecha (opcional)",
-    fr: "Date (facultatif)",
-    pt: "Data (opcional)",
-  },
-  notes: { en: "Message", es: "Mensaje", fr: "Message", pt: "Mensagem" },
   send: {
     en: "Send request",
     es: "Enviar solicitud",
@@ -297,7 +278,6 @@ export const ui: Record<string, DefaultText> = {
     pt: "Prato principal",
   },
   dessert: { en: "Dessert", es: "Postre", fr: "Dessert", pt: "Sobremesa" },
-  beverages: { en: "Beverages", es: "Bebidas", fr: "Boissons", pt: "Bebidas" },
   duration: { en: "Duration", es: "Duración", fr: "Durée", pt: "Duração" },
   minutes: { en: "minutes", es: "minutos", fr: "minutes", pt: "minutos" },
   quantity: {

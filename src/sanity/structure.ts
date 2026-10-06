@@ -22,10 +22,9 @@ import {
   CATALOG_SETTINGS_ID,
   legalDocumentId,
   PAGE_SINGLETONS,
-  PER_LANGUAGE_TYPES,
 } from "@/sanity/constants";
 import { bi } from "@/sanity/schemaTypes/shared/labels";
-import { ALL_LOCALES, CONTENT_LOCALES, LANGUAGE_NAMES } from "@/i18n/locales";
+import { ALL_LOCALES } from "@/i18n/locales";
 
 type Icon = ComponentType;
 
@@ -53,33 +52,6 @@ export const structure: StructureResolver = (S) => {
       .title(title)
       .icon(icon)
       .child(S.document().schemaType(type).documentId(id).title(title));
-  const pageSection = (title: string, type: keyof typeof PAGE_SINGLETONS) =>
-    PER_LANGUAGE_TYPES.includes(type)
-      ? languageSingleton(title, type, PAGE_SINGLETONS[type])
-      : singleton(title, type, PAGE_SINGLETONS[type]);
-  // One fixed document per language, e.g. storiesHero-en … storiesHero-pt.
-  const languageSingleton = (
-    title: string,
-    type: string,
-    base: string,
-    icon?: Icon,
-  ) =>
-    S.listItem()
-      .title(title)
-      .icon(icon)
-      .child(
-        S.list()
-          .title(title)
-          .items(
-            CONTENT_LOCALES.map((language) =>
-              singleton(
-                LANGUAGE_NAMES[language],
-                type,
-                languageDocumentId(base, language),
-              ),
-            ),
-          ),
-      );
   // A per-language collection, listed in English: new documents start in
   // English and the Translations button opens or adds the other languages.
   const englishList = (
@@ -298,14 +270,16 @@ export const structure: StructureResolver = (S) => {
       S.divider(),
       list(bi("Extras", "Add-ons"), "experienceAddon", BasketIcon),
       folder(bi("Ajustes del sitio", "Site settings"), CogIcon, [
-        pageSection(
+        singleton(
           bi("Negocio y redes sociales", "Business & social links"),
           "generalLayout",
         ),
-        languageSingleton(
+        // Opens the English catalog text; the Translations button at the top
+        // of the document switches language.
+        singleton(
           bi("Textos del catálogo", "Catalog text"),
           CATALOG_SETTINGS_ID,
-          CATALOG_SETTINGS_ID,
+          languageDocumentId(CATALOG_SETTINGS_ID, "en"),
         ),
       ]),
       S.divider(),

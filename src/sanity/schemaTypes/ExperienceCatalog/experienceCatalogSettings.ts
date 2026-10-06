@@ -1,5 +1,4 @@
 import { homeCopy } from "@/lib/experience/homeCopy";
-import { MOVED_FROM_CATALOG_TEXT } from "@/lib/experience/catalogPages";
 import { dinnerPolicyLabels } from "@/lib/experience/dinnerPolicy";
 import { ui } from "@/lib/experience/labels";
 import type { DefaultText } from "@/lib/experience/types";
@@ -12,6 +11,7 @@ import {
 import { bi } from "../shared/labels";
 import { image } from "./shared";
 import { languageField } from "../shared/languageField";
+import { CATALOG_TEXT_SECTIONS } from "./catalogTextPlaces";
 
 // The featured proposals and the dinner deposit are shared by every language:
 // they're edited on the English document only (see getCatalogContent).
@@ -23,210 +23,69 @@ const short = (text: string) =>
 
 /**
  * An editable site text. Its Studio title is the text it currently shows
- * (e.g. "Inicio / Home"), and the description repeats the full default, so
- * editors can see what an empty field means.
+ * (e.g. "Inicio / Home"), and the description says where it appears (when
+ * given) and repeats the full default, so editors can see what an empty
+ * field means.
  */
 export const siteText = (
   name: string,
   type: "string" | "text",
   defaults: DefaultText | undefined,
   placement: { group?: string; fieldset?: string },
+  where?: string,
 ): FieldDefinition =>
   defineField({
     name,
     type,
     ...placement,
     title: defaults ? bi(short(defaults.es ?? ""), short(defaults.en)) : name,
-    description: defaults
-      ? `Vacío = texto actual / Empty = current text: "${defaults.es}" · "${defaults.en}"`
-      : undefined,
+    description:
+      [
+        where && `Dónde / Where: ${where}`,
+        defaults &&
+          `Vacío = texto actual / Empty = current text: "${defaults.es}" · "${defaults.en}"`,
+      ]
+        .filter(Boolean)
+        .join(" — ") || undefined,
   });
-export const labelKeys = [
-  "navHome",
-  "navProposals",
-  "navDinners",
-  "navHow",
-  "navFaq",
-  "planProposal",
-  "planCelebration",
-  "fragranceSensitivity",
-  "occasionGuests",
-  "foodMenu",
-  "drinksWine",
-  "welcomeCocktail",
-  "wineSelection",
-  "menusCompleted",
-  "chooseMenu",
-  "menuSelected",
-  "priceDetails",
-  "baseExperience",
-  "additionalGuests",
-  "menuSupplements",
-  "drinkSupplements",
-  "extras",
-  "addGuest",
-  "removeGuest",
-  "noExtras",
-  "cocktails",
-  "cocktailHint",
-  "completeHint",
-  "capacityPending",
-  "vegan",
-  "vegetarian",
-  "proposalSectionTitle",
-  "proposalSectionDescription",
-  "dinnerSectionTitle",
-  "dinnerSectionDescription",
-  "currencySymbol",
-  "estimatedTotalLabel",
-  "availabilityButtonLabel",
-  "includedLabel",
-  "startingAtLabel",
-  "selectStyleLabel",
-  "addonsLabel",
-  "contactUsLabel",
-  "fullName",
-  "email",
-  "phone",
-  "hotel",
-  "desiredDate",
-  "notes",
-  "send",
-  "success",
-  "error",
-  "guests",
-  "guest",
-  "occasion",
-  "customOccasion",
-  "starter",
-  "main",
-  "dessert",
-  "beverages",
-  "duration",
-  "minutes",
-  "quantity",
-  "quotePending",
-  "select",
-  "menu",
-  "previous",
-  "next",
-  "photo",
-  "selectPackage",
-  "selectedPackage",
-  "blog",
-  "faq",
-  "previewOnly",
-  "privacy",
-  "terms",
-  "rightsReserved",
-  "siteLinks",
-  "close",
-  "priceToBeDefined",
-  "setupTemplate",
-  "photoPending",
-  "proposalDinnerEyebrow",
-  "proposalDinnerTitle",
-  "proposalDinnerIntro",
-  "dietaryLegend",
-];
-// Catalog Settings tabs. Labels not listed land in "other".
-const settingsGroups: Record<string, string[]> = {
-  navigation: [
-    "navHome",
-    "navProposals",
-    "navDinners",
-    "navHow",
-    "navFaq",
-    "planProposal",
-    "planCelebration",
-    "contactUsLabel",
-    "menu",
-    "blog",
-    "faq",
-    "privacy",
-    "terms",
-    "rightsReserved",
-    "siteLinks",
-    "proposalSectionTitle",
-    "dinnerSectionTitle",
-    "proposalSectionDescription",
-    "dinnerSectionDescription",
-  ],
-  forms: [
-    "fullName",
-    "email",
-    "phone",
-    "hotel",
-    "desiredDate",
-    "notes",
-    "send",
-    "success",
-    "error",
-    "previewOnly",
-    "fragranceSensitivity",
-    "availabilityButtonLabel",
-  ],
-  cards: [
-    "startingAtLabel",
-    "selectStyleLabel",
-    "selectPackage",
-    "selectedPackage",
-    "includedLabel",
-    "addonsLabel",
-    "extras",
-    "noExtras",
-    "priceToBeDefined",
-    "setupTemplate",
-    "photoPending",
-    "estimatedTotalLabel",
-    "priceDetails",
-    "baseExperience",
-    "additionalGuests",
-    "menuSupplements",
-    "drinkSupplements",
-    "quotePending",
-    "quantity",
-    "minutes",
-    "duration",
-    "currencySymbol",
-    "photo",
-    "previous",
-    "next",
-    "close",
-    "occasionGuests",
-    "foodMenu",
-    "drinksWine",
-    "welcomeCocktail",
-    "wineSelection",
-    "menusCompleted",
-    "chooseMenu",
-    "menuSelected",
-    "addGuest",
-    "removeGuest",
-    "cocktails",
-    "cocktailHint",
-    "completeHint",
-    "capacityPending",
-    "vegan",
-    "vegetarian",
-    "guests",
-    "guest",
-    "occasion",
-    "customOccasion",
-    "starter",
-    "main",
-    "dessert",
-    "beverages",
-    "select",
-    "proposalDinnerEyebrow",
-    "proposalDinnerTitle",
-    "proposalDinnerIntro",
-    "dietaryLegend",
-  ],
-};
-const settingsGroupOf = (key: string) =>
-  Object.keys(settingsGroups).find((g) => settingsGroups[g].includes(key)) ??
-  "other";
+
+// One Catalog text field: its tab and fieldset are its section, and its
+// description says where it appears. Longer policy notes get a text box.
+const catalogTextField = (
+  section: string,
+  key: string,
+  where: string,
+): FieldDefinition =>
+  key === "dinnerDepositAmount"
+    ? defineField({
+        name: "dinnerDepositAmount",
+        hidden: englishOnly,
+        title: bi("Depósito de la cena (USD)", "Dinner deposit (USD)"),
+        group: section,
+        fieldset: section,
+        type: "number",
+        initialValue: 200,
+        validation: (rule) => rule.positive().precision(2),
+        description: `Dónde / Where: ${where} — ${bi(
+          "Se pide a mano después de confirmar disponibilidad",
+          "Requested manually after availability is confirmed",
+        )}`,
+      })
+    : dinnerPolicyLabels[key]
+      ? siteText(
+          key,
+          "text",
+          dinnerPolicyLabels[key],
+          { group: section, fieldset: section },
+          where,
+        )
+      : siteText(
+          key,
+          "string",
+          ui[key],
+          { group: section, fieldset: section },
+          where,
+        );
 
 export default defineType({
   name: "experienceCatalogSettings",
@@ -235,41 +94,24 @@ export default defineType({
     prepare: () => ({ title: bi("Textos del catálogo", "Catalog text") }),
   },
   title: "Catalog Settings",
-  groups: [
-    {
-      name: "navigation",
-      title: bi("Menú y pie de página", "Navigation & footer"),
-      default: true,
-    },
-    { name: "cards", title: bi("Tarjetas", "Cards") },
-    { name: "forms", title: bi("Formularios", "Forms") },
-    { name: "policy", title: bi("Cenas: política", "Dinner policy") },
-    { name: "other", title: bi("Otros textos", "Other text") },
-  ],
+  // A tab per part of the website, in the order a visitor meets them; the
+  // "All fields" tab shows the same parts as collapsible sections.
+  groups: CATALOG_TEXT_SECTIONS.map(({ name, title }, index) => ({
+    name,
+    title,
+    ...(index === 0 ? { default: true } : {}),
+  })),
+  fieldsets: CATALOG_TEXT_SECTIONS.map(({ name, title, description }) => ({
+    name,
+    title,
+    description,
+    options: { collapsible: true, collapsed: false },
+  })),
   initialValue: { dinnerDepositAmount: 200 },
   fields: [
     languageField,
-    defineField({
-      name: "dinnerDepositAmount",
-      hidden: englishOnly,
-      title: bi("Depósito de la cena (USD)", "Dinner deposit (USD)"),
-      group: "policy",
-      type: "number",
-      initialValue: 200,
-      validation: (rule) => rule.positive().precision(2),
-      description: bi(
-        "Se pide a mano después de confirmar disponibilidad. Escribe {deposit} en los mensajes para mostrar este monto",
-        "Requested manually after availability is confirmed. Write {deposit} in the messages to show this amount",
-      ),
-    }),
-    // Texts on the Proposals and Romantic dinners pages are edited there.
-    ...Object.entries(dinnerPolicyLabels)
-      .filter(([k]) => !MOVED_FROM_CATALOG_TEXT.includes(k))
-      .map(([k, defaults]) =>
-        siteText(k, "text", defaults, { group: "policy" }),
-      ),
-    ...labelKeys.map((k) =>
-      siteText(k, "string", ui[k], { group: settingsGroupOf(k) }),
+    ...CATALOG_TEXT_SECTIONS.flatMap(({ name, fields }) =>
+      fields.map(([key, where]) => catalogTextField(name, key, where)),
     ),
   ],
 });

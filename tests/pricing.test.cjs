@@ -392,3 +392,32 @@ test("proposal premium extras cost 399/399/399/299 and require two complete dinn
     449,
   );
 });
+
+test("every Catalog text field has one place and a description of where it shows", () => {
+  const out = "../work/pricing-tests";
+  const { ui } = require(`${out}/lib/experience/labels.js`);
+  const { dinnerPolicyLabels } = require(
+    `${out}/lib/experience/dinnerPolicy.js`,
+  );
+  const { CATALOG_PAGE_KEYS } = require(
+    `${out}/lib/experience/catalogPages.js`,
+  );
+  const { CATALOG_TEXT_SECTIONS } = require(
+    `${out}/sanity/schemaTypes/ExperienceCatalog/catalogTextPlaces.js`,
+  );
+  const fields = CATALOG_TEXT_SECTIONS.flatMap((s) => s.fields);
+  const keys = fields.map(([key]) => key);
+  assert.deepEqual(
+    keys.filter((key, i) => keys.indexOf(key) !== i),
+    [],
+    "listed twice",
+  );
+  for (const [key, where] of fields)
+    assert.ok(where.trim(), `${key} has no place`);
+  // Every built-in text is either Catalog text or a page document's own.
+  for (const key of [...Object.keys(ui), ...Object.keys(dinnerPolicyLabels)])
+    assert.ok(
+      keys.includes(key) || CATALOG_PAGE_KEYS.includes(key),
+      `${key} is in neither Catalog text nor a page`,
+    );
+});
