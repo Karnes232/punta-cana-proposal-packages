@@ -179,9 +179,10 @@ export default function CatalogFooter({
       </div>
 
       <div
-        className={`m-auto mt-14 flex max-w-[1180px] flex-col gap-4 border-t ${rule} pt-6 text-[0.8rem] text-ivory/60 lg:flex-row lg:items-center lg:justify-between`}
+        className={`m-auto mt-14 flex max-w-[1180px] flex-col gap-3 border-t ${rule} pt-6 text-[0.8rem] text-ivory/60`}
       >
-        <div className="flex flex-col gap-1 md:flex-row md:flex-wrap md:items-center md:gap-x-6">
+        {/* Copyright and legal links, then the studio credit on its own row. */}
+        <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between md:gap-x-6">
           <p>
             © {new Date().getFullYear()} {name}. {t("rightsReserved")}
           </p>
