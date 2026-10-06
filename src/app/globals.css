@@ -196,9 +196,20 @@ h6 {
     font-size: 14px;
     color: var(--ec-muted);
   }
+  /* Request form: a field the visitor needs to fix, and its message. */
+  .ec-shell [aria-invalid="true"] {
+    border-color: #b42318 !important;
+  }
+  .ec-shell .ec-field-error {
+    font-size: 0.8rem;
+    color: #b42318;
+  }
   /* Dark proposal cards (ExperienceCard marks them with ec-proposal-card). */
   .ec-proposal-card small {
     color: #b9b7b5;
+  }
+  .ec-proposal-card .ec-field-error {
+    color: #ffb4a9;
   }
   .ec-shell :focus-visible {
     outline: 2px solid #cfae70;

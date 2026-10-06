@@ -82,5 +82,16 @@
     "retry": "Réessayer",
     "homeCta": "Retour à l’accueil",
     "contactCta": "Contactez-nous"
+  },
+  "RequestForm": {
+    "required": "Veuillez remplir ce champ.",
+    "invalid": "Veuillez vérifier ce champ.",
+    "email": "Veuillez saisir une adresse e-mail valide.",
+    "phone": "Saisissez un numéro de 7 à 20 chiffres, avec uniquement des chiffres, des espaces et + ( ) - .",
+    "dateWindow": "Choisissez une date entre aujourd'hui et dans deux ans.",
+    "dateOrder": "La date alternative doit être postérieure à la date préférée.",
+    "selection": "Un élément de votre sélection n'est plus disponible. Vérifiez-la et envoyez-la à nouveau.",
+    "tooMany": "Trop de demandes en peu de temps. Patientez une minute et réessayez.",
+    "tooLarge": "Votre demande est trop longue. Raccourcissez vos commentaires et réessayez."
   }
 }

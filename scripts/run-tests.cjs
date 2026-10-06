@@ -10,6 +10,7 @@ for (const args of [
   [
     "node_modules/typescript/bin/tsc",
     "src/lib/experience/pricing.ts",
+    "src/lib/experience/requestRules.ts",
     "src/lib/experience/types.ts",
     "src/lib/experience/labels.ts",
     "src/lib/experience/catalogPages.ts",
