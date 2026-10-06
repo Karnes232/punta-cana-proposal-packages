@@ -19,7 +19,7 @@ export default function PostHero({ post, locale }: PostHeroProps) {
       {/* ── Background photo + scrim ── */}
       <PhotoHeroBackground
         photo={post.photo}
-        alt={post.photo.alt ?? `${post.title} hero photo`}
+        alt={post.photo?.alt ?? `${post.title} hero photo`}
       />
 
       {/* ── Gold corner accents ── */}

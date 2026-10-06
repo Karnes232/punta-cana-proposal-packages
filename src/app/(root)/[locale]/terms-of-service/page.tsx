@@ -91,7 +91,8 @@ export async function generateMetadata({
   const pageSeo = await getPageSeo("terms-of-service", locale);
   const path = "/terms-of-service";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  // No SEO title: the site default, rather than an empty <title>.
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 

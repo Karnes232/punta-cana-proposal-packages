@@ -55,20 +55,22 @@ export default async function Stories({
           date: story.date,
           location: story.location ?? "",
           packageTag: story.packageTag ?? "",
-          packageType: story.proposalType.value,
+          packageType: story.proposalType?.value ?? "",
           quote: story.quote ?? "",
           photo: story.heroPhoto,
         }))}
         locale={localeTyped}
       />
-      <CtaStrip
-        eyebrow={ctaStrip.eyebrow}
-        heading={ctaStrip.heading}
-        headingAccent={ctaStrip.headingAccent}
-        subheading={ctaStrip.subheading}
-        ctaLabel={ctaStrip.ctaLabel}
-        ctaHref={ctaStrip.ctaHref}
-      />
+      {ctaStrip && (
+        <CtaStrip
+          eyebrow={ctaStrip.eyebrow ?? ""}
+          heading={ctaStrip.heading ?? ""}
+          headingAccent={ctaStrip.headingAccent ?? ""}
+          subheading={ctaStrip.subheading ?? ""}
+          ctaLabel={ctaStrip.ctaLabel ?? ""}
+          ctaHref={ctaStrip.ctaHref ?? ""}
+        />
+      )}
     </main>
   );
 }
@@ -83,7 +85,8 @@ export async function generateMetadata({
   const pageSeo = await getPageSeo("stories", locale);
   const path = "/stories";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  // No SEO title: the site default, rather than an empty <title>.
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 

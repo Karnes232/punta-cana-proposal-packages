@@ -79,14 +79,22 @@ export interface HowItWorksCTA {
 
 // Typed like the old per-section fetchers: the sections are always written.
 export interface HowItWorksPage {
-  hero: HowItWorksPageHero;
-  steps: HowItWorksSteps;
-  faq: HowItWorksFaqsPage;
+  hero: HowItWorksPageHero | null;
+  steps: HowItWorksSteps | null;
+  faq: HowItWorksFaqsPage | null;
   faqCategories: HowItWorksFaqsCategories[];
-  cta: HowItWorksCTA;
+  cta: HowItWorksCTA | null;
 }
 
-type HowItWorksPageRow = Omit<HowItWorksPage, "faq" | "faqCategories"> & {
+type HowItWorksPageRow = {
+  hero: HowItWorksPageHero | null;
+  steps:
+    | (Omit<HowItWorksSteps, "steps" | "reassurance"> & {
+        steps: HowItWorksSteps["steps"] | null;
+        reassurance: HowItWorksSteps["reassurance"] | null;
+      })
+    | null;
+  cta: HowItWorksCTA | null;
   faq:
     | (Omit<HowItWorksFaqsPage, "faqs"> & {
         categories: { _key: string; name: string }[] | null;
@@ -154,25 +162,31 @@ export async function getHowItWorksPage(
     _id: category._key,
     name: { [locale]: category.name },
   }));
-  const faq = (
-    row?.faq
-      ? {
-          eyebrow: row.faq.eyebrow,
-          heading: row.faq.heading,
-          headingAccent: row.faq.headingAccent,
-          subheading: row.faq.subheading,
-          faqs: (row.faq.faqs ?? []).map(({ category, ...item }) => ({
-            ...item,
-            category: faqCategories.find((c) => c._id === category) ?? null,
-          })),
-        }
-      : null
-  ) as HowItWorksFaqsPage;
+  // Missing sections are null and missing lists empty (a document created
+  // outside the Studio can lack them); the page renders what it has.
+  const faq: HowItWorksFaqsPage | null = row?.faq
+    ? {
+        eyebrow: row.faq.eyebrow,
+        heading: row.faq.heading,
+        headingAccent: row.faq.headingAccent,
+        subheading: row.faq.subheading,
+        faqs: (row.faq.faqs ?? []).map(({ category, ...item }) => ({
+          ...item,
+          category: faqCategories.find((c) => c._id === category) ?? null,
+        })),
+      }
+    : null;
   return {
-    hero: row?.hero as HowItWorksPageHero,
-    steps: row?.steps as HowItWorksSteps,
+    hero: row?.hero ?? null,
+    steps: row?.steps
+      ? {
+          ...row.steps,
+          steps: row.steps.steps ?? [],
+          reassurance: row.steps.reassurance ?? [],
+        }
+      : null,
     faq,
     faqCategories,
-    cta: row?.cta as HowItWorksCTA,
+    cta: row?.cta ?? null,
   };
 }

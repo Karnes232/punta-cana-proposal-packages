@@ -12,6 +12,7 @@ import {
 import {
   buildSeoMetadata,
   fallbackSiteMetadata,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getBlogCategories } from "@/sanity/queries/BlogPage/BlogCategories";
@@ -92,7 +93,7 @@ export async function generateMetadata({
   const pageSeo = await getPageSeo("blog", seoLocale);
   const path = "/blog";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo?.seo) {
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(seoLocale, path, canonicalUrl);
   }
 
@@ -104,10 +105,7 @@ export async function generateMetadata({
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    meta: pageSeo.seo.meta,
-    openGraph: { ...pageSeo.seo.openGraph, image: pageSeo.seo.image },
-    noIndex: pageSeo.seo.noIndex,
-    noFollow: pageSeo.seo.noFollow,
+    ...seoFields(pageSeo.seo),
     hreflangLanguages,
   });
 }

@@ -2,7 +2,11 @@ import type { PortableTextBlock } from "@portabletext/react";
 import type { Localized } from "@/lib/experience/types";
 import { client } from "@/sanity/lib/client";
 import type { DocumentSeo } from "../SEO/documentSeo";
-import { documentSeoProjection, imageWithDimensions } from "../fragments";
+import {
+  documentSeoProjection,
+  imageWithDimensions,
+  listable,
+} from "../fragments";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -91,7 +95,7 @@ export const individualStoryQuery = `
     date,
     location,
     heroPhoto { ${imageWithDimensions} },
-    gallery[] {
+    gallery[defined(asset)] {
       ${imageWithDimensions},
       caption
     },
@@ -111,7 +115,8 @@ export const moreStoriesQuery = `
     _type == "story" && language == $language
     && proposalType->value == $proposalTypeValue
     && slug.current != $currentSlug
-  ] | order(publishedAt desc) {
+    && ${listable}
+  ] | order(date desc) {
     slug,
     names,
     proposalType-> { value, label },
@@ -172,7 +177,8 @@ export interface AllStoriesCard {
 }
 
 export const allStoriesQuery = `
-  *[_type == "story" && language == $language] {
+  *[_type == "story" && language == $language && ${listable}]
+    | order(date desc) {
     slug,
     names,
     date,

@@ -23,7 +23,7 @@ export default function ListingHeroBackground({
   return (
     <>
       {/* Background image (from Sanity) — same treatment as Home Hero */}
-      {image && (
+      {image?.asset?.url && (
         <Image
           src={image.asset.url}
           alt={image.alt || "Stories hero background"}

@@ -2,7 +2,11 @@ import type { AppLocale } from "@/i18n/locales";
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
-import { documentSeoProjection, imageWithDimensions } from "../fragments";
+import {
+  documentSeoProjection,
+  imageWithDimensions,
+  listable,
+} from "../fragments";
 import type { DocumentSeo } from "../SEO/documentSeo";
 
 export type HreflangSibling = { language: string; slug: string };
@@ -76,13 +80,14 @@ export const individualBlogQuery = `*[_type == "blogPost" && slug.current == $sl
   heroPhoto {
     ${imageWithDimensions}
   },
-  gallery[] {
+  gallery[defined(asset)] {
     ${imageWithDimensions},
     caption
   },
   body,
   ${documentSeoProjection},
-  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup] {
+  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup
+    && defined(slug.current) && defined(language)] {
     language,
     "slug": slug.current
   }
@@ -108,7 +113,8 @@ export const individualBlogMetadataQuery = `*[_type == "blogPost" && slug.curren
   "slug": slug.current,
   translationGroup,
   ${documentSeoProjection},
-  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup] {
+  "hreflangSiblings": *[_type == "blogPost" && translationGroup == ^.translationGroup
+    && defined(slug.current) && defined(language)] {
     language,
     "slug": slug.current
   }
@@ -121,7 +127,7 @@ export const getIndividualBlogMetadata = async (
   return await client.fetch(individualBlogMetadataQuery, { slug, lang });
 };
 
-export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug && language == $lang] | order(publishedAt desc) {
+export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug && language == $lang && ${listable}] | order(publishedAt desc) {
   slug {
     current
   },
@@ -135,7 +141,7 @@ export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug &&
   },
 }`;
 
-export const findBlogPostLocaleBySlugQuery = `*[_type == "blogPost" && slug.current == $slug] | order(_updatedAt desc) [0] { language, "slug": slug.current }`;
+export const findBlogPostLocaleBySlugQuery = `*[_type == "blogPost" && slug.current == $slug && defined(language)] | order(_updatedAt desc) [0] { language, "slug": slug.current }`;
 
 export const getBlogPostLocaleBySlug = async (
   slug: string,

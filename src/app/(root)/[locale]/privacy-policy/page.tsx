@@ -95,7 +95,8 @@ export async function generateMetadata({
   const pageSeo = await getPageSeo("privacy-policy", locale);
   const path = "/privacy-policy";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  // No SEO title: the site default, rather than an empty <title>.
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 

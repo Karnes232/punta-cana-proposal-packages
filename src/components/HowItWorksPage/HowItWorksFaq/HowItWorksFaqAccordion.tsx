@@ -30,7 +30,7 @@ export default function HowItWorksFaqAccordion({
   const filterOptions = [
     { id: "all", label: t.categories.all },
     ...faqsCategories.map((c) => ({
-      id: local(c.name, locale),
+      id: c._id,
       label: local(c.name, locale),
     })),
   ];
@@ -41,9 +41,7 @@ export default function HowItWorksFaqAccordion({
   const filtered =
     activeCategory === "all"
       ? items
-      : items.filter(
-          (item) => local(item.category?.name, locale) === activeCategory,
-        );
+      : items.filter((item) => item.category?._id === activeCategory);
 
   // ── Handlers ───────────────────────────────────────────────────────────────
   function handleCategoryChange(cat: string) {

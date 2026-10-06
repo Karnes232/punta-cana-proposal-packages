@@ -53,11 +53,12 @@ export interface StoriesPageCtaStrip {
   ctaHref: string;
 }
 
-// Typed like the old per-section fetchers: the sections are always written.
+// Any part can be missing (e.g. a document created outside the Studio);
+// the page renders what it has.
 export interface StoriesPage {
-  hero: StoriesPageHero;
-  featuredStory: StoriesPageFeaturedStory;
-  cta: StoriesPageCtaStrip;
+  hero: StoriesPageHero | null;
+  featuredStory: StoriesPageFeaturedStory | null;
+  cta: StoriesPageCtaStrip | null;
 }
 
 // The page in one language (storiesPage-<language>), falling back to English
@@ -94,9 +95,13 @@ export const storiesPageQuery = `${pageSectionDocument("storiesPage")} {
 }`;
 
 export async function getStoriesPage(locale: string): Promise<StoriesPage> {
-  const page = await client.fetch<StoriesPage | null>(
+  const page = await client.fetch<Partial<StoriesPage> | null>(
     storiesPageQuery,
     pageSectionParams("storiesPage", locale),
   );
-  return page as StoriesPage;
+  return {
+    hero: page?.hero ?? null,
+    featuredStory: page?.featuredStory ?? null,
+    cta: page?.cta ?? null,
+  };
 }

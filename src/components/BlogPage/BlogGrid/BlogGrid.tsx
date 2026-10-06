@@ -52,7 +52,7 @@ export default function BlogGrid({
   const filtered =
     activeFilter === "all"
       ? posts
-      : posts.filter((p) => p.category.value === activeFilter);
+      : posts.filter((p) => p.category?.value === activeFilter);
 
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;

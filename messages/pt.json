@@ -75,5 +75,12 @@
     "eyebrow": "Jurídico",
     "privacyTitle": "Política de Privacidade",
     "termsTitle": "Termos de Serviço"
+  },
+  "ErrorPage": {
+    "heading": "Algo deu errado",
+    "description": "Não foi possível mostrar esta página agora. Tente novamente ou fale conosco e nós ajudaremos.",
+    "retry": "Tentar novamente",
+    "homeCta": "Voltar ao início",
+    "contactCta": "Fale conosco"
   }
 }

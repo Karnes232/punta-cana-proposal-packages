@@ -10,7 +10,10 @@ import { buildBlogHreflangMap } from "@/i18n/hreflang";
 import {
   buildSeoMetadata,
   fallbackMissingDocumentMetadata,
+  fallbackSiteMetadata,
+  seoFields,
 } from "@/lib/seo/buildMetadata";
+import { toSiteLocale } from "@/i18n/locales";
 import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
 import {
   getBlogPostLocaleBySlug,
@@ -61,13 +64,15 @@ export default async function BlogPostPage({
           publishedAt: individualBlog.publishedAt,
           categoryTag: individualBlog.categoryTag,
           readingTime: individualBlog.readingTime,
-          photo: {
-            asset: {
-              url: individualBlog.heroPhoto.asset.url,
-              metadata: { dimensions: { width: 200, height: 300 } },
-            },
-            alt: individualBlog.heroPhoto.alt,
-          },
+          photo: individualBlog.heroPhoto?.asset?.url
+            ? {
+                asset: {
+                  url: individualBlog.heroPhoto.asset.url,
+                  metadata: { dimensions: { width: 200, height: 300 } },
+                },
+                alt: individualBlog.heroPhoto.alt,
+              }
+            : null,
         }}
         locale={locale}
       />
@@ -136,25 +141,14 @@ export async function generateMetadata({
     return fallbackMissingDocumentMetadata(locale, path, canonicalUrl);
   }
 
-  const meta = row.seo.meta;
-  const og = row.seo.openGraph;
-  const hreflangLanguages = buildBlogHreflangMap(row.hreflangSiblings);
-
+  const fields = seoFields(row.seo);
+  if (!fields.meta.title) {
+    return fallbackSiteMetadata(toSiteLocale(locale), path, canonicalUrl);
+  }
   return buildSeoMetadata({
     path,
     canonicalUrl,
-    meta: {
-      title: meta.title,
-      description: meta.description,
-      keywords: meta.keywords ?? [],
-    },
-    openGraph: {
-      title: og.title,
-      description: og.description,
-      image: row.seo.image,
-    },
-    noIndex: row.seo.noIndex,
-    noFollow: row.seo.noFollow,
-    hreflangLanguages,
+    ...fields,
+    hreflangLanguages: buildBlogHreflangMap(row.hreflangSiblings),
   });
 }

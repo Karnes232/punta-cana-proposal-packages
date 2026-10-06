@@ -33,7 +33,8 @@ export interface Faqs {
   _id: string;
   question: string;
   answer: string;
-  category: FaqsCategories;
+  /** Missing when the question's category was removed from the page. */
+  category?: FaqsCategories;
 }
 
 export interface FaqContactStrip {
@@ -46,10 +47,10 @@ export interface FaqContactStrip {
 
 // Typed like the old per-section fetchers: the sections are always written.
 export interface FaqPage {
-  hero: FaqsPageHeroComponent;
+  hero: FaqsPageHeroComponent | null;
   faqsCategories: FaqsCategories[];
   faqs: Faqs[];
-  contactStrip: FaqContactStrip;
+  contactStrip: FaqContactStrip | null;
 }
 
 type FaqPageRow = {
@@ -97,14 +98,14 @@ export async function getFaqPage(locale: string): Promise<FaqPage> {
     value: category._key,
     label: { [locale]: category.name },
   }));
-  const faqs = (row?.faq?.faqs ?? []).map(({ category, ...item }) => ({
+  const faqs: Faqs[] = (row?.faq?.faqs ?? []).map(({ category, ...item }) => ({
     ...item,
     category: faqsCategories.find((c) => c.value === category),
-  })) as Faqs[];
+  }));
   return {
-    hero: row?.hero as FaqsPageHeroComponent,
+    hero: row?.hero ?? null,
     faqsCategories,
     faqs,
-    contactStrip: row?.contactStrip as FaqContactStrip,
+    contactStrip: row?.contactStrip ?? null,
   };
 }

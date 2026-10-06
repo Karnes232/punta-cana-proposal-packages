@@ -38,38 +38,38 @@ export default async function HowItWorks({
       />
       <HowItWorksHero
         heroImage={hero?.image}
-        eyebrow={hero?.eyebrow}
-        headingLine1={hero?.headingLine1}
-        headingLine2={hero?.headingLine2}
-        subheading={hero?.subheading}
+        eyebrow={hero?.eyebrow ?? ""}
+        headingLine1={hero?.headingLine1 ?? ""}
+        headingLine2={hero?.headingLine2 ?? ""}
+        subheading={hero?.subheading ?? ""}
       />
       <HowItWorksSteps
-        eyebrow={steps?.eyebrow}
-        heading={steps?.heading}
-        headingAccent={steps?.headingAccent}
-        subheading={steps?.subheading}
-        steps={steps?.steps}
+        eyebrow={steps?.eyebrow ?? ""}
+        heading={steps?.heading ?? ""}
+        headingAccent={steps?.headingAccent ?? ""}
+        subheading={steps?.subheading ?? ""}
+        steps={steps?.steps ?? []}
       />
-      <HowItWorksReassurance items={steps?.reassurance} />
+      <HowItWorksReassurance items={steps?.reassurance ?? []} />
       <HowItWorksFaq
         locale={lang}
         faqsCategories={faqCategories}
-        eyebrow={faqsPage?.eyebrow}
-        heading={faqsPage?.heading}
-        headingAccent={faqsPage?.headingAccent}
-        subheading={faqsPage?.subheading}
-        faqs={faqsPage?.faqs}
+        eyebrow={faqsPage?.eyebrow ?? ""}
+        heading={faqsPage?.heading ?? ""}
+        headingAccent={faqsPage?.headingAccent ?? ""}
+        subheading={faqsPage?.subheading ?? ""}
+        faqs={faqsPage?.faqs ?? []}
       />
       <HowItWorksCTA
-        eyebrow={ctaPage?.eyebrow}
-        scriptLine={ctaPage?.scriptLine}
-        heading={ctaPage?.heading}
-        headingAccent={ctaPage?.headingAccent}
-        subheading={ctaPage?.subheading}
-        primaryCTA={ctaPage?.primaryCTA}
-        primaryHref={ctaPage?.primaryCTAHref}
-        secondaryCTA={ctaPage?.secondaryCTA}
-        secondaryHref={ctaPage?.secondaryCTAHref}
+        eyebrow={ctaPage?.eyebrow ?? ""}
+        scriptLine={ctaPage?.scriptLine ?? ""}
+        heading={ctaPage?.heading ?? ""}
+        headingAccent={ctaPage?.headingAccent ?? ""}
+        subheading={ctaPage?.subheading ?? ""}
+        primaryCTA={ctaPage?.primaryCTA ?? ""}
+        primaryHref={ctaPage?.primaryCTAHref ?? ""}
+        secondaryCTA={ctaPage?.secondaryCTA ?? ""}
+        secondaryHref={ctaPage?.secondaryCTAHref ?? ""}
       />
     </main>
   );
@@ -85,7 +85,8 @@ export async function generateMetadata({
   const pageSeo = await getPageSeo("how-it-works", locale);
   const path = "/how-it-works";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  // No SEO title: the site default, rather than an empty <title>.
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 

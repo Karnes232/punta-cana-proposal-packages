@@ -32,18 +32,18 @@ export default async function FAQ({
       />
       <FaqHero
         heroImage={hero?.heroImage}
-        eyebrow={hero?.eyebrow}
-        headingLine1={hero?.headingLine1}
-        headingLine2={hero?.headingLine2}
-        subheading={hero?.subheading}
+        eyebrow={hero?.eyebrow ?? ""}
+        headingLine1={hero?.headingLine1 ?? ""}
+        headingLine2={hero?.headingLine2 ?? ""}
+        subheading={hero?.subheading ?? ""}
       />
       <FaqContent locale={lang} faqsCategories={faqsCategories} faqs={faqs} />
       <FaqContactStrip
-        eyebrow={contactStrip?.eyebrow}
-        line1={contactStrip?.line1}
-        line2={contactStrip?.line2}
-        body={contactStrip?.body}
-        cta={contactStrip?.cta}
+        eyebrow={contactStrip?.eyebrow ?? ""}
+        line1={contactStrip?.line1 ?? ""}
+        line2={contactStrip?.line2 ?? ""}
+        body={contactStrip?.body ?? ""}
+        cta={contactStrip?.cta ?? ""}
       />
     </main>
   );
@@ -59,7 +59,8 @@ export async function generateMetadata({
   const pageSeo = await getPageSeo("faq", locale);
   const path = "/faq";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  // No SEO title: the site default, rather than an empty <title>.
+  if (!pageSeo?.seo?.meta?.title) {
     return fallbackSiteMetadata(locale, path, canonicalUrl);
   }
 

@@ -75,5 +75,12 @@
     "eyebrow": "Mentions légales",
     "privacyTitle": "Politique de confidentialité",
     "termsTitle": "Conditions d’utilisation"
+  },
+  "ErrorPage": {
+    "heading": "Un problème est survenu",
+    "description": "Cette page ne peut pas s’afficher pour le moment. Réessayez, ou contactez-nous et nous vous aiderons.",
+    "retry": "Réessayer",
+    "homeCta": "Retour à l’accueil",
+    "contactCta": "Contactez-nous"
   }
 }

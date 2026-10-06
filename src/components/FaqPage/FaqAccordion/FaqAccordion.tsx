@@ -31,7 +31,7 @@ export default function FaqAccordion({
   const visibleItems: Faqs[] =
     activeCategory === "all"
       ? faqs
-      : faqs.filter((faq) => faq.category.value === activeCategory);
+      : faqs.filter((faq) => faq.category?.value === activeCategory);
 
   const totalPages = Math.max(
     1,

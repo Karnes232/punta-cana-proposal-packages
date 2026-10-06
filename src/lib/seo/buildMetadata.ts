@@ -19,14 +19,20 @@ type OgImageInput = {
  * to the Open Graph text.
  */
 export function seoFields(seo: DocumentSeo | null | undefined) {
-  const title = seo?.meta?.title ?? seo?.openGraph?.title ?? "";
+  // Empty strings count as missing, like absent fields.
+  const title = seo?.meta?.title || seo?.openGraph?.title || "";
   const description =
-    seo?.meta?.description ?? seo?.openGraph?.description ?? "";
+    seo?.meta?.description || seo?.openGraph?.description || "";
+  const keywords = seo?.meta?.keywords;
   return {
-    meta: { title, description, keywords: seo?.meta?.keywords ?? [] },
+    meta: {
+      title,
+      description,
+      keywords: Array.isArray(keywords) ? keywords : [],
+    },
     openGraph: {
-      title: seo?.openGraph?.title ?? title,
-      description: seo?.openGraph?.description ?? description,
+      title: seo?.openGraph?.title || title,
+      description: seo?.openGraph?.description || description,
       image: seo?.image,
     },
     noIndex: seo?.noIndex,

@@ -43,3 +43,10 @@ export const documentSeoProjection = /* groq */ `seo {
   noIndex,
   noFollow
 }`;
+
+/**
+ * A post or story a list can show: it has a URL and a hero photo file.
+ * Documents created outside the Studio can lack either; lists skip them
+ * instead of breaking the page.
+ */
+export const listable = /* groq */ `defined(slug.current) && defined(heroPhoto.asset)`;

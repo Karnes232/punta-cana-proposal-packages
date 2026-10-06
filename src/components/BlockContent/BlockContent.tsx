@@ -27,6 +27,8 @@ const builder = imageUrlBuilder(client);
 const components: PortableTextComponents = {
   types: {
     image: ({ value }: { value: ImageBlock }) => {
+      // An image block whose file was never uploaded has nothing to show.
+      if (!(value as { asset?: unknown } | undefined)?.asset) return null;
       const imageUrl = builder.image(value).url();
       return (
         <figure className="my-10">

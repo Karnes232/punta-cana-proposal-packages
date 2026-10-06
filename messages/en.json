@@ -75,5 +75,12 @@
     "eyebrow": "Legal",
     "privacyTitle": "Privacy Policy",
     "termsTitle": "Terms of Service"
+  },
+  "ErrorPage": {
+    "heading": "Something went wrong",
+    "description": "This page couldn't be shown right now. Please try again, or contact us and we'll help you.",
+    "retry": "Try again",
+    "homeCta": "Back to home",
+    "contactCta": "Contact us"
   }
 }

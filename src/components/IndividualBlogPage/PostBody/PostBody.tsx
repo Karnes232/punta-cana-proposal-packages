@@ -14,12 +14,14 @@ export default function PostBody({ data, locale = "en" }: PostBodyProps) {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12 xl:gap-20">
           {/* ── Left: post content ── */}
-          {data.excerpt && data.body && (
+          {/* The article shows whenever it has text; the pull quote only
+              when there's an excerpt. */}
+          {data.body?.length ? (
             <div className="min-w-0">
-              <PostPullQuote excerpt={data.excerpt} />
+              {data.excerpt && <PostPullQuote excerpt={data.excerpt} />}
               <PostPortableText body={data.body} />
             </div>
-          )}
+          ) : null}
           {/* ── Right: sticky sidebar ── */}
           {data.title &&
             data.publishedAt &&
