@@ -10,7 +10,7 @@ import {
 import type { DefaultText } from "@/lib/experience/types";
 import { bi } from "../shared/labels";
 import { languageField } from "../shared/languageField";
-import { section } from "../shared/pageSections";
+import { pageSeo, section } from "../shared/pageSections";
 import { siteText } from "./experienceCatalogSettings";
 import { field, image } from "./shared";
 
@@ -95,12 +95,7 @@ const catalogPage = ({
         }),
       ),
       // Last, like the bottom of the page: this language's SEO.
-      defineField({
-        name: "seo",
-        title: "SEO",
-        type: "blogPostSeo",
-        group: "seo",
-      }),
+      pageSeo(),
     ],
     preview: { prepare: () => ({ title }) },
   });

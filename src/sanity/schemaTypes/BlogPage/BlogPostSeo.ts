@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { bi } from "../shared/labels";
 
 /** Single-language SEO object embedded on each blogPost (per translation document). */
 export default defineType({
@@ -15,20 +16,39 @@ export default defineType({
           name: "title",
           title: "Meta Title",
           type: "string",
-          validation: (Rule) =>
-            Rule.max(60).warning(
-              "Meta titles longer than 60 characters may be truncated",
+          // The page's <title>: without it the browser tab and Google show
+          // no title at all.
+          validation: (Rule) => [
+            Rule.required().error(
+              bi("Escribe el título para Google", "Write the title for Google"),
             ),
+            Rule.max(60).warning(
+              bi(
+                "Más de 60 caracteres: Google puede cortarlo",
+                "Over 60 characters: Google may cut it off",
+              ),
+            ),
+          ],
         }),
         defineField({
           name: "description",
           title: "Meta Description",
           type: "text",
           rows: 3,
-          validation: (Rule) =>
-            Rule.max(160).warning(
-              "Meta descriptions longer than 160 characters may be truncated",
+          validation: (Rule) => [
+            Rule.required().warning(
+              bi(
+                "Sin descripción, Google elige un texto de la página",
+                "Without a description, Google picks text from the page",
+              ),
             ),
+            Rule.max(160).warning(
+              bi(
+                "Más de 160 caracteres: Google puede cortarla",
+                "Over 160 characters: Google may cut it off",
+              ),
+            ),
+          ],
         }),
         defineField({
           name: "keywords",
@@ -66,16 +86,38 @@ export default defineType({
       title: "Structured Data (JSON-LD)",
       type: "text",
       description: "Paste schema.org JSON-LD for this language version",
-      validation: (Rule) =>
-        Rule.custom((text) => {
+      validation: (Rule) => [
+        Rule.custom((text?: string) => {
           if (!text) return true;
           try {
             JSON.parse(text);
             return true;
           } catch {
-            return "Must be valid JSON";
+            return bi(
+              "No es JSON válido (revisa comillas y comas)",
+              "Not valid JSON (check quotes and commas)",
+            );
           }
         }),
+        Rule.custom((text?: string) => {
+          if (!text) return true;
+          try {
+            const data: unknown = JSON.parse(text);
+            const items = Array.isArray(data) ? data : [data];
+            return items.every(
+              (item) =>
+                item !== null && typeof item === "object" && "@context" in item,
+            )
+              ? true
+              : bi(
+                  "Le falta «@context»: Google no lo reconocerá",
+                  "It has no «@context»: Google won't recognize it",
+                );
+          } catch {
+            return true;
+          }
+        }).warning(),
+      ],
     }),
     defineField({
       name: "noIndex",

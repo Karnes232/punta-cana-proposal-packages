@@ -1,6 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { languageField } from "../shared/languageField";
 import { bi } from "../shared/labels";
+import { pageSeo } from "../shared/pageSections";
 
 export const legalDocuments = defineType({
   name: "legalDocument",
@@ -18,15 +19,10 @@ export const legalDocuments = defineType({
       type: "array",
       group: "content",
       of: [{ type: "block" }],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().min(1),
     }),
     // Last, like the bottom of the page: this language's SEO.
-    defineField({
-      name: "seo",
-      title: "SEO",
-      type: "blogPostSeo",
-      group: "seo",
-    }),
+    pageSeo(),
   ],
   preview: {
     select: { id: "_id" },

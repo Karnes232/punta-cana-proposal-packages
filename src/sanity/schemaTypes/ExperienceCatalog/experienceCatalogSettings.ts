@@ -9,6 +9,7 @@ import {
   type FieldDefinition,
 } from "sanity";
 import { bi } from "../shared/labels";
+import { pageSeo } from "../shared/pageSections";
 import { image } from "./shared";
 import { languageField } from "../shared/languageField";
 import { CATALOG_TEXT_SECTIONS } from "./catalogTextPlaces";
@@ -332,12 +333,7 @@ export const catalogHome = defineType({
       ),
     ]),
     // Last, like the bottom of the page: this language's SEO.
-    defineField({
-      name: "seo",
-      title: "SEO",
-      type: "blogPostSeo",
-      group: "seo",
-    }),
+    pageSeo(),
   ],
 });
 export const catalogContact = defineType({
@@ -386,11 +382,6 @@ export const catalogContact = defineType({
       ),
     }),
     // Last, like the bottom of the page: this language's SEO.
-    defineField({
-      name: "seo",
-      title: "SEO",
-      type: "blogPostSeo",
-      group: "seo",
-    }),
+    pageSeo(),
   ],
 });

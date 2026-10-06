@@ -1,5 +1,6 @@
 import { defineField, type FieldDefinition, type PreviewValue } from "sanity";
 import { bi } from "../shared/labels";
+import { altIfImage, imageFileIfSet } from "../shared/validation";
 export const field = (
   name: string,
   type = "string",
@@ -61,6 +62,11 @@ export const image = (
           "Describe the photo for Google and screen readers",
         ),
       },
+    ],
+    // An added photo needs its file; its alt text is strongly advised.
+    validation: (Rule) => [
+      Rule.custom(imageFileIfSet),
+      Rule.custom(altIfImage).warning(),
     ],
   });
 export const refs = (

@@ -2,7 +2,14 @@ import { defineField, defineType } from "sanity";
 import { ComposeIcon } from "@sanity/icons";
 import { bi } from "../shared/labels";
 import { languageField } from "../shared/languageField";
-import { required, section } from "../shared/pageSections";
+import { sameLanguage } from "../shared/validation";
+import {
+  link,
+  optionalImage,
+  pageSeo,
+  required,
+  section,
+} from "../shared/pageSections";
 
 /**
  * The blog page in one language (blogPage-<language>): its hero, featured
@@ -29,22 +36,10 @@ export default defineType({
         required("headingLine1", "string", "Heading Line 1"),
         required("headingLine2", "string", "Heading Line 2"),
         required("subheading", "text", "Subheading"),
-        defineField({
-          name: "image",
-          title: "Image",
-          type: "image",
-          description: "The image is optional",
-          fields: [
-            defineField({
-              name: "alt",
-              title: "Alternative Text",
-              type: "string",
-              validation: (Rule) => Rule.required(),
-            }),
-          ],
-        }),
+        optionalImage("image", "Image"),
       ],
       false,
+      true,
     ),
     defineField({
       name: "featuredPost",
@@ -63,22 +58,24 @@ export default defineType({
           params: { language: document.language },
         }),
       },
+      validation: (Rule) => Rule.custom(sameLanguage).warning(),
     }),
-    section("cta", bi("Franja final", "Closing banner"), [
-      required("eyebrow", "string", "Eyebrow"),
-      required("heading", "string", "Heading"),
-      required("headingAccent", "string", "Heading Accent"),
-      required("subheading", "text", "Subheading"),
-      required("ctaLabel", "string", "CTA Label"),
-      required("ctaHref", "string", "CTA Href"),
-    ]),
+    section(
+      "cta",
+      bi("Franja final", "Closing banner"),
+      [
+        required("eyebrow", "string", "Eyebrow"),
+        required("heading", "string", "Heading"),
+        required("headingAccent", "string", "Heading Accent"),
+        required("subheading", "text", "Subheading"),
+        required("ctaLabel", "string", "CTA Label"),
+        link("ctaHref", "CTA Href"),
+      ],
+      true,
+      true,
+    ),
     // Last, like the bottom of the page: this language's SEO.
-    defineField({
-      name: "seo",
-      title: "SEO",
-      type: "blogPostSeo",
-      group: "seo",
-    }),
+    pageSeo(),
   ],
   preview: {
     prepare: () => ({ title: bi("Página del blog", "Blog page") }),
