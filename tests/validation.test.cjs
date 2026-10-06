@@ -68,3 +68,11 @@ test("structured data text from the Studio becomes JSON-LD, invalid text is drop
   const object = { "@type": "Service" };
   assert.equal(structuredData(object), object);
 });
+
+test("JSON-LD text can't close its script tag and stays valid JSON", () => {
+  const { jsonLdText } = require(`${out}/lib/seo/structuredData.js`);
+  const data = { name: "</script><script>alert(1)</script> & co" };
+  const text = jsonLdText(data);
+  assert.ok(!/[<>&]/.test(text));
+  assert.deepEqual(JSON.parse(text), data);
+});

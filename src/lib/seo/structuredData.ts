@@ -12,3 +12,15 @@ export function structuredData(data: unknown): unknown {
     return null;
   }
 }
+
+/**
+ * JSON-LD as text that is safe inside a <script>: `<`, `>`, `&` and the
+ * line/paragraph separators are written as \u escapes, so text from the
+ * CMS (e.g. "</script>") can't end the script early. Still valid JSON.
+ */
+export function jsonLdText(value: unknown): string {
+  return JSON.stringify(value).replace(
+    /[<>&\u2028\u2029]/g,
+    (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, "0")}`,
+  );
+}

@@ -1,4 +1,4 @@
-import { structuredData } from "@/lib/seo/structuredData";
+import { jsonLdText, structuredData } from "@/lib/seo/structuredData";
 
 /**
  * Server-rendered JSON-LD so crawlers receive schema in the initial HTML
@@ -14,7 +14,7 @@ export default function JsonLd({ id, data }: { id?: string; data: unknown }) {
     <script
       id={id}
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(value) }}
+      dangerouslySetInnerHTML={{ __html: jsonLdText(value) }}
     />
   );
 }

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import JsonLd from "@/components/seo/JsonLd";
 import {
   getExperiences,
   getCatalogContent,
@@ -34,15 +35,7 @@ export default async function Page({
     <main className={shellClass()}>
       <div className={wrapClass} style={{ maxWidth: 850 }}>
         <h1>{local(e.name, locale)}</h1>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(json).replaceAll(
-              "<",
-              String.fromCharCode(92) + "u003c",
-            ),
-          }}
-        />
+        <JsonLd data={json} />
         <ExperienceCard
           experience={e}
           locale={locale}
