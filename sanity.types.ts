@@ -844,6 +844,8 @@ export type ExperienceCatalogSettings = {
   menu?: string;
   proposalSectionTitle?: string;
   dinnerSectionTitle?: string;
+  footerExplore?: string;
+  footerContact?: string;
   blog?: string;
   faq?: string;
   privacy?: string;
@@ -2464,6 +2466,8 @@ export type CatalogContentQueryResult = {
         menu?: string;
         proposalSectionTitle?: string;
         dinnerSectionTitle?: string;
+        footerExplore?: string;
+        footerContact?: string;
         blog?: string;
         faq?: string;
         privacy?: string;
@@ -3583,6 +3587,8 @@ export type CatalogContentQueryResult = {
         menu?: string;
         proposalSectionTitle?: string;
         dinnerSectionTitle?: string;
+        footerExplore?: string;
+        footerContact?: string;
         blog?: string;
         faq?: string;
         privacy?: string;
@@ -4773,6 +4779,8 @@ export type CatalogContentQueryResult = {
         menu?: string;
         proposalSectionTitle?: string;
         dinnerSectionTitle?: string;
+        footerExplore?: string;
+        footerContact?: string;
         blog?: string;
         faq?: string;
         privacy?: string;

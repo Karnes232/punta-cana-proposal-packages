@@ -349,6 +349,18 @@ export const ui: Record<string, DefaultText> = {
     fr: "Conditions d’utilisation",
     pt: "Termos de serviço",
   },
+  footerExplore: {
+    en: "Explore",
+    es: "Descubre",
+    fr: "Découvrir",
+    pt: "Explorar",
+  },
+  footerContact: {
+    en: "Contact",
+    es: "Contacto",
+    fr: "Contact",
+    pt: "Contato",
+  },
   rightsReserved: {
     en: "All rights reserved.",
     es: "Todos los derechos reservados.",

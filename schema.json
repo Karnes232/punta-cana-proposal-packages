@@ -5172,6 +5172,20 @@
         },
         "optional": true
       },
+      "footerExplore": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "footerContact": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "blog": {
         "type": "objectAttribute",
         "value": {

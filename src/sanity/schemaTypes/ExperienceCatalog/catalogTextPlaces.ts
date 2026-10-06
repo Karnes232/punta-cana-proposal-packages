@@ -77,6 +77,20 @@ export const CATALOG_TEXT_SECTIONS: CatalogTextSection[] = [
           "Footer link; also the Romantic dinners browser-tab title when its SEO has no title",
         ),
       ],
+      [
+        "footerExplore",
+        bi(
+          "Título de la columna de enlaces del pie de página",
+          "Heading of the footer's link column",
+        ),
+      ],
+      [
+        "footerContact",
+        bi(
+          "Título de la columna de teléfono, correo y redes del pie de página",
+          "Heading of the footer's phone, email and social column",
+        ),
+      ],
       ["blog", footerLink],
       ["faq", footerLink],
       ["privacy", footerLink],
