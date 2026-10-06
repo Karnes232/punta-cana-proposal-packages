@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import type { StoryBodyData } from "./types";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { formatSanityDate } from "@/lib/formatDate";
 interface StorySidebarProps {
   data: StoryBodyData;
 }
@@ -25,6 +26,7 @@ function SidebarDetailRow({ label, value }: SidebarDetailRowProps) {
 
 export default function StorySidebar({ data }: StorySidebarProps) {
   const t = useTranslations("IndividualStoryPage");
+  const locale = useLocale();
 
   return (
     <aside className="lg:sticky lg:top-8 self-start">
@@ -50,7 +52,14 @@ export default function StorySidebar({ data }: StorySidebarProps) {
             label={t("package") as string}
             value={data.packageTag}
           />
-          <SidebarDetailRow label={t("proposed") as string} value={data.date} />
+          <SidebarDetailRow
+            label={t("proposed") as string}
+            value={formatSanityDate(data.date, locale, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          />
           <SidebarDetailRow
             label={t("location") as string}
             value={data.location}

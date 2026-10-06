@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { PostBodyData } from "./types";
+import { formatSanityDate } from "@/lib/formatDate";
 
 interface SidebarDetailRowProps {
   label: string;
@@ -33,12 +34,11 @@ export default function PostSidebar({ data, locale }: PostSidebarProps) {
   const readTimeSuffix = t("minRead");
   const ctaLabel = t("planCta");
 
-  const dateStr = new Date(data.publishedAt).toLocaleDateString(locale, {
+  const capitalizedDate = formatSanityDate(data.publishedAt, locale, {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <aside className="lg:sticky lg:top-8 self-start">

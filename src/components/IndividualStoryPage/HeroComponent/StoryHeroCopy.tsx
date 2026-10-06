@@ -1,4 +1,5 @@
 import type { SiteLocale } from "@/i18n/locales";
+import { formatSanityDate } from "@/lib/formatDate";
 interface StoryHeroCopyProps {
   names: string;
   packageTag: string;
@@ -14,11 +15,10 @@ export default function StoryHeroCopy({
   location,
   locale,
 }: StoryHeroCopyProps) {
-  const dateStr = new Date(date).toLocaleDateString(locale, {
+  const capitalizedDate = formatSanityDate(date, locale, {
     month: "long",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <div className="flex flex-col gap-4">

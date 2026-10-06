@@ -76,3 +76,20 @@ test("JSON-LD text can't close its script tag and stays valid JSON", () => {
   assert.ok(!/[<>&]/.test(text));
   assert.deepEqual(JSON.parse(text), data);
 });
+
+test("a Sanity date shows the calendar day it is, in any timezone", () => {
+  const { formatSanityDate } = require(`${out}/lib/formatDate.js`);
+  const day = { month: "long", day: "numeric", year: "numeric" };
+  assert.equal(formatSanityDate("2024-12-01", "en", day), "December 1, 2024");
+  assert.equal(
+    formatSanityDate("2024-12-01", "es", day),
+    "1 de diciembre de 2024",
+  );
+  assert.equal(
+    formatSanityDate("2024-12-01", "es", { month: "long", year: "numeric" }),
+    "Diciembre de 2024",
+  );
+  assert.equal(formatSanityDate("", "en", day), "");
+  assert.equal(formatSanityDate(null, "en", day), "");
+  assert.equal(formatSanityDate("not a date", "en", day), "");
+});

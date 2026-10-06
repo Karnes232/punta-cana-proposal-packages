@@ -2,6 +2,7 @@ import type { SiteLocale } from "@/i18n/locales";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import type { StoryCardData } from "./types";
+import { formatSanityDate } from "@/lib/formatDate";
 
 interface StoryCardProps {
   story: StoryCardData;
@@ -23,11 +24,10 @@ export default function StoryCard({
   variant,
   locale,
 }: StoryCardProps) {
-  const dateStr = new Date(story.date).toLocaleDateString(locale, {
+  const capitalizedDate = formatSanityDate(story.date, locale, {
     month: "long",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">

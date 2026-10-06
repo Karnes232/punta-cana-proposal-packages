@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
+import { formatSanityDate } from "@/lib/formatDate";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -24,12 +25,11 @@ export default function BlogCard({
   variant,
   dateLocale,
 }: BlogCardProps) {
-  const dateStr = new Date(post.publishedAt).toLocaleDateString(dateLocale, {
+  const capitalizedDate = formatSanityDate(post.publishedAt, dateLocale, {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">

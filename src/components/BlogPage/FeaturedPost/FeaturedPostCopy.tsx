@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/BlogPage";
+import { formatSanityDate } from "@/lib/formatDate";
 
 interface FeaturedPostCopyProps {
   post: FeaturedPostType;
@@ -13,12 +14,11 @@ export default function FeaturedPostCopy({
 }: FeaturedPostCopyProps) {
   const ctaLabel = useTranslations("BlogPage")("readArticle");
 
-  const dateStr = new Date(post.publishedAt).toLocaleDateString(dateLocale, {
+  const capitalizedDate = formatSanityDate(post.publishedAt, dateLocale, {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <div className="flex flex-col justify-center gap-7 px-8 py-12 md:px-12 md:py-16 bg-white">

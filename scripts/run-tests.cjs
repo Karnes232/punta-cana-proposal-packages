@@ -16,6 +16,7 @@ for (const args of [
     "src/sanity/schemaTypes/ExperienceCatalog/catalogTextPlaces.ts",
     "src/sanity/schemaTypes/shared/validation.ts",
     "src/lib/seo/structuredData.ts",
+    "src/lib/formatDate.ts",
     "--outDir",
     out,
     // Keep src/ paths in the output (lib/experience/pricing.js, …).

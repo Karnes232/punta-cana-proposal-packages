@@ -2,6 +2,7 @@ import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 import { type StoryMetaBarData } from "./types";
 import { MetaDivider, MetaItem } from "@/components/ui/MetaItem";
+import { formatSanityDate } from "@/lib/formatDate";
 
 interface StoryMetaBarProps {
   data: StoryMetaBarData;
@@ -11,11 +12,10 @@ interface StoryMetaBarProps {
 export default function StoryMetaBar({ data, locale }: StoryMetaBarProps) {
   const t = useTranslations("IndividualStoryPage");
 
-  const dateStr = new Date(data.date).toLocaleDateString(locale, {
+  const capitalizedDate = formatSanityDate(data.date, locale, {
     month: "long",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <div className="w-full bg-white border-b border-gold/20">

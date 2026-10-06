@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { useLocale } from "next-intl";
+import { formatSanityDate } from "@/lib/formatDate";
 import { Link } from "@/i18n/navigation";
 import type { MoreStoriesStory } from "./types";
 
@@ -11,6 +13,7 @@ export default function MoreStoriesCard({
   story,
   readMoreLabel,
 }: MoreStoriesCardProps) {
+  const locale = useLocale();
   return (
     <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">
       {/* Photo */}
@@ -53,7 +56,10 @@ export default function MoreStoriesCard({
         {/* Footer */}
         <div className="flex items-center justify-between pt-4 mt-auto border-t border-gold/20">
           <span className="text-[10.5px] font-body font-light tracking-[0.04em] text-gray">
-            {story.date}
+            {formatSanityDate(story.date, locale, {
+              month: "long",
+              year: "numeric",
+            })}
           </span>
           <Link
             href={`/stories/${story.slug}`}

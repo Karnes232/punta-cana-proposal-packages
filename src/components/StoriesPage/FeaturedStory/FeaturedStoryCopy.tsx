@@ -2,6 +2,7 @@ import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { FeaturedStoryData } from "./types";
+import { formatSanityDate } from "@/lib/formatDate";
 
 interface FeaturedStoryCopyProps {
   story: FeaturedStoryData;
@@ -15,11 +16,10 @@ export default function FeaturedStoryCopy({
   const ctaLabel = useTranslations("StoriesPage")("readTheirStory");
   const proposedPrefix = useTranslations("IndividualStoryPage")("proposed");
 
-  const dateStr = new Date(story.date).toLocaleDateString(locale, {
+  const capitalizedDate = formatSanityDate(story.date, locale, {
     month: "long",
     year: "numeric",
   });
-  const capitalizedDate = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
 
   return (
     <div className="flex flex-col justify-center gap-7 px-8 py-12 md:px-12 md:py-16 bg-white">
