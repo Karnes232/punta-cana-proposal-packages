@@ -150,9 +150,9 @@ export function hasImage(value: unknown) {
   return !!(value as { asset?: { _ref?: string } } | undefined)?.asset?._ref;
 }
 
-// The dinner template is shown on the site (the dinners page and the
-// proposals' "dinner for two" extra) although it stays inactive.
-const shownOnSite = (d: Record<string, unknown>) =>
+// The dinner template stays inactive, but its menu is the proposals'
+// "dinner for two" extra, so its menu must be complete too.
+const menuShownOnSite = (d: Record<string, unknown>) =>
   !!d.active ||
   String(d._id ?? "").replace(/^drafts\./, "") === DINNER_TEMPLATE_ID;
 
@@ -192,7 +192,7 @@ export function validExperience(value: unknown): true | Problem[] {
         "A whole number from 1 to the included guests",
       ),
     );
-  if (shownOnSite(d)) {
+  if (d.active) {
     if (!(d.slug as { current?: string })?.current)
       problems.push(
         at("slug", "Falta la URL (slug)", "The URL (slug) is missing"),
@@ -284,7 +284,7 @@ export async function dinnerMenuComplete(
   context: ValidationContext,
 ): Promise<true | Problem> {
   const d = value as Record<string, unknown> | undefined;
-  if (!d || !shownOnSite(d)) return true;
+  if (!d || !menuShownOnSite(d)) return true;
   const ids = ((d.menuItems as { _ref?: string }[] | undefined) ?? [])
     .map((r) => r._ref)
     .filter(Boolean);

@@ -17,11 +17,6 @@ export default defineType({
       if (!v?.active) return true;
       if (!hasImage(v.mainImage))
         return bi("Añade la foto principal", "Add the main photo");
-      if (!(v.mainImage as { alt?: { en?: string } }).alt?.en?.trim())
-        return bi(
-          "Describe la foto principal en inglés (texto alternativo)",
-          "Describe the main photo in English (alt text)",
-        );
       if (typeof v.price !== "number")
         return bi("Indica el precio del estilo", "Enter the style's price");
       return true;

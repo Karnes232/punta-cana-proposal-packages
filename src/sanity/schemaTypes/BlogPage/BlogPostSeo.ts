@@ -73,7 +73,14 @@ export default defineType({
           rows: 3,
         }),
       ],
-      validation: (R) => R.required(),
+      // Social cards fall back to the meta title and description.
+      validation: (R) =>
+        R.required().warning(
+          bi(
+            "Sin datos para redes, se usan el título y la descripción",
+            "Without social data, the title and description are used",
+          ),
+        ),
     }),
     defineField({
       name: "image",

@@ -12,12 +12,7 @@ export default defineType({
       if (!v?.active) return true;
       if (!hasImage(v.mainImage))
         return bi("Añade la foto principal", "Add the main photo");
-      return (v.mainImage as { alt?: { en?: string } }).alt?.en?.trim()
-        ? true
-        : bi(
-            "Describe la foto principal en inglés (texto alternativo)",
-            "Describe the main photo in English (alt text)",
-          );
+      return true;
     }),
   preview: { select: { title: "name.en", media: "mainImage" } },
 });
