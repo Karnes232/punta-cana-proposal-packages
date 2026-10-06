@@ -21,15 +21,6 @@ import {
 import { notFound, permanentRedirect } from "next/navigation";
 import { requireLocale } from "@/i18n/requireLocale";
 
-function parseJsonLd(raw: string | null | undefined): unknown {
-  if (raw == null || raw === "") return null;
-  try {
-    return JSON.parse(raw) as unknown;
-  } catch {
-    return null;
-  }
-}
-
 export default async function BlogPostPage({
   params,
 }: {
@@ -62,7 +53,7 @@ export default async function BlogPostPage({
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={parseJsonLd(individualBlog.seo.structuredData)}
+        data={individualBlog.seo.structuredData}
       />
       <PostHero
         post={{

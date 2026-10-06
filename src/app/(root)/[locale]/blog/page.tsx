@@ -20,15 +20,6 @@ import { getBlogPage } from "@/sanity/queries/BlogPage/BlogPage";
 import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
 import { requireLocale } from "@/i18n/requireLocale";
 
-function parseJsonLd(raw: string | null | undefined): unknown {
-  if (raw == null || raw === "") return null;
-  try {
-    return JSON.parse(raw) as unknown;
-  } catch {
-    return null;
-  }
-}
-
 export default async function Blog({
   params,
 }: {
@@ -61,7 +52,7 @@ export default async function Blog({
     <main>
       <JsonLd
         id="structured-data-schema"
-        data={parseJsonLd(structuredData?.seo?.structuredData)}
+        data={structuredData?.seo?.structuredData}
       />
       <BlogHero
         eyebrow={hero?.eyebrow ?? ""}
@@ -101,7 +92,7 @@ export async function generateMetadata({
   const pageSeo = await getPageSeo("blog", seoLocale);
   const path = "/blog";
   const canonicalUrl = siteCanonicalUrl(locale, path);
-  if (!pageSeo) {
+  if (!pageSeo?.seo) {
     return fallbackSiteMetadata(seoLocale, path, canonicalUrl);
   }
 

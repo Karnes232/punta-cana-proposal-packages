@@ -14,6 +14,8 @@ for (const args of [
     "src/lib/experience/labels.ts",
     "src/lib/experience/catalogPages.ts",
     "src/sanity/schemaTypes/ExperienceCatalog/catalogTextPlaces.ts",
+    "src/sanity/schemaTypes/shared/validation.ts",
+    "src/lib/seo/structuredData.ts",
     "--outDir",
     out,
     // Keep src/ paths in the output (lib/experience/pricing.js, …).
@@ -31,6 +33,7 @@ for (const args of [
     "tests/pricing.test.cjs",
     "tests/components.test.cjs",
     "tests/requests.test.cjs",
+    "tests/validation.test.cjs",
   ],
 ]) {
   const run = spawnSync(process.execPath, args, { stdio: "inherit" });
