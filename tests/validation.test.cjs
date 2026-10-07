@@ -100,3 +100,45 @@ test("the proxy runs for every language's URLs", () => {
   const listed = proxy.match(/"\/\(([a-z|]+)\)\/:path\*"/)[1].split("|");
   assert.deepEqual([...listed].sort(), [...ALL_LOCALES].sort());
 });
+
+test("the footer shows and dials phone numbers with their country code", () => {
+  const contact = require(`${out}/components/Layout/Footer/contact.js`);
+  assert.equal(contact.formatPhone("18094929868"), "+1 (809) 492-9868");
+  assert.equal(contact.dialNumber("1 809-492-9868"), "+18094929868");
+  assert.equal(contact.formatPhone("+44 20 7946 0958"), "+44 20 7946 0958");
+  assert.equal(contact.dialNumber("+44 20 7946 0958"), "+442079460958");
+  assert.equal(contact.isProfileLink("https://www.instagram.com/brand"), true);
+  // An empty placeholder from the Studio is not a profile.
+  assert.equal(contact.isProfileLink("https://x.com/"), false);
+  assert.equal(contact.isProfileLink("javascript:alert(1)"), false);
+});
+
+test("the header finds the page and links it in every language", () => {
+  const nav = require(`${out}/components/Layout/Navbar/navigation.js`);
+  assert.deepEqual(nav.pagePath("/de/blog/ein-beitrag"), {
+    path: "/blog/ein-beitrag",
+    urlLanguage: "de",
+  });
+  assert.deepEqual(nav.pagePath("/proposals"), {
+    path: "/proposals",
+    urlLanguage: "en",
+  });
+  assert.equal(nav.pagePath("/fr").path, "/");
+  assert.equal(
+    nav.languageHref("fr", "/how-it-works", null),
+    "/fr/how-it-works",
+  );
+  assert.equal(nav.languageHref("en", "/how-it-works", null), "/how-it-works");
+  assert.equal(nav.languageHref("es", "/", null), "/es");
+  assert.equal(nav.languageHref("de", "/blog", null), "/de/blog");
+  // A post links to its translation's own slug, or that language's blog.
+  const alternates = [{ language: "es", path: "/blog/una-entrada" }];
+  assert.equal(
+    nav.languageHref("es", "/blog/a-post", alternates),
+    "/es/blog/una-entrada",
+  );
+  assert.equal(nav.languageHref("it", "/blog/a-post", alternates), "/it/blog");
+  assert.equal(nav.inSection("/proposals/love-signature", "proposals"), true);
+  assert.equal(nav.isPage("/proposals/love-signature", "proposals"), false);
+  assert.equal(nav.inSection("/proposals", ""), false);
+});

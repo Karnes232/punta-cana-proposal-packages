@@ -19,6 +19,8 @@ for (const args of [
     "src/lib/seo/structuredData.ts",
     "src/lib/formatDate.ts",
     "src/i18n/locales.ts",
+    "src/components/Layout/Navbar/navigation.ts",
+    "src/components/Layout/Footer/contact.ts",
     "--outDir",
     out,
     // Keep src/ paths in the output (lib/experience/pricing.js, …).

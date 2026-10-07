@@ -22,6 +22,7 @@ Never commit minified or one-line code.
 | -------------------------------- | --------------------------------------------------------------------------- |
 | `src/app/(root)/[locale]/`       | Routes. Keep pages thin: fetch data, render components.                     |
 | `src/components/<Area>/`         | Components, grouped by page or feature (`BlogPage/`, `ExperienceCatalog/`). |
+| `src/components/Layout/`         | The site header (`Navbar/`) and footer (`Footer/`), on every page.          |
 | `src/lib/<domain>/`              | Non-UI logic: pricing, normalizing, SEO helpers.                            |
 | `src/sanity/schemaTypes/<Area>/` | Sanity schemas. Register every one in `schemaTypes/index.ts`.               |
 | `src/sanity/queries/<Area>/`     | GROQ queries and their result types.                                        |

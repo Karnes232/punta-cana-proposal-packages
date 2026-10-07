@@ -12,6 +12,20 @@
 }
 
 /* Slow settle on page hero images: animate-[slowZoom_10s_ease_forwards] */
+/* The phone menu: the sheet fades in, its links rise in turn. */
+@keyframes ec-sheet-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes ec-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 @keyframes slowZoom {
   from {
     transform: scale(1.03);
