@@ -11,18 +11,26 @@ import {
  * The header's language switcher: a button with the current language that
  * opens the list of languages this page exists in. A disclosure of links
  * (not an ARIA menu): Escape or a click outside closes it.
+ *
+ * Inline (in the phone menu), the same links are listed directly under a
+ * "Language" heading, with no button.
  */
 export default function LanguageMenu({
   current,
   languages,
   hrefFor,
   label,
+  inline = false,
+  onPick,
 }: {
   current: AppLocale;
   languages: readonly AppLocale[];
   hrefFor: (language: AppLocale) => string;
-  /** "Language" in the visitor's language, for screen readers. */
+  /** "Language" in the visitor's language. */
   label: string;
+  inline?: boolean;
+  /** Called when a language is chosen (the phone menu closes itself). */
+  onPick?: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
@@ -47,8 +55,11 @@ export default function LanguageMenu({
         lang={language}
         hrefLang={language}
         aria-current={language === current ? "true" : undefined}
-        className={`flex min-h-11 items-center justify-between gap-4 px-4 text-[14px] normal-case tracking-normal transition-colors duration-200 [&:hover]:text-gold ${language === current ? "text-gold" : "text-ivory"}`}
-        onClick={() => setOpen(false)}
+        className={`flex min-h-11 items-center gap-4 text-[14px] normal-case tracking-normal transition-colors duration-200 [&:hover]:text-gold ${inline ? "" : "justify-between px-4"} ${language === current ? "text-gold" : inline ? "text-ivory/80" : "text-ivory"}`}
+        onClick={() => {
+          setOpen(false);
+          onPick?.();
+        }}
       >
         <span dir={language === "ar" ? "rtl" : undefined}>
           {LANGUAGE_NAMES[language]}
@@ -57,6 +68,26 @@ export default function LanguageMenu({
       </a>
     </li>
   );
+
+  if (inline)
+    return (
+      <div>
+        <p className="mb-1 text-[11px] tracking-[0.2em] text-ivory/50 uppercase">
+          {label}
+        </p>
+        <ul className="flex flex-wrap gap-x-6">{siteLanguages.map(item)}</ul>
+        {blogLanguages.length > 0 && (
+          <>
+            <p className="mt-2 border-t border-t-gold/15 pt-3 pb-1 text-[11px] tracking-[0.2em] text-ivory/50 uppercase">
+              Blog
+            </p>
+            <ul className="flex flex-wrap gap-x-6">
+              {blogLanguages.map(item)}
+            </ul>
+          </>
+        )}
+      </div>
+    );
 
   return (
     <div
@@ -76,7 +107,7 @@ export default function LanguageMenu({
         aria-controls={panelId}
         aria-label={`${label}: ${LANGUAGE_NAMES[current]}`}
         onClick={() => setOpen((value) => !value)}
-        className={`flex min-h-11 cursor-pointer items-center gap-1.5 px-1 text-[14px] tracking-[0.07em] uppercase transition-colors duration-200 [&:hover]:text-gold ${open ? "text-gold" : ""}`}
+        className={`flex min-h-11 cursor-pointer items-center gap-1.5 px-1 text-[13px] tracking-[0.1em] uppercase transition-colors duration-200 [&:hover]:text-ivory ${open ? "text-gold" : "text-ivory/80"}`}
       >
         <FiGlobe aria-hidden />
         {current}
