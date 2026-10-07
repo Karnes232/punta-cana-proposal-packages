@@ -142,3 +142,55 @@ test("the header finds the page and links it in every language", () => {
   assert.equal(nav.isPage("/proposals/love-signature", "proposals"), false);
   assert.equal(nav.inSection("/proposals", ""), false);
 });
+
+test("the home page fills empty photo slots from the packages", () => {
+  const { homePhotos, startingPrice } = require(
+    `${out}/components/HomePage/homeData.js`,
+  );
+  const photo = (url) => ({ url });
+  const proposal = (urls, styles = []) => ({
+    styles,
+    gallery: urls.map((url) => ({ image: photo(url) })),
+  });
+  const proposals = [
+    proposal(["a", "b", "a"], [{ mainImage: photo("style") }]),
+    proposal(["c", "d", "e", "f", "g", "h", "i", "j"]),
+  ];
+  const dinner = proposal(["dinner"]);
+  const empty = homePhotos(null, proposals, dinner);
+  assert.equal(empty.proposalPhoto.url, "style");
+  assert.equal(empty.hero.url, "style");
+  assert.equal(empty.dinnerPhoto.url, "dinner");
+  // No repeats, at most eight; the editorial photos are the first three.
+  assert.deepEqual(
+    empty.photos.map((p) => p.url),
+    ["a", "b", "c", "d", "e", "f", "g", "h"],
+  );
+  assert.deepEqual(
+    empty.editorial.map((p) => p.url),
+    ["a", "b", "c"],
+  );
+  assert.deepEqual(
+    empty.journey.map((p) => p?.url),
+    [undefined, undefined, "style", "b", undefined],
+  );
+  // The Studio's choices come first.
+  const chosen = homePhotos(
+    { heroImage: photo("hero"), moments: [photo("m1"), photo("m1")] },
+    proposals,
+    dinner,
+  );
+  assert.equal(chosen.hero.url, "hero");
+  assert.deepEqual(
+    chosen.photos.map((p) => p.url),
+    ["m1"],
+  );
+  assert.equal(
+    startingPrice({
+      basePrice: 900,
+      styles: [{ price: 1200 }, { price: 1000 }],
+    }),
+    1000,
+  );
+  assert.equal(startingPrice({ basePrice: 900, styles: [{}] }), 900);
+});

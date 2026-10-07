@@ -1,6 +1,6 @@
 import type { Image, Locale, Settings } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
-import { HomePhoto } from "./HomeWidgets";
+import SanityPhoto from "@/components/ui/SanityPhoto";
 import { buttonClass, eyebrowClass } from "./styles";
 
 const heroButtonParts = {
@@ -23,7 +23,7 @@ export default function CatalogHero({
   const t = (key: string) => label(settings, locale, key);
   return (
     <section className="relative isolate flex min-h-[min(800px,88svh)] items-center overflow-hidden bg-[#161719] text-ivory upto600:min-h-[85svh]">
-      <HomePhoto
+      <SanityPhoto
         photo={image}
         locale={locale}
         priority

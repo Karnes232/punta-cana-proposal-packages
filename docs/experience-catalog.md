@@ -7,7 +7,7 @@ Keep this file up to date when you change the catalog.
 
 | Route                                           | Component(s)                                     |
 | ----------------------------------------------- | ------------------------------------------------ |
-| `/`                                             | `ExperienceHome` + `HomeWidgets`                 |
+| `/`                                             | `HomePage` (`src/components/HomePage/`)          |
 | `/proposals`                                    | `Catalog section="proposals"` → `ProposalGrid`   |
 | `/romantic-dinners`                             | `Catalog section="romantic-dinners"`             |
 | `/proposals/[slug]`, `/romantic-dinners/[slug]` | single `ExperienceCard`                          |
