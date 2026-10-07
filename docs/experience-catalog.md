@@ -13,8 +13,10 @@ Keep this file up to date when you change the catalog.
 | `/proposals/[slug]`, `/romantic-dinners/[slug]` | single `ExperienceCard`                          |
 | `/contact`                                      | `AvailabilityForm` without a selected experience |
 
-Header and footer (`CatalogNavigation`, `CatalogFooter`) render on every page
-from `src/app/(root)/[locale]/layout.tsx`.
+The header and footer render on every page from
+`src/app/(root)/[locale]/layout.tsx`. They live in `src/components/Layout/`:
+`Navbar/Navbar.tsx` (desktop bar, phone menu, language switchers) and
+`Footer/Footer.tsx`, each split into one file per part.
 
 The old category pages (`/classic-proposals`, `/modern-proposals`,
 `/dining-proposals`, `/adventure-proposals` and their detail URLs) redirect

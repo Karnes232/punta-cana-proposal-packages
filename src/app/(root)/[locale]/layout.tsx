@@ -6,9 +6,9 @@ import { notFound } from "next/navigation";
 
 import { routing } from "@/i18n/routing";
 import { toSiteLocale } from "@/i18n/locales";
-import CatalogNavigation from "@/components/ExperienceCatalog/CatalogNavigation";
+import Navbar from "@/components/Layout/Navbar/Navbar";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
-import CatalogFooter from "@/components/ExperienceCatalog/CatalogFooter";
+import Footer from "@/components/Layout/Footer/Footer";
 import { BlogLanguageAlternatesProvider } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 
 const playfair = Playfair_Display({
@@ -51,7 +51,7 @@ export default async function RootLayout({
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
           <BlogLanguageAlternatesProvider>
-            <CatalogNavigation
+            <Navbar
               locale={toSiteLocale(locale)}
               settings={catalog.settings || {}}
               logo={generalLayout?.companyLogo?.asset?.url}
@@ -59,7 +59,7 @@ export default async function RootLayout({
             />
             {children}
           </BlogLanguageAlternatesProvider>
-          <CatalogFooter
+          <Footer
             locale={toSiteLocale(locale)}
             settings={catalog.settings || {}}
             company={generalLayout}
