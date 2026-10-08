@@ -1,5 +1,7 @@
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import { getGeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
+import { getStructuredData } from "@/sanity/queries/SEO/seo";
+import JsonLd from "@/components/seo/JsonLd";
 import { label } from "@/lib/experience/labels";
 import type { Locale } from "@/lib/experience/types";
 import AvailabilityForm from "@/components/ExperienceCatalog/AvailabilityForm";
@@ -13,44 +15,53 @@ export default async function Page({
 }) {
   const { locale } = await params;
   requireSiteLocale(locale);
-  const [content, company] = await Promise.all([
+  const [content, company, structuredData] = await Promise.all([
     getCatalogContent(locale),
     getGeneralLayout(),
+    getStructuredData("contact", locale),
   ]);
   const c = content.contact,
     settings = content.settings || {};
   return (
-    <main className={shellClass()}>
-      <div className={wrapClass}>
-        <h1>{c?.heading || label(settings, locale, "contactUsLabel")}</h1>
-        <p>{c?.description}</p>
-        <div className="grid grid-cols-[2fr_1fr] gap-[50px] upto800:grid-cols-[1fr]">
-          <AvailabilityForm locale={locale} settings={settings} />
-          <aside>
-            {company?.telephone && (
-              <p>
-                <a href={"tel:" + company.telephone}>{company.telephone}</a>
-              </p>
-            )}
-            {company?.email && (
-              <p>
-                <a href={"mailto:" + company.email}>{company.email}</a>
-              </p>
-            )}
-            {company?.whatsapp && (
-              <p>
-                <a
-                  href={"https://wa.me/" + company.whatsapp.replace(/\D/g, "")}
-                >
-                  WhatsApp
-                </a>
-              </p>
-            )}
-            <p>{c?.businessInformation}</p>
-          </aside>
+    <>
+      <JsonLd
+        id="structured-data-schema"
+        data={structuredData?.seo?.structuredData}
+      />
+      <main className={shellClass()}>
+        <div className={wrapClass}>
+          <h1>{c?.heading || label(settings, locale, "contactUsLabel")}</h1>
+          <p>{c?.description}</p>
+          <div className="grid grid-cols-[2fr_1fr] gap-[50px] upto800:grid-cols-[1fr]">
+            <AvailabilityForm locale={locale} settings={settings} />
+            <aside>
+              {company?.telephone && (
+                <p>
+                  <a href={"tel:" + company.telephone}>{company.telephone}</a>
+                </p>
+              )}
+              {company?.email && (
+                <p>
+                  <a href={"mailto:" + company.email}>{company.email}</a>
+                </p>
+              )}
+              {company?.whatsapp && (
+                <p>
+                  <a
+                    href={
+                      "https://wa.me/" + company.whatsapp.replace(/\D/g, "")
+                    }
+                  >
+                    WhatsApp
+                  </a>
+                </p>
+              )}
+              <p>{c?.businessInformation}</p>
+            </aside>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
 export async function generateMetadata({
