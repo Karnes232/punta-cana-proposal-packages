@@ -8,8 +8,8 @@ Keep this file up to date when you change the catalog.
 | Route                                           | Component(s)                                     |
 | ----------------------------------------------- | ------------------------------------------------ |
 | `/`                                             | `HomePage` (`src/components/HomePage/`)          |
-| `/proposals`                                    | `Catalog section="proposals"` → `ProposalGrid`   |
-| `/romantic-dinners`                             | `Catalog section="romantic-dinners"`             |
+| `/proposals`                                    | `ProposalsPage` → `ProposalGrid`                 |
+| `/romantic-dinners`                             | `RomanticDinnersPage` → `ExperienceCard`         |
 | `/proposals/[slug]`, `/romantic-dinners/[slug]` | single `ExperienceCard`                          |
 | `/contact`                                      | `AvailabilityForm` without a selected experience |
 
