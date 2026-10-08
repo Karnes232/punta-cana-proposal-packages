@@ -5,7 +5,10 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { routing } from "@/i18n/routing";
-import { toSiteLocale } from "@/i18n/locales";
+import { SITE_LOCALES, toSiteLocale } from "@/i18n/locales";
+import JsonLd from "@/components/seo/JsonLd";
+import { organizationSchema } from "@/components/seo/organization";
+import { SITE_URL, siteCanonicalUrl } from "@/lib/seo/constants";
 import Navbar from "@/components/Layout/Navbar/Navbar";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import Footer from "@/components/Layout/Footer/Footer";
@@ -50,6 +53,16 @@ export default async function RootLayout({
       </head>
       <NextIntlClientProvider>
         <body className="bg-ivory font-body text-black antialiased">
+          {/* The business, from Business info, on every page. */}
+          <JsonLd
+            id="organization-schema"
+            data={organizationSchema(generalLayout, {
+              locale: toSiteLocale(locale),
+              siteUrl: SITE_URL,
+              homeUrl: siteCanonicalUrl(toSiteLocale(locale), ""),
+              languages: SITE_LOCALES,
+            })}
+          />
           <BlogLanguageAlternatesProvider>
             <Navbar
               locale={toSiteLocale(locale)}

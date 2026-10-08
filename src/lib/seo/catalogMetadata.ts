@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 
 import type { Locale, Seo } from "@/lib/experience/types";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
+import { buildSeoMetadata, seoFields } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
 import { getPageSeo, type SeoPage } from "@/sanity/queries/SEO/seo";
 
-// Metadata for the experience catalog pages (home, proposals, romantic
-// dinners, contact). Simpler than buildSeoMetadata in ./buildMetadata.ts:
-// title, description, canonical + hreflang, robots and an Open Graph image.
+// Metadata for the experience catalog: the catalog pages (home, proposals,
+// romantic dinners, contact) and the proposal and dinner detail pages.
 
-/** Metadata from an experience or catalog page's `seo` field. */
+/**
+ * Metadata from a proposal or dinner's own `seo` field: title, description,
+ * canonical + hreflang, robots and an Open Graph image.
+ */
 export function catalogMetadata(
   locale: Locale,
   path: string,
@@ -31,7 +34,9 @@ export function catalogMetadata(
 }
 /**
  * Metadata for a catalog page (home, proposals, romantic dinners, contact)
- * from the SEO tab of its page document; `title` is used when it has none.
+ * from the SEO tab of its page document, through the same builder as the
+ * other pages: keywords, Open Graph and robots included. `title` is used
+ * when this language has no SEO title.
  */
 export async function catalogPageMetadata(
   locale: Locale,
@@ -39,16 +44,16 @@ export async function catalogPageMetadata(
   pageName: SeoPage,
   title?: string,
 ): Promise<Metadata> {
-  const page = (await getPageSeo(pageName, locale))?.seo;
-  return catalogMetadata(
-    locale,
+  const fields = seoFields((await getPageSeo(pageName, locale))?.seo);
+  return buildSeoMetadata({
     path,
-    {
-      title: { [locale]: page?.meta?.title },
-      description: { [locale]: page?.meta?.description },
-      image: page?.image ? { url: page.image.url } : undefined,
-      noIndex: page?.noIndex,
+    canonicalUrl: siteCanonicalUrl(locale, path),
+    ...fields,
+    // This language only: without an SEO title, the page's own title.
+    meta: { ...fields.meta, title: fields.meta.title || title || "" },
+    openGraph: {
+      ...fields.openGraph,
+      title: fields.openGraph.title || title || "",
     },
-    title,
-  );
+  });
 }
