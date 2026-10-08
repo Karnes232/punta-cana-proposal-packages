@@ -247,3 +247,42 @@ test("the Studio's empty Organization template is not printed", () => {
   const real = { "@type": "Organization", name: "Brand" };
   assert.deepEqual(structuredData(real), real);
 });
+
+test("the proposals and dinners heroes fall back to package photos", () => {
+  const { proposalsHeroPhoto, dinnersHeroPhoto, ofType } = require(
+    `${out}/components/ExperienceCatalog/catalogData.js`,
+  );
+  const photo = (url) => ({ url });
+  const experience = (_type, slug, url) => ({
+    _type,
+    slug: { current: slug },
+    styles: [],
+    gallery: [{ image: photo(url) }],
+  });
+  const all = [
+    experience("proposalExperience", "first", "first.jpg"),
+    experience("proposalExperience", "love-signature", "love.jpg"),
+    experience("romanticDinnerExperience", "dinner", "dinner.jpg"),
+  ];
+  assert.equal(ofType(all, "proposalExperience").length, 2);
+  // The page's photo first, then Love Signature, then the first package.
+  assert.equal(
+    proposalsHeroPhoto({ image: photo("page.jpg") }, all).url,
+    "page.jpg",
+  );
+  assert.equal(proposalsHeroPhoto({}, all).url, "love.jpg");
+  assert.equal(proposalsHeroPhoto({}, [all[0]]).url, "first.jpg");
+  assert.equal(proposalsHeroPhoto({}, []), undefined);
+  // Dinners: the page, the first dinner, then the template's photos.
+  const template = {
+    styles: [{}, { mainImage: photo("style.jpg") }],
+    gallery: [{ image: photo("template.jpg") }],
+  };
+  assert.equal(dinnersHeroPhoto({}, all, template).url, "dinner.jpg");
+  assert.equal(dinnersHeroPhoto({}, [], template).url, "style.jpg");
+  assert.equal(
+    dinnersHeroPhoto({}, [], { styles: [], gallery: template.gallery }).url,
+    "template.jpg",
+  );
+  assert.equal(dinnersHeroPhoto({}, [], null), undefined);
+});
