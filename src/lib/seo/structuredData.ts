@@ -1,16 +1,35 @@
 /**
+ * The empty Organization template the Studio's pages started with (no
+ * name). The real Organization is built from Business info on every page,
+ * so the template is dropped instead of printed blank.
+ */
+const isEmptyTemplate = (item: unknown) =>
+  typeof item === "object" &&
+  item !== null &&
+  (item as Record<string, unknown>)["@type"] === "Organization" &&
+  !(item as Record<string, unknown>).name;
+
+/**
  * Structured data for a <script type="application/ld+json">: the Studio
  * stores it as JSON text, so text is parsed (invalid JSON is dropped);
- * objects and arrays pass through.
+ * objects and arrays pass through. Empty Organization templates are left
+ * out.
  */
 export function structuredData(data: unknown): unknown {
   if (data == null || data === "") return null;
-  if (typeof data !== "string") return data;
-  try {
-    return JSON.parse(data) as unknown;
-  } catch {
-    return null;
+  let value: unknown = data;
+  if (typeof data === "string") {
+    try {
+      value = JSON.parse(data) as unknown;
+    } catch {
+      return null;
+    }
   }
+  if (Array.isArray(value)) {
+    const items = value.filter((item) => !isEmptyTemplate(item));
+    return items.length ? items : null;
+  }
+  return isEmptyTemplate(value) ? null : value;
 }
 
 /**

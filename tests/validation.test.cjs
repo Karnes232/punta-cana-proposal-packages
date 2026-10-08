@@ -194,3 +194,56 @@ test("the home page fills empty photo slots from the packages", () => {
   );
   assert.equal(startingPrice({ basePrice: 900, styles: [{}] }), 900);
 });
+
+test("the business's structured data is built complete from Business info", () => {
+  const { organizationSchema } = require(
+    `${out}/components/seo/organization.js`,
+  );
+  const options = {
+    locale: "fr",
+    siteUrl: "https://example.com",
+    homeUrl: "https://example.com/fr",
+    languages: ["en", "es", "fr", "pt"],
+  };
+  const org = JSON.parse(
+    JSON.stringify(
+      organizationSchema(
+        {
+          companyName: "Brand",
+          companyDescription: { en: "In English", fr: "En français" },
+          companyLogo: { asset: { url: "https://cdn.example.com/logo.png" } },
+          telephone: "18094929868",
+          email: "info@example.com",
+          socialLinks: {
+            instagram: "https://instagram.com/brand",
+            facebook: "https://facebook.com/",
+          },
+        },
+        options,
+      ),
+    ),
+  );
+  assert.equal(org.name, "Brand");
+  assert.equal(org.description, "En français");
+  assert.equal(org.url, "https://example.com/fr");
+  assert.equal(org["@id"], "https://example.com/#organization");
+  assert.equal(org.telephone, "+18094929868");
+  assert.equal(org.contactPoint.email, "info@example.com");
+  // The empty Facebook placeholder isn't a profile.
+  assert.deepEqual(org.sameAs, ["https://instagram.com/brand"]);
+  // Nothing is printed as an empty string.
+  const empty = JSON.parse(JSON.stringify(organizationSchema(null, options)));
+  assert.equal(empty.name, "Punta Cana Proposal Packages");
+  assert.ok(!JSON.stringify(empty).includes('""'));
+  assert.equal(empty.contactPoint, undefined);
+});
+
+test("the Studio's empty Organization template is not printed", () => {
+  const template =
+    '{"@context":"https://schema.org","@type":"Organization","name":"","url":""}';
+  assert.equal(structuredData(template), null);
+  const faq = { "@context": "https://schema.org", "@type": "FAQPage" };
+  assert.deepEqual(structuredData([JSON.parse(template), faq]), [faq]);
+  const real = { "@type": "Organization", name: "Brand" };
+  assert.deepEqual(structuredData(real), real);
+});

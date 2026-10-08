@@ -22,6 +22,7 @@ for (const args of [
     "src/components/Layout/Navbar/navigation.ts",
     "src/components/Layout/Footer/contact.ts",
     "src/components/HomePage/homeData.ts",
+    "src/components/seo/organization.ts",
     "--outDir",
     out,
     // Keep src/ paths in the output (lib/experience/pricing.js, …).

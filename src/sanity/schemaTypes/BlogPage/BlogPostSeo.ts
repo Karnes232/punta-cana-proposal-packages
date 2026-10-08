@@ -92,7 +92,10 @@ export default defineType({
       name: "structuredData",
       title: "Structured Data (JSON-LD)",
       type: "text",
-      description: "Paste schema.org JSON-LD for this language version",
+      description: bi(
+        "JSON-LD de schema.org adicional para esta página en este idioma. Los datos del negocio (Organization) se añaden solos en todas las páginas desde Información del negocio",
+        "Extra schema.org JSON-LD for this page in this language. The business details (Organization) are added to every page automatically from Business info",
+      ),
       validation: (Rule) => [
         Rule.custom((text?: string) => {
           if (!text) return true;
