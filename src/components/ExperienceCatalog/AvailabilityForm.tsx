@@ -214,11 +214,13 @@ export default function AvailabilityForm({
           {fieldError("alternativeDate")}
         </label>
       </div>
-      <label className="flex items-center">
+      <label className="flex-row items-center gap-3">
         <input name="datesFlexible" type="checkbox" className="h-5 w-5" />
         {t("datesFlexible")}
       </label>
-      <p id={noteId}>{t("datePreferenceNote")}</p>
+      <p id={noteId} className="mt-1 mb-6 text-[14px]">
+        {t("datePreferenceNote")}
+      </p>
       <label>
         {t("requestComments")}
         <textarea {...fieldProps("notes")} required={!experienceId} rows={4} />
