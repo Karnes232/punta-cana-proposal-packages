@@ -4,6 +4,7 @@ import BlockContent from "@/components/BlockContent/BlockContent";
 import { eyebrowClass } from "@/components/ExperienceCatalog/styles";
 import HomeTextLink from "@/components/HomePage/HomeTextLink";
 import JsonLd from "@/components/seo/JsonLd";
+import PageHeader from "@/components/PageHeader/PageHeader";
 import { localePrefix, toSiteLocale } from "@/i18n/locales";
 import { formatSanityDate } from "@/lib/formatDate";
 import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
@@ -64,19 +65,13 @@ export default async function LegalPage({
         id="structured-data-schema"
         data={structuredData?.seo?.structuredData}
       />
-      <header className="bg-black text-ivory">
-        <div className="mx-auto max-w-[1100px] px-6 py-14 lg:px-12 lg:py-16">
-          <p className={eyebrowClass({ color: "text-gold" })}>{t("eyebrow")}</p>
-          <h1 className="mt-3 font-display text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.15] font-normal text-balance text-ivory">
-            {t(TITLE_KEY[page])}
-          </h1>
-          {updated && (
-            <p className="mt-4 text-[14px] text-[#c7c2b9]">
-              {t("lastUpdated", { date: updated })}
-            </p>
-          )}
-        </div>
-      </header>
+      <PageHeader eyebrow={t("eyebrow")} title={t(TITLE_KEY[page])}>
+        {updated && (
+          <p className="mt-4 text-[14px] text-[#c7c2b9]">
+            {t("lastUpdated", { date: updated })}
+          </p>
+        )}
+      </PageHeader>
 
       <div className="mx-auto grid max-w-[1100px] gap-10 px-6 py-12 lg:grid-cols-[220px_minmax(0,58ch)] lg:gap-16 lg:px-12 lg:py-16">
         {sections.length > 1 && (
