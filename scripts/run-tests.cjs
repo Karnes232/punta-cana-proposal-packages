@@ -22,6 +22,7 @@ for (const args of [
     "src/components/Layout/Navbar/navigation.ts",
     "src/components/Layout/Footer/contact.ts",
     "src/components/HomePage/homeData.ts",
+    "src/components/LegalPage/legalSections.ts",
     "src/components/seo/organization.ts",
     "src/components/ExperienceCatalog/catalogData.ts",
     "--outDir",

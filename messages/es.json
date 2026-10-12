@@ -74,7 +74,11 @@
   "LegalPage": {
     "eyebrow": "Legal",
     "privacyTitle": "Política de Privacidad",
-    "termsTitle": "Términos de Servicio"
+    "termsTitle": "Términos de Servicio",
+    "onThisPage": "En esta página",
+    "lastUpdated": "Última actualización: {date}",
+    "questions": "¿Tienes preguntas sobre esta página? Con gusto te ayudamos.",
+    "contactLink": "Contáctanos"
   },
   "ErrorPage": {
     "heading": "Algo salió mal",

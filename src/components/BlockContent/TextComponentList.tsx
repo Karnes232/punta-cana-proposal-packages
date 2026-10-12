@@ -1,6 +1,6 @@
 // Server Component
 // Bullet and numbered lists for PortableText content.
-// Uses a gold ornament instead of default browser bullets.
+// Uses a small gold square instead of default browser bullets.
 
 import React from "react";
 
@@ -16,19 +16,18 @@ const TextComponentList: React.FC<TextComponentListProps> = ({
   ListClassName = "",
 }) => {
   const itemClass = `
-    font-body font-light text-gray
-    text-[clamp(14px,1.4vw,16px)] leading-[1.9]
-    pl-2
+    font-body text-[#3f3f44] text-pretty
+    text-[16px] lg:text-[17px] leading-[1.75]
+    pl-1
   `;
 
   if (listType === "bullet") {
     return (
-      <ul className={`space-y-3 ${ListClassName}`}>
+      <ul className={`space-y-2 ${ListClassName}`}>
         {React.Children.map(items, (item, i) => (
           <li key={i} className={`flex items-start gap-3 ${itemClass}`}>
-            {/* Gold diamond bullet */}
             <span
-              className="mt-[0.6em] shrink-0 w-1 h-1 rotate-45 bg-gold"
+              className="mt-[0.7em] h-[5px] w-[5px] shrink-0 bg-gold"
               aria-hidden="true"
             />
             <span>{item}</span>
@@ -39,11 +38,10 @@ const TextComponentList: React.FC<TextComponentListProps> = ({
   }
 
   return (
-    <ol className={`space-y-3 ${ListClassName}`}>
+    <ol className={`space-y-2 ${ListClassName}`}>
       {React.Children.map(items, (item, i) => (
         <li key={i} className={`flex items-start gap-4 ${itemClass}`}>
-          {/* Number in Playfair italic */}
-          <span className="shrink-0 font-display italic text-black/30 text-[15px] leading-[1.9] w-5 text-right">
+          <span className="w-5 shrink-0 text-right text-[#9b773d] tabular-nums">
             {i + 1}.
           </span>
           <span>{item}</span>
