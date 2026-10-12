@@ -144,7 +144,7 @@ test("the header finds the page and links it in every language", () => {
 });
 
 test("the home page fills empty photo slots from the packages", () => {
-  const { homePhotos, startingPrice } = require(
+  const { galleryLayout, homePhotos, startingPrice } = require(
     `${out}/components/HomePage/homeData.js`,
   );
   const photo = (url) => ({ url });
@@ -172,8 +172,23 @@ test("the home page fills empty photo slots from the packages", () => {
   );
   assert.deepEqual(
     empty.journey.map((p) => p?.url),
-    [undefined, undefined, "style", "b", undefined],
+    ["d", "dinner", "style", "b", "e"],
   );
+  // Without any photos the journey steps stay empty.
+  assert.deepEqual(homePhotos(null, [], null).journey, [
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+  ]);
+  // Every gallery row adds up to four columns.
+  assert.deepEqual(galleryLayout(8), [2, 1, 1, 1, 1, 2, 2, 2]);
+  assert.deepEqual(galleryLayout(7), [2, 1, 1, 2, 2, 2, 2]);
+  assert.deepEqual(galleryLayout(5), [2, 1, 1, 2, 2]);
+  assert.deepEqual(galleryLayout(3), [2, 1, 1]);
+  assert.deepEqual(galleryLayout(1), [4]);
+  assert.deepEqual(galleryLayout(0), []);
   // The Studio's choices come first.
   const chosen = homePhotos(
     { heroImage: photo("hero"), moments: [photo("m1"), photo("m1")] },

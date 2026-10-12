@@ -48,12 +48,31 @@ export function homePhotos(
   const editorial = home?.editorialImages?.length
     ? home.editorialImages
     : photos.slice(0, 3);
+  // A step without its own photo borrows one, so no step shows an empty
+  // panel while the page has photos at all.
+  const journeyFallback = [photos[3], dinnerPhoto, proposalPhoto, photos[1]];
   const journey = STEPS.slice(0, 5).map(
-    (_, i) =>
-      home?.journeyImages?.[i] ||
-      (i === 2 ? proposalPhoto : i === 3 ? photos[1] : undefined),
+    (_, i) => home?.journeyImages?.[i] || journeyFallback[i] || photos[i],
   );
   return { hero, proposalPhoto, dinnerPhoto, photos, editorial, journey };
+}
+
+/**
+ * How many of the gallery's four columns each photo spans, so that every
+ * row is full: rows of three (one photo wide, on alternating sides), then
+ * rows of two (both wide) for what is left, and a lone photo spans the row.
+ */
+export function galleryLayout(count: number) {
+  if (count === 1) return [4];
+  const rows: number[] = [];
+  for (let left = count; left > 0; ) {
+    const size = left === 4 || left === 2 ? 2 : 3;
+    rows.push(size);
+    left -= size;
+  }
+  return rows.flatMap((size, row) =>
+    size === 2 ? [2, 2] : row % 2 ? [1, 1, 2] : [2, 1, 1],
+  );
 }
 
 /** The lowest style price, else the base price. */

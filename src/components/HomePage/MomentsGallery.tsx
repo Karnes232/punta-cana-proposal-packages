@@ -1,16 +1,29 @@
 "use client";
 import { useRef, useState } from "react";
-import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
+import {
+  FiChevronLeft,
+  FiChevronRight,
+  FiMaximize2,
+  FiX,
+} from "react-icons/fi";
 import SanityPhoto from "@/components/ui/SanityPhoto";
 import type { Image, Locale } from "@/lib/experience/types";
+import { galleryLayout } from "./homeData";
 import { homeIcon } from "./styles";
 
 const lightboxButton =
   "grid min-h-11 min-w-11 cursor-pointer place-items-center";
 
+/** Tile width by the columns it spans (of four; of two on phones). */
+const tileClass: Record<number, string> = {
+  1: "",
+  2: "col-span-2",
+  4: "col-span-full",
+};
+
 /**
- * A photo grid; a photo opens in a lightbox dialog, where the arrow buttons
- * and keys move through the photos.
+ * A photo grid whose rows are always full; a photo opens in a lightbox
+ * dialog, where the arrow buttons and keys move through the photos.
  */
 export default function MomentsGallery({
   photos,
@@ -25,14 +38,15 @@ export default function MomentsGallery({
   const dialog = useRef<HTMLDialogElement>(null);
   const move = (delta: number) =>
     setSelected((i) => (i + delta + photos.length) % photos.length);
+  const spans = galleryLayout(photos.length);
   return (
     <>
-      <div className="grid grid-cols-[repeat(4,1fr)] gap-4 upto700:grid-cols-[1fr_1fr] upto700:gap-2">
+      <div className="grid auto-rows-[clamp(220px,25vw,360px)] grid-cols-[repeat(4,1fr)] gap-4 upto700:grid-cols-[1fr_1fr] upto700:gap-2">
         {photos.map((photo, i) => (
           <button
             key={photo.url}
             aria-label={`${copy.galleryOpen} ${i + 1}`}
-            className="relative aspect-[3/4] cursor-zoom-in overflow-hidden nth-[5n+1]:[grid-column:span_2] nth-[5n+1]:aspect-[3/2]"
+            className={`group relative cursor-zoom-in overflow-hidden ${tileClass[spans[i]]}`}
             onClick={() => {
               setSelected(i);
               dialog.current?.showModal();
@@ -45,9 +59,9 @@ export default function MomentsGallery({
             />
             <span
               aria-hidden="true"
-              className="absolute right-4 bottom-4 bg-black px-3 py-1 text-ivory"
+              className="absolute right-4 bottom-4 grid h-9 w-9 place-items-center bg-[#0b0b0cb3] text-ivory opacity-0 [transition:opacity_0.2s] group-hover:opacity-100 group-focus-visible:opacity-100 upto700:right-2 upto700:bottom-2 upto700:opacity-100"
             >
-              +
+              <FiMaximize2 />
             </span>
           </button>
         ))}
