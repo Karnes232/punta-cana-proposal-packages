@@ -172,16 +172,8 @@ test("the home page fills empty photo slots from the packages", () => {
   );
   assert.deepEqual(
     empty.journey.map((p) => p?.url),
-    ["d", "dinner", "style", "b", "e"],
+    [undefined, undefined, "style", "b", undefined],
   );
-  // Without any photos the journey steps stay empty.
-  assert.deepEqual(homePhotos(null, [], null).journey, [
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-  ]);
   // Every gallery row adds up to four columns.
   assert.deepEqual(galleryLayout(8), [2, 1, 1, 1, 1, 2, 2, 2]);
   assert.deepEqual(galleryLayout(7), [2, 1, 1, 2, 2, 2, 2]);

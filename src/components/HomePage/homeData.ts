@@ -48,11 +48,10 @@ export function homePhotos(
   const editorial = home?.editorialImages?.length
     ? home.editorialImages
     : photos.slice(0, 3);
-  // A step without its own photo borrows one, so no step shows an empty
-  // panel while the page has photos at all.
-  const journeyFallback = [photos[3], dinnerPhoto, proposalPhoto, photos[1]];
   const journey = STEPS.slice(0, 5).map(
-    (_, i) => home?.journeyImages?.[i] || journeyFallback[i] || photos[i],
+    (_, i) =>
+      home?.journeyImages?.[i] ||
+      (i === 2 ? proposalPhoto : i === 3 ? photos[1] : undefined),
   );
   return { hero, proposalPhoto, dinnerPhoto, photos, editorial, journey };
 }
