@@ -32,9 +32,6 @@ export default function ExperienceSelector({
             aria-pressed={selected === i}
             onClick={() => setSelected(i)}
           >
-            <span className="mb-4 block text-[14px] text-[#9b773d]">
-              0{i + 1}
-            </span>
             <h3 className={homeH3}>{copy[kind + "Choice"]}</h3>
             <p className="mb-0 text-[16px]">{copy[kind + "Description"]}</p>
             <FiArrowRight aria-hidden="true" className={homeIcon} />

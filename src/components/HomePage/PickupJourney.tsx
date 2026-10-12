@@ -3,7 +3,6 @@ import { useState } from "react";
 import { FiCamera, FiMapPin, FiShield, FiSun, FiTruck } from "react-icons/fi";
 import SanityPhoto from "@/components/ui/SanityPhoto";
 import type { Image, Locale } from "@/lib/experience/types";
-import { eyebrowClass } from "../ExperienceCatalog/styles";
 import { homeH3, homeIcon } from "./styles";
 
 const journeyIcons = [FiMapPin, FiTruck, FiSun, FiCamera, FiShield];
@@ -64,7 +63,6 @@ export default function PickupJourney({
           )}
         </div>
         <div className="self-center p-12 upto700:p-6">
-          <span className={eyebrowClass()}>0{selected + 1} / 05</span>
           <h3 className={homeH3}>{steps[selected].title}</h3>
           <p className="text-[16px] text-[#c7c2b9]">{steps[selected].text}</p>
         </div>

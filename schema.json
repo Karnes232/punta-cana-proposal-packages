@@ -4762,6 +4762,13 @@
         },
         "optional": true
       },
+      "dinnerPlace": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "dinnerTitle": {
         "type": "objectAttribute",
         "value": {

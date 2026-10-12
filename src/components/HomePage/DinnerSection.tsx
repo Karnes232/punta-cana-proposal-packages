@@ -29,7 +29,7 @@ export default function DinnerSection({
       </div>
       <div>
         <p className={eyebrowClass({ size: "text-[16px]" })}>
-          Cabeza de Toro · Punta Cana
+          {t("dinnerPlace")}
         </p>
         <h2 className={homeH2}>{t("dinnerTitle")}</h2>
         <p className="text-[16px]">{t("dinnerText")}</p>
