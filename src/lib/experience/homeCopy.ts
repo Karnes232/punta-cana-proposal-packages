@@ -216,6 +216,12 @@ export const homeCopy: Record<string, DefaultText> = {
     fr: "Voir tous les forfaits demande en mariage",
     pt: "Ver todos os pacotes de pedido de casamento",
   },
+  dinnerPlace: {
+    en: "Cabeza de Toro · Punta Cana",
+    es: "Cabeza de Toro · Punta Cana",
+    fr: "Cabeza de Toro · Punta Cana",
+    pt: "Cabeza de Toro · Punta Cana",
+  },
   dinnerTitle: {
     en: "More Than Dinner. A Private Experience by the Sea.",
     es: "Más que una cena. Una experiencia privada frente al mar.",

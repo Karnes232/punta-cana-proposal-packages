@@ -1,12 +1,16 @@
+import { FiCheck } from "react-icons/fi";
 import SanityPhoto from "@/components/ui/SanityPhoto";
 import { label } from "@/lib/experience/labels";
 import type { Image, Locale, Settings } from "@/lib/experience/types";
 import { eyebrowClass } from "../ExperienceCatalog/styles";
 import HomeButtonLink from "./HomeButtonLink";
 import type { HomeText } from "./homeData";
-import { homeH2, homeSection } from "./styles";
+import { actionsClass, homeH2, homeIcon, homeSection } from "./styles";
 
-/** The romantic dinner: photo beside its text, price and policy notes. */
+/**
+ * The romantic dinner: photo beside its text, then the price and policy
+ * notes as one block above the button.
+ */
 export default function DinnerSection({
   locale,
   prefix,
@@ -24,29 +28,38 @@ export default function DinnerSection({
     <section
       className={`${homeSection} grid grid-cols-[1fr_1fr] items-center gap-12 border-t border-t-[#ded5c4] upto700:grid-cols-[1fr]`}
     >
-      <div className="relative h-full min-h-[660px] upto700:min-h-[400px]">
+      <div className="relative aspect-[4/5] upto700:aspect-[4/3]">
         <SanityPhoto photo={photo} locale={locale} className="object-cover" />
       </div>
       <div>
         <p className={eyebrowClass({ size: "text-[16px]" })}>
-          Cabeza de Toro · Punta Cana
+          {t("dinnerPlace")}
         </p>
         <h2 className={homeH2}>{t("dinnerTitle")}</h2>
         <p className="text-[16px]">{t("dinnerText")}</p>
         <p className="text-[16px]">{t("dinnerCelebrations")}</p>
-        <p className="text-[16px] font-semibold text-[#9b773d]">
-          {t("dinnerPrice")}
-        </p>
-        <p className="text-[16px]">
-          {label(settings, locale, "dinnerExclusivity")}
-        </p>
-        <p className="text-[16px]">{t("deposit")}</p>
-        <p className="text-[16px]">
-          {label(settings, locale, "dinnerPaymentNote")}
-        </p>
-        <HomeButtonLink href={`${prefix}/romantic-dinners`}>
-          {t("exploreDinners")}
-        </HomeButtonLink>
+        <div className="mt-8 border-t border-t-[#ded5c4] pt-6">
+          <p className="m-0 font-display text-[1.4rem] leading-[1.3] text-(--ec-ink)">
+            {t("dinnerPrice")}
+          </p>
+          <ul className="mt-4 mb-0 grid list-none gap-2 text-[14px] text-(--ec-muted)">
+            {[
+              label(settings, locale, "dinnerExclusivity"),
+              t("deposit"),
+              label(settings, locale, "dinnerPaymentNote"),
+            ].map((note) => (
+              <li key={note} className="flex items-baseline gap-3">
+                <FiCheck aria-hidden="true" className={homeIcon} />
+                {note}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={actionsClass}>
+          <HomeButtonLink href={`${prefix}/romantic-dinners`}>
+            {t("exploreDinners")}
+          </HomeButtonLink>
+        </div>
       </div>
     </section>
   );

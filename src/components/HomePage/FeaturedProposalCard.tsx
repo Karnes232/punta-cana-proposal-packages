@@ -8,8 +8,9 @@ import { startingPrice, type HomeText } from "./homeData";
 import { featuredText, homeH3, homeIcon } from "./styles";
 
 /**
- * A featured package: photo and badge, name, starting price, description,
- * duration, place, the first four inclusions and a link to customize it.
+ * A featured package: photo and badge, name and starting price,
+ * description, duration and place, the first four inclusions and a link to
+ * customize it.
  */
 export default function FeaturedProposalCard({
   experience: e,
@@ -26,7 +27,7 @@ export default function FeaturedProposalCard({
 }) {
   const price = startingPrice(e);
   return (
-    <article className="flex flex-col border border-[#cfae7033] bg-[#141416] text-ivory">
+    <article className="flex flex-col bg-[#141416] text-ivory">
       <div className="relative aspect-[4/3]">
         <SanityPhoto
           photo={e.styles[0]?.mainImage || e.gallery[0]?.image}
@@ -42,7 +43,7 @@ export default function FeaturedProposalCard({
       <div className="flex flex-1 flex-col p-6 upto1280:p-5">
         <h3 className={`${homeH3} italic`}>{local(e.name, locale)}</h3>
         {typeof price === "number" && (
-          <p className="text-[16px] font-semibold text-gold">
+          <p className="mt-1 mb-0 text-[16px] font-semibold text-gold">
             {label(settings, locale, "startingAtLabel")}{" "}
             {new Intl.NumberFormat(locale, {
               style: "currency",
@@ -54,16 +55,20 @@ export default function FeaturedProposalCard({
         <p className={featuredText}>
           {local(e.shortDescription, locale) || t("proposalDescription")}
         </p>
-        {e.includedDurationMinutes && (
-          <p className={featuredText}>
-            <FiClock aria-hidden="true" className={homeIcon} />{" "}
-            {e.includedDurationMinutes} {label(settings, locale, "minutes")}
-          </p>
-        )}
-        {local(e.location, locale) && (
-          <p className={featuredText}>
-            <FiMapPin aria-hidden="true" className={homeIcon} />{" "}
-            {local(e.location, locale)}
+        {(e.includedDurationMinutes || local(e.location, locale)) && (
+          <p className="mt-0 flex flex-wrap gap-x-5 gap-y-1 text-[14px] text-[#d3cec6]">
+            {e.includedDurationMinutes && (
+              <span className="inline-flex items-center gap-2">
+                <FiClock aria-hidden="true" className={homeIcon} />
+                {e.includedDurationMinutes} {label(settings, locale, "minutes")}
+              </span>
+            )}
+            {local(e.location, locale) && (
+              <span className="inline-flex items-center gap-2">
+                <FiMapPin aria-hidden="true" className={homeIcon} />
+                {local(e.location, locale)}
+              </span>
+            )}
           </p>
         )}
         <ul className="mx-0 mt-2 mb-6">

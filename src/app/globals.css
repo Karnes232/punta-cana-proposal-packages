@@ -161,6 +161,7 @@ h6 {
   .ec-shell p {
     color: var(--ec-muted);
     margin: 16px 0;
+    text-wrap: pretty;
   }
   .ec-shell fieldset,
   .ec-shell details {

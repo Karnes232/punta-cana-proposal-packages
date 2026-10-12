@@ -1,15 +1,14 @@
 import Link from "next/link";
-import { FiArrowDown } from "react-icons/fi";
 import SanityPhoto from "@/components/ui/SanityPhoto";
 import type { Image, Locale } from "@/lib/experience/types";
 import { buttonClass, eyebrowClass } from "../ExperienceCatalog/styles";
 import HomeButtonLink from "./HomeButtonLink";
 import type { HomeText } from "./homeData";
-import { actionsClass, homeButtonParts, homeIcon } from "./styles";
+import { actionsClass, homeButtonParts } from "./styles";
 
 /**
  * The full-screen opening: photo, headline, the proposals and dinners
- * buttons, and an arrow down to the planning section.
+ * buttons, and the deposit note under them.
  */
 export default function HomeHero({
   locale,
@@ -23,7 +22,7 @@ export default function HomeHero({
   photo?: Image;
 }) {
   return (
-    <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-black px-[max(24px,calc((100vw_-_1200px)/2))] pt-[176px] pb-[72px] text-ivory upto700:px-6 upto700:pt-[144px] upto700:pb-12">
+    <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-black px-[max(24px,calc((100vw_-_1200px)/2))] pt-[clamp(112px,16vh,148px)] pb-[72px] text-ivory upto700:px-6 upto700:pt-[112px] upto700:pb-12">
       <SanityPhoto
         photo={photo}
         locale={locale}
@@ -37,10 +36,10 @@ export default function HomeHero({
         >
           {t("eyebrow")}
         </p>
-        <h1 className="max-w-[1050px] text-[clamp(3.5rem,6vw,6.5rem)] upto700:text-[clamp(2.5rem,11vw,4rem)]">
+        <h1 className="max-w-[1050px] text-[clamp(2.75rem,4.6vw,4.75rem)] text-balance upto700:text-[clamp(2.1rem,9vw,2.75rem)]">
           {t("headline")}
         </h1>
-        <p className="max-w-[760px] text-[18px] text-ivory upto700:text-[16px]">
+        <p className="max-w-[60ch] text-[18px] text-pretty text-ivory upto700:text-[16px]">
           {t("introduction")}
         </p>
         <div
@@ -60,14 +59,9 @@ export default function HomeHero({
             {t("exploreDinners")}
           </Link>
         </div>
-        <p className="max-w-[780px] text-[14px] text-ivory">{t("deposit")}</p>
-        <a
-          className="mt-2 inline-flex border border-[#cfae7066] p-4"
-          href="#planning"
-          aria-label={t("planning")}
-        >
-          <FiArrowDown aria-hidden="true" className={homeIcon} />
-        </a>
+        <p className="mt-4 max-w-[60ch] text-[14px] text-[#d3cec6]">
+          {t("deposit")}
+        </p>
       </div>
     </section>
   );

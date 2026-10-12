@@ -780,6 +780,7 @@ export type CatalogHome = {
   transformation?: string;
   transformationText?: string;
   editorialNote?: string;
+  dinnerPlace?: string;
   dinnerTitle?: string;
   dinnerText?: string;
   dinnerCelebrations?: string;
@@ -2519,6 +2520,7 @@ export type CatalogContentQueryResult = {
         transformation?: string;
         transformationText?: string;
         editorialNote?: string;
+        dinnerPlace?: string;
         dinnerTitle?: string;
         dinnerText?: string;
         dinnerCelebrations?: string;
@@ -2684,6 +2686,7 @@ export type CatalogContentQueryResult = {
         transformation?: string;
         transformationText?: string;
         editorialNote?: string;
+        dinnerPlace?: string;
         dinnerTitle?: string;
         dinnerText?: string;
         dinnerCelebrations?: string;
@@ -4594,6 +4597,7 @@ export type CatalogContentQueryResult = {
         transformation?: string;
         transformationText?: string;
         editorialNote?: string;
+        dinnerPlace?: string;
         dinnerTitle?: string;
         dinnerText?: string;
         dinnerCelebrations?: string;
@@ -5787,6 +5791,7 @@ export type CatalogContentQueryResult = {
         transformation?: string;
         transformationText?: string;
         editorialNote?: string;
+        dinnerPlace?: string;
         dinnerTitle?: string;
         dinnerText?: string;
         dinnerCelebrations?: string;

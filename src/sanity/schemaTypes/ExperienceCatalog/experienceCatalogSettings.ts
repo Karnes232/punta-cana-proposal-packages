@@ -188,7 +188,13 @@ const homeSections: [string, string, string[]][] = [
   [
     "dinner",
     bi("Cena privada", "Private dinner"),
-    ["dinnerTitle", "dinnerText", "dinnerCelebrations", "dinnerPrice"],
+    [
+      "dinnerPlace",
+      "dinnerTitle",
+      "dinnerText",
+      "dinnerCelebrations",
+      "dinnerPrice",
+    ],
   ],
   [
     "how",
