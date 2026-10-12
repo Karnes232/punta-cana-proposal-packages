@@ -1,16 +1,7 @@
-import { getTranslations } from "next-intl/server";
-import BlockContent from "@/components/BlockContent/BlockContent";
-import JsonLd from "@/components/seo/JsonLd";
-import {
-  buildSeoMetadata,
-  fallbackSiteMetadata,
-  seoFields,
-} from "@/lib/seo/buildMetadata";
-import { siteCanonicalUrl } from "@/lib/seo/constants";
-import { getLegalDocuments } from "@/sanity/queries/LegalDocuments/LegalDocuments";
-import { getPageSeo, getStructuredData } from "@/sanity/queries/SEO/seo";
+import LegalPage from "@/components/LegalPage/LegalPage";
+import { legalMetadata } from "@/components/LegalPage/legalMetadata";
 import { requireLocale } from "@/i18n/requireLocale";
-import { toSiteLocale, type SiteLocale } from "@/i18n/locales";
+import type { SiteLocale } from "@/i18n/locales";
 
 export default async function Terms({
   params,
@@ -18,67 +9,8 @@ export default async function Terms({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "LegalPage" });
   requireLocale(locale);
-  const lang = toSiteLocale(locale);
-  const [legalDocuments, structuredData] = await Promise.all([
-    getLegalDocuments("terms-of-service", lang),
-    getStructuredData("terms-of-service", lang),
-  ]);
-  return (
-    <div className="min-h-screen bg-ivory">
-      <JsonLd
-        id="structured-data-schema"
-        data={structuredData?.seo?.structuredData}
-      />
-      {/* Page header */}
-      <div className="relative bg-black border-b border-gold/15 overflow-hidden">
-        {/* Subtle radial glow */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full bg-gold/[0.04] blur-[80px] pointer-events-none"
-          aria-hidden="true"
-        />
-
-        <div className="relative max-w-[1280px] mx-auto px-6 lg:px-12 py-20 flex flex-col items-center gap-4">
-          {/* Eyebrow */}
-          <div className="flex items-center gap-3">
-            <span className="block w-6 h-px bg-gold/50" aria-hidden="true" />
-            <p className="text-[10px] font-light tracking-[0.28em] uppercase text-gold">
-              {t("eyebrow")}
-            </p>
-            <span className="block w-6 h-px bg-gold/50" aria-hidden="true" />
-          </div>
-
-          {/* Title */}
-          <h1 className="font-display italic font-normal text-white text-center text-[clamp(28px,4vw,52px)] leading-tight">
-            {t("termsTitle")}
-          </h1>
-        </div>
-      </div>
-
-      {/* Faint diagonal texture on ivory */}
-      <div className="relative">
-        <div
-          className="absolute inset-0 opacity-[0.025] pointer-events-none"
-          style={{
-            backgroundImage: `repeating-linear-gradient(
-            -45deg,
-            #CFAE70 0px,
-            #CFAE70 1px,
-            transparent 1px,
-            transparent 40px
-          )`,
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Content */}
-        <div className="relative max-w-[1280px] mx-auto px-6 lg:px-12 py-10 lg:py-14">
-          <BlockContent content={legalDocuments?.content} />
-        </div>
-      </div>
-    </div>
-  );
+  return <LegalPage page="terms-of-service" locale={locale} />;
 }
 
 export async function generateMetadata({
@@ -88,17 +20,5 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   requireLocale(locale);
-  const pageSeo = await getPageSeo("terms-of-service", locale);
-  const path = "/terms-of-service";
-  const canonicalUrl = siteCanonicalUrl(locale, path);
-  // No SEO title: the site default, rather than an empty <title>.
-  if (!pageSeo?.seo?.meta?.title) {
-    return fallbackSiteMetadata(locale, path, canonicalUrl);
-  }
-
-  return buildSeoMetadata({
-    path,
-    canonicalUrl,
-    ...seoFields(pageSeo.seo),
-  });
+  return legalMetadata("terms-of-service", locale);
 }

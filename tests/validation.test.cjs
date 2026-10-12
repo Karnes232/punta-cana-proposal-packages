@@ -202,6 +202,33 @@ test("the home page fills empty photo slots from the packages", () => {
   assert.equal(startingPrice({ basePrice: 900, styles: [{}] }), 900);
 });
 
+test("the legal pages link every Heading 2 as a section", () => {
+  const { legalSections } = require(
+    `${out}/components/LegalPage/legalSections.js`,
+  );
+  const block = (style, text) => ({
+    _type: "block",
+    style,
+    children: [{ _type: "span", text }],
+  });
+  const { blocks, sections } = legalSections([
+    block("h2", "Política de Cancelación"),
+    block("normal", "Some text."),
+    block("h2", "Contact"),
+    block("h2", "Contact"),
+    block("h2", "  "),
+  ]);
+  assert.deepEqual(sections, [
+    { anchor: "politica-de-cancelacion", text: "Política de Cancelación" },
+    { anchor: "contact", text: "Contact" },
+    { anchor: "contact-2", text: "Contact" },
+  ]);
+  assert.equal(blocks[0].anchor, "politica-de-cancelacion");
+  assert.equal(blocks[1].anchor, undefined);
+  assert.equal(blocks[4].anchor, undefined);
+  assert.deepEqual(legalSections(null), { blocks: [], sections: [] });
+});
+
 test("the business's structured data is built complete from Business info", () => {
   const { organizationSchema } = require(
     `${out}/components/seo/organization.js`,

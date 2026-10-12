@@ -1,5 +1,5 @@
 // Server Component
-// Body paragraph for PortableText content — Inter, gray text, generous line height.
+// Body paragraph for PortableText content: Inter, dark gray, easy line height.
 
 import React from "react";
 
@@ -13,8 +13,8 @@ const TextComponentParagraph = ({
   return (
     <p
       className={`
-        font-body font-light text-gray
-        text-[clamp(14px,1.4vw,16px)] leading-[1.9]
+        font-body text-[#3f3f44] text-pretty
+        text-[16px] lg:text-[17px] leading-[1.75]
         ${ParagraphClassName}
       `}
     >

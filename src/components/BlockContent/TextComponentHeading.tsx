@@ -1,62 +1,75 @@
 // Server Component
 // Headings for PortableText content — Playfair Display, black text.
-// Used inside BlockContent on ivory/white backgrounds.
+// Used inside BlockContent on the ivory legal pages. The id is the anchor
+// the page's section list links to; scroll-mt keeps it below the navbar.
 
 import React from "react";
 
 const sizeMap: Record<string, string> = {
-  h1: "text-[clamp(32px,4vw,52px)]",
-  h2: "text-[clamp(26px,3vw,40px)]",
-  h3: "text-[clamp(22px,2.5vw,32px)]",
-  h4: "text-[clamp(18px,2vw,26px)]",
-  h5: "text-[clamp(16px,1.8vw,22px)]",
-  h6: "text-[clamp(14px,1.6vw,18px)]",
+  h1: "text-[clamp(1.6rem,2.4vw,2rem)]",
+  h2: "text-[clamp(1.4rem,2vw,1.75rem)]",
+  h3: "text-[clamp(1.2rem,1.6vw,1.4rem)]",
+  h4: "text-[clamp(1.1rem,1.4vw,1.2rem)]",
+  h5: "text-[1.05rem]",
+  h6: "text-[1rem]",
 };
 
 const TextComponentHeading = ({
   heading,
   headingNumber,
+  id,
   HeadingClassName = "",
 }: {
   heading: React.ReactNode;
   headingNumber: string;
+  id?: string;
   HeadingClassName?: string;
 }) => {
   const sizeClass = sizeMap[headingNumber] ?? sizeMap.h2;
 
   const sharedClass = `
-    font-display italic font-normal text-black
-    leading-[1.2] tracking-[-0.01em]
+    scroll-mt-28 font-display font-normal text-black
+    leading-[1.25] text-balance
     ${sizeClass} ${HeadingClassName}
   `;
 
-  // Gold ornament line sits below each heading
-  const ornament = (
-    <span className="block w-8 h-px bg-gold/50 mt-3 mb-6" aria-hidden="true" />
-  );
-
-  const content = (
-    <>
-      {heading}
-      {ornament}
-    </>
-  );
-
   switch (headingNumber) {
     case "h1":
-      return <h1 className={sharedClass}>{content}</h1>;
-    case "h2":
-      return <h2 className={sharedClass}>{content}</h2>;
+      return (
+        <h1 id={id} className={sharedClass}>
+          {heading}
+        </h1>
+      );
     case "h3":
-      return <h3 className={sharedClass}>{content}</h3>;
+      return (
+        <h3 id={id} className={sharedClass}>
+          {heading}
+        </h3>
+      );
     case "h4":
-      return <h4 className={sharedClass}>{content}</h4>;
+      return (
+        <h4 id={id} className={sharedClass}>
+          {heading}
+        </h4>
+      );
     case "h5":
-      return <h5 className={sharedClass}>{content}</h5>;
+      return (
+        <h5 id={id} className={sharedClass}>
+          {heading}
+        </h5>
+      );
     case "h6":
-      return <h6 className={sharedClass}>{content}</h6>;
+      return (
+        <h6 id={id} className={sharedClass}>
+          {heading}
+        </h6>
+      );
     default:
-      return <h2 className={sharedClass}>{content}</h2>;
+      return (
+        <h2 id={id} className={sharedClass}>
+          {heading}
+        </h2>
+      );
   }
 };
 

@@ -5,6 +5,8 @@ import { client } from "@/sanity/lib/client";
 /** One legal page in one language (legalDocument-<page>-<language>). */
 export interface LegalDocuments {
   content: PortableTextBlock[];
+  /** When the document was last edited, shown as "Last updated". */
+  updatedAt?: string;
 }
 
 // Falls back to the English document while a language isn't written yet.
@@ -12,7 +14,8 @@ export const legalDocumentsQuery = `coalesce(
   *[_type == "legalDocument" && _id == $id][0],
   *[_type == "legalDocument" && _id == $fallbackId][0]
 ) {
-  content
+  content,
+  "updatedAt": _updatedAt
 }`;
 
 export async function getLegalDocuments(

@@ -74,7 +74,11 @@
   "LegalPage": {
     "eyebrow": "Mentions légales",
     "privacyTitle": "Politique de confidentialité",
-    "termsTitle": "Conditions d’utilisation"
+    "termsTitle": "Conditions d’utilisation",
+    "onThisPage": "Sur cette page",
+    "lastUpdated": "Dernière mise à jour : {date}",
+    "questions": "Une question sur cette page ? Nous sommes là pour vous aider.",
+    "contactLink": "Nous contacter"
   },
   "ErrorPage": {
     "heading": "Un problème est survenu",
