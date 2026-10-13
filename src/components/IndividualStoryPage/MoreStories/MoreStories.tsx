@@ -1,16 +1,23 @@
+import type { SiteLocale } from "@/i18n/locales";
 import { useTranslations } from "next-intl";
-import CardCarousel from "@/components/ui/CardCarousel";
+import { FiArrowRight } from "react-icons/fi";
+import { Link } from "@/i18n/navigation";
+import { homeIcon, homeTextLink } from "@/components/HomePage/styles";
 import MoreSection from "@/components/ui/MoreSection";
-import MoreStoriesCard from "./MoreStoriesCard";
-import { type MoreStoriesStory } from "./types";
+import StoryCard from "@/components/StoriesPage/StoriesGrid/StoryCard";
+import type { StoryCardData } from "@/components/StoriesPage/StoriesGrid/types";
+
+/** At most one row of related stories. */
+const MAX_STORIES = 3;
 
 interface MoreStoriesProps {
-  stories: MoreStoriesStory[];
+  stories: StoryCardData[];
+  locale: SiteLocale;
 }
 
-export default function MoreStories({ stories }: MoreStoriesProps) {
+/** Other stories of the same type, as on the Stories page, then a link to all. */
+export default function MoreStories({ stories, locale }: MoreStoriesProps) {
   const t = useTranslations("IndividualStoryPage");
-  const tc = useTranslations("Carousel");
 
   if (!stories || stories.length === 0) return null;
 
@@ -20,15 +27,20 @@ export default function MoreStories({ stories }: MoreStoriesProps) {
       heading={t("moreHeading")}
       headingAccent={t("moreAccent")}
     >
-      <CardCarousel prevLabel={tc("previous")} nextLabel={tc("next")}>
-        {stories.map((story) => (
-          <MoreStoriesCard
+      <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        {stories.slice(0, MAX_STORIES).map((story) => (
+          <StoryCard
             key={story.slug}
             story={story}
             readMoreLabel={t("readStory")}
+            locale={locale}
           />
         ))}
-      </CardCarousel>
+      </div>
+      <Link href="/stories" className={homeTextLink}>
+        {t("allStories")}
+        <FiArrowRight aria-hidden="true" className={homeIcon} />
+      </Link>
     </MoreSection>
   );
 }

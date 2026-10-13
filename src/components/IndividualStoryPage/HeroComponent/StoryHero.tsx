@@ -41,23 +41,13 @@ export default function StoryHero({
         alt={heroImage?.alt ?? `${names} proposal photo`}
       />
 
-      {/* ── Gold corner accents ── */}
-      <div
-        className="absolute top-8 left-8 w-8 h-8 border-t border-l border-gold/20 pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-8 right-8 w-8 h-8 border-t border-r border-gold/20 pointer-events-none"
-        aria-hidden="true"
-      />
-
       {/* ── Top: back link ── */}
-      <div className="relative z-10 px-8 pt-8 md:px-12 md:pt-10">
-        <HeroBackLink label={t("allStories") as string} href="/stories" />
+      <div className="relative z-10 px-6 pt-6 md:px-12 md:pt-8">
+        <HeroBackLink label={t("allStories")} href="/stories" />
       </div>
 
       {/* ── Bottom: names + meta ── */}
-      <div className="relative z-10 px-8 pb-10 md:px-12 md:pb-14">
+      <div className="relative z-10 px-6 pb-10 md:px-12 md:pb-14">
         <StoryHeroCopy
           names={names}
           packageTag={packageTag}

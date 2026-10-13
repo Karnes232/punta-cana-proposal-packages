@@ -1,16 +1,17 @@
 {
   "IndividualStoryPage": {
     "allStories": "All Stories",
-    "package": "Package",
-    "date": "Date",
-    "location": "Location",
     "proposed": "Proposed",
     "bookThisExperience": "Book This Experience",
     "more": "More Stories",
     "moreHeading": "Same Package,",
     "moreAccent": "Different Stories",
     "readStory": "Read Story",
-    "galleryLabel": "The Proposal"
+    "galleryLabel": "The Proposal",
+    "ctaEyebrow": "Plan yours",
+    "ctaHeading": "Your story",
+    "ctaAccent": "starts here",
+    "ctaSubheading": "Tell us about the moment you picture, and we'll plan every detail around it."
   },
   "FaqPage": {
     "emptyLabel": "No questions in this category yet.",

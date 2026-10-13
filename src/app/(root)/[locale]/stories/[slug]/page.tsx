@@ -3,7 +3,7 @@ import StoryHero from "@/components/IndividualStoryPage/HeroComponent/StoryHero"
 import MoreStories from "@/components/IndividualStoryPage/MoreStories/MoreStories";
 import StoryBody from "@/components/IndividualStoryPage/StoryBody/StoryBody";
 import Gallery from "@/components/ui/Gallery/Gallery";
-import StoryMetaBar from "@/components/IndividualStoryPage/StoryMetaBar/StoryMetaBar";
+import CtaStrip from "@/components/ui/CtaStrip";
 import JsonLd from "@/components/seo/JsonLd";
 import {
   buildSeoMetadata,
@@ -50,20 +50,8 @@ export default async function StoryPage({
         location={story.location ?? ""}
         locale={localeTyped}
       />
-      <StoryMetaBar
-        data={{
-          packageTag: story.packageTag ?? "",
-          date: story.date ?? "",
-          location: story.location ?? "",
-        }}
-        locale={localeTyped}
-      />
       <StoryBody
         data={{
-          names: story.names ?? "",
-          date: story.date ?? "",
-          location: story.location ?? "",
-          packageTag: story.packageTag ?? "",
           quote: story.quote ?? "",
           body: story.body ?? [],
         }}
@@ -79,15 +67,25 @@ export default async function StoryPage({
           }))
         }
       />
+      <CtaStrip
+        eyebrow={tStory("ctaEyebrow")}
+        heading={tStory("ctaHeading")}
+        headingAccent={tStory("ctaAccent")}
+        subheading={tStory("ctaSubheading")}
+        ctaLabel={tStory("bookThisExperience")}
+        ctaHref="/contact"
+      />
       <MoreStories
+        locale={localeTyped}
         stories={moreStories.map((story) => ({
           slug: story.slug.current,
           names: story.names,
           date: story.date,
           location: story.location ?? "",
           packageTag: story.packageTag ?? "",
+          packageType: story.proposalType?.value ?? "",
           quote: story.quote ?? "",
-          heroPhoto: story.heroPhoto,
+          photo: story.heroPhoto,
         }))}
       />
     </main>

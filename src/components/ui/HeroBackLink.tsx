@@ -1,3 +1,4 @@
+import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
 
 interface HeroBackLinkProps {
@@ -5,33 +6,17 @@ interface HeroBackLinkProps {
   href: string;
 }
 
+/** "← All stories" at the top of a photo hero (story, blog post). */
 export default function HeroBackLink({ label, href }: HeroBackLinkProps) {
   return (
     <Link
       href={href}
-      className="
-        inline-flex items-center gap-2
-        text-[10.5px] font-body font-medium tracking-[0.16em] uppercase
-        text-white/60 hover:text-gold
-        transition-colors duration-300
-        group
-      "
+      className="group inline-flex min-h-11 items-center gap-2 text-[13px] tracking-[0.12em] text-ivory/80 uppercase transition-colors duration-200 hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
     >
-      <svg
-        width="13"
-        height="13"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="transition-transform duration-300 group-hover:-translate-x-1"
+      <FiArrowLeft
         aria-hidden="true"
-      >
-        <line x1="19" y1="12" x2="5" y2="12" />
-        <polyline points="12 19 5 12 12 5" />
-      </svg>
+        className="size-4 shrink-0 transition-transform duration-200 group-hover:-translate-x-1 motion-reduce:transition-none"
+      />
       {label}
     </Link>
   );

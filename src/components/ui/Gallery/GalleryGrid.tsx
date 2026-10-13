@@ -11,6 +11,16 @@ interface GalleryGridProps {
   photos: GalleryPhoto[];
 }
 
+/**
+ * Columns and tile shape by photo count, so one or two photos fill the row
+ * instead of leaving empty cells.
+ */
+function layoutFor(count: number) {
+  if (count === 1) return { grid: "grid-cols-1", tile: "aspect-[3/2]" };
+  if (count === 2) return { grid: "grid-cols-2", tile: "aspect-[4/3]" };
+  return { grid: "grid-cols-2 md:grid-cols-3", tile: "aspect-square" };
+}
+
 export default function GalleryGrid({ photos }: GalleryGridProps) {
   const t = useTranslations("Gallery");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -18,6 +28,7 @@ export default function GalleryGrid({ photos }: GalleryGridProps) {
   const visiblePhotos = photos.slice(0, GALLERY_VISIBLE_COUNT);
   const remainingCount = photos.length - GALLERY_VISIBLE_COUNT;
   const hasOverflow = remainingCount > 0;
+  const layout = layoutFor(visiblePhotos.length);
 
   function openLightbox(index: number) {
     setLightboxIndex(index);
@@ -37,7 +48,7 @@ export default function GalleryGrid({ photos }: GalleryGridProps) {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-gold/10">
+      <div className={`grid gap-2 ${layout.grid}`}>
         {visiblePhotos.map((photo, i) => {
           const isLastVisible = i === GALLERY_VISIBLE_COUNT - 1;
           const showOverlay = isLastVisible && hasOverflow;
@@ -45,34 +56,39 @@ export default function GalleryGrid({ photos }: GalleryGridProps) {
           return (
             <button
               key={photo.asset.url}
+              type="button"
               onClick={() => openLightbox(i)}
-              className="relative aspect-square overflow-hidden bg-black group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className={`group relative cursor-pointer overflow-hidden bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${layout.tile}`}
               aria-label={photo.alt ?? `Open photo ${i + 1}`}
             >
               <Image
                 src={photo.asset.url}
                 alt={photo.alt ?? `Proposal photo ${i + 1}`}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                sizes="(max-width: 768px) 50vw, 33vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"
+                sizes={
+                  visiblePhotos.length === 1
+                    ? "(max-width: 1024px) 100vw, 1024px"
+                    : "(max-width: 768px) 50vw, 33vw"
+                }
               />
 
               {/* Default hover scrim */}
               <div
-                className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"
+                className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/15"
                 aria-hidden="true"
               />
 
               {/* +N overflow tile */}
               {showOverlay && (
                 <div
-                  className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1"
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/60"
                   aria-hidden="true"
                 >
-                  <span className="font-display font-normal italic text-white text-[clamp(28px,4vw,48px)] leading-none">
+                  <span className="font-display text-[clamp(28px,4vw,48px)] leading-none font-normal text-ivory">
                     +{remainingCount}
                   </span>
-                  <span className="text-[10px] font-body font-medium tracking-[0.18em] uppercase text-white/60">
+                  <span className="text-[13px] tracking-[0.12em] text-ivory/85 uppercase">
                     {t("viewAll", { count: photos.length })}
                   </span>
                 </div>

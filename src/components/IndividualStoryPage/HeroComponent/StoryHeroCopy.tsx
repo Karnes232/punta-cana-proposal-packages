@@ -1,5 +1,9 @@
 import type { SiteLocale } from "@/i18n/locales";
+import { useTranslations } from "next-intl";
+import { FiMapPin } from "react-icons/fi";
+import { eyebrowClass } from "@/components/ExperienceCatalog/styles";
 import { formatSanityDate } from "@/lib/formatDate";
+
 interface StoryHeroCopyProps {
   names: string;
   packageTag: string;
@@ -8,6 +12,7 @@ interface StoryHeroCopyProps {
   locale: SiteLocale;
 }
 
+/** The package, the couple's names, and where and when they got engaged. */
 export default function StoryHeroCopy({
   names,
   packageTag,
@@ -15,43 +20,35 @@ export default function StoryHeroCopy({
   location,
   locale,
 }: StoryHeroCopyProps) {
-  const capitalizedDate = formatSanityDate(date, locale, {
+  const t = useTranslations("IndividualStoryPage");
+  const formattedDate = formatSanityDate(date, locale, {
     month: "long",
     year: "numeric",
   });
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Package tag */}
-      <span className="text-[10.5px] font-body font-medium tracking-[0.2em] uppercase text-gold/90">
-        {packageTag}
-      </span>
-
-      {/* Couple names */}
-      <h1
-        className="
-            font-display font-normal text-white leading-[1.08] tracking-tight
-            text-[clamp(40px,5.5vw,80px)]
-            animate-[fadeSlideUp_0.7s_ease_forwards] opacity-0 [animation-delay:200ms]
-          "
-      >
+      {packageTag && (
+        <p className={eyebrowClass({ color: "text-gold" })}>{packageTag}</p>
+      )}
+      <h1 className="font-display text-[clamp(2.75rem,5.5vw,5rem)] leading-[1.08] font-normal text-balance text-ivory">
         {names}
       </h1>
-
-      {/* Gold divider */}
-      <div className="flex items-center gap-3" aria-hidden="true">
-        <span className="block w-10 h-px bg-gold/50" />
-        <span className="block w-1 h-1 rotate-45 bg-gold/70" />
-        <span className="block w-10 h-px bg-gold/50" />
-      </div>
-
-      {/* Date · Location */}
-      <p className="flex items-center gap-2 text-[11.5px] font-body font-light tracking-[0.1em] text-white/60">
-        <span>{capitalizedDate}</span>
-        <span className="text-gold/50" aria-hidden="true">
-          ·
-        </span>
-        <span>{location}</span>
+      <p className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-ivory/85">
+        {location && (
+          <span className="inline-flex items-center gap-2">
+            <FiMapPin
+              aria-hidden="true"
+              className="size-4 shrink-0 text-gold"
+            />
+            {location}
+          </span>
+        )}
+        {formattedDate && (
+          <span>
+            {t("proposed")} · {formattedDate}
+          </span>
+        )}
       </p>
     </div>
   );

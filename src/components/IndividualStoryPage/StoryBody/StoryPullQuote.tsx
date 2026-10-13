@@ -4,10 +4,8 @@ interface StoryPullQuoteProps {
 
 export default function StoryPullQuote({ quote }: StoryPullQuoteProps) {
   return (
-    <blockquote className="border-l-2 border-gold/50 pl-6 py-1 my-8">
-      <p className="font-display font-normal italic text-fluid-h4 text-black/80 leading-relaxed">
-        &quot;{quote}&quot;
-      </p>
+    <blockquote className="mb-12 font-display text-[clamp(1.5rem,2.6vw,2rem)] leading-[1.45] text-balance text-black italic">
+      &ldquo;{quote}&rdquo;
     </blockquote>
   );
 }

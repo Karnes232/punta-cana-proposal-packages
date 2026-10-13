@@ -4,39 +4,37 @@ import type { PortableTextBlock } from "@portabletext/react";
 const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="font-body font-light text-fluid-base text-black/75 leading-[1.9] mb-6 last:mb-0">
+      <p className="mb-6 text-[17px] leading-[1.8] text-[#3f3f44] last:mb-0">
         {children}
       </p>
     ),
     h2: ({ children }) => (
-      <h2 className="font-display font-normal text-fluid-h3 text-black mt-12 mb-4 leading-snug">
+      <h2 className="mt-12 mb-4 font-display text-[2rem] leading-[1.25] font-normal text-balance text-black">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="font-display font-normal text-fluid-h4 text-black mt-10 mb-3 leading-snug">
+      <h3 className="mt-10 mb-3 font-display text-[1.5rem] leading-[1.3] font-normal text-balance text-black">
         {children}
       </h3>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l border-gold/40 pl-5 my-8">
-        <p className="font-display italic text-fluid-lg text-black/70 leading-relaxed">
-          {children}
-        </p>
+      <blockquote className="my-8 pl-6 font-display text-[1.3rem] leading-[1.6] text-black italic">
+        {children}
       </blockquote>
     ),
   },
   marks: {
     strong: ({ children }) => (
-      <strong className="font-medium text-black">{children}</strong>
+      <strong className="font-semibold text-black">{children}</strong>
     ),
-    em: ({ children }) => <em className="italic font-display">{children}</em>,
+    em: ({ children }) => <em className="italic">{children}</em>,
     link: ({ value, children }) => (
       <a
         href={value?.href}
         target={value?.blank ? "_blank" : undefined}
         rel={value?.blank ? "noopener noreferrer" : undefined}
-        className="text-black underline underline-offset-2 decoration-gold/50 hover:decoration-gold transition-all duration-300"
+        className="text-black underline decoration-gold underline-offset-4 transition-colors duration-200 hover:text-[#9b773d]"
       >
         {children}
       </a>
@@ -47,23 +45,21 @@ const components: PortableTextComponents = {
       <ul className="space-y-2 mb-6 pl-4">{children}</ul>
     ),
     number: ({ children }) => (
-      <ol className="space-y-2 mb-6 pl-4 list-decimal">{children}</ol>
+      <ol className="mb-6 list-decimal space-y-2 pl-5">{children}</ol>
     ),
   },
   listItem: {
     bullet: ({ children }) => (
-      <li className="font-body font-light text-fluid-base text-black/75 leading-relaxed flex gap-3">
+      <li className="flex gap-3 text-[17px] leading-[1.8] text-[#3f3f44]">
         <span
-          className="mt-2.5 block w-1 h-1 rounded-full bg-gold shrink-0"
+          className="mt-3 block size-1.5 shrink-0 rounded-full bg-gold"
           aria-hidden="true"
         />
         <span>{children}</span>
       </li>
     ),
     number: ({ children }) => (
-      <li className="font-body font-light text-fluid-base text-black/75 leading-relaxed">
-        {children}
-      </li>
+      <li className="text-[17px] leading-[1.8] text-[#3f3f44]">{children}</li>
     ),
   },
 };
@@ -74,7 +70,7 @@ interface StoryPortableTextProps {
 
 export default function StoryPortableText({ body }: StoryPortableTextProps) {
   return (
-    <div className="prose-story">
+    <div>
       <PortableText value={body} components={components} />
     </div>
   );

@@ -1,16 +1,17 @@
 {
   "IndividualStoryPage": {
     "allStories": "Todas las Historias",
-    "package": "Paquete",
-    "date": "Fecha",
-    "location": "Lugar",
     "proposed": "Propuesta",
     "bookThisExperience": "Reserva Esta Experiencia",
     "more": "Más Historias",
     "moreHeading": "Mismo Paquete,",
     "moreAccent": "Historias Diferentes",
     "readStory": "Leer Historia",
-    "galleryLabel": "La Propuesta"
+    "galleryLabel": "La Propuesta",
+    "ctaEyebrow": "Planea la tuya",
+    "ctaHeading": "Tu historia",
+    "ctaAccent": "empieza aquí",
+    "ctaSubheading": "Cuéntanos el momento que imaginas y planearemos cada detalle a su alrededor."
   },
   "FaqPage": {
     "emptyLabel": "No hay preguntas en esta categoría todavía.",
