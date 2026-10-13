@@ -23,6 +23,7 @@ for (const args of [
     "src/components/Layout/Footer/contact.ts",
     "src/components/HomePage/homeData.ts",
     "src/components/LegalPage/legalSections.ts",
+    "src/components/FaqPage/faqCategories.ts",
     "src/components/seo/organization.ts",
     "src/components/ExperienceCatalog/catalogData.ts",
     "--outDir",

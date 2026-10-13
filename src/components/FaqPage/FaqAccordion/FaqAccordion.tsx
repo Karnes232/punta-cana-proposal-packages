@@ -5,6 +5,10 @@ import FaqAccordionList from "./FaqAccordionList";
 import { Faqs } from "@/sanity/queries/FaqPage/FaqPage";
 import { useTranslations } from "next-intl";
 
+// A Previous / Next button under the list.
+const pagerButton =
+  "min-h-11 cursor-pointer border border-black/15 px-5 text-[14px] text-black transition-colors duration-200 hover:border-gold disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-black/15";
+
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface FaqAccordionProps {
@@ -57,11 +61,11 @@ export default function FaqAccordion({
               type="button"
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className="rounded border border-gold/30 px-4 py-2 font-body text-sm text-gray transition hover:border-gold disabled:cursor-not-allowed disabled:opacity-40"
+              className={pagerButton}
             >
               {t("previous")}
             </button>
-            <p className="font-body text-sm text-gray/80">
+            <p className="text-[14px] text-[#5c5c61] tabular-nums">
               {t("page")} {currentPage} {t("of")} {totalPages}
             </p>
             <button
@@ -70,7 +74,7 @@ export default function FaqAccordion({
                 setCurrentPage((prev) => Math.min(totalPages, prev + 1))
               }
               disabled={currentPage === totalPages}
-              className="rounded border border-gold/30 px-4 py-2 font-body text-sm text-gray transition hover:border-gold disabled:cursor-not-allowed disabled:opacity-40"
+              className={pagerButton}
             >
               {t("next")}
             </button>

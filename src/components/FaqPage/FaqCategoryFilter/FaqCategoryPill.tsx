@@ -5,6 +5,10 @@ interface FaqCategoryPillProps {
   onClick: (value: string) => void;
 }
 
+const base =
+  "min-h-11 shrink-0 cursor-pointer border px-5 text-[13px] tracking-[0.12em] whitespace-nowrap uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+
+/** One category button in the FAQ filter; the chosen one is black. */
 export default function FaqCategoryPill({
   value,
   label,
@@ -13,31 +17,16 @@ export default function FaqCategoryPill({
 }: FaqCategoryPillProps) {
   return (
     <button
-      role="tab"
-      aria-selected={isActive}
+      type="button"
+      aria-pressed={isActive}
       onClick={() => onClick(value)}
-      className={[
-        // Base — sizing, shape, font
-        "relative flex-shrink-0 h-[44px] px-5",
-        "font-sans text-[11px] tracking-[0.18em] uppercase",
-        "rounded-full border transition-all duration-300",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F5F1]",
-        "whitespace-nowrap cursor-pointer",
-        // Active vs idle
+      className={`${base} ${
         isActive
-          ? "bg-[#0B0B0C] border-[#0B0B0C] text-gold"
-          : "bg-transparent border-[#CFAE70]/40 text-[#6E6E73] hover:border-[#CFAE70] hover:text-black",
-      ].join(" ")}
+          ? "border-black bg-black text-ivory"
+          : "border-black/15 bg-transparent text-black hover:border-gold"
+      }`}
     >
       {label}
-
-      {/* Active underline dot — small gold diamond below label */}
-      {isActive && (
-        <span
-          aria-hidden="true"
-          className="absolute -bottom-[14px] left-1/2 -translate-x-1/2 w-[3px] h-[3px] rotate-45 bg-gold"
-        />
-      )}
     </button>
   );
 }

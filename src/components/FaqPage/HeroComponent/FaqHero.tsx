@@ -50,16 +50,6 @@ export default async function FaqHero({
         <DimHeroBackground photo={heroImage} altFallback={imageAltFallback} />
       ) : null}
 
-      {/* Subtle radial glow behind heading */}
-      <div
-        className="absolute inset-0 pointer-events-none z-1"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 40%, rgba(207,174,112,0.06) 0%, transparent 70%)",
-        }}
-      />
-
       <div className="relative z-10 flex flex-col items-center justify-center gap-6">
         <HeroEyebrow label={eyebrow} />
         <HeroHeading
