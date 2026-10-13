@@ -1,110 +1,78 @@
 import type { SiteLocale } from "@/i18n/locales";
 import Image from "next/image";
+import { FiArrowRight, FiMapPin } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
+import { eyebrowClass } from "@/components/ExperienceCatalog/styles";
 import type { StoryCardData } from "./types";
 import { formatSanityDate } from "@/lib/formatDate";
 
 interface StoryCardProps {
   story: StoryCardData;
   readMoreLabel: string;
-  /** Controls photo aspect ratio in the asymmetric grid */
-  variant: "tall" | "wide" | "standard";
   locale: SiteLocale;
 }
 
-const photoHeights: Record<StoryCardProps["variant"], string> = {
-  tall: "min-h-[300px] md:min-h-[360px]",
-  wide: "min-h-[200px] md:min-h-[240px]",
-  standard: "min-h-[200px] md:min-h-[220px]",
-};
-
+/**
+ * One story in the grid: a 4:3 photo with its text below. The link's ::after
+ * covers the card, so the whole card opens the story.
+ */
 export default function StoryCard({
   story,
   readMoreLabel,
-  variant,
   locale,
 }: StoryCardProps) {
-  const capitalizedDate = formatSanityDate(story.date, locale, {
+  const date = formatSanityDate(story.date, locale, {
     month: "long",
     year: "numeric",
   });
 
   return (
-    <article className="group flex flex-col bg-white border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden h-full">
-      {/* Photo */}
-      <div
-        className={`relative ${photoHeights[variant]} bg-black overflow-hidden shrink-0`}
-      >
+    <article className="group relative flex h-full flex-col">
+      <div className="relative aspect-[4/3] overflow-hidden bg-black">
         <Image
           src={story.photo.asset.url}
           alt={story.photo.alt ?? `${story.names} proposal photo`}
           fill
-          className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        {/* Scrim */}
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"
-          aria-hidden="true"
-        />
-        {/* Location tag */}
-        <div className="absolute bottom-4 left-4 flex items-center gap-1.5">
-          <span
-            className="block w-1 h-1 rounded-full bg-gold shrink-0"
-            aria-hidden="true"
-          />
-          <span className="text-[10.5px] font-body font-light tracking-[0.06em] text-white/70">
-            {story.location}
-          </span>
-        </div>
       </div>
-
-      {/* Body */}
-      <div className="flex flex-col flex-1 px-6 py-7 gap-3">
-        <span className="text-[10px] font-body font-medium tracking-[0.16em] uppercase text-gold">
-          {story.packageTag}
-        </span>
-
-        <h3 className="font-display font-normal text-fluid-h5 text-black leading-tight">
+      <div className="flex flex-1 flex-col gap-3 pt-6">
+        {story.packageTag && (
+          <p className={eyebrowClass({ size: "text-[13px]" })}>
+            {story.packageTag}
+          </p>
+        )}
+        <h3 className="font-display text-[1.5rem] leading-[1.25] font-normal text-balance text-black">
           {story.names}
         </h3>
-
-        <p className="font-body font-light italic text-fluid-sm text-gray leading-relaxed flex-1">
-          &quot;{story.quote}&quot;
+        {story.quote && (
+          <p className="font-display text-[17px] leading-[1.6] text-pretty text-[#3f3f44] italic">
+            &ldquo;{story.quote}&rdquo;
+          </p>
+        )}
+        <p className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-1 pt-2 text-[14px] text-[#3f3f44]">
+          {story.location && (
+            <span className="inline-flex items-center gap-2">
+              <FiMapPin
+                aria-hidden="true"
+                className="size-4 shrink-0 text-[#9b773d]"
+              />
+              {story.location}
+            </span>
+          )}
+          <span>{date}</span>
         </p>
-
-        {/* Divider + CTA */}
-        <div className="flex items-center justify-between pt-4 mt-auto border-t border-gold/20">
-          <span className="text-[10.5px] font-body font-light tracking-[0.06em] text-gray">
-            {capitalizedDate}
-          </span>
-          <Link
-            href={`/stories/${story.slug}`}
-            className="
-              inline-flex items-center gap-2
-              text-[10.5px] font-body font-medium tracking-[0.14em] uppercase text-black
-              transition-colors duration-300 hover:text-gold
-              group/link
-            "
-          >
-            {readMoreLabel}
-            <svg
-              width="11"
-              height="11"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="transition-transform duration-300 group-hover/link:translate-x-1"
-              aria-hidden="true"
-            >
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </Link>
-        </div>
+        <Link
+          href={`/stories/${story.slug}`}
+          className="inline-flex items-center gap-3 self-start border-b border-gold pb-1 text-[14px] font-semibold tracking-[0.07em] text-black uppercase after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-gold"
+        >
+          {readMoreLabel}
+          <FiArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-[#9b773d] transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+          />
+        </Link>
       </div>
     </article>
   );

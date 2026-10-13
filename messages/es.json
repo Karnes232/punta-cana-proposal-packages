@@ -48,7 +48,8 @@
     "empty": "No hay historias para este tipo de propuesta todavía.",
     "all": "Todas",
     "featured": "Historia Destacada",
-    "readTheirStory": "Leer Su Historia"
+    "readTheirStory": "Leer Su Historia",
+    "filterLabel": "Filtrar historias por tipo"
   },
   "Carousel": {
     "previous": "Anterior",

@@ -1,17 +1,18 @@
+import { eyebrowClass } from "@/components/ExperienceCatalog/styles";
+
 interface SectionLabelDividerProps {
   label: string;
 }
 
+/** A small heading followed by a hairline, above a listing grid. */
 export default function SectionLabelDivider({
   label,
 }: SectionLabelDividerProps) {
   return (
-    <div className="flex items-center gap-5 mb-8" aria-hidden="true">
-      <span className="block w-10 h-px bg-gold/40 shrink-0" />
-      <span className="text-[10px] font-body font-medium tracking-[0.2em] uppercase text-gray whitespace-nowrap">
-        {label}
-      </span>
-      <span className="block flex-1 h-px bg-gold/20" />
+    <div className="mb-10 flex items-center gap-5">
+      {/* font-body! beats the global serif rule for h1-h6. */}
+      <h2 className={`${eyebrowClass()} shrink-0 font-body!`}>{label}</h2>
+      <span aria-hidden="true" className="block h-px flex-1 bg-black/10" />
     </div>
   );
 }

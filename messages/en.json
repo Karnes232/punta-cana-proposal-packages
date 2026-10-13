@@ -48,7 +48,8 @@
     "empty": "No stories for this package type yet.",
     "all": "All Stories",
     "featured": "Featured Story",
-    "readTheirStory": "Read Their Story"
+    "readTheirStory": "Read Their Story",
+    "filterLabel": "Filter stories by type"
   },
   "Carousel": {
     "previous": "Previous",
