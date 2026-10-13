@@ -11,6 +11,7 @@ import { FaqsCategories } from "@/sanity/queries/FaqPage/FaqPage";
 
 interface FaqCategoryFilterProps {
   locale: SiteLocale;
+  /** The categories that have questions. */
   faqsCategories: FaqsCategories[];
   /** Called whenever the user selects a different category. */
   onCategoryChange: (category: string) => void;
@@ -18,6 +19,7 @@ interface FaqCategoryFilterProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+/** The category buttons, kept under the navbar while the list scrolls. */
 export default function FaqCategoryFilter({
   faqsCategories,
   locale,
@@ -33,49 +35,19 @@ export default function FaqCategoryFilter({
   }
 
   return (
-    <div
-      className="
-        sticky top-[72px] z-20
-        bg-[#F7F5F1]/95 backdrop-blur-sm
-        border-b border-[#CFAE70]/20
-      "
-    >
-      {/*
-        Fade masks on left/right indicate scrollability on mobile.
-        The masks are purely visual — no JS needed.
-      */}
+    <div className="sticky top-[88px] z-20 border-b border-black/10 bg-[#F7F5F1] upto700:top-[72px]">
       <div className="relative">
-        {/* Left fade (scroll hint; hidden when pills wrap on xl) */}
+        {/* A fade at the row's end hints that it scrolls sideways. */}
         <div
-          className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 z-10 xl:hidden"
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-[#F7F5F1] to-transparent xl:hidden"
           aria-hidden="true"
-          style={{
-            background: "linear-gradient(to right, #F7F5F1, transparent)",
-          }}
         />
-        {/* Right fade */}
         <div
-          className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 z-10 xl:hidden"
-          aria-hidden="true"
-          style={{
-            background: "linear-gradient(to left, #F7F5F1, transparent)",
-          }}
-        />
-
-        {/* Pill row: horizontal scroll below xl; wraps on xl+ */}
-        <div
-          role="tablist"
+          role="group"
           aria-label={t("filterLabel")}
-          className="
-            flex flex-nowrap items-center gap-3
-            overflow-x-auto scrollbar-hide
-            xl:flex-wrap xl:overflow-x-visible xl:justify-center
-            px-6 md:px-12 py-5
-            max-w-5xl mx-auto
-          "
+          className="scrollbar-hide mx-auto flex max-w-5xl flex-nowrap items-center gap-3 overflow-x-auto px-6 py-4 md:px-12 xl:flex-wrap xl:justify-center xl:overflow-x-visible"
         >
           <FaqCategoryPill
-            key="all"
             value="all"
             label={t("all")}
             isActive={active === "all"}
@@ -92,9 +64,6 @@ export default function FaqCategoryFilter({
           ))}
         </div>
       </div>
-
-      {/* Gold rule at very bottom */}
-      <div className="h-px bg-linear-to-r from-transparent via-[#CFAE70]/30 to-transparent" />
     </div>
   );
 }

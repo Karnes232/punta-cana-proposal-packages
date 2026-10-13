@@ -229,6 +229,25 @@ test("the legal pages link every Heading 2 as a section", () => {
   assert.deepEqual(legalSections(null), { blocks: [], sections: [] });
 });
 
+test("the FAQ filter shows only categories that have questions", () => {
+  const { categoriesInUse } = require(
+    `${out}/components/FaqPage/faqCategories.js`,
+  );
+  const category = (value) => ({ value, label: { en: value } });
+  const categories = ["logistics", "packages", "booking"].map(category);
+  const used = categoriesInUse(categories, [
+    { category: category("booking") },
+    { category: category("packages") },
+    { category: category("booking") },
+    {},
+  ]);
+  assert.deepEqual(
+    used.map((c) => c.value),
+    ["packages", "booking"],
+  );
+  assert.deepEqual(categoriesInUse(categories, []), []);
+});
+
 test("the business's structured data is built complete from Business info", () => {
   const { organizationSchema } = require(
     `${out}/components/seo/organization.js`,
