@@ -3,7 +3,8 @@ import { FiPlus } from "react-icons/fi";
 import { Faqs } from "@/sanity/queries/FaqPage/FaqPage";
 
 interface FaqAccordionItemProps {
-  item: Faqs;
+  /** Also used by the How It Works page's questions. */
+  item: Pick<Faqs, "question" | "answer">;
   isOpen: boolean;
   onToggle: () => void;
 }

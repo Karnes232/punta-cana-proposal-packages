@@ -1,7 +1,5 @@
-import RevealOnScroll from "@/components/ui/RevealOnScroll";
-import HowItWorksStepsSectionHeader from "./HowItWorksStepsSectionHeader";
+import HowItWorksSectionHeader from "../HowItWorksSectionHeader";
 import HowItWorksStepCard from "./HowItWorksStepCard";
-import HowItWorksStepConnector from "./HowItWorksStepConnector";
 import { HowItWorksStepsStep } from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -16,6 +14,7 @@ interface HowItWorksStepsProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+/** The numbered steps from choosing a package to the proposal itself. */
 export default function HowItWorksSteps({
   eyebrow,
   heading,
@@ -25,49 +24,22 @@ export default function HowItWorksSteps({
 }: HowItWorksStepsProps) {
   return (
     <section
-      className="relative w-full bg-[#F7F5F1] py-24 md:py-32"
+      className="w-full bg-[#F7F5F1] px-6 py-20 md:px-10 md:py-28"
       aria-labelledby="steps-heading"
     >
-      <div className="max-w-3xl mx-auto px-6 md:px-10">
-        {/* Section header */}
-        <RevealOnScroll>
-          <HowItWorksStepsSectionHeader
-            eyebrow={eyebrow}
-            heading={heading}
-            headingAccent={headingAccent}
-            subheading={subheading}
-          />
-        </RevealOnScroll>
-
-        {/* Steps list */}
-        <div className="flex flex-col">
-          {steps.map((step, index) => {
-            const isLast = index === steps.length - 1;
-            return (
-              <div key={step.label}>
-                <RevealOnScroll delay={index * 80}>
-                  <HowItWorksStepCard
-                    step={{
-                      number: (index + 1).toString().padStart(2, "0"),
-                      label: step.label,
-                      title: step.title,
-                      description: step.description,
-                    }}
-                    index={index}
-                    isLast={isLast}
-                  />
-                </RevealOnScroll>
-
-                {/* Connector between steps — not after the last */}
-                {!isLast && (
-                  <div className="flex justify-center">
-                    <HowItWorksStepConnector />
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+      <div className="mx-auto max-w-5xl">
+        <HowItWorksSectionHeader
+          id="steps-heading"
+          eyebrow={eyebrow}
+          heading={heading}
+          headingAccent={headingAccent}
+          subheading={subheading}
+        />
+        <ol className="flex flex-col gap-14 md:gap-20">
+          {steps.map((step, index) => (
+            <HowItWorksStepCard key={step.label} step={step} index={index} />
+          ))}
+        </ol>
       </div>
     </section>
   );
