@@ -1,16 +1,17 @@
 {
   "IndividualStoryPage": {
     "allStories": "Toutes les histoires",
-    "package": "Forfait",
-    "date": "Date",
-    "location": "Lieu",
     "proposed": "Demande",
     "bookThisExperience": "Réserver cette expérience",
     "more": "Plus d’histoires",
     "moreHeading": "Même forfait,",
     "moreAccent": "histoires différentes",
     "readStory": "Lire l’histoire",
-    "galleryLabel": "La demande"
+    "galleryLabel": "La demande",
+    "ctaEyebrow": "Préparez la vôtre",
+    "ctaHeading": "Votre histoire",
+    "ctaAccent": "commence ici",
+    "ctaSubheading": "Racontez-nous le moment que vous imaginez, et nous en organiserons chaque détail."
   },
   "FaqPage": {
     "emptyLabel": "Aucune question dans cette catégorie pour le moment.",
