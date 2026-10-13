@@ -1,5 +1,11 @@
 import { useTranslations } from "next-intl";
+import { FiArrowRight, FiClock } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
+import {
+  buttonClass,
+  eyebrowClass,
+} from "@/components/ExperienceCatalog/styles";
+import { homeButtonIcon, homeButtonParts } from "@/components/HomePage/styles";
 import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/BlogPage";
 import { formatSanityDate } from "@/lib/formatDate";
 
@@ -12,63 +18,48 @@ export default function FeaturedPostCopy({
   post,
   dateLocale,
 }: FeaturedPostCopyProps) {
-  const ctaLabel = useTranslations("BlogPage")("readArticle");
+  const t = useTranslations("BlogPage");
 
-  const capitalizedDate = formatSanityDate(post.publishedAt, dateLocale, {
+  const date = formatSanityDate(post.publishedAt, dateLocale, {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
 
   return (
-    <div className="flex flex-col justify-center gap-7 px-8 py-12 md:px-12 md:py-16 bg-white">
-      <span className="text-[10.5px] font-body font-medium tracking-[0.18em] uppercase text-gold">
-        {post.categoryTag}
-      </span>
-
-      <div className="flex flex-col gap-1.5">
-        <h2 className="font-display font-normal text-fluid-h3 text-black leading-[1.1]">
+    <div className="flex flex-col gap-6">
+      <p className={eyebrowClass()}>
+        {t("featuredPost")}
+        {post.categoryTag && ` · ${post.categoryTag}`}
+      </p>
+      <div className="flex flex-col gap-3">
+        <h2 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] leading-[1.15] font-normal text-balance text-black">
           {post.title}
         </h2>
-        <p className="text-[12px] font-body font-light tracking-[0.06em] text-gray">
-          {capitalizedDate}
+        <p className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-[#3f3f44]">
+          <span>{date}</span>
+          {post.readingTime > 0 && (
+            <span className="inline-flex items-center gap-2">
+              <FiClock
+                aria-hidden="true"
+                className="size-4 shrink-0 text-[#9b773d]"
+              />
+              {post.readingTime} {t("minRead")}
+            </span>
+          )}
         </p>
       </div>
-
-      <span className="block w-10 h-px bg-gold/40" aria-hidden="true" />
-
-      <p className="font-body font-light text-fluid-sm text-black/70 leading-relaxed">
-        {post.excerpt}
-      </p>
-
+      {post.excerpt && (
+        <p className="max-w-[60ch] text-[17px] leading-[1.7] text-pretty text-[#3f3f44]">
+          {post.excerpt}
+        </p>
+      )}
       <Link
         href={`/blog/${post.slug.current}`}
-        className="
-          inline-flex items-center gap-3 self-start
-          text-[11px] font-body font-medium tracking-[0.18em] uppercase
-          border border-black/20 text-black
-          px-7 py-3.5
-          transition-all duration-300
-          hover:bg-black hover:text-gold hover:border-black
-          group
-        "
+        className={`${buttonClass({ ...homeButtonParts, secondary: true })} self-start`}
       >
-        {ctaLabel}
-        <svg
-          width="13"
-          height="13"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="transition-transform duration-300 group-hover:translate-x-1"
-          aria-hidden="true"
-        >
-          <line x1="5" y1="12" x2="19" y2="12" />
-          <polyline points="12 5 19 12 12 19" />
-        </svg>
+        {t("readArticle")}
+        <FiArrowRight aria-hidden="true" className={homeButtonIcon} />
       </Link>
     </div>
   );

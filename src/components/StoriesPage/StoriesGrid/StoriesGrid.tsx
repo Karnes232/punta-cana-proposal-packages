@@ -6,9 +6,12 @@ import { useState } from "react";
 import StoryCard from "./StoryCard";
 import SectionLabelDivider from "@/components/ui/SectionLabelDivider";
 import LoadMore from "@/components/ui/LoadMore";
+import {
+  ASYMMETRIC_PAGE_SIZE,
+  asymmetricGridClass,
+  tallPlacement,
+} from "@/components/ui/asymmetricGrid";
 import { type StoryCardData } from "./types";
-
-const PAGE_SIZE = 6;
 
 interface StoriesGridProps {
   /** The stories for the active filter, newest first. */
@@ -18,13 +21,13 @@ interface StoriesGridProps {
   showLabel: boolean;
 }
 
-/** An even grid of stories, six at a time. */
+/** The story grid with its tall/normal rhythm, ten stories at a time. */
 export default function StoriesGrid({
   stories,
   locale,
   showLabel,
 }: StoriesGridProps) {
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [visibleCount, setVisibleCount] = useState(ASYMMETRIC_PAGE_SIZE);
   const t = useTranslations("StoriesPage");
 
   if (stories.length === 0) {
@@ -35,23 +38,32 @@ export default function StoriesGrid({
     );
   }
 
+  const visible = stories.slice(0, visibleCount);
+
   return (
     <div>
       {showLabel && <SectionLabelDivider label={t("more")} />}
-      <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-        {stories.slice(0, visibleCount).map((story) => (
-          <StoryCard
-            key={story.slug}
-            story={story}
-            readMoreLabel={t("readStory")}
-            locale={locale}
-          />
-        ))}
+      <div className={asymmetricGridClass}>
+        {visible.map((story, i) => {
+          const placement = tallPlacement(i, visible.length);
+          return (
+            <div key={story.slug} className={placement ?? undefined}>
+              <StoryCard
+                story={story}
+                readMoreLabel={t("readStory")}
+                locale={locale}
+                tall={placement !== null}
+              />
+            </div>
+          );
+        })}
       </div>
       {visibleCount < stories.length && (
         <LoadMore
           label={t("loadMore")}
-          onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
+          onClick={() =>
+            setVisibleCount((count) => count + ASYMMETRIC_PAGE_SIZE)
+          }
         />
       )}
     </div>

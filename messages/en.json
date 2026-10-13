@@ -71,7 +71,8 @@
     "loadMore": "Load More Posts",
     "latestPosts": "Latest Posts",
     "minRead": "min read",
-    "noPosts": "No posts for this category yet."
+    "noPosts": "No posts for this category yet.",
+    "filterLabel": "Filter posts by category"
   },
   "LegalPage": {
     "eyebrow": "Legal",

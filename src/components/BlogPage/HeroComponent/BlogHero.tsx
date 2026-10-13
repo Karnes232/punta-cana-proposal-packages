@@ -1,11 +1,10 @@
-import BlogHeroEyebrow from "./BlogHeroEyebrow";
-import BlogHeroHeading from "./BlogHeroHeading";
 import HeroDivider from "@/components/ui/hero/HeroDivider";
-import BlogHeroSubheading from "./BlogHeroSubheading";
+import HeroEyebrow from "@/components/ui/hero/HeroEyebrow";
+import HeroHeading from "@/components/ui/hero/HeroHeading";
+import HeroSubheading from "@/components/ui/hero/HeroSubheading";
 import ListingHeroBackground from "@/components/ui/hero/ListingHeroBackground";
 
 interface BlogHeroProps {
-  /** Pass Sanity data to override defaults */
   eyebrow: string;
   headingLine1: string;
   headingLine2: string;
@@ -24,6 +23,7 @@ interface BlogHeroProps {
   };
 }
 
+/** The blog's hero: the same faded photo and centred title as Stories. */
 export default function BlogHero({
   eyebrow,
   headingLine1,
@@ -32,34 +32,13 @@ export default function BlogHero({
   image,
 }: BlogHeroProps) {
   return (
-    <section className="relative w-full bg-[#0B0B0C] overflow-hidden">
-      {/* Subtle radial gold bloom behind heading */}
+    <section className="relative w-full overflow-hidden bg-black">
       <ListingHeroBackground image={image} />
-      <div
-        className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[340px] pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 50% 80% at 50% 50%, rgba(207,174,112,0.06) 0%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Gold corner accents */}
-      <div
-        className="absolute top-8 left-8 w-10 h-10 border-t border-l border-gold/20 pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-8 right-8 w-10 h-10 border-t border-r border-gold/20 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-5 px-6 pt-36 pb-24 md:pt-44 md:pb-32 text-center max-w-[720px] mx-auto">
-        <BlogHeroEyebrow label={eyebrow} />
-        <BlogHeroHeading line1={headingLine1} line2={headingLine2} />
+      <div className="relative z-10 mx-auto flex max-w-[800px] flex-col items-center gap-6 px-6 py-28 text-center md:py-36">
+        <HeroEyebrow label={eyebrow} />
+        <HeroHeading line1={headingLine1} line2={headingLine2} />
         <HeroDivider />
-        <BlogHeroSubheading text={subheading} />
+        <HeroSubheading text={subheading} />
       </div>
     </section>
   );

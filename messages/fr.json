@@ -71,7 +71,8 @@
     "loadMore": "Voir plus d’articles",
     "latestPosts": "Derniers articles",
     "minRead": "min de lecture",
-    "noPosts": "Aucun article dans cette catégorie pour le moment."
+    "noPosts": "Aucun article dans cette catégorie pour le moment.",
+    "filterLabel": "Filtrer les articles par catégorie"
   },
   "LegalPage": {
     "eyebrow": "Mentions légales",

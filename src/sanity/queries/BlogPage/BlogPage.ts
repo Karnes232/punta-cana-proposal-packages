@@ -15,14 +15,14 @@ export interface FeaturedPost {
   heroPhoto: {
     asset: {
       url: string;
-    };
-    metadata: {
-      dimensions: {
-        width: number;
-        height: number;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
       };
     };
-    alt: string;
+    alt?: string;
   };
 }
 
