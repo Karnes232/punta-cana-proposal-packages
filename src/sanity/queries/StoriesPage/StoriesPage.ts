@@ -38,8 +38,8 @@ export interface StoriesPageFeaturedStory {
           height: number;
         };
       };
-      alt: string;
     };
+    alt?: string;
   };
   quote: string;
 }

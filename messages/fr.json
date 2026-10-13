@@ -48,7 +48,8 @@
     "empty": "Aucune histoire pour ce type de forfait pour le moment.",
     "all": "Toutes les histoires",
     "featured": "Histoire à la une",
-    "readTheirStory": "Lire leur histoire"
+    "readTheirStory": "Lire leur histoire",
+    "filterLabel": "Filtrer les histoires par type"
   },
   "Carousel": {
     "previous": "Précédent",
