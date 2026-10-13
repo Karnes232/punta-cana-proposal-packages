@@ -10,7 +10,7 @@ interface StoryBodyProps {
 export default function StoryBody({ data }: StoryBodyProps) {
   return (
     <section className="bg-ivory">
-      <div className="mx-auto max-w-[68ch] px-6 py-16 md:py-24">
+      <div className="mx-auto max-w-[38rem] px-6 py-16 md:py-24">
         {data.quote && <StoryPullQuote quote={data.quote} />}
         <StoryPortableText body={data.body} />
       </div>
