@@ -71,7 +71,8 @@
     "loadMore": "Ver Mais Artigos",
     "latestPosts": "Últimos Artigos",
     "minRead": "min de leitura",
-    "noPosts": "Ainda não há artigos nesta categoria."
+    "noPosts": "Ainda não há artigos nesta categoria.",
+    "filterLabel": "Filtrar artigos por categoria"
   },
   "LegalPage": {
     "eyebrow": "Jurídico",

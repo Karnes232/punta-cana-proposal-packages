@@ -2,7 +2,9 @@
 
 import type { SiteLocale } from "@/i18n/locales";
 import { useState } from "react";
-import StoriesFilterBar from "@/components/StoriesPage/StoriesFilterBar/StoriesFilterBar";
+import { useTranslations } from "next-intl";
+import { local } from "@/lib/experience/normalize";
+import FilterTabs from "@/components/ui/FilterTabs";
 import FeaturedStory from "@/components/StoriesPage/FeaturedStory/FeaturedStory";
 import StoriesGrid from "@/components/StoriesPage/StoriesGrid/StoriesGrid";
 import type { StoryCardData } from "@/components/StoriesPage/StoriesGrid/types";
@@ -27,6 +29,7 @@ export default function StoriesFilteredSection({
   stories,
   locale,
 }: StoriesFilteredSectionProps) {
+  const t = useTranslations("StoriesPage");
   const [activeFilter, setActiveFilter] = useState("all");
 
   const featuredSlug = featuredStory?.slug?.current;
@@ -43,9 +46,13 @@ export default function StoriesFilteredSection({
 
   return (
     <>
-      <StoriesFilterBar
-        content={usedTypes}
-        locale={locale}
+      <FilterTabs
+        tabs={usedTypes.map((type) => ({
+          value: type.value,
+          label: local(type.label, locale),
+        }))}
+        allLabel={t("all")}
+        groupLabel={t("filterLabel")}
         active={activeFilter}
         onChange={setActiveFilter}
       />

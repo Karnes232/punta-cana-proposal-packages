@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FiArrowRight, FiMapPin } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
 import { eyebrowClass } from "@/components/ExperienceCatalog/styles";
+import { tallPhotoClass } from "@/components/ui/asymmetricGrid";
 import type { StoryCardData } from "./types";
 import { formatSanityDate } from "@/lib/formatDate";
 
@@ -10,6 +11,8 @@ interface StoryCardProps {
   story: StoryCardData;
   readMoreLabel: string;
   locale: SiteLocale;
+  /** Spans two grid rows on desktop; the photo grows to fill them. */
+  tall?: boolean;
 }
 
 /**
@@ -20,6 +23,7 @@ export default function StoryCard({
   story,
   readMoreLabel,
   locale,
+  tall = false,
 }: StoryCardProps) {
   const date = formatSanityDate(story.date, locale, {
     month: "long",
@@ -28,7 +32,9 @@ export default function StoryCard({
 
   return (
     <article className="group relative flex h-full flex-col">
-      <div className="relative aspect-[4/3] overflow-hidden bg-black">
+      <div
+        className={`relative aspect-[4/3] shrink-0 overflow-hidden bg-black ${tall ? tallPhotoClass : ""}`}
+      >
         <Image
           src={story.photo.asset.url}
           alt={story.photo.alt ?? `${story.names} proposal photo`}
@@ -37,13 +43,15 @@ export default function StoryCard({
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
-      <div className="flex flex-1 flex-col gap-3 pt-6">
+      <div className={`flex flex-col gap-3 pt-6 ${tall ? "" : "flex-1"}`}>
         {story.packageTag && (
           <p className={eyebrowClass({ size: "text-[13px]" })}>
             {story.packageTag}
           </p>
         )}
-        <h3 className="font-display text-[1.5rem] leading-[1.25] font-normal text-balance text-black">
+        <h3
+          className={`font-display text-[1.5rem] leading-[1.25] font-normal text-balance text-black ${tall ? "lg:text-[1.9rem]" : ""}`}
+        >
           {story.names}
         </h3>
         {story.quote && (

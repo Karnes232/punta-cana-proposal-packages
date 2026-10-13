@@ -1,4 +1,3 @@
-import { useTranslations } from "next-intl";
 import FeaturedPostCopy from "./FeaturedPostCopy";
 import FeaturedPostPhoto from "./FeaturedPostPhoto";
 import type { FeaturedPost as FeaturedPostType } from "@/sanity/queries/BlogPage/BlogPage";
@@ -8,20 +7,11 @@ interface FeaturedPostProps {
   dateLocale: string;
 }
 
+/** The post picked in the Studio: a large photo beside its excerpt. */
 export default function FeaturedPost({ post, dateLocale }: FeaturedPostProps) {
-  const t = useTranslations("BlogPage");
-  const eyebrow = t("featuredPost");
-  const readTimeSuffix = t("minRead");
-
   return (
-    <article className="group grid grid-cols-1 md:grid-cols-2 border border-gold/20 hover:border-gold/50 transition-colors duration-300 overflow-hidden">
-      <FeaturedPostPhoto
-        photo={post.heroPhoto}
-        title={post.title}
-        eyebrow={eyebrow}
-        readingTime={post.readingTime}
-        readTimeSuffix={readTimeSuffix}
-      />
+    <article className="mb-16 grid gap-8 md:mb-24 md:grid-cols-2 md:items-center md:gap-12">
+      <FeaturedPostPhoto photo={post.heroPhoto} title={post.title} />
       <FeaturedPostCopy post={post} dateLocale={dateLocale} />
     </article>
   );
