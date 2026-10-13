@@ -1,4 +1,7 @@
+import { FiArrowRight } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
+import { buttonClass } from "@/components/ExperienceCatalog/styles";
+import { homeButtonIcon, homeButtonParts } from "@/components/HomePage/styles";
 
 interface HowItWorksCTAButtonsProps {
   primaryLabel: string;
@@ -7,6 +10,7 @@ interface HowItWorksCTAButtonsProps {
   secondaryHref: string;
 }
 
+/** The gold booking button and an outlined second choice. */
 export default function HowItWorksCTAButtons({
   primaryLabel,
   primaryHref,
@@ -14,53 +18,21 @@ export default function HowItWorksCTAButtons({
   secondaryHref,
 }: HowItWorksCTAButtonsProps) {
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2">
-      {/* Primary — dark fill with gold border, inverts on hover */}
+    <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row">
       {primaryHref && (
-        <Link
-          href={primaryHref}
-          className="
-            group inline-flex items-center gap-3
-            px-10 py-4
-            border border-gold/70 bg-transparent
-            text-[11px] font-light tracking-[0.22em] uppercase text-gold
-            transition-all duration-300
-            hover:bg-gold hover:text-[#0B0B0C] hover:border-gold
-            focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/60
-          "
-        >
+        <Link href={primaryHref} className={buttonClass(homeButtonParts)}>
           {primaryLabel}
-          {/* Arrow that slides right on hover */}
-          <svg
-            viewBox="0 0 16 10"
-            fill="none"
-            className="w-4 h-2.5 transition-transform duration-300 group-hover:translate-x-1"
-            aria-hidden="true"
-          >
-            <path
-              d="M1 5h14M10 1l4 4-4 4"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <FiArrowRight aria-hidden="true" className={homeButtonIcon} />
         </Link>
       )}
-
-      {/* Secondary — ghost, subtle */}
       {secondaryHref && (
         <Link
           href={secondaryHref}
-          className="
-            inline-flex items-center gap-2
-            px-10 py-4
-            border border-white/15 bg-transparent
-            text-[11px] font-light tracking-[0.22em] uppercase text-white/40
-            transition-all duration-300
-            hover:border-white/30 hover:text-white/70
-            focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20
-          "
+          className={buttonClass({
+            ...homeButtonParts,
+            colors:
+              "border-[#b99a62] bg-transparent text-ivory [&:hover:not(:disabled)]:text-black",
+          })}
         >
           {secondaryLabel}
         </Link>

@@ -1,76 +1,32 @@
-import type { ReassuranceItem } from "./types";
-import {
-  IconPrivate,
-  IconTeam,
-  IconInclusive,
-  IconMemories,
-} from "./ReassuranceIcons";
+import type { IconType } from "react-icons";
+import { FiCamera, FiCheckCircle, FiLock, FiUsers } from "react-icons/fi";
+import type { ReassuranceItem } from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
-// ─── Icon map ─────────────────────────────────────────────────────────────────
-
-const iconMap: Record<string, React.FC<{ className?: string }>> = {
-  private: IconPrivate,
-  team: IconTeam,
-  inclusive: IconInclusive,
-  memories: IconMemories,
+// Keyed by the item's id in the Studio.
+const iconMap: Record<string, IconType> = {
+  private: FiLock,
+  team: FiUsers,
+  inclusive: FiCheckCircle,
+  memories: FiCamera,
 };
 
-// ─── Props ────────────────────────────────────────────────────────────────────
-
-interface HowItWorksReassuranceItemProps {
-  item: ReassuranceItem;
-  /** Index used to stagger the border-top reveal on hover */
-  index: number;
-}
-
-// ─── Component ────────────────────────────────────────────────────────────────
-
+/** One reason to book: an icon, a short title and a caption. */
 export default function HowItWorksReassuranceItem({
   item,
-}: HowItWorksReassuranceItemProps) {
+}: {
+  item: ReassuranceItem;
+}) {
   const Icon = iconMap[item.id];
 
   return (
-    <div
-      className="
-        group
-        flex flex-col items-center gap-4
-        px-6 py-8
-        border-l border-gold/15
-        first:border-l-0
-        text-center
-        transition-colors duration-300
-      "
-    >
-      {/* Icon container */}
-      <div
-        className="
-          w-14 h-14
-          flex items-center justify-center
-          border border-gold/30
-          rounded-sm
-          text-gold/60
-          transition-colors duration-300
-          group-hover:border-gold/60
-          group-hover:text-gold
-        "
-        aria-hidden="true"
-      >
-        {Icon && <Icon className="w-7 h-7" />}
-      </div>
-
-      {/* Title */}
-      <h3 className="font-display font-normal text-white text-[clamp(15px,1.4vw,18px)] leading-tight">
+    <li className="flex flex-col gap-3 border-t border-gold/25 pt-6">
+      {Icon && <Icon aria-hidden="true" className="size-6 text-gold" />}
+      <h3 className="font-display text-[1.25rem] leading-tight font-normal text-ivory">
         {item.title}
       </h3>
-
-      {/* Gold hairline divider */}
-      <span className="block w-6 h-px bg-gold/30" aria-hidden="true" />
-
-      {/* Caption — decorative gold rule respected: this is gray text, not gold */}
-      <p className="font-body font-light text-white/45 text-[13px] leading-[1.7] max-w-[180px]">
+      <p className="text-[15px] leading-[1.7] text-pretty text-ivory/75">
         {item.caption}
       </p>
-    </div>
+    </li>
   );
 }

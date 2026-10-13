@@ -28,7 +28,7 @@ export default async function HowItWorks({
     getHowItWorksPage(lang),
     getStructuredData("how-it-works", lang),
   ]);
-  const { hero, steps, faq: faqsPage, faqCategories, cta: ctaPage } = page;
+  const { hero, steps, faq: faqsPage, cta: ctaPage } = page;
 
   return (
     <main>
@@ -52,8 +52,6 @@ export default async function HowItWorks({
       />
       <HowItWorksReassurance items={steps?.reassurance ?? []} />
       <HowItWorksFaq
-        locale={lang}
-        faqsCategories={faqCategories}
         eyebrow={faqsPage?.eyebrow ?? ""}
         heading={faqsPage?.heading ?? ""}
         headingAccent={faqsPage?.headingAccent ?? ""}

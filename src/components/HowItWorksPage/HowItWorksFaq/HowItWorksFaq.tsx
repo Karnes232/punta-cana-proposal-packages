@@ -1,17 +1,14 @@
-import type { SiteLocale } from "@/i18n/locales";
-import RevealOnScroll from "@/components/ui/RevealOnScroll";
-import HowItWorksFaqHeader from "./HowItWorksFaqHeader";
+import { useTranslations } from "next-intl";
+import { FiArrowRight } from "react-icons/fi";
+import { Link } from "@/i18n/navigation";
+import { homeIcon, homeTextLink } from "@/components/HomePage/styles";
+import HowItWorksSectionHeader from "../HowItWorksSectionHeader";
 import HowItWorksFaqAccordion from "./HowItWorksFaqAccordion";
-import {
-  HowItWorksFaqs,
-  HowItWorksFaqsCategories,
-} from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
+import { HowItWorksFaqs } from "@/sanity/queries/HowItWorksPage/HowItWorksPage";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
 interface HowItWorksFaqProps {
-  locale: SiteLocale;
-  faqsCategories: HowItWorksFaqsCategories[];
   eyebrow: string;
   heading: string;
   headingAccent: string;
@@ -21,40 +18,34 @@ interface HowItWorksFaqProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default async function HowItWorksFaq({
-  locale,
-  faqsCategories,
+/** A few common questions, with a link on to the full FAQ page. */
+export default function HowItWorksFaq({
   eyebrow,
   heading,
   headingAccent,
   subheading,
   faqs,
 }: HowItWorksFaqProps) {
-  const items = faqs;
+  const t = useTranslations("HowItWorksPage");
 
   return (
     <section
-      className="relative w-full bg-[#F7F5F1] py-24 md:py-32"
+      className="w-full bg-[#F7F5F1] px-6 py-20 md:px-10 md:py-28"
       aria-labelledby="faq-heading"
     >
-      <div className="max-w-3xl mx-auto px-6 md:px-10">
-        <RevealOnScroll>
-          <HowItWorksFaqHeader
-            eyebrow={eyebrow}
-            heading={heading}
-            headingAccent={headingAccent}
-            subheading={subheading}
-          />
-        </RevealOnScroll>
-
-        <RevealOnScroll delay={100}>
-          {/* Accordion is a client component — receives pre-fetched items as props */}
-          <HowItWorksFaqAccordion
-            items={items}
-            locale={locale}
-            faqsCategories={faqsCategories}
-          />
-        </RevealOnScroll>
+      <div className="mx-auto max-w-3xl">
+        <HowItWorksSectionHeader
+          id="faq-heading"
+          eyebrow={eyebrow}
+          heading={heading}
+          headingAccent={headingAccent}
+          subheading={subheading}
+        />
+        <HowItWorksFaqAccordion items={faqs} />
+        <Link href="/faq" className={homeTextLink}>
+          {t("allQuestions")}
+          <FiArrowRight aria-hidden="true" className={homeIcon} />
+        </Link>
       </div>
     </section>
   );

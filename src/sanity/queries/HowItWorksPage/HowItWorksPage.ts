@@ -1,4 +1,3 @@
-import type { Localized } from "@/lib/experience/types";
 import { languageDocumentId } from "@/sanity/constants";
 import { client } from "@/sanity/lib/client";
 import { imageWithDimensions } from "../fragments";
@@ -43,18 +42,11 @@ export interface HowItWorksSteps {
   reassurance: ReassuranceItem[];
 }
 
-/** One of the page's FAQ categories (a filter button). */
-export interface HowItWorksFaqsCategories {
-  _id: string;
-  name: Localized;
-}
-
 /** One FAQ row inside the page's `faqs` array (use `_key`). */
 export interface HowItWorksFaqs {
   _key: string;
   question: string;
   answer: string;
-  category: HowItWorksFaqsCategories | null;
 }
 
 export interface HowItWorksFaqsPage {
@@ -82,7 +74,6 @@ export interface HowItWorksPage {
   hero: HowItWorksPageHero | null;
   steps: HowItWorksSteps | null;
   faq: HowItWorksFaqsPage | null;
-  faqCategories: HowItWorksFaqsCategories[];
   cta: HowItWorksCTA | null;
 }
 
@@ -97,8 +88,7 @@ type HowItWorksPageRow = {
   cta: HowItWorksCTA | null;
   faq:
     | (Omit<HowItWorksFaqsPage, "faqs"> & {
-        categories: { _key: string; name: string }[] | null;
-        faqs: (Omit<HowItWorksFaqs, "category"> & { category?: string })[];
+        faqs: HowItWorksFaqs[] | null;
       })
     | null;
 };
@@ -131,8 +121,7 @@ export const howItWorksPageQuery = `coalesce(
     heading,
     headingAccent,
     subheading,
-    categories[] { _key, name },
-    faqs[] { _key, question, answer, category }
+    faqs[] { _key, question, answer }
   },
   cta {
     eyebrow,
@@ -157,11 +146,6 @@ export async function getHowItWorksPage(
       fallbackId: languageDocumentId("howItWorksPage", "en"),
     },
   );
-  // The FAQ components take categories as { _id, name: { [locale]: name } }.
-  const faqCategories = (row?.faq?.categories ?? []).map((category) => ({
-    _id: category._key,
-    name: { [locale]: category.name },
-  }));
   // Missing sections are null and missing lists empty (a document created
   // outside the Studio can lack them); the page renders what it has.
   const faq: HowItWorksFaqsPage | null = row?.faq
@@ -170,10 +154,7 @@ export async function getHowItWorksPage(
         heading: row.faq.heading,
         headingAccent: row.faq.headingAccent,
         subheading: row.faq.subheading,
-        faqs: (row.faq.faqs ?? []).map(({ category, ...item }) => ({
-          ...item,
-          category: faqCategories.find((c) => c._id === category) ?? null,
-        })),
+        faqs: row.faq.faqs ?? [],
       }
     : null;
   return {
@@ -186,7 +167,6 @@ export async function getHowItWorksPage(
         }
       : null,
     faq,
-    faqCategories,
     cta: row?.cta ?? null,
   };
 }

@@ -61,7 +61,8 @@
     "next": "Next"
   },
   "HowItWorksPage": {
-    "whyChooseUs": "Why choose us"
+    "whyChooseUs": "Why choose us",
+    "allQuestions": "See all questions"
   },
   "BlogPage": {
     "featuredPost": "Featured Post",
