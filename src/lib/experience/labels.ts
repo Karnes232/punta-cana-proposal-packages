@@ -206,6 +206,12 @@ export const ui: Record<string, DefaultText> = {
     fr: "À partir de",
     pt: "A partir de",
   },
+  moreProposalsHeading: {
+    en: "More proposal packages",
+    es: "Más paquetes de propuesta",
+    fr: "Autres forfaits demande en mariage",
+    pt: "Mais pacotes de pedido de casamento",
+  },
   selectStyleLabel: {
     en: "Choose your style",
     es: "Elige tu estilo",

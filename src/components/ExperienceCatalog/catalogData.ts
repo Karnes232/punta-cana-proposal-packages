@@ -7,6 +7,23 @@ import { PROPOSALS_HERO_SLUG } from "../../sanity/constants";
 export const ofType = (experiences: Experience[], type: Experience["_type"]) =>
   experiences.filter((e) => e._type === type);
 
+/** The published package of a type with this slug, if any. */
+export const findBySlug = (
+  experiences: Experience[],
+  type: Experience["_type"],
+  slug: string,
+) => ofType(experiences, type).find((e) => e.slug?.current === slug);
+
+/**
+ * The packages after `current` in Studio order, wrapping around to the
+ * start: what "more packages" shows at the end of a package's page.
+ */
+export function nextOf(list: Experience[], current: Experience, count = 3) {
+  const at = list.findIndex((e) => e._id === current._id);
+  const rest = [...list.slice(at + 1), ...list.slice(0, Math.max(at, 0))];
+  return rest.filter((e) => e._id !== current._id).slice(0, count);
+}
+
 /**
  * The proposals hero: the page's photo, else the Love Signature package's
  * first photo, else the first package's.

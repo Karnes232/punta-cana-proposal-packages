@@ -23,6 +23,9 @@ import ProposalDinnerMenu from "./ProposalDinnerMenu";
  * - `selectable`: compact card in the /proposals grid; its configuration
  *   opens when the card is selected, and the request form opens in a dialog.
  * - otherwise: the full card used on detail pages and for dinners.
+ * - `layout="split"` (full card only): photos on the left, kept in view on
+ *   wide screens, and the configuration on the right. The page shows the
+ *   name and price, so the card leaves them out.
  * - `demo`: example content (preview hosts); requests are not sent.
  * - `contactOnly`: the dinner example that only takes inquiries.
  */
@@ -35,6 +38,7 @@ export default function ExperienceCard({
   selectable = false,
   selected = false,
   onSelect,
+  layout = "stacked",
 }: {
   experience: Experience;
   locale: Locale;
@@ -44,7 +48,9 @@ export default function ExperienceCard({
   selectable?: boolean;
   selected?: boolean;
   onSelect?: () => void;
+  layout?: "stacked" | "split";
 }) {
+  const split = layout === "split" && !selectable;
   const state = useExperienceSelection(experience, locale, demo);
   const { dinner, style, selectedStyleId, selectedAddons, guestMenus } = state;
   const t = (key: string) => label(settings, locale, key);
@@ -70,7 +76,7 @@ export default function ExperienceCard({
         selectable
           ? // ec-proposal-card is a marker for the dark-card variants of the sections inside.
             `ec-proposal-card flex min-w-0 scroll-mt-[120px] cursor-pointer flex-col border bg-[#141416] text-ivory [transition:border-color_180ms] ${selected ? "border-gold" : "border-[#cfae7033] [&:hover]:border-gold"}`
-          : "scroll-mt-[100px] border-none bg-white"
+          : `scroll-mt-[100px] border-none ${split ? "lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start" : "bg-white"}`
       }
       id={experience.slug?.current || experience._id}
       onClick={
@@ -87,52 +93,56 @@ export default function ExperienceCard({
           : undefined
       }
     >
-      {demo && !style?.mainImage?.url && (
-        <div
-          data-testid="template-media"
-          className="grid min-h-[260px] place-content-center gap-3.5 border-b border-b-gold bg-[#151515] p-8 text-center text-ivory"
-        >
-          <span className="text-[0.7rem] tracking-[0.18em] text-gold uppercase">
-            {t("setupTemplate")}
-          </span>
-          <strong className="font-display text-[2.4rem] font-normal">
-            {local(style?.name, locale)}
-          </strong>
-          <small className="text-[#b7b1a6]">{t("photoPending")}</small>
-        </div>
-      )}
-      <ExperienceGallery
-        key={selectedStyleId}
-        selectedStyleImage={style?.mainImage}
-        gallery={experience.gallery}
-        locale={locale}
-        settings={settings}
-      />
+      <div className={split ? "lg:sticky lg:top-[112px]" : undefined}>
+        {demo && !style?.mainImage?.url && (
+          <div
+            data-testid="template-media"
+            className="grid min-h-[260px] place-content-center gap-3.5 border-b border-b-gold bg-[#151515] p-8 text-center text-ivory"
+          >
+            <span className="text-[0.7rem] tracking-[0.18em] text-gold uppercase">
+              {t("setupTemplate")}
+            </span>
+            <strong className="font-display text-[2.4rem] font-normal">
+              {local(style?.name, locale)}
+            </strong>
+            <small className="text-[#b7b1a6]">{t("photoPending")}</small>
+          </div>
+        )}
+        <ExperienceGallery
+          key={selectedStyleId}
+          selectedStyleImage={style?.mainImage}
+          gallery={experience.gallery}
+          locale={locale}
+          settings={settings}
+        />
+      </div>
       <div
-        className={`min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px] ${selectable ? "flex flex-1 flex-col" : ""}`}
+        className={`min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px] ${selectable ? "flex flex-1 flex-col" : ""} ${split ? "bg-white" : ""}`}
       >
-        <div
-          data-testid="card-heading"
-          className={`flex justify-between gap-5 ${selectable ? "[align-items:start]" : "items-baseline upto800:block"}`}
-        >
-          <h2
-            className={
-              selectable
-                ? "text-[clamp(1.5rem,2.2vw,2rem)] italic"
-                : "text-[clamp(1.75rem,2.6vw,2.25rem)] text-balance"
-            }
+        {!split && (
+          <div
+            data-testid="card-heading"
+            className={`flex justify-between gap-5 ${selectable ? "[align-items:start]" : "items-baseline upto800:block"}`}
           >
-            {local(experience.name, locale)}
-          </h2>
-          <span
-            className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-gold" : "mt-2 block text-[17px] whitespace-nowrap text-[#8b672e] tabular-nums"}`}
-          >
-            {selectable
-              ? t("startingAtLabel")
-              : local(experience.priceLabel, locale)}{" "}
-            {price}
-          </span>
-        </div>
+            <h2
+              className={
+                selectable
+                  ? "text-[clamp(1.5rem,2.2vw,2rem)] italic"
+                  : "text-[clamp(1.75rem,2.6vw,2.25rem)] text-balance"
+              }
+            >
+              {local(experience.name, locale)}
+            </h2>
+            <span
+              className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-gold" : "mt-2 block text-[17px] whitespace-nowrap text-[#8b672e] tabular-nums"}`}
+            >
+              {selectable
+                ? t("startingAtLabel")
+                : local(experience.priceLabel, locale)}{" "}
+              {price}
+            </span>
+          </div>
+        )}
         {!selectable && (
           <p className="max-w-[65ch] text-[17px] text-[#3f3f44]">
             {local(experience.shortDescription, locale)}

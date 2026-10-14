@@ -47,7 +47,7 @@ export default function StylePicker({
         {styles.map((option) => (
           <label
             key={id(option)}
-            className={`min-w-[120px] flex-1 cursor-pointer flex-row flex-wrap [align-content:start] items-center rounded-none border px-3.5 py-2.5 upto800:min-w-[100px] ${id(option) === selectedStyleId ? "border-[#9b773d] bg-[#f3ecde]" : "border-(--ec-border)"}`}
+            className={`my-0 min-w-[120px] flex-1 cursor-pointer flex-row flex-wrap [align-content:start] items-center rounded-none border px-3.5 py-2.5 upto800:min-w-[100px] ${id(option) === selectedStyleId ? "border-[#9b773d] bg-[#f3ecde]" : "border-(--ec-border)"}`}
           >
             {option.mainImage?.url && (
               <NextImage

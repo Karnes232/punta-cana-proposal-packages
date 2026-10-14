@@ -120,6 +120,13 @@ export const CATALOG_TEXT_SECTIONS: CatalogTextSection[] = [
         ),
       ],
       [
+        "moreProposalsHeading",
+        bi(
+          "Título encima de otros paquetes al final de la página de un paquete de propuesta",
+          "Heading above other packages at the end of a proposal package's page",
+        ),
+      ],
+      [
         "selectStyleLabel",
         bi(
           "Encima de la elección de estilo de una tarjeta (solo si el paquete tiene estilos)",
