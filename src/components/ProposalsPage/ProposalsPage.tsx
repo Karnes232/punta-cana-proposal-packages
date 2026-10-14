@@ -32,7 +32,7 @@ export default function ProposalsPage({
   const t = (key: string) => label(settings, locale, key),
     prefix = localePrefix(locale);
   return (
-    <main className={shellClass(true)}>
+    <main className={shellClass()}>
       <CatalogHero
         dinner={false}
         locale={locale}
@@ -41,7 +41,7 @@ export default function ProposalsPage({
       />
       <div className={wrapClass}>
         <section
-          className="scroll-mt-[100px] bg-black px-0 py-9 text-ivory [--ec-border:#cfae7033] [--ec-ink:#f7f5f1] [--ec-muted:#b9b7b5] upto800:py-7"
+          className="scroll-mt-[100px] px-0 py-9 upto800:py-7"
           id="proposals"
         >
           <CatalogIntroduction
@@ -66,14 +66,11 @@ export default function ProposalsPage({
           )}
         </section>
       </div>
-      {/* A hairline keeps the black strip apart from the black page. */}
-      <div className="border-t border-t-[#cfae7033]">
-        <CtaStrip
-          heading={page.contactHeading || t("contactHeading")}
-          ctaLabel={t("contactUsLabel")}
-          ctaHref="/contact"
-        />
-      </div>
+      <CtaStrip
+        heading={page.contactHeading || t("contactHeading")}
+        ctaLabel={t("contactUsLabel")}
+        ctaHref="/contact"
+      />
     </main>
   );
 }

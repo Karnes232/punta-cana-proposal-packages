@@ -8,13 +8,11 @@
  * the element defaults (p, small, form fields, headings) in globals.css; the
  * --ec-* variables are the colours those defaults and some components use.
  */
-export function shellClass(dark = false) {
+export function shellClass() {
   return [
     "ec-shell min-h-[70vh] font-[family-name:var(--font-inter),sans-serif] text-[16px] leading-[1.65] text-(--ec-ink)",
     "[--ec-border:#ded5c4] [--ec-paper:#f7f5f1]",
-    dark
-      ? "bg-black [--ec-ink:#f7f5f1] [--ec-muted:#b9b7b5]"
-      : "bg-(--ec-paper) [--ec-ink:#0b0b0c] [--ec-muted:#6e6e73]",
+    "bg-(--ec-paper) [--ec-ink:#0b0b0c] [--ec-muted:#6e6e73]",
   ].join(" ");
 }
 

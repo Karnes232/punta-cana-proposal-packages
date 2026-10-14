@@ -74,8 +74,12 @@ export default function ExperienceCard({
     <article
       className={
         selectable
-          ? // ec-proposal-card is a marker for the dark-card variants of the sections inside.
-            `ec-proposal-card flex min-w-0 scroll-mt-[120px] cursor-pointer flex-col border bg-[#141416] text-ivory [transition:border-color_180ms] ${selected ? "border-gold" : "border-[#cfae7033] [&:hover]:border-gold"}`
+          ? // ec-proposal-card marks the dark grid cards: their own --ec-* colours
+            // restyle the sections inside, and the rest use its in-[] variants.
+            // Each card spans six rows of the grid and shares them (subgrid)
+            // with its neighbour, so photo, heading, inclusions, style, button
+            // and configuration line up across a row.
+            `ec-proposal-card row-span-6 grid min-w-0 scroll-mt-[120px] grid-rows-subgrid gap-y-0 cursor-pointer border bg-[#141416] text-ivory [--ec-border:#cfae7033] [--ec-ink:#f7f5f1] [--ec-muted:#b9b7b5] [--ec-paper:#1c1c20] [transition:border-color_180ms] ${selected ? "border-gold" : "border-(--ec-border) [&:hover]:border-gold"}`
           : `scroll-mt-[100px] border-none ${split ? "lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start" : "bg-white"}`
       }
       id={experience.slug?.current || experience._id}
@@ -117,7 +121,7 @@ export default function ExperienceCard({
         />
       </div>
       <div
-        className={`min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px] ${selectable ? "flex flex-1 flex-col" : ""} ${split ? "bg-white" : ""}`}
+        className={`min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px] ${selectable ? "row-span-5 grid grid-rows-subgrid gap-y-0" : ""} ${split ? "bg-white" : ""}`}
       >
         {!split && (
           <div
@@ -149,7 +153,7 @@ export default function ExperienceCard({
           </p>
         )}
         {selectable && (
-          <ul className="my-[22px] grid list-none gap-1.5 p-0 text-[15px] text-[#cfcdca]">
+          <ul className="my-[22px] grid list-none content-start gap-1.5 p-0 text-[15px] text-[#d3cec6]">
             {experience.inclusions.map((inclusion) => (
               <li key={id(inclusion)} className="flex items-start gap-2.5">
                 <FiCheck
@@ -161,11 +165,14 @@ export default function ExperienceCard({
             ))}
           </ul>
         )}
-        <StylePicker
-          {...section}
-          compact={selectable}
-          contactOnly={contactOnly}
-        />
+        {/* Always one element, even without styles: a grid card's rows. */}
+        <div>
+          <StylePicker
+            {...section}
+            compact={selectable}
+            contactOnly={contactOnly}
+          />
+        </div>
         {!selectable && experience.inclusions.length > 0 && (
           <Accordion title={t("includedLabel")}>
             <ul className="flex list-none flex-wrap gap-x-7 gap-y-3.5 py-2">
@@ -196,7 +203,7 @@ export default function ExperienceCard({
         {selectable && (
           <button
             type="button"
-            className="mt-auto flex min-h-12 w-full cursor-pointer items-center justify-between gap-4 pt-6 pb-2 text-left text-[14px] font-semibold tracking-[0.1em] text-gold uppercase"
+            className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-4 pt-6 pb-2 text-left text-[14px] font-semibold tracking-[0.1em] text-gold uppercase"
             aria-pressed={selected}
             aria-controls={`configure-${experience._id}`}
             onClick={onSelect}

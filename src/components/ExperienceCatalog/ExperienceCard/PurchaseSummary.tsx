@@ -60,7 +60,7 @@ export default function PurchaseSummary({
         className="sticky bottom-0 z-10 mt-6 border-t border-t-gold bg-white pt-2.5 pb-[max(10px,env(safe-area-inset-bottom))] in-[.ec-proposal-card]:bg-[#141416]"
       >
         <div
-          className="m-0 grid grid-cols-[1fr_auto] items-center border-none bg-[position:0_0] p-0 upto800:text-[0.85rem] in-[.ec-proposal-card]:text-ivory"
+          className="m-0 grid grid-cols-[1fr_auto] items-center border-none bg-[position:0_0] p-0 upto800:text-[0.85rem]"
           aria-live="polite"
           data-testid="total"
         >

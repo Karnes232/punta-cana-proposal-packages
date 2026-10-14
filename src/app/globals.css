@@ -219,10 +219,8 @@ h6 {
     font-size: 0.8rem;
     color: #b42318;
   }
-  /* Dark proposal cards (ExperienceCard marks them with ec-proposal-card). */
-  .ec-proposal-card small {
-    color: #b9b7b5;
-  }
+  /* Dark proposal cards (ExperienceCard marks them with ec-proposal-card,
+     and its request dialog opens inside the card). */
   .ec-proposal-card .ec-field-error {
     color: #ffb4a9;
   }
