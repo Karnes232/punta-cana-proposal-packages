@@ -8,15 +8,19 @@ import {
 import { homeButtonIcon, homeButtonParts } from "@/components/HomePage/styles";
 
 interface CtaStripProps {
-  eyebrow: string;
+  eyebrow?: string;
   heading: string;
-  headingAccent: string;
-  subheading: string;
+  /** The heading's last words, in gold. */
+  headingAccent?: string;
+  subheading?: string;
   ctaLabel: string;
   ctaHref: string;
 }
 
-/** The black band closing a listing page (stories, blog), with one button. */
+/**
+ * The black band closing a page (stories, blog, the catalog pages), with one
+ * button.
+ */
 export default function CtaStrip({
   eyebrow,
   heading,
@@ -42,7 +46,13 @@ export default function CtaStrip({
             id={headingId}
             className="font-display text-[clamp(2rem,4vw,3rem)] leading-[1.15] font-normal text-balance text-ivory"
           >
-            {heading} <span className="text-gold">{headingAccent}</span>
+            {heading}
+            {headingAccent && (
+              <>
+                {" "}
+                <span className="text-gold">{headingAccent}</span>
+              </>
+            )}
           </h2>
           {subheading && (
             <p className="max-w-[52ch] text-[16px] leading-[1.75] text-pretty text-ivory/75">

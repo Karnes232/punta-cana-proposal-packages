@@ -1,4 +1,5 @@
 "use client";
+import { FiCheck } from "react-icons/fi";
 import { id, local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import { proposalDinnerId } from "@/lib/experience/proposalExtras";
@@ -110,19 +111,19 @@ export default function ExperienceCard({
       <div className="min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px]">
         <div
           data-testid="card-heading"
-          className={`flex [align-items:start] justify-between gap-5 ${selectable ? "" : "upto800:block"}`}
+          className={`flex justify-between gap-5 ${selectable ? "[align-items:start]" : "items-baseline upto800:block"}`}
         >
           <h2
             className={
               selectable
                 ? "text-[clamp(1.5rem,2.2vw,2rem)] italic"
-                : "text-[1.8rem]"
+                : "text-[clamp(1.75rem,2.6vw,2.25rem)] text-balance"
             }
           >
             {local(experience.name, locale)}
           </h2>
           <span
-            className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-gold" : "whitespace-nowrap text-[#8b672e]"}`}
+            className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-gold" : "mt-2 block text-[17px] whitespace-nowrap text-[#8b672e] tabular-nums"}`}
           >
             {selectable
               ? t("startingAtLabel")
@@ -130,7 +131,11 @@ export default function ExperienceCard({
             {price}
           </span>
         </div>
-        {!selectable && <p>{local(experience.shortDescription, locale)}</p>}
+        {!selectable && (
+          <p className="max-w-[65ch] text-[17px] text-[#3f3f44]">
+            {local(experience.shortDescription, locale)}
+          </p>
+        )}
         {selectable && (
           <ul className="my-[22px] list-disc pl-[18px] text-[14px] text-[#cfcdca]">
             {experience.inclusions.map((inclusion) => (
@@ -149,12 +154,15 @@ export default function ExperienceCard({
           <Accordion title={t("includedLabel")}>
             <ul className="flex list-none flex-wrap gap-x-7 gap-y-3.5 py-2">
               {experience.inclusions.map((inclusion) => (
-                <li
-                  key={id(inclusion)}
-                  className="before:mr-2 before:text-[#9b773d] before:content-['✓']"
-                >
-                  {local(inclusion.name, locale)}{" "}
-                  {local(inclusion.description, locale)}
+                <li key={id(inclusion)} className="flex items-start gap-2">
+                  <FiCheck
+                    aria-hidden="true"
+                    className="mt-[5px] size-4 shrink-0 text-[#9b773d]"
+                  />
+                  <span>
+                    {local(inclusion.name, locale)}{" "}
+                    {local(inclusion.description, locale)}
+                  </span>
                 </li>
               ))}
             </ul>

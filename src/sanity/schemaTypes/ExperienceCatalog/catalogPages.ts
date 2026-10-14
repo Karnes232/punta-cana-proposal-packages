@@ -26,8 +26,8 @@ const pageText = (key: string): FieldDefinition =>
     ? {
         ...field("contactHeading"),
         description: bi(
-          "Título encima del botón de contacto. Vacío = sin título",
-          "Heading above the contact button. Empty = no heading",
+          "Título de la franja de contacto al final de la página. Vacío = título predeterminado",
+          "Heading of the contact band at the end of the page. Empty = the default heading",
         ),
       }
     : longTexts[key]

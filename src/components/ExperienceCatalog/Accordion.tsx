@@ -1,5 +1,6 @@
 "use client";
 import { useId, useState, type ReactNode } from "react";
+import { FiChevronDown } from "react-icons/fi";
 
 export default function Accordion({
   title,
@@ -33,9 +34,10 @@ export default function Accordion({
           {title}
           {summary && <small className="mt-1 font-normal">{summary}</small>}
         </span>
-        <span aria-hidden="true" className="flex-none text-[1.25rem]">
-          {open ? "−" : "+"}
-        </span>
+        <FiChevronDown
+          aria-hidden="true"
+          className={`flex-none text-[#9b773d] [transition:transform_0.2s] motion-reduce:[transition:none] in-[.ec-proposal-card]:text-gold ${compact ? "size-4" : "size-5"} ${open ? "rotate-180" : ""}`}
+        />
       </button>
       <div
         id={id}

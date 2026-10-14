@@ -1,11 +1,13 @@
 "use client";
 import NextImage from "next/image";
 import { useRef, useState } from "react";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import type { Image, Photo, Locale, Settings } from "@/lib/experience/types";
 import { local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 
-const controlClass = "min-h-8 min-w-8 cursor-pointer";
+const arrowClass =
+  "grid size-11 cursor-pointer place-items-center text-(--ec-ink) [transition:color_0.2s] hover:text-[#9b773d] in-[.ec-proposal-card]:text-gold";
 
 export default function ExperienceGallery({
   selectedStyleImage,
@@ -70,7 +72,7 @@ export default function ExperienceGallery({
         loading="lazy"
         width={1000}
         height={750}
-        className="aspect-[4/3] w-full animate-[ec-photo_180ms_ease] object-cover in-[.ec-proposal-card]:aspect-[3/2] in-[.ec-proposal-card]:h-auto"
+        className="aspect-[4/3] w-full md:aspect-[3/2] animate-[ec-photo_180ms_ease] object-cover in-[.ec-proposal-card]:aspect-[3/2] in-[.ec-proposal-card]:h-auto"
       />
       {"caption" in slide && local(slide.caption, locale) && (
         <p className="px-[15px] text-[0.8rem]">
@@ -78,36 +80,45 @@ export default function ExperienceGallery({
         </p>
       )}
       {slides.length > 1 && (
-        <div className="flex justify-between gap-2.5 bg-white px-4 py-2 in-[.ec-proposal-card]:bg-[#141416] in-[.ec-proposal-card]:px-3 in-[.ec-proposal-card]:py-0.5 in-[.ec-proposal-card]:text-gold">
+        <div className="flex items-center justify-between gap-2.5 bg-white px-2 in-[.ec-proposal-card]:bg-[#141416]">
           <button
             type="button"
-            className={controlClass}
+            className={arrowClass}
             onClick={() => move(-1)}
             aria-label={label(settings, locale, "previous")}
           >
-            ←
+            <FiChevronLeft aria-hidden="true" className="size-5" />
           </button>
-          <div>
+          <div className="flex items-center">
             {slides.map((_, i) => (
               <button
                 type="button"
-                className={controlClass}
+                className="group grid h-11 w-6 cursor-pointer place-items-center"
                 key={i}
                 aria-label={`${label(settings, locale, "photo")} ${i + 1}`}
                 aria-current={index === i ? "true" : undefined}
                 onClick={() => setGalleryIndex(i)}
               >
-                {index === i ? "●" : "○"}
+                <span
+                  aria-hidden="true"
+                  className={`size-2 rounded-full border [transition:background-color_0.2s] ${index === i ? "border-[#9b773d] bg-[#9b773d] in-[.ec-proposal-card]:border-gold in-[.ec-proposal-card]:bg-gold" : "border-[#9b773d]/60 group-hover:bg-[#9b773d]/40 in-[.ec-proposal-card]:border-gold/60"}`}
+                />
               </button>
             ))}
+            <span
+              aria-hidden="true"
+              className="ml-3 text-[13px] text-[#6e6e73] tabular-nums in-[.ec-proposal-card]:text-[#b9b7b5]"
+            >
+              {index + 1} / {slides.length}
+            </span>
           </div>
           <button
             type="button"
-            className={controlClass}
+            className={arrowClass}
             onClick={() => move(1)}
             aria-label={label(settings, locale, "next")}
           >
-            →
+            <FiChevronRight aria-hidden="true" className="size-5" />
           </button>
         </div>
       )}
