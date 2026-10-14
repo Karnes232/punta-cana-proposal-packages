@@ -3,7 +3,6 @@ import type { PortableTextBlock } from "@portabletext/react";
 import PostHero from "@/components/IndividualBlogPage/HeroComponent/PostHero";
 import MoreBlogs from "@/components/IndividualBlogPage/MoreBlogs/MoreBlogs";
 import PostBody from "@/components/IndividualBlogPage/PostBody/PostBody";
-import PostMetaBar from "@/components/IndividualBlogPage/PostMetaBar/PostMetaBar";
 import Gallery from "@/components/ui/Gallery/Gallery";
 import JsonLd from "@/components/seo/JsonLd";
 import { buildBlogHreflangMap } from "@/i18n/hreflang";
@@ -14,6 +13,7 @@ import {
   seoFields,
 } from "@/lib/seo/buildMetadata";
 import { toSiteLocale } from "@/i18n/locales";
+import { blogDateFormatLocale } from "@/i18n/pickBlogLocalized";
 import { blogPostPath, siteCanonicalUrl } from "@/lib/seo/constants";
 import {
   getBlogPostLocaleBySlug,
@@ -77,14 +77,6 @@ export default async function BlogPostPage({
         locale={locale}
       />
 
-      <PostMetaBar
-        data={{
-          categoryTag: individualBlog.categoryTag,
-          publishedAt: individualBlog.publishedAt,
-          readingTime: individualBlog.readingTime,
-        }}
-        locale={locale}
-      />
       <PostBody
         locale={locale}
         data={{
@@ -109,15 +101,8 @@ export default async function BlogPostPage({
       />
       {moreBlogs.length > 0 && (
         <MoreBlogs
-          blogs={moreBlogs.map((blog) => ({
-            slug: blog.slug.current,
-            title: blog.title,
-            categoryTag: blog.categoryTag,
-            publishedAt: blog.publishedAt,
-            readingTime: blog.readingTime,
-            excerpt: blog.excerpt,
-            heroPhoto: blog.heroPhoto,
-          }))}
+          blogs={moreBlogs}
+          dateLocale={blogDateFormatLocale(locale)}
         />
       )}
     </main>

@@ -37,9 +37,9 @@
     "minRead": "min de lectura",
     "planCta": "Comienza a Planificar Tu Propuesta",
     "allPosts": "Todos los Artículos",
-    "more": "Más Publicaciones",
-    "moreAccent": "Publicaciones Relacionadas",
-    "readMore": "Leer Historia",
+    "more": "Más publicaciones",
+    "moreHeading": "Sigue",
+    "moreAccent": "leyendo",
     "galleryLabel": "Galería de la publicación del blog"
   },
   "StoriesPage": {
@@ -51,10 +51,6 @@
     "featured": "Historia Destacada",
     "readTheirStory": "Leer Su Historia",
     "filterLabel": "Filtrar historias por tipo"
-  },
-  "Carousel": {
-    "previous": "Anterior",
-    "next": "Siguiente"
   },
   "Gallery": {
     "viewAll": "Ver las {count} fotos",

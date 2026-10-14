@@ -1,5 +1,5 @@
 import StoryPullQuote from "./StoryPullQuote";
-import StoryPortableText from "./StoryPortableText";
+import ArticlePortableText from "@/components/ui/ArticlePortableText";
 import { type StoryBodyData } from "./types";
 
 interface StoryBodyProps {
@@ -12,7 +12,7 @@ export default function StoryBody({ data }: StoryBodyProps) {
     <section className="bg-ivory">
       <div className="mx-auto max-w-5xl px-6 py-16 md:py-24">
         {data.quote && <StoryPullQuote quote={data.quote} />}
-        <StoryPortableText body={data.body} />
+        <ArticlePortableText body={data.body} />
       </div>
     </section>
   );

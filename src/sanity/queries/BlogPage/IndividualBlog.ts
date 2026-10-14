@@ -127,7 +127,8 @@ export const getIndividualBlogMetadata = async (
   return await client.fetch(individualBlogMetadataQuery, { slug, lang });
 };
 
-export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug && language == $lang && ${listable}] | order(publishedAt desc) {
+// The three newest other posts in the same language.
+export const moreBlogsQuery = `*[_type == "blogPost" && slug.current != $slug && language == $lang && ${listable}] | order(publishedAt desc) [0...3] {
   slug {
     current
   },

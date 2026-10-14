@@ -1,3 +1,5 @@
+import { FiClock } from "react-icons/fi";
+import { eyebrowClass } from "@/components/ExperienceCatalog/styles";
 import { formatSanityDate } from "@/lib/formatDate";
 
 interface PostHeroCopyProps {
@@ -9,6 +11,7 @@ interface PostHeroCopyProps {
   locale: string;
 }
 
+/** The category, the title, and when it was published and how long it takes. */
 export default function PostHeroCopy({
   title,
   categoryTag,
@@ -17,7 +20,7 @@ export default function PostHeroCopy({
   readTimeSuffix,
   locale,
 }: PostHeroCopyProps) {
-  const capitalizedDate = formatSanityDate(publishedAt, locale, {
+  const date = formatSanityDate(publishedAt, locale, {
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -25,53 +28,20 @@ export default function PostHeroCopy({
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Category tag */}
-      <span className="text-[10.5px] font-body font-medium tracking-[0.2em] uppercase text-gold/90">
-        {categoryTag}
-      </span>
-
-      {/* Post title */}
-      <h1
-        className="
-            font-display font-normal text-white leading-[1.08] tracking-tight
-            text-[clamp(32px,5vw,64px)] max-w-[680px]
-            animate-[fadeSlideUp_0.7s_ease_forwards] opacity-0 [animation-delay:200ms]
-          "
-      >
+      {categoryTag && (
+        <p className={eyebrowClass({ color: "text-gold" })}>{categoryTag}</p>
+      )}
+      <h1 className="max-w-[20ch] font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-[1.1] font-normal text-balance text-ivory">
         {title}
       </h1>
-
-      {/* Gold divider */}
-      <div className="flex items-center gap-3" aria-hidden="true">
-        <span className="block w-10 h-px bg-gold/50" />
-        <span className="block w-1 h-1 rotate-45 bg-gold/70" />
-        <span className="block w-10 h-px bg-gold/50" />
-      </div>
-
-      {/* Date · Reading time */}
-      <p className="flex items-center gap-2 text-[11.5px] font-body font-light tracking-[0.1em] text-white/60">
-        <span>{capitalizedDate}</span>
-        <span className="text-gold/50" aria-hidden="true">
-          ·
-        </span>
-        <span className="flex items-center gap-1.5">
-          <svg
-            width="11"
-            height="11"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-gold/70"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
-          {readingTime} {readTimeSuffix}
-        </span>
+      <p className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-ivory/85">
+        {date && <span>{date}</span>}
+        {readingTime > 0 && (
+          <span className="inline-flex items-center gap-2">
+            <FiClock aria-hidden="true" className="size-4 shrink-0 text-gold" />
+            {readingTime} {readTimeSuffix}
+          </span>
+        )}
       </p>
     </div>
   );

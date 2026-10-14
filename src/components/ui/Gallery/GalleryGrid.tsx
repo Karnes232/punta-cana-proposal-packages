@@ -16,9 +16,22 @@ interface GalleryGridProps {
  * instead of leaving empty cells.
  */
 function layoutFor(count: number) {
-  if (count === 1) return { grid: "grid-cols-1", tile: "aspect-[3/2]" };
-  if (count === 2) return { grid: "grid-cols-2", tile: "aspect-[4/3]" };
-  return { grid: "grid-cols-2 md:grid-cols-3", tile: "aspect-square" };
+  if (count === 1) {
+    return { grid: "grid-cols-1", tile: "aspect-[3/2]", firstTile: "" };
+  }
+  if (count === 2) {
+    return { grid: "grid-cols-2", tile: "aspect-[4/3]", firstTile: "" };
+  }
+  return {
+    grid: "grid-cols-2 md:grid-cols-3",
+    tile: "aspect-square",
+    // An odd count on two phone columns would leave the last photo alone, so
+    // the first one spans the row instead.
+    firstTile:
+      count % 2 === 1
+        ? "col-span-2 aspect-[3/2] md:col-span-1 md:aspect-square"
+        : "",
+  };
 }
 
 export default function GalleryGrid({ photos }: GalleryGridProps) {
@@ -55,10 +68,11 @@ export default function GalleryGrid({ photos }: GalleryGridProps) {
 
           return (
             <button
-              key={photo.asset.url}
+              // Index first: a gallery can hold the same photo twice.
+              key={`${i}-${photo.asset.url}`}
               type="button"
               onClick={() => openLightbox(i)}
-              className={`group relative cursor-pointer overflow-hidden bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${layout.tile}`}
+              className={`group relative cursor-pointer overflow-hidden bg-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${i === 0 && layout.firstTile ? layout.firstTile : layout.tile}`}
               aria-label={photo.alt ?? `Open photo ${i + 1}`}
             >
               <Image

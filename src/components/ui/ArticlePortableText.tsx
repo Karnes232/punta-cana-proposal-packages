@@ -64,11 +64,14 @@ const components: PortableTextComponents = {
   },
 };
 
-interface StoryPortableTextProps {
+interface ArticlePortableTextProps {
   body: PortableTextBlock[];
 }
 
-export default function StoryPortableText({ body }: StoryPortableTextProps) {
+/** Rich text for story and blog post bodies. */
+export default function ArticlePortableText({
+  body,
+}: ArticlePortableTextProps) {
   return (
     <div>
       <PortableText value={body} components={components} />
