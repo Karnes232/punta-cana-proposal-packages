@@ -29,12 +29,12 @@ export default function ProposalDinnerMenu({
   return (
     <section
       data-testid="proposal-dinner"
-      className="my-6 rounded-[4px_32px_4px_4px] border border-[#776443] bg-[linear-gradient(135deg,#20201f,#111214)] p-6 upto600:p-4"
+      className="my-6 border border-(--ec-border) bg-(--ec-paper) p-6 upto600:p-4"
     >
       <p className={`${eyebrowClass()} leading-[1.6]`}>
         {t("proposalDinnerEyebrow")}
       </p>
-      <h3 className="text-[1.7rem] leading-[1.2] text-[#ecd6aa]">
+      <h3 className="text-[1.7rem] leading-[1.2]">
         {t("proposalDinnerTitle")}
       </h3>
       <p className="leading-[1.6]">{t("proposalDinnerIntro")}</p>

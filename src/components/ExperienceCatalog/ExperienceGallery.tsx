@@ -7,7 +7,7 @@ import { local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 
 const arrowClass =
-  "grid size-11 cursor-pointer place-items-center text-(--ec-ink) [transition:color_0.2s] hover:text-[#9b773d] in-[.ec-proposal-card]:text-gold";
+  "grid size-11 cursor-pointer place-items-center text-(--ec-ink) [transition:color_0.2s] hover:text-[#9b773d]";
 
 export default function ExperienceGallery({
   selectedStyleImage,
@@ -80,7 +80,7 @@ export default function ExperienceGallery({
         </p>
       )}
       {slides.length > 1 && (
-        <div className="flex items-center justify-between gap-2.5 bg-white px-2 in-[.ec-proposal-card]:bg-[#141416]">
+        <div className="flex items-center justify-between gap-2.5 bg-white px-2">
           <button
             type="button"
             className={arrowClass}
@@ -101,13 +101,13 @@ export default function ExperienceGallery({
               >
                 <span
                   aria-hidden="true"
-                  className={`size-2 rounded-full border [transition:background-color_0.2s] ${index === i ? "border-[#9b773d] bg-[#9b773d] in-[.ec-proposal-card]:border-gold in-[.ec-proposal-card]:bg-gold" : "border-[#9b773d]/60 group-hover:bg-[#9b773d]/40 in-[.ec-proposal-card]:border-gold/60"}`}
+                  className={`size-2 rounded-full border [transition:background-color_0.2s] ${index === i ? "border-[#9b773d] bg-[#9b773d]" : "border-[#9b773d]/60 group-hover:bg-[#9b773d]/40"}`}
                 />
               </button>
             ))}
             <span
               aria-hidden="true"
-              className="ml-3 text-[13px] text-[#6e6e73] tabular-nums in-[.ec-proposal-card]:text-[#b9b7b5]"
+              className="ml-3 text-[13px] text-[#6e6e73] tabular-nums"
             >
               {index + 1} / {slides.length}
             </span>

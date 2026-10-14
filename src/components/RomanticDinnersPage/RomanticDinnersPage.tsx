@@ -38,7 +38,7 @@ export default function RomanticDinnersPage({
   const t = (key: string) => label(settings, locale, key),
     prefix = localePrefix(locale);
   return (
-    <main className={shellClass(false)}>
+    <main className={shellClass()}>
       <CatalogHero
         dinner
         locale={locale}
