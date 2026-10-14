@@ -23,13 +23,13 @@ export default function RequestDialog({
   return (
     <dialog
       ref={ref}
-      className="m-auto max-h-[90svh] w-[min(760px,94vw)] overflow-y-auto border border-(--ec-border) bg-white p-8 text-(--ec-ink) backdrop:bg-[#000b] upto700:p-6"
+      className="m-auto max-h-[90svh] w-[min(760px,94vw)] overflow-y-auto border border-gold bg-[#141416] p-8 text-ivory [color-scheme:dark] backdrop:bg-[#000b] upto700:p-6"
       aria-label={title}
       onCancel={onClose}
     >
       <button
         type="button"
-        className="ml-auto grid h-11 w-11 cursor-pointer place-items-center text-[#3f3f44] [transition:color_0.2s] hover:text-[#8b672e]"
+        className="ml-auto grid h-11 w-11 cursor-pointer place-items-center text-gold"
         aria-label={closeLabel}
         onClick={onClose}
       >

@@ -74,11 +74,12 @@ export default function ExperienceCard({
     <article
       className={
         selectable
-          ? // ec-proposal-card marks the grid cards, for the compact sizes of the
-            // sections inside. Each card spans six rows of the grid and shares
-            // them (subgrid) with its neighbour, so photo, heading, inclusions,
-            // style, button and configuration line up across a row.
-            `ec-proposal-card row-span-6 grid min-w-0 scroll-mt-[120px] grid-rows-subgrid gap-y-0 cursor-pointer border bg-white [transition:border-color_180ms] ${selected ? "border-[#9b773d]" : "border-(--ec-border) [&:hover]:border-[#9b773d]"}`
+          ? // ec-proposal-card marks the dark grid cards: their own --ec-* colours
+            // restyle the sections inside, and the rest use its in-[] variants.
+            // Each card spans six rows of the grid and shares them (subgrid)
+            // with its neighbour, so photo, heading, inclusions, style, button
+            // and configuration line up across a row.
+            `ec-proposal-card row-span-6 grid min-w-0 scroll-mt-[120px] grid-rows-subgrid gap-y-0 cursor-pointer border bg-[#141416] text-ivory [--ec-border:#cfae7033] [--ec-ink:#f7f5f1] [--ec-muted:#b9b7b5] [--ec-paper:#1c1c20] [transition:border-color_180ms] ${selected ? "border-gold" : "border-(--ec-border) [&:hover]:border-gold"}`
           : `scroll-mt-[100px] border-none ${split ? "lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start" : "bg-white"}`
       }
       id={experience.slug?.current || experience._id}
@@ -137,7 +138,7 @@ export default function ExperienceCard({
               {local(experience.name, locale)}
             </h2>
             <span
-              className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-[#8b672e]" : "mt-2 block text-[17px] whitespace-nowrap text-[#8b672e] tabular-nums"}`}
+              className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-gold" : "mt-2 block text-[17px] whitespace-nowrap text-[#8b672e] tabular-nums"}`}
             >
               {selectable
                 ? t("startingAtLabel")
@@ -152,12 +153,12 @@ export default function ExperienceCard({
           </p>
         )}
         {selectable && (
-          <ul className="my-[22px] grid list-none content-start gap-1.5 p-0 text-[15px] text-[#3f3f44]">
+          <ul className="my-[22px] grid list-none content-start gap-1.5 p-0 text-[15px] text-[#d3cec6]">
             {experience.inclusions.map((inclusion) => (
               <li key={id(inclusion)} className="flex items-start gap-2.5">
                 <FiCheck
                   aria-hidden="true"
-                  className="mt-[5px] size-4 shrink-0 text-[#9b773d]"
+                  className="mt-[5px] size-4 shrink-0 text-gold"
                 />
                 <span>{local(inclusion.name, locale)}</span>
               </li>
@@ -202,7 +203,7 @@ export default function ExperienceCard({
         {selectable && (
           <button
             type="button"
-            className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-4 pt-6 pb-2 text-left text-[14px] font-semibold tracking-[0.1em] text-[#8b672e] uppercase"
+            className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-4 pt-6 pb-2 text-left text-[14px] font-semibold tracking-[0.1em] text-gold uppercase"
             aria-pressed={selected}
             aria-controls={`configure-${experience._id}`}
             onClick={onSelect}

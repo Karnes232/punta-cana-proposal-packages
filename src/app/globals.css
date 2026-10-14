@@ -219,6 +219,22 @@ h6 {
     font-size: 0.8rem;
     color: #b42318;
   }
+  /* Dark proposal cards (ExperienceCard marks them with ec-proposal-card,
+     and its request dialog opens inside the card). */
+  .ec-proposal-card .ec-field-error {
+    color: #ffb4a9;
+  }
+  .ec-proposal-card input:not([type="checkbox"]):not([type="radio"]),
+  .ec-proposal-card select,
+  .ec-proposal-card textarea {
+    background: #1c1c20;
+    border-color: #cfae7066;
+    color: #f7f5f1;
+    color-scheme: dark;
+  }
+  .ec-proposal-card ::placeholder {
+    color: #8f8b85;
+  }
   .ec-shell :focus-visible {
     outline: 2px solid #cfae70;
     outline-offset: 5px;

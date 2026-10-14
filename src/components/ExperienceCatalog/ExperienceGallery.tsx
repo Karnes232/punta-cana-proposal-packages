@@ -80,7 +80,7 @@ export default function ExperienceGallery({
         </p>
       )}
       {slides.length > 1 && (
-        <div className="flex items-center justify-between gap-2.5 bg-white px-2">
+        <div className="flex items-center justify-between gap-2.5 bg-white px-2 in-[.ec-proposal-card]:bg-[#141416]">
           <button
             type="button"
             className={arrowClass}
@@ -107,7 +107,7 @@ export default function ExperienceGallery({
             ))}
             <span
               aria-hidden="true"
-              className="ml-3 text-[13px] text-[#6e6e73] tabular-nums"
+              className="ml-3 text-[13px] text-(--ec-muted) tabular-nums"
             >
               {index + 1} / {slides.length}
             </span>
