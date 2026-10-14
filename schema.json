@@ -5247,6 +5247,13 @@
         },
         "optional": true
       },
+      "moreProposalsHeading": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "selectStyleLabel": {
         "type": "objectAttribute",
         "value": {

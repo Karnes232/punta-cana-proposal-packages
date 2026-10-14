@@ -853,6 +853,7 @@ export type ExperienceCatalogSettings = {
   terms?: string;
   rightsReserved?: string;
   startingAtLabel?: string;
+  moreProposalsHeading?: string;
   selectStyleLabel?: string;
   selectPackage?: string;
   selectedPackage?: string;
@@ -2860,6 +2861,7 @@ export type CatalogContentQueryResult = {
         terms?: string;
         rightsReserved?: string;
         startingAtLabel?: string;
+        moreProposalsHeading?: string;
         selectStyleLabel?: string;
         selectPackage?: string;
         selectedPackage?: string;
@@ -2962,6 +2964,7 @@ export type CatalogContentQueryResult = {
         terms?: string;
         rightsReserved?: string;
         startingAtLabel?: string;
+        moreProposalsHeading?: string;
         selectStyleLabel?: string;
         selectPackage?: string;
         selectedPackage?: string;
@@ -4720,6 +4723,7 @@ export type CatalogContentQueryResult = {
         terms?: string;
         rightsReserved?: string;
         startingAtLabel?: string;
+        moreProposalsHeading?: string;
         selectStyleLabel?: string;
         selectPackage?: string;
         selectedPackage?: string;
@@ -5914,6 +5918,7 @@ export type CatalogContentQueryResult = {
         terms?: string;
         rightsReserved?: string;
         startingAtLabel?: string;
+        moreProposalsHeading?: string;
         selectStyleLabel?: string;
         selectPackage?: string;
         selectedPackage?: string;
