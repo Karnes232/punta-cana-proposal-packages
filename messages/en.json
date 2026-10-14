@@ -37,9 +37,9 @@
     "minRead": "min read",
     "planCta": "Start Planning Your Proposal",
     "allPosts": "All Posts",
-    "more": "More Blogs",
-    "moreAccent": "Related Blogs",
-    "readMore": "Read Story",
+    "more": "More posts",
+    "moreHeading": "Keep",
+    "moreAccent": "reading",
     "galleryLabel": "Blog Post Gallery"
   },
   "StoriesPage": {
@@ -51,10 +51,6 @@
     "featured": "Featured Story",
     "readTheirStory": "Read Their Story",
     "filterLabel": "Filter stories by type"
-  },
-  "Carousel": {
-    "previous": "Previous",
-    "next": "Next"
   },
   "Gallery": {
     "viewAll": "View all {count} photos",

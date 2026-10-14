@@ -6,8 +6,16 @@ import { tallPhotoClass } from "@/components/ui/asymmetricGrid";
 import { BlogPost } from "@/sanity/queries/BlogPage/BlogPosts";
 import { formatSanityDate } from "@/lib/formatDate";
 
+/** What the card reads; also fed by the "more posts" list on a post page. */
+export type BlogCardPost = Pick<
+  BlogPost,
+  "slug" | "title" | "categoryTag" | "excerpt" | "publishedAt" | "readingTime"
+> & {
+  heroPhoto: Omit<BlogPost["heroPhoto"], "alt"> & { alt?: string };
+};
+
 interface BlogCardProps {
-  post: BlogPost;
+  post: BlogCardPost;
   readMoreLabel: string;
   readTimeSuffix: string;
   dateLocale: string;

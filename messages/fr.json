@@ -38,8 +38,8 @@
     "planCta": "Commencez à préparer votre demande",
     "allPosts": "Tous les articles",
     "more": "Plus d’articles",
-    "moreAccent": "Articles similaires",
-    "readMore": "Lire l’histoire",
+    "moreHeading": "Continuez",
+    "moreAccent": "votre lecture",
     "galleryLabel": "Galerie de l’article"
   },
   "StoriesPage": {
@@ -51,10 +51,6 @@
     "featured": "Histoire à la une",
     "readTheirStory": "Lire leur histoire",
     "filterLabel": "Filtrer les histoires par type"
-  },
-  "Carousel": {
-    "previous": "Précédent",
-    "next": "Suivant"
   },
   "Gallery": {
     "viewAll": "Voir les {count} photos",
