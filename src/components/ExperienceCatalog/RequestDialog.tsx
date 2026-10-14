@@ -23,7 +23,7 @@ export default function RequestDialog({
   return (
     <dialog
       ref={ref}
-      className="m-auto max-h-[90svh] w-[min(760px,94vw)] overflow-y-auto border border-gold bg-[#141416] p-8 text-ivory backdrop:bg-[#000b] upto700:p-6 [&_form_:is(input,textarea)]:text-black"
+      className="m-auto max-h-[90svh] w-[min(760px,94vw)] overflow-y-auto border border-gold bg-[#141416] p-8 text-ivory [color-scheme:dark] backdrop:bg-[#000b] upto700:p-6"
       aria-label={title}
       onCancel={onClose}
     >
