@@ -77,7 +77,7 @@ export default function AddonsSection({
           <div
             key={key}
             data-testid="addon"
-            className="p-3 [transition:background_0.2s] has-[input:checked]:bg-[rgba(207,174,112,0.08)] has-[input:checked]:shadow-[inset_2px_0_#cfae70] motion-reduce:[transition:none]"
+            className="p-3 [transition:background_0.2s] has-[input:checked]:bg-[rgba(207,174,112,0.08)] has-[input:checked]:shadow-[inset_0_0_0_1px_#cfae70] motion-reduce:[transition:none]"
           >
             <label className="min-h-12 flex-row items-center gap-3">
               <input

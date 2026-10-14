@@ -1,10 +1,11 @@
+import { FiMinus, FiPlus } from "react-icons/fi";
 import { id, local } from "@/lib/experience/normalize";
 
 import Accordion from "../Accordion";
 import type { CardSectionProps } from "./types";
 
 const stepperClass =
-  "h-[46px] w-[46px] cursor-pointer border border-(--ec-border) text-[1.3rem] disabled:cursor-default disabled:opacity-35";
+  "grid size-[46px] cursor-pointer place-items-center border border-(--ec-border) [transition:border-color_0.2s] enabled:hover:border-[#9b773d] disabled:cursor-default disabled:opacity-35";
 
 /** Romantic dinners: occasion and number of guests. */
 export default function DinnerGuestsSection({
@@ -53,7 +54,7 @@ export default function DinnerGuestsSection({
             }
             onClick={() => changeGuestCount(guestCount - 1)}
           >
-            −
+            <FiMinus aria-hidden="true" className="size-4" />
           </button>
           <output aria-live="polite" className="min-w-5 text-center">
             {guestCount}
@@ -69,7 +70,7 @@ export default function DinnerGuestsSection({
             }
             onClick={() => changeGuestCount(guestCount + 1)}
           >
-            +
+            <FiPlus aria-hidden="true" className="size-4" />
           </button>
         </div>
       </div>

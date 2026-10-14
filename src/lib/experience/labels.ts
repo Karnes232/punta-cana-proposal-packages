@@ -212,6 +212,12 @@ export const ui: Record<string, DefaultText> = {
     fr: "Choisissez votre style",
     pt: "Escolha seu estilo",
   },
+  contactHeading: {
+    en: "Planning something special? Let's talk.",
+    es: "¿Planeas algo especial? Hablemos.",
+    fr: "Vous préparez quelque chose de spécial ? Parlons-en.",
+    pt: "Planejando algo especial? Vamos conversar.",
+  },
   contactUsLabel: {
     en: "Contact us",
     es: "Contáctanos",

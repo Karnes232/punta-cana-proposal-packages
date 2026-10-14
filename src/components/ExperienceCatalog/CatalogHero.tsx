@@ -1,9 +1,12 @@
 import type { Image, Locale, Settings } from "@/lib/experience/types";
 import { label } from "@/lib/experience/labels";
+import { FiArrowDown } from "react-icons/fi";
 import SanityPhoto from "@/components/ui/SanityPhoto";
+import { homeButtonIcon, homeButtonParts } from "@/components/HomePage/styles";
 import { buttonClass, eyebrowClass } from "./styles";
 
 const heroButtonParts = {
+  ...homeButtonParts,
   height: "min-h-[52px]",
   motion:
     "[transition:background_0.2s,transform_0.2s] motion-reduce:[transition:none] [&:hover]:[transform:translateY(-2px)]",
@@ -31,7 +34,7 @@ export default function CatalogHero({
       />
       <div className="absolute inset-0 -z-1 bg-[linear-gradient(90deg,rgba(7,9,12,0.8),rgba(7,9,12,0.36)),linear-gradient(0deg,rgba(7,9,12,0.5),transparent_65%)]" />
       <div className="m-auto w-full max-w-[1280px] px-7 py-[90px] upto800:px-5 upto600:py-[65px] upto390:px-3.5">
-        <p className={eyebrowClass()}>
+        <p className={eyebrowClass({ color: "text-gold" })}>
           {/* Separate text nodes, as before: joining them shifts one glyph. */}
           {"Punta Cana ·"} {t("heroEyebrow")}
         </p>
@@ -43,8 +46,8 @@ export default function CatalogHero({
         </p>
         <div className="mt-8 flex flex-wrap gap-4 upto600:flex-col upto600:items-stretch">
           <a className={buttonClass(heroButtonParts)} href="#packages">
-            {t(dinner ? "dinnerHeroCta" : "proposalHeroCta")}{" "}
-            <span aria-hidden="true">↗</span>
+            {t(dinner ? "dinnerHeroCta" : "proposalHeroCta")}
+            <FiArrowDown aria-hidden="true" className={homeButtonIcon} />
           </a>
           <a
             className={buttonClass({

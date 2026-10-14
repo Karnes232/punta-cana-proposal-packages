@@ -1,10 +1,10 @@
-import CatalogContactBand from "@/components/ExperienceCatalog/CatalogContactBand";
 import CatalogEmpty from "@/components/ExperienceCatalog/CatalogEmpty";
 import CatalogHero from "@/components/ExperienceCatalog/CatalogHero";
 import CatalogIntroduction from "@/components/ExperienceCatalog/CatalogIntroduction";
 import ProposalGrid from "@/components/ExperienceCatalog/ProposalGrid";
 import { proposalsHeroPhoto } from "@/components/ExperienceCatalog/catalogData";
 import { shellClass, wrapClass } from "@/components/ExperienceCatalog/styles";
+import CtaStrip from "@/components/ui/CtaStrip";
 import { localePrefix } from "@/i18n/locales";
 import { label } from "@/lib/experience/labels";
 import type { Experience, Locale, Settings } from "@/lib/experience/types";
@@ -12,7 +12,7 @@ import type { CatalogPage } from "@/sanity/queries/ExperienceCatalog/catalogPage
 
 /**
  * The proposals page: hero, introduction, the package grid (or a note when
- * there are none) and the contact band. The route fetches its data.
+ * there are none) and the contact strip. The route fetches its data.
  */
 export default function ProposalsPage({
   locale,
@@ -65,10 +65,13 @@ export default function ProposalsPage({
             />
           )}
         </section>
-        <CatalogContactBand
-          heading={page.contactHeading}
-          label={t("contactUsLabel")}
-          prefix={prefix}
+      </div>
+      {/* A hairline keeps the black strip apart from the black page. */}
+      <div className="border-t border-t-[#cfae7033]">
+        <CtaStrip
+          heading={page.contactHeading || t("contactHeading")}
+          ctaLabel={t("contactUsLabel")}
+          ctaHref="/contact"
         />
       </div>
     </main>
