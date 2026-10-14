@@ -10,7 +10,7 @@ import { featuredText, homeH3, homeIcon } from "./styles";
 /**
  * A featured package: photo and badge, name and starting price,
  * description, duration and place, the first four inclusions and a link to
- * customize it.
+ * customize it: on Proposals by default, or `href` (a package's own page).
  */
 export default function FeaturedProposalCard({
   experience: e,
@@ -18,12 +18,14 @@ export default function FeaturedProposalCard({
   prefix,
   settings,
   t,
+  href,
 }: {
   experience: Experience;
   locale: Locale;
   prefix: string;
   settings: Settings;
   t: HomeText;
+  href?: string;
 }) {
   const price = startingPrice(e);
   return (
@@ -83,7 +85,10 @@ export default function FeaturedProposalCard({
           ))}
         </ul>
         <Link
-          href={`${prefix}/proposals#${encodeURIComponent(e.slug?.current || e._id)}`}
+          href={
+            href ??
+            `${prefix}/proposals#${encodeURIComponent(e.slug?.current || e._id)}`
+          }
           className="mt-auto flex items-center gap-2 border-t border-t-[#cfae7033] pt-6 text-[14px] text-gold"
         >
           {t("customize")}{" "}
