@@ -28,7 +28,6 @@ export default function StylePicker({
       <label className="mt-6">
         {t("selectStyleLabel")}
         <select
-          className="in-[.ec-proposal-card]:border-[#cfae7066] in-[.ec-proposal-card]:bg-[#1c1c20] in-[.ec-proposal-card]:text-ivory"
           value={selectedStyleId}
           onChange={(event) => setSelectedStyleId(event.target.value)}
         >

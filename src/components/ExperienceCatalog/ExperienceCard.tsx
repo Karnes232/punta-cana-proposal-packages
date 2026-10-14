@@ -1,5 +1,5 @@
 "use client";
-import { FiCheck } from "react-icons/fi";
+import { FiArrowRight, FiCheck } from "react-icons/fi";
 import { id, local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 import { proposalDinnerId } from "@/lib/experience/proposalExtras";
@@ -69,7 +69,7 @@ export default function ExperienceCard({
       className={
         selectable
           ? // ec-proposal-card is a marker for the dark-card variants of the sections inside.
-            `ec-proposal-card min-w-0 scroll-mt-[120px] cursor-pointer border bg-[#141416] text-ivory [transition:border-color_180ms] ${selected ? "border-gold" : "border-[#cfae7033] [&:hover]:border-gold"}`
+            `ec-proposal-card flex min-w-0 scroll-mt-[120px] cursor-pointer flex-col border bg-[#141416] text-ivory [transition:border-color_180ms] ${selected ? "border-gold" : "border-[#cfae7033] [&:hover]:border-gold"}`
           : "scroll-mt-[100px] border-none bg-white"
       }
       id={experience.slug?.current || experience._id}
@@ -108,7 +108,9 @@ export default function ExperienceCard({
         locale={locale}
         settings={settings}
       />
-      <div className="min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px]">
+      <div
+        className={`min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px] ${selectable ? "flex flex-1 flex-col" : ""}`}
+      >
         <div
           data-testid="card-heading"
           className={`flex justify-between gap-5 ${selectable ? "[align-items:start]" : "items-baseline upto800:block"}`}
@@ -137,10 +139,14 @@ export default function ExperienceCard({
           </p>
         )}
         {selectable && (
-          <ul className="my-[22px] list-disc pl-[18px] text-[14px] text-[#cfcdca]">
+          <ul className="my-[22px] grid list-none gap-1.5 p-0 text-[15px] text-[#cfcdca]">
             {experience.inclusions.map((inclusion) => (
-              <li key={id(inclusion)} className="py-0.5">
-                {local(inclusion.name, locale)}
+              <li key={id(inclusion)} className="flex items-start gap-2.5">
+                <FiCheck
+                  aria-hidden="true"
+                  className="mt-[5px] size-4 shrink-0 text-gold"
+                />
+                <span>{local(inclusion.name, locale)}</span>
               </li>
             ))}
           </ul>
@@ -180,13 +186,17 @@ export default function ExperienceCard({
         {selectable && (
           <button
             type="button"
-            className="flex min-h-12 w-full cursor-pointer justify-between pt-6 pb-2 text-left text-[14px] font-semibold tracking-[0.1em] text-gold uppercase"
+            className="mt-auto flex min-h-12 w-full cursor-pointer items-center justify-between gap-4 pt-6 pb-2 text-left text-[14px] font-semibold tracking-[0.1em] text-gold uppercase"
             aria-pressed={selected}
             aria-controls={`configure-${experience._id}`}
             onClick={onSelect}
           >
-            {t(selected ? "selectedPackage" : "selectPackage")}{" "}
-            <span aria-hidden="true">{selected ? "✓" : "→"}</span>
+            {t(selected ? "selectedPackage" : "selectPackage")}
+            {selected ? (
+              <FiCheck aria-hidden="true" className="size-5 shrink-0" />
+            ) : (
+              <FiArrowRight aria-hidden="true" className="size-5 shrink-0" />
+            )}
           </button>
         )}
         <div
