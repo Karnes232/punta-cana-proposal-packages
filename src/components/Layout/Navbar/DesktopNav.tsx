@@ -22,7 +22,7 @@ export default function DesktopNav({
 }) {
   return (
     <nav
-      className="flex items-center gap-4 text-[13px] tracking-[0.1em] uppercase upto1280:hidden"
+      className="flex items-center gap-3.5 text-[13px] tracking-[0.1em] uppercase upto1360:hidden"
       aria-label={t("menu")}
     >
       {/* The logo links home, which leaves room for longer labels

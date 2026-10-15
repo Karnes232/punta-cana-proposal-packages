@@ -22,8 +22,10 @@ export const NAV_LINKS: NavLink[] = [
 
 const LOCALE_SEGMENT = new RegExp(`^/(${ALL_LOCALES.join("|")})(?=/|$)`);
 
-// Where the desktop bar takes over from the Menu button (upto1280 ends).
-export const DESKTOP = "(min-width: 1281px)";
+// Where the desktop bar takes over from the Menu button (upto1360 ends):
+// below it (scrollbar included), the longest language (French) does not
+// fit next to the logo.
+export const DESKTOP = "(min-width: 1361px)";
 
 /**
  * The page's path without its language, and the language from its URL:
