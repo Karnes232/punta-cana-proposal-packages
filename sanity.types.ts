@@ -926,10 +926,6 @@ export type ExperienceCatalogSettings = {
   addGuest?: string;
   languageLabel?: string;
   removeGuest?: string;
-  previewOnly?: string;
-  setupTemplate?: string;
-  photoPending?: string;
-  priceToBeDefined?: string;
 };
 
 export type LegalDocument = {
@@ -1254,7 +1250,6 @@ export type RomanticDinnersPage = {
   dinners?: {
     dinnerInquiryNote?: string;
     emptyDinners?: string;
-    dinnerTemplatePreviewNote?: string;
   };
   contact?: {
     contactHeading?: string;
@@ -2979,10 +2974,6 @@ export type CatalogContentQueryResult = {
         addGuest?: string;
         languageLabel?: string;
         removeGuest?: string;
-        previewOnly?: string;
-        setupTemplate?: string;
-        photoPending?: string;
-        priceToBeDefined?: string;
       }
     | {
         _id: string;
@@ -3083,10 +3074,6 @@ export type CatalogContentQueryResult = {
         addGuest?: string;
         languageLabel?: string;
         removeGuest?: string;
-        previewOnly?: string;
-        setupTemplate?: string;
-        photoPending?: string;
-        priceToBeDefined?: string;
       }
     | {
         _id: string;
@@ -3942,7 +3929,6 @@ export type CatalogContentQueryResult = {
         dinners?: {
           dinnerInquiryNote?: string;
           emptyDinners?: string;
-          dinnerTemplatePreviewNote?: string;
         };
         contact?: {
           contactHeading?: string;
@@ -3994,7 +3980,6 @@ export type CatalogContentQueryResult = {
         dinners?: {
           dinnerInquiryNote?: string;
           emptyDinners?: string;
-          dinnerTemplatePreviewNote?: string;
         };
         contact?: {
           contactHeading?: string;
@@ -4843,10 +4828,6 @@ export type CatalogContentQueryResult = {
         addGuest?: string;
         languageLabel?: string;
         removeGuest?: string;
-        previewOnly?: string;
-        setupTemplate?: string;
-        photoPending?: string;
-        priceToBeDefined?: string;
       }
     | {
         _id: string;
@@ -5297,7 +5278,6 @@ export type CatalogContentQueryResult = {
         dinners?: {
           dinnerInquiryNote?: string;
           emptyDinners?: string;
-          dinnerTemplatePreviewNote?: string;
         };
         contact?: {
           contactHeading?: string;
@@ -6063,10 +6043,6 @@ export type CatalogContentQueryResult = {
         addGuest?: string;
         languageLabel?: string;
         removeGuest?: string;
-        previewOnly?: string;
-        setupTemplate?: string;
-        photoPending?: string;
-        priceToBeDefined?: string;
       }
     | {
         _id: string;
@@ -6517,7 +6493,6 @@ export type CatalogContentQueryResult = {
         dinners?: {
           dinnerInquiryNote?: string;
           emptyDinners?: string;
-          dinnerTemplatePreviewNote?: string;
         };
         contact?: {
           contactHeading?: string;

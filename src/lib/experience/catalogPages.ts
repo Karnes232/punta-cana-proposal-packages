@@ -51,7 +51,7 @@ export const CATALOG_PAGES = {
       "dinnerIntroStep4",
       "dinnerIntroNote",
     ],
-    dinners: ["dinnerInquiryNote", "emptyDinners", "dinnerTemplatePreviewNote"],
+    dinners: ["dinnerInquiryNote", "emptyDinners"],
     contact: ["contactHeading", "contactUsLabel"],
   },
 } as const;

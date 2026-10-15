@@ -16,11 +16,7 @@ export const COURSES: Course[] = ["starter", "main", "dessert"];
  * Everything a visitor chooses on an experience card (style, add-ons,
  * guests, menus, drinks, occasion) plus the price estimate for it.
  */
-export function useExperienceSelection(
-  experience: Experience,
-  locale: Locale,
-  demo: boolean,
-) {
+export function useExperienceSelection(experience: Experience, locale: Locale) {
   const dinner = experience._type === "romanticDinnerExperience";
   const [selectedStyleId, setSelectedStyleId] = useState(
     id(experience.styles[0] || {}),
@@ -106,10 +102,6 @@ export function useExperienceSelection(
     if (quantity) next[key] = quantity;
     else delete next[key];
     try {
-      if (demo) {
-        setSelectedAddons(next);
-        return;
-      }
       calculate(
         experience,
         {

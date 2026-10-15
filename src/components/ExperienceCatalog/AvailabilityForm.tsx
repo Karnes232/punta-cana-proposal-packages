@@ -43,14 +43,12 @@ export default function AvailabilityForm({
   settings,
   experienceId,
   selection,
-  demo = false,
   dinner = false,
 }: {
   locale: Locale;
   settings: Settings;
   experienceId?: string;
   selection?: Selection;
-  demo?: boolean;
   dinner?: boolean;
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
@@ -107,7 +105,7 @@ export default function AvailabilityForm({
       }}
       onSubmit={async (e) => {
         e.preventDefault();
-        if (demo || status === "sending" || status === "sent") return;
+        if (status === "sending" || status === "sent") return;
         const form = e.currentTarget;
         setStatus("sending");
         setProblem(null);
@@ -160,7 +158,6 @@ export default function AvailabilityForm({
         }
       }}
     >
-      {demo && <p role="note">{t("previewOnly")}</p>}
       <div className="grid grid-cols-[1fr_1fr] gap-x-4 gap-y-0 upto800:grid-cols-[1fr]">
         {(["fullName", "email", "phone", "hotel"] as const).map((key) => (
           <label key={key}>
@@ -246,7 +243,7 @@ export default function AvailabilityForm({
       </label>
       <button
         className={buttonClass()}
-        disabled={demo || status === "sending" || status === "sent"}
+        disabled={status === "sending" || status === "sent"}
       >
         {status === "sending" ? "…" : t("send")}
       </button>

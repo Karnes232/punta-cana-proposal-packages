@@ -26,14 +26,12 @@ import ProposalDinnerMenu from "./ProposalDinnerMenu";
  * - `layout="split"` (full card only): photos on the left, kept in view on
  *   wide screens, and the configuration on the right. The page shows the
  *   name and price, so the card leaves them out.
- * - `demo`: example content (preview hosts); requests are not sent.
  * - `contactOnly`: the dinner example that only takes inquiries.
  */
 export default function ExperienceCard({
   experience,
   locale,
   settings,
-  demo = false,
   contactOnly = false,
   selectable = false,
   selected = false,
@@ -43,7 +41,6 @@ export default function ExperienceCard({
   experience: Experience;
   locale: Locale;
   settings: Settings;
-  demo?: boolean;
   contactOnly?: boolean;
   selectable?: boolean;
   selected?: boolean;
@@ -51,24 +48,17 @@ export default function ExperienceCard({
   layout?: "stacked" | "split";
 }) {
   const split = layout === "split" && !selectable;
-  const state = useExperienceSelection(experience, locale, demo);
+  const state = useExperienceSelection(experience, locale);
   const { dinner, style, selectedStyleId, selectedAddons, guestMenus } = state;
   const t = (key: string) => label(settings, locale, key);
   const money = moneyFormatter(locale, settings, experience.currency || "USD");
   const section = { experience, locale, t, money, state };
 
-  const price =
-    demo &&
-    !dinner &&
-    // Missing values come back from Sanity as null, not undefined.
-    style?.price == null &&
-    experience.basePrice == null
-      ? t("priceToBeDefined")
-      : money(
-          dinner
-            ? experience.basePrice || 0
-            : (style?.price ?? experience.basePrice ?? 0),
-        );
+  const price = money(
+    dinner
+      ? experience.basePrice || 0
+      : (style?.price ?? experience.basePrice ?? 0),
+  );
 
   return (
     <article
@@ -98,20 +88,6 @@ export default function ExperienceCard({
       }
     >
       <div className={split ? "lg:sticky lg:top-[112px]" : undefined}>
-        {demo && !style?.mainImage?.url && (
-          <div
-            data-testid="template-media"
-            className="grid min-h-[260px] place-content-center gap-3.5 border-b border-b-gold bg-[#151515] p-8 text-center text-ivory"
-          >
-            <span className="text-[0.7rem] tracking-[0.18em] text-gold uppercase">
-              {t("setupTemplate")}
-            </span>
-            <strong className="font-display text-[2.4rem] font-normal">
-              {local(style?.name, locale)}
-            </strong>
-            <small className="text-[#b7b1a6]">{t("photoPending")}</small>
-          </div>
-        )}
         <ExperienceGallery
           key={selectedStyleId}
           selectedStyleImage={style?.mainImage}
@@ -235,7 +211,6 @@ export default function ExperienceCard({
           <PurchaseSummary
             {...section}
             settings={settings}
-            demo={demo}
             inDialog={selectable}
           />
         </div>

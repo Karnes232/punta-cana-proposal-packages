@@ -5757,34 +5757,6 @@
           "type": "string"
         },
         "optional": true
-      },
-      "previewOnly": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "setupTemplate": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "photoPending": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "priceToBeDefined": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
       }
     }
   },
@@ -7932,13 +7904,6 @@
               "optional": true
             },
             "emptyDinners": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": true
-            },
-            "dinnerTemplatePreviewNote": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"

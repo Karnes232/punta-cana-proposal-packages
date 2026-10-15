@@ -6,12 +6,10 @@ export default function ProposalGrid({
   experiences,
   locale,
   settings,
-  demoIds = [],
 }: {
   experiences: Experience[];
   locale: Locale;
   settings: Settings;
-  demoIds?: string[];
 }) {
   const [selectedId, setSelected] = useState<string>();
   useEffect(() => {
@@ -42,7 +40,6 @@ export default function ProposalGrid({
           experience={e}
           locale={locale}
           settings={settings}
-          demo={demoIds.includes(e._id)}
           selectable
           selected={selectedId === e._id}
           onSelect={() => setSelected(e._id)}

@@ -235,7 +235,7 @@ test("empty media/styles/addons render without false options", async () => {
   await act(async () => root.unmount());
 });
 
-test("dinner template has 3 setups, individual 3-course menus and quote-only extras, never a booking", async () => {
+test("dinner template has 3 setups, individual 3-course menus and quote-only extras", async () => {
   const { dinnerPreview } = require("../src/lib/experience/dinnerTemplate.ts");
   const root = createRoot(document.getElementById("root"));
   await act(async () =>
@@ -244,7 +244,6 @@ test("dinner template has 3 setups, individual 3-course menus and quote-only ext
         experience: dinnerPreview(),
         locale: "es",
         settings: {},
-        demo: true,
       }),
     ),
   );
@@ -266,51 +265,6 @@ test("dinner template has 3 setups, individual 3-course menus and quote-only ext
   assert.match(
     document.querySelector("[data-testid=total]").textContent,
     /cotización/,
-  );
-  assert.equal(
-    document.querySelector("[data-testid=purchase] > button").disabled,
-    false,
-  );
-  await act(async () => root.unmount());
-});
-
-test("proposal template keeps extras across styles, shows no invented price and cannot book", async () => {
-  const {
-    proposalPreview,
-  } = require("../src/lib/experience/proposalTemplate.ts");
-  const root = createRoot(document.getElementById("root"));
-  await act(async () =>
-    root.render(
-      React.createElement(Card, {
-        experience: proposalPreview(),
-        locale: "es",
-        settings: {},
-        demo: true,
-      }),
-    ),
-  );
-  assert.equal(document.querySelectorAll("input[type=radio]").length, 3);
-  assert.equal(document.querySelectorAll("input[type=checkbox]").length, 3);
-  assert.match(
-    document.querySelector("[data-testid=card-heading]").textContent,
-    /Precio por definir/,
-  );
-  assert.equal(
-    document.querySelectorAll("[data-testid=guest-menus]").length,
-    0,
-  );
-  await act(async () => {
-    document.querySelector("input[type=checkbox]").click();
-    document.querySelectorAll("input[type=radio]")[1].click();
-  });
-  assert.equal(document.querySelector("input[type=checkbox]").checked, true);
-  assert.match(
-    document.querySelector("[data-testid=template-media]").textContent,
-    /Estilo B/,
-  );
-  assert.equal(
-    document.querySelector("[data-testid=purchase] > button").disabled,
-    false,
   );
   await act(async () => root.unmount());
 });
@@ -416,43 +370,6 @@ test("Every site language: progressive menus preserve guests 1-N, cocktails and 
         .querySelector("[data-testid=dietary]")
         .textContent.includes("Ve"),
     );
-    await act(async () => root.unmount());
-  }
-});
-
-test("demo opens the real inline form but cannot transmit a request", async () => {
-  const root = createRoot(document.getElementById("root"));
-  const previousFetch = global.fetch;
-  let requests = 0;
-  global.fetch = async () => {
-    requests++;
-    throw new Error("Demo must not send");
-  };
-  try {
-    await act(async () =>
-      root.render(
-        React.createElement(Card, {
-          experience: fixture,
-          locale: "es",
-          settings: {},
-          demo: true,
-        }),
-      ),
-    );
-    await act(async () =>
-      document.querySelector("[data-testid=purchase] > button").click(),
-    );
-    const form = document.querySelector("form");
-    assert.ok(form);
-    assert.equal(form.querySelector("button").disabled, true);
-    await act(async () =>
-      form.dispatchEvent(
-        new window.Event("submit", { bubbles: true, cancelable: true }),
-      ),
-    );
-    assert.equal(requests, 0);
-  } finally {
-    global.fetch = previousFetch;
     await act(async () => root.unmount());
   }
 });

@@ -31,22 +31,18 @@ export default function PurchaseSummary({
   money,
   state,
   settings,
-  demo,
   inDialog,
 }: CardSectionProps & {
   settings: Settings;
-  demo: boolean;
   inDialog: boolean;
 }) {
   const [formOpen, setFormOpen] = useState(false);
   const { dinner, estimate, ready, selection } = state;
-  const canRequest = demo || ready;
 
   const form = (
     <AvailabilityForm
       locale={locale}
       settings={settings}
-      demo={demo}
       dinner={dinner}
       experienceId={experience._id}
       selection={selection}
@@ -100,18 +96,18 @@ export default function PurchaseSummary({
             </dl>
           )}
         </Accordion>
-        {!canRequest && <small>{t("completeHint")}</small>}
+        {!ready && <small>{t("completeHint")}</small>}
         <button
           className={`${buttonClass()} w-full`}
           aria-expanded={formOpen}
-          disabled={!canRequest}
+          disabled={!ready}
           onClick={() => setFormOpen(!formOpen)}
         >
           {t(dinner ? "requestDinnerDate" : "availabilityButtonLabel")}
         </button>
       </div>
       {formOpen &&
-        canRequest &&
+        ready &&
         (inDialog ? (
           <RequestDialog
             title={t("availabilityButtonLabel")}
