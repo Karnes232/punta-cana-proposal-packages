@@ -164,6 +164,7 @@
  * exclusive (narrower than 700px), so it would switch layouts 1px later.
  * Declared widest first so that, where two apply, the narrower one wins.
  */
+@custom-variant upto1360 (@media (max-width: 1360px));
 @custom-variant upto1280 (@media (max-width: 1280px));
 @custom-variant upto800 (@media (max-width: 800px));
 @custom-variant upto700 (@media (max-width: 700px));

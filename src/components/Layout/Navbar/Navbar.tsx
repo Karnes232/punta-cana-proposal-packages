@@ -16,7 +16,7 @@ import { useMobileMenu } from "./useMobileMenu";
 import { useScrolled } from "./useScrolled";
 
 /**
- * The site header: logo, then the desktop bar or (up to 1280px) the Menu
+ * The site header: logo, then the desktop bar or (up to 1360px) the Menu
  * button and its full-screen sheet. Transparent over the home page's photo
  * until the page scrolls.
  */
@@ -83,7 +83,7 @@ export default function Navbar({
           keepFocusInside(event, header.current);
         }}
       >
-        <div className="m-auto flex min-h-(--header-h) max-w-[1280px] items-center justify-between gap-6 px-6">
+        <div className="m-auto flex min-h-(--header-h) max-w-[1440px] items-center justify-between gap-6 px-6">
           <NavbarLogo
             href={prefix || "/"}
             logo={logo}

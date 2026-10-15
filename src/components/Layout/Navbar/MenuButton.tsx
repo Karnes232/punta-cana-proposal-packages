@@ -23,7 +23,7 @@ export default function MenuButton({
       aria-expanded={open}
       aria-controls={controls}
       onClick={onClick}
-      className="hidden min-h-11 cursor-pointer items-center gap-2 px-1 text-[13px] tracking-[0.12em] text-ivory uppercase transition-colors duration-200 upto1280:flex [&:hover]:text-gold"
+      className="hidden min-h-11 cursor-pointer items-center gap-2 px-1 text-[13px] tracking-[0.12em] text-ivory uppercase transition-colors duration-200 upto1360:flex [&:hover]:text-gold"
     >
       {open ? (
         <FiX aria-hidden className="text-[20px]" />

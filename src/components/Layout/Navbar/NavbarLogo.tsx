@@ -17,7 +17,12 @@ export default function NavbarLogo({
 }) {
   const name = companyName || DEFAULT_NAME;
   return (
-    <a href={href} aria-label={`${name} — ${homeLabel}`}>
+    <a
+      href={href}
+      aria-label={`${name} — ${homeLabel}`}
+      // The bar never squeezes the logo to make room for its links.
+      className="shrink-0"
+    >
       {logo ? (
         <img
           src={logo}

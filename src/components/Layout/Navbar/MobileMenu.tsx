@@ -29,7 +29,7 @@ export default function MobileMenu({
   return (
     <div
       id={id}
-      className="fixed inset-x-0 top-(--header-h) bottom-0 hidden overflow-y-auto bg-black motion-safe:animate-[ec-sheet-in_200ms_ease-out] upto1280:block"
+      className="fixed inset-x-0 top-(--header-h) bottom-0 hidden overflow-y-auto bg-black motion-safe:animate-[ec-sheet-in_200ms_ease-out] upto1360:block"
     >
       <nav
         aria-label={t("menu")}
