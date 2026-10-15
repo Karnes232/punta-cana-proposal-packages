@@ -16,7 +16,7 @@ const TextComponentList: React.FC<TextComponentListProps> = ({
   ListClassName = "",
 }) => {
   const itemClass = `
-    font-body text-[#3f3f44] text-pretty
+    font-body text-body text-pretty
     text-[16px] lg:text-[17px] leading-[1.75]
     pl-1
   `;
@@ -41,7 +41,7 @@ const TextComponentList: React.FC<TextComponentListProps> = ({
     <ol className={`space-y-2 ${ListClassName}`}>
       {React.Children.map(items, (item, i) => (
         <li key={i} className={`flex items-start gap-4 ${itemClass}`}>
-          <span className="w-5 shrink-0 text-right text-[#9b773d] tabular-nums">
+          <span className="w-5 shrink-0 text-right text-accent tabular-nums">
             {i + 1}.
           </span>
           <span>{item}</span>

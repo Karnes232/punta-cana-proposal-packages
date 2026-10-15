@@ -47,7 +47,7 @@ export default async function Page({
         </PageHeader>
         <div className="mx-auto grid max-w-[1100px] gap-12 px-6 py-12 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12 lg:px-12 lg:py-16">
           <AvailabilityForm locale={locale} settings={settings} />
-          <aside className="border-t border-black/10 pt-6 lg:sticky lg:top-28 lg:self-start lg:border-t-0 lg:border-l lg:pt-0 lg:pl-6">
+          <aside className="border-t border-line pt-6 lg:sticky lg:top-28 lg:self-start lg:border-t-0 lg:border-l lg:pt-0 lg:pl-6">
             <CompanyContactList company={company} linkClass={contactLink} />
             {c?.businessInformation && (
               <p className="mt-4 mb-0 text-[15px] leading-[1.7] whitespace-pre-line">

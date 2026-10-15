@@ -36,7 +36,7 @@ export default function Accordion({
         </span>
         <FiChevronDown
           aria-hidden="true"
-          className={`flex-none text-[#9b773d] [transition:transform_0.2s] motion-reduce:[transition:none] ${compact ? "size-4" : "size-5"} ${open ? "rotate-180" : ""}`}
+          className={`flex-none text-accent [transition:transform_0.2s] motion-reduce:[transition:none] ${compact ? "size-4" : "size-5"} ${open ? "rotate-180" : ""}`}
         />
       </button>
       <div

@@ -32,9 +32,7 @@ export default function StoriesGrid({
 
   if (stories.length === 0) {
     return (
-      <p className="py-16 text-center text-[16px] text-[#3f3f44]">
-        {t("empty")}
-      </p>
+      <p className="py-16 text-center text-[16px] text-body">{t("empty")}</p>
     );
   }
 

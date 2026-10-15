@@ -5,7 +5,7 @@ import Accordion from "../Accordion";
 import type { CardSectionProps } from "./types";
 
 const stepperClass =
-  "grid size-[46px] cursor-pointer place-items-center border border-(--ec-border) [transition:border-color_0.2s] enabled:hover:border-[#9b773d] disabled:cursor-default disabled:opacity-35";
+  "grid size-[46px] cursor-pointer place-items-center border border-(--ec-border) [transition:border-color_0.2s] enabled:hover:border-accent disabled:cursor-default disabled:opacity-35";
 
 /** Romantic dinners: occasion and number of guests. */
 export default function DinnerGuestsSection({

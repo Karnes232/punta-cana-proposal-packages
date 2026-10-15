@@ -59,10 +59,10 @@ export default function RomanticDinnersPage({
           <div id="packages" className="scroll-mt-[120px]" />
           {(preview || dinners.length === 0) && (
             <>
-              <p className="mx-auto mt-0 mb-6 flex max-w-[1000px] gap-3 border border-(--ec-border) bg-white px-6 py-[18px] text-[15px] leading-[1.6] text-[#3f3f44]">
+              <p className="mx-auto mt-0 mb-6 flex max-w-[1000px] gap-3 border border-(--ec-border) bg-surface px-6 py-[18px] text-[15px] leading-[1.6] text-body">
                 <FiInfo
                   aria-hidden="true"
-                  className="mt-[3px] size-[18px] shrink-0 text-[#9b773d]"
+                  className="mt-[3px] size-[18px] shrink-0 text-accent"
                 />
                 {t(preview ? "dinnerTemplatePreviewNote" : "dinnerInquiryNote")}
               </p>

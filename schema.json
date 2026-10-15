@@ -5149,6 +5149,13 @@
         },
         "optional": true
       },
+      "themeDark": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "planProposal": {
         "type": "objectAttribute",
         "value": {

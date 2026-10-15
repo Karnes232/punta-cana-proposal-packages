@@ -1,10 +1,12 @@
 import LanguageList from "./LanguageList";
+import ThemeToggle from "./ThemeToggle";
 import { inSection, isPage, NAV_LINKS } from "./navigation";
 import type { CallToAction, LanguageOptions, Translate } from "./types";
 
 /**
  * The phone and tablet menu: a full-screen sheet under the header bar with
- * the page links, the languages and the call to action. Anything chosen in
+ * the page links, the languages, the theme switch and the call to action.
+ * Anything chosen in
  * it closes it.
  */
 export default function MobileMenu({
@@ -56,6 +58,9 @@ export default function MobileMenu({
         </ul>
         <div className="mt-8">
           <LanguageList {...languages} onPick={onClose} />
+        </div>
+        <div className="mt-6 border-t border-gold/15 pt-2">
+          <ThemeToggle label={t("themeDark")} variant="row" />
         </div>
         <div className="mt-auto pt-8">
           <a

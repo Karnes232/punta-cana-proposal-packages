@@ -26,7 +26,7 @@ export default function DinnerSection({
 }) {
   return (
     <section
-      className={`${homeSection} grid grid-cols-[1fr_1fr] items-center gap-12 border-t border-t-[#ded5c4] upto700:grid-cols-[1fr]`}
+      className={`${homeSection} grid grid-cols-[1fr_1fr] items-center gap-12 border-t border-t-line upto700:grid-cols-[1fr]`}
     >
       <div className="relative aspect-[4/5] upto700:aspect-[4/3]">
         <SanityPhoto photo={photo} locale={locale} className="object-cover" />
@@ -38,7 +38,7 @@ export default function DinnerSection({
         <h2 className={homeH2}>{t("dinnerTitle")}</h2>
         <p className="text-[16px]">{t("dinnerText")}</p>
         <p className="text-[16px]">{t("dinnerCelebrations")}</p>
-        <div className="mt-8 border-t border-t-[#ded5c4] pt-6">
+        <div className="mt-8 border-t border-t-line pt-6">
           <p className="m-0 font-display text-[1.4rem] leading-[1.3] text-(--ec-ink)">
             {t("dinnerPrice")}
           </p>

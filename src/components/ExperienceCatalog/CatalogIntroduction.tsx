@@ -51,7 +51,7 @@ export default function CatalogIntroduction({
           <li key={step} className="border-t border-(--ec-border) pt-5">
             <span
               aria-hidden="true"
-              className="block font-display text-[2rem] leading-none text-[#9b773d]"
+              className="block font-display text-[2rem] leading-none text-accent"
             >
               {String(step).padStart(2, "0")}
             </span>

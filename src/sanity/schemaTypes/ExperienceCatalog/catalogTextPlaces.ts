@@ -36,6 +36,13 @@ export const CATALOG_TEXT_SECTIONS: CatalogTextSection[] = [
       ["navHow", bi("Enlace del menú de arriba", "Top menu link")],
       ["navFaq", bi("Enlace del menú de arriba", "Top menu link")],
       [
+        "themeDark",
+        bi(
+          "Nombre del botón que cambia entre tema claro y oscuro, en el menú de arriba",
+          "Name of the button that switches between the light and dark theme, in the top menu",
+        ),
+      ],
+      [
         "planProposal",
         bi(
           "Botón dorado a la derecha del menú de arriba, en todas las páginas menos Cenas románticas",

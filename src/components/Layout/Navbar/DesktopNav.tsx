@@ -1,8 +1,12 @@
 import LanguageMenu from "./LanguageMenu";
+import ThemeToggle from "./ThemeToggle";
 import { inSection, isPage, NAV_LINKS } from "./navigation";
 import type { CallToAction, LanguageOptions, Translate } from "./types";
 
-/** The desktop bar: page links, the language menu and the call to action. */
+/**
+ * The desktop bar: page links, the language menu, the theme switch and the
+ * call to action.
+ */
 export default function DesktopNav({
   path,
   prefix,
@@ -39,6 +43,7 @@ export default function DesktopNav({
       ))}
       <span aria-hidden className="h-5 w-px bg-ivory/20" />
       <LanguageMenu {...languages} />
+      <ThemeToggle label={t("themeDark")} variant="icon" />
       <a
         href={cta.href}
         className="border border-gold px-5 py-2.5 whitespace-nowrap text-gold transition-[color,background-color,transform] duration-200 focus-visible:bg-gold focus-visible:text-black active:scale-[0.98] motion-reduce:transition-none [&:hover]:bg-gold [&:hover]:text-black"

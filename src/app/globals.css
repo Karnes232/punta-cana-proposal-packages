@@ -69,7 +69,46 @@
   --background: #ffffff;
   --foreground: #0b0b0c;
   /* Font variables are set by next/font on <html> via layout.tsx — do not redefine here */
+
+  /*
+   * Colour roles that follow the theme. Components name the role (text-ink,
+   * bg-surface, border-line, ...) and the value changes with data-theme on
+   * <html>. Always-dark bands (heroes, navbar, footer, CTA strips) keep the
+   * fixed black, ivory and gold colours instead.
+   */
+  color-scheme: light;
+  --paper: #f7f5f1;
+  --ink: #0b0b0c;
+  --body: #3f3f44;
+  --muted: #6e6e73;
+  --surface: #ffffff;
+  --field: #ffffff;
+  --field-line: #d8cebd;
+  --line: #ded5c4;
+  --accent: #8b672e;
+  --tint: #f3ecde;
+  --danger: #b42318;
+  --placeholder: #6e6e73;
 }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0b0b0c;
+  --ink: #f7f5f1;
+  --body: #d3cec6;
+  --muted: #b9b7b5;
+  --surface: #141416;
+  --field: #1c1c20;
+  --field-line: #cfae7066;
+  --line: #cfae7033;
+  --accent: #cfae70;
+  --tint: #cfae701a;
+  --danger: #ffb4a9;
+  --placeholder: #8f8b85;
+}
+
+/* dark: variant for the few one-off differences between the themes. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
   --color-black: #0b0b0c;
@@ -77,6 +116,15 @@
   --color-ivory: #f7f5f1;
   --color-white: #ffffff;
   --color-gray: #6e6e73;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-field: var(--field);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-tint: var(--tint);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-display: var(--font-playfair);
@@ -123,8 +171,8 @@
 @custom-variant upto390 (@media (max-width: 390px));
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-body), Helvetica, sans-serif;
 }
 
@@ -190,11 +238,14 @@ h6 {
   .ec-shell textarea {
     width: 100%;
     padding: 11px;
-    background: #fff;
-    border: 1px solid #d8cebd;
+    background: var(--field);
+    border: 1px solid var(--field-line);
     border-radius: 3px;
     font: inherit;
-    color: #0b0b0c;
+    color: var(--ink);
+  }
+  .ec-shell ::placeholder {
+    color: var(--placeholder);
   }
   .ec-shell select {
     min-width: 0;
@@ -213,11 +264,11 @@ h6 {
   }
   /* Request form: a field the visitor needs to fix, and its message. */
   .ec-shell [aria-invalid="true"] {
-    border-color: #b42318 !important;
+    border-color: var(--danger) !important;
   }
   .ec-shell .ec-field-error {
     font-size: 0.8rem;
-    color: #b42318;
+    color: var(--danger);
   }
   /* Dark proposal cards (ExperienceCard marks them with ec-proposal-card,
      and its request dialog opens inside the card). */

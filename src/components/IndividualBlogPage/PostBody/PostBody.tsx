@@ -11,7 +11,7 @@ interface PostBodyProps {
 /** The article beside its sticky sidebar (details and the planning button). */
 export default function PostBody({ data, locale = "en" }: PostBodyProps) {
   return (
-    <section className="bg-ivory">
+    <section className="bg-paper">
       <div className="mx-auto grid max-w-site gap-12 px-6 py-16 md:px-10 md:py-24 lg:grid-cols-[minmax(0,1fr)_320px] xl:gap-16">
         {/* The article shows whenever it has text; the lead only when
             there's an excerpt. */}

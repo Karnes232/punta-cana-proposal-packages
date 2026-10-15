@@ -24,6 +24,12 @@ export const ui: Record<string, DefaultText> = {
     pt: "Como funciona",
   },
   navFaq: { en: "FAQ", es: "FAQ", fr: "FAQ", pt: "FAQ" },
+  themeDark: {
+    en: "Dark mode",
+    es: "Modo oscuro",
+    fr: "Mode sombre",
+    pt: "Modo escuro",
+  },
   planProposal: {
     en: "Plan your proposal",
     es: "Planea tu propuesta",

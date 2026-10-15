@@ -9,7 +9,7 @@ interface StoryBodyProps {
 /** The couple's quote and the story, in one reading column. */
 export default function StoryBody({ data }: StoryBodyProps) {
   return (
-    <section className="bg-ivory">
+    <section className="bg-paper">
       <div className="mx-auto max-w-5xl px-6 py-16 md:py-24">
         {data.quote && <StoryPullQuote quote={data.quote} />}
         <ArticlePortableText body={data.body} />

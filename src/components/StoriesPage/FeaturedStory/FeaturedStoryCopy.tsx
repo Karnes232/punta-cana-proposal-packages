@@ -34,15 +34,15 @@ export default function FeaturedStoryCopy({
         {story.packageTag && ` · ${story.packageTag}`}
       </p>
       <div className="flex flex-col gap-3">
-        <h2 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] leading-[1.15] font-normal text-balance text-black">
+        <h2 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] leading-[1.15] font-normal text-balance text-ink">
           {story.names}
         </h2>
-        <p className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-[#3f3f44]">
+        <p className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-body">
           {story.location && (
             <span className="inline-flex items-center gap-2">
               <FiMapPin
                 aria-hidden="true"
-                className="size-4 shrink-0 text-[#9b773d]"
+                className="size-4 shrink-0 text-accent"
               />
               {story.location}
             </span>
@@ -53,7 +53,7 @@ export default function FeaturedStoryCopy({
         </p>
       </div>
       {story.quote && (
-        <blockquote className="font-display text-[clamp(1.2rem,1.8vw,1.45rem)] leading-[1.6] text-pretty text-black/85 italic">
+        <blockquote className="font-display text-[clamp(1.2rem,1.8vw,1.45rem)] leading-[1.6] text-pretty text-ink/85 italic">
           &ldquo;{story.quote}&rdquo;
         </blockquote>
       )}

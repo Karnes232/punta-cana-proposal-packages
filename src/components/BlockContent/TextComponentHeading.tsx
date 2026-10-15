@@ -28,7 +28,7 @@ const TextComponentHeading = ({
   const sizeClass = sizeMap[headingNumber] ?? sizeMap.h2;
 
   const sharedClass = `
-    scroll-mt-28 font-display font-normal text-black
+    scroll-mt-28 font-display font-normal text-ink
     leading-[1.25] text-balance
     ${sizeClass} ${HeadingClassName}
   `;

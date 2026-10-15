@@ -7,7 +7,7 @@ export const actionsClass = "mt-7 flex flex-wrap gap-3";
 export const homeSection =
   "m-auto max-w-[1280px] scroll-mt-[120px] px-10 py-[88px] upto700:px-6 upto700:py-14";
 export const homeDarkSection =
-  "m-auto max-w-none scroll-mt-[120px] bg-black px-10 py-[88px] text-ivory upto700:px-6 upto700:py-14";
+  "m-auto max-w-none scroll-mt-[120px] bg-black px-10 py-[88px] text-ivory upto700:px-6 upto700:py-14 dark:border-y dark:border-gold/15";
 export const homeH2 =
   "mb-8 max-w-[960px] text-[clamp(2rem,3.4vw,3.25rem)] text-balance upto700:text-[2rem]";
 export const homeH3 = "text-[1.8rem] leading-[1.25]";

@@ -24,7 +24,7 @@ export default function FaqContactStrip({
   const heading = [line1, line2].filter(Boolean).join(" ");
 
   return (
-    <section className="w-full bg-black text-ivory">
+    <section className="w-full bg-black text-ivory dark:border-t dark:border-gold/15">
       <div className="mx-auto flex max-w-[680px] flex-col items-center gap-5 px-6 py-20 text-center md:py-24">
         {eyebrow && (
           <p className={eyebrowClass({ color: "text-gold" })}>{eyebrow}</p>
