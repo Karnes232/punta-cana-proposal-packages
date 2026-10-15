@@ -19,15 +19,12 @@ export default function ProposalsPage({
   settings,
   page,
   proposals,
-  preview,
 }: {
   locale: Locale;
   /** Catalog text with this page's own texts applied. */
   settings: Settings;
   page: CatalogPage;
   proposals: Experience[];
-  /** A preview host (localhost, deploy previews): no empty-catalog note. */
-  preview: boolean;
 }) {
   const t = (key: string) => label(settings, locale, key),
     prefix = localePrefix(locale);
@@ -57,7 +54,7 @@ export default function ProposalsPage({
               locale={locale}
               settings={settings}
             />
-          ) : preview ? null : (
+          ) : (
             <CatalogEmpty
               message={t("emptyProposals")}
               contactLabel={t("contactUsLabel")}

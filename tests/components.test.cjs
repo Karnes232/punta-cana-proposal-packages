@@ -18,6 +18,12 @@ const resolve = Module._resolveFilename,
 // The site's message files stand in for next-intl's provider.
 const messages = require("../messages/en.json");
 Module._load = function (request, ...rest) {
+  // The localized Link needs Next's router; a plain link is enough here.
+  if (request === "@/i18n/navigation")
+    return {
+      Link: ({ href, children, ...props }) =>
+        require("react").createElement("a", { href, ...props }, children),
+    };
   const loaded = load.call(this, request, ...rest);
   if (request !== "next-intl") return loaded;
   return {
@@ -235,7 +241,7 @@ test("empty media/styles/addons render without false options", async () => {
   await act(async () => root.unmount());
 });
 
-test("dinner template has 3 setups, individual 3-course menus and quote-only extras, never a booking", async () => {
+test("dinner template has 3 setups, individual 3-course menus and quote-only extras", async () => {
   const { dinnerPreview } = require("../src/lib/experience/dinnerTemplate.ts");
   const root = createRoot(document.getElementById("root"));
   await act(async () =>
@@ -244,7 +250,6 @@ test("dinner template has 3 setups, individual 3-course menus and quote-only ext
         experience: dinnerPreview(),
         locale: "es",
         settings: {},
-        demo: true,
       }),
     ),
   );
@@ -266,51 +271,6 @@ test("dinner template has 3 setups, individual 3-course menus and quote-only ext
   assert.match(
     document.querySelector("[data-testid=total]").textContent,
     /cotización/,
-  );
-  assert.equal(
-    document.querySelector("[data-testid=purchase] > button").disabled,
-    false,
-  );
-  await act(async () => root.unmount());
-});
-
-test("proposal template keeps extras across styles, shows no invented price and cannot book", async () => {
-  const {
-    proposalPreview,
-  } = require("../src/lib/experience/proposalTemplate.ts");
-  const root = createRoot(document.getElementById("root"));
-  await act(async () =>
-    root.render(
-      React.createElement(Card, {
-        experience: proposalPreview(),
-        locale: "es",
-        settings: {},
-        demo: true,
-      }),
-    ),
-  );
-  assert.equal(document.querySelectorAll("input[type=radio]").length, 3);
-  assert.equal(document.querySelectorAll("input[type=checkbox]").length, 3);
-  assert.match(
-    document.querySelector("[data-testid=card-heading]").textContent,
-    /Precio por definir/,
-  );
-  assert.equal(
-    document.querySelectorAll("[data-testid=guest-menus]").length,
-    0,
-  );
-  await act(async () => {
-    document.querySelector("input[type=checkbox]").click();
-    document.querySelectorAll("input[type=radio]")[1].click();
-  });
-  assert.equal(document.querySelector("input[type=checkbox]").checked, true);
-  assert.match(
-    document.querySelector("[data-testid=template-media]").textContent,
-    /Estilo B/,
-  );
-  assert.equal(
-    document.querySelector("[data-testid=purchase] > button").disabled,
-    false,
   );
   await act(async () => root.unmount());
 });
@@ -416,43 +376,6 @@ test("Every site language: progressive menus preserve guests 1-N, cocktails and 
         .querySelector("[data-testid=dietary]")
         .textContent.includes("Ve"),
     );
-    await act(async () => root.unmount());
-  }
-});
-
-test("demo opens the real inline form but cannot transmit a request", async () => {
-  const root = createRoot(document.getElementById("root"));
-  const previousFetch = global.fetch;
-  let requests = 0;
-  global.fetch = async () => {
-    requests++;
-    throw new Error("Demo must not send");
-  };
-  try {
-    await act(async () =>
-      root.render(
-        React.createElement(Card, {
-          experience: fixture,
-          locale: "es",
-          settings: {},
-          demo: true,
-        }),
-      ),
-    );
-    await act(async () =>
-      document.querySelector("[data-testid=purchase] > button").click(),
-    );
-    const form = document.querySelector("form");
-    assert.ok(form);
-    assert.equal(form.querySelector("button").disabled, true);
-    await act(async () =>
-      form.dispatchEvent(
-        new window.Event("submit", { bubbles: true, cancelable: true }),
-      ),
-    );
-    assert.equal(requests, 0);
-  } finally {
-    global.fetch = previousFetch;
     await act(async () => root.unmount());
   }
 });
@@ -739,4 +662,41 @@ test("request form points at the field the server rejected and explains limits",
     global.fetch = oldFetch;
     global.FormData = oldFormData;
   }
+});
+
+test("an active dinner keeps the page note and shows its setups and occasions", async () => {
+  const Page =
+    require("../src/components/RomanticDinnersPage/RomanticDinnersPage.tsx").default;
+  const { dinnerPreview } = require("../src/lib/experience/dinnerTemplate.ts");
+  const template = dinnerPreview();
+  const dinner = {
+    ...template,
+    _id: "dinner",
+    occasions: [{ _id: "anniversary", name: { en: "Anniversary" } }],
+  };
+  const root = createRoot(document.getElementById("root"));
+  await act(async () =>
+    root.render(
+      React.createElement(Page, {
+        locale: "en",
+        settings: { dinnerInquiryNote: "Our team confirms each date." },
+        page: { keys: [], text: {} },
+        dinners: [dinner],
+        template: null,
+      }),
+    ),
+  );
+  assert.match(document.body.textContent, /Our team confirms each date\./);
+  // One card: the active dinner, not the inquiry template as well.
+  assert.equal(document.querySelectorAll("article").length, 1);
+  assert.equal(
+    document.querySelectorAll("input[type=radio]").length,
+    template.styles.length,
+  );
+  assert.ok(
+    [...document.querySelectorAll("option")].some(
+      (o) => o.textContent === "Anniversary",
+    ),
+  );
+  await act(async () => root.unmount());
 });

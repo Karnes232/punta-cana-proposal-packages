@@ -13,8 +13,3 @@ export function getRequestHost(headers: HeaderReader, fallback = "") {
 export function isDeployPreviewHost(host: string) {
   return /^deploy-preview-\d+--[^.]+\.netlify\.app$/.test(host);
 }
-
-/** Local development or a deploy preview, where example content is shown. */
-export function isPreviewHost(host: string) {
-  return /^localhost(:\d+)?$/.test(host) || isDeployPreviewHost(host);
-}

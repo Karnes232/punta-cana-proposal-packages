@@ -601,42 +601,4 @@ export const CATALOG_TEXT_SECTIONS: CatalogTextSection[] = [
       ["removeGuest", bi("Botón «−» de invitados", "Guest «−» button")],
     ],
   },
-  {
-    name: "preview",
-    title: bi("Sitio de prueba", "Preview site"),
-    description: bi(
-      "Solo en el sitio de prueba, en la cena de ejemplo de Cenas románticas",
-      "Only on the preview site, on the Romantic dinners example card",
-    ),
-    fields: [
-      [
-        "previewOnly",
-        bi(
-          "Nota arriba del formulario de la cena de ejemplo",
-          "Note at the top of the example card's form",
-        ),
-      ],
-      [
-        "setupTemplate",
-        bi(
-          "Etiqueta en la foto de muestra cuando el estilo no tiene foto",
-          "Label on the placeholder photo when the style has none",
-        ),
-      ],
-      [
-        "photoPending",
-        bi(
-          "Texto pequeño en esa misma foto de muestra",
-          "Small text on that same placeholder photo",
-        ),
-      ],
-      [
-        "priceToBeDefined",
-        bi(
-          "En lugar del precio en una tarjeta de propuesta de ejemplo sin precio (hoy no aparece en el sitio)",
-          "Instead of the price on an example proposal card with no price (not shown on the site today)",
-        ),
-      ],
-    ],
-  },
 ];

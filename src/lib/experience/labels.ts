@@ -349,12 +349,6 @@ export const ui: Record<string, DefaultText> = {
     fr: "Questions fréquentes",
     pt: "Perguntas frequentes",
   },
-  previewOnly: {
-    en: "Preview only · no request will be sent",
-    es: "Solo vista previa · no se enviará ninguna solicitud",
-    fr: "Aperçu uniquement · aucune demande ne sera envoyée",
-    pt: "Apenas pré-visualização · nenhuma solicitação será enviada",
-  },
   privacy: {
     en: "Privacy policy",
     es: "Política de privacidad",
@@ -403,30 +397,6 @@ export const ui: Record<string, DefaultText> = {
     es: "Tu experiencia, paso a paso",
     fr: "Votre expérience, étape par étape",
     pt: "Sua experiência, passo a passo",
-  },
-  priceToBeDefined: {
-    en: "Price to be defined",
-    es: "Precio por definir",
-    fr: "Prix à définir",
-    pt: "Preço a definir",
-  },
-  setupTemplate: {
-    en: "Setup template",
-    es: "Plantilla de montaje",
-    fr: "Modèle de décor",
-    pt: "Modelo de ambientação",
-  },
-  photoPending: {
-    en: "Real photograph to be added in Sanity",
-    es: "Fotografía real pendiente de cargar en Sanity",
-    fr: "Photographie réelle à ajouter dans Sanity",
-    pt: "Fotografia real a ser adicionada no Sanity",
-  },
-  dinnerTemplatePreviewNote: {
-    en: "Editable example · Three setups with reference images from Sanity. Menu and prices configured; final capacity awaiting confirmation.",
-    es: "Ejemplo editable · Tres montajes con imágenes de referencia de Sanity. Menú y tarifas configurados; capacidad final pendiente de confirmar.",
-    fr: "Exemple modifiable · Trois décors avec des images de référence issues de Sanity. Menu et prix configurés ; capacité finale en attente de confirmation.",
-    pt: "Exemplo editável · Três ambientações com imagens de referência do Sanity. Menu e preços configurados; capacidade final aguardando confirmação.",
   },
   dinnerInquiryNote: {
     en: "Personalize your dinner and send us your preferred date. Our team will personally confirm capacity and availability for your celebration.",

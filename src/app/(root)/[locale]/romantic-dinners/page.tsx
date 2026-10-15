@@ -1,9 +1,7 @@
-import { headers } from "next/headers";
 import RomanticDinnersPage from "@/components/RomanticDinnersPage/RomanticDinnersPage";
 import { ofType } from "@/components/ExperienceCatalog/catalogData";
 import JsonLd from "@/components/seo/JsonLd";
 import { catalogPageMetadata } from "@/lib/seo/catalogMetadata";
-import { getRequestHost, isPreviewHost } from "@/lib/requestHost";
 import {
   getCatalogContent,
   getCatalogPage,
@@ -28,13 +26,9 @@ export default async function Page({
     getCatalogPage("romanticDinnersPage", locale),
     getStructuredData("romantic-dinners", locale),
   ]);
-  // Preview hosts (localhost, deploy previews) show the Studio's templates.
-  const preview = isPreviewHost(getRequestHost(await headers()));
   const dinners = ofType(experiences, "romanticDinnerExperience");
-  // The dinner template: the demo on preview hosts, and the inquiry card
-  // while no dinner is published.
-  const template =
-    preview || dinners.length === 0 ? await getDinnerPreview() : null;
+  // The dinner template: the inquiry card while no dinner is published.
+  const template = dinners.length === 0 ? await getDinnerPreview() : null;
   // The page's own texts, photo and contact heading (its page document).
   const settings = withCatalogPage(content.settings || {}, page);
   return (
@@ -49,7 +43,6 @@ export default async function Page({
         page={page}
         dinners={dinners}
         template={template}
-        preview={preview}
       />
     </>
   );

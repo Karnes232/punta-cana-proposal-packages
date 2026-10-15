@@ -1,4 +1,3 @@
-import type { Experience } from "./types";
 const l = (en: string, es: string) => ({ en, es });
 export { PROPOSAL_TEMPLATE_ID as proposalTemplateId } from "@/sanity/constants";
 export const proposalTemplateAddons = ["A", "B", "C"].map((key, index) => ({
@@ -65,21 +64,3 @@ export const proposalTemplateFields = {
     _strengthenOnPublish: { type: "experienceAddon" },
   })),
 };
-export function proposalPreview(): Experience {
-  return {
-    ...proposalTemplateFields,
-    _id: "preview-proposal-template",
-    _type: "proposalExperience",
-    active: true,
-    gallery: [],
-    styles: proposalTemplateFields.styles.map((s) => ({ ...s, active: true })),
-    inclusions: [],
-    availableAddons: proposalTemplateAddons.map((a) => ({
-      ...a,
-      active: true,
-    })),
-    menuItems: [],
-    beverages: [],
-    occasions: [],
-  };
-}
