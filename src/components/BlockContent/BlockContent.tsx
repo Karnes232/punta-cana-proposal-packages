@@ -40,7 +40,7 @@ const components: PortableTextComponents = {
             />
           </div>
           {value.caption && (
-            <figcaption className="mt-3 text-center font-body text-[13px] text-[#5c5c61] italic">
+            <figcaption className="mt-3 text-center font-body text-[13px] text-body italic">
               {value.caption}
             </figcaption>
           )}
@@ -55,7 +55,7 @@ const components: PortableTextComponents = {
         href={value?.href}
         rel="noopener noreferrer"
         className="
-          text-black underline decoration-gold/50 underline-offset-4
+          text-ink underline decoration-gold/50 underline-offset-4
           transition-colors duration-300
           hover:decoration-gold
         "
@@ -64,7 +64,7 @@ const components: PortableTextComponents = {
       </a>
     ),
     strong: ({ children }) => (
-      <strong className="font-semibold text-black">{children}</strong>
+      <strong className="font-semibold text-ink">{children}</strong>
     ),
     em: ({ children }) => <em className="italic">{children}</em>,
   },
@@ -118,7 +118,7 @@ const components: PortableTextComponents = {
     ),
     blockquote: ({ children }) => (
       <blockquote className="my-8 bg-gold/[0.08] px-6 py-5">
-        <p className="font-display text-[clamp(17px,1.8vw,20px)] leading-[1.6] text-black/80 italic">
+        <p className="font-display text-[clamp(17px,1.8vw,20px)] leading-[1.6] text-ink/80 italic">
           {children}
         </p>
       </blockquote>

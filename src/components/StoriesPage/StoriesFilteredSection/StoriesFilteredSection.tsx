@@ -56,7 +56,7 @@ export default function StoriesFilteredSection({
         active={activeFilter}
         onChange={setActiveFilter}
       />
-      <section className="bg-[#F7F5F1]">
+      <section className="bg-paper">
         <div className="mx-auto max-w-site px-6 py-16 md:px-10 md:py-24">
           {showFeatured && featuredStory && (
             <FeaturedStory locale={locale} story={featuredStory} />

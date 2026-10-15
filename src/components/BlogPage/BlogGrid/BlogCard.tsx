@@ -60,22 +60,22 @@ export default function BlogCard({
           </p>
         )}
         <h3
-          className={`font-display text-[1.5rem] leading-[1.25] font-normal text-balance text-black ${tall ? "lg:text-[1.9rem]" : ""}`}
+          className={`font-display text-[1.5rem] leading-[1.25] font-normal text-balance text-ink ${tall ? "lg:text-[1.9rem]" : ""}`}
         >
           {post.title}
         </h3>
         {post.excerpt && (
-          <p className="line-clamp-3 text-[16px] leading-[1.7] text-pretty text-[#3f3f44]">
+          <p className="line-clamp-3 text-[16px] leading-[1.7] text-pretty text-body">
             {post.excerpt}
           </p>
         )}
-        <p className="flex flex-wrap items-center gap-x-5 gap-y-1 pt-2 text-[14px] text-[#3f3f44]">
+        <p className="flex flex-wrap items-center gap-x-5 gap-y-1 pt-2 text-[14px] text-body">
           <span>{date}</span>
           {post.readingTime > 0 && (
             <span className="inline-flex items-center gap-2">
               <FiClock
                 aria-hidden="true"
-                className="size-4 shrink-0 text-[#9b773d]"
+                className="size-4 shrink-0 text-accent"
               />
               {post.readingTime} {readTimeSuffix}
             </span>
@@ -83,12 +83,12 @@ export default function BlogCard({
         </p>
         <Link
           href={`/blog/${post.slug.current}`}
-          className="inline-flex items-center gap-3 self-start border-b border-gold pb-1 text-[14px] font-semibold tracking-[0.07em] text-black uppercase after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-gold"
+          className="inline-flex items-center gap-3 self-start border-b border-gold pb-1 text-[14px] font-semibold tracking-[0.07em] text-ink uppercase after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-gold"
         >
           {readMoreLabel}
           <FiArrowRight
             aria-hidden="true"
-            className="shrink-0 text-[#9b773d] transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+            className="shrink-0 text-accent transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
           />
         </Link>
       </div>

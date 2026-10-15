@@ -12,7 +12,7 @@ export default function SectionLabelDivider({
     <div className="mb-10 flex items-center gap-5">
       {/* font-body! beats the global serif rule for h1-h6. */}
       <h2 className={`${eyebrowClass()} shrink-0 font-body!`}>{label}</h2>
-      <span aria-hidden="true" className="block h-px flex-1 bg-black/10" />
+      <span aria-hidden="true" className="block h-px flex-1 bg-line" />
     </div>
   );
 }

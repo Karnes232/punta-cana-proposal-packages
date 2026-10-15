@@ -11,9 +11,7 @@ export default function StartSection({
   t: HomeText;
 }) {
   return (
-    <section
-      className={`${homeSection} border-t border-t-[#ded5c4] text-center`}
-    >
+    <section className={`${homeSection} border-t border-t-line text-center`}>
       <h2 className={`${homeH2} mx-auto`}>{t("startTitle")}</h2>
       <p className="text-[16px]">{t("deposit")}</p>
       <HomeButtonLink href={`${prefix}/proposals`}>

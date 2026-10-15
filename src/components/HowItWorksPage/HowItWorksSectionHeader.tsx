@@ -22,12 +22,12 @@ export default function HowItWorksSectionHeader({
       {eyebrow && <p className={eyebrowClass()}>{eyebrow}</p>}
       <h2
         id={id}
-        className="font-display text-[clamp(2rem,4vw,3rem)] leading-[1.15] font-normal text-balance text-black"
+        className="font-display text-[clamp(2rem,4vw,3rem)] leading-[1.15] font-normal text-balance text-ink"
       >
-        {heading} <span className="text-[#9b773d]">{headingAccent}</span>
+        {heading} <span className="text-accent">{headingAccent}</span>
       </h2>
       {subheading && (
-        <p className="max-w-[60ch] text-[17px] leading-[1.7] text-pretty text-[#3f3f44]">
+        <p className="max-w-[60ch] text-[17px] leading-[1.7] text-pretty text-body">
           {subheading}
         </p>
       )}

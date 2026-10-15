@@ -16,14 +16,14 @@ export default function FaqAccordionList({
   const t = useTranslations("FaqPage");
   if (items.length === 0) {
     return (
-      <p className="py-16 text-center text-[16px] text-[#5c5c61]">
+      <p className="py-16 text-center text-[16px] text-body">
         {t("emptyLabel")}
       </p>
     );
   }
 
   return (
-    <div className="border-t border-black/10">
+    <div className="border-t border-line">
       {items.map((item) => (
         <FaqAccordionItem
           key={item._id}

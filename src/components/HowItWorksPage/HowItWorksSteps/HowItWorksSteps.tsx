@@ -24,7 +24,7 @@ export default function HowItWorksSteps({
 }: HowItWorksStepsProps) {
   return (
     <section
-      className="w-full bg-[#F7F5F1] px-6 py-20 md:px-10 md:py-28"
+      className="w-full bg-paper px-6 py-20 md:px-10 md:py-28"
       aria-labelledby="steps-heading"
     >
       <div className="mx-auto max-w-5xl">

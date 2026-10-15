@@ -80,7 +80,7 @@ export default function ExperienceCard({
             // with its neighbour, so photo, heading, inclusions, style, button
             // and configuration line up across a row.
             `ec-proposal-card row-span-6 grid min-w-0 scroll-mt-[120px] grid-rows-subgrid gap-y-0 cursor-pointer border bg-[#141416] text-ivory [--ec-border:#cfae7033] [--ec-ink:#f7f5f1] [--ec-muted:#b9b7b5] [--ec-paper:#1c1c20] [transition:border-color_180ms] ${selected ? "border-gold" : "border-(--ec-border) [&:hover]:border-gold"}`
-          : `scroll-mt-[100px] border-none ${split ? "lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start" : "bg-white"}`
+          : `scroll-mt-[100px] border-none ${split ? "lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start" : "bg-surface"}`
       }
       id={experience.slug?.current || experience._id}
       onClick={
@@ -121,7 +121,7 @@ export default function ExperienceCard({
         />
       </div>
       <div
-        className={`min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px] ${selectable ? "row-span-5 grid grid-rows-subgrid gap-y-0" : ""} ${split ? "bg-white" : ""}`}
+        className={`min-w-0 p-7 upto800:p-[22px] upto390:px-3.5 upto390:py-[18px] ${selectable ? "row-span-5 grid grid-rows-subgrid gap-y-0" : ""} ${split ? "bg-surface" : ""}`}
       >
         {!split && (
           <div
@@ -138,7 +138,7 @@ export default function ExperienceCard({
               {local(experience.name, locale)}
             </h2>
             <span
-              className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-gold" : "mt-2 block text-[17px] whitespace-nowrap text-[#8b672e] tabular-nums"}`}
+              className={`text-[0.9rem] font-medium ${selectable ? "max-w-[40%] shrink-0 text-right whitespace-normal text-gold" : "mt-2 block text-[17px] whitespace-nowrap text-accent tabular-nums"}`}
             >
               {selectable
                 ? t("startingAtLabel")
@@ -148,7 +148,7 @@ export default function ExperienceCard({
           </div>
         )}
         {!selectable && (
-          <p className="max-w-[65ch] text-[17px] text-[#3f3f44]">
+          <p className="max-w-[65ch] text-[17px] text-body">
             {local(experience.shortDescription, locale)}
           </p>
         )}
@@ -180,7 +180,7 @@ export default function ExperienceCard({
                 <li key={id(inclusion)} className="flex items-start gap-2">
                   <FiCheck
                     aria-hidden="true"
-                    className="mt-[5px] size-4 shrink-0 text-[#9b773d]"
+                    className="mt-[5px] size-4 shrink-0 text-accent"
                   />
                   <span>
                     {local(inclusion.name, locale)}{" "}

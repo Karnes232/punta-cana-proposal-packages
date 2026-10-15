@@ -72,7 +72,7 @@ export default function DinnerMenuSection({
                       {chosen.dietaryType &&
                         chosen.dietaryType !== "regular" && (
                           <span
-                            className="mr-[5px] inline-block bg-[#f3ecde] px-1.5 py-0.5 text-[#534426]"
+                            className="mr-[5px] inline-block bg-tint px-1.5 py-0.5 text-ink"
                             title={t(chosen.dietaryType)}
                             data-testid="dietary"
                           >

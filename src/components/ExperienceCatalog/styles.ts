@@ -11,8 +11,9 @@
 export function shellClass() {
   return [
     "ec-shell min-h-[70vh] font-[family-name:var(--font-inter),sans-serif] text-[16px] leading-[1.65] text-(--ec-ink)",
-    "[--ec-border:#ded5c4] [--ec-paper:#f7f5f1]",
-    "bg-(--ec-paper) [--ec-ink:#0b0b0c] [--ec-muted:#6e6e73]",
+    // The page's colour roles (globals.css), so catalog pages follow the theme.
+    "[--ec-border:var(--line)] [--ec-paper:var(--paper)]",
+    "bg-(--ec-paper) [--ec-ink:var(--ink)] [--ec-muted:var(--muted)]",
   ].join(" ");
 }
 
@@ -51,7 +52,7 @@ export function buttonClass({
 /** Small uppercase label above a heading. */
 export function eyebrowClass({
   size = "text-[14px]",
-  color = "text-[#9b773d]",
+  color = "text-accent",
 } = {}) {
   return `${size} tracking-[0.18em] uppercase ${color}`;
 }

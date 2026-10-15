@@ -839,6 +839,7 @@ export type ExperienceCatalogSettings = {
   navDinners?: string;
   navHow?: string;
   navFaq?: string;
+  themeDark?: string;
   planProposal?: string;
   planCelebration?: string;
   contactUsLabel?: string;
@@ -2847,6 +2848,7 @@ export type CatalogContentQueryResult = {
         navDinners?: string;
         navHow?: string;
         navFaq?: string;
+        themeDark?: string;
         planProposal?: string;
         planCelebration?: string;
         contactUsLabel?: string;
@@ -2950,6 +2952,7 @@ export type CatalogContentQueryResult = {
         navDinners?: string;
         navHow?: string;
         navFaq?: string;
+        themeDark?: string;
         planProposal?: string;
         planCelebration?: string;
         contactUsLabel?: string;
@@ -4709,6 +4712,7 @@ export type CatalogContentQueryResult = {
         navDinners?: string;
         navHow?: string;
         navFaq?: string;
+        themeDark?: string;
         planProposal?: string;
         planCelebration?: string;
         contactUsLabel?: string;
@@ -5904,6 +5908,7 @@ export type CatalogContentQueryResult = {
         navDinners?: string;
         navHow?: string;
         navFaq?: string;
+        themeDark?: string;
         planProposal?: string;
         planCelebration?: string;
         contactUsLabel?: string;

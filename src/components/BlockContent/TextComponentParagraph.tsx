@@ -13,7 +13,7 @@ const TextComponentParagraph = ({
   return (
     <p
       className={`
-        font-body text-[#3f3f44] text-pretty
+        font-body text-body text-pretty
         text-[16px] lg:text-[17px] leading-[1.75]
         ${ParagraphClassName}
       `}

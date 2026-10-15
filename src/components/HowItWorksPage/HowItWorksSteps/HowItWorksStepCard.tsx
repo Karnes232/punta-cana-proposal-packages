@@ -61,11 +61,11 @@ export default function HowItWorksStepCard({
         <p className={eyebrowClass()}>
           {number} · {step.label}
         </p>
-        <h3 className="font-display text-[clamp(1.5rem,2.4vw,1.9rem)] leading-[1.25] font-normal text-balance text-black">
+        <h3 className="font-display text-[clamp(1.5rem,2.4vw,1.9rem)] leading-[1.25] font-normal text-balance text-ink">
           {step.title}
         </h3>
         <p
-          className={`max-w-[52ch] text-[16px] leading-[1.75] text-pretty text-[#3f3f44] ${
+          className={`max-w-[52ch] text-[16px] leading-[1.75] text-pretty text-body ${
             mirrored ? "md:ml-auto" : ""
           }`}
         >

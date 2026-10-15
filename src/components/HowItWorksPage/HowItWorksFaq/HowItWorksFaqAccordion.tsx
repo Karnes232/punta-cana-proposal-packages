@@ -13,7 +13,7 @@ export default function HowItWorksFaqAccordion({
   const [openKey, setOpenKey] = useState<string | null>(null);
 
   return (
-    <div className="border-t border-black/10">
+    <div className="border-t border-line">
       {items.map((item) => (
         <FaqAccordionItem
           key={item._key}

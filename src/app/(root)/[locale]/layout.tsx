@@ -12,6 +12,7 @@ import { SITE_URL, siteCanonicalUrl } from "@/lib/seo/constants";
 import Navbar from "@/components/Layout/Navbar/Navbar";
 import { getCatalogContent } from "@/sanity/queries/ExperienceCatalog";
 import Footer from "@/components/Layout/Footer/Footer";
+import { THEME_SCRIPT } from "@/lib/theme";
 import { BlogLanguageAlternatesProvider } from "@/components/BlogLanguageAlternates/BlogLanguageAlternatesContext";
 
 const playfair = Playfair_Display({
@@ -43,8 +44,14 @@ export default async function RootLayout({
   ]);
 
   return (
-    <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
+    <html
+      lang={locale}
+      className={`${playfair.variable} ${inter.variable}`}
+      // The theme script below sets data-theme before React hydrates.
+      suppressHydrationWarning
+    >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <script
           src="https://analytics.ahrefs.com/analytics.js"
           data-key="ePt9nfyI13zBZGdIfJBvQQ"
@@ -52,7 +59,7 @@ export default async function RootLayout({
         ></script>
       </head>
       <NextIntlClientProvider>
-        <body className="bg-ivory font-body text-black antialiased">
+        <body className="bg-paper font-body text-ink antialiased">
           {/* The business, from Business info, on every page. */}
           <JsonLd
             id="organization-schema"

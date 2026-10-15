@@ -31,9 +31,7 @@ export default function BlogGrid({
 
   if (posts.length === 0) {
     return (
-      <p className="py-16 text-center text-[16px] text-[#3f3f44]">
-        {t("noPosts")}
-      </p>
+      <p className="py-16 text-center text-[16px] text-body">{t("noPosts")}</p>
     );
   }
 

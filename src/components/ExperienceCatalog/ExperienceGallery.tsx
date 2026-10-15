@@ -7,7 +7,7 @@ import { local } from "@/lib/experience/normalize";
 import { label } from "@/lib/experience/labels";
 
 const arrowClass =
-  "grid size-11 cursor-pointer place-items-center text-(--ec-ink) [transition:color_0.2s] hover:text-[#9b773d]";
+  "grid size-11 cursor-pointer place-items-center text-(--ec-ink) [transition:color_0.2s] hover:text-accent";
 
 export default function ExperienceGallery({
   selectedStyleImage,
@@ -80,7 +80,7 @@ export default function ExperienceGallery({
         </p>
       )}
       {slides.length > 1 && (
-        <div className="flex items-center justify-between gap-2.5 bg-white px-2 in-[.ec-proposal-card]:bg-[#141416]">
+        <div className="flex items-center justify-between gap-2.5 bg-surface px-2 in-[.ec-proposal-card]:bg-[#141416]">
           <button
             type="button"
             className={arrowClass}
@@ -101,7 +101,7 @@ export default function ExperienceGallery({
               >
                 <span
                   aria-hidden="true"
-                  className={`size-2 rounded-full border [transition:background-color_0.2s] ${index === i ? "border-[#9b773d] bg-[#9b773d]" : "border-[#9b773d]/60 group-hover:bg-[#9b773d]/40"}`}
+                  className={`size-2 rounded-full border [transition:background-color_0.2s] ${index === i ? "border-accent bg-accent" : "border-accent/60 group-hover:bg-accent/40"}`}
                 />
               </button>
             ))}

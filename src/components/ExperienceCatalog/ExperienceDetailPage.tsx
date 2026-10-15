@@ -58,9 +58,9 @@ export default function ExperienceDetailPage({
       <div className={wrapClass}>
         <Link
           href={catalogHref}
-          className="inline-flex min-h-11 items-center gap-2 text-[14px] text-[#3f3f44] [transition:color_0.2s] hover:text-[#8b672e]"
+          className="inline-flex min-h-11 items-center gap-2 text-[14px] text-body [transition:color_0.2s] hover:text-accent"
         >
-          <FiArrowLeft aria-hidden="true" className="size-4 text-[#9b773d]" />
+          <FiArrowLeft aria-hidden="true" className="size-4 text-accent" />
           {t(dinner ? "navDinners" : "navProposals")}
         </Link>
         <header className="mt-4 mb-8 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
@@ -68,7 +68,7 @@ export default function ExperienceDetailPage({
             {local(e.name, locale)}
           </h1>
           {typeof from === "number" && (
-            <p className="m-0 text-[18px] font-medium text-[#8b672e] tabular-nums">
+            <p className="m-0 text-[18px] font-medium text-accent tabular-nums">
               {dinner ? local(e.priceLabel, locale) : t("startingAtLabel")}{" "}
               {money(from)}
             </p>

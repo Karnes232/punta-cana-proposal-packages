@@ -21,7 +21,7 @@ export default function FaqAccordionItem({
   const panelId = useId();
 
   return (
-    <div className="border-b border-black/10">
+    <div className="border-b border-line">
       <button
         type="button"
         onClick={onToggle}
@@ -29,7 +29,7 @@ export default function FaqAccordionItem({
         aria-controls={panelId}
         className="group flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
       >
-        <span className="font-display text-[clamp(17px,1.6vw,19px)] leading-snug font-normal text-balance text-black">
+        <span className="font-display text-[clamp(17px,1.6vw,19px)] leading-snug font-normal text-balance text-ink">
           {item.question}
         </span>
         <FiPlus
@@ -47,7 +47,7 @@ export default function FaqAccordionItem({
         }`}
       >
         <div className="overflow-hidden">
-          <p className="pr-11 pb-7 text-[16px] leading-[1.75] text-pretty text-[#3f3f44]">
+          <p className="pr-11 pb-7 text-[16px] leading-[1.75] text-pretty text-body">
             {item.answer}
           </p>
         </div>

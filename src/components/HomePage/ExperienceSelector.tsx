@@ -28,14 +28,14 @@ export default function ExperienceSelector({
         {["proposal", "dinner"].map((kind, i) => (
           <button
             key={kind}
-            className={`flex cursor-pointer flex-col justify-center border p-8 text-left [transition:border-color_0.2s,background_0.2s] upto700:p-6 ${selected === i ? "border-[#9b773d] bg-[#cfae7014]" : "border-[#ded5c4] hover:border-[#cfae70]"}`}
+            className={`flex cursor-pointer flex-col justify-center border p-8 text-left [transition:border-color_0.2s,background_0.2s] upto700:p-6 ${selected === i ? "border-accent bg-[#cfae7014]" : "border-line hover:border-[#cfae70]"}`}
             aria-pressed={selected === i}
             onClick={() => setSelected(i)}
           >
             <span className="flex items-start justify-between gap-4">
               <h3 className={homeH3}>{copy[kind + "Choice"]}</h3>
               <span
-                className={`mt-1 grid h-8 w-8 shrink-0 place-items-center border ${selected === i ? "border-gold bg-gold text-black" : "border-[#ded5c4] text-[#9b773d]"}`}
+                className={`mt-1 grid h-8 w-8 shrink-0 place-items-center border ${selected === i ? "border-gold bg-gold text-black" : "border-line text-accent"}`}
               >
                 {selected === i ? (
                   <FiCheck aria-hidden="true" />

@@ -31,7 +31,7 @@ export default function HowItWorksCTA({
 }: HowItWorksCTAProps) {
   return (
     <section
-      className="w-full bg-black px-6 py-20 md:px-10 md:py-28"
+      className="w-full bg-black px-6 py-20 md:px-10 md:py-28 dark:border-t dark:border-gold/15"
       aria-labelledby="cta-heading"
     >
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-8">

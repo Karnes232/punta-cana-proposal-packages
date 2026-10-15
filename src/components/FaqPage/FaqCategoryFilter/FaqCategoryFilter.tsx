@@ -35,11 +35,11 @@ export default function FaqCategoryFilter({
   }
 
   return (
-    <div className="sticky top-[88px] z-20 border-b border-black/10 bg-[#F7F5F1] upto700:top-[72px]">
+    <div className="sticky top-[88px] z-20 border-b border-line bg-paper upto700:top-[72px]">
       <div className="relative">
         {/* A fade at the row's end hints that it scrolls sideways. */}
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-[#F7F5F1] to-transparent xl:hidden"
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-paper to-transparent xl:hidden"
           aria-hidden="true"
         />
         <div

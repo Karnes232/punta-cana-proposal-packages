@@ -19,7 +19,7 @@ const TITLE_KEY = {
 } as const;
 
 const sectionLink =
-  "text-[14px] leading-[1.45] text-[#5c5c61] underline-offset-4 hover:text-black hover:underline";
+  "text-[14px] leading-[1.45] text-body underline-offset-4 hover:text-ink hover:underline";
 
 /** The section links, in the order they appear in the text. */
 function SectionList({ sections }: { sections: LegalSection[] }) {
@@ -60,7 +60,7 @@ export default async function LegalPage({
   });
 
   return (
-    <div className="min-h-screen bg-ivory">
+    <div className="min-h-screen bg-paper">
       <JsonLd
         id="structured-data-schema"
         data={structuredData?.seo?.structuredData}
@@ -79,8 +79,8 @@ export default async function LegalPage({
             aria-label={t("onThisPage")}
             className="lg:sticky lg:top-28 lg:self-start"
           >
-            <details className="group border-y border-black/10 py-4 lg:hidden">
-              <summary className="flex cursor-pointer list-none items-center justify-between text-[14px] tracking-[0.14em] text-black uppercase [&::-webkit-details-marker]:hidden">
+            <details className="group border-y border-line py-4 lg:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between text-[14px] tracking-[0.14em] text-ink uppercase [&::-webkit-details-marker]:hidden">
                 {t("onThisPage")}
                 <FiChevronDown
                   aria-hidden="true"
@@ -101,8 +101,8 @@ export default async function LegalPage({
         )}
         <article className="min-w-0 lg:col-start-2">
           <BlockContent content={blocks} />
-          <footer className="mt-16 border-t border-black/10 pt-8">
-            <p className="text-[16px] text-[#3f3f44]">{t("questions")}</p>
+          <footer className="mt-16 border-t border-line pt-8">
+            <p className="text-[16px] text-body">{t("questions")}</p>
             <HomeTextLink href={`${localePrefix(locale)}/contact`}>
               {t("contactLink")}
             </HomeTextLink>

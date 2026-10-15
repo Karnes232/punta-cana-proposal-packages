@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 
 // A Previous / Next button under the list.
 const pagerButton =
-  "min-h-11 cursor-pointer border border-black/15 px-5 text-[14px] text-black transition-colors duration-200 hover:border-gold disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-black/15";
+  "min-h-11 cursor-pointer border border-line px-5 text-[14px] text-ink transition-colors duration-200 hover:border-gold disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line";
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -48,7 +48,7 @@ export default function FaqAccordion({
   );
 
   return (
-    <section className="bg-[#F7F5F1] py-20 px-6 md:px-12">
+    <section className="bg-paper py-20 px-6 md:px-12">
       <div className="max-w-3xl mx-auto">
         <FaqAccordionList
           items={paginatedItems}
@@ -65,7 +65,7 @@ export default function FaqAccordion({
             >
               {t("previous")}
             </button>
-            <p className="text-[14px] text-[#5c5c61] tabular-nums">
+            <p className="text-[14px] text-body tabular-nums">
               {t("page")} {currentPage} {t("of")} {totalPages}
             </p>
             <button

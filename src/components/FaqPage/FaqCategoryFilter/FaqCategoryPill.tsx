@@ -22,8 +22,8 @@ export default function FaqCategoryPill({
       onClick={() => onClick(value)}
       className={`${base} ${
         isActive
-          ? "border-black bg-black text-ivory"
-          : "border-black/15 bg-transparent text-black hover:border-gold"
+          ? "border-ink bg-ink text-paper"
+          : "border-line bg-transparent text-ink hover:border-gold"
       }`}
     >
       {label}

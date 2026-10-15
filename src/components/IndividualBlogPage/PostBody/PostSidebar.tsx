@@ -20,12 +20,12 @@ function SidebarDetailRow({ label, value }: SidebarDetailRowProps) {
       <span
         className={eyebrowClass({
           size: "text-[12px]",
-          color: "text-[#6e6e73]",
+          color: "text-muted",
         })}
       >
         {label}
       </span>
-      <span className="text-[15px] text-black">{value}</span>
+      <span className="text-[15px] text-ink">{value}</span>
     </div>
   );
 }
@@ -47,14 +47,14 @@ export default function PostSidebar({ data, locale }: PostSidebarProps) {
 
   return (
     <aside className="self-start lg:sticky lg:top-[112px]">
-      <div className="flex flex-col gap-6 border border-black/10 bg-white p-7">
+      <div className="flex flex-col gap-6 border border-line bg-surface p-7">
         <p className={eyebrowClass({ size: "text-[13px]" })}>
           {data.categoryTag}
         </p>
-        <p className="font-display text-[1.4rem] leading-[1.3] text-balance text-black">
+        <p className="font-display text-[1.4rem] leading-[1.3] text-balance text-ink">
           {data.title}
         </p>
-        <span aria-hidden="true" className="block h-px w-full bg-black/10" />
+        <span aria-hidden="true" className="block h-px w-full bg-line" />
         <div className="flex flex-col gap-4">
           <SidebarDetailRow label={t("category")} value={data.categoryTag} />
           <SidebarDetailRow label={t("published")} value={date} />
@@ -63,7 +63,7 @@ export default function PostSidebar({ data, locale }: PostSidebarProps) {
             value={`${data.readingTime} ${t("minRead")}`}
           />
         </div>
-        <span aria-hidden="true" className="block h-px w-full bg-black/10" />
+        <span aria-hidden="true" className="block h-px w-full bg-line" />
         <Link
           href="/contact"
           className={`${buttonClass(homeButtonParts)} w-full`}

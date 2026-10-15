@@ -12,18 +12,18 @@ export default function PageError({ reset }: { reset: () => void }) {
   const t = useTranslations("ErrorPage");
 
   return (
-    <main className="bg-ivory">
+    <main className="bg-paper">
       <section
         className="mx-auto flex min-h-[min(70vh,720px)] max-w-2xl flex-col items-center justify-center px-6 py-20 text-center"
         aria-labelledby="error-heading"
       >
         <h1
           id="error-heading"
-          className="font-display text-3xl text-black md:text-4xl"
+          className="font-display text-3xl text-ink md:text-4xl"
         >
           {t("heading")}
         </h1>
-        <p className="mt-4 max-w-md text-base leading-relaxed text-gray">
+        <p className="mt-4 max-w-md text-base leading-relaxed text-muted">
           {t("description")}
         </p>
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
@@ -36,13 +36,13 @@ export default function PageError({ reset }: { reset: () => void }) {
           </button>
           <Link
             href="/"
-            className="inline-flex min-w-40 items-center justify-center border border-black bg-transparent px-6 py-3 text-sm font-medium text-black transition hover:bg-black hover:text-white"
+            className="inline-flex min-w-40 items-center justify-center border border-ink bg-transparent px-6 py-3 text-sm font-medium text-ink transition hover:bg-ink hover:text-paper"
           >
             {t("homeCta")}
           </Link>
           <Link
             href="/contact"
-            className="inline-flex min-w-40 items-center justify-center border border-black bg-transparent px-6 py-3 text-sm font-medium text-black transition hover:bg-black hover:text-white"
+            className="inline-flex min-w-40 items-center justify-center border border-ink bg-transparent px-6 py-3 text-sm font-medium text-ink transition hover:bg-ink hover:text-paper"
           >
             {t("contactCta")}
           </Link>

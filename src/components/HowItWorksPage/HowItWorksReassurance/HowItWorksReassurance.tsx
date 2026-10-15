@@ -18,7 +18,7 @@ export default function HowItWorksReassurance({
 
   return (
     <section
-      className="w-full bg-[#0B0B0C] px-6 py-16 md:px-10 md:py-20"
+      className="w-full bg-[#0B0B0C] px-6 py-16 md:px-10 md:py-20 dark:border-y dark:border-gold/15"
       aria-label={t("whyChooseUs")}
     >
       <ul className="mx-auto grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
