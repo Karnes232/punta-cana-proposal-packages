@@ -25,6 +25,7 @@ for (const args of [
     "src/components/LegalPage/legalSections.ts",
     "src/components/FaqPage/faqCategories.ts",
     "src/components/seo/organization.ts",
+    "src/sanity/lib/image.ts",
     "src/components/ExperienceCatalog/catalogData.ts",
     "--outDir",
     out,

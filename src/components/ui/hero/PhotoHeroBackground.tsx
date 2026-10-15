@@ -1,8 +1,9 @@
 import Image from "next/image";
+import { framedImage, type ImageFraming } from "@/sanity/lib/image";
 import GrainOverlay from "./GrainOverlay";
 
 interface PhotoHeroBackgroundProps {
-  photo: { asset: { url: string } } | null;
+  photo: (ImageFraming & { asset: { url: string } }) | null;
   alt: string;
 }
 
@@ -16,11 +17,11 @@ export default function PhotoHeroBackground({
       {/* Photo — full visibility, no opacity reduction */}
       {photo?.asset?.url && (
         <Image
-          src={photo.asset.url}
+          {...framedImage(photo.asset.url, photo)}
           alt={alt}
           fill
           priority
-          className="object-cover object-center scale-[1.03] animate-[slowZoom_10s_ease_forwards]"
+          className="object-cover scale-[1.03] animate-[slowZoom_10s_ease_forwards]"
           sizes="100vw"
         />
       )}

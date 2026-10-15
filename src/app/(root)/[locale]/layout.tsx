@@ -1,4 +1,5 @@
 import { Playfair_Display, Inter } from "next/font/google";
+import { sanityImageUrl } from "@/sanity/lib/image";
 import { getGeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -74,7 +75,14 @@ export default async function RootLayout({
             <Navbar
               locale={toSiteLocale(locale)}
               settings={catalog.settings || {}}
-              logo={generalLayout?.companyLogo?.asset?.url}
+              logo={
+                generalLayout?.companyLogo?.asset?.url
+                  ? sanityImageUrl(
+                      generalLayout.companyLogo.asset.url,
+                      generalLayout.companyLogo,
+                    )
+                  : undefined
+              }
               companyName={generalLayout?.companyName}
             />
             {children}

@@ -339,3 +339,38 @@ test("the proposals and dinners heroes fall back to package photos", () => {
   );
   assert.equal(dinnersHeroPhoto({}, [], null), undefined);
 });
+
+test("Studio crops and hotspots reach the site's images", () => {
+  const { focalPoint, framedImage, sanityImageUrl, shareImageUrl } = require(
+    `${out}/sanity/lib/image.js`,
+  );
+  const url =
+    "https://cdn.sanity.io/images/proj/production/abc123-1000x500.jpg";
+  // Without a hotspot the photo stays centred, as before.
+  assert.equal(focalPoint(undefined), undefined);
+  assert.equal(focalPoint({ hotspot: null }), undefined);
+  assert.deepEqual(framedImage(url, {}), { src: url, style: undefined });
+  assert.equal(focalPoint({ hotspot: { x: 0.5, y: 0.5 } }), "50% 50%");
+  // The hotspot is measured inside the crop, and kept inside it.
+  const crop = { left: 0.2, right: 0.2, top: 0, bottom: 0.4 };
+  assert.equal(focalPoint({ crop, hotspot: { x: 0.6, y: 0.3 } }), "66.67% 50%");
+  assert.equal(focalPoint({ crop, hotspot: { x: 0.05, y: 0.9 } }), "0% 100%");
+  assert.deepEqual(framedImage(url, { hotspot: { x: 0.25, y: 0.75 } }).style, {
+    objectPosition: "25% 75%",
+    transformOrigin: "25% 75%",
+  });
+  // The crop is cut from the file; no crop, or another host, leaves it as is.
+  assert.equal(
+    sanityImageUrl(url, { crop: { left: 0.1, right: 0, top: 0, bottom: 0 } }),
+    `${url}?rect=100,0,900,500`,
+  );
+  assert.equal(sanityImageUrl(url, { crop: null, hotspot: null }), url);
+  assert.equal(
+    sanityImageUrl("https://example.com/a.jpg", { crop }),
+    "https://example.com/a.jpg",
+  );
+  // Share images are 1200×630.
+  const share = new URL(shareImageUrl(url, { hotspot: { x: 0.9, y: 0.5 } }));
+  assert.equal(share.searchParams.get("w"), "1200");
+  assert.equal(share.searchParams.get("h"), "630");
+});

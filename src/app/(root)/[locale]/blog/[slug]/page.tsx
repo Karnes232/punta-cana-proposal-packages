@@ -65,13 +65,7 @@ export default async function BlogPostPage({
           categoryTag: individualBlog.categoryTag,
           readingTime: individualBlog.readingTime,
           photo: individualBlog.heroPhoto?.asset?.url
-            ? {
-                asset: {
-                  url: individualBlog.heroPhoto.asset.url,
-                  metadata: { dimensions: { width: 200, height: 300 } },
-                },
-                alt: individualBlog.heroPhoto.alt,
-              }
+            ? individualBlog.heroPhoto
             : null,
         }}
         locale={locale}
@@ -93,8 +87,7 @@ export default async function BlogPostPage({
         photos={
           // Gallery is optional in Sanity and comes back as null when empty.
           (individualBlog.gallery ?? []).map((photo) => ({
-            asset: photo.asset,
-            alt: photo.alt,
+            ...photo,
             caption: photo.caption ?? "",
           }))
         }

@@ -1,22 +1,13 @@
 import { client } from "@/sanity/lib/client";
 import { pageSectionDocument, pageSectionParams } from "../pageSection";
-import { imageWithDimensions } from "../fragments";
+import { type ImageAsset, imageWithDimensions } from "../fragments";
 
 export interface StoriesPageHero {
   eyebrow?: string;
   headingLine1?: string;
   headingLine2?: string;
   subheading?: string;
-  image?: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  image?: ImageAsset & {
     alt?: string;
   };
 }
@@ -29,16 +20,7 @@ export interface StoriesPageFeaturedStory {
   date: string;
   location: string;
   packageTag: string;
-  heroPhoto: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  heroPhoto: ImageAsset & {
     alt?: string;
   };
   quote: string;

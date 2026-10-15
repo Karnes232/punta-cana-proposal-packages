@@ -1581,7 +1581,7 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/queries/ExperienceCatalog/catalog.ts
 // Variable: catalogQuery
-// Query: *[  _type in ["proposalExperience", "romanticDinnerExperience"]  && active == true]  | order(displayOrder asc, _id asc)  {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  alt}  }}
+// Query: *[  _type in ["proposalExperience", "romanticDinnerExperience"]  && active == true]  | order(displayOrder asc, _id asc)  {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  crop,  hotspot,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  crop,  hotspot,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  crop,  hotspot,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  crop,  hotspot,  alt}  }}
 export type CatalogQueryResult = Array<
   | {
       _id: string;
@@ -1621,6 +1621,8 @@ export type CatalogQueryResult = Array<
         displayOrder: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1634,6 +1636,8 @@ export type CatalogQueryResult = Array<
         price: number | null;
         mainImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         gallery: null;
@@ -1661,6 +1665,8 @@ export type CatalogQueryResult = Array<
         icon: string | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1673,6 +1679,8 @@ export type CatalogQueryResult = Array<
         description?: LocalizedText;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         noIndex?: boolean;
@@ -1716,6 +1724,8 @@ export type CatalogQueryResult = Array<
         displayOrder: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1729,6 +1739,8 @@ export type CatalogQueryResult = Array<
         price: null;
         mainImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         gallery: Array<{
@@ -1738,6 +1750,8 @@ export type CatalogQueryResult = Array<
           displayOrder: number | null;
           image: {
             url: string | null;
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
             alt: LocalizedString | null;
           } | null;
         }> | null;
@@ -1765,6 +1779,8 @@ export type CatalogQueryResult = Array<
         icon: string | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1783,6 +1799,8 @@ export type CatalogQueryResult = Array<
         allergenInformation: LocalizedText | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1798,6 +1816,8 @@ export type CatalogQueryResult = Array<
         supplementPrice: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1816,6 +1836,8 @@ export type CatalogQueryResult = Array<
         description?: LocalizedText;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         noIndex?: boolean;
@@ -1823,7 +1845,7 @@ export type CatalogQueryResult = Array<
     }
 >;
 // Variable: experienceByIdQuery
-// Query: *[_id == $id &&   _type in ["proposalExperience", "romanticDinnerExperience"]  && active == true][0] {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  alt}  }}
+// Query: *[_id == $id &&   _type in ["proposalExperience", "romanticDinnerExperience"]  && active == true][0] {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  crop,  hotspot,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  crop,  hotspot,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  crop,  hotspot,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  crop,  hotspot,  alt}  }}
 export type ExperienceByIdQueryResult =
   | {
       _id: string;
@@ -1863,6 +1885,8 @@ export type ExperienceByIdQueryResult =
         displayOrder: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1876,6 +1900,8 @@ export type ExperienceByIdQueryResult =
         price: number | null;
         mainImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         gallery: null;
@@ -1903,6 +1929,8 @@ export type ExperienceByIdQueryResult =
         icon: string | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1915,6 +1943,8 @@ export type ExperienceByIdQueryResult =
         description?: LocalizedText;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         noIndex?: boolean;
@@ -1958,6 +1988,8 @@ export type ExperienceByIdQueryResult =
         displayOrder: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -1971,6 +2003,8 @@ export type ExperienceByIdQueryResult =
         price: null;
         mainImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         gallery: Array<{
@@ -1980,6 +2014,8 @@ export type ExperienceByIdQueryResult =
           displayOrder: number | null;
           image: {
             url: string | null;
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
             alt: LocalizedString | null;
           } | null;
         }> | null;
@@ -2007,6 +2043,8 @@ export type ExperienceByIdQueryResult =
         icon: string | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -2025,6 +2063,8 @@ export type ExperienceByIdQueryResult =
         allergenInformation: LocalizedText | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -2040,6 +2080,8 @@ export type ExperienceByIdQueryResult =
         supplementPrice: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -2058,6 +2100,8 @@ export type ExperienceByIdQueryResult =
         description?: LocalizedText;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         noIndex?: boolean;
@@ -2067,7 +2111,7 @@ export type ExperienceByIdQueryResult =
 
 // Source: ./src/sanity/queries/ExperienceCatalog/content.ts
 // Variable: catalogContentQuery
-// Query: {      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),      "homePhotos": *[_id == $homeId][0] {        heroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "homePhotosEn": *[_id == $homeEnId][0] {        heroImage {  "url": asset->url,  alt},        proposalSelectorImage {  "url": asset->url,  alt},        dinnerSelectorImage {  "url": asset->url,  alt},        journeyImages[] {  "url": asset->url,  alt},        editorialImages[] {  "url": asset->url,  alt},        moments[] {  "url": asset->url,  alt}      },      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])    }
+// Query: {      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),      "homePhotos": *[_id == $homeId][0] {        heroImage {  "url": asset->url,  crop,  hotspot,  alt},        proposalSelectorImage {  "url": asset->url,  crop,  hotspot,  alt},        dinnerSelectorImage {  "url": asset->url,  crop,  hotspot,  alt},        journeyImages[] {  "url": asset->url,  crop,  hotspot,  alt},        editorialImages[] {  "url": asset->url,  crop,  hotspot,  alt},        moments[] {  "url": asset->url,  crop,  hotspot,  alt}      },      "homePhotosEn": *[_id == $homeEnId][0] {        heroImage {  "url": asset->url,  crop,  hotspot,  alt},        proposalSelectorImage {  "url": asset->url,  crop,  hotspot,  alt},        dinnerSelectorImage {  "url": asset->url,  crop,  hotspot,  alt},        journeyImages[] {  "url": asset->url,  crop,  hotspot,  alt},        editorialImages[] {  "url": asset->url,  crop,  hotspot,  alt},        moments[] {  "url": asset->url,  crop,  hotspot,  alt}      },      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])    }
 export type CatalogContentQueryResult = {
   settings:
     | {
@@ -5452,26 +5496,38 @@ export type CatalogContentQueryResult = {
     | {
         heroImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         } | null;
         proposalSelectorImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         } | null;
         dinnerSelectorImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         } | null;
         journeyImages: Array<{
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         }> | null;
         editorialImages: Array<{
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         }> | null;
         moments: Array<{
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         }> | null;
       }
@@ -5488,26 +5544,38 @@ export type CatalogContentQueryResult = {
     | {
         heroImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         } | null;
         proposalSelectorImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         } | null;
         dinnerSelectorImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         } | null;
         journeyImages: Array<{
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         }> | null;
         editorialImages: Array<{
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         }> | null;
         moments: Array<{
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: string | null;
         }> | null;
       }
@@ -6648,7 +6716,7 @@ export type FeaturedFallbackQueryResult = Array<string>;
 
 // Source: ./src/sanity/queries/ExperienceCatalog/templates.ts
 // Variable: templatePreviewQuery
-// Query: *[_id == $id][0] {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  alt}  }}
+// Query: *[_id == $id][0] {    _id,  _key,  name,  description,  active,  displayOrder,  _type,  slug,  shortDescription,  longDescription,  basePrice,  currency,  priceLabel,  location,  badge,  includedGuests,  minimumGuests,  maximumGuests,  additionalGuestPrice,  includedDurationMinutes,  maximumDurationMinutes,  inclusions[] {      _id,  _key,  name,  description,  active,  displayOrder,    icon  },  gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  crop,  hotspot,  alt}},  styles[] {      _id,  _key,  name,  description,  active,  displayOrder,    price,    mainImage {  "url": asset->url,  crop,  hotspot,  alt},    gallery[] {  _key,  alt,  caption,  displayOrder,  image {  "url": asset->url,  crop,  hotspot,  alt}}  },  availableAddons[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    price,    pricingType,    applicableTo,    minimumQuantity,    maximumQuantity,    durationMinutesPerUnit,    icon,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  menuItems[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    courseType,    included,    supplementPrice,    dietaryType,    dietaryTags,    allergenInformation,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  beverages[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    type,    included,    supplementPrice,    image {  "url": asset->url,  crop,  hotspot,  alt}  },  occasions[]-> {      _id,  _key,  name,  description,  active,  displayOrder,    allowCustomMessage  },  seo {    ...,    image {  "url": asset->url,  crop,  hotspot,  alt}  }}
 export type TemplatePreviewQueryResult =
   | {
       _id: string;
@@ -6754,6 +6822,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -6809,6 +6879,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -6858,6 +6930,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -6907,6 +6981,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -7049,6 +7125,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -7129,6 +7207,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -7178,6 +7258,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -7285,6 +7367,8 @@ export type TemplatePreviewQueryResult =
         displayOrder: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -7298,6 +7382,8 @@ export type TemplatePreviewQueryResult =
         price: number | null;
         mainImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         gallery: null;
@@ -7325,6 +7411,8 @@ export type TemplatePreviewQueryResult =
         icon: string | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -7337,6 +7425,8 @@ export type TemplatePreviewQueryResult =
         description?: LocalizedText;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         noIndex?: boolean;
@@ -7384,6 +7474,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -7429,6 +7521,8 @@ export type TemplatePreviewQueryResult =
         displayOrder: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -7442,6 +7536,8 @@ export type TemplatePreviewQueryResult =
         price: null;
         mainImage: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         gallery: Array<{
@@ -7451,6 +7547,8 @@ export type TemplatePreviewQueryResult =
           displayOrder: number | null;
           image: {
             url: string | null;
+            crop: SanityImageCrop | null;
+            hotspot: SanityImageHotspot | null;
             alt: LocalizedString | null;
           } | null;
         }> | null;
@@ -7478,6 +7576,8 @@ export type TemplatePreviewQueryResult =
         icon: string | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -7496,6 +7596,8 @@ export type TemplatePreviewQueryResult =
         allergenInformation: LocalizedText | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -7511,6 +7613,8 @@ export type TemplatePreviewQueryResult =
         supplementPrice: number | null;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
       }> | null;
@@ -7529,6 +7633,8 @@ export type TemplatePreviewQueryResult =
         description?: LocalizedText;
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: LocalizedString | null;
         } | null;
         noIndex?: boolean;
@@ -7576,6 +7682,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -7687,6 +7795,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -7742,6 +7852,8 @@ export type TemplatePreviewQueryResult =
         };
         image: {
           url: string | null;
+          crop: SanityImageCrop | null;
+          hotspot: SanityImageHotspot | null;
           alt: null;
         } | null;
         structuredData?: string;
@@ -7817,11 +7929,11 @@ export type TemplatePreviewQueryResult =
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[\n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n]\n  | order(displayOrder asc, _id asc)\n  {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}\n': CatalogQueryResult;
-    '*[_id == $id && \n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': ExperienceByIdQueryResult;
-    '{\n      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),\n      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,\n      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),\n      "homePhotos": *[_id == $homeId][0] {\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "homePhotosEn": *[_id == $homeEnId][0] {\n        heroImage {\n  "url": asset->url,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  alt\n}\n      },\n      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])\n    }': CatalogContentQueryResult;
+    '\n  *[\n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n]\n  | order(displayOrder asc, _id asc)\n  {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  }\n}\n': CatalogQueryResult;
+    '*[_id == $id && \n  _type in ["proposalExperience", "romanticDinnerExperience"]\n  && active == true\n][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  }\n}': ExperienceByIdQueryResult;
+    '{\n      "settings": coalesce(*[_id == $settingsId][0], *[_id == $settingsEnId][0]),\n      "dinnerDepositAmount": *[_id == $settingsEnId][0].dinnerDepositAmount,\n      "homeText": coalesce(*[_id == $homeId][0], *[_id == $homeEnId][0]),\n      "homePhotos": *[_id == $homeId][0] {\n        heroImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n      },\n      "homePhotosEn": *[_id == $homeEnId][0] {\n        heroImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        proposalSelectorImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        dinnerSelectorImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        journeyImages[] {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        editorialImages[] {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n        moments[] {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n      },\n      "contact": coalesce(*[_id == $contactId][0], *[_id == $contactEnId][0])\n    }': CatalogContentQueryResult;
     '{\n      "ids": *[_id == $homeId][0].featuredProposals[0...3]._ref\n    }': HomePresentationQueryResult;
     '*[\n        _type == "proposalExperience"\n        && active == true\n        && slug.current in $featuredSlugs\n      ] | order(name.en asc)[0...3]._id': FeaturedFallbackQueryResult;
-    '*[_id == $id][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  alt\n}\n  }\n}': TemplatePreviewQueryResult;
+    '*[_id == $id][0] {\n  \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n  _type,\n  slug,\n  shortDescription,\n  longDescription,\n  basePrice,\n  currency,\n  priceLabel,\n  location,\n  badge,\n  includedGuests,\n  minimumGuests,\n  maximumGuests,\n  additionalGuestPrice,\n  includedDurationMinutes,\n  maximumDurationMinutes,\n  inclusions[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    icon\n  },\n  gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n},\n  styles[] {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    mainImage {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n},\n    gallery[] {\n  _key,\n  alt,\n  caption,\n  displayOrder,\n  image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n}\n  },\n  availableAddons[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    price,\n    pricingType,\n    applicableTo,\n    minimumQuantity,\n    maximumQuantity,\n    durationMinutesPerUnit,\n    icon,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  menuItems[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    courseType,\n    included,\n    supplementPrice,\n    dietaryType,\n    dietaryTags,\n    allergenInformation,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  beverages[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    type,\n    included,\n    supplementPrice,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  },\n  occasions[]-> {\n    \n  _id,\n  _key,\n  name,\n  description,\n  active,\n  displayOrder\n,\n    allowCustomMessage\n  },\n  seo {\n    ...,\n    image {\n  "url": asset->url,\n  crop,\n  hotspot,\n  alt\n}\n  }\n}': TemplatePreviewQueryResult;
   }
 }

@@ -1,11 +1,12 @@
 // Relative path: tests compile this file without the "@/" alias.
 import type { SiteLocale } from "../../i18n/locales";
+import type { ImageFraming } from "../../sanity/lib/image";
 
 export type Locale = SiteLocale;
 export type Localized = Partial<Record<Locale, string>>;
 /** Built-in default text: English always, other languages when translated. */
 export type DefaultText = { en: string } & Localized;
-export type Image = { url?: string; alt?: Localized };
+export type Image = { url?: string; alt?: Localized } & ImageFraming;
 export type Entry = {
   _id?: string;
   _key?: string;

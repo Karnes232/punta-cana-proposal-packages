@@ -1,4 +1,5 @@
 import ListingHeroBackground from "@/components/ui/hero/ListingHeroBackground";
+import type { ImageAsset } from "@/sanity/queries/fragments";
 import HeroDivider from "@/components/ui/hero/HeroDivider";
 import HeroEyebrow from "@/components/ui/hero/HeroEyebrow";
 import HeroHeading from "@/components/ui/hero/HeroHeading";
@@ -11,16 +12,7 @@ export default function StoriesHero({
   headingLine2 = "Your Inspiration",
   subheading = "Every couple who trusted us with their most important moment. Read their stories and begin imagining yours.",
 }: {
-  image?: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  image?: ImageAsset & {
     alt?: string;
   };
   eyebrow?: string;

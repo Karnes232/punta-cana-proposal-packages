@@ -1,4 +1,5 @@
 import NextImage from "next/image";
+import { framedImage } from "@/sanity/lib/image";
 
 import { id, local } from "@/lib/experience/normalize";
 
@@ -52,7 +53,7 @@ export default function StylePicker({
             {option.mainImage?.url && (
               <NextImage
                 className="mb-1.5 aspect-[3/2] h-auto w-full basis-full object-cover"
-                src={option.mainImage.url}
+                {...framedImage(option.mainImage.url, option.mainImage)}
                 alt=""
                 width={240}
                 height={160}

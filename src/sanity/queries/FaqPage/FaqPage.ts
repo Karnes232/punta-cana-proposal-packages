@@ -1,19 +1,10 @@
 import type { Localized } from "@/lib/experience/types";
 import { client } from "@/sanity/lib/client";
 import { pageSectionDocument, pageSectionParams } from "../pageSection";
-import { imageWithDimensions } from "../fragments";
+import { type ImageAsset, imageWithDimensions } from "../fragments";
 
 export interface FaqsPageHeroComponent {
-  heroImage?: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  heroImage?: ImageAsset & {
     alt: string;
   };
   eyebrow: string;

@@ -1,4 +1,5 @@
 import HeroDivider from "@/components/ui/hero/HeroDivider";
+import type { ImageAsset } from "@/sanity/queries/fragments";
 import HeroEyebrow from "@/components/ui/hero/HeroEyebrow";
 import HeroHeading from "@/components/ui/hero/HeroHeading";
 import HeroSubheading from "@/components/ui/hero/HeroSubheading";
@@ -9,16 +10,7 @@ interface BlogHeroProps {
   headingLine1: string;
   headingLine2: string;
   subheading: string;
-  image?: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  image?: ImageAsset & {
     alt?: string;
   };
 }

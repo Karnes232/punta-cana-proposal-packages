@@ -61,8 +61,7 @@ export default async function StoryPage({
         photos={
           // Gallery is optional in Sanity and comes back as null when empty.
           (story.gallery ?? []).map((photo) => ({
-            asset: photo.asset,
-            alt: photo.alt,
+            ...photo,
             caption: photo.caption ?? "",
           }))
         }

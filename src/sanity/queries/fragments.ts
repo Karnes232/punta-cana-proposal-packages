@@ -1,7 +1,11 @@
 // GROQ pieces shared by the site's page queries (blog, stories, FAQ, SEO…).
 // The experience catalog has its own in ./ExperienceCatalog/fragments.ts.
+import type { ImageFraming } from "../lib/image";
 
-/** Image fields: asset URL, pixel width/height and alt text. */
+/**
+ * Image fields: asset URL, pixel width/height, the Studio crop and hotspot
+ * (see src/sanity/lib/image.ts) and alt text.
+ */
 export const imageWithDimensions = /* groq */ `
   asset-> {
     url,
@@ -12,15 +16,27 @@ export const imageWithDimensions = /* groq */ `
       }
     }
   },
+  crop,
+  hotspot,
   alt
 `;
+
+/** What `imageWithDimensions` returns, apart from alt (optional in some). */
+export type ImageAsset = ImageFraming & {
+  asset: {
+    url: string;
+    metadata: { dimensions: { width: number; height: number } };
+  };
+};
 
 /** A document SEO object's Open Graph image, flattened for metadata. */
 export const seoImageFields = /* groq */ `
   "url": image.asset->url,
   "alt": image.alt,
   "width": image.asset->metadata.dimensions.width,
-  "height": image.asset->metadata.dimensions.height
+  "height": image.asset->metadata.dimensions.height,
+  "crop": image.crop,
+  "hotspot": image.hotspot
 `;
 
 /** A per-language document's `seo` object (see ./SEO/documentSeo.ts). */

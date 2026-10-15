@@ -2,9 +2,14 @@
 // dinners). Whitespace inside GROQ is insignificant, so these are written
 // one field per line for readability.
 
-/** An image as {url, alt}; alt is the localized {en, es} object. */
+/**
+ * An image as {url, alt, crop, hotspot}; alt is the localized {en, es}
+ * object, crop and hotspot are the Studio's (see src/sanity/lib/image.ts).
+ */
 export const imageWithAlt = /* groq */ `{
   "url": asset->url,
+  crop,
+  hotspot,
   alt
 }`;
 

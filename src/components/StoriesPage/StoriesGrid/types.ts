@@ -1,13 +1,6 @@
-export interface StoryCardImage {
-  asset: {
-    url: string;
-    metadata: {
-      dimensions: {
-        width: number;
-        height: number;
-      };
-    };
-  };
+import type { ImageAsset } from "@/sanity/queries/fragments";
+
+export interface StoryCardImage extends ImageAsset {
   alt?: string;
 }
 

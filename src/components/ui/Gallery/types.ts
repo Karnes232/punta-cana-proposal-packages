@@ -1,13 +1,6 @@
-export interface GalleryPhoto {
-  asset: {
-    url: string;
-    metadata: {
-      dimensions: {
-        width: number;
-        height: number;
-      };
-    };
-  };
+import type { ImageAsset } from "@/sanity/queries/fragments";
+
+export interface GalleryPhoto extends ImageAsset {
   alt?: string;
   caption?: string;
 }

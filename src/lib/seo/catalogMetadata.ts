@@ -4,6 +4,7 @@ import type { Locale, Seo } from "@/lib/experience/types";
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import { buildSeoMetadata, seoFields } from "@/lib/seo/buildMetadata";
 import { siteCanonicalUrl } from "@/lib/seo/constants";
+import { SHARE_IMAGE, shareImageUrl } from "@/sanity/lib/image";
 import { getPageSeo, type SeoPage } from "@/sanity/queries/SEO/seo";
 
 // Metadata for the experience catalog: the catalog pages (home, proposals,
@@ -29,7 +30,13 @@ export function catalogMetadata(
       ...generateHreflangAlternates(path),
     },
     robots: seo?.noIndex ? { index: false, follow: true } : undefined,
-    openGraph: seo?.image?.url ? { images: [seo.image.url] } : undefined,
+    openGraph: seo?.image?.url
+      ? {
+          images: [
+            { url: shareImageUrl(seo.image.url, seo.image), ...SHARE_IMAGE },
+          ],
+        }
+      : undefined,
   };
 }
 /**

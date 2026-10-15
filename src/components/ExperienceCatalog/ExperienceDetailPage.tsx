@@ -10,6 +10,7 @@ import { localePrefix } from "@/i18n/locales";
 import { homeText } from "@/lib/experience/homeCopy";
 import { label } from "@/lib/experience/labels";
 import { local } from "@/lib/experience/normalize";
+import { sanityImageUrl } from "@/sanity/lib/image";
 import type {
   Experience,
   Home,
@@ -45,12 +46,13 @@ export default function ExperienceDetailPage({
   const catalogHref = `${prefix}${dinner ? "/romantic-dinners" : "/proposals"}`;
   const money = moneyFormatter(locale, settings, e.currency || "USD");
   const from = dinner ? e.basePrice : startingPrice(e);
+  const photo = e.gallery[0]?.image;
   const json = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: local(e.name, locale),
     description: local(e.shortDescription, locale),
-    image: e.gallery[0]?.image?.url,
+    image: photo?.url ? sanityImageUrl(photo.url, photo) : undefined,
   };
   return (
     <main className={shellClass()}>

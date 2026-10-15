@@ -27,7 +27,7 @@ export default function HomeHero({
         photo={photo}
         locale={locale}
         priority
-        className="-z-2 animate-[lux-hero-drift_6s_ease-out_forwards] object-cover object-center motion-reduce:[animation:none] motion-reduce:[transform:none]"
+        className="-z-2 animate-[lux-hero-drift_6s_ease-out_forwards] object-cover motion-reduce:[animation:none] motion-reduce:[transform:none]"
       />
       <div className="absolute inset-0 -z-1 bg-[linear-gradient(90deg,#000c,#0005),linear-gradient(0deg,#0008,transparent)]" />
       <div className="max-w-[1000px] animate-[lux-enter_0.6s_ease-out]">
