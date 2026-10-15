@@ -18,6 +18,12 @@ const resolve = Module._resolveFilename,
 // The site's message files stand in for next-intl's provider.
 const messages = require("../messages/en.json");
 Module._load = function (request, ...rest) {
+  // The localized Link needs Next's router; a plain link is enough here.
+  if (request === "@/i18n/navigation")
+    return {
+      Link: ({ href, children, ...props }) =>
+        require("react").createElement("a", { href, ...props }, children),
+    };
   const loaded = load.call(this, request, ...rest);
   if (request !== "next-intl") return loaded;
   return {
@@ -656,4 +662,41 @@ test("request form points at the field the server rejected and explains limits",
     global.fetch = oldFetch;
     global.FormData = oldFormData;
   }
+});
+
+test("an active dinner keeps the page note and shows its setups and occasions", async () => {
+  const Page =
+    require("../src/components/RomanticDinnersPage/RomanticDinnersPage.tsx").default;
+  const { dinnerPreview } = require("../src/lib/experience/dinnerTemplate.ts");
+  const template = dinnerPreview();
+  const dinner = {
+    ...template,
+    _id: "dinner",
+    occasions: [{ _id: "anniversary", name: { en: "Anniversary" } }],
+  };
+  const root = createRoot(document.getElementById("root"));
+  await act(async () =>
+    root.render(
+      React.createElement(Page, {
+        locale: "en",
+        settings: { dinnerInquiryNote: "Our team confirms each date." },
+        page: { keys: [], text: {} },
+        dinners: [dinner],
+        template: null,
+      }),
+    ),
+  );
+  assert.match(document.body.textContent, /Our team confirms each date\./);
+  // One card: the active dinner, not the inquiry template as well.
+  assert.equal(document.querySelectorAll("article").length, 1);
+  assert.equal(
+    document.querySelectorAll("input[type=radio]").length,
+    template.styles.length,
+  );
+  assert.ok(
+    [...document.querySelectorAll("option")].some(
+      (o) => o.textContent === "Anniversary",
+    ),
+  );
+  await act(async () => root.unmount());
 });

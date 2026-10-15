@@ -13,9 +13,10 @@ import type { Experience, Locale, Settings } from "@/lib/experience/types";
 import type { CatalogPage } from "@/sanity/queries/ExperienceCatalog/catalogPage";
 
 /**
- * The romantic dinners page: hero, introduction, the dinners and the contact
- * strip. With no dinners published, visitors get the dinner template as a
- * card to send an inquiry instead.
+ * The romantic dinners page: hero, introduction, a note that the team
+ * confirms each date, the dinners and the contact strip. With no dinners
+ * published, visitors get the dinner template as a card to send an inquiry
+ * instead.
  */
 export default function RomanticDinnersPage({
   locale,
@@ -54,24 +55,22 @@ export default function RomanticDinnersPage({
             settings={settings}
           />
           <div id="packages" className="scroll-mt-[120px]" />
+          <p className="mx-auto mt-0 mb-6 flex max-w-[1000px] gap-3 border border-(--ec-border) bg-surface px-6 py-[18px] text-[15px] leading-[1.6] text-body">
+            <FiInfo
+              aria-hidden="true"
+              className="mt-[3px] size-[18px] shrink-0 text-accent"
+            />
+            {t("dinnerInquiryNote")}
+          </p>
           {dinners.length === 0 && (
-            <>
-              <p className="mx-auto mt-0 mb-6 flex max-w-[1000px] gap-3 border border-(--ec-border) bg-surface px-6 py-[18px] text-[15px] leading-[1.6] text-body">
-                <FiInfo
-                  aria-hidden="true"
-                  className="mt-[3px] size-[18px] shrink-0 text-accent"
-                />
-                {t("dinnerInquiryNote")}
-              </p>
-              <div className="m-auto max-w-[1000px]">
-                <ExperienceCard
-                  experience={template || dinnerPreview()}
-                  locale={locale}
-                  settings={settings}
-                  contactOnly
-                />
-              </div>
-            </>
+            <div className="m-auto max-w-[1000px]">
+              <ExperienceCard
+                experience={template || dinnerPreview()}
+                locale={locale}
+                settings={settings}
+                contactOnly
+              />
+            </div>
           )}
           {dinners.length ? (
             <div className="m-auto grid max-w-[1000px] grid-cols-[1fr] [align-items:start] gap-7">
