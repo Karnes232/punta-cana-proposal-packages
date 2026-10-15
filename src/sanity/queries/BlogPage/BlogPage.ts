@@ -1,6 +1,6 @@
 import { client } from "@/sanity/lib/client";
 import { pageSectionDocument, pageSectionParams } from "../pageSection";
-import { imageWithDimensions } from "../fragments";
+import { type ImageAsset, imageWithDimensions } from "../fragments";
 
 export interface FeaturedPost {
   language: string;
@@ -12,16 +12,7 @@ export interface FeaturedPost {
   categoryTag: string;
   excerpt: string;
   readingTime: number;
-  heroPhoto: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  heroPhoto: ImageAsset & {
     alt?: string;
   };
 }
@@ -31,16 +22,7 @@ export interface BlogPageHero {
   headingLine1: string;
   headingLine2: string;
   subheading: string;
-  image?: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  image?: ImageAsset & {
     alt?: string;
   };
 }

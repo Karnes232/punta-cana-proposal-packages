@@ -16,7 +16,7 @@ export type CatalogPage = {
   contactHeading?: string;
 };
 
-type PhotoRow = { url?: string; alt?: string } | null;
+type PhotoRow = (Omit<Image, "alt"> & { alt?: string }) | null;
 type CatalogPageRow = {
   page: Record<string, Record<string, unknown> | null> | null;
   englishImage: PhotoRow;
@@ -57,7 +57,12 @@ export async function getCatalogPage(
     keys: Object.values(CATALOG_PAGES[type]).flat(),
     text: labels,
     image: photo?.url
-      ? { url: photo.url, alt: photo.alt ? { [locale]: photo.alt } : undefined }
+      ? {
+          url: photo.url,
+          crop: photo.crop,
+          hotspot: photo.hotspot,
+          alt: photo.alt ? { [locale]: photo.alt } : undefined,
+        }
       : undefined,
     contactHeading,
   };

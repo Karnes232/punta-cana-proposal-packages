@@ -2,16 +2,37 @@ import type { Metadata } from "next";
 
 import { generateHreflangAlternates } from "@/i18n/hreflang";
 import type { SiteLocale } from "@/i18n/locales";
+import {
+  SHARE_IMAGE,
+  shareImageUrl,
+  type ImageFraming,
+} from "@/sanity/lib/image";
 import type { DocumentSeo } from "@/sanity/queries/SEO/documentSeo";
 
 export type SeoLocale = SiteLocale;
 
-type OgImageInput = {
+type OgImageInput = ImageFraming & {
   url?: string | null;
   alt?: string | null;
   width?: number | null;
   height?: number | null;
 };
+
+/**
+ * The share image: a Sanity photo is cut to 1200×630 around its hotspot;
+ * any other URL is used as it is.
+ */
+function shareImage(image: OgImageInput | null | undefined) {
+  if (!image?.url) return undefined;
+  const url = shareImageUrl(image.url, image);
+  const resized = url !== image.url;
+  return {
+    url,
+    width: (resized ? SHARE_IMAGE.width : image.width) ?? undefined,
+    height: (resized ? SHARE_IMAGE.height : image.height) ?? undefined,
+    alt: image.alt ?? undefined,
+  };
+}
 
 /**
  * Metadata fields from a per-language document's SEO (see DocumentSeo), with
@@ -64,17 +85,7 @@ export function buildSeoMetadata(opts: {
     hreflangLanguages,
   } = opts;
 
-  const ogImages =
-    openGraph.image?.url != null && openGraph.image.url !== ""
-      ? [
-          {
-            url: openGraph.image.url,
-            width: openGraph.image.width ?? undefined,
-            height: openGraph.image.height ?? undefined,
-            alt: openGraph.image.alt ?? undefined,
-          },
-        ]
-      : undefined;
+  const ogImage = shareImage(openGraph.image);
 
   return {
     title: meta.title,
@@ -85,13 +96,13 @@ export function buildSeoMetadata(opts: {
       description: openGraph.description,
       type: "website",
       url: canonicalUrl,
-      ...(ogImages ? { images: ogImages } : {}),
+      ...(ogImage ? { images: [ogImage] } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: openGraph.title,
       description: openGraph.description,
-      ...(openGraph.image?.url ? { images: [openGraph.image.url] } : {}),
+      ...(ogImage ? { images: [ogImage.url] } : {}),
     },
     robots: {
       index: !(noIndex ?? false),

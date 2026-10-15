@@ -1,22 +1,16 @@
 import type { SiteLocale } from "@/i18n/locales";
+import type { ImageAsset } from "@/sanity/queries/fragments";
 import { useTranslations } from "next-intl";
 import PhotoHeroBackground from "@/components/ui/hero/PhotoHeroBackground";
 import HeroBackLink from "@/components/ui/HeroBackLink";
 import StoryHeroCopy from "./StoryHeroCopy";
 
 interface StoryHeroProps {
-  heroImage: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
-    alt: string;
-  } | null;
+  heroImage:
+    | (ImageAsset & {
+        alt: string;
+      })
+    | null;
   names: string;
   packageTag: string;
   date: string;

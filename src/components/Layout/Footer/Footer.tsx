@@ -1,4 +1,5 @@
 import { localePrefix } from "@/i18n/locales";
+import { sanityImageUrl } from "@/sanity/lib/image";
 import { label } from "@/lib/experience/labels";
 import type { Locale, Settings } from "@/lib/experience/types";
 import type { GeneralLayout } from "@/sanity/queries/GeneralLayout/GeneralLayout";
@@ -33,7 +34,14 @@ export default function Footer({
           href={prefix || "/"}
           name={name}
           homeLabel={t("navHome")}
-          logo={company?.companyLogo?.asset?.url}
+          logo={
+            company?.companyLogo?.asset?.url
+              ? sanityImageUrl(
+                  company.companyLogo.asset.url,
+                  company.companyLogo,
+                )
+              : undefined
+          }
           description={company?.companyDescription?.[locale]}
         />
         <FooterExplore prefix={prefix} t={t} />

@@ -1,7 +1,7 @@
 import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
-import { imageWithDimensions, listable } from "../fragments";
+import { type ImageAsset, imageWithDimensions, listable } from "../fragments";
 
 export interface BlogPost {
   _id: string;
@@ -19,16 +19,7 @@ export interface BlogPost {
   categoryTag: string;
   excerpt: string;
   readingTime: number;
-  heroPhoto: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  heroPhoto: ImageAsset & {
     alt: string;
   };
 }

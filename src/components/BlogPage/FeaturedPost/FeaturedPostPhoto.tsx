@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { framedImage } from "@/sanity/lib/image";
 import type { FeaturedPost } from "@/sanity/queries/BlogPage/BlogPage";
 
 interface FeaturedPostPhotoProps {
@@ -14,10 +15,10 @@ export default function FeaturedPostPhoto({
     <div className="relative aspect-[4/3] overflow-hidden bg-black">
       {photo?.asset?.url && (
         <Image
-          src={photo.asset.url}
+          {...framedImage(photo.asset.url, photo)}
           alt={photo.alt ?? `${title} hero photo`}
           fill
-          className="object-cover object-center"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       )}

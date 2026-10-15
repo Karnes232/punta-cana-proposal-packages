@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { framedImage } from "@/sanity/lib/image";
 import { FiArrowRight, FiClock } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
 import { eyebrowClass } from "@/components/ExperienceCatalog/styles";
@@ -46,10 +47,10 @@ export default function BlogCard({
         className={`relative aspect-[4/3] shrink-0 overflow-hidden bg-black ${tall ? tallPhotoClass : ""}`}
       >
         <Image
-          src={post.heroPhoto.asset.url}
+          {...framedImage(post.heroPhoto.asset.url, post.heroPhoto)}
           alt={post.heroPhoto.alt ?? `${post.title ?? ""} hero photo`}
           fill
-          className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>

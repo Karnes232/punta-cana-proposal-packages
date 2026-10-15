@@ -1,22 +1,13 @@
 import { languageDocumentId } from "@/sanity/constants";
 import { client } from "@/sanity/lib/client";
-import { imageWithDimensions } from "../fragments";
+import { type ImageAsset, imageWithDimensions } from "../fragments";
 
 export interface HowItWorksPageHero {
   eyebrow: string;
   headingLine1: string;
   headingLine2: string;
   subheading: string;
-  image?: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  image?: ImageAsset & {
     alt: string;
   };
 }

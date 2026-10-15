@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { framedImage } from "@/sanity/lib/image";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
@@ -76,7 +77,7 @@ export default function GalleryGrid({ photos }: GalleryGridProps) {
               aria-label={photo.alt ?? `Open photo ${i + 1}`}
             >
               <Image
-                src={photo.asset.url}
+                {...framedImage(photo.asset.url, photo)}
                 alt={photo.alt ?? `Proposal photo ${i + 1}`}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"

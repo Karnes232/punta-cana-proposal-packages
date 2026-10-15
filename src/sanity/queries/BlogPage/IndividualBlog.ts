@@ -3,6 +3,7 @@ import type { BlogLocalizedValue } from "@/i18n/pickBlogLocalized";
 import { client } from "@/sanity/lib/client";
 import { blogLocalizedStringGroq } from "./blogLocalizedProjection";
 import {
+  type ImageAsset,
   documentSeoProjection,
   imageWithDimensions,
   listable,
@@ -28,32 +29,14 @@ export interface IndividualBlog {
   publishedAt: string;
   readingTime: number;
   excerpt: string;
-  heroPhoto: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  heroPhoto: ImageAsset & {
     alt?: string;
   };
   gallery:
-    | {
-        asset: {
-          url: string;
-          metadata: {
-            dimensions: {
-              width: number;
-              height: number;
-            };
-          };
-        };
+    | (ImageAsset & {
         alt: string;
         caption: string;
-      }[]
+      })[]
     | null;
   body: unknown[];
   seo: DocumentSeo;

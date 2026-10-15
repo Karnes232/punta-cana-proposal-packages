@@ -1,5 +1,6 @@
 "use client";
 import NextImage from "next/image";
+import { framedImage } from "@/sanity/lib/image";
 import { useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import type { Image, Photo, Locale, Settings } from "@/lib/experience/types";
@@ -65,7 +66,7 @@ export default function ExperienceGallery({
       }}
     >
       <NextImage
-        src={slide.image!.url!}
+        {...framedImage(slide.image!.url!, slide.image)}
         sizes="(max-width: 800px) 100vw, (max-width: 1200px) 80vw, 1000px"
         quality={80}
         alt={local(slide.alt || slide.image?.alt, locale)}

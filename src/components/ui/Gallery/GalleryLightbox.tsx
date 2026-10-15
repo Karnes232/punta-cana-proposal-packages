@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useCallback } from "react";
+import { sanityImageUrl } from "@/sanity/lib/image";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { GalleryPhoto } from "./types";
@@ -108,7 +109,7 @@ export default function GalleryLightbox({
         <div className="relative flex-1 h-full max-w-5xl">
           <Image
             key={photo.asset.url}
-            src={photo.asset.url}
+            src={sanityImageUrl(photo.asset.url, photo)}
             alt={photo.alt ?? "Proposal photo"}
             fill
             className="object-contain"

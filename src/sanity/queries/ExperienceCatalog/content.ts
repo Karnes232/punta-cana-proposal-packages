@@ -79,7 +79,7 @@ const homeTextFields = (doc: Record<string, unknown> | null) =>
   );
 
 type HomePhotos = Omit<Home, "copy">;
-type PhotoWithAlt = { url?: string; alt?: Localized | string };
+type PhotoWithAlt = Omit<Image, "alt"> & { alt?: Localized | string };
 const PHOTO_FIELDS = [
   "heroImage",
   "proposalSelectorImage",
@@ -100,6 +100,8 @@ function homePhotosIn(
     photo?.url
       ? {
           url: photo.url,
+          crop: photo.crop,
+          hotspot: photo.hotspot,
           alt:
             typeof photo.alt === "string" ? { [locale]: photo.alt } : photo.alt,
         }

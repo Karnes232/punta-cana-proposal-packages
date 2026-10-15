@@ -1,17 +1,10 @@
 import Image from "next/image";
+import { framedImage } from "@/sanity/lib/image";
+import type { ImageAsset } from "@/sanity/queries/fragments";
 import GrainOverlay from "./GrainOverlay";
 
 interface DimHeroBackgroundProps {
-  photo: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  photo: ImageAsset & {
     alt: string;
   };
   altFallback: string;
@@ -26,11 +19,11 @@ export default function DimHeroBackground({
     <>
       {photo?.asset?.url && (
         <Image
-          src={photo.asset.url}
+          {...framedImage(photo.asset.url, photo)}
           alt={photo.alt || altFallback}
           fill
           priority
-          className="object-cover object-center scale-[1.03] animate-[slowZoom_10s_ease_forwards]"
+          className="object-cover scale-[1.03] animate-[slowZoom_10s_ease_forwards]"
           sizes="100vw"
         />
       )}

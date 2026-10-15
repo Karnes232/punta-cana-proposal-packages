@@ -1,17 +1,10 @@
 import Image from "next/image";
+import { framedImage } from "@/sanity/lib/image";
+import type { ImageAsset } from "@/sanity/queries/fragments";
 import GrainOverlay from "./GrainOverlay";
 
 interface ListingHeroBackgroundProps {
-  image?: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  image?: ImageAsset & {
     alt?: string;
   };
 }
@@ -25,11 +18,11 @@ export default function ListingHeroBackground({
       {/* Background image (from Sanity) — same treatment as Home Hero */}
       {image?.asset?.url && (
         <Image
-          src={image.asset.url}
+          {...framedImage(image.asset.url, image)}
           alt={image.alt || "Stories hero background"}
           fill
           priority
-          className="object-cover object-center scale-[1.03] animate-[slowZoom_10s_ease_forwards] opacity-25"
+          className="object-cover scale-[1.03] animate-[slowZoom_10s_ease_forwards] opacity-25"
           sizes="100vw"
         />
       )}

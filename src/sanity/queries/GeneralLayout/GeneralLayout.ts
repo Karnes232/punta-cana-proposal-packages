@@ -1,18 +1,10 @@
 import { client } from "@/sanity/lib/client";
+import type { ImageAsset } from "../fragments";
 
 export interface GeneralLayout {
   companyName: string;
   companyDescription?: Partial<Record<"en" | "es" | "fr" | "pt", string>>;
-  companyLogo: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  companyLogo: ImageAsset & {
     alt: string;
   };
   telephone: string;

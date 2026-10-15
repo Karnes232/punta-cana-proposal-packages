@@ -1,13 +1,6 @@
-export interface PostHeroImage {
-  asset: {
-    url: string;
-    metadata: {
-      dimensions: {
-        width: number;
-        height: number;
-      };
-    };
-  };
+import type { ImageAsset } from "@/sanity/queries/fragments";
+
+export interface PostHeroImage extends ImageAsset {
   alt?: string;
 }
 

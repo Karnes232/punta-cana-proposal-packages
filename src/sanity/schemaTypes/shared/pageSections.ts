@@ -26,13 +26,15 @@ export const link = (name: string, title: string): FieldDefinition =>
     validation: (Rule) => Rule.required().custom(linkFormat),
   });
 
-// An optional photo with its alt text; once added, it needs its file.
+// An optional photo with its alt text; once added, it needs its file. The
+// hotspot keeps its subject in view where the site crops it (heroes).
 export const optionalImage = (name: string, title: string): FieldDefinition =>
   defineField({
     name,
     title,
     type: "image",
     description: "The image is optional",
+    options: { hotspot: true },
     fields: [
       defineField({
         name: "alt",

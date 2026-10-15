@@ -1,4 +1,5 @@
 import type { SiteLocale } from "@/i18n/locales";
+import { framedImage } from "@/sanity/lib/image";
 import Image from "next/image";
 import { FiArrowRight, FiMapPin } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
@@ -36,10 +37,10 @@ export default function StoryCard({
         className={`relative aspect-[4/3] shrink-0 overflow-hidden bg-black ${tall ? tallPhotoClass : ""}`}
       >
         <Image
-          src={story.photo.asset.url}
+          {...framedImage(story.photo.asset.url, story.photo)}
           alt={story.photo.alt ?? `${story.names} proposal photo`}
           fill
-          className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transition-none"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>

@@ -3,6 +3,7 @@ import type { Localized } from "@/lib/experience/types";
 import { client } from "@/sanity/lib/client";
 import type { DocumentSeo } from "../SEO/documentSeo";
 import {
+  type ImageAsset,
   documentSeoProjection,
   imageWithDimensions,
   listable,
@@ -22,32 +23,14 @@ export interface IndividualStory {
   packageTag: string;
   date: string;
   location: string;
-  heroPhoto: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  heroPhoto: ImageAsset & {
     alt: string;
   };
   gallery:
-    | {
-        asset: {
-          url: string;
-          metadata: {
-            dimensions: {
-              width: number;
-              height: number;
-            };
-          };
-        };
+    | (ImageAsset & {
         alt: string;
         caption?: string;
-      }[]
+      })[]
     | null;
   quote: string;
   body: PortableTextBlock[];
@@ -66,16 +49,7 @@ export interface StoryCard {
   packageTag: string;
   date: string;
   location: string;
-  heroPhoto: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  heroPhoto: ImageAsset & {
     alt: string;
   };
   quote: string;
@@ -162,16 +136,7 @@ export interface AllStoriesCard {
     label: Localized;
   };
   quote: string;
-  heroPhoto: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: {
-          width: number;
-          height: number;
-        };
-      };
-    };
+  heroPhoto: ImageAsset & {
     alt: string;
   };
 }

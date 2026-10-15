@@ -30,7 +30,7 @@ export default function CatalogHero({
         photo={image}
         locale={locale}
         priority
-        className="-z-2 object-cover object-center"
+        className="-z-2 object-cover"
       />
       <div className="absolute inset-0 -z-1 bg-[linear-gradient(90deg,rgba(7,9,12,0.8),rgba(7,9,12,0.36)),linear-gradient(0deg,rgba(7,9,12,0.5),transparent_65%)]" />
       <div className="m-auto w-full max-w-[1280px] px-7 py-[90px] upto800:px-5 upto600:py-[65px] upto390:px-3.5">

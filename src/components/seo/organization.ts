@@ -1,12 +1,13 @@
 // The business as schema.org structured data, built from Business info so
 // it is always complete. Relative imports: the tests compile this file.
+import { sanityImageUrl, type ImageFraming } from "../../sanity/lib/image";
 import { dialNumber, isProfileLink } from "../Layout/Footer/contact";
 
 /** The Business info fields it uses (GeneralLayout has them all). */
 type BusinessInfo = {
   companyName?: string;
   companyDescription?: Partial<Record<string, string>>;
-  companyLogo?: { asset?: { url?: string } };
+  companyLogo?: ImageFraming & { asset?: { url?: string } };
   telephone?: string;
   email?: string;
   socialLinks?: Partial<Record<string, string>>;
@@ -47,7 +48,9 @@ export function organizationSchema(
     name: company?.companyName || "Punta Cana Proposal Packages",
     description: company?.companyDescription?.[locale] || undefined,
     url: homeUrl,
-    logo: company?.companyLogo?.asset?.url || undefined,
+    logo: company?.companyLogo?.asset?.url
+      ? sanityImageUrl(company.companyLogo.asset.url, company.companyLogo)
+      : undefined,
     email,
     telephone,
     contactPoint:
